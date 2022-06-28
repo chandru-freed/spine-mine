@@ -1,32 +1,55 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+  <v-app>
+
+    <left-navigation-bar></left-navigation-bar>
+
+
+    <!-- <v-app-bar app dense  flat class="grey lighten-2">
+      <v-spacer></v-spacer>
+      <div class="mt-6 py-2">
+        <v-text-field  flat placeholder="Quick Search" outlined rounded  dense append-icon="mdi-magnify"></v-text-field>
+      </div>
+      <app-bar-notification-menu/>
+      <app-bar-user-menu/>
+    </v-app-bar> -->
+    <app-bar></app-bar>
+
+    <v-main class="grey lighten-4">
+
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+      
+    <!-- <v-footer app>
+      
+    </v-footer> -->
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script >
+// import HelloWorld from '@/components/HelloWorld';
+import AppBar from '@/section/spineapp/views/bar/AppBar.vue';
+import LeftNavigationBar from '@/section/spineapp/views/bar/LeftNavigationBar.vue';
 
-nav {
-  padding: 30px;
+export default {
+  name: 'App',
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  components: {
+    LeftNavigationBar,
+    AppBar,
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+  data: () => ({
+    // drawer: true,
+    // mini: true
+  }),
+};
+</script>
+<style scoped>
+
 </style>
+

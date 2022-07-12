@@ -17,7 +17,7 @@
     <v-main class="grey lighten-4">
 
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container fluid class="pa-0" >
 
         <!-- If using vue-router -->
         <router-view></router-view>

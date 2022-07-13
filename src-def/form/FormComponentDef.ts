@@ -325,14 +325,20 @@ export class Field {
     id: string;
     componentName = 'f-btn';
     label: string;
+    outlined = false;
+    flat = false;
+    color = '';
     action: () => void;
     // options: string[];
   
-    constructor(id: string, label: string, action: () => void, formClass = FIELD_CLASS_COL) {
+    constructor(id: string, label: string, action: () => void, formClass = FIELD_CLASS_COL, outlined = false, flat = false, color = '') {
       super(id, formClass);
       this.id = id;
       this.label = label;
       this.action = action
+      this.outlined = outlined
+      this.flat = flat
+      this.color = color
       // this.options = options;
     }
   
@@ -342,7 +348,9 @@ export class Field {
         props: {
           id: this.id,
           label: this.label,
-          outlined: false,
+          outlined: this.outlined,
+          flat: this.flat,
+          color: this.color,
           formClass: this.formClass,
           onClick: this.action
           // items: this.options,
@@ -373,8 +381,10 @@ export class Field {
     componentData() {
       return {
         componentName: this.componentName,
+        ref: this.key,
         rules: this.rules,
         props: {
+          ref: this.key,
           key: this.key,
           name: this.key,
           label: this.label,
@@ -415,6 +425,7 @@ export class Field {
       return {
         componentName: this.componentName,
         rules: this.rules,
+        ref: this.ref,
         props: {
           ref: this.ref,
           name: this.ref,

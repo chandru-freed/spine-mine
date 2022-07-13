@@ -1,5 +1,5 @@
 <template>
-  <v-btn :outlined="outlined" @click="onClick()">{{ label }}</v-btn>
+  <v-btn :outlined="outlined" :color="color" :text="flat" @click="onClick()">{{ label }}</v-btn>
 </template>
 
 <script lang="ts">
@@ -14,6 +14,12 @@ export default class FBtn extends Vue {
 
   @Prop({ default: false })
   public outlined!: boolean;
+
+  @Prop({ default: '' })
+  public color!: string;
+
+   @Prop({ default: false })
+  public flat!: boolean;
 
   @Prop({})
   public onClick!: any;

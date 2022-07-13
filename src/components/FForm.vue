@@ -1,12 +1,12 @@
 <template>
-  <div class="row justify-center">
+  <div class="row justify-center pa-0">
     <div class="col-12">
       <ValidationObserver
         :ref="formKey"
         v-slot="{ invalid, validated, handleSubmit, validate }"
       >
-        <v-card flat>
-          {{fieldConfigList}}
+        <v-card flat color="transparent">
+          <!-- {{fieldConfigList}} -->
           <v-card-text>
             <v-form>
               <v-row no-gutters>
@@ -36,14 +36,14 @@
               </v-row>
             </v-form>
           </v-card-text>
-          <v-card-actions>
+          <!-- <v-card-actions>
           <v-btn @click="clear" text>Clear</v-btn>
           <v-spacer></v-spacer>
           <v-btn @click="validate()" outlined color="secondary">Validate</v-btn>
           <v-btn color="primary" class="elevation-0" @click="handleSubmit(submit)" :disabled="invalid || !validated">
             Sign Up
           </v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
         </v-card>
         <!-- <code>{{myForm}}</code> -->
       </ValidationObserver>
@@ -108,6 +108,13 @@ export default class FForm extends Vue {
   @Prop({ default: false })
   public formClass!: string;
 
+  @Prop({
+    default: () => {
+      return {};
+    },
+  })
+  public value!: string;
+
   public items = ["", "Foo", "Bar"];
 
   public myForm = {};
@@ -115,6 +122,11 @@ export default class FForm extends Vue {
   @Watch("myForm")
   updateMyForm(oldValue: any, newValue: any) {
     this.$emit("input", newValue);
+  }
+
+  @Watch("value")
+  updateMyForm(oldValue: any, newValue: any) {
+    this.myForm = this.value;
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -132,7 +144,7 @@ export default class FForm extends Vue {
   }
 
   get componentList() {
-    return this.fieldConfigList.map((comp: Field) => comp.componentData());
+    return this.fieldConfigList //.map((comp: Field) => comp.componentData());
   }
 
   

@@ -329,9 +329,10 @@ export class Field {
     flat = false;
     color = '';
     action: () => void;
+    disabled = false
     // options: string[];
   
-    constructor(id: string, label: string, action: () => void, formClass = FIELD_CLASS_COL, outlined = false, flat = false, color = '') {
+    constructor(id: string, label: string, action: () => void, formClass = FIELD_CLASS_COL, outlined = false, flat = false, color = '', disabled = false) {
       super(id, formClass);
       this.id = id;
       this.label = label;
@@ -339,6 +340,7 @@ export class Field {
       this.outlined = outlined
       this.flat = flat
       this.color = color
+      this.disabled = disabled
       // this.options = options;
     }
   
@@ -352,6 +354,7 @@ export class Field {
           flat: this.flat,
           color: this.color,
           formClass: this.formClass,
+          disabled: this.disabled,
           onClick: this.action
           // items: this.options,
         }
@@ -404,6 +407,7 @@ export class Field {
 
   export class Form extends Field {
     ref: string;
+    modelId: string;
     componentName = 'f-form';
     label: string;
     rules: string;
@@ -411,9 +415,10 @@ export class Field {
     fieldConfigList: Field[]
     // options: string[];
   
-    constructor(ref: string, label: string, rules: string, fieldConfigList: Field[], accept?: string, formClass = FIELD_CLASS_COL) {
+    constructor(modelId: string, ref: string, label: string, rules: string, fieldConfigList: Field[], accept?: string, formClass = FIELD_CLASS_COL) {
       super(ref, formClass);
       this.ref = ref;
+      this.modelId = modelId;
       this.label = label;
       this.fieldConfigList = fieldConfigList;
       this.rules = rules;
@@ -426,7 +431,9 @@ export class Field {
         componentName: this.componentName,
         rules: this.rules,
         ref: this.ref,
+        modelId: this.modelId,
         props: {
+          modelId: this.modelId,
           ref: this.ref,
           name: this.ref,
           label: this.label,

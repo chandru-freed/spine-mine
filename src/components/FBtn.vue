@@ -1,5 +1,5 @@
 <template>
-  <v-btn :outlined="outlined" :color="color" :text="flat" @click="onClick()">{{ label }}</v-btn>
+  <v-btn :disabled="disabled" :outlined="outlined" :color="color" :text="flat" @click="onClick()">{{ label }}</v-btn>
 </template>
 
 <script lang="ts">
@@ -27,21 +27,24 @@ export default class FBtn extends Vue {
   @Prop({})
   public formClass!: string;
 
-  private callbackAction(actionId: string) {
-    console.log("I am in callback action");
-    const vm: any = this;
+  @Prop({default: false})
+  public disabled!: boolean;
 
-    (this.$refs[this.formKey] as any).validate().then((success: boolean) => {
-      if (success) {
-        // console.log('success');
-        this.$emit(actionId, vm.myForm);
-        // console.log( actionId);
-        // console.log( vm.formData);
-        return;
-      } else {
-        console.log("callbackAction errors");
-      }
-    });
-  }
+  // private callbackAction(actionId: string) {
+  //   console.log("I am in callback action");
+  //   // const vm: any = this;
+
+  //   (this.$refs[this.formKey] as any).validate().then((success: boolean) => {
+  //     if (success) {
+  //       // console.log('success');
+  //       this.$emit(actionId);
+  //       // console.log( actionId);
+  //       // console.log( vm.formData);
+  //       return;
+  //     } else {
+  //       console.log("callbackAction errors");
+  //     }
+  //   });
+  // }
 }
 </script>

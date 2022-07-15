@@ -1,13 +1,11 @@
 <template>
   <div class="row justify-center pa-0">
     <div class="col-12">
-      <ValidationObserver
-        :ref="formKey"
-        v-slot="{ invalid, validated, handleSubmit, validate }"
-      >
+      <ValidationObserver :ref="formKey" v-slot="{}">
+        <!-- invalid, validated, handleSubmit, validate  -->
         <v-card flat color="transparent">
           <!-- {{fieldConfigList}} -->
-          <v-card-text>
+          <v-card-text class="pa-0"> 
             <v-form>
               <v-row no-gutters>
                 <v-col
@@ -28,6 +26,7 @@
                       :error-messages="errors"
                       :success="valid"
                       v-on="component.events"
+                      :disabled="formDisabled"
                     />
                     <!-- {{component}} -->
                     <!-- <v-btn v-on="{ click : onSave}" outlined color="secondary">Validate</v-btn> -->
@@ -80,7 +79,7 @@ import FBtn from "@/components/FBtn.vue";
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
     "mini-form": MiniForm,
-    'f-btn': FBtn
+    "f-btn": FBtn,
   },
 })
 export default class FForm extends Vue {
@@ -92,6 +91,13 @@ export default class FForm extends Vue {
   public fieldConfigList!: Field[];
   // @Prop({ default: "" })
   // public ref!: string;
+
+  @Prop({default :false})
+  formDisabled: boolean;
+
+
+  @Prop({ default: "" })
+  public modelId!: string;
 
   @Prop({ default: "" })
   public name!: string;
@@ -113,21 +119,43 @@ export default class FForm extends Vue {
       return {};
     },
   })
-  public value!: string;
+  public value!: object;
 
   public items = ["", "Foo", "Bar"];
 
-  public myForm = {};
+
+  get myForm() {
+		return this.value;
+	}
+
+	set myForm(value) {
+		this.value = value;
+	}
+
 
   @Watch("myForm")
-  updateMyForm(oldValue: any, newValue: any) {
-    this.$emit("input", newValue);
+  updateMyForm(value: any, oldValue: any) {
+    //  if(!!this.modelId) {
+    //    const newValue = {...this.value}
+    //    newValue[this.modelId] = this.myForm
+    //    this.$emit("input", newValue);
+    //  } else {
+    //    this.$emit("input", newValue);
+    //  }
+    this.$emit("input", value);
   }
 
-  @Watch("value")
-  updateMyForm(oldValue: any, newValue: any) {
-    this.myForm = this.value;
-  }
+  // @Watch("value")
+  // updateValue(oldValue: any, newValue: any) {
+  //   console.log("I am in FForm updateValue ");
+  //   console.log(newValue)
+  //   // if(!!this.modelId) {
+  //   //   this.myForm =this.value(this.modelId);
+  //   // } else {
+  //   //   this.myForm = this.value;
+  //   // }
+  //   this.myForm = this.value;
+  // }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async clear() {
@@ -140,66 +168,62 @@ export default class FForm extends Vue {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   submit() {
-    console.log("submitting!");
+    // console.log("submitting!");
   }
 
   get componentList() {
-    return this.fieldConfigList //.map((comp: Field) => comp.componentData());
+    return this.fieldConfigList; //.map((comp: Field) => comp.componentData());
   }
 
-  
-
   public created() {
-    console.log("I am on created");
-    // console.log(FormConfig);
+    // console.log("I am on created");
+    // // console.log(FormConfig);
   }
 
   public mounted() {
-    console.log("I am on mouned");
-    // console.log(FormConfig);
+    // console.log("I am on mouned");
+    // // console.log(FormConfig);
+    this.myForm = this.value;
     return;
   }
 
   public onSave() {
-    console.log("-----------FForm onSave ---------------");
+    // console.log("-----------FForm onSave ---------------");
   }
 
   private callbackAction(actionId: string) {
-    console.log('I am in callback action')
-		const vm: any = this;
+    // console.log("I am in callback action");
+    // const vm: any = this;
 
-		(this.$refs[this.formKey] as any).validate().then((success: boolean) => {
-			if (success) {
-				// console.log('success');
-				this.$emit(actionId, vm.myForm);
-				// console.log( actionId);
-				// console.log( vm.formData);
-				return;
-			} else {
-        console.log('callbackAction errors')
-			}
-		});
-			
-	}
+    // (this.$refs[this.formKey] as any).validate().then((success: boolean) => {
+    //   if (success) {
+    // //     // console.log('success');
+    //     this.$emit(actionId, vm.myForm);
+    // //     // console.log( actionId);
+    // //     // console.log( vm.formData);
+    //     return;
+    //   } else {
+    // //     console.log("callbackAction errors");
+    //   }
+    // });
+  }
 
-   private onSubmit(actionId: any) {
-    console.log('I am in callback action')
-		const vm: any = this;
+  private onSubmit(actionId: any) {
+    // console.log("I am in callback action");
+    // const vm: any = this;
 
-		(this.$refs[this.formKey] as any).validate().then((success: boolean) => {
-			if (success) {
-				// console.log('success');
-				// this.$emit(actionId, vm.myForm);
-        actionId(vm.myForm)
-				// console.log( actionId);
-				// console.log( vm.formData);
-				return;
-			} else {
-        console.log('callbackAction errors')
-			}
-		});
-			
-	}
-
+    (this.$refs[this.formKey] as any).validate().then((success: boolean) => {
+      if (success) {
+        // // console.log('success');
+        // this.$emit(actionId, vm.myForm);
+        actionId(this.myForm);
+        // // console.log( actionId);
+        // // console.log( vm.formData);
+        return;
+      } else {
+        // console.log("callbackAction errors");
+      }
+    });
+  }
 }
 </script>

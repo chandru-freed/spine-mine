@@ -40,7 +40,7 @@ export default class CustomFilters {
 
   private static toDateTime() {
     Vue.filter("date-time", (value: any) => {
-      return Moment(new Date(value)).format("MMMM Do YYYY, h:mm:ss a");
+      return Moment(new Date(value)).format("MMM Do, h:mm a");
     });
   }
 

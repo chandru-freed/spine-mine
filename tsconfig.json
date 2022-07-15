@@ -4,22 +4,25 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "importHelpers": true,
     "moduleResolution": "node",
     "allowJs": true,
-    "skipLibCheck": true,
+    //"skipLibCheck": true,
+    "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "useDefineForClassFields": true,
-    "experimentalDecorators": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "strictPropertyInitialization" : false,
+    "outDir" : "tsc-output",
     "types": [
-      "webpack-env"
+      "node"
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "src/*",
       ]
     },
     "lib": [
@@ -37,6 +40,7 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src-gen"
   ]
 }

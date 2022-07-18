@@ -26,7 +26,7 @@
                       :error-messages="errors"
                       :success="valid"
                       v-on="component.events"
-                      :disabled="disabled"
+                      :disabled="disabled ? disabled : component.props.disabled"
                     />
                     <!-- {{component}} -->
                     <!-- <v-btn v-on="{ click : onSave}" outlined color="secondary">Validate</v-btn> -->

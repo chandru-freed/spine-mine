@@ -413,9 +413,10 @@ export class Field {
     rules: string;
     accept: string;
     fieldConfigList: Field[]
+    disabled: boolean;
     // options: string[];
   
-    constructor(modelId: string, ref: string, label: string, rules: string, fieldConfigList: Field[], accept?: string, formClass = FIELD_CLASS_COL) {
+    constructor(modelId: string, ref: string, label: string, rules: string, fieldConfigList: Field[], accept?: string, formClass = FIELD_CLASS_COL, disabled = false) {
       super(ref, formClass);
       this.ref = ref;
       this.modelId = modelId;
@@ -423,6 +424,7 @@ export class Field {
       this.fieldConfigList = fieldConfigList;
       this.rules = rules;
       this.accept = accept || '';
+      this.disabled = disabled
       // this.options = options;
     }
   
@@ -443,7 +445,37 @@ export class Field {
           showSize: true,
           truncateLength:"50",
           formClass: this.formClass,
-          fieldConfigList: this.fieldConfigList.map((comp: any) => comp.componentData())
+          fieldConfigList: this.fieldConfigList.map((comp: any) => comp.componentData()),
+          disabled : this.disabled
+          // items: this.options,
+        },
+      };
+    }
+  }
+
+
+  export class Stepper extends Field {
+    componentName = 'f-stepper';
+    id: string;
+    name: string;
+    componentList: Field[]
+    // options: string[];
+  
+    constructor(id: string, name: string, componentList: Field[]) {
+      super(id, "");
+      this.id = id;
+      this.name = name;
+      this.componentList = componentList;
+      // this.options = options;
+    }
+  
+    componentData() {
+      return {
+        componentName: this.componentName,
+        props: {
+          id: this.id,
+          name: this.name,
+          componentList: this.componentList.map((comp: any) => comp.componentData())
           // items: this.options,
         },
       };

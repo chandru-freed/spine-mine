@@ -26,7 +26,7 @@
                       :error-messages="errors"
                       :success="valid"
                       v-on="component.events"
-                      :disabled="formDisabled"
+                      :disabled="disabled"
                     />
                     <!-- {{component}} -->
                     <!-- <v-btn v-on="{ click : onSave}" outlined color="secondary">Validate</v-btn> -->
@@ -93,7 +93,7 @@ export default class FForm extends Vue {
   // public ref!: string;
 
   @Prop({default :false})
-  formDisabled: boolean;
+  disabled: boolean;
 
 
   @Prop({ default: "" })
@@ -121,9 +121,6 @@ export default class FForm extends Vue {
   })
   public value!: object;
 
-  public items = ["", "Foo", "Bar"];
-
-
   get myForm() {
 		return this.value;
 	}
@@ -135,27 +132,8 @@ export default class FForm extends Vue {
 
   @Watch("myForm")
   updateMyForm(value: any, oldValue: any) {
-    //  if(!!this.modelId) {
-    //    const newValue = {...this.value}
-    //    newValue[this.modelId] = this.myForm
-    //    this.$emit("input", newValue);
-    //  } else {
-    //    this.$emit("input", newValue);
-    //  }
     this.$emit("input", value);
   }
-
-  // @Watch("value")
-  // updateValue(oldValue: any, newValue: any) {
-  //   console.log("I am in FForm updateValue ");
-  //   console.log(newValue)
-  //   // if(!!this.modelId) {
-  //   //   this.myForm =this.value(this.modelId);
-  //   // } else {
-  //   //   this.myForm = this.value;
-  //   // }
-  //   this.myForm = this.value;
-  // }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async clear() {

@@ -1,5 +1,7 @@
 <template>
+
   <v-btn :disabled="disabled" :outlined="outlined" :color="color" :text="flat" @click="onClick()">{{ label }}</v-btn>
+
 </template>
 
 <script lang="ts">

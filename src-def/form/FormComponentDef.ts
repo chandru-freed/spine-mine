@@ -274,6 +274,7 @@ export class Field {
           key: this.key,
           name: this.key,
           label: this.label,
+          color: "primary",
           value: this.value,
           // rules: this.rules,
           inset: true,
@@ -328,7 +329,7 @@ export class Field {
     outlined = false;
     flat = false;
     color = '';
-    action: () => void;
+    action: any;
     disabled = false
     // options: string[];
   

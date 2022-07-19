@@ -54,7 +54,7 @@ router.beforeEach((to, from, next) => {
 
         userLocal.matchOnRoleList( backendRoleList => {
 
-         const matched =  (to.meta.roles as string[]).some(role => backendRoleList.includes(role));
+         const matched = !!to && !!to.meta  && (to.meta.roles as string[]).some(role => backendRoleList.includes(role));
          if (matched) {
            next();
          } else {

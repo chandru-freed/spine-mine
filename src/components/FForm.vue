@@ -5,7 +5,7 @@
         <!-- invalid, validated, handleSubmit, validate  -->
         <v-card flat color="transparent">
           <!-- {{fieldConfigList}} -->
-          <v-card-text class="pa-0"> 
+          <v-card-text class="pa-0">
             <v-form>
               <v-row no-gutters>
                 <v-col
@@ -16,15 +16,17 @@
                   <ValidationProvider
                     :name="component.props.label"
                     :rules="component.rules"
-                    v-slot="{ errors, valid }"
+                    v-slot="{ errors }"
                   >
+                  <!--v-slot="{ errors, valid }"-->
+                  <!-- :success="valid"  add to the below component to highlight the field as green if valid-->
                     <component
                       dense
                       :is="component.componentName"
                       v-model="myForm[component.props.key]"
                       v-bind="component.props"
                       :error-messages="errors"
-                      :success="valid"
+                      
                       v-on="component.events"
                       :disabled="disabled ? disabled : component.props.disabled"
                     />
@@ -92,9 +94,8 @@ export default class FForm extends Vue {
   // @Prop({ default: "" })
   // public ref!: string;
 
-  @Prop({default :false})
+  @Prop({ default: false })
   disabled: boolean;
-
 
   @Prop({ default: "" })
   public modelId!: string;
@@ -122,13 +123,12 @@ export default class FForm extends Vue {
   public value!: object;
 
   get myForm() {
-		return this.value;
-	}
+    return this.value;
+  }
 
-	set myForm(value) {
-		this.value = value;
-	}
-
+  set myForm(value) {
+    this.value = value;
+  }
 
   @Watch("myForm")
   updateMyForm(value: any, oldValue: any) {
@@ -172,7 +172,6 @@ export default class FForm extends Vue {
   private callbackAction(actionId: string) {
     // console.log("I am in callback action");
     // const vm: any = this;
-
     // (this.$refs[this.formKey] as any).validate().then((success: boolean) => {
     //   if (success) {
     // //     // console.log('success');
@@ -188,7 +187,7 @@ export default class FForm extends Vue {
 
   private onSubmit(actionId: any) {
     // console.log("I am in callback action");
-    // const vm: any = this;
+    console.log(this);
 
     (this.$refs[this.formKey] as any).validate().then((success: boolean) => {
       if (success) {

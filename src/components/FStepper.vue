@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-model="stepperSelect" flat :ref="">
+  <v-stepper v-model="stepperSelect" flat>
     <v-stepper-header flat>
       <v-stepper-step
         :complete="stepperSelect > settperIndx"

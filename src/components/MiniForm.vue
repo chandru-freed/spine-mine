@@ -17,7 +17,7 @@
               <component
                 dense
                 :is="component.componentName"
-                v-model="myForm[component.props.key]"
+                v-model="myForm[component.props.id]"
                 v-bind="component.props"
                 :error-messages="errors"
                 :success="valid"
@@ -74,7 +74,7 @@ export default class MiniForm extends Vue {
   public label!: string;
 
   @Prop({ default: "" })
-  public key!: string;
+  public id!: string;
 
   @Prop({ default: false })
   public outlined!: string;

@@ -329,7 +329,7 @@ export class Field {
     outlined = false;
     flat = false;
     color = '';
-    action: any;
+    action: () => void;
     disabled = false
     // options: string[];
   
@@ -356,7 +356,7 @@ export class Field {
           color: this.color,
           formClass: this.formClass,
           disabled: this.disabled,
-          onClick: this.action
+          action: this.action
           // items: this.options,
         }
       };
@@ -455,15 +455,37 @@ export class Field {
   }
 
 
-  export class Stepper extends Field {
-    componentName = 'f-stepper';
+  export class Stepper  {
+    // componentName = 'f-stepper';
+    ref: string;
+    stepList: Step[]
+    // options: string[];
+  
+    constructor(ref: string, stepList: Step[]) {
+      this.ref = ref;
+      this.stepList = stepList.map(step => step);
+      // this.options = options;
+    }
+  
+    // componentData() {
+    //   return {
+    //     componentName: this.componentName,
+    //     props: {
+    //       ref: this.ref,
+    //       stepList: this.stepList.map((comp: any) => comp.componentData())
+    //       // items: this.options,
+    //     },
+    //   };
+    // }
+  }
+
+  export class Step  {
     id: string;
     name: string;
     componentList: Field[]
     // options: string[];
   
     constructor(id: string, name: string, componentList: Field[]) {
-      super(id, "");
       this.id = id;
       this.name = name;
       this.componentList = componentList;
@@ -472,7 +494,6 @@ export class Field {
   
     componentData() {
       return {
-        componentName: this.componentName,
         props: {
           id: this.id,
           name: this.name,

@@ -1,6 +1,6 @@
 <template>
 
-  <v-btn :disabled="disabled" :outlined="outlined" :color="color" :text="flat" @click="onClick()">{{ label }}</v-btn>
+  <v-btn :disabled="disabled" :outlined="outlined" :color="color" :text="flat" @click="action()">{{ label }}</v-btn>
 
 </template>
 
@@ -24,7 +24,7 @@ export default class FBtn extends Vue {
   public flat!: boolean;
 
   @Prop({})
-  public onClick!: any;
+  public action!: any;
 
   @Prop({})
   public formClass!: string;

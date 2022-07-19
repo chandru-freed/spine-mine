@@ -1,5 +1,6 @@
 <template>
   <div class="row justify-center pa-0">
+    {{myForm}}
     <div class="col-12">
       <ValidationObserver :ref="formKey" v-slot="{}">
         <!-- invalid, validated, handleSubmit, validate  -->
@@ -185,15 +186,15 @@ export default class FForm extends Vue {
     // });
   }
 
-  private onSubmit(actionId: any) {
-    // console.log("I am in callback action");
-    console.log(this);
+  onSubmit(action: any) {
+    console.log("I am in callback action - " + action);
+    // console.log(this);
 
     (this.$refs[this.formKey] as any).validate().then((success: boolean) => {
       if (success) {
         // // console.log('success');
         // this.$emit(actionId, vm.myForm);
-        actionId(this.myForm);
+        action(this.myForm);
         // // console.log( actionId);
         // // console.log( vm.formData);
         return;

@@ -1,49 +1,48 @@
 <template>
-  <v-stepper v-model="stepperSelect" flat>
+  <v-stepper v-model="selectedStep" flat>
     <v-stepper-header flat>
       <v-stepper-step
-        :complete="stepperSelect > settperIndx"
-        :step="settperIndx"
-        v-for="(stepper, settperIndx) in stepperList"
-        :key="settperIndx"
+        :complete="selectedStep > stepIndx"
+        :step="stepIndx"
+        v-for="(step, stepIndx) in stepList"
+        :key="stepIndx"
       >
-        {{ stepper.name }}
+        {{ step.name }}
       </v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
       <v-stepper-content
         class="pa-4"
-        :step="settperIndx"
-        v-for="(stepper, settperIndx) in stepperCompList"
-        :key="settperIndx"
+        :step="stepIndx"
+        v-for="(step, stepIndx) in stepListX"
+        :key="stepIndx"
       >
         <v-card color="grey lighten-5" flat min-height="600">
           <v-card-text class="pb-0">
             <template
-              v-for="(stepperComp, stepperCompIndx) in stepper.props
-                .componentList"
+              v-for="(stepComponent, stepComponentIndx) in step.props.componentList"
             >
-              <template v-if="!!stepperComp.modelId">
+              <template v-if="!!stepComponent.modelId">
                 <component
-                  :ref="stepperComp.ref"
-                  :key="stepperCompIndx"
-                  :form-disabled="stepperComp.disabled"
+                  :ref="stepComponent.ref"
+                  :key="stepComponentIndx"
+                  :form-disabled="stepComponent.disabled"
                   dense
-                  :is="stepperComp.componentName"
-                  v-model="myForm[stepperComp.modelId]"
-                  v-bind="stepperComp.props"
+                  :is="stepComponent.componentName"
+                  v-model="stepperData[stepComponent.modelId]"
+                  v-bind="stepComponent.props"
                 />
               </template>
-              <template v-if="!stepperComp.modelId">
+              <template v-if="!stepComponent.modelId">
                 <component
-                  :ref="stepperComp.ref"
-                  :key="stepperCompIndx"
-                  :form-disabled="stepperComp.disabled"
+                  :ref="stepComponent.ref"
+                  :key="stepComponentIndx"
+                  :form-disabled="stepComponent.disabled"
                   dense
-                  :is="stepperComp.componentName"
-                  v-model="myForm"
-                  v-bind="stepperComp.props"
+                  :is="stepComponent.componentName"
+                  v-model="stepperData"
+                  v-bind="stepComponent.props"
                 />
               </template>
             </template>
@@ -63,7 +62,7 @@
             >
           </v-card-actions>
         </v-card>
-        <kbd>{{ myForm }}</kbd>
+        <kbd>{{ stepperData }}</kbd>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -99,6 +98,7 @@ import {
   Form,
   Button,
   Stepper,
+  Step
 } from "@/../src-def/form/FormComponentDef";
 @Component({
   components: {
@@ -123,48 +123,41 @@ export default class FStepper extends Vue {
       return {};
     },
   })
-  value!: object;
+  value!: any;
 
   @Prop({
     default: () => {
       return [];
     },
   })
-  stepperList!: Stepper[];
+  stepList!: Step[];
 
-  stepperSelect = 0;
+  selectedStep = 0;
 
-  get stepperCompList() {
-    return this.stepperList.map((comp) => comp.componentData());
+  get stepListX() {
+    return this.stepList.map((comp) => comp.componentData());
   }
 
-  get myForm() {
+  get stepperData(): any {
     return this.value;
   }
 
-  set myForm(value) {
+  set stepperData(value: any) {
     this.value = value;
   }
 
-  @Watch("myForm")
+  @Watch("stepperData")
   updateMyForm(value: any, oldValue: any) {
-    //  if(!!this.modelId) {
-    //    const newValue = {...this.value}
-    //    newValue[this.modelId] = this.myForm
-    //    this.$emit("input", newValue);
-    //  } else {
-    //    this.$emit("input", newValue);
-    //  }
     this.$emit("input", value);
   }
 
   nextStepper() {
-    this.stepperSelect = this.stepperSelect + 1;
+    this.selectedStep = this.selectedStep + 1;
   }
 
   previousStepper() {
-    if (this.stepperSelect > 0) {
-      this.stepperSelect = this.stepperSelect - 1;
+    if (this.selectedStep > 0) {
+      this.selectedStep = this.selectedStep - 1;
     }
   }
 }

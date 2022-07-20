@@ -1,3 +1,15 @@
+// TODO
+/*
+1. FormField 2 class - boundaryClass / fieldClass
+2. only boundary Class is used and not in fieldClass
+3. FForm - modelId repalce with vModelSelector as string?
+4. empty string replace with optional string
+5. each component - design mandatory and optional backed by default value with object as a param
+6. For every task component - each step willhave ts file with <TaskComponentName>Step1
+*/
+
+
+
 const FIELD_CLASS_COL = " col-12 "
 const FIELD_CLASS_MARGIN = " px-2"
 
@@ -14,11 +26,11 @@ export class Field {
   
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   export class TextField extends Field {
-    key: string;
+    key: string; // id ?
     componentName = 'v-text-field';
     type = 'text';
     label: string;
-    rules: string;
+    rules: string; // validation
     
   
     constructor(key: string, label: string, rules: string, formClass = FIELD_CLASS_COL) {
@@ -26,7 +38,7 @@ export class Field {
       this.key = key;
       this.label = label;
       this.rules = rules;
-    }
+    } 
   
     componentData() {
       return {
@@ -37,10 +49,8 @@ export class Field {
           type: this.type,
           name: this.key,
           label: this.label,
-          // rules: this.rules,
           outlined: true,
           formClass: this.formClass
-          // rounded: true,
         },
       };
     }
@@ -411,28 +421,21 @@ export class Field {
     modelId: string;
     componentName = 'f-form';
     label: string;
-    rules: string;
-    accept: string;
     fieldConfigList: Field[]
     disabled: boolean;
-    // options: string[];
   
-    constructor(modelId: string, ref: string, label: string, rules: string, fieldConfigList: Field[], accept?: string, formClass = FIELD_CLASS_COL, disabled = false) {
+    constructor(modelId: string, ref: string, label: string, fieldConfigList: Field[], formClass = FIELD_CLASS_COL, disabled = false) {
       super(ref, formClass);
       this.ref = ref;
       this.modelId = modelId;
       this.label = label;
       this.fieldConfigList = fieldConfigList;
-      this.rules = rules;
-      this.accept = accept || '';
       this.disabled = disabled
-      // this.options = options;
     }
   
     componentData() {
       return {
         componentName: this.componentName,
-        rules: this.rules,
         ref: this.ref,
         modelId: this.modelId,
         props: {
@@ -440,15 +443,9 @@ export class Field {
           ref: this.ref,
           name: this.ref,
           label: this.label,
-          // rules: this.rules,
-          accept: this.accept,
-          outlined: true,
-          showSize: true,
-          truncateLength:"50",
           formClass: this.formClass,
           fieldConfigList: this.fieldConfigList.map((comp: any) => comp.componentData()),
           disabled : this.disabled
-          // items: this.options,
         },
       };
     }

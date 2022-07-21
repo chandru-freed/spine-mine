@@ -15,7 +15,7 @@
       <v-stepper-content
         class="pa-4"
         :step="stepIndx"
-        v-for="(step, stepIndx) in stepListX"
+        v-for="(step, stepIndx) in stepListComputed"
         :key="stepIndx"
       >
         <v-card color="grey lighten-5" flat min-height="600">
@@ -95,7 +95,7 @@ export default class FStepper extends Vue {
 
   selectedStep = 0;
 
-  get stepListX() {
+  get stepListComputed() {
     return this.stepList.map((comp) => comp.componentData());
   }
 

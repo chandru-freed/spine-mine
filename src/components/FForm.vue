@@ -5,22 +5,23 @@
         <v-card flat color="transparent">
           <v-card-text class="pa-0">
             <v-form :disabled="disabled">
-              <v-row no-gutters >
+              <v-row no-gutters>
                 <v-col
-                  v-for="(child, index) in children"
+                  v-for="(field, index) in fieldList"
                   :key="index"
-                  :class="child.boundaryClass"
+                  :class="field.boundaryClass"
                 >
                   <ValidationProvider
-                    :name="child.props.id"
-                    :rules="child.rules"
+                    :vid="field.props.id"
+                    :name="field.props.label"
+                    :rules="field.rules"
                     v-slot="{ errors }"
                   >
                     <component
                       dense
-                      :is="child.componentName"
-                      v-model="myForm[child.props.key]"
-                      v-bind="child.props"
+                      :is="field.componentName"
+                      v-model="myForm[field.props.key]"
+                      v-bind="field.props"
                       :error-messages="errors"
                     >
                     </component>
@@ -29,6 +30,21 @@
               </v-row>
             </v-form>
           </v-card-text>
+          <v-card-actions>
+            <v-row no-gutters>
+              <v-col
+                v-for="(otherChild, index) in otherChildren"
+                :key="index"
+                :class="otherChild.boundaryClass"
+              >
+                <component
+                  :is="otherChild.componentName"
+                  v-bind="otherChild.props"
+                >
+                </component>
+              </v-col>
+            </v-row>
+          </v-card-actions>
         </v-card>
       </ValidationObserver>
     </div>
@@ -48,7 +64,6 @@ import {
   VAutocomplete,
   VFileInput,
 } from "vuetify/lib";
-import { FormComponentDataProvider } from "src-def/form/FormComponentDef";
 import MiniForm from "@/components/MiniForm.vue";
 import FBtn from "@/components/FBtn.vue";
 @Component({
@@ -68,7 +83,6 @@ import FBtn from "@/components/FBtn.vue";
   },
 })
 export default class FForm extends Vue {
-  
   @Prop({ default: "" })
   public id!: string;
 
@@ -83,7 +97,14 @@ export default class FForm extends Vue {
       return [];
     },
   })
-  public children!: FormComponentDataProvider[];
+  public fieldList!: object[];
+
+  @Prop({
+    default: () => {
+      return [];
+    },
+  })
+  public otherChildren!: object[];
 
   @Prop({ default: false })
   disabled: boolean;

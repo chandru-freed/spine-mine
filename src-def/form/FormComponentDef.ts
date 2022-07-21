@@ -28,24 +28,38 @@ Where data can come from
 */
 
 export class Stepper {
-  ref: string;
+  stepperRef: string;
   stepList: Step[];
 
-  constructor(ref: string, stepList: Step[]) {
-    this.ref = ref;
-    this.stepList = stepList.map((step) => step);
+  constructor({
+    stepperRef,
+    stepList,
+  }: {
+    stepperRef: string;
+    stepList: Step[];
+  }) {
+    this.stepperRef = stepperRef;
+    this.stepList = stepList;
   }
 }
 
 export class Step {
   id: string;
   name: string;
-  componentList: any[];
+  formList: Form[];
 
-  constructor(id: string, name: string, componentList: any[]) {
+  constructor({
+    id,
+    name,
+    formList,
+  }: {
+    id: string;
+    name: string;
+    formList: Form[];
+  }) {
     this.id = id;
     this.name = name;
-    this.componentList = componentList;
+    this.formList = formList;
   }
 
   componentData() {
@@ -53,9 +67,7 @@ export class Step {
       props: {
         id: this.id,
         name: this.name,
-        componentList: this.componentList.map((comp: any) =>
-          comp.componentData()
-        ),
+        formList: this.formList.map((form: Form) => form.componentData()),
       },
     };
   }
@@ -69,9 +81,10 @@ export interface ComponentDataProvider {
   componentData(): object; // todo: change it to getComponentData
 }
 
-export interface FormComponentDataProvider extends ComponentDataProvider {
+export interface Field extends ComponentDataProvider {
   dataSelectorKey: string;
   rules: string;
+  label: string;
 }
 
 export class Form implements ComponentDataProvider {
@@ -80,28 +93,32 @@ export class Form implements ComponentDataProvider {
   id: string;
   formRef: string;
 
-  modelId?: string;
+  dataSelectorKey?: string;
   disabled: boolean;
-  children: ComponentDataProvider[];
+  fieldList: Field[];
+  otherChildren: ComponentDataProvider[];
 
   constructor({
     id,
     formRef,
-    modelId,
+    dataSelectorKey,
     disabled = false,
-    children = [],
+    fieldList = [],
+    otherChildren = [],
   }: {
     id: string;
     formRef: string;
-    modelId?: string;
+    dataSelectorKey?: string;
     disabled?: boolean;
-    children: ComponentDataProvider[]; // todo : seprate as 2 ComponentDataProvider and FormComponentDataProvider
+    fieldList: Field[];
+    otherChildren: ComponentDataProvider[];
   }) {
     this.id = id;
     this.formRef = formRef;
-    this.modelId = modelId;
+    this.dataSelectorKey = dataSelectorKey;
     this.disabled = disabled;
-    this.children = children;
+    this.fieldList = fieldList;
+    this.otherChildren = otherChildren;
   }
 
   componentData(): object {
@@ -109,19 +126,24 @@ export class Form implements ComponentDataProvider {
       componentName: this.componentName,
       id: this.id,
       formRef: this.formRef,
-      modelId: this.modelId,
+      dataSelectorKey: this.dataSelectorKey,
       props: {
         id: this.id,
         formRef: this.formRef,
         name: this.formRef,
-        children: this.children.map((comp: any) => comp.componentData()),
+        fieldList: this.fieldList.map((comp: Field) =>
+          comp.componentData()
+        ),
+        otherChildren: this.otherChildren.map((comp: ComponentDataProvider) =>
+          comp.componentData()
+        ),
         disabled: this.disabled,
       },
     };
   }
 }
 
-export class TextField implements FormComponentDataProvider {
+export class TextField implements Field {
   // FIXED
   componentName = "v-text-field";
   type = "text";
@@ -194,6 +216,7 @@ export class TextField implements FormComponentDataProvider {
   }
 }
 
+// todo: add boundary class like field
 export class Button implements ComponentDataProvider {
   // FIXED
   componentName = "f-btn";

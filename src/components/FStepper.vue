@@ -21,28 +21,27 @@
         <v-card color="grey lighten-5" flat min-height="600">
           <v-card-text class="pb-0">
             <template
-              v-for="(stepComponent, stepComponentIndx) in step.props
-                .componentList"
+              v-for="(formComponent, formComponentIndx) in step.props
+                .formList"
             >
-              <template v-if="!!stepComponent.modelId">
+              <template v-if="!!formComponent.dataSelectorKey">
                 <component
-                  :ref="stepComponent.formRef"
-                  :key="stepComponentIndx"
+                  :ref="formComponent.formRef"
+                  :key="formComponentIndx"
                   dense
-                  :is="stepComponent.componentName"
-                  v-model="stepperData[stepComponent.modelId]"
-                  v-bind="stepComponent.props"
+                  :is="formComponent.componentName"
+                  v-model="stepperData[formComponent.dataSelectorKey]"
+                  v-bind="formComponent.props"
                 />
               </template>
-              <template v-if="!stepComponent.modelId">
+              <template v-if="!formComponent.dataSelectorKey">
                 <component
-                  :ref="stepComponent.formRef"
-                  :key="stepComponentIndx"
-                  :form-disabled="stepComponent.disabled"
+                  :ref="formComponent.formRef"
+                  :key="formComponentIndx"
                   dense
-                  :is="stepComponent.componentName"
+                  :is="formComponent.componentName"
                   v-model="stepperData"
-                  v-bind="stepComponent.props"
+                  v-bind="formComponent.props"
                 />
               </template>
             </template>

@@ -5,10 +5,11 @@
         <v-card flat color="transparent">
           <v-card-text class="pa-0">
             <v-form :disabled="disabled">
-              <v-row no-gutters>
+              <v-row no-gutters >
                 <v-col
                   v-for="(child, index) in children"
                   :key="index"
+                  :class="child.boundaryClass"
                 >
                   <ValidationProvider
                     :name="child.props.id"
@@ -49,7 +50,7 @@ import {
 } from "vuetify/lib";
 import { FormComponentDataProvider } from "src-def/form/FormComponentDef";
 import MiniForm from "@/components/MiniForm.vue";
-import FBtn1 from "@/components/FBtn1.vue";
+import FBtn from "@/components/FBtn.vue";
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
@@ -63,10 +64,10 @@ import FBtn1 from "@/components/FBtn1.vue";
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
     "mini-form": MiniForm,
-    "f-btn-1": FBtn1,
+    "f-btn": FBtn,
   },
 })
-export default class FForm1 extends Vue {
+export default class FForm extends Vue {
   
   @Prop({ default: "" })
   public id!: string;

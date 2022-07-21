@@ -10,7 +10,7 @@ import { VBtn } from "vuetify/lib";
     "v-btn": VBtn,
   },
 })
-export default class FBtn1 extends VBtn {
+export default class FBtn extends VBtn {
 
   @Prop({ default: "" })
   public label!: string;

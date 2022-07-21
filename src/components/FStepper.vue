@@ -70,13 +70,13 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import FForm1 from "@/components/FForm1.vue";
+import FForm from "@/components/FForm.vue";
 import { Step } from "@/../src-def/form/FormComponentDef";
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
-    "f-form-1": FForm1,
+    "f-form": FForm,
   },
 })
 export default class FStepper extends Vue {

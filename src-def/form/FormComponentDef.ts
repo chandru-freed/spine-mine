@@ -75,7 +75,7 @@ export interface FormComponentDataProvider extends ComponentDataProvider {
 }
 
 export class Form implements ComponentDataProvider {
-  componentName = "f-form-1";
+  componentName = "f-form";
 
   id: string;
   formRef: string;
@@ -178,7 +178,7 @@ export class TextField implements FormComponentDataProvider {
     return {
       componentName: this.componentName,
       rules: this.getRules(),
-      formClass: this.getBoundaryClass(),
+      boundaryClass: this.getBoundaryClass(),
       props: {
         key: this.dataSelectorKey,
         type: this.type,
@@ -196,7 +196,7 @@ export class TextField implements FormComponentDataProvider {
 
 export class Button implements ComponentDataProvider {
   // FIXED
-  componentName = "f-btn-1";
+  componentName = "f-btn";
   // MANDATORY
   id: string;
   label: string;

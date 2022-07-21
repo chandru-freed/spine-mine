@@ -46,12 +46,10 @@ import {
   VCombobox,
   VAutocomplete,
   VFileInput,
-  VBtn
 } from "vuetify/lib";
 import { FormComponentDataProvider } from "src-def/form/FormComponentDef";
 import MiniForm from "@/components/MiniForm.vue";
 import FBtn1 from "@/components/FBtn1.vue";
-import TBtn from "@/components/TBtn.vue";
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
@@ -65,9 +63,7 @@ import TBtn from "@/components/TBtn.vue";
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
     "mini-form": MiniForm,
-    "v-btn": VBtn,
     "f-btn-1": FBtn1,
-    "t-btn": TBtn,
   },
 })
 export default class FForm1 extends Vue {

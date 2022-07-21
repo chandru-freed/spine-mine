@@ -21,7 +21,8 @@
         <v-card color="grey lighten-5" flat min-height="600">
           <v-card-text class="pb-0">
             <template
-              v-for="(stepComponent, stepComponentIndx) in step.props.componentList"
+              v-for="(stepComponent, stepComponentIndx) in step.props
+                .componentList"
             >
               <template v-if="!!stepComponent.modelId">
                 <component
@@ -61,7 +62,6 @@
             >
           </v-card-actions>
         </v-card>
-        <kbd>{{ stepperData }}</kbd>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -70,49 +70,12 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import {
-  VTextField,
-  VSelect,
-  VCheckbox,
-  VSwitch,
-  VTextarea,
-  VCombobox,
-  VAutocomplete,
-  VFileInput,
-} from "vuetify/lib";
-import { Field } from "src-def/form/FormComponentDef";
-import FBtn from "@/components/FBtn.vue";
 import FForm1 from "@/components/FForm1.vue";
-import {
-  TextField,
-  EmailField,
-  SelectField,
-  CheckboxField,
-  SwitchField,
-  TextareaField,
-  ComboboxField,
-  AutocompleteField,
-  FileField,
-  MiniForm,
-  Form,
-  Button,
-  Stepper,
-  Step
-} from "@/../src-def/form/FormComponentDef";
+import { Step } from "@/../src-def/form/FormComponentDef";
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
-    "v-text-field": VTextField,
-    "v-select": VSelect,
-    "v-checkbox": VCheckbox,
-    "v-switch": VSwitch,
-    "v-textarea": VTextarea,
-    "v-combobox": VCombobox,
-    "v-autocomplete": VAutocomplete,
-    "v-file-input": VFileInput,
-    "mini-form": MiniForm,
-    "f-btn": FBtn,
     "f-form-1": FForm1,
   },
 })

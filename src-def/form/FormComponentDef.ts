@@ -644,10 +644,10 @@ export class Stepper {
 export class Step {
   id: string;
   name: string;
-  componentList: Field[];
+  componentList: any[];
   // options: string[];
 
-  constructor(id: string, name: string, componentList: Field[]) {
+  constructor(id: string, name: string, componentList: any[]) {
     this.id = id;
     this.name = name;
     this.componentList = componentList;
@@ -667,16 +667,69 @@ export class Step {
     };
   }
 }
+//-------------------------------------------------------------------------------------------------------------------
 
-
-interface ComponentDataProvider {
+export interface ComponentDataProvider {
   id: string;
   componentName: string;
   componentData(): object; // todo: change it to getComponentData
 }
 
-interface FormComponentDataProvider extends ComponentDataProvider {
+export interface FormComponentDataProvider extends ComponentDataProvider {
   dataSelectorKey: string;
+  rules: string;
+}
+
+
+export class Form1 implements ComponentDataProvider {
+  
+  componentName = "f-form-1";
+
+  id: string;
+  formRef: string;
+
+  modelId?: string;
+  disabled: boolean
+  children: ComponentDataProvider[]
+
+  constructor({
+    id,
+    formRef,
+    modelId,
+    disabled = false,
+    children = []
+  }: {
+    id: string;
+    formRef: string;
+    modelId?: string
+    disabled?: boolean
+    children: ComponentDataProvider[] // todo : seprate as 2 ComponentDataProvider and FormComponentDataProvider
+  }) {
+    this.id = id;
+    this.formRef = formRef;
+    this.modelId = modelId
+    this.disabled = disabled
+    this.children = children
+  }
+
+  componentData(): object {
+    return {
+      componentName: this.componentName,
+      id: this.id,
+      formRef: this.formRef,
+      modelId: this.modelId,
+      props: {
+        id: this.id,
+        formRef: this.formRef,
+        name: this.formRef,
+        children: this.children.map((comp: any) =>
+          comp.componentData()
+        ),
+        disabled: this.disabled,
+      },
+    };
+  }
+
 }
 
 export class TextField1 implements FormComponentDataProvider {
@@ -754,46 +807,46 @@ export class TextField1 implements FormComponentDataProvider {
 }
 
 
-export class Form1 extends Field {
-  ref: string;
-  modelId: string;
-  componentName = "f-form";
+export class Button1 implements ComponentDataProvider {
+  // FIXED
+  componentName = "f-btn-1";
+  // MANDATORY
+  id: string;
   label: string;
-  fieldConfigList: Field[];
+  // OPTIONAL with Default
   disabled: boolean;
+  onClick: () => void 
 
-  constructor(
-    modelId: string,
-    ref: string,
-    label: string,
-    fieldConfigList: any[],
-    formClass = FIELD_CLASS_COL,
-    disabled = false
-  ) {
-    super(ref, formClass);
-    this.ref = ref;
-    this.modelId = modelId;
+  constructor({
+    id,
+    label,
+    disabled = false,
+    onClick
+  }: {
+    id: string;
+    label: string;
+    disabled?: boolean;
+    onClick: () => void
+  }) {
+    this.id = id;
     this.label = label;
-    this.fieldConfigList = fieldConfigList;
-    this.disabled = disabled;
+    this.disabled = disabled
+    this.onClick = onClick
   }
 
-  componentData() {
+  componentData(): object {
     return {
       componentName: this.componentName,
-      ref: this.ref,
-      modelId: this.modelId,
+      rules: "", // to be removed
       props: {
-        modelId: this.modelId,
-        ref: this.ref,
-        name: this.ref,
+        key: "", // to be removed
         label: this.label,
-        formClass: this.formClass,
-        fieldConfigList: this.fieldConfigList.map((comp: any) =>
-          comp.componentData()
-        ),
+        outlined: true, // todo: remove this also
         disabled: this.disabled,
-      },
+        onClick: this.onClick
+      }
     };
   }
+
 }
+

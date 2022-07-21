@@ -25,9 +25,8 @@
             >
               <template v-if="!!stepComponent.modelId">
                 <component
-                  :ref="stepComponent.ref"
+                  :ref="stepComponent.formRef"
                   :key="stepComponentIndx"
-                  :form-disabled="stepComponent.disabled"
                   dense
                   :is="stepComponent.componentName"
                   v-model="stepperData[stepComponent.modelId]"
@@ -36,7 +35,7 @@
               </template>
               <template v-if="!stepComponent.modelId">
                 <component
-                  :ref="stepComponent.ref"
+                  :ref="stepComponent.formRef"
                   :key="stepComponentIndx"
                   :form-disabled="stepComponent.disabled"
                   dense
@@ -83,7 +82,7 @@ import {
 } from "vuetify/lib";
 import { Field } from "src-def/form/FormComponentDef";
 import FBtn from "@/components/FBtn.vue";
-import FForm from "@/components/FForm.vue";
+import FForm1 from "@/components/FForm1.vue";
 import {
   TextField,
   EmailField,
@@ -114,7 +113,7 @@ import {
     "v-file-input": VFileInput,
     "mini-form": MiniForm,
     "f-btn": FBtn,
-    "f-form": FForm,
+    "f-form-1": FForm1,
   },
 })
 export default class FStepper extends Vue {

@@ -7,10 +7,10 @@
         <v-card flat color="transparent">
           <!-- {{fieldConfigList}} -->
           <v-card-text class="pa-0">
-            <v-form>
+            <v-form >
               <v-row no-gutters>
                 <v-col
-                  :class="component.props.formClass"
+                  :class="component.formClass"
                   v-for="(component, index) in componentList"
                   :key="index"
                 >
@@ -21,18 +21,23 @@
                   >
                   <!--v-slot="{ errors, valid }"-->
                   <!-- :success="valid"  add to the below component to highlight the field as green if valid-->
+                <!-- {{component.props}} -->
                     <component
                       dense
                       :is="component.componentName"
                       v-model="myForm[component.props.key]"
                       v-bind="component.props"
                       :error-messages="errors"
-                      
-                      v-on="component.events"
+                      v-on="component.on"
                       :disabled="disabled ? disabled : component.props.disabled"
-                    />
+                    >
+                    <!-- <slot name="default" v-if="component.slot && component.slot.default">{{component.slot.default}}</slot> -->
+                    </component>
+                      <!-- <slot name="default">{{component.slot.default}}</slot> -->
                     <!-- {{component}} -->
-                    <!-- <v-btn v-on="{ click : onSave}" outlined color="secondary">Validate</v-btn> -->
+                    <!-- <template v-slot="{}">
+                      {{component.slot.default}}
+                    </template> -->
                   </ValidationProvider>
                 </v-col>
               </v-row>
@@ -65,10 +70,12 @@ import {
   VCombobox,
   VAutocomplete,
   VFileInput,
+  VBtn
 } from "vuetify/lib";
 import { Field } from "src-def/form/FormComponentDef";
 import MiniForm from "@/components/MiniForm.vue";
 import FBtn from "@/components/FBtn.vue";
+import TBtn from "@/components/TBtn.vue";
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
@@ -82,7 +89,9 @@ import FBtn from "@/components/FBtn.vue";
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
     "mini-form": MiniForm,
+    "v-btn": VBtn,
     "f-btn": FBtn,
+    "t-btn": TBtn,
   },
 })
 export default class FForm extends Vue {

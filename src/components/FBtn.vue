@@ -2,6 +2,7 @@
 
   <v-btn :disabled="disabled" :outlined="outlined" :color="color" :text="flat" @click="action()">{{ label }}</v-btn>
 
+  
 </template>
 
 <script lang="ts">

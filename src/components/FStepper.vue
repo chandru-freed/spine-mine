@@ -47,7 +47,7 @@
               </template>
             </template>
           </v-card-text>
-          <v-card-actions class="pt-0">
+          <v-card-actions class="">
             <v-btn
               text
               small

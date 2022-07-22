@@ -1,7 +1,7 @@
 // Decision
 
 /*
-Where data can come from
+Where metadata can come from
 - HardCode in Field
 - Taken always from Parent
 - Mandatory - Take it from user
@@ -10,22 +10,9 @@ Where data can come from
 - Field can be composite - logic in design time
 - All data coming from user can be static in config or dynamic as computed
 - including events everythign comes with the part of props
-
-
-
 */
 
-// TODO
-/*
-1. FormField 2 class - boundaryClass / fieldClass
-2. only boundary Class is used and not in fieldClass
-3. FForm - modelId repalce with vModelSelector as string?
-4. empty string replace with optional string
-5. each component - design mandatory and optional backed by default value with object as a param
-6. For every task component - each step willhave ts file with <TaskComponentName>Step1
-7. FForm replace boundary class with formClass and inlineClass in the component
-8. ant componentDat which I am using in move it outside and only the props attribute to stay inside props
-*/
+
 
 export class Stepper {
   stepperRef: string;
@@ -46,20 +33,24 @@ export class Stepper {
 export class Step {
   id: string;
   name: string;
-  formList: Form[];
+  formList: Form[] = [];
 
   constructor({
     id,
     name,
-    formList,
-  }: {
+  }: // formList,
+  {
     id: string;
     name: string;
-    formList: Form[];
+    // formList: Form[];
   }) {
     this.id = id;
     this.name = name;
-    this.formList = formList;
+    // this.formList = formList;
+  }
+
+  addForm(form: Form) {
+    this.formList.push(form);
   }
 
   componentData() {
@@ -87,7 +78,15 @@ export interface Field extends ComponentDataProvider {
   label: string;
 }
 
-export class Form implements ComponentDataProvider {
+export class FormChildDataProvider {
+  dense = true;
+  padding = "px-2";
+}
+
+export class Form
+  extends FormChildDataProvider
+  implements ComponentDataProvider
+{
   componentName = "f-form";
 
   id: string;
@@ -95,30 +94,35 @@ export class Form implements ComponentDataProvider {
 
   dataSelectorKey?: string;
   disabled: boolean;
-  fieldList: Field[];
-  otherChildren: ComponentDataProvider[];
+  fieldList: Field[] = [];
+  otherChildren: ComponentDataProvider[] = [];
 
   constructor({
     id,
     formRef,
     dataSelectorKey,
     disabled = false,
-    fieldList = [],
-    otherChildren = [],
   }: {
     id: string;
     formRef: string;
     dataSelectorKey?: string;
     disabled?: boolean;
-    fieldList: Field[];
-    otherChildren: ComponentDataProvider[];
   }) {
+    super(); // pass any FormChildDataProvider field if needs to be passed from user and set it in super
     this.id = id;
     this.formRef = formRef;
     this.dataSelectorKey = dataSelectorKey;
     this.disabled = disabled;
-    this.fieldList = fieldList;
-    this.otherChildren = otherChildren;
+  }
+
+  addField(field: Field) {
+    this.fieldList.push(field);
+    return this;
+  }
+
+  addOtherChild(child: ComponentDataProvider) {
+    this.otherChildren.push(child);
+    return this;
   }
 
   componentData(): object {
@@ -131,9 +135,7 @@ export class Form implements ComponentDataProvider {
         id: this.id,
         formRef: this.formRef,
         name: this.formRef,
-        fieldList: this.fieldList.map((comp: Field) =>
-          comp.componentData()
-        ),
+        fieldList: this.fieldList.map((comp: Field) => comp.componentData()),
         otherChildren: this.otherChildren.map((comp: ComponentDataProvider) =>
           comp.componentData()
         ),
@@ -147,7 +149,6 @@ export class TextField implements Field {
   // FIXED
   componentName = "v-text-field";
   type = "text";
-  padding = "px-2";
   // MANDATORY
   id: string;
   dataSelectorKey: string;
@@ -158,8 +159,10 @@ export class TextField implements Field {
   mandatory: boolean;
   disabled: boolean;
   onInput: (() => void) | undefined;
+  parentDataProvider: FormChildDataProvider;
 
   constructor({
+    parentDataProvider,
     id,
     dataSelectorKey,
     label,
@@ -169,6 +172,7 @@ export class TextField implements Field {
     disabled = false,
     onInput = undefined,
   }: {
+    parentDataProvider: FormChildDataProvider;
     id?: string;
     dataSelectorKey: string;
     label: string;
@@ -178,6 +182,7 @@ export class TextField implements Field {
     disabled?: boolean;
     onInput?: () => void;
   }) {
+    this.parentDataProvider = parentDataProvider;
     this.id = !!id ? id : dataSelectorKey;
     this.dataSelectorKey = dataSelectorKey;
     this.label = label;
@@ -189,7 +194,7 @@ export class TextField implements Field {
   }
 
   getBoundaryClass() {
-    return `col-${this.colWidth} ${this.padding}`;
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
   }
 
   getRules() {
@@ -208,6 +213,7 @@ export class TextField implements Field {
         label: this.label,
         outlined: true, // todo: remove this also
         disabled: this.disabled,
+        dense: this.parentDataProvider.dense,
       },
       on: {
         input: this.onInput,
@@ -216,43 +222,93 @@ export class TextField implements Field {
   }
 }
 
+export class EmailField extends TextField {
+  constructor({
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    label,
+    rules = "",
+    colWidth,
+    mandatory,
+    disabled,
+    onInput,
+  }: {
+    parentDataProvider: FormChildDataProvider;
+    id?: string;
+    dataSelectorKey: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    onInput?: () => void;
+  }) {
+    super({
+      parentDataProvider: parentDataProvider,
+      id: id,
+      dataSelectorKey: dataSelectorKey,
+      label: label,
+      rules: `email|${rules}`,
+      colWidth: colWidth,
+      mandatory: mandatory,
+      disabled: disabled,
+      onInput: onInput,
+    });
+  }
+}
+
 // todo: add boundary class like field
 export class Button implements ComponentDataProvider {
   // FIXED
   componentName = "f-btn";
+  padding = "px-2"; //todo: needs to come from form
   // MANDATORY
   id: string;
   label: string;
   // OPTIONAL with Default
+  colWidth: number;
   disabled: boolean;
+  outlined: boolean;
+  color: string;
   onClick: () => void;
 
   constructor({
     id,
     label,
     disabled = false,
+    outlined = false,
+    color = "primary",
     onClick,
   }: {
     id: string;
     label: string;
     disabled?: boolean;
+    outlined?: boolean;
+    color?: string;
     onClick: () => void;
   }) {
     this.id = id;
     this.label = label;
     this.disabled = disabled;
+    this.outlined = outlined;
+    this.color = color;
     this.onClick = onClick;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} text-center`;
   }
 
   componentData(): object {
     return {
       componentName: this.componentName,
-      rules: "", // to be removed
+      boundaryClass: this.getBoundaryClass(),
       props: {
-        key: "", // to be removed
         label: this.label,
-        outlined: true, // todo: remove this also
         disabled: this.disabled,
+        outlined: this.outlined,
+        color: this.color,
         onClick: this.onClick,
       },
     };

@@ -28,7 +28,6 @@
                 <component
                   :ref="formComponent.formRef"
                   :key="formComponentIndx"
-                  dense
                   :is="formComponent.componentName"
                   v-model="stepperData[formComponent.dataSelectorKey]"
                   v-bind="formComponent.props"
@@ -38,7 +37,6 @@
                 <component
                   :ref="formComponent.formRef"
                   :key="formComponentIndx"
-                  dense
                   :is="formComponent.componentName"
                   v-model="stepperData"
                   v-bind="formComponent.props"

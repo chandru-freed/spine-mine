@@ -4,7 +4,7 @@
       <v-stepper-step
         :complete="selectedStep > stepIndx"
         :step="stepIndx"
-        v-for="(step, stepIndx) in stepList"
+        v-for="(step, stepIndx) in stepMetaDataList"
         :key="stepIndx"
       >
         {{ step.name }}
@@ -15,7 +15,7 @@
       <v-stepper-content
         class="pa-4"
         :step="stepIndx"
-        v-for="(step, stepIndx) in stepListComputed"
+        v-for="(step, stepIndx) in stepMetaDataListComputed"
         :key="stepIndx"
       >
         <v-card color="grey lighten-5" flat min-height="600">
@@ -68,7 +68,7 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FForm from "@/components/FForm.vue";
-import { Step } from "@/../src-def/form/FormComponentDef";
+import { StepMetaData } from "@/../src-def/form/FormComponentDef";
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
@@ -89,12 +89,12 @@ export default class FStepper extends Vue {
       return [];
     },
   })
-  stepList!: Step[];
+  stepMetaDataList!: StepMetaData[];
 
   selectedStep = 0;
 
-  get stepListComputed() {
-    return this.stepList.map((comp) => comp.componentData());
+  get stepMetaDataListComputed() {
+    return this.stepMetaDataList.map((comp) => comp.componentMetaData());
   }
 
   get stepperData(): any {

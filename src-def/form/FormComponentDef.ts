@@ -14,26 +14,26 @@ Where metadata can come from
 
 
 
-export class Stepper {
+export class StepperMetaData {
   stepperRef: string;
-  stepList: Step[];
+  stepMetaDataList: StepMetaData[];
 
   constructor({
     stepperRef,
-    stepList,
+    stepMetaDataList = [],
   }: {
     stepperRef: string;
-    stepList: Step[];
+    stepMetaDataList: StepMetaData[];
   }) {
     this.stepperRef = stepperRef;
-    this.stepList = stepList;
+    this.stepMetaDataList = stepMetaDataList;
   }
 }
 
-export class Step {
+export class StepMetaData {
   id: string;
   name: string;
-  formList: Form[] = [];
+  formList: FormMetaData[] = [];
 
   constructor({
     id,
@@ -49,16 +49,16 @@ export class Step {
     // this.formList = formList;
   }
 
-  addForm(form: Form) {
+  addForm(form: FormMetaData) {
     this.formList.push(form);
   }
 
-  componentData() {
+  componentMetaData() {
     return {
       props: {
         id: this.id,
         name: this.name,
-        formList: this.formList.map((form: Form) => form.componentData()),
+        formList: this.formList.map((form: FormMetaData) => form.componentMetaData()),
       },
     };
   }
@@ -66,26 +66,26 @@ export class Step {
 
 //-------------------------------------------------------------------------------------------------------------------
 
-export interface ComponentDataProvider {
+export interface ComponentMetaDataProvider {
   id: string;
   componentName: string;
-  componentData(): object; // todo: change it to getComponentData
+  componentMetaData(): object; // todo: change it to getComponentData
 }
 
-export interface Field extends ComponentDataProvider {
+export interface FieldMetaData extends ComponentMetaDataProvider {
   dataSelectorKey: string;
   rules: string;
   label: string;
 }
 
-export class FormChildDataProvider {
+export class FormChildMetaDataProvider {
   dense = true;
   padding = "px-2";
 }
 
-export class Form
-  extends FormChildDataProvider
-  implements ComponentDataProvider
+export class FormMetaData
+  extends FormChildMetaDataProvider
+  implements ComponentMetaDataProvider
 {
   componentName = "f-form";
 
@@ -94,8 +94,8 @@ export class Form
 
   dataSelectorKey?: string;
   disabled: boolean;
-  fieldList: Field[] = [];
-  otherChildren: ComponentDataProvider[] = [];
+  fieldList: FieldMetaData[] = [];
+  otherChildren: ComponentMetaDataProvider[] = [];
 
   constructor({
     id,
@@ -108,24 +108,24 @@ export class Form
     dataSelectorKey?: string;
     disabled?: boolean;
   }) {
-    super(); // pass any FormChildDataProvider field if needs to be passed from user and set it in super
+    super(); // pass any FormChildMetaDataProvider field if needs to be passed from user and set it in super
     this.id = id;
     this.formRef = formRef;
     this.dataSelectorKey = dataSelectorKey;
     this.disabled = disabled;
   }
 
-  addField(field: Field) {
+  addField(field: FieldMetaData) {
     this.fieldList.push(field);
     return this;
   }
 
-  addOtherChild(child: ComponentDataProvider) {
+  addOtherChild(child: ComponentMetaDataProvider) {
     this.otherChildren.push(child);
     return this;
   }
 
-  componentData(): object {
+  componentMetaData(): object {
     return {
       componentName: this.componentName,
       id: this.id,
@@ -135,9 +135,9 @@ export class Form
         id: this.id,
         formRef: this.formRef,
         name: this.formRef,
-        fieldList: this.fieldList.map((comp: Field) => comp.componentData()),
-        otherChildren: this.otherChildren.map((comp: ComponentDataProvider) =>
-          comp.componentData()
+        fieldList: this.fieldList.map((comp: FieldMetaData) => comp.componentMetaData()),
+        otherChildren: this.otherChildren.map((comp: ComponentMetaDataProvider) =>
+          comp.componentMetaData()
         ),
         disabled: this.disabled,
       },
@@ -145,7 +145,7 @@ export class Form
   }
 }
 
-export class TextField implements Field {
+export class TextFieldMetaData implements FieldMetaData {
   // FIXED
   componentName = "v-text-field";
   type = "text";
@@ -159,7 +159,7 @@ export class TextField implements Field {
   mandatory: boolean;
   disabled: boolean;
   onInput: (() => void) | undefined;
-  parentDataProvider: FormChildDataProvider;
+  parentDataProvider: FormChildMetaDataProvider;
 
   constructor({
     parentDataProvider,
@@ -172,7 +172,7 @@ export class TextField implements Field {
     disabled = false,
     onInput = undefined,
   }: {
-    parentDataProvider: FormChildDataProvider;
+    parentDataProvider: FormChildMetaDataProvider;
     id?: string;
     dataSelectorKey: string;
     label: string;
@@ -201,7 +201,7 @@ export class TextField implements Field {
     const mandarotyStr = this.mandatory ? "required" : "";
     return `${mandarotyStr}|${this.rules}`;
   }
-  componentData(): object {
+  componentMetaData(): object {
     return {
       componentName: this.componentName,
       rules: this.getRules(),
@@ -222,7 +222,7 @@ export class TextField implements Field {
   }
 }
 
-export class EmailField extends TextField {
+export class EmailFieldMetaData extends TextFieldMetaData {
   constructor({
     parentDataProvider,
     id,
@@ -234,7 +234,7 @@ export class EmailField extends TextField {
     disabled,
     onInput,
   }: {
-    parentDataProvider: FormChildDataProvider;
+    parentDataProvider: FormChildMetaDataProvider;
     id?: string;
     dataSelectorKey: string;
     label: string;
@@ -259,7 +259,7 @@ export class EmailField extends TextField {
 }
 
 // todo: add boundary class like field
-export class Button implements ComponentDataProvider {
+export class ButtonMetaData implements ComponentMetaDataProvider {
   // FIXED
   componentName = "f-btn";
   padding = "px-2"; //todo: needs to come from form
@@ -300,7 +300,7 @@ export class Button implements ComponentDataProvider {
     return `col-${this.colWidth} text-center`;
   }
 
-  componentData(): object {
+  componentMetaData(): object {
     return {
       componentName: this.componentName,
       boundaryClass: this.getBoundaryClass(),

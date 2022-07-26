@@ -12,7 +12,7 @@ export default class Validator {
     this.dateRequired();
     this.timeValidator();
     this.timeValidatorwithSeconds();
-    this.storerRequired();
+    this.positiveNumber();
   }
 
   private static verifyPassword() {
@@ -24,6 +24,17 @@ export default class Validator {
       }
     });
   }
+
+  private static positiveNumber() {
+    extend('positive', {
+      message: (field: string) => 'Only positive number allowed',
+      validate: (value: number): boolean => {
+        const colonStartWithPattern = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
+        return (value > 0)
+      }
+    });
+  }
+
 
   // rules + messages
   private static allMessages() {
@@ -47,15 +58,6 @@ export default class Validator {
       message: (field: any) => 'The salary should be greater than 0.',
       validate: (value: number): boolean => {
         return value > 0;
-    }
-    });
-  }
-
-  private static storerRequired() {
-    extend('storer_required', {
-      message: (field: any) => 'Storer should be selected.',
-      validate: (value: any): boolean => {
-        return value && value.storerId && value.storerId.length > 0;
     }
     });
   }

@@ -12,8 +12,6 @@ Where metadata can come from
 - including events everythign comes with the part of props
 */
 
-
-
 export class StepperMetaData {
   stepperRef: string;
   stepMetaDataList: StepMetaData[];
@@ -58,7 +56,9 @@ export class StepMetaData {
       props: {
         id: this.id,
         name: this.name,
-        formList: this.formList.map((form: FormMetaData) => form.componentMetaData()),
+        formList: this.formList.map((form: FormMetaData) =>
+          form.componentMetaData()
+        ),
       },
     };
   }
@@ -80,6 +80,7 @@ export interface FieldMetaData extends ComponentMetaDataProvider {
 
 export class FormChildMetaDataProvider {
   dense = true;
+  outlined = true;
   padding = "px-2";
 }
 
@@ -135,9 +136,11 @@ export class FormMetaData
         id: this.id,
         formRef: this.formRef,
         name: this.formRef,
-        fieldList: this.fieldList.map((comp: FieldMetaData) => comp.componentMetaData()),
-        otherChildren: this.otherChildren.map((comp: ComponentMetaDataProvider) =>
+        fieldList: this.fieldList.map((comp: FieldMetaData) =>
           comp.componentMetaData()
+        ),
+        otherChildren: this.otherChildren.map(
+          (comp: ComponentMetaDataProvider) => comp.componentMetaData()
         ),
         disabled: this.disabled,
       },
@@ -147,8 +150,8 @@ export class FormMetaData
 
 export class TextFieldMetaData implements FieldMetaData {
   // FIXED
-  componentName = "v-text-field";
-  type = "text";
+  componentName = "f-text-field";
+  type: string; // = "text";
   // MANDATORY
   id: string;
   dataSelectorKey: string;
@@ -158,39 +161,47 @@ export class TextFieldMetaData implements FieldMetaData {
   colWidth: number;
   mandatory: boolean;
   disabled: boolean;
-  onInput: (() => void) | undefined;
+  mask: string;
+  onChange: () => void;
   parentDataProvider: FormChildMetaDataProvider;
 
   constructor({
     parentDataProvider,
     id,
     dataSelectorKey,
+    type = "text",
     label,
     rules = "",
     colWidth = 12,
     mandatory = false,
     disabled = false,
-    onInput = undefined,
+    mask = "",
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
   }: {
     parentDataProvider: FormChildMetaDataProvider;
     id?: string;
     dataSelectorKey: string;
+    type?: string;
     label: string;
     rules?: string;
     colWidth?: number;
     mandatory?: boolean;
     disabled?: boolean;
-    onInput?: () => void;
+    mask?: string;
+    onChange?: () => void;
   }) {
     this.parentDataProvider = parentDataProvider;
     this.id = !!id ? id : dataSelectorKey;
     this.dataSelectorKey = dataSelectorKey;
+    this.type = type;
     this.label = label;
     this.rules = rules;
     this.colWidth = colWidth;
     this.mandatory = mandatory;
     this.disabled = disabled;
-    this.onInput = onInput;
+    this.mask = mask;
+    this.onChange = onChange;
   }
 
   getBoundaryClass() {
@@ -211,12 +222,95 @@ export class TextFieldMetaData implements FieldMetaData {
         type: this.type,
         name: this.dataSelectorKey, // todo: check the name functionalities
         label: this.label,
-        outlined: true, // todo: remove this also
         disabled: this.disabled,
+        outlined: this.parentDataProvider.outlined,
         dense: this.parentDataProvider.dense,
+        mask: this.mask,
+        onChange: this.onChange,
       },
-      on: {
-        input: this.onInput,
+    };
+  }
+}
+
+export class NumberFieldMetaData implements FieldMetaData {
+  // FIXED
+  componentName = "f-number-field";
+  type = "number"; // = "text";
+  // MANDATORY
+  id: string;
+  dataSelectorKey: string;
+  label: string;
+  // OPTIONAL with Default
+  rules: string;
+  colWidth: number;
+  mandatory: boolean;
+  disabled: boolean;
+  mask: string;
+  onChange: () => void;
+  parentDataProvider: FormChildMetaDataProvider;
+
+  constructor({
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    // type = "number",
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    mask = "",
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    parentDataProvider: FormChildMetaDataProvider;
+    id?: string;
+    dataSelectorKey: string;
+    // type?: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    mask?: string;
+    onChange?: () => void;
+  }) {
+    this.parentDataProvider = parentDataProvider;
+    this.id = !!id ? id : dataSelectorKey;
+    this.dataSelectorKey = dataSelectorKey;
+    // this.type = type;
+    this.label = label;
+    this.rules = rules;
+    this.colWidth = colWidth;
+    this.mandatory = mandatory;
+    this.disabled = disabled;
+    this.mask = mask;
+    this.onChange = onChange;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  }
+
+  getRules() {
+    const mandarotyStr = this.mandatory ? "required" : "";
+    return `${mandarotyStr}|${this.rules}`;
+  }
+  componentMetaData(): object {
+    return {
+      componentName: this.componentName,
+      rules: this.getRules(),
+      boundaryClass: this.getBoundaryClass(),
+      props: {
+        key: this.dataSelectorKey,
+        type: this.type,
+        name: this.dataSelectorKey, // todo: check the name functionalities
+        label: this.label,
+        disabled: this.disabled,
+        outlined: this.parentDataProvider.outlined,
+        dense: this.parentDataProvider.dense,
+        mask: this.mask,
+        onChange: this.onChange,
       },
     };
   }
@@ -226,13 +320,72 @@ export class EmailFieldMetaData extends TextFieldMetaData {
   constructor({
     parentDataProvider,
     id,
+    type,
     dataSelectorKey,
     label,
     rules = "",
     colWidth,
     mandatory,
     disabled,
-    onInput,
+    mask,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    parentDataProvider: FormChildMetaDataProvider;
+    id?: string;
+    type?: string;
+    dataSelectorKey: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    mask?: string;
+    onChange?: () => void;
+  }) {
+    super({
+      parentDataProvider: parentDataProvider,
+      id: id,
+      type: type,
+      dataSelectorKey: dataSelectorKey,
+      label: label,
+      rules: `email|${rules}`,
+      colWidth: colWidth,
+      mandatory: mandatory,
+      disabled: disabled,
+      mask: mask,
+      onChange: onChange,
+    });
+  }
+}
+
+export class SwitchMetaData implements FieldMetaData {
+  // FIXED
+  componentName = "f-switch";
+  inset = true;
+  // MANDATORY
+  id: string;
+  dataSelectorKey: string;
+  label: string;
+  // OPTIONAL with Default
+  rules: string;
+  colWidth: number;
+  mandatory: boolean;
+  disabled: boolean;
+  onChange: () => void;
+  parentDataProvider: FormChildMetaDataProvider;
+
+  constructor({
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
   }: {
     parentDataProvider: FormChildMetaDataProvider;
     id?: string;
@@ -242,19 +395,361 @@ export class EmailFieldMetaData extends TextFieldMetaData {
     colWidth?: number;
     mandatory?: boolean;
     disabled?: boolean;
-    onInput?: () => void;
+    onChange?: () => void;
   }) {
-    super({
-      parentDataProvider: parentDataProvider,
-      id: id,
-      dataSelectorKey: dataSelectorKey,
-      label: label,
-      rules: `email|${rules}`,
-      colWidth: colWidth,
-      mandatory: mandatory,
-      disabled: disabled,
-      onInput: onInput,
-    });
+    this.parentDataProvider = parentDataProvider;
+    this.id = !!id ? id : dataSelectorKey;
+    this.dataSelectorKey = dataSelectorKey;
+    this.label = label;
+    this.rules = rules;
+    this.colWidth = colWidth;
+    this.mandatory = mandatory;
+    this.disabled = disabled;
+    this.onChange = onChange;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  }
+
+  getRules() {
+    const mandarotyStr = this.mandatory ? "required" : "";
+    return `${mandarotyStr}|${this.rules}`;
+  }
+  componentMetaData(): object {
+    return {
+      componentName: this.componentName,
+      rules: this.getRules(),
+      boundaryClass: this.getBoundaryClass(),
+      props: {
+        key: this.dataSelectorKey,
+        name: this.dataSelectorKey, // todo: check the name functionalities
+        label: this.label,
+        disabled: this.disabled,
+        inset: this.inset,
+        outlined: this.parentDataProvider.outlined,
+        dense: this.parentDataProvider.dense,
+        onChange: this.onChange,
+      },
+    };
+  }
+}
+
+export class AddressMetaData implements ComponentMetaDataProvider {
+  // FIXED
+  componentName = "f-address";
+  // MANDATORY
+  id: string;
+  dataSelectorKey: string;
+  label: string;
+  // OPTIONAL with Default
+  rules: string;
+  colWidth: number;
+  mandatory: boolean;
+  disabled: boolean;
+  onChange: () => void;
+  parentDataProvider: FormChildMetaDataProvider;
+
+  constructor({
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    parentDataProvider: FormChildMetaDataProvider;
+    id?: string;
+    dataSelectorKey: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    onChange?: () => void;
+  }) {
+    this.parentDataProvider = parentDataProvider;
+    this.id = !!id ? id : dataSelectorKey;
+    this.dataSelectorKey = dataSelectorKey;
+    this.label = label;
+    this.rules = rules;
+    this.colWidth = colWidth;
+    this.mandatory = mandatory;
+    this.disabled = disabled;
+    this.onChange = onChange;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  }
+
+  getRules() {
+    const mandarotyStr = this.mandatory ? "required" : "";
+    return `${mandarotyStr}|${this.rules}`;
+  }
+  componentMetaData(): object {
+    return {
+      componentName: this.componentName,
+      rules: this.getRules(),
+      boundaryClass: this.getBoundaryClass(),
+      props: {
+        key: this.dataSelectorKey,
+        name: this.dataSelectorKey, // todo: check the name functionalities
+        label: this.label,
+        disabled: this.disabled,
+        outlined: this.parentDataProvider.outlined,
+        dense: this.parentDataProvider.dense,
+        onChange: this.onChange,
+      },
+    };
+  }
+}
+
+export class CreditorMetaData implements ComponentMetaDataProvider {
+  // FIXED
+  componentName = "f-creditor";
+  // MANDATORY
+  id: string;
+  dataSelectorKey: string;
+  label: string;
+  // OPTIONAL with Default
+  rules: string;
+  colWidth: number;
+  mandatory: boolean;
+  disabled: boolean;
+  onChange: () => void;
+  parentDataProvider: FormChildMetaDataProvider;
+
+  constructor({
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    parentDataProvider: FormChildMetaDataProvider;
+    id?: string;
+    dataSelectorKey: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    onChange?: () => void;
+  }) {
+    this.parentDataProvider = parentDataProvider;
+    this.id = !!id ? id : dataSelectorKey;
+    this.dataSelectorKey = dataSelectorKey;
+    this.label = label;
+    this.rules = rules;
+    this.colWidth = colWidth;
+    this.mandatory = mandatory;
+    this.disabled = disabled;
+    this.onChange = onChange;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  }
+
+  getRules() {
+    const mandarotyStr = this.mandatory ? "required" : "";
+    return `${mandarotyStr}|${this.rules}`;
+  }
+  componentMetaData(): object {
+    return {
+      componentName: this.componentName,
+      rules: this.getRules(),
+      boundaryClass: this.getBoundaryClass(),
+      props: {
+        key: this.dataSelectorKey,
+        name: this.dataSelectorKey, // todo: check the name functionalities
+        label: this.label,
+        disabled: this.disabled,
+        outlined: this.parentDataProvider.outlined,
+        dense: this.parentDataProvider.dense,
+        onChange: this.onChange,
+      },
+    };
+  }
+}
+
+export class BudgetMetaData implements ComponentMetaDataProvider {
+  // FIXED
+  componentName = "f-budget";
+  // MANDATORY
+  id: string;
+  dataSelectorKey: string;
+  label: string;
+  // OPTIONAL with Default
+  rules: string;
+  colWidth: number;
+  mandatory: boolean;
+  disabled: boolean;
+  onChange: () => void;
+  parentDataProvider: FormChildMetaDataProvider;
+  fieldList: FieldMetaData[] = [];
+
+  constructor({
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    parentDataProvider: FormChildMetaDataProvider;
+    id?: string;
+    dataSelectorKey: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    onChange?: () => void;
+  }) {
+    this.parentDataProvider = parentDataProvider;
+    this.id = !!id ? id : dataSelectorKey;
+    this.dataSelectorKey = dataSelectorKey;
+    this.label = label;
+    this.rules = rules;
+    this.colWidth = colWidth;
+    this.mandatory = mandatory;
+    this.disabled = disabled;
+    this.onChange = onChange;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  }
+
+  getRules() {
+    const mandarotyStr = this.mandatory ? "required" : "";
+    return `${mandarotyStr}|${this.rules}`;
+  }
+
+  addField(field: FieldMetaData) {
+    this.fieldList.push(field);
+    return this;
+  }
+
+  componentMetaData(): object {
+    return {
+      componentName: this.componentName,
+      rules: this.getRules(),
+      boundaryClass: this.getBoundaryClass(),
+      props: {
+        key: this.dataSelectorKey,
+        name: this.dataSelectorKey, // todo: check the name functionalities
+        fieldList: this.fieldList.map((comp: FieldMetaData) =>
+          comp.componentMetaData()
+        ),
+        label: this.label,
+        disabled: this.disabled,
+        outlined: this.parentDataProvider.outlined,
+        dense: this.parentDataProvider.dense,
+        onChange: this.onChange,
+      },
+    };
+  }
+}
+
+export class MiniFormMetaData implements FieldMetaData {
+  // FIXED
+  componentName; // = "f-mini-form";
+  // MANDATORY
+  id: string;
+  dataSelectorKey: string;
+  label: string;
+  // OPTIONAL with Default
+  rules: string;
+  colWidth: number;
+  mandatory: boolean;
+  disabled: boolean;
+  onChange: () => void;
+  parentDataProvider: FormChildMetaDataProvider;
+  fieldList: FieldMetaData[] = [];
+
+  constructor({
+    componentName = "f-mini-form",
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    componentName?: string;
+    parentDataProvider: FormChildMetaDataProvider;
+    id?: string;
+    dataSelectorKey: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    onChange?: () => void;
+  }) {
+    this.componentName = componentName;
+    this.parentDataProvider = parentDataProvider;
+    this.id = !!id ? id : dataSelectorKey;
+    this.dataSelectorKey = dataSelectorKey;
+    this.label = label;
+    this.rules = rules;
+    this.colWidth = colWidth;
+    this.mandatory = mandatory;
+    this.disabled = disabled;
+    this.onChange = onChange;
+  }
+
+  addField(field: FieldMetaData) {
+    this.fieldList.push(field);
+    return this;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  }
+
+  getRules() {
+    const mandarotyStr = this.mandatory ? "required" : "";
+    return `${mandarotyStr}|${this.rules}`;
+  }
+  componentMetaData(): object {
+    return {
+      componentName: this.componentName,
+      rules: this.getRules(),
+      boundaryClass: this.getBoundaryClass(),
+      props: {
+        key: this.dataSelectorKey,
+        name: this.dataSelectorKey, // todo: check the name functionalities
+        fieldList: this.fieldList.map((comp: FieldMetaData) =>
+          comp.componentMetaData()
+        ),
+        label: this.label,
+        disabled: this.disabled,
+        outlined: this.parentDataProvider.outlined,
+        dense: this.parentDataProvider.dense,
+        onChange: this.onChange,
+      },
+    };
   }
 }
 

@@ -20,7 +20,7 @@
                     <component
                       dense
                       :is="field.componentName"
-                      v-model="myForm[field.props.key]"
+                      v-model="formData[field.props.key]"
                       v-bind="field.props"
                       :error-messages="errors"
                     >
@@ -55,7 +55,6 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import {
-  VTextField,
   VSelect,
   VCheckbox,
   VSwitch,
@@ -66,11 +65,19 @@ import {
 } from "vuetify/lib";
 import MiniForm from "@/components/MiniForm.vue";
 import FBtn from "@/components/FBtn.vue";
+import FTextField from "@/components/form/field/FTextField.vue";
+import FNumberField from "@/components/form/field/FNumberField.vue";
+import FSwitch from "@/components/form/field/FSwitch.vue";
+import FAddress from "@/components/form/field/FAddress.vue";
+import FCreditor from "@/components/form/field/FCreditor.vue";
+import FBudget from "@/components/form/field/FBudget.vue";
+import FMiniForm from "@/components/form/field/FMiniForm.vue";
+import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
+
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
-    "v-text-field": VTextField,
     "v-select": VSelect,
     "v-checkbox": VCheckbox,
     "v-switch": VSwitch,
@@ -79,6 +86,14 @@ import FBtn from "@/components/FBtn.vue";
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
     "mini-form": MiniForm,
+    "f-text-field": FTextField,
+    "f-number-field": FNumberField,
+    "f-switch": FSwitch,
+    "f-address": FAddress,
+    "f-creditor": FCreditor,
+    "f-budget": FBudget,
+    "f-mini-form": FMiniForm,
+    "f-mini-form-with-total": FMiniFormWithTotal,
     "f-btn": FBtn,
   },
 })
@@ -97,14 +112,14 @@ export default class FForm extends Vue {
       return [];
     },
   })
-  public fieldList!: object[];
+  public fieldList!: any[];
 
   @Prop({
     default: () => {
       return [];
     },
   })
-  public otherChildren!: object[];
+  public otherChildren!: any[];
 
   @Prop({ default: false })
   disabled: boolean;
@@ -117,29 +132,29 @@ export default class FForm extends Vue {
   })
   public value!: object;
 
-  get myForm() {
+  get formData(): any {
     return this.value;
   }
 
-  set myForm(value) {
+  set formData(value) {
     this.value = value;
   }
 
-  @Watch("myForm")
+  @Watch("formData")
   updateMyForm(value: any, oldValue: any) {
     this.$emit("input", value);
   }
   // TWO WAY BINDING V_MODEL --- END
 
   public mounted() {
-    this.myForm = this.value;
+    this.formData = this.value;
     return;
   }
 
   onSubmit(action: any) {
     (this.$refs[this.formRef] as any).validate().then((success: boolean) => {
       if (success) {
-        action(this.myForm);
+        action(this.formData);
         return;
       } else {
       }

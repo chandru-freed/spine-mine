@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined flat>
+  <v-card color="transparent" flat>
     <v-card-subtitle class="overline py-1">{{ label }}</v-card-subtitle>
     <v-card-text class="pb-0">
       <v-form>
@@ -43,7 +43,7 @@ import {
   VAutocomplete,
   VFileInput,
 } from "vuetify/lib";
-import { Field } from "src-def/form/FormComponentDef";
+// import Field from "src-def/form/FormComponentDef";
 
 @Component({
   components: {
@@ -65,7 +65,7 @@ export default class MiniForm extends Vue {
       return [];
     },
   })
-  public fieldConfigList!: Field[];
+  public fieldConfigList!: any[];
 
   @Prop({ default: "" })
   public name!: string;
@@ -84,7 +84,7 @@ export default class MiniForm extends Vue {
 
   public items = ["", "Foo", "Bar"];
 
-  public myForm = {};
+  public myForm: any = {};
 
   @Watch("myForm")
   updateMyForm(oldValue: any, newValue: any) {
@@ -95,7 +95,7 @@ export default class MiniForm extends Vue {
   async clear() {
     this.myForm = {};
     requestAnimationFrame(() => {
-      this.$refs.fileInfoObs.reset();
+      (this.$refs.fileInfoObs as any).reset();
     });
     return;
   }

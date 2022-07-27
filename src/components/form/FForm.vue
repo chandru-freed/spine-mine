@@ -70,7 +70,6 @@ import FNumberField from "@/components/form/field/FNumberField.vue";
 import FSwitch from "@/components/form/field/FSwitch.vue";
 import FAddress from "@/components/form/field/FAddress.vue";
 import FCreditor from "@/components/form/field/FCreditor.vue";
-import FBudget from "@/components/form/field/FBudget.vue";
 import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
@@ -91,7 +90,6 @@ import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
     "f-switch": FSwitch,
     "f-address": FAddress,
     "f-creditor": FCreditor,
-    "f-budget": FBudget,
     "f-document": FDocument,
     "f-mini-form": FMiniForm,
     "f-mini-form-with-total": FMiniFormWithTotal,

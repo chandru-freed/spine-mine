@@ -593,84 +593,48 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
 }
 
 export class BudgetMetaData implements ComponentMetaDataProvider {
-  // FIXED
   componentName = "f-budget";
-  // MANDATORY
+
   id: string;
-  dataSelectorKey: string;
-  label: string;
-  // OPTIONAL with Default
-  rules: string;
-  colWidth: number;
-  mandatory: boolean;
-  disabled: boolean;
-  onChange: () => void;
-  parentDataProvider: FormChildMetaDataProvider;
-  fieldList: FieldMetaData[] = [];
+  dataSelectorKey?: string;
+  formList: FormMetaData[] = [];
+  actionList: ButtonMetaData[] = [];
+  parentDataProvider: ComponentMetaDataProvider;
 
   constructor({
-    parentDataProvider,
     id,
     dataSelectorKey,
-    label,
-    rules = "",
-    colWidth = 12,
-    mandatory = false,
-    disabled = false,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onChange = () => {},
+    parentDataProvider,
   }: {
-    parentDataProvider: FormChildMetaDataProvider;
-    id?: string;
-    dataSelectorKey: string;
-    label: string;
-    rules?: string;
-    colWidth?: number;
-    mandatory?: boolean;
-    disabled?: boolean;
-    onChange?: () => void;
+    id: string;
+    dataSelectorKey?: string;
+    parentDataProvider: ComponentMetaDataProvider;
   }) {
+    this.id = id;
     this.parentDataProvider = parentDataProvider;
-    this.id = !!id ? id : dataSelectorKey;
     this.dataSelectorKey = dataSelectorKey;
-    this.label = label;
-    this.rules = rules;
-    this.colWidth = colWidth;
-    this.mandatory = mandatory;
-    this.disabled = disabled;
-    this.onChange = onChange;
   }
 
-  getBoundaryClass() {
-    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  addForm(childForm: FormMetaData) {
+    this.formList.push(childForm);
+    return this;
   }
 
-  getRules() {
-    const mandarotyStr = this.mandatory ? "required" : "";
-    return `${mandarotyStr}|${this.rules}`;
-  }
-
-  addField(field: FieldMetaData) {
-    this.fieldList.push(field);
+  addAction(child: ButtonMetaData) {
+    this.actionList.push(child);
     return this;
   }
 
   componentMetaData(): object {
     return {
       componentName: this.componentName,
-      rules: this.getRules(),
-      boundaryClass: this.getBoundaryClass(),
+      parentDataProvider: this.parentDataProvider,
+      id: this.id,
+      dataSelectorKey: this.dataSelectorKey,
       props: {
-        key: this.dataSelectorKey,
-        name: this.dataSelectorKey, // todo: check the name functionalities
-        fieldList: this.fieldList.map((comp: FieldMetaData) =>
-          comp.componentMetaData()
-        ),
-        label: this.label,
-        disabled: this.disabled,
-        outlined: this.parentDataProvider.outlined,
-        dense: this.parentDataProvider.dense,
-        onChange: this.onChange,
+        id: this.id,
+        formComponentMetaDataList: this.formList.map((form) => form.componentMetaData()),
+        actionList: this.actionList.map((action) => action.componentMetaData()),
       },
     };
   }

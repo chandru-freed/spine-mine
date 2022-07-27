@@ -1,6 +1,7 @@
 <template>
   <div class="row justify-center pa-0">
     <div class="col-12">
+      FForm Data : {{formDataComputed}}
       <ValidationObserver :ref="formRef" v-slot="{}">
         <v-card flat color="transparent">
           <v-card-text class="pa-0">
@@ -20,7 +21,7 @@
                     <component
                       dense
                       :is="field.componentName"
-                      v-model="formData[field.props.key]"
+                      v-model="formDataComputed[field.props.key]"
                       v-bind="field.props"
                       :error-messages="errors"
                     >
@@ -63,7 +64,6 @@ import {
   VAutocomplete,
   VFileInput,
 } from "vuetify/lib";
-import MiniForm from "@/components/MiniForm.vue";
 import FBtn from "@/components/FBtn.vue";
 import FTextField from "@/components/form/field/FTextField.vue";
 import FNumberField from "@/components/form/field/FNumberField.vue";
@@ -71,6 +71,7 @@ import FSwitch from "@/components/form/field/FSwitch.vue";
 import FAddress from "@/components/form/field/FAddress.vue";
 import FCreditor from "@/components/form/field/FCreditor.vue";
 import FBudget from "@/components/form/field/FBudget.vue";
+import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
 
@@ -85,13 +86,13 @@ import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
     "v-combobox": VCombobox,
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
-    "mini-form": MiniForm,
     "f-text-field": FTextField,
     "f-number-field": FNumberField,
     "f-switch": FSwitch,
     "f-address": FAddress,
     "f-creditor": FCreditor,
     "f-budget": FBudget,
+    "f-document": FDocument,
     "f-mini-form": FMiniForm,
     "f-mini-form-with-total": FMiniFormWithTotal,
     "f-btn": FBtn,
@@ -132,12 +133,14 @@ export default class FForm extends Vue {
   })
   public value!: object;
 
-  get formData(): any {
-    return this.value;
+  formData = {}
+
+  get formDataComputed(): any {
+    return this.formData;
   }
 
-  set formData(value) {
-    this.value = value;
+  set formDataComputed(value) {
+    this.formData = value;
   }
 
   @Watch("formData")
@@ -148,13 +151,12 @@ export default class FForm extends Vue {
 
   public mounted() {
     this.formData = this.value;
-    return;
   }
 
   onSubmit(action: any) {
     (this.$refs[this.formRef] as any).validate().then((success: boolean) => {
       if (success) {
-        action(this.formData);
+        action(this.formDataComputed);
         return;
       } else {
       }

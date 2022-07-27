@@ -11,6 +11,7 @@
         {{ step.name }}
       </v-stepper-step>
     </v-stepper-header>
+    
 
     <v-stepper-items>
       <v-stepper-content
@@ -20,20 +21,7 @@
         :key="stepIndx"
       >
         <v-card color="grey lighten-5" flat min-height="600">
-          <!-- <v-card-actions class="">
-            <v-btn
-              text
-              small
-              color="secondary"
-              outlined
-              @click="previousStepper"
-              >Previous</v-btn
-            >
-            <v-spacer></v-spacer>
-            <v-btn text small color="secondary" outlined @click="nextStepper"
-              >Next</v-btn
-            >
-          </v-card-actions> -->
+          Stepper Data : {{stepperDataComputed}}
           <v-card-text class="pb-0">
             <template
               v-for="(formComponent, formComponentIndx) in step.props
@@ -44,7 +32,7 @@
                   :ref="formComponent.formRef"
                   :key="formComponentIndx"
                   :is="formComponent.componentName"
-                  v-model="stepperData[formComponent.dataSelectorKey]"
+                  v-model="stepperDataComputed[formComponent.dataSelectorKey]"
                   v-bind="formComponent.props"
                 />
               </template>
@@ -53,8 +41,31 @@
                   :ref="formComponent.formRef"
                   :key="formComponentIndx"
                   :is="formComponent.componentName"
-                  v-model="stepperData"
+                  v-model="stepperDataComputed"
                   v-bind="formComponent.props"
+                />
+              </template>
+            </template>
+            <template
+              v-for="(componentMetaData, componentMetaDataIndx) in step.props
+                .componentList"
+            >
+              <template v-if="!!componentMetaData.dataSelectorKey">
+                <component
+                  :ref="componentMetaData.formRef"
+                  :key="componentMetaDataIndx"
+                  :is="componentMetaData.componentName"
+                  v-model="stepperDataComputed[componentMetaData.dataSelectorKey]"
+                  v-bind="componentMetaData.props"
+                />
+              </template>
+              <template v-if="!componentMetaData.dataSelectorKey">
+                <component
+                  :ref="componentMetaData.formRef"
+                  :key="componentMetaDataIndx"
+                  :is="componentMetaData.componentName"
+                  v-model="stepperDataComputed"
+                  v-bind="componentMetaData.props"
                 />
               </template>
             </template>
@@ -71,20 +82,49 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FForm from "@/components/form/FForm.vue";
 import { StepMetaData } from "@/../src-def/form/FormComponentDef";
+
+import FPaymentPlan from "@/section/spineapp/components/task/enrollment/components/FPaymentPlan.vue";
+
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
     "f-form": FForm,
+    "f-payment-plan": FPaymentPlan
   },
 })
 export default class FStepper extends Vue {
+  
+
+  // V-MODEL START
   @Prop({
     default: () => {
       return {};
     },
   })
   value!: any;
+
+  stepperData: any = {};
+
+  get stepperDataComputed(): any {
+    return this.stepperData;
+  }
+
+  set stepperDataComputed(value) {
+    this.stepperData = value;
+  }
+
+  // WATCH as the MODEL VALUE is a OBJ -
+  // And Fields inside the Object if change does not call set of Computed
+  @Watch("stepperData")
+  updateMyForm(value: any, oldValue: any) {
+    this.$emit("input", value);
+  }
+
+  mounted() {
+    this.stepperData = this.value;
+  }
+  // V-MODEL END
 
   @Prop({
     default: () => {
@@ -99,18 +139,7 @@ export default class FStepper extends Vue {
     return this.stepMetaDataList.map((comp) => comp.componentMetaData());
   }
 
-  get stepperData(): any {
-    return this.value;
-  }
-
-  set stepperData(value: any) {
-    this.value = value;
-  }
-
-  @Watch("stepperData")
-  updateMyForm(value: any, oldValue: any) {
-    this.$emit("input", value);
-  }
+  
 
   nextStepper() {
     this.selectedStep = this.selectedStep + 1;

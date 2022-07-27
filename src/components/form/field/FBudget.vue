@@ -1,5 +1,6 @@
 <template>
   <v-row no-gutters>
+    {{budgetForm}}
     <v-col
       v-for="(field, index) in fieldList"
       :key="index"
@@ -96,6 +97,7 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
+import { timeStamp } from "console";
 
 @Component({
   components: {
@@ -140,9 +142,6 @@ export default class FBudget extends Vue {
     return (!!this.totalSecuredDebtObligation && this.totalIncome) ? (this.totalSecuredDebtObligation * 100 ) / this.totalIncome : 0
   }
 
-  
-
-  
 
   get totalSecuredDebtObligation() {
     const debtRepayments = !!this.modelValue.debtRepayments
@@ -191,15 +190,15 @@ export default class FBudget extends Vue {
   }
 
   set modelValue(value) {
-    if (!!value) {
-      this.budgetForm = value;
-    }
+    this.budgetForm = value;
+    this.budgetForm.incomeSources = value.incomeSources;
   }
 
   // WATCH as the MODEL VALUE is a OBJ -
   // And Fields inside the Object if change does not call set of Computed
   @Watch("budgetForm")
   updateMyForm(value: any, oldValue: any) {
+    console.log(' budget form  emitting ' + value);
     this.$emit("input", value);
   }
 

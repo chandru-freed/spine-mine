@@ -1,32 +1,21 @@
 <template>
   <v-row no-gutters>
-    BudgetData : {{ formDataComputed }}
-    <v-col
-      v-for="(componentMetaData, index) in formComponentMetaDataList"
-      :key="index"
-      :class="componentMetaData.boundaryClass"
-    >
-      <template
-        v-for="(formComponent, formComponentIndx) in formComponentMetaDataList"
-      >
-        <template v-if="!!formComponent.dataSelectorKey">
-          <component
-            :ref="formComponent.formRef"
-            :key="formComponentIndx"
-            :is="formComponent.componentName"
-            v-model="formDataComputed[formComponent.dataSelectorKey]"
-            v-bind="formComponent.props"
-          />
-        </template>
-        <template v-if="!formComponent.dataSelectorKey">
-          <component
-            :ref="formComponent.formRef"
-            :key="formComponentIndx"
-            :is="formComponent.componentName"
-            v-model="formDataComputed"
-            v-bind="formComponent.props"
-          />
-        </template>
+    <v-col :class="formComponentMetaData.boundaryClass">
+      <template v-if="!!formComponentMetaData.dataSelectorKey">
+        <component
+          :ref="formComponentMetaData.formRef"
+          :is="formComponentMetaData.componentName"
+          v-model="formDataComputed[formComponentMetaData.dataSelectorKey]"
+          v-bind="formComponentMetaData.props"
+        />
+      </template>
+      <template v-if="!formComponentMetaData.dataSelectorKey">
+        <component
+          :ref="formComponentMetaData.formRef"
+          :is="formComponentMetaData.componentName"
+          v-model="formDataComputed"
+          v-bind="formComponentMetaData.props"
+        />
       </template>
     </v-col>
     <v-col class="col-12">
@@ -116,7 +105,6 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
 import FForm from "@/components/form/FForm.vue";
 import FBtn from "@/components/FBtn.vue";
 
@@ -124,26 +112,11 @@ import FBtn from "@/components/FBtn.vue";
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
-    "f-mini-form-with-total": FMiniFormWithTotal,
     "f-form": FForm,
     "f-btn": FBtn,
   },
 })
 export default class FBudget extends Vue {
-  @Prop({
-    default: () => {
-      return [];
-    },
-  })
-  public formComponentMetaDataList!: any[];
-
-  @Prop({
-    default: () => {
-      return [];
-    },
-  })
-  public actionList!: any[];
-
   totalAmount(miniBudget: object) {
     return (Object.values(miniBudget) as number[]).reduce<number>(
       (accumulator, obj: number) => {
@@ -206,6 +179,20 @@ export default class FBudget extends Vue {
     );
   }
 
+  @Prop({
+    default: () => {
+      return {};
+    },
+  })
+  public formComponentMetaData!: any;
+
+  @Prop({
+    default: () => {
+      return [];
+    },
+  })
+  public actionList!: any[];
+
   // V-MODEL START
   @Prop({
     default: () => {
@@ -214,7 +201,7 @@ export default class FBudget extends Vue {
   })
   value!: any;
 
-  formData: any = { };
+  formData: any = {};
 
   get formDataComputed(): any {
     return this.formData;
@@ -228,7 +215,6 @@ export default class FBudget extends Vue {
   // And Fields inside the Object if change does not call set of Computed
   @Watch("formData")
   updateMyForm(value: any, oldValue: any) {
-    console.log(" budget form  emitting " + value);
     this.$emit("input", value);
   }
 

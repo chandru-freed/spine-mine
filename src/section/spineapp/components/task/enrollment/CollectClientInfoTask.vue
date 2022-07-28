@@ -25,6 +25,7 @@ import CollectClientInfoTaskStepper from "./components/CollectClientInfoTaskStep
 // import FStepper from "@/components/FStepper.vue";
 import { CollectClientInfoTaskStep1 } from "./CollectClientInfoTaskStep1";
 import { CollectClientInfoTaskStep2 } from "./CollectClientInfoTaskStep2";
+import { CollectClientInfoTaskStep3 } from "./CollectClientInfoTaskStep3";
 import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
 
 import { StepperMetaData } from "@/../src-def/form/FormComponentDef";
@@ -67,7 +68,8 @@ export default class CollectClientInfoTask
       stepperRef: this.rootRef,
       stepMetaDataList: [
         new CollectClientInfoTaskStep1(this).getMetaData(),
-        new CollectClientInfoTaskStep2(this).getMetaData()
+        new CollectClientInfoTaskStep2(this).getMetaData(),
+        new CollectClientInfoTaskStep3(this).getMetaData(),
       ],
     });
   }

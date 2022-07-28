@@ -1,4 +1,36 @@
 
-Create Task:
+Create Form Task:
+  ☐ Task <task_name>Task.vue created copy from an existing one
+  ☐ To add each step
+    ☐ Create <task_name>TaskStep<stepIndex>.ts
+    ☐ import in <task_name>Task.vue and add to the list of stepperMetaData() in <task_name>Task.vue
+    ☐ Define <task_name>TaskStep<stepIndex>.ts usinf FForm and fields
+
+
+Create Custom Task:
+  ☐ Task <task_name>Task.vue created copy from an existing one
+  ☐ Stepper <task_name>Stepper.vue created copy from an existing one
+  ☐ import <task_name>Stepper.vue as a component to <task_name>Task.vue
+  ☐ To add each step
+    ☐ Create - Custom Component for the step <component_name>.vue
+      ☐ Add html and v-model to the component
+    ☐ Add - MetaData Defination for the CustomComponent 
+      ☐ define the props and implement the props in <component_name>.vue
+    ☐ Create <task_name>TaskStep<stepIndex>.ts
+    ☐ import in <task_name>Task.vue and add to the list of stepperMetaData() in <task_name>Task.vue
+    ☐ Define MetaData in <task_name>TaskStep<stepIndex>.ts using CustomComponent 
   
+
+ Create Budget Step:
+  ✔ Task <task_name>Task.vue created copy from an existing one @done (22-07-28 08:24)
+  ✔ Stepper <task_name>Stepper.vue created copy from an existing one @done (22-07-28 08:24)
+  ✔ import <task_name>Stepper.vue as a component to <task_name>Task.vue @done (22-07-28 08:24)
+  ☐ To add each step
+    ☐ Create - Custom Component for the step <component_name>.vue
+      ☐ Add html and v-model to the component
+      ☐ import teh component as a component in <task_name>Stepper.vue
+    ☐ Add - MetaData Defination for the CustomComponent - FormComponentDef.ts
+      ☐ define the props and implement the props in <component_name>.vue
+    ☐ Create <task_name>TaskStep<stepIndex>.ts
+    ☐ Define MetaData in <task_name>TaskStep<stepIndex>.ts using CustomComponent 
   

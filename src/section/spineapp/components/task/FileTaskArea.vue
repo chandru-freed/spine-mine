@@ -49,24 +49,12 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/CollectClientInfoTask.vue";
-import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/ClientInfoVerificationTask.vue";
-import CollectClientInfoCTask from "@/section/spineapp/components/task/enrollment/CollectClientInfoCTask.vue";
-import EMandateTask from "@/section/spineapp/components/task/enrollment/EMandateTask.vue";
-import EMandateCTask from "@/section/spineapp/components/task/enrollment/EMandateCTask.vue";
-import SSADigioTask from "@/section/spineapp/components/task/enrollment/SSADigioTask.vue";
-import SSADigioCTask from "@/section/spineapp/components/task/enrollment/SSADigioCTask.vue";
 import UnderWritingTask from "@/section/spineapp/components/task/enrollment/UnderWritingTask.vue";
 import * as RemoteApiPoint from "@/remote-api-point";
 
 @Component({
   components: {
     CollectClientInfoTask,
-    ClientInfoVerificationTask,
-    CollectClientInfoCTask,
-    EMandateTask,
-    EMandateCTask,
-    SSADigioTask,
-    SSADigioCTask,
     UnderWritingTask,
   },
 })

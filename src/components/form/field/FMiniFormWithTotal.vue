@@ -1,20 +1,24 @@
 <template>
-  <v-card elevation="0" outlined class="my-2">
-    <v-row no-gutters>
-      <v-col class="col-12">
-        <f-mini-form v-model="modelValue" v-bind="$props"></f-mini-form>
-      </v-col>
-      <v-col class="col-12 px-6 pt-0 pb-2">
-        <v-text-field
-          type="number"
-          :label="`TOTAL ${label}`"
-          disabled
-          hide-details
-          v-model="totalAmount"
-          v-bind="$props"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+  <v-card
+    class="d-flex align-start flex-column mb-6"
+    elevation="0"
+    outlined
+    :min-height="`${minHeight}px`"
+  >
+    <div class="mb-auto pa-0">
+      <f-mini-form v-model="modelValue" v-bind="$props"></f-mini-form>
+    </div>
+
+    <div class="d-flex col-12 pa-2">
+      <v-text-field
+        type="number"
+        :label="`TOTAL ${label}`"
+        disabled
+        hide-details
+        v-model="totalAmount"
+        v-bind="$props"
+      ></v-text-field>
+    </div>
   </v-card>
 </template>
 
@@ -39,6 +43,9 @@ export default class FMiniFormWithTotal extends FMiniForm {
       0
     );
   }
+
+  @Prop()
+  minHeight: number;
 
   // V-MODEL START
   @Prop({

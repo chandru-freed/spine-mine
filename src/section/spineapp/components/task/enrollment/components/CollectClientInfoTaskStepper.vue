@@ -55,6 +55,7 @@ import FForm from "@/components/form/FForm.vue";
 import { StepMetaData } from "@/../src-def/form/FormComponentDef";
 
 import FCreditor from "@/section/spineapp/components/task/enrollment/components/FCreditor.vue";
+import FBudget from "@/section/spineapp/components/task/enrollment/components/FBudget.vue";
 
 @Component({
   components: {
@@ -62,6 +63,7 @@ import FCreditor from "@/section/spineapp/components/task/enrollment/components/
     ValidationProvider: ValidationProvider,
     "f-form": FForm,
     "f-creditor": FCreditor,
+    "f-budget": FBudget 
   },
 })
 export default class FStepper extends Vue {

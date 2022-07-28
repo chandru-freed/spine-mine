@@ -156,7 +156,7 @@ export class TextFieldMetaData implements FieldMetaData {
   mandatory: boolean;
   disabled: boolean;
   mask: string;
-  placeholder: string
+  placeholder: string;
   onChange: () => void;
   parentDataProvider: FormChildMetaDataProvider;
 
@@ -185,7 +185,7 @@ export class TextFieldMetaData implements FieldMetaData {
     mandatory?: boolean;
     disabled?: boolean;
     mask?: string;
-    placeholder?: string
+    placeholder?: string;
     onChange?: () => void;
   }) {
     this.parentDataProvider = parentDataProvider;
@@ -448,7 +448,7 @@ export class SelectFieldMetaData implements FieldMetaData {
   mask: string;
   onChange: () => void;
   parentDataProvider: FormChildMetaDataProvider;
-  options: any[]
+  options: any[];
 
   constructor({
     parentDataProvider,
@@ -462,7 +462,7 @@ export class SelectFieldMetaData implements FieldMetaData {
     mask = "",
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onChange = () => {},
-    options = []
+    options = [],
   }: {
     parentDataProvider: FormChildMetaDataProvider;
     id?: string;
@@ -474,7 +474,7 @@ export class SelectFieldMetaData implements FieldMetaData {
     disabled?: boolean;
     mask?: string;
     onChange?: () => void;
-    options: any[]
+    options: any[];
   }) {
     this.parentDataProvider = parentDataProvider;
     this.id = !!id ? id : dataSelectorKey;
@@ -486,7 +486,7 @@ export class SelectFieldMetaData implements FieldMetaData {
     this.disabled = disabled;
     this.mask = mask;
     this.onChange = onChange;
-    this.options = options
+    this.options = options;
   }
 
   getBoundaryClass() {
@@ -511,7 +511,7 @@ export class SelectFieldMetaData implements FieldMetaData {
         dense: this.parentDataProvider.dense,
         mask: this.mask,
         onChange: this.onChange,
-        items: this.options
+        items: this.options,
       },
     };
   }
@@ -606,6 +606,7 @@ export class MiniFormMetaData implements FieldMetaData {
   onChange: () => void;
   parentDataProvider: FormChildMetaDataProvider;
   fieldList: FieldMetaData[] = [];
+  minHeight: number
 
   constructor({
     componentName = "f-mini-form",
@@ -617,6 +618,7 @@ export class MiniFormMetaData implements FieldMetaData {
     colWidth = 12,
     mandatory = false,
     disabled = false,
+    minHeight = 10,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onChange = () => {},
   }: {
@@ -629,6 +631,7 @@ export class MiniFormMetaData implements FieldMetaData {
     colWidth?: number;
     mandatory?: boolean;
     disabled?: boolean;
+    minHeight?: number;
     onChange?: () => void;
   }) {
     this.componentName = componentName;
@@ -640,6 +643,7 @@ export class MiniFormMetaData implements FieldMetaData {
     this.colWidth = colWidth;
     this.mandatory = mandatory;
     this.disabled = disabled;
+    this.minHeight = minHeight;
     this.onChange = onChange;
   }
 
@@ -671,6 +675,7 @@ export class MiniFormMetaData implements FieldMetaData {
         disabled: this.disabled,
         outlined: this.parentDataProvider.outlined,
         dense: this.parentDataProvider.dense,
+        minHeight: this.minHeight,
         onChange: this.onChange,
       },
     };
@@ -742,11 +747,10 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
   dataSelectorKey?: string;
   // OPTIONAL with Default
   disabled: boolean;
-  addCreditorFormMetaData: FormMetaData
-  editCreditorFormMetaData: FormMetaData
-  actionList: ButtonMetaData[] = []
+  addCreditorFormMetaData: FormMetaData;
+  editCreditorFormMetaData: FormMetaData;
+  actionList: ButtonMetaData[] = [];
   onChange: () => void;
-  
 
   constructor({
     id,
@@ -755,25 +759,25 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
     editCreditorFormMetaData,
     disabled = false,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onChange = () => {}
+    onChange = () => {},
   }: {
     id: string;
     dataSelectorKey?: string;
-    addCreditorFormMetaData: FormMetaData,
-    editCreditorFormMetaData: FormMetaData,
+    addCreditorFormMetaData: FormMetaData;
+    editCreditorFormMetaData: FormMetaData;
     disabled?: boolean;
-    onChange?: () => void; 
+    onChange?: () => void;
   }) {
     this.id = id;
     this.dataSelectorKey = dataSelectorKey;
     this.addCreditorFormMetaData = addCreditorFormMetaData;
     this.editCreditorFormMetaData = editCreditorFormMetaData;
     this.disabled = disabled;
-    this.onChange = onChange
+    this.onChange = onChange;
   }
 
   addAction(action: ButtonMetaData) {
-    this.actionList.push(action)
+    this.actionList.push(action);
   }
 
   componentMetaData(): object {
@@ -784,43 +788,43 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
         id: this.id,
         key: this.dataSelectorKey,
         disabled: this.disabled,
-        addCreditorFormComponentMetaData: this.addCreditorFormMetaData.componentMetaData(),
-        editCreditorFormComponentMetaData: this.editCreditorFormMetaData.componentMetaData(),
-        actionComponentMetaDataList: this.actionList.map((comp: ButtonMetaData) =>
-          comp.componentMetaData()
+        addCreditorFormComponentMetaData:
+          this.addCreditorFormMetaData.componentMetaData(),
+        editCreditorFormComponentMetaData:
+          this.editCreditorFormMetaData.componentMetaData(),
+        actionComponentMetaDataList: this.actionList.map(
+          (comp: ButtonMetaData) => comp.componentMetaData()
         ),
-        onChange: this.onChange
+        onChange: this.onChange,
       },
     };
   }
 }
-/*
+
 export class BudgetMetaData implements ComponentMetaDataProvider {
   componentName = "f-budget";
 
   id: string;
   dataSelectorKey?: string;
-  formList: FormMetaData[] = [];
+  formMetaData: FormMetaData;
   actionList: ButtonMetaData[] = [];
-  parentDataProvider: ComponentMetaDataProvider;
+  disabled:boolean;
 
   constructor({
     id,
     dataSelectorKey,
-    parentDataProvider,
+    formMetaData,
+    disabled = false,
   }: {
     id: string;
     dataSelectorKey?: string;
-    parentDataProvider: ComponentMetaDataProvider;
+    formMetaData: FormMetaData;
+    disabled: boolean;
   }) {
     this.id = id;
-    this.parentDataProvider = parentDataProvider;
     this.dataSelectorKey = dataSelectorKey;
-  }
-
-  addForm(childForm: FormMetaData) {
-    this.formList.push(childForm);
-    return this;
+    this.formMetaData = formMetaData;
+    this.disabled = disabled;
   }
 
   addAction(child: ButtonMetaData) {
@@ -831,18 +835,19 @@ export class BudgetMetaData implements ComponentMetaDataProvider {
   componentMetaData(): object {
     return {
       componentName: this.componentName,
-      parentDataProvider: this.parentDataProvider,
       id: this.id,
       dataSelectorKey: this.dataSelectorKey,
       props: {
         id: this.id,
-        formComponentMetaDataList: this.formList.map((form) => form.componentMetaData()),
+        formComponentMetaData: this.formMetaData.componentMetaData(),
         actionList: this.actionList.map((action) => action.componentMetaData()),
+        disabled: this.disabled
       },
     };
   }
 }
 
+/*
 export class DocumentMetaData implements ComponentMetaDataProvider {
   // FIXED
   componentName = "f-document";

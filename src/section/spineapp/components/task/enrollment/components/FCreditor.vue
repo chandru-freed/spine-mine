@@ -6,7 +6,6 @@
           <v-card-text class="pb-0">
             <component
               :ref="addCreditorFormComponentMetaData.formRef"
-              :key="addCreditorFormComponentMetaData.key"
               :is="addCreditorFormComponentMetaData.componentName"
               v-model="addCreditorFormData"
               v-bind="addCreditorFormComponentMetaData.props"
@@ -35,7 +34,6 @@
           <v-card-text class="pb-0">
             <component
               :ref="editCreditorFormComponentMetaData.formRef"
-              :key="editCreditorFormComponentMetaData.key"
               :is="editCreditorFormComponentMetaData.componentName"
               v-model="editCreditorFormData"
               v-bind="editCreditorFormComponentMetaData.props"
@@ -162,7 +160,7 @@
             {{ deleteCreditorFormData.debtType }}
           </v-col>
         </v-row>
-        <v-row no-gutters >
+        <v-row no-gutters>
           <v-col>
             <v-btn color="error " text @click="closeAndClearForm">
               Cancel
@@ -202,10 +200,19 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon :disabled="disabled" small class="mr-2" @click="selectEditCreditor(item)">
+            <v-icon
+              :disabled="disabled"
+              small
+              class="mr-2"
+              @click="selectEditCreditor(item)"
+            >
               mdi-pencil
             </v-icon>
-            <v-icon :disabled="disabled" small @click="selectDeleteCreditor(item)">
+            <v-icon
+              :disabled="disabled"
+              small
+              @click="selectDeleteCreditor(item)"
+            >
               mdi-delete
             </v-icon>
           </template>
@@ -267,11 +274,9 @@ export default class FCreditor extends Vue {
     { text: "Actions", value: "actions" },
   ];
 
-
   addCreditorFormData: any = {};
   editCreditorFormData: any = {};
   deleteCreditorFormData: any = {};
-
 
   showAddForm() {
     this.addDialog = true;
@@ -385,12 +390,11 @@ export default class FCreditor extends Vue {
   })
   actionComponentMetaDataList!: any;
 
-
-  @Prop({default : false})
+  @Prop({ default: false })
   disabled!: boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  @Prop({default : () => {}})
+  @Prop({ default: () => {} })
   onChange!: () => void;
 
   // V-MODEL START

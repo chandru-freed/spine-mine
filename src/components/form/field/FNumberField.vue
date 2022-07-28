@@ -1,5 +1,5 @@
 <template>
-  <v-text-field type="number" v-model="modelValue" v-bind="$props" @change="onChange"></v-text-field>
+  <v-text-field v-mask="mask"  type="number" v-model="modelValue" v-bind="$props" @change="onChange"></v-text-field>
 </template>
 
 <script lang="ts">
@@ -15,6 +15,8 @@ export default class FNumberField extends VTextField {
   @Prop()
   onChange: () => void;
 
+   @Prop({default: ""})
+  mask: string;
 
 
 

@@ -27,146 +27,42 @@ export class CollectClientInfoTaskStep2 {
 
   saveProfile = () => {
     const fFormRef = this.getFormRef();
-    fFormRef.onSubmit((profileForm: any) => {
+    fFormRef.onSubmit((form: any) => {
       this.root.saveTask();
     });
   };
 
   saveAndSync = () => {
     const fFormRef = this.getFormRef();
-    fFormRef.onSubmit((profileForm: any) => {
+    fFormRef.onSubmit((form: any) => {
       this.root.saveTask();
     });
   };
 
+
+
+  addFormRefStr = "addCreditorFormRef";
+  addCreditorFunc = () => {
+    console.log(this);
+    console.log(this.root);
+    console.log(this.root.$refs);
+    const addFormRef = (this.root.$refs["creditorRef"]! as any).$refs[
+      this.addFormRefStr
+    ][0]
+    addFormRef.onSubmit((form: any) => {
+      // this.fCreditor.addCreditor();
+    });
+  };
+
   getMetaData(): StepMetaData {
-    const addCreditorFormMetaData = new FormMetaData({
-      id: "addCreditorForm",
-      formRef: this.formRefStr,
-      dataSelectorKey: "addCreditorForm",
-      disabled: this.root.formDisabled,
-    });
-
-    addCreditorFormMetaData
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "creditor",
-          label: "Creditor",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new NumberFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "creditorBalance",
-          label: "Creditor Balance",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "lastDateOfPayment",
-          label: "Last Date Of Payment",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-          mask:"##/##/####",
-          placeholder: "dd/mm/yyyy"
-        })
-      )
-      .addField(
-        new SelectFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "debtType",
-          label: "Debt Type",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-          options: ["Credit Card", "Personal Loans", "Secured", "Others"],
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "accountNumber",
-          label: "Account Number",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-        })
-      );
-
-    const editCreditorFormMetaData = new FormMetaData({
-      id: "editCreditorForm",
-      formRef: this.formRefStr,
-      dataSelectorKey: "editCreditorForm",
-      disabled: this.root.formDisabled,
-    });
-
-    editCreditorFormMetaData
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "creditor",
-          label: "Creditor",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new NumberFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "creditorBalance",
-          label: "Creditor Balance",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "lastDateOfPayment",
-          label: "Last Date Of Payment",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-        })
-      )
-      .addField(
-        new SelectFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "debtType",
-          label: "Debt Type",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-          options: ["Credit Card", "Personal Loans", "Secured", "Others"],
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "accountNumber",
-          label: "Account Number",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-        })
-      );
+    
 
     const creditorComponent = new CreditorMetaData({
+      root: this.root,
       id: "creditorList",
       dataSelectorKey: "creditorList",
-      addCreditorFormMetaData: addCreditorFormMetaData,
-      editCreditorFormMetaData: editCreditorFormMetaData,
+      // addCreditorFormMetaData: addCreditorFormMetaData,
+      // editCreditorFormMetaData: editCreditorFormMetaData,
       disabled: this.root.formDisabled,
       onChange: this.root.saveTask // directly calling as there is no form validation.
     });

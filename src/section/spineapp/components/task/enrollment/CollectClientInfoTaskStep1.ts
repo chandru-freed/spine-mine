@@ -6,6 +6,7 @@ import {
   EmailFieldMetaData,
   AddressMetaData,
   ComponentMetaDataProvider,
+  TextareaMetaData,
 } from "@/../src-def/form/FormComponentDef";
 
 import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
@@ -143,6 +144,14 @@ export class CollectClientInfoTaskStep1 {
           label: "Address",
           mandatory: true,
           colWidth: 12,
+        })
+      )
+      .addField(
+        new TextareaMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "description",
+          label: "Description",
+          colWidth: 6,
         })
       )
       .addOtherChild(

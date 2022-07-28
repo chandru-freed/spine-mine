@@ -1,150 +1,75 @@
 <template>
   <v-row>
     <v-col class="col-12" v-if="addDialog">
-      <ValidationObserver :ref="addCreditorFormRef" v-slot="{}">
-        <v-card outlined flat>
-          <v-card-text class="pb-0">
+      <v-card outlined flat>
+        <v-card-text class="pb-0">
+          <ValidationObserver
+             key="addCreditorFormDataV"
+            :ref="addCreditorFormComponentMetaData.formRef"
+          >
             <component
+              key="addCreditorFormData"
               :ref="addCreditorFormComponentMetaData.formRef"
               :is="addCreditorFormComponentMetaData.componentName"
               v-model="addCreditorFormData"
               v-bind="addCreditorFormComponentMetaData.props"
             ></component>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary " text @click="closeAndClearForm">
-              Cancel
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              outlined
-              color="primary "
-              @click="submitAddCreditor(addCreditor)"
-            >
-              Add
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </ValidationObserver>
+          </ValidationObserver>
+          <!-- <component
+              key="addCreditorFormData"
+              :ref="addCreditorFormMetaData.formRef"
+              :is="addCreditorFormMetaData.componentName"
+              v-model="addCreditorFormData"
+              v-bind="addCreditorFormMetaData.props"
+            ></component> -->
+        </v-card-text>
+        <!-- <v-card-actions>
+          <v-btn color="primary " text @click="closeAndClearForm">
+            Cancel
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            outlined
+            color="primary "
+            @click="submitAddCreditor(addCreditor)"
+          >
+            Add
+          </v-btn>
+        </v-card-actions> -->
+      </v-card>
     </v-col>
 
     <v-col class="col-12" v-if="editDialog">
-      <ValidationObserver :ref="editCreditorFormRef" v-slot="{}">
-        <v-card outlined flat>
-          <v-card-text class="pb-0">
-            <component
-              :ref="editCreditorFormComponentMetaData.formRef"
-              :is="editCreditorFormComponentMetaData.componentName"
-              v-model="editCreditorFormData"
-              v-bind="editCreditorFormComponentMetaData.props"
-            ></component>
-            <!-- <v-form>
-              <v-row no-gutters>
-                <v-col class="col-6 px-2">
-                  <ValidationProvider
-                    vid="creditor"
-                    name="Creditor"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="editCreditorFormData.creditor"
-                      label="Creditor"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-6 px-2">
-                  <ValidationProvider
-                    vid="creditorBalance"
-                    name="Creditor Balance"
-                    rules="required|positive"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      type="number"
-                      v-model="editCreditorFormData.creditorBalance"
-                      label="Creditor Balance"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-4 px-2">
-                  <ValidationProvider
-                    vid="lastDateOfPayment"
-                    name="Last Date Of Payment"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="editCreditorFormData.lastDateOfPayment"
-                      label="Last Date Of Payment"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-4 px-2">
-                  <ValidationProvider
-                    vid="debtType"
-                    name="Debt Type"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-select
-                      v-model="editCreditorFormData.debtType"
-                      label="Debt Type"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                      :items="[
-                        'Credit Card',
-                        'Personal Loans',
-                        'Secured',
-                        'Others',
-                      ]"
-                    ></v-select>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-4 px-2">
-                  <ValidationProvider
-                    vid="accountNumber"
-                    name="Account Number"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="editCreditorFormData.accountNumber"
-                      label="Account Number"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-              </v-row>
-            </v-form> -->
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary " text @click="closeAndClearForm">
-              Cancel
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              outlined
-              color="primary "
-              @click="submitEditCreditor(editCreditor)"
-            >
-              Update
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </ValidationObserver>
+      <v-card outlined flat>
+        <v-card-text class="pb-0">
+          <ValidationObserver
+          key="editCreditorFormDataV"
+            :ref="editCreditorFormComponentMetaData.formRef"
+          >
+          <component
+            key="editCreditorFormData"
+            :ref="editCreditorFormComponentMetaData.formRef"
+            :is="editCreditorFormComponentMetaData.componentName"
+            v-model="editCreditorFormData"
+            v-bind="editCreditorFormComponentMetaData.props"
+          ></component>
+          </ValidationObserver>
+
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary " text @click="closeAndClearForm">
+            Cancel
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            outlined
+            color="primary "
+            @click="submitEditCreditor(editCreditor)"
+          >
+            Update
+          </v-btn>
+        </v-card-actions>
+      </v-card>
     </v-col>
     <v-col v-if="deleteDialog">
       <v-alert text color="error">
@@ -245,6 +170,7 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FForm from "@/components/form/FForm.vue";
 import FBtn from "@/components/FBtn.vue";
+import { ButtonMetaData, FormMetaData, NumberFieldMetaData, SelectFieldMetaData, TextFieldMetaData } from "@/../src-def/form/FormComponentDef";
 
 @Component({
   components: {
@@ -255,6 +181,7 @@ import FBtn from "@/components/FBtn.vue";
   },
 })
 export default class FCreditor extends Vue {
+  creditorRef = "fCreditorRef"
   //dialogs
   addDialog = false;
   editDialog = false;
@@ -279,9 +206,11 @@ export default class FCreditor extends Vue {
   deleteCreditorFormData: any = {};
 
   showAddForm() {
-    this.addDialog = true;
+    this.addCreditorFormData = {};
+
     this.editDialog = false;
     this.deleteDialog = false;
+    this.addDialog = true;
   }
 
   showEditForm() {
@@ -305,10 +234,18 @@ export default class FCreditor extends Vue {
     this.deleteCreditorFormData = {};
   }
 
-  addCreditor(form: any) {
+  addCreditor() {
     this.creditorList.push(this.addCreditorFormData);
     // this.onChange();// calling saveTask
     this.closeAndClearForm();
+  }
+
+  selectEditCreditor(item: any) {
+    this.editCreditorFormData = {
+      id: this.creditorList.indexOf(item),
+      ...item,
+    };
+    this.showEditForm();
   }
 
   editCreditor(form: any) {
@@ -320,45 +257,29 @@ export default class FCreditor extends Vue {
     this.closeAndClearForm();
   }
 
+  selectDeleteCreditor(item: any) {
+    this.deleteCreditorFormData = {
+      id: this.creditorList.indexOf(item),
+      ...item,
+    };
+    this.showDeleteForm();
+  }
+
   deleteCreditor() {
     this.creditorList.splice(this.deleteCreditorFormData.id, 1);
     // this.onChange();// calling saveTask
     this.closeAndClearForm();
   }
 
-  selectDeleteCreditor(item: any) {
-    this.deleteCreditorFormData = {
-      id: this.creditorList.indexOf(item),
-      ...item,
-    };
-    this.deleteDialog = true;
-  }
-
-  selectEditCreditor(item: any) {
-    this.editCreditorFormData = {
-      id: this.creditorList.indexOf(item),
-      ...item,
-    };
-    this.showEditForm();
-  }
-
-  addCreditorFormRef = "addCreditorForm";
-  editCreditorFormRef = "editCreditorForm";
-
-  submitAddCreditor(action: any) {
-    (this.$refs[this.addCreditorFormRef] as any)
-      .validate()
-      .then((success: boolean) => {
-        if (success) {
-          action(this.creditorListComputed);
-          return;
-        } else {
-        }
-      });
+  submitAddCreditor() {
+    (this.$refs[this.addCreditorFormMetaData.formRef] as any).onSubmit((form: any) => {
+      this.addCreditor();
+    });
+     
   }
 
   submitEditCreditor(action: any) {
-    (this.$refs[this.editCreditorFormRef] as any)
+    (this.$refs[this.editCreditorFormComponentMetaData.formRef] as any)
       .validate()
       .then((success: boolean) => {
         if (success) {
@@ -427,5 +348,80 @@ export default class FCreditor extends Vue {
       !!this.value && this.value.length >= 0 ? this.value : [];
   }
   // V-MODEL END
+
+  addFormRefStr = "addCreditorFormRef"
+
+  get addCreditorFormMetaData(): any {
+    const addCreditorFormMetaData = new FormMetaData({
+      id: "addCreditorForm",
+      formRef: this.addFormRefStr,
+      dataSelectorKey: "addCreditorForm",
+    });
+
+    addCreditorFormMetaData
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "creditor",
+          label: "Creditor",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new NumberFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "creditorBalance",
+          label: "Creditor Balance",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "lastDateOfPayment",
+          label: "Last Date Of Payment",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+          mask: "##/##/####",
+          placeholder: "dd/mm/yyyy",
+        })
+      )
+      .addField(
+        new SelectFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "debtType",
+          label: "Debt Type",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+          options: ["Credit Card", "Personal Loans", "Secured", "Others"],
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "accountNumber",
+          label: "Account Number",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+        })
+      )
+      .addOtherChild(
+        new ButtonMetaData({
+          id: "addCreditorBtn",
+          label: "Add",
+          outlined: true,
+          onClick: this.submitAddCreditor, // TODO : How to call with validation.
+        })
+      );
+
+    return addCreditorFormMetaData.componentMetaData();
+  }
 }
 </script>

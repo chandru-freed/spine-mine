@@ -1,22 +1,19 @@
 <template>
-  <v-text-field v-mask="mask" v-model="modelValue" v-bind="$props" @change="onChange"></v-text-field>
+  <v-autocomplete v-model="modelValue" v-bind="$props" @change="onChange"></v-autocomplete>
 </template>
 
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
-import { VTextField } from "vuetify/lib";
+import { VAutocomplete } from "vuetify/lib";
 @Component({
   components: {
-    "v-text-field": VTextField,
+    "v-autocomplete": VAutocomplete,
   },
 })
-export default class FTextField extends VTextField {
+export default class FAutocomplete extends VAutocomplete {
   
   @Prop()
   onChange: () => void;
-
-  @Prop({default: ""})
-  mask: string;
 
 
 

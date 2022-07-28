@@ -1,5 +1,8 @@
 // Decision
 
+import CollectClientInfoTaskInf from "@/section/spineapp/components/task/enrollment/CollectClientInfoTaskInf";
+import FCreditorInf from "@/section/spineapp/components/task/enrollment/components/FCreditorInf";
+
 /*
 Where metadata can come from
 - HardCode in Field
@@ -357,6 +360,84 @@ export class EmailFieldMetaData extends TextFieldMetaData {
   }
 }
 
+export class TextareaMetaData implements FieldMetaData {
+  // FIXED
+  componentName = "f-textarea";
+  // MANDATORY
+  id: string;
+  dataSelectorKey: string;
+  label: string;
+  // OPTIONAL with Default
+  rules: string;
+  colWidth: number;
+  mandatory: boolean;
+  disabled: boolean;
+  placeholder: string;
+  onChange: () => void;
+  parentDataProvider: FormChildMetaDataProvider;
+
+  constructor({
+    parentDataProvider,
+    id,
+    dataSelectorKey,
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    placeholder = "",
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    parentDataProvider: FormChildMetaDataProvider;
+    id?: string;
+    dataSelectorKey: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    placeholder?: string;
+    onChange?: () => void;
+  }) {
+    this.parentDataProvider = parentDataProvider;
+    this.id = !!id ? id : dataSelectorKey;
+    this.dataSelectorKey = dataSelectorKey;
+    this.label = label;
+    this.rules = rules;
+    this.colWidth = colWidth;
+    this.mandatory = mandatory;
+    this.disabled = disabled;
+    this.placeholder = placeholder;
+    this.onChange = onChange;
+  }
+
+  getBoundaryClass() {
+    return `col-${this.colWidth} ${this.parentDataProvider.padding}`;
+  }
+
+  getRules() {
+    const mandarotyStr = this.mandatory ? "required" : "";
+    return `${mandarotyStr}|${this.rules}`;
+  }
+  componentMetaData(): object {
+    return {
+      componentName: this.componentName,
+      rules: this.getRules(),
+      boundaryClass: this.getBoundaryClass(),
+      props: {
+        key: this.dataSelectorKey,
+        name: this.dataSelectorKey, // todo: check the name functionalities
+        label: this.label,
+        disabled: this.disabled,
+        outlined: this.parentDataProvider.outlined,
+        dense: this.parentDataProvider.dense,
+        onChange: this.onChange,
+      },
+    };
+  }
+}
+
 export class SwitchMetaData implements FieldMetaData {
   // FIXED
   componentName = "f-switch";
@@ -606,7 +687,7 @@ export class MiniFormMetaData implements FieldMetaData {
   onChange: () => void;
   parentDataProvider: FormChildMetaDataProvider;
   fieldList: FieldMetaData[] = [];
-  minHeight: number
+  minHeight: number;
 
   constructor({
     componentName = "f-mini-form",
@@ -739,39 +820,38 @@ export class ButtonMetaData implements ComponentMetaDataProvider {
 }
 
 export class CreditorMetaData implements ComponentMetaDataProvider {
+  root: CollectClientInfoTaskInf;
+  fCreditor: FCreditorInf;
   // FIXED
   componentName = "f-creditor";
+  componentRef = "creditorRef";
+
   // MANDATORY
   id: string;
   // OPTIONAL
   dataSelectorKey?: string;
   // OPTIONAL with Default
   disabled: boolean;
-  addCreditorFormMetaData: FormMetaData;
-  editCreditorFormMetaData: FormMetaData;
   actionList: ButtonMetaData[] = [];
   onChange: () => void;
 
   constructor({
+    root,
     id,
     dataSelectorKey,
-    addCreditorFormMetaData,
-    editCreditorFormMetaData,
     disabled = false,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onChange = () => {},
   }: {
+    root: CollectClientInfoTaskInf,
     id: string;
     dataSelectorKey?: string;
-    addCreditorFormMetaData: FormMetaData;
-    editCreditorFormMetaData: FormMetaData;
     disabled?: boolean;
     onChange?: () => void;
   }) {
+    this.root = root;
     this.id = id;
     this.dataSelectorKey = dataSelectorKey;
-    this.addCreditorFormMetaData = addCreditorFormMetaData;
-    this.editCreditorFormMetaData = editCreditorFormMetaData;
     this.disabled = disabled;
     this.onChange = onChange;
   }
@@ -780,24 +860,177 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
     this.actionList.push(action);
   }
 
+  addFormRefStr = "addCreditorFormRef";
+
+  getAddFormRef() {
+    console.log(this.root.$refs);
+    console.log(this.root.$refs[this.root.rootRef]);
+    return (this.root.$refs[this.root.rootRef]! as any).$refs[
+      this.componentRef
+    ][0];
+  }
+
+  addCreditorFunc = () => {
+    this.getAddFormRef().onSubmit((form: any) => {
+      this.fCreditor.addCreditor();
+    });
+  };
+
   componentMetaData(): object {
+    const addFormMetaData = this.getAddCreditorFormMetaData();
+    const editFormMetaData = this.getEditCreditorFormMetaData();
     return {
+      ref: this.componentRef,
       componentName: this.componentName,
       dataSelectorKey: this.dataSelectorKey,
       props: {
         id: this.id,
         key: this.dataSelectorKey,
         disabled: this.disabled,
-        addCreditorFormComponentMetaData:
-          this.addCreditorFormMetaData.componentMetaData(),
-        editCreditorFormComponentMetaData:
-          this.editCreditorFormMetaData.componentMetaData(),
+        addCreditorFormComponentMetaData: addFormMetaData.componentMetaData(),
+        editCreditorFormComponentMetaData: editFormMetaData.componentMetaData(),
         actionComponentMetaDataList: this.actionList.map(
           (comp: ButtonMetaData) => comp.componentMetaData()
         ),
         onChange: this.onChange,
       },
     };
+  }
+
+  getAddCreditorFormMetaData(): FormMetaData {
+    const addCreditorFormMetaData = new FormMetaData({
+      id: "addCreditorForm",
+      formRef: this.addFormRefStr,
+      dataSelectorKey: "addCreditorForm",
+    });
+
+    addCreditorFormMetaData
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "creditor",
+          label: "Creditor",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new NumberFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "creditorBalance",
+          label: "Creditor Balance",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "lastDateOfPayment",
+          label: "Last Date Of Payment",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+          mask: "##/##/####",
+          placeholder: "dd/mm/yyyy",
+        })
+      )
+      .addField(
+        new SelectFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "debtType",
+          label: "Debt Type",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+          options: ["Credit Card", "Personal Loans", "Secured", "Others"],
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: addCreditorFormMetaData,
+          dataSelectorKey: "accountNumber",
+          label: "Account Number",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+        })
+      )
+      .addOtherChild(
+        new ButtonMetaData({
+          id: "addCreditorBtn",
+          label: "Cancel",
+          outlined: true,
+          onClick: this.addCreditorFunc, // TODO : How to call with validation.
+        })
+      );
+
+    return addCreditorFormMetaData;
+  }
+
+  getEditCreditorFormMetaData(): FormMetaData {
+    const formRefStr = "editCreaditorFormRef";
+    const editCreditorFormMetaData = new FormMetaData({
+      id: "editCreditorForm",
+      formRef: formRefStr,
+      dataSelectorKey: "editCreditorForm",
+    });
+
+    editCreditorFormMetaData
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: editCreditorFormMetaData,
+          dataSelectorKey: "creditor",
+          label: "Creditor",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new NumberFieldMetaData({
+          parentDataProvider: editCreditorFormMetaData,
+          dataSelectorKey: "creditorBalance",
+          label: "Creditor Balance",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: editCreditorFormMetaData,
+          dataSelectorKey: "lastDateOfPayment",
+          label: "Last Date Of Payment",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+        })
+      )
+      .addField(
+        new SelectFieldMetaData({
+          parentDataProvider: editCreditorFormMetaData,
+          dataSelectorKey: "debtType",
+          label: "Debt Type",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+          options: ["Credit Card", "Personal Loans", "Secured", "Others"],
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: editCreditorFormMetaData,
+          dataSelectorKey: "accountNumber",
+          label: "Account Number",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+        })
+      );
+    return editCreditorFormMetaData;
   }
 }
 
@@ -808,7 +1041,7 @@ export class BudgetMetaData implements ComponentMetaDataProvider {
   dataSelectorKey?: string;
   formMetaData: FormMetaData;
   actionList: ButtonMetaData[] = [];
-  disabled:boolean;
+  disabled: boolean;
 
   constructor({
     id,
@@ -841,7 +1074,7 @@ export class BudgetMetaData implements ComponentMetaDataProvider {
         id: this.id,
         formComponentMetaData: this.formMetaData.componentMetaData(),
         actionList: this.actionList.map((action) => action.componentMetaData()),
-        disabled: this.disabled
+        disabled: this.disabled,
       },
     };
   }

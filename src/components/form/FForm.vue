@@ -23,7 +23,6 @@
                       :is="field.componentName"
                       v-model="formDataComputed[field.props.key]"
                       v-bind="field.props"
-                      v-mask="field.props.mask"
                       :error-messages="errors"
                     >
                     </component>
@@ -67,6 +66,7 @@ import {
 } from "vuetify/lib";
 import FBtn from "@/components/FBtn.vue";
 import FTextField from "@/components/form/field/FTextField.vue";
+import FTextarea from "@/components/form/field/FTextarea.vue";
 import FNumberField from "@/components/form/field/FNumberField.vue";
 import FSwitch from "@/components/form/field/FSwitch.vue";
 import FSelect from "@/components/form/field/FSelect.vue";
@@ -87,6 +87,7 @@ import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
     "f-text-field": FTextField,
+    "f-textarea": FTextarea,
     "f-number-field": FNumberField,
     "f-switch": FSwitch,
     "f-select": FSelect,

@@ -1,22 +1,19 @@
 <template>
-  <v-text-field v-mask="mask" v-model="modelValue" v-bind="$props" @change="onChange"></v-text-field>
+  <v-textarea v-model="modelValue" v-bind="$props" @change="onChange"></v-textarea>
 </template>
 
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
-import { VTextField } from "vuetify/lib";
+import { VTextarea } from "vuetify/lib";
 @Component({
   components: {
-    "v-text-field": VTextField,
+    "v-textarea": VTextarea,
   },
 })
-export default class FTextField extends VTextField {
+export default class FTextarea extends VTextarea {
   
   @Prop()
   onChange: () => void;
-
-  @Prop({default: ""})
-  mask: string;
 
 
 

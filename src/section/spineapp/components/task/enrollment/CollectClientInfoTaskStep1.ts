@@ -5,7 +5,7 @@ import {
   StepMetaData,
   EmailFieldMetaData,
   AddressMetaData,
-  ComponentMetaDataProvider
+  ComponentMetaDataProvider,
 } from "@/../src-def/form/FormComponentDef";
 
 import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
@@ -40,124 +40,133 @@ export class CollectClientInfoTaskStep1 {
   };
 
   getMetaData(): StepMetaData {
-
     const form1 = new FormMetaData({
       id: "clientInfo",
       formRef: this.formRefStr,
       dataSelectorKey: "clientInfo",
       disabled: this.root.formDisabled,
     });
-    form1.addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "firstName",
-        label: "First Name",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    ).addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "lastName",
-        label: "Last Name",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    ).addField(
-      new EmailFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "email",
-        label: "Email",
-        mandatory: true,
-        colWidth: 4,
-      })
-    ).addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "mobile",
-        label: "Mobile",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 4,
-      })
-    ).addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "secondaryPhone",
-        label: "Secondary Phone Number",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 4,
-      })
-    ).addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "motherName",
-        label: "Mother's Name",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    ).addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "fatherName",
-        label: "Father's Name",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    ).addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "panNumber",
-        label: "PAN Number",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    ).addField(
-      new TextFieldMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "dob",
-        label: "Date Of Birth",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    ).addField(
-      new AddressMetaData({
-        parentDataProvider: form1,
-        dataSelectorKey: "address",
-        label: "Address",
-        mandatory: true,
-        colWidth: 12,
-      })
-    ).addOtherChild(
-      new ButtonMetaData({
-        id: "saveBtn",
-        label: "Save",
-        outlined: true,
-        onClick: this.saveProfile,
-      })
-    ).addOtherChild(
-      new ButtonMetaData({
-        id: "saveBtn",
-        label: "Save & Sync",
-        outlined: true,
-        onClick: this.saveAndSync,
-      })
-    );
-
+    form1
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "firstName",
+          label: "First Name",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "lastName",
+          label: "Last Name",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new EmailFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "email",
+          label: "Email",
+          mandatory: true,
+          colWidth: 4,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "mobile",
+          label: "Mobile",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "secondaryPhone",
+          label: "Secondary Phone Number",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 4,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "motherName",
+          label: "Mother's Name",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "fatherName",
+          label: "Father's Name",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "panNumber",
+          label: "PAN Number",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new TextFieldMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "dob",
+          label: "Date Of Birth",
+          mandatory: true,
+          rules: "max:20",
+          colWidth: 6,
+        })
+      )
+      .addField(
+        new AddressMetaData({
+          parentDataProvider: form1,
+          dataSelectorKey: "address",
+          label: "Address",
+          mandatory: true,
+          colWidth: 12,
+        })
+      )
+      .addOtherChild(
+        new ButtonMetaData({
+          id: "saveBtn",
+          label: "Save",
+          outlined: true,
+          onClick: this.saveProfile,
+        })
+      )
+      .addOtherChild(
+        new ButtonMetaData({
+          id: "saveBtn",
+          label: "Save & Sync",
+          outlined: true,
+          onClick: this.saveAndSync,
+        })
+      );
 
     const step = new StepMetaData({
       id: "collectClientInfo",
       name: "Client Info",
-      component: form1
+      component: form1,
     });
-
 
     return step;
   }

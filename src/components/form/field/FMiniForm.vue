@@ -39,7 +39,6 @@ import FTextField from "@/components/form/field/FTextField.vue";
 import FNumberField from "@/components/form/field/FNumberField.vue";
 import FSwitch from "@/components/form/field/FSwitch.vue";
 import FAddress from "@/components/form/field/FAddress.vue";
-import FCreditor from "@/components/form/field/FCreditor.vue";
 
 @Component({
   components: {
@@ -49,7 +48,6 @@ import FCreditor from "@/components/form/field/FCreditor.vue";
     "f-number-field": FNumberField,
     "f-switch": FSwitch,
     "f-address": FAddress,
-    "f-creditor": FCreditor,
     "f-btn": FBtn,
   },
 })

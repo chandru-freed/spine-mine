@@ -5,42 +5,42 @@
         editable
         :complete="selectedStep > stepIndx"
         :step="stepIndx"
-        v-for="(step, stepIndx) in stepMetaDataListComputed"
+        v-for="(step, stepIndx) in stepMetaDataList"
         :key="stepIndx"
       >
         {{ step.name }}
       </v-stepper-step>
     </v-stepper-header>
-  
+
     <v-stepper-items>
       <v-stepper-content
         class="pa-4"
         :step="stepIndx"
-        v-for="(stepMetaData, stepIndx) in stepMetaDataListComputed"
+        v-for="(step, stepIndx) in stepMetaDataListComputed"
         :key="stepIndx"
       >
         <v-card color="grey lighten-5" flat min-height="600">
-          Stepper Data : {{ stepperDataComputed }}
-          <!-- StepMetaData: {{stepMetaData}} -->
           <v-card-text class="pb-0">
-            <!-- <template v-if="!!stepMetaData.props.dataSelectorKey">
+            <template v-if="!!step.props.component.dataSelectorKey">
               <component
-                :ref="stepMetaData.props.formRef"
-                :key="'form'+stepIndx"
-                :is="stepMetaData.props.componentName"
-                v-model="stepperDataComputed[stepMetaData.props.dataSelectorKey]"
-                v-bind="stepMetaData.props.props"
+                :ref="step.props.component.formRef"
+                :key="stepIndx"
+                :is="step.props.component.componentName"
+                v-model="
+                  stepperDataComputed[step.props.component.dataSelectorKey]
+                "
+                v-bind="step.props.component.props"
               />
             </template>
-            <template v-if="!stepMetaData.props.dataSelectorKey">
+            <template v-if="!step.props.component.dataSelectorKey">
               <component
-                :ref="stepMetaData.props.formRef"
-                :key="'form'+stepIndx"
-                :is="stepMetaData.props.componentName"
+                :ref="step.props.component.formRef"
+                :key="stepIndx"
+                :is="step.props.component.componentName"
                 v-model="stepperDataComputed"
-                v-bind="stepMetaData.props.props"
+                v-bind="step.props.component.props"
               />
-            </template> -->
+            </template>
           </v-card-text>
         </v-card>
       </v-stepper-content>
@@ -54,14 +54,17 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FForm from "@/components/form/FForm.vue";
 import { StepMetaData } from "@/../src-def/form/FormComponentDef";
 
+import FCreditor from "@/section/spineapp/components/task/enrollment/components/FCreditor.vue";
+
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
     "f-form": FForm,
+    "f-creditor": FCreditor,
   },
 })
-export default class CollectClientInfoTaskStepper extends Vue {
+export default class FStepper extends Vue {
   // V-MODEL START
   @Prop({
     default: () => {
@@ -102,7 +105,7 @@ export default class CollectClientInfoTaskStepper extends Vue {
   selectedStep = 0;
 
   get stepMetaDataListComputed() {
-    return this.stepMetaDataList;
+    return this.stepMetaDataList.map((comp) => comp.componentMetaData());
   }
 
   nextStepper() {

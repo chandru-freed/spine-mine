@@ -22,6 +22,7 @@
       >
         <v-card color="grey lighten-5" flat min-height="600">
           Stepper Data : {{stepperDataComputed}}
+          STEP : {{step}}
           <v-card-text class="pb-0">
             <template
               v-for="(formComponent, formComponentIndx) in step.props

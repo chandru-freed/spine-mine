@@ -6,6 +6,11 @@
       :step-meta-data-list="stepperMetaData.stepMetaDataList"
       v-model="bigFormDataComputed"
     ></collect-client-info-task-stepper>
+    <!-- <f-stepper
+      :ref="stepperMetaData.stepperRef"
+      :step-meta-data-list="stepperMetaData.stepMetaDataList"
+      v-model="bigFormDataComputed"
+    ></f-stepper> -->
   </div>
 </template>
 
@@ -17,15 +22,17 @@ import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 
 import CollectClientInfoTaskStepper from "./components/CollectClientInfoTaskStepper.vue";
+// import FStepper from "@/components/FStepper.vue";
 import { CollectClientInfoTaskStep1 } from "./CollectClientInfoTaskStep1";
+import { CollectClientInfoTaskStep2 } from "./CollectClientInfoTaskStep2";
 import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
 
 import { StepperMetaData } from "@/../src-def/form/FormComponentDef";
-// import { CollectClientInfoTaskDef } from "@/../src-def/task/CollectClientInfoTaskDef";
 
 @Component({
   components: {
     "collect-client-info-task-stepper": CollectClientInfoTaskStepper
+    // "f-stepper": FStepper
   },
 })
 export default class CollectClientInfoTask
@@ -59,7 +66,8 @@ export default class CollectClientInfoTask
     return new StepperMetaData({
       stepperRef: this.rootRef,
       stepMetaDataList: [
-        new CollectClientInfoTaskStep1(this).getMetaData()
+        new CollectClientInfoTaskStep1(this).getMetaData(),
+        new CollectClientInfoTaskStep2(this).getMetaData()
       ],
     });
   }
@@ -91,10 +99,13 @@ export default class CollectClientInfoTask
   }
 
   saveTask() {
+    console.log("Save take is being called")
     Action.TaskList.Save.execute2(
       this.taskId,
       JSON.stringify(this.bigFormData),
-      (output) => {},
+      (output) => {
+        console.log('');
+      },
       (err) => {
         console.error(err);
       },

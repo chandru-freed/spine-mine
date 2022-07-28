@@ -4,115 +4,43 @@
       <ValidationObserver :ref="addCreditorFormRef" v-slot="{}">
         <v-card outlined flat>
           <v-card-text class="pb-0">
-            <v-form>
-              <v-row no-gutters>
-                <v-col class="col-6 px-2">
-                  <ValidationProvider
-                    vid="creditor"
-                    name="Creditor"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="addCreditorFormData.creditor"
-                      label="Creditor"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-6 px-2">
-                  <ValidationProvider
-                    vid="creditorBalance"
-                    name="Creditor Balance"
-                    rules="required|positive"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      type="number"
-                      v-model="addCreditorFormData.creditorBalance"
-                      label="Creditor Balance"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-4 px-2">
-                  <ValidationProvider
-                    vid="lastDateOfPayment"
-                    name="Last Date Of Payment"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="addCreditorFormData.lastDateOfPayment"
-                      label="Last Date Of Payment"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-4 px-2">
-                  <ValidationProvider
-                    vid="debtType"
-                    name="Debt Type"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-select
-                      v-model="addCreditorFormData.debtType"
-                      label="Debt Type"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                      :items="[
-                        'Credit Card',
-                        'Personal Loans',
-                        'Secured',
-                        'Others',
-                      ]"
-                    ></v-select>
-                  </ValidationProvider>
-                </v-col>
-                <v-col class="col-4 px-2">
-                  <ValidationProvider
-                    vid="accountNumber"
-                    name="Account Number"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <v-text-field
-                      v-model="addCreditorFormData.accountNumber"
-                      label="Account Number"
-                      outlined
-                      dense
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </ValidationProvider>
-                </v-col>
-              </v-row>
-            </v-form>
+            <component
+              :ref="addCreditorFormComponentMetaData.formRef"
+              :key="addCreditorFormComponentMetaData.key"
+              :is="addCreditorFormComponentMetaData.componentName"
+              v-model="addCreditorFormData"
+              v-bind="addCreditorFormComponentMetaData.props"
+            ></component>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary " text @click="addDialog = false">
+            <v-btn color="primary " text @click="closeAndClearForm">
               Cancel
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn outlined color="primary " @click="submitAddCreditor(addCreditor)">
+            <v-btn
+              outlined
+              color="primary "
+              @click="submitAddCreditor(addCreditor)"
+            >
               Add
             </v-btn>
           </v-card-actions>
         </v-card>
       </ValidationObserver>
     </v-col>
+
     <v-col class="col-12" v-if="editDialog">
       <ValidationObserver :ref="editCreditorFormRef" v-slot="{}">
         <v-card outlined flat>
           <v-card-text class="pb-0">
-            <v-form>
+            <component
+              :ref="editCreditorFormComponentMetaData.formRef"
+              :key="editCreditorFormComponentMetaData.key"
+              :is="editCreditorFormComponentMetaData.componentName"
+              v-model="editCreditorFormData"
+              v-bind="editCreditorFormComponentMetaData.props"
+            ></component>
+            <!-- <v-form>
               <v-row no-gutters>
                 <v-col class="col-6 px-2">
                   <ValidationProvider
@@ -202,73 +130,107 @@
                   </ValidationProvider>
                 </v-col>
               </v-row>
-            </v-form>
+            </v-form> -->
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary " text @click="editDialog = false">
+            <v-btn color="primary " text @click="closeAndClearForm">
               Cancel
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn outlined color="primary " @click="submitEditCreditor(editCreditor)">
-              Add
+            <v-btn
+              outlined
+              color="primary "
+              @click="submitEditCreditor(editCreditor)"
+            >
+              Update
             </v-btn>
           </v-card-actions>
         </v-card>
       </ValidationObserver>
     </v-col>
+    <v-col v-if="deleteDialog">
+      <v-alert text color="error">
+        <!-- <h6 class="text-h5">Delete</h6> -->
+
+        <v-row no-gutters>
+          <v-col class="col-12">
+            <div class="font-weight-bold">
+              Are you sure you want to delete ?
+            </div>
+          </v-col>
+          <v-col class="col-12">
+            {{ deleteCreditorFormData.creditor }} -
+            {{ deleteCreditorFormData.creditorBalance }} -
+            {{ deleteCreditorFormData.debtType }}
+          </v-col>
+        </v-row>
+        <v-row no-gutters >
+          <v-col>
+            <v-btn color="error " text @click="closeAndClearForm">
+              Cancel
+            </v-btn>
+          </v-col>
+
+          <v-col class="text-right">
+            <v-btn outlined color="error " @click="deleteCreditor()">
+              Confirm Delete
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-alert>
+    </v-col>
     <v-col class="col-12">
       <v-card flat outlined>
-      <v-data-table
-        :headers="headers"
-        :items="creditorList"
-        sort-by="lastDateOfPayment"
-        class="elevation-0"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title>Creditor List</v-toolbar-title>
-            <v-divider class="mx-4" inset vertical></v-divider>
-            <v-spacer></v-spacer>
-            <v-btn
-              icon
-              color="primary"
-              dark
-              class="mb-2"
-              @click="addDialog = true"
-            >
-              <v-icon>mdi-plus-circle-outline</v-icon>
-            </v-btn>
-
-            <v-dialog v-model="dialogDelete" max-width="500px">
-              <v-card>
-                <v-card-title class="text-h5"
-                  >Are you sure you want to delete this item?</v-card-title
-                >
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="closeDelete"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                    >OK</v-btn
-                  >
-                  <v-spacer></v-spacer>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-        </template>
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-icon small class="mr-2" @click="selectEditCreditor (item)">
-            mdi-pencil
-          </v-icon>
-          <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-        </template>
-        <!-- <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize"> Reset </v-btn>
-    </template> -->
-      </v-data-table>
+        <v-data-table
+          :headers="headers"
+          :items="creditorListComputed"
+          sort-by="lastDateOfPayment"
+          class="elevation-0"
+        >
+          <template v-slot:top>
+            <v-toolbar flat>
+              <v-toolbar-title>Creditors</v-toolbar-title>
+              <v-divider class="mx-4" inset vertical></v-divider>
+              <v-spacer></v-spacer>
+              <v-btn
+                icon
+                color="primary"
+                dark
+                class="mb-2"
+                @click="showAddForm"
+              >
+                <v-icon>mdi-plus-circle-outline</v-icon>
+              </v-btn>
+            </v-toolbar>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon small class="mr-2" @click="selectEditCreditor(item)">
+              mdi-pencil
+            </v-icon>
+            <v-icon small @click="selectDeleteCreditor(item)">
+              mdi-delete
+            </v-icon>
+          </template>
+        </v-data-table>
       </v-card>
+      <v-card-actions>
+        <v-row no-gutters>
+          <v-col
+            v-for="(
+              actionComponentMetaData, index
+            ) in actionComponentMetaDataList"
+            :key="index"
+            :class="actionComponentMetaData.boundaryClass"
+          >
+            <component
+              name="index"
+              :is="actionComponentMetaData.componentName"
+              v-bind="actionComponentMetaData.props"
+            >
+            </component>
+          </v-col>
+        </v-row>
+      </v-card-actions>
     </v-col>
   </v-row>
 </template>
@@ -276,15 +238,21 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import FForm from "@/components/form/FForm.vue";
+import FBtn from "@/components/FBtn.vue";
+
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
+    "f-form": FForm,
+    "f-btn": FBtn,
   },
 })
 export default class FCreditor extends Vue {
   addDialog = false;
   editDialog = false;
+  deleteDialog = false;
   dialog = false;
   dialogDelete = false;
   headers = [
@@ -301,15 +269,6 @@ export default class FCreditor extends Vue {
     { text: "Actions", value: "actions" },
   ];
 
-  creditorList = [
-    {
-      creditor: "HDFC",
-      creditorBalance: "200000",
-      lastDateOfPayment: "12/12/2021",
-      debtType: "Credit Card",
-      accountNumber: "1231231234",
-    },
-  ];
   editedIndex = -1;
   editedItem: any = {
     creditor: "",
@@ -319,13 +278,9 @@ export default class FCreditor extends Vue {
     accountNumber: "",
   };
 
-
   addCreditorFormData: any = {};
   editCreditorFormData: any = {};
-
-  get formTitle() {
-    return this.editedIndex === -1 ? "New Item" : "Edit Item";
-  }
+  deleteCreditorFormData: any = {};
 
   @Watch("dialog")
   updatedDialog(val: any, oldValue: any) {
@@ -370,21 +325,65 @@ export default class FCreditor extends Vue {
     });
   }
 
+  showAddForm() {
+    this.addDialog = true;
+    this.editDialog = false;
+    this.deleteDialog = false;
+  }
+
+  showEditForm() {
+    this.editDialog = true;
+    this.addDialog = false;
+    this.deleteDialog = false;
+  }
+
+  showDeleteForm() {
+    this.editDialog = false;
+    this.addDialog = false;
+    this.deleteDialog = true;
+  }
+
+  closeAndClearForm() {
+    this.addDialog = false;
+    this.editDialog = false;
+    this.deleteDialog = false;
+    this.addCreditorFormData = {};
+    this.editCreditorFormData = {};
+    this.deleteCreditorFormData = {};
+  }
+
   addCreditor(form: any) {
     this.creditorList.push(this.addCreditorFormData);
-    this.addDialog = false
+    this.closeAndClearForm();
   }
 
   editCreditor(form: any) {
-    Object.assign(this.creditorList[this.editCreditorFormData.id], this.editCreditorFormData)
-    this.editDialog = false
+    Object.assign(
+      this.creditorList[this.editCreditorFormData.id],
+      this.editCreditorFormData
+    );
+    this.closeAndClearForm();
+  }
+
+  deleteCreditor() {
+    this.creditorList.splice(this.deleteCreditorFormData.id, 1);
+    this.closeAndClearForm();
+  }
+
+  selectDeleteCreditor(item: any) {
+    this.deleteCreditorFormData = {
+      id: this.creditorList.indexOf(item),
+      ...item,
+    };
+    this.deleteDialog = true;
   }
 
   selectEditCreditor(item: any) {
-    // this.editedIndex = this.creditorList.indexOf(item);
-    // this.editedItem = Object.assign({}, item);
-    this.editCreditorFormData = {id: this.creditorList.indexOf(item), ... item}
-    this.editDialog = true;
+    this.editCreditorFormData = {
+      id: this.creditorList.indexOf(item),
+      ...item,
+    };
+    this.showEditForm();
   }
 
   addCreditorFormRef = "addCreditorForm";
@@ -395,7 +394,7 @@ export default class FCreditor extends Vue {
       .validate()
       .then((success: boolean) => {
         if (success) {
-          action(this.modelValue);
+          action(this.creditorListComputed);
           return;
         } else {
         }
@@ -407,40 +406,69 @@ export default class FCreditor extends Vue {
       .validate()
       .then((success: boolean) => {
         if (success) {
-          action(this.modelValue);
+          action(this.creditorListComputed);
           return;
         } else {
         }
       });
   }
 
-  // V-MODEL START
   @Prop({
     default: () => {
       return {};
     },
   })
-  value!: any;
+  addCreditorFormComponentMetaData!: any;
 
-  address = { country: "India" };
+  @Prop({
+    default: () => {
+      return {};
+    },
+  })
+  editCreditorFormComponentMetaData!: any;
 
-  get modelValue(): any {
-    return this.address;
+  @Prop({
+    default: () => {
+      return {};
+    },
+  })
+  actionComponentMetaDataList!: any;
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  @Prop({default : () => {
+    
+  }})
+  onChange!: () => void;
+
+  // V-MODEL START
+  @Prop({
+    default: () => {
+      return [];
+    },
+  })
+  value: any[];
+
+  creditorList: any[] = [];
+
+  get creditorListComputed(): any[] {
+    return this.creditorList;
   }
 
-  set modelValue(value) {
-    this.address = value;
+  set creditorListComputed(value: any[]) {
+    this.creditorList = value;
   }
 
   // WATCH as the MODEL VALUE is a OBJ -
   // And Fields inside the Object if change does not call set of Computed
-  @Watch("address")
+  @Watch("creditorList")
   updateMyForm(value: any, oldValue: any) {
     this.$emit("input", value);
+    this.onChange();
   }
 
   mounted() {
-    this.address = this.value;
+    this.creditorList =
+      !!this.value && this.value.length >= 0 ? this.value : [];
   }
   // V-MODEL END
 }

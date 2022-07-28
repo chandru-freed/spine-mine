@@ -23,6 +23,7 @@
                       :is="field.componentName"
                       v-model="formDataComputed[field.props.key]"
                       v-bind="field.props"
+                      v-mask="field.props.mask"
                       :error-messages="errors"
                     >
                     </component>
@@ -31,7 +32,7 @@
               </v-row>
             </v-form>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="otherChildren.length > 0">
             <v-row no-gutters>
               <v-col
                 v-for="(otherChild, index) in otherChildren"
@@ -68,8 +69,8 @@ import FBtn from "@/components/FBtn.vue";
 import FTextField from "@/components/form/field/FTextField.vue";
 import FNumberField from "@/components/form/field/FNumberField.vue";
 import FSwitch from "@/components/form/field/FSwitch.vue";
+import FSelect from "@/components/form/field/FSelect.vue";
 import FAddress from "@/components/form/field/FAddress.vue";
-import FCreditor from "@/components/form/field/FCreditor.vue";
 import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
@@ -88,8 +89,8 @@ import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
     "f-text-field": FTextField,
     "f-number-field": FNumberField,
     "f-switch": FSwitch,
+    "f-select": FSelect,
     "f-address": FAddress,
-    "f-creditor": FCreditor,
     "f-document": FDocument,
     "f-mini-form": FMiniForm,
     "f-mini-form-with-total": FMiniFormWithTotal,

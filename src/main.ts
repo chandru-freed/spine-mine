@@ -7,10 +7,11 @@ import vuetify from './plugins/vuetify'
 import CustomFilters from './custom-filters';
 import Validator from './validator';
 import * as RemoteApiPoint from './remote-api-point';
+import { VueMaskDirective } from 'v-mask'
+Vue.directive('mask', VueMaskDirective);
+
 
 Vue.config.productionTip = false
-// console.log("main ------------");
-// console.log(RemoteApiPoint.GompaApi);
 RemoteApiPoint.default.setup();
 CustomFilters.setup();
 Validator.setup();

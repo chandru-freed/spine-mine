@@ -167,6 +167,7 @@ export class CollectClientInfoTaskStep2 {
       dataSelectorKey: "creditorList",
       addCreditorFormMetaData: addCreditorFormMetaData,
       editCreditorFormMetaData: editCreditorFormMetaData,
+      disabled: this.root.formDisabled,
       onChange: this.root.saveTask // directly calling as there is no form validation.
     });
 

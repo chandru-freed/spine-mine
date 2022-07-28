@@ -150,8 +150,6 @@
     </v-col>
     <v-col v-if="deleteDialog">
       <v-alert text color="error">
-        <!-- <h6 class="text-h5">Delete</h6> -->
-
         <v-row no-gutters>
           <v-col class="col-12">
             <div class="font-weight-bold">
@@ -193,9 +191,9 @@
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-btn
+                :disabled="disabled"
                 icon
                 color="primary"
-                dark
                 class="mb-2"
                 @click="showAddForm"
               >
@@ -204,10 +202,10 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small class="mr-2" @click="selectEditCreditor(item)">
+            <v-icon :disabled="disabled" small class="mr-2" @click="selectEditCreditor(item)">
               mdi-pencil
             </v-icon>
-            <v-icon small @click="selectDeleteCreditor(item)">
+            <v-icon :disabled="disabled" small @click="selectDeleteCreditor(item)">
               mdi-delete
             </v-icon>
           </template>
@@ -250,11 +248,11 @@ import FBtn from "@/components/FBtn.vue";
   },
 })
 export default class FCreditor extends Vue {
+  //dialogs
   addDialog = false;
   editDialog = false;
   deleteDialog = false;
-  dialog = false;
-  dialogDelete = false;
+
   headers = [
     {
       text: "Creditor",
@@ -269,61 +267,11 @@ export default class FCreditor extends Vue {
     { text: "Actions", value: "actions" },
   ];
 
-  editedIndex = -1;
-  editedItem: any = {
-    creditor: "",
-    creditorBalance: "",
-    lastDateOfPayment: "",
-    debtType: "",
-    accountNumber: "",
-  };
 
   addCreditorFormData: any = {};
   editCreditorFormData: any = {};
   deleteCreditorFormData: any = {};
 
-  @Watch("dialog")
-  updatedDialog(val: any, oldValue: any) {
-    val || this.close();
-  }
-
-  @Watch("dialogDelete")
-  updatedDeleteDialog(val: any, oldValue: any) {
-    val || this.closeDelete();
-  }
-
-  editItem(item: any) {
-    this.editedIndex = this.creditorList.indexOf(item);
-    this.editedItem = Object.assign({}, item);
-    this.dialog = true;
-  }
-
-  deleteItem(item: any) {
-    this.editedIndex = this.creditorList.indexOf(item);
-    this.editedItem = Object.assign({}, item);
-    this.dialogDelete = true;
-  }
-
-  deleteItemConfirm() {
-    this.creditorList.splice(this.editedIndex, 1);
-    this.closeDelete();
-  }
-
-  close() {
-    this.dialog = false;
-    this.$nextTick(() => {
-      this.editedItem = Object.assign({}, this.addCreditorFormData);
-      this.editedIndex = -1;
-    });
-  }
-
-  closeDelete() {
-    this.dialogDelete = false;
-    this.$nextTick(() => {
-      this.editedItem = Object.assign({}, this.addCreditorFormData);
-      this.editedIndex = -1;
-    });
-  }
 
   showAddForm() {
     this.addDialog = true;
@@ -354,6 +302,7 @@ export default class FCreditor extends Vue {
 
   addCreditor(form: any) {
     this.creditorList.push(this.addCreditorFormData);
+    // this.onChange();// calling saveTask
     this.closeAndClearForm();
   }
 
@@ -362,11 +311,13 @@ export default class FCreditor extends Vue {
       this.creditorList[this.editCreditorFormData.id],
       this.editCreditorFormData
     );
+    // this.onChange();// calling saveTask
     this.closeAndClearForm();
   }
 
   deleteCreditor() {
     this.creditorList.splice(this.deleteCreditorFormData.id, 1);
+    // this.onChange();// calling saveTask
     this.closeAndClearForm();
   }
 
@@ -434,10 +385,12 @@ export default class FCreditor extends Vue {
   })
   actionComponentMetaDataList!: any;
 
+
+  @Prop({default : false})
+  disabled!: boolean;
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  @Prop({default : () => {
-    
-  }})
+  @Prop({default : () => {}})
   onChange!: () => void;
 
   // V-MODEL START
@@ -463,7 +416,6 @@ export default class FCreditor extends Vue {
   @Watch("creditorList")
   updateMyForm(value: any, oldValue: any) {
     this.$emit("input", value);
-    this.onChange();
   }
 
   mounted() {

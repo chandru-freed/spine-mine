@@ -1,5 +1,6 @@
 <template>
   <v-row>
+    <!--ADD START-->
     <v-col class="col-12" v-if="addDialog">
       <v-card outlined flat>
         <v-card-text class="pb-0">
@@ -10,62 +11,28 @@
               v-model="addCreditorFormData"
               v-bind="addCreditorFormComponentMetaData.props"
             ></component>
-          <!-- <component
-              key="addCreditorFormData"
-              :ref="addCreditorFormMetaData.componentRef"
-              :is="addCreditorFormMetaData.componentName"
-              v-model="addCreditorFormData"
-              v-bind="addCreditorFormMetaData.props"
-            ></component> -->
         </v-card-text>
-        <!-- <v-card-actions>
-          <v-btn color="primary " text @click="closeAndClearForm">
-            Cancel
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            outlined
-            color="primary "
-            @click="submitAddCreditor(addCreditor)"
-          >
-            Add
-          </v-btn>
-        </v-card-actions> -->
       </v-card>
     </v-col>
+    <!--ADD END-->
 
+    <!--EDIT START-->
     <v-col class="col-12" v-if="editDialog">
       <v-card outlined flat>
         <v-card-text class="pb-0">
-          <ValidationObserver
-          key="editCreditorFormDataV"
-            :ref="editCreditorFormComponentMetaData.componentRef"
-          >
           <component
-            key="editCreditorFormData"
-            :ref="editCreditorFormComponentMetaData.componentRef"
-            :is="editCreditorFormComponentMetaData.componentName"
-            v-model="editCreditorFormData"
-            v-bind="editCreditorFormComponentMetaData.props"
-          ></component>
-          </ValidationObserver>
-
+              key="editCreditorFormData"
+              :ref="editCreditorFormComponentMetaData.componentRef"
+              :is="editCreditorFormComponentMetaData.componentName"
+              v-model="editCreditorFormData"
+              v-bind="editCreditorFormComponentMetaData.props"
+            ></component>
         </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary " text @click="closeAndClearForm">
-            Cancel
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            outlined
-            color="primary "
-            @click="submitEditCreditor(editCreditor)"
-          >
-            Update
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-col>
+    <!--EDIT START-->
+
+    <!--DELETE START-->
     <v-col v-if="deleteDialog">
       <v-alert text color="error">
         <v-row no-gutters>
@@ -82,7 +49,7 @@
         </v-row>
         <v-row no-gutters>
           <v-col>
-            <v-btn color="error " text @click="closeAndClearForm">
+            <v-btn color="error " text @click="closeAndClearAllForm">
               Cancel
             </v-btn>
           </v-col>
@@ -95,7 +62,11 @@
         </v-row>
       </v-alert>
     </v-col>
+    <!--DELETE END-->
+
+    
     <v-col class="col-12">
+      <!--GRID START-->
       <v-card flat outlined>
         <v-data-table
           :headers="headers"
@@ -138,6 +109,8 @@
           </template>
         </v-data-table>
       </v-card>
+      <!--GRID END-->
+      <!--ACTION START-->
       <v-card-actions>
         <v-row no-gutters>
           <v-col
@@ -156,6 +129,7 @@
           </v-col>
         </v-row>
       </v-card-actions>
+      <!--ACTION END-->
     </v-col>
   </v-row>
 </template>
@@ -176,12 +150,89 @@ import { ButtonMetaData, FormMetaData, NumberFieldMetaData, SelectFieldMetaData,
   },
 })
 export default class FCreditor extends Vue {
-  creditorRef = "fCreditorRef"
-  //dialogs
-  addDialog = false;
-  editDialog = false;
-  deleteDialog = false;
+  
+  closeAndClearAllForm() {
+    this.closeAllForm();
+    this.clearAllForm();
+  }
+  closeAllForm() {
+    this.addDialog = false;
+    this.editDialog = false;
+    this.deleteDialog = false;
+  }
+  clearAllForm() {
+    this.addCreditorFormData = {};
+    this.editCreditorFormData = {};
+    this.deleteCreditorFormData = {};
+  }
 
+
+  //ADD ---- START
+  addDialog = false;
+  addCreditorFormData: any = {};
+  showAddForm() {
+    this.addCreditorFormData = {};
+    this.editDialog = false;
+    this.deleteDialog = false;
+    this.addDialog = true;
+  }
+  addCreditor() {
+    this.creditorList.push(this.addCreditorFormData);
+    this.onChange();// calling saveTask
+    this.closeAndClearAllForm();
+  }
+  //ADD ---- END
+
+  //EDIT ---- START
+  editDialog = false;
+  editCreditorFormData: any = {};
+  showEditForm() {
+    this.editDialog = true;
+    this.addDialog = false;
+    this.deleteDialog = false;
+  }
+  selectEditCreditor(item: any) {
+    this.editCreditorFormData = {
+      id: this.creditorList.indexOf(item),
+      ...item,
+    };
+    this.showEditForm();
+  }
+  editCreditor(form: any) {
+    Object.assign(
+      this.creditorList[this.editCreditorFormData.id],
+      this.editCreditorFormData
+    );
+    // this.onChange();// calling saveTask
+    this.closeAndClearAllForm();
+  }
+  //EDIT ---- END
+
+
+  //DELETE ---- START
+  deleteDialog = false;
+  deleteCreditorFormData: any = {};
+  showDeleteForm() {
+    this.editDialog = false;
+    this.addDialog = false;
+    this.deleteDialog = true;
+  }
+  selectDeleteCreditor(item: any) {
+    this.deleteCreditorFormData = {
+      id: this.creditorList.indexOf(item),
+      ...item,
+    };
+    this.showDeleteForm();
+  }
+  deleteCreditor() {
+    this.creditorList.splice(this.deleteCreditorFormData.id, 1);
+    // this.onChange();// calling saveTask
+    this.closeAndClearAllForm();
+  }
+  //DELETE ---- END
+
+
+  //GRID
   headers = [
     {
       text: "Creditor",
@@ -196,94 +247,10 @@ export default class FCreditor extends Vue {
     { text: "Actions", value: "actions" },
   ];
 
-  addCreditorFormData: any = {};
-  editCreditorFormData: any = {};
-  deleteCreditorFormData: any = {};
+  
 
-  showAddForm() {
-    this.addCreditorFormData = {};
 
-    this.editDialog = false;
-    this.deleteDialog = false;
-    this.addDialog = true;
-  }
-
-  showEditForm() {
-    this.editDialog = true;
-    this.addDialog = false;
-    this.deleteDialog = false;
-  }
-
-  showDeleteForm() {
-    this.editDialog = false;
-    this.addDialog = false;
-    this.deleteDialog = true;
-  }
-
-  closeAndClearForm() {
-    this.addDialog = false;
-    this.editDialog = false;
-    this.deleteDialog = false;
-    this.addCreditorFormData = {};
-    this.editCreditorFormData = {};
-    this.deleteCreditorFormData = {};
-  }
-
-  addCreditor() {
-    this.creditorList.push(this.addCreditorFormData);
-    // this.onChange();// calling saveTask
-    this.closeAndClearForm();
-  }
-
-  selectEditCreditor(item: any) {
-    this.editCreditorFormData = {
-      id: this.creditorList.indexOf(item),
-      ...item,
-    };
-    this.showEditForm();
-  }
-
-  editCreditor(form: any) {
-    Object.assign(
-      this.creditorList[this.editCreditorFormData.id],
-      this.editCreditorFormData
-    );
-    // this.onChange();// calling saveTask
-    this.closeAndClearForm();
-  }
-
-  selectDeleteCreditor(item: any) {
-    this.deleteCreditorFormData = {
-      id: this.creditorList.indexOf(item),
-      ...item,
-    };
-    this.showDeleteForm();
-  }
-
-  deleteCreditor() {
-    this.creditorList.splice(this.deleteCreditorFormData.id, 1);
-    // this.onChange();// calling saveTask
-    this.closeAndClearForm();
-  }
-
-  submitAddCreditor() {
-    (this.$refs[this.addCreditorFormMetaData.componentRef] as any).onSubmit((form: any) => {
-      this.addCreditor();
-    });
-     
-  }
-
-  submitEditCreditor(action: any) {
-    (this.$refs[this.editCreditorFormComponentMetaData.componentRef] as any)
-      .validate()
-      .then((success: boolean) => {
-        if (success) {
-          action(this.creditorListComputed);
-          return;
-        } else {
-        }
-      });
-  }
+  
 
   @Prop({
     default: () => {
@@ -344,79 +311,5 @@ export default class FCreditor extends Vue {
   }
   // V-MODEL END
 
-  addFormRefStr = "addCreditorFormRef"
-
-  get addCreditorFormMetaData(): any {
-    const addCreditorFormMetaData = new FormMetaData({
-      id: "addCreditorForm",
-      componentRef: this.addFormRefStr,
-      dataSelectorKey: "addCreditorForm",
-    });
-
-    addCreditorFormMetaData
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "creditor",
-          label: "Creditor",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new NumberFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "creditorBalance",
-          label: "Creditor Balance",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "lastDateOfPayment",
-          label: "Last Date Of Payment",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-          mask: "##/##/####",
-          placeholder: "dd/mm/yyyy",
-        })
-      )
-      .addField(
-        new SelectFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "debtType",
-          label: "Debt Type",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-          options: ["Credit Card", "Personal Loans", "Secured", "Others"],
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: addCreditorFormMetaData,
-          dataSelectorKey: "accountNumber",
-          label: "Account Number",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-        })
-      )
-      .addOtherChild(
-        new ButtonMetaData({
-          id: "addCreditorBtn",
-          label: "Add",
-          outlined: true,
-          onClick: this.submitAddCreditor, // TODO : How to call with validation.
-        })
-      );
-
-    return addCreditorFormMetaData.componentMetaData();
-  }
 }
 </script>

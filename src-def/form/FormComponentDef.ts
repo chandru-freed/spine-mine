@@ -824,7 +824,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
   fCreditor: FCreditorInf;
   // FIXED
   componentName = "f-creditor";
-  componentRef = "creditorRef";
+  componentRefName = "creditorRef";
 
   // MANDATORY
   id: string;
@@ -866,17 +866,17 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
     return (this.root.$refs[this.root.rootRef]! as any)
   }
 
-  getCreditorRef() {
-    return this.getRootRef().$refs[this.componentRef][0];
+  getComponentRef() {
+    return this.getRootRef().$refs[this.componentRefName][0];
   }
 
   getCreditorAddFormRef() {
-    return this.getCreditorRef().$refs[this.addFormRefStr];
+    return this.getComponentRef().$refs[this.addFormRefStr];
   }
 
   addCreditorFunc = () => {
     this.getCreditorAddFormRef().onSubmit((form: any) => {
-      this.getCreditorRef().addCreditor();
+      this.getComponentRef().addCreditor();
     });
   };
 
@@ -884,9 +884,9 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
     const addFormMetaData = this.getAddCreditorFormMetaData();
     const editFormMetaData = this.getEditCreditorFormMetaData();
     return {
-      ref: this.componentRef,
+      ref: this.componentRefName,
       componentName: this.componentName,
-      componentRef: this.componentRef,
+      componentRef: this.componentRefName,
       dataSelectorKey: this.dataSelectorKey,
       props: {
         id: this.id,
@@ -966,7 +966,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
       .addOtherChild(
         new ButtonMetaData({
           id: "addCreditorBtn",
-          label: "Cancel",
+          label: "Add Creditor",
           outlined: true,
           onClick: this.addCreditorFunc, // TODO : How to call with validation.
         })

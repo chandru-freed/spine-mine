@@ -40,20 +40,6 @@ export class CollectClientInfoTaskStep2 {
   };
 
 
-
-  addFormRefStr = "addCreditorFormRef";
-  addCreditorFunc = () => {
-    console.log(this);
-    console.log(this.root);
-    console.log(this.root.$refs);
-    const addFormRef = (this.root.$refs["creditorRef"]! as any).$refs[
-      this.addFormRefStr
-    ][0]
-    addFormRef.onSubmit((form: any) => {
-      // this.fCreditor.addCreditor();
-    });
-  };
-
   getMetaData(): StepMetaData {
     
 
@@ -61,8 +47,6 @@ export class CollectClientInfoTaskStep2 {
       root: this.root,
       id: "creditorList",
       dataSelectorKey: "creditorList",
-      // addCreditorFormMetaData: addCreditorFormMetaData,
-      // editCreditorFormMetaData: editCreditorFormMetaData,
       disabled: this.root.formDisabled,
       onChange: this.root.saveTask // directly calling as there is no form validation.
     });

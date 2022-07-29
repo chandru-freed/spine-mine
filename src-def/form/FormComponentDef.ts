@@ -826,6 +826,8 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
   componentName = "f-creditor";
   componentRefName = "creditorRef";
 
+  addFormRefName = "addCreditorFormRef";
+
   // MANDATORY
   id: string;
   // OPTIONAL
@@ -860,7 +862,6 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
     this.actionList.push(action);
   }
 
-  addFormRefStr = "addCreditorFormRef";
 
   getRootRef() {
     return (this.root.$refs[this.root.rootRef]! as any)
@@ -871,7 +872,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
   }
 
   getCreditorAddFormRef() {
-    return this.getComponentRef().$refs[this.addFormRefStr];
+    return this.getComponentRef().$refs[this.addFormRefName];
   }
 
   addCreditorFunc = () => {
@@ -882,7 +883,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
 
   componentMetaData(): object {
     const addFormMetaData = this.getAddCreditorFormMetaData();
-    const editFormMetaData = this.getEditCreditorFormMetaData();
+    // const editFormMetaData = this.getEditCreditorFormMetaData();
     return {
       ref: this.componentRefName,
       componentName: this.componentName,
@@ -893,7 +894,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
         key: this.dataSelectorKey,
         disabled: this.disabled,
         addCreditorFormComponentMetaData: addFormMetaData.componentMetaData(),
-        editCreditorFormComponentMetaData: editFormMetaData.componentMetaData(),
+        // editCreditorFormComponentMetaData: editFormMetaData.componentMetaData(),
         actionComponentMetaDataList: this.actionList.map(
           (comp: ButtonMetaData) => comp.componentMetaData()
         ),
@@ -905,7 +906,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
   getAddCreditorFormMetaData(): FormMetaData {
     const addCreditorFormMetaData = new FormMetaData({
       id: "addCreditorForm",
-      componentRef: this.addFormRefStr,
+      componentRef: this.addFormRefName,
       dataSelectorKey: "addCreditorForm",
     });
 
@@ -975,68 +976,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
     return addCreditorFormMetaData;
   }
 
-  getEditCreditorFormMetaData(): FormMetaData {
-    const componentRefStr = "editCreditorFormRef";
-    const editCreditorFormMetaData = new FormMetaData({
-      id: "editCreditorForm",
-      componentRef: componentRefStr,
-      dataSelectorKey: "editCreditorForm",
-    });
-
-    editCreditorFormMetaData
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "creditor",
-          label: "Creditor",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new NumberFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "creditorBalance",
-          label: "Creditor Balance",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "lastDateOfPayment",
-          label: "Last Date Of Payment",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-        })
-      )
-      .addField(
-        new SelectFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "debtType",
-          label: "Debt Type",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-          options: ["Credit Card", "Personal Loans", "Secured", "Others"],
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: editCreditorFormMetaData,
-          dataSelectorKey: "accountNumber",
-          label: "Account Number",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-        })
-      );
-    return editCreditorFormMetaData;
-  }
+  
 }
 
 export class BudgetMetaData implements ComponentMetaDataProvider {

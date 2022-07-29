@@ -13,7 +13,9 @@
       </div>
     </div>
     <v-card-actions class="pb-0">
-      <v-btn text @click="gotoFile"> <v-icon>mdi-chevron-left</v-icon> All Tasks</v-btn>
+      <v-btn text @click="gotoFile">
+        <v-icon>mdi-chevron-left</v-icon> All Tasks</v-btn
+      >
       <v-spacer></v-spacer>
       <v-btn
         outlined
@@ -49,13 +51,14 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/CollectClientInfoTask.vue";
-import UnderWritingTask from "@/section/spineapp/components/task/enrollment/UnderWritingTask.vue";
+import ProvideFirstNumberTask from "@/section/spineapp/components/task/sample/ProvideFirstNumberTask.vue";
+
 import * as RemoteApiPoint from "@/remote-api-point";
 
 @Component({
   components: {
     CollectClientInfoTask,
-    UnderWritingTask,
+    ProvideFirstNumberTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -64,17 +67,9 @@ export default class FileTaskArea extends Vue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  availableTaskList = [
-    "CollectClientInfoTask",
-    "CollectClientInfoCTask",
-    "EMandateTask",
-    "EMandateCTask",
-    "SSADigioTask",
-    "SSADigioCTask",
-    "UnderWritingTask",
-  ];
+  availableTaskList = ["CollectClientInfoTask"];
 
-  TASK_COMPONENT_MAP = new Map();
+  TASK_COMPONENT_MAP = new Map([["ProvideFirstNumber", "ProvideFirstNumberTask"]]);
 
   taskId = this.$route.params.taskId;
 
@@ -108,9 +103,12 @@ export default class FileTaskArea extends Vue {
     this.getExecutiveTaskDetails();
   }
 
-  buildTaskMap() {  
+  buildTaskMap() {
     this.TASK_COMPONENT_MAP.set("CollectClientInfo", "CollectClientInfoTask");
-    this.TASK_COMPONENT_MAP.set("ClientInfoVerification", "ClientInfoVerificationTask");
+    this.TASK_COMPONENT_MAP.set(
+      "ClientInfoVerification",
+      "ClientInfoVerificationTask"
+    );
   }
 
   getExecutiveTaskDetails() {
@@ -125,7 +123,6 @@ export default class FileTaskArea extends Vue {
       RemoteApiPoint.BenchApi
     );
   }
-
 
   startTask() {
     Action.TaskList.Start.execute1(

@@ -12,11 +12,11 @@ import { VBtn } from "vuetify/lib";
 })
 export default class FBtn extends VBtn {
 
-  @Prop({ default: "" })
+  @Prop({ default: "Submit" })
   public label!: string;
 
-  @Prop({})
-  public onClick!: object;
+  @Prop()
+  public onClick!: () => void;
 
 }
 </script>

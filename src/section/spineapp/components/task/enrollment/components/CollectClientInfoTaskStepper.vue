@@ -11,7 +11,7 @@
         {{ step.name }}
       </v-stepper-step>
     </v-stepper-header>
-
+  {{value}}
     <v-stepper-items>
       <v-stepper-content
         class="pa-4"
@@ -57,16 +57,7 @@ import { StepMetaData } from "@/../src-def/form/FormComponentDef";
 import FCreditor from "@/section/spineapp/components/task/enrollment/components/FCreditor.vue";
 import FBudget from "@/section/spineapp/components/task/enrollment/components/FBudget.vue";
 
-@Component({
-  components: {
-    ValidationObserver: ValidationObserver,
-    ValidationProvider: ValidationProvider,
-    "f-form": FForm,
-    "f-creditor": FCreditor,
-    "f-budget": FBudget 
-  },
-})
-export default class FStepper extends Vue {
+abstract class ModelVue extends Vue {
   // V-MODEL START
   @Prop({
     default: () => {
@@ -81,21 +72,73 @@ export default class FStepper extends Vue {
     return this.stepperData;
   }
 
-  set stepperDataComputed(value) {
-    this.stepperData = value;
+  set stepperDataComputed(passingValue) {
+    this.stepperData = passingValue;
   }
 
   // WATCH as the MODEL VALUE is a OBJ -
   // And Fields inside the Object if change does not call set of Computed
   @Watch("stepperData")
-  updateMyForm(value: any, oldValue: any) {
-    this.$emit("input", value);
+  updateStepperData(newValue: any, oldValue: any) {
+    this.$emit("input", newValue);
   }
 
   mounted() {
     this.stepperData = this.value;
+    this.mounted2();
   }
+
+  abstract mounted2(): void;
   // V-MODEL END
+}
+
+@Component({
+  components: {
+    ValidationObserver: ValidationObserver,
+    ValidationProvider: ValidationProvider,
+    "f-form": FForm,
+    "f-creditor": FCreditor,
+    "f-budget": FBudget,
+  },
+})
+export default class CollectClientInfoTaskStepper extends Vue {
+
+  // mounted2(){
+  //   console.log("I am in mounted2");
+  // }
+
+  // V-MODEL START
+  @Prop({
+    default: () => {
+      return {};
+    },
+  })
+  value!: any;
+
+  stepperData: any = {};
+
+  get stepperDataComputed(): any {
+    return this.stepperData;
+  }
+
+  set stepperDataComputed(passingValue) {
+    this.stepperData = passingValue;
+  }
+
+  // WATCH as the MODEL VALUE is a OBJ -
+  // And Fields inside the Object if change does not call set of Computed
+  @Watch("stepperData")
+  updateStepperData(newValue: any, oldValue: any) {
+    console.log("stepper watch");
+    console.log(newValue)
+    this.$emit("input", newValue);
+  }
+
+  mounted() {
+    console.log("I am in stepper mounted")
+    console.log(this.value);
+    this.stepperData = this.value;
+  }
 
   @Prop({
     default: () => {

@@ -51,18 +51,8 @@ export class CollectClientInfoTaskStep1 {
       .addField(
         new TextFieldMetaData({
           parentDataProvider: form1,
-          dataSelectorKey: "firstName",
-          label: "First Name",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "lastName",
-          label: "Last Name",
+          dataSelectorKey: "name",
+          label: "Name",
           mandatory: true,
           rules: "max:20",
           colWidth: 6,
@@ -87,73 +77,65 @@ export class CollectClientInfoTaskStep1 {
           colWidth: 4,
         })
       )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "secondaryPhone",
-          label: "Secondary Phone Number",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 4,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "motherName",
-          label: "Mother's Name",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "fatherName",
-          label: "Father's Name",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "panNumber",
-          label: "PAN Number",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new TextFieldMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "dob",
-          label: "Date Of Birth",
-          mandatory: true,
-          rules: "max:20",
-          colWidth: 6,
-        })
-      )
-      .addField(
-        new AddressMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "address",
-          label: "Address",
-          mandatory: true,
-          colWidth: 12,
-        })
-      )
-      .addField(
-        new TextareaMetaData({
-          parentDataProvider: form1,
-          dataSelectorKey: "description",
-          label: "Description",
-          colWidth: 6,
-        })
-      )
+      // .addField(
+      //   new TextFieldMetaData({
+      //     parentDataProvider: form1,
+      //     dataSelectorKey: "secondaryPhone",
+      //     label: "Secondary Phone Number",
+      //     mandatory: true,
+      //     rules: "max:20",
+      //     colWidth: 4,
+      //   })
+      // )
+      // .addField(
+      //   new TextFieldMetaData({
+      //     parentDataProvider: form1,
+      //     dataSelectorKey: "motherName",
+      //     label: "Mother's Name",
+      //     mandatory: true,
+      //     rules: "max:20",
+      //     colWidth: 6,
+      //   })
+      // )
+      // .addField(
+      //   new TextFieldMetaData({
+      //     parentDataProvider: form1,
+      //     dataSelectorKey: "fatherName",
+      //     label: "Father's Name",
+      //     mandatory: true,
+      //     rules: "max:20",
+      //     colWidth: 6,
+      //   })
+      // )
+      // .addField(
+      //   new TextFieldMetaData({
+      //     parentDataProvider: form1,
+      //     dataSelectorKey: "panNumber",
+      //     label: "PAN Number",
+      //     mandatory: true,
+      //     rules: "max:20",
+      //     colWidth: 6,
+      //   })
+      // )
+      // .addField(
+      //   new TextFieldMetaData({
+      //     parentDataProvider: form1,
+      //     dataSelectorKey: "dob",
+      //     label: "Date Of Birth",
+      //     mandatory: true,
+      //     rules: "max:20",
+      //     colWidth: 6,
+      //   })
+      // )
+      // .addField(
+      //   new AddressMetaData({
+      //     parentDataProvider: form1,
+      //     dataSelectorKey: "address",
+      //     label: "Address",
+      //     mandatory: true,
+      //     colWidth: 12,
+      //   })
+      // )
       .addOtherChild(
         new ButtonMetaData({
           id: "saveBtn",

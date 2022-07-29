@@ -17,7 +17,7 @@
     <!--ADD END-->
 
     <!--EDIT START-->
-    <v-col class="col-12" v-if="editDialog">
+    <!-- <v-col class="col-12" v-if="editDialog">
       <v-card outlined flat>
         <v-card-text class="pb-0">
           <component
@@ -29,11 +29,11 @@
             ></component>
         </v-card-text>
       </v-card>
-    </v-col>
+    </v-col> -->
     <!--EDIT START-->
 
     <!--DELETE START-->
-    <v-col v-if="deleteDialog">
+    <!-- <v-col v-if="deleteDialog">
       <v-alert text color="error">
         <v-row no-gutters>
           <v-col class="col-12">
@@ -61,7 +61,7 @@
           </v-col>
         </v-row>
       </v-alert>
-    </v-col>
+    </v-col> -->
     <!--DELETE END-->
 
     
@@ -90,7 +90,7 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.actions`]="{ item }">
+          <!-- <template v-slot:[`item.actions`]="{ item }">
             <v-icon
               :disabled="disabled"
               small
@@ -106,7 +106,7 @@
             >
               mdi-delete
             </v-icon>
-          </template>
+          </template> -->
         </v-data-table>
       </v-card>
       <!--GRID END-->
@@ -157,13 +157,13 @@ export default class FCreditor extends Vue {
   }
   closeAllForm() {
     this.addDialog = false;
-    this.editDialog = false;
-    this.deleteDialog = false;
+    // this.editDialog = false;
+    // this.deleteDialog = false;
   }
   clearAllForm() {
     this.addCreditorFormData = {};
-    this.editCreditorFormData = {};
-    this.deleteCreditorFormData = {};
+    // this.editCreditorFormData = {};
+    // this.deleteCreditorFormData = {};
   }
 
 
@@ -172,8 +172,8 @@ export default class FCreditor extends Vue {
   addCreditorFormData: any = {};
   showAddForm() {
     this.addCreditorFormData = {};
-    this.editDialog = false;
-    this.deleteDialog = false;
+    // this.editDialog = false;
+    // this.deleteDialog = false;
     this.addDialog = true;
   }
   addCreditor() {
@@ -184,51 +184,51 @@ export default class FCreditor extends Vue {
   //ADD ---- END
 
   //EDIT ---- START
-  editDialog = false;
-  editCreditorFormData: any = {};
-  showEditForm() {
-    this.editDialog = true;
-    this.addDialog = false;
-    this.deleteDialog = false;
-  }
-  selectEditCreditor(item: any) {
-    this.editCreditorFormData = {
-      id: this.creditorList.indexOf(item),
-      ...item,
-    };
-    this.showEditForm();
-  }
-  editCreditor(form: any) {
-    Object.assign(
-      this.creditorList[this.editCreditorFormData.id],
-      this.editCreditorFormData
-    );
-    // this.onChange();// calling saveTask
-    this.closeAndClearAllForm();
-  }
+  // editDialog = false;
+  // editCreditorFormData: any = {};
+  // showEditForm() {
+  //   this.editDialog = true;
+  //   this.addDialog = false;
+  //   this.deleteDialog = false;
+  // }
+  // selectEditCreditor(item: any) {
+  //   this.editCreditorFormData = {
+  //     id: this.creditorList.indexOf(item),
+  //     ...item,
+  //   };
+  //   this.showEditForm();
+  // }
+  // editCreditor(form: any) {
+  //   Object.assign(
+  //     this.creditorList[this.editCreditorFormData.id],
+  //     this.editCreditorFormData
+  //   );
+  //   this.onChange();// calling saveTask
+  //   this.closeAndClearAllForm();
+  // }
   //EDIT ---- END
 
 
   //DELETE ---- START
-  deleteDialog = false;
-  deleteCreditorFormData: any = {};
-  showDeleteForm() {
-    this.editDialog = false;
-    this.addDialog = false;
-    this.deleteDialog = true;
-  }
-  selectDeleteCreditor(item: any) {
-    this.deleteCreditorFormData = {
-      id: this.creditorList.indexOf(item),
-      ...item,
-    };
-    this.showDeleteForm();
-  }
-  deleteCreditor() {
-    this.creditorList.splice(this.deleteCreditorFormData.id, 1);
-    // this.onChange();// calling saveTask
-    this.closeAndClearAllForm();
-  }
+  // deleteDialog = false;
+  // deleteCreditorFormData: any = {};
+  // showDeleteForm() {
+  //   this.editDialog = false;
+  //   this.addDialog = false;
+  //   this.deleteDialog = true;
+  // }
+  // selectDeleteCreditor(item: any) {
+  //   this.deleteCreditorFormData = {
+  //     id: this.creditorList.indexOf(item),
+  //     ...item,
+  //   };
+  //   this.showDeleteForm();
+  // }
+  // deleteCreditor() {
+  //   this.creditorList.splice(this.deleteCreditorFormData.id, 1);
+  //   this.onChange();// calling saveTask
+  //   this.closeAndClearAllForm();
+  // }
   //DELETE ---- END
 
 
@@ -259,12 +259,6 @@ export default class FCreditor extends Vue {
   })
   addCreditorFormComponentMetaData!: any;
 
-  @Prop({
-    default: () => {
-      return {};
-    },
-  })
-  editCreditorFormComponentMetaData!: any;
 
   @Prop({
     default: () => {
@@ -275,6 +269,13 @@ export default class FCreditor extends Vue {
 
   @Prop({ default: false })
   disabled!: boolean;
+
+  // @Prop({
+  //   default: () => {
+  //     return {};
+  //   },
+  // })
+  // editCreditorFormComponentMetaData!: any;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   @Prop({ default: () => {} })

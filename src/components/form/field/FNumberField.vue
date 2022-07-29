@@ -1,5 +1,5 @@
 <template>
-  <v-text-field v-mask="mask"  type="number" v-model="modelValue" v-bind="$props" @change="onChange"></v-text-field>
+  <v-text-field v-mask="mask" type="number" v-model="modelValue" v-bind="$props" ></v-text-field>
 </template>
 
 <script lang="ts">
@@ -11,18 +11,9 @@ import { VTextField } from "vuetify/lib";
   },
 })
 export default class FNumberField extends VTextField {
-  
-  @Prop()
-  onChange: () => void;
 
-   @Prop({default: ""})
+  @Prop({default: ""})
   mask: string;
-
-
-
-
-
-
 
 
   
@@ -35,8 +26,8 @@ export default class FNumberField extends VTextField {
     return this.value;
   }
 
-  set modelValue(value) {
-    this.$emit('input', Number(value))
+  set modelValue(newValue) {
+    this.$emit('input', Number(newValue))
   }
   // V-MODEL END
 

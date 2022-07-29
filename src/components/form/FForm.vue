@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center pa-0">
     <div class="col-12">
-      FForm Data : {{formDataComputed}}
+      FForm Data : {{modelValue}}
       <ValidationObserver :ref="componentRef" v-slot="{}">
         <v-card flat color="transparent">
           <v-card-text class="pa-0">
@@ -21,7 +21,7 @@
                     <component
                       dense
                       :is="field.componentName"
-                      v-model="formDataComputed[field.props.key]"
+                      v-model="modelValue[field.props.key]"
                       v-bind="field.props"
                       :error-messages="errors"
                     >
@@ -75,6 +75,22 @@ import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
 
+abstract class ModelVue extends Vue {
+// V-MODEL START
+  @Prop()
+  value!: string;
+
+  get modelValue(): string {
+    return this.value;
+  }
+
+  set modelValue(newValue) {
+    this.$emit('input', newValue)
+  }
+  // V-MODEL END
+}
+
+
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
@@ -98,7 +114,10 @@ import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
     "f-btn": FBtn,
   },
 })
-export default class FForm extends Vue {
+
+export default class FForm extends ModelVue {
+  
+
   @Prop({ default: "" })
   public id!: string;
 
@@ -125,38 +144,13 @@ export default class FForm extends Vue {
   @Prop({ default: false })
   disabled: boolean;
 
-  // TWO WAY BINDING V_MODEL --- START
-  @Prop({
-    default: () => {
-      return {};
-    },
-  })
-  public value!: object;
+  
 
-  formData = {}
-
-  get formDataComputed(): any {
-    return this.formData;
-  }
-
-  set formDataComputed(value) {
-    this.formData = value;
-  }
-
-  @Watch("formData")
-  updateMyForm(value: any, oldValue: any) {
-    this.$emit("input", value);
-  }
-  // TWO WAY BINDING V_MODEL --- END
-
-  public mounted() {
-    this.formData = this.value;
-  }
 
   onSubmit(action: any) {
     (this.$refs[this.componentRef] as any).validate().then((success: boolean) => {
       if (success) {
-        action(this.formDataComputed);
+        action(this.modelValue);
         return;
       } else {
       }

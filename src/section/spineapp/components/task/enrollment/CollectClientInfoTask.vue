@@ -1,10 +1,10 @@
 <template>
   <div>
-    Root Data : {{ bigFormDataComputed }}
+    Root Data : {{ bigFormData }}
     <collect-client-info-task-stepper
       :ref="stepperMetaData.stepperRef"
       :step-meta-data-list="stepperMetaData.stepMetaDataList"
-      v-model="bigFormDataComputed"
+      v-model="bigFormData"
     ></collect-client-info-task-stepper>
     <!-- <f-stepper
       :ref="stepperMetaData.stepperRef"
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component , Watch} from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
@@ -45,20 +45,19 @@ export default class CollectClientInfoTask
 
   taskId = this.$route.params.taskId;
 
-  bigFormData: any = {
-    clientInfo: { name: "", address: {} },
+  bigFormDataLocal: any = {
+    clientInfo: { name: "John", address: {} },
     budgetInfo: { },
     creditorList: [],
     needVerification: false,
   };
 
-  get bigFormDataComputed() {
-    return this.bigFormData
+  get bigFormData() {
+    return this.bigFormDataLocal
   }
 
-  set bigFormDataComputed(value: any) {
-    this.bigFormData.totalDebtAmount = 1231234
-    this.bigFormData = value
+  set bigFormData(value: any) {
+    this.bigFormDataLocal = value
   }
 
   public rootRef = "taskStepperRef";
@@ -69,7 +68,7 @@ export default class CollectClientInfoTask
       stepMetaDataList: [
         new CollectClientInfoTaskStep1(this).getMetaData(),
         new CollectClientInfoTaskStep2(this).getMetaData(),
-        new CollectClientInfoTaskStep3(this).getMetaData(),
+        //new CollectClientInfoTaskStep3(this).getMetaData(),
       ],
     });
   }
@@ -81,10 +80,20 @@ export default class CollectClientInfoTask
     );
   }
 
-  mounted() {
-    if (!!this.taskDetails && !!this.taskDetails.taskOutput) {
-      this.bigFormData = JSON.parse(this.taskDetails.taskOutput);
+  @Watch("taskDetails")
+  updateTaskDetails(newValue: any, oldValue: any) {
+    console.log("task Details");
+    console.log(newValue)
+    if (!!newValue && !!newValue.taskOutput) {
+      this.bigFormData = JSON.parse(newValue.taskOutput);
     }
+  }
+
+  mounted() {
+    console.log("I am in mounted");
+    console.log(this.taskDetails);
+    this.bigFormData = JSON.parse(this.taskDetails.taskOutput);
+    
   }
 
   completeTask() {
@@ -101,12 +110,13 @@ export default class CollectClientInfoTask
   }
 
   saveTask() {
+    const input = JSON.stringify(this.bigFormData)
     console.log("Save take is being called")
     Action.TaskList.Save.execute2(
       this.taskId,
-      JSON.stringify(this.bigFormData),
+      input,
       (output) => {
-        console.log('');
+        // console.log(output);
       },
       (err) => {
         console.error(err);

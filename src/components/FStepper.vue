@@ -30,7 +30,7 @@
             >
               <template v-if="!!formComponent.dataSelectorKey">
                 <component
-                  :ref="formComponent.formRef"
+                  :ref="formComponent.componentRef"
                   :key="formComponentIndx"
                   :is="formComponent.componentName"
                   v-model="stepperDataComputed[formComponent.dataSelectorKey]"
@@ -39,7 +39,7 @@
               </template>
               <template v-if="!formComponent.dataSelectorKey">
                 <component
-                  :ref="formComponent.formRef"
+                  :ref="formComponent.componentRef"
                   :key="formComponentIndx"
                   :is="formComponent.componentName"
                   v-model="stepperDataComputed"
@@ -53,7 +53,7 @@
             >
               <template v-if="!!componentMetaData.dataSelectorKey">
                 <component
-                  :ref="componentMetaData.formRef"
+                  :ref="componentMetaData.componentRef"
                   :key="componentMetaDataIndx"
                   :is="componentMetaData.componentName"
                   v-model="stepperDataComputed[componentMetaData.dataSelectorKey]"
@@ -62,7 +62,7 @@
               </template>
               <template v-if="!componentMetaData.dataSelectorKey">
                 <component
-                  :ref="componentMetaData.formRef"
+                  :ref="componentMetaData.componentRef"
                   :key="componentMetaDataIndx"
                   :is="componentMetaData.componentName"
                   v-model="stepperDataComputed"

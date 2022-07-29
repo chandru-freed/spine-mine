@@ -3,21 +3,16 @@
     <v-col class="col-12" v-if="addDialog">
       <v-card outlined flat>
         <v-card-text class="pb-0">
-          <ValidationObserver
-             key="addCreditorFormDataV"
-            :ref="addCreditorFormComponentMetaData.formRef"
-          >
             <component
               key="addCreditorFormData"
-              :ref="addCreditorFormComponentMetaData.formRef"
+              :ref="addCreditorFormComponentMetaData.componentRef"
               :is="addCreditorFormComponentMetaData.componentName"
               v-model="addCreditorFormData"
               v-bind="addCreditorFormComponentMetaData.props"
             ></component>
-          </ValidationObserver>
           <!-- <component
               key="addCreditorFormData"
-              :ref="addCreditorFormMetaData.formRef"
+              :ref="addCreditorFormMetaData.componentRef"
               :is="addCreditorFormMetaData.componentName"
               v-model="addCreditorFormData"
               v-bind="addCreditorFormMetaData.props"
@@ -44,11 +39,11 @@
         <v-card-text class="pb-0">
           <ValidationObserver
           key="editCreditorFormDataV"
-            :ref="editCreditorFormComponentMetaData.formRef"
+            :ref="editCreditorFormComponentMetaData.componentRef"
           >
           <component
             key="editCreditorFormData"
-            :ref="editCreditorFormComponentMetaData.formRef"
+            :ref="editCreditorFormComponentMetaData.componentRef"
             :is="editCreditorFormComponentMetaData.componentName"
             v-model="editCreditorFormData"
             v-bind="editCreditorFormComponentMetaData.props"
@@ -272,14 +267,14 @@ export default class FCreditor extends Vue {
   }
 
   submitAddCreditor() {
-    (this.$refs[this.addCreditorFormMetaData.formRef] as any).onSubmit((form: any) => {
+    (this.$refs[this.addCreditorFormMetaData.componentRef] as any).onSubmit((form: any) => {
       this.addCreditor();
     });
      
   }
 
   submitEditCreditor(action: any) {
-    (this.$refs[this.editCreditorFormComponentMetaData.formRef] as any)
+    (this.$refs[this.editCreditorFormComponentMetaData.componentRef] as any)
       .validate()
       .then((success: boolean) => {
         if (success) {
@@ -354,7 +349,7 @@ export default class FCreditor extends Vue {
   get addCreditorFormMetaData(): any {
     const addCreditorFormMetaData = new FormMetaData({
       id: "addCreditorForm",
-      formRef: this.addFormRefStr,
+      componentRef: this.addFormRefStr,
       dataSelectorKey: "addCreditorForm",
     });
 

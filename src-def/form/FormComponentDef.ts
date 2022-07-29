@@ -88,7 +88,7 @@ export class FormMetaData
   componentName = "f-form";
 
   id: string;
-  formRef: string;
+  componentRef: string;
 
   dataSelectorKey?: string;
   disabled: boolean;
@@ -97,18 +97,18 @@ export class FormMetaData
 
   constructor({
     id,
-    formRef,
+    componentRef,
     dataSelectorKey,
     disabled = false,
   }: {
     id: string;
-    formRef: string;
+    componentRef: string;
     dataSelectorKey?: string;
     disabled?: boolean;
   }) {
     super(); // pass any FormChildMetaDataProvider field if needs to be passed from user and set it in super
     this.id = id;
-    this.formRef = formRef;
+    this.componentRef = componentRef;
     this.dataSelectorKey = dataSelectorKey;
     this.disabled = disabled;
   }
@@ -127,12 +127,12 @@ export class FormMetaData
     return {
       componentName: this.componentName,
       id: this.id,
-      formRef: this.formRef,
+      componentRef: this.componentRef,
       dataSelectorKey: this.dataSelectorKey,
       props: {
         id: this.id,
-        formRef: this.formRef,
-        name: this.formRef,
+        componentRef: this.componentRef,
+        name: this.componentRef,
         fieldList: this.fieldList.map((comp: FieldMetaData) =>
           comp.componentMetaData()
         ),
@@ -862,17 +862,21 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
 
   addFormRefStr = "addCreditorFormRef";
 
-  getAddFormRef() {
-    console.log(this.root.$refs);
-    console.log(this.root.$refs[this.root.rootRef]);
-    return (this.root.$refs[this.root.rootRef]! as any).$refs[
-      this.componentRef
-    ][0];
+  getRootRef() {
+    return (this.root.$refs[this.root.rootRef]! as any)
+  }
+
+  getCreditorRef() {
+    return this.getRootRef().$refs[this.componentRef][0];
+  }
+
+  getCreditorAddFormRef() {
+    return this.getCreditorRef().$refs[this.addFormRefStr];
   }
 
   addCreditorFunc = () => {
-    this.getAddFormRef().onSubmit((form: any) => {
-      this.fCreditor.addCreditor();
+    this.getCreditorAddFormRef().onSubmit((form: any) => {
+      this.getCreditorRef().addCreditor();
     });
   };
 
@@ -882,6 +886,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
     return {
       ref: this.componentRef,
       componentName: this.componentName,
+      componentRef: this.componentRef,
       dataSelectorKey: this.dataSelectorKey,
       props: {
         id: this.id,
@@ -900,7 +905,7 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
   getAddCreditorFormMetaData(): FormMetaData {
     const addCreditorFormMetaData = new FormMetaData({
       id: "addCreditorForm",
-      formRef: this.addFormRefStr,
+      componentRef: this.addFormRefStr,
       dataSelectorKey: "addCreditorForm",
     });
 
@@ -971,10 +976,10 @@ export class CreditorMetaData implements ComponentMetaDataProvider {
   }
 
   getEditCreditorFormMetaData(): FormMetaData {
-    const formRefStr = "editCreaditorFormRef";
+    const componentRefStr = "editCreditorFormRef";
     const editCreditorFormMetaData = new FormMetaData({
       id: "editCreditorForm",
-      formRef: formRefStr,
+      componentRef: componentRefStr,
       dataSelectorKey: "editCreditorForm",
     });
 

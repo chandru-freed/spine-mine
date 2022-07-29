@@ -18,11 +18,11 @@ export class CollectClientInfoTaskStep1 {
     this.root = root;
   }
 
-  formRefStr = "collectClientInfoRef";
+  componentRefStr = "collectClientInfoRef";
 
   getFormRef() {
     return (this.root.$refs[this.root.rootRef]! as any).$refs[
-      this.formRefStr
+      this.componentRefStr
     ][0];
   }
 
@@ -43,7 +43,7 @@ export class CollectClientInfoTaskStep1 {
   getMetaData(): StepMetaData {
     const form1 = new FormMetaData({
       id: "clientInfo",
-      formRef: this.formRefStr,
+      componentRef: this.componentRefStr,
       dataSelectorKey: "clientInfo",
       disabled: this.root.formDisabled,
     });

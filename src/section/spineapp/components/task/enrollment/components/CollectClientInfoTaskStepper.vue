@@ -23,7 +23,7 @@
           <v-card-text class="pb-0">
             <template v-if="!!step.props.component.dataSelectorKey">
               <component
-                :ref="step.props.component.formRef"
+                :ref="step.props.component.componentRef"
                 :key="stepIndx"
                 :is="step.props.component.componentName"
                 v-model="
@@ -34,7 +34,7 @@
             </template>
             <template v-if="!step.props.component.dataSelectorKey">
               <component
-                :ref="step.props.component.formRef"
+                :ref="step.props.component.componentRef"
                 :key="stepIndx"
                 :is="step.props.component.componentName"
                 v-model="stepperDataComputed"

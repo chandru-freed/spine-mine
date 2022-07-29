@@ -2,7 +2,7 @@
   <div class="row justify-center pa-0">
     <div class="col-12">
       FForm Data : {{formDataComputed}}
-      <ValidationObserver :ref="formRef" v-slot="{}">
+      <ValidationObserver :ref="componentRef" v-slot="{}">
         <v-card flat color="transparent">
           <v-card-text class="pa-0">
             <v-form :disabled="disabled">
@@ -103,7 +103,7 @@ export default class FForm extends Vue {
   public id!: string;
 
   @Prop({ default: "" })
-  public formRef!: string;
+  public componentRef!: string;
 
   @Prop({ default: "" })
   public name!: string;
@@ -154,7 +154,7 @@ export default class FForm extends Vue {
   }
 
   onSubmit(action: any) {
-    (this.$refs[this.formRef] as any).validate().then((success: boolean) => {
+    (this.$refs[this.componentRef] as any).validate().then((success: boolean) => {
       if (success) {
         action(this.formDataComputed);
         return;

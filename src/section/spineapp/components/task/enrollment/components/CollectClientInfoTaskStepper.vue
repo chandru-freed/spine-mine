@@ -24,10 +24,9 @@
             <template v-if="!!step.props.component.dataSelectorKey">
               <component
                 :ref="step.props.component.componentRef"
-                :key="stepIndx"
                 :is="step.props.component.componentName"
                 v-model="
-                  stepperDataComputed[step.props.component.dataSelectorKey]
+                  modelValue[step.props.component.dataSelectorKey]
                 "
                 v-bind="step.props.component.props"
               />
@@ -35,9 +34,8 @@
             <template v-if="!step.props.component.dataSelectorKey">
               <component
                 :ref="step.props.component.componentRef"
-                :key="stepIndx"
                 :is="step.props.component.componentName"
-                v-model="stepperDataComputed"
+                v-model="modelValue"
                 v-bind="step.props.component.props"
               />
             </template>
@@ -56,41 +54,9 @@ import { StepMetaData } from "@/../src-def/form/FormComponentDef";
 
 import FCreditor from "@/section/spineapp/components/task/enrollment/components/FCreditor.vue";
 import FBudget from "@/section/spineapp/components/task/enrollment/components/FBudget.vue";
+import ModelVue from "src-def/ModelVue";
 
-abstract class ModelVue extends Vue {
-  // V-MODEL START
-  @Prop({
-    default: () => {
-      return {};
-    },
-  })
-  value!: any;
 
-  stepperData: any = {};
-
-  get stepperDataComputed(): any {
-    return this.stepperData;
-  }
-
-  set stepperDataComputed(passingValue) {
-    this.stepperData = passingValue;
-  }
-
-  // WATCH as the MODEL VALUE is a OBJ -
-  // And Fields inside the Object if change does not call set of Computed
-  @Watch("stepperData")
-  updateStepperData(newValue: any, oldValue: any) {
-    this.$emit("input", newValue);
-  }
-
-  mounted() {
-    this.stepperData = this.value;
-    this.mounted2();
-  }
-
-  abstract mounted2(): void;
-  // V-MODEL END
-}
 
 @Component({
   components: {
@@ -101,44 +67,7 @@ abstract class ModelVue extends Vue {
     "f-budget": FBudget,
   },
 })
-export default class CollectClientInfoTaskStepper extends Vue {
-
-  // mounted2(){
-  //   console.log("I am in mounted2");
-  // }
-
-  // V-MODEL START
-  @Prop({
-    default: () => {
-      return {};
-    },
-  })
-  value!: any;
-
-  stepperData: any = {};
-
-  get stepperDataComputed(): any {
-    return this.stepperData;
-  }
-
-  set stepperDataComputed(passingValue) {
-    this.stepperData = passingValue;
-  }
-
-  // WATCH as the MODEL VALUE is a OBJ -
-  // And Fields inside the Object if change does not call set of Computed
-  @Watch("stepperData")
-  updateStepperData(newValue: any, oldValue: any) {
-    console.log("stepper watch");
-    console.log(newValue)
-    this.$emit("input", newValue);
-  }
-
-  mounted() {
-    console.log("I am in stepper mounted")
-    console.log(this.value);
-    this.stepperData = this.value;
-  }
+export default class CollectClientInfoTaskStepper extends ModelVue {
 
   @Prop({
     default: () => {
@@ -162,5 +91,6 @@ export default class CollectClientInfoTaskStepper extends Vue {
       this.selectedStep = this.selectedStep - 1;
     }
   }
+
 }
 </script>

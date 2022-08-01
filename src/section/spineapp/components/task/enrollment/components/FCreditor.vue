@@ -140,6 +140,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FForm from "@/components/form/FForm.vue";
 import FBtn from "@/components/FBtn.vue";
 import { ButtonMetaData, FormMetaData, NumberFieldMetaData, SelectFieldMetaData, TextFieldMetaData } from "@/../src-def/form/FormComponentDef";
+import FCreditorInf from "./FCreditorInf";
 
 @Component({
   components: {
@@ -149,8 +150,9 @@ import { ButtonMetaData, FormMetaData, NumberFieldMetaData, SelectFieldMetaData,
     "f-btn": FBtn,
   },
 })
-export default class FCreditor extends Vue {
+export default class FCreditor extends Vue implements FCreditorInf {
   
+  creditorRef = "creditorRef"
   closeAndClearAllForm() {
     this.closeAllForm();
     this.clearAllForm();
@@ -176,6 +178,7 @@ export default class FCreditor extends Vue {
     // this.deleteDialog = false;
     this.addDialog = true;
   }
+
   addCreditor() {
     this.creditorList.push(this.addCreditorFormData);
     this.onChange();// calling saveTask
@@ -183,6 +186,7 @@ export default class FCreditor extends Vue {
   }
   //ADD ---- END
 
+  editCreditor: () => void;
   //EDIT ---- START
   // editDialog = false;
   // editCreditorFormData: any = {};
@@ -307,6 +311,8 @@ export default class FCreditor extends Vue {
   }
 
   mounted() {
+    console.log("I am in FCreditor Mounted");
+    console.log(this.$refs)
     this.creditorList =
       !!this.value && this.value.length >= 0 ? this.value : [];
   }

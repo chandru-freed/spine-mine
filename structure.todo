@@ -1,0 +1,41 @@
+
+src/components
+ ☐ FStepper.vue
+ ☐ FStepperMDP.ts
+ ☐ FForm.vue
+ ☐ FFormMDP.ts
+   ☐ form
+     ☐ FTextField.vue
+     ☐ FTextFieldMDP.ts
+     ☐ FNumberField.vue
+     ☐ FNumberFieldMDP.ts
+ ☐ FBtn.vue
+ ☐ FBtnMDP.ts
+
+src/section/components
+  ☐ enrollment -- flowName
+    ☐ CollectClientInfoTask.vue
+    ☐ CollectClientInfoTaskIntf.ts
+    ☐ collectClientInfo
+      ☐ CollectClientInfoTaskStepperMDP.ts extends StepperMDP.ts
+      ☐ CollectClientInfoTaskProfile.vue
+      ☐ CollectClientInfoTaskProfileMDP.ts extends ComponentMDP.ts
+      ☐ CollectClientInfoTaskCreditor.vue
+      ☐ CollectClientInfoTaskCreditorMDP.ts extends ComponentMDP.ts
+      ☐ CollectClientInfoTaskBudget.vue
+      ☐ CollectClientInfoTaskBudgetMDP.ts extends ComponentMDP.ts
+      ☐ CollectClientInfoTaskBudgetMini.vue
+      ☐ CollectClientInfoTaskBudgetMiniMDP.ts extends ComponentMDP.ts
+      ☐ CollectClientInfoTaskPaymentPlan.vue
+      ☐ CollectClientInfoTaskPaymentPlanMDP.ts extends ComponentMDP.ts
+      ☐ CollectClientInfoTaskBankInfo.vue
+      ☐ CollectClientInfoTaskBankInfoMDP.ts extends ComponentMDP.ts
+      ☐ CollectClientInfoTaskDocumentUpload.vue
+      ☐ CollectClientInfoTaskDocumentUploadMDP.ts extends ComponentMDP.ts
+      ☐ CollectClientInfoTaskConfirmation.vue
+      ☐ CollectClientInfoTaskConfirmationMDP.ts extends ComponentMDP.ts
+
+    ☐ UnderwritingTask.vue
+      ☐ UnderwritingTaskStepperMDP.ts extends StepperMDP.ts   
+      ☐ UnderwritingTaskConfirmation.vue
+      ☐ UnderwritingTaskConfirmationMDP.ts extends ComponentMDP.ts

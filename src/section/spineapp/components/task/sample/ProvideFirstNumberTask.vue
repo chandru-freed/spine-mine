@@ -47,6 +47,8 @@ export default class ProvideFirstNumberTask extends Vue {
   }
 
   mounted() {
+    console.log("I am in ProvideFirstNumber Mounted");
+    console.log(this.$refs)
     this.bigFormDataLocal = JSON.parse(this.taskDetails.taskOutput);
   }
 

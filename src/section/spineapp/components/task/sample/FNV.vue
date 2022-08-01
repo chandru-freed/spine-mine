@@ -11,12 +11,14 @@
           v-model="modelValue"
           v-bind="formMD.props"
         ></component>
+
+
         <!-- <v-text-field :value="modelValue.person.name" @input="updateName" ></v-text-field>
         <v-text-field v-model="modelValue.person.firstNumber" ></v-text-field>   -->
       </v-card-text>
     </v-card>
-    <!-- <v-btn @click="updateData">update</v-btn> -->
-
+    <v-btn @click="doubleIt">update</v-btn>
+    {{doubleFirstNumberLocal}}
     <kbd>{{ value }}</kbd>
   </div>
 </template>
@@ -28,29 +30,29 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FForm from "@/components/form/FForm.vue";
+import ModelVue from "@/../src-def/ModelVue"
 
 @Component({
   components: {
     "f-form": FForm,
   },
 })
-export default class FNV extends Vue {
+export default class FNV extends ModelVue {
   @Prop()
   formMD!: any;
 
+  doubleFirstNumberLocal = 7
 
- // V-MODEL START
-  @Prop()
-  value!: string;
-
-  get modelValue(): string {
-    return this.value;
+  doubleIt() {
+    this.modelValue.firstNumber = this.doubleFirstNumberLocal
   }
 
-  set modelValue(newValue) {
-    this.$emit('input', newValue)
+  mounted() {
+    console.log("I am in FNV Mounted");
+    console.log(this.$refs)
+    console.log("I am in FNV Mounted");
   }
-  // V-MODEL END
+
 }
 </script>
 

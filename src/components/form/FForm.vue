@@ -74,21 +74,7 @@ import FAddress from "@/components/form/field/FAddress.vue";
 import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
-
-abstract class ModelVue extends Vue {
-// V-MODEL START
-  @Prop()
-  value!: string;
-
-  get modelValue(): string {
-    return this.value;
-  }
-
-  set modelValue(newValue) {
-    this.$emit('input', newValue)
-  }
-  // V-MODEL END
-}
+import ModelVue from "@/../src-def/ModelVue"
 
 
 @Component({
@@ -155,6 +141,11 @@ export default class FForm extends ModelVue {
       } else {
       }
     });
+  }
+
+  mounted() {
+    console.log("I am in FForm Mounted");
+    console.log(this.$refs)
   }
 }
 </script>

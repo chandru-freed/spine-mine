@@ -90,7 +90,8 @@ export default class CollectClientInfoTask
   }
 
   mounted() {
-    console.log("I am in mounted");
+    console.log("I am in CollectClientInfoTask mounted");
+    console.log(this.$refs);
     console.log(this.taskDetails);
     this.bigFormData = JSON.parse(this.taskDetails.taskOutput);
     

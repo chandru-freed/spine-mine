@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-model="selectedStep" flat non-linear >
+  <v-stepper v-model="selectedStep" flat non-linear>
     <v-stepper-header flat>
       <v-stepper-step
         editable
@@ -8,70 +8,36 @@
         v-for="(step, stepIndx) in stepMetaDataList"
         :key="stepIndx"
       >
-        {{ step.name }}
+        {{ step.props.name }}
       </v-stepper-step>
     </v-stepper-header>
-    
-
+    {{ value }}
     <v-stepper-items>
       <v-stepper-content
         class="pa-4"
         :step="stepIndx"
-        v-for="(step, stepIndx) in stepMetaDataListComputed"
+        v-for="(step, stepIndx) in stepMetaDataList"
         :key="stepIndx"
       >
         <v-card color="grey lighten-5" flat min-height="600">
-          Stepper Data : {{stepperDataComputed}}
-          STEP : {{step}}
           <v-card-text class="pb-0">
-            <template
-              v-for="(formComponent, formComponentIndx) in step.props
-                .formList"
-            >
-              <template v-if="!!formComponent.dataSelectorKey">
-                <component
-                  :ref="formComponent.componentRef"
-                  :key="formComponentIndx"
-                  :is="formComponent.componentName"
-                  v-model="stepperDataComputed[formComponent.dataSelectorKey]"
-                  v-bind="formComponent.props"
-                />
-              </template>
-              <template v-if="!formComponent.dataSelectorKey">
-                <component
-                  :ref="formComponent.componentRef"
-                  :key="formComponentIndx"
-                  :is="formComponent.componentName"
-                  v-model="stepperDataComputed"
-                  v-bind="formComponent.props"
-                />
-              </template>
+            <template v-if="!!step.props.component.dataSelectorKey">
+              <component
+                :ref="step.props.component.myRef"
+                :is="step.props.component.componentName"
+                v-model="modelValue[step.props.component.dataSelectorKey]"
+                v-bind="step.props.component.props"
+              />
             </template>
-            <template
-              v-for="(componentMetaData, componentMetaDataIndx) in step.props
-                .componentList"
-            >
-              <template v-if="!!componentMetaData.dataSelectorKey">
-                <component
-                  :ref="componentMetaData.componentRef"
-                  :key="componentMetaDataIndx"
-                  :is="componentMetaData.componentName"
-                  v-model="stepperDataComputed[componentMetaData.dataSelectorKey]"
-                  v-bind="componentMetaData.props"
-                />
-              </template>
-              <template v-if="!componentMetaData.dataSelectorKey">
-                <component
-                  :ref="componentMetaData.componentRef"
-                  :key="componentMetaDataIndx"
-                  :is="componentMetaData.componentName"
-                  v-model="stepperDataComputed"
-                  v-bind="componentMetaData.props"
-                />
-              </template>
+            <template v-if="!step.props.component.dataSelectorKey">
+              <component
+                :ref="step.props.component.myRef"
+                :is="step.props.component.componentName"
+                v-model="modelValue"
+                v-bind="step.props.component.props"
+              />
             </template>
           </v-card-text>
-          
         </v-card>
       </v-stepper-content>
     </v-stepper-items>
@@ -79,79 +45,25 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
-import FForm from "@/components/form/FForm.vue";
-import { StepMetaData } from "@/../src-def/form/FormComponentDef";
+import { Component, Prop } from "vue-property-decorator";
+import FForm from "./form/FForm.vue";
 
-import FPaymentPlan from "@/section/spineapp/components/task/enrollment/components/FPaymentPlan.vue";
-import FBudget from "@/section/spineapp/components/task/enrollment/components/FBudget.vue";
+import ModelVue from "@/components/ModelVue";
+
 
 @Component({
   components: {
-    ValidationObserver: ValidationObserver,
-    ValidationProvider: ValidationProvider,
-    "f-form": FForm,
-    "f-payment-plan": FPaymentPlan,
-    "f-budget": FBudget
+    FForm
   },
 })
-export default class FStepper extends Vue {
-  
-
-  // V-MODEL START
-  @Prop({
-    default: () => {
-      return {};
-    },
-  })
-  value!: any;
-
-  stepperData: any = {};
-
-  get stepperDataComputed(): any {
-    return this.stepperData;
-  }
-
-  set stepperDataComputed(value) {
-    this.stepperData = value;
-  }
-
-  // WATCH as the MODEL VALUE is a OBJ -
-  // And Fields inside the Object if change does not call set of Computed
-  @Watch("stepperData")
-  updateMyForm(value: any, oldValue: any) {
-    this.$emit("input", value);
-  }
-
-  mounted() {
-    this.stepperData = this.value;
-  }
-  // V-MODEL END
-
+export default class FStepper extends ModelVue {
   @Prop({
     default: () => {
       return [];
     },
   })
-  stepMetaDataList!: StepMetaData[];
+  stepMetaDataList!: any[];
 
   selectedStep = 0;
-
-  get stepMetaDataListComputed() {
-    return this.stepMetaDataList.map((comp) => comp.componentMetaData());
-  }
-
-  
-
-  nextStepper() {
-    this.selectedStep = this.selectedStep + 1;
-  }
-
-  previousStepper() {
-    if (this.selectedStep > 0) {
-      this.selectedStep = this.selectedStep - 1;
-    }
-  }
 }
 </script>

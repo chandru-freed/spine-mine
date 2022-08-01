@@ -1,34 +1,30 @@
 <template>
   <div>
     Root Data : {{ bigFormData }}
-    <!-- <collect-client-info-task-stepper
-      :ref="stepperMetaData.stepperRef"
-      :step-meta-data-list="stepperMetaData.stepMetaDataList"
+    <component
+      :ref="stepperMetaData.myRef"
+      :is="stepperMetaData.componentName"
       v-model="bigFormData"
-    ></collect-client-info-task-stepper> -->
-    <!-- <f-stepper
-      :ref="stepperMetaData.stepperRef"
-      :step-meta-data-list="stepperMetaData.stepMetaDataList"
-      v-model="bigFormDataComputed"
-    ></f-stepper> -->
+      v-bind="stepperMetaData.props"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component , Watch} from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 
 import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
+import CollectClientInfoTaskFStepperMDP from "./CollectClientInfoTaskFStepperMDP";
 
-import { StepperMetaData } from "@/../src-def/form/FormComponentDef";
+import FStepper from "@/components/FStepper.vue";
 
 @Component({
   components: {
-    // "collect-client-info-task-stepper": CollectClientInfoTaskStepper
-    // "f-stepper": FStepper
+    FStepper,
   },
 })
 export default class CollectClientInfoTask
@@ -42,28 +38,27 @@ export default class CollectClientInfoTask
 
   bigFormDataLocal: any = {
     clientInfo: { name: "John", address: {} },
-    budgetInfo: { },
+    budgetInfo: {},
     creditorList: [],
     needVerification: false,
   };
 
   get bigFormData() {
-    return this.bigFormDataLocal
+    return this.bigFormDataLocal;
   }
 
   set bigFormData(value: any) {
-    this.bigFormDataLocal = value
+    this.bigFormDataLocal = value;
   }
 
-  public rootRef = "taskStepperRef";
+  // getStepperRef() {
+  //   return this.$refs[this.stepperRef];
+  // }
 
-  get stepperMetaData(): StepperMetaData {
-    return new StepperMetaData({
-      stepperRef: this.rootRef,
-      stepMetaDataList: [
-        
-      ],
-    });
+  get stepperMetaData(): object {
+    return new CollectClientInfoTaskFStepperMDP({
+      root: this,
+    }).getMetaData();
   }
 
   get formDisabled(): boolean {
@@ -76,7 +71,7 @@ export default class CollectClientInfoTask
   @Watch("taskDetails")
   updateTaskDetails(newValue: any, oldValue: any) {
     console.log("task Details");
-    console.log(newValue)
+    console.log(newValue);
     if (!!newValue && !!newValue.taskOutput) {
       this.bigFormData = JSON.parse(newValue.taskOutput);
     }
@@ -87,7 +82,6 @@ export default class CollectClientInfoTask
     console.log(this.$refs);
     console.log(this.taskDetails);
     this.bigFormData = JSON.parse(this.taskDetails.taskOutput);
-    
   }
 
   completeTask() {
@@ -104,8 +98,8 @@ export default class CollectClientInfoTask
   }
 
   saveTask() {
-    const input = JSON.stringify(this.bigFormData)
-    console.log("Save take is being called")
+    const input = JSON.stringify(this.bigFormData);
+    console.log("Save take is being called");
     Action.TaskList.Save.execute2(
       this.taskId,
       input,

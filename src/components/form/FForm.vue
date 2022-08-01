@@ -2,7 +2,7 @@
   <div class="row justify-center pa-0">
     <div class="col-12">
       FForm Data : {{modelValue}}
-      <ValidationObserver :ref="componentRef" v-slot="{}">
+      <ValidationObserver :ref="myRef" v-slot="{}">
         <v-card flat color="transparent">
           <v-card-text class="pa-0">
             <v-form :disabled="disabled">
@@ -74,13 +74,15 @@ import FAddress from "@/components/form/field/FAddress.vue";
 import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
-import ModelVue from "@/../src-def/ModelVue"
+import ModelVue from "@/components/ModelVue"
 
 
 @Component({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
+    FBtn,
+    FTextField,
     "v-select": VSelect,
     "v-checkbox": VCheckbox,
     "v-switch": VSwitch,
@@ -88,7 +90,6 @@ import ModelVue from "@/../src-def/ModelVue"
     "v-combobox": VCombobox,
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
-    "f-text-field": FTextField,
     "f-textarea": FTextarea,
     "f-number-field": FNumberField,
     "f-switch": FSwitch,
@@ -97,7 +98,7 @@ import ModelVue from "@/../src-def/ModelVue"
     "f-document": FDocument,
     "f-mini-form": FMiniForm,
     "f-mini-form-with-total": FMiniFormWithTotal,
-    "f-btn": FBtn,
+    
   },
 })
 
@@ -108,7 +109,7 @@ export default class FForm extends ModelVue {
   public id!: string;
 
   @Prop({ default: "" })
-  public componentRef!: string;
+  public myRef!: string;
 
   @Prop({ default: "" })
   public name!: string;
@@ -134,7 +135,7 @@ export default class FForm extends ModelVue {
 
 
   onSubmit(action: any) {
-    (this.$refs[this.componentRef] as any).validate().then((success: boolean) => {
+    (this.$refs[this.myRef] as any).validate().then((success: boolean) => {
       if (success) {
         action(this.modelValue);
         return;

@@ -1,8 +1,9 @@
+import Vue from "vue"
 
 export default interface CollectClientInfoTaskInf {
-  rootRef: string
   $refs: any
   formDisabled: boolean
+  // getStepperRef:() => any
   saveTask: () => void
   completeTask: () => void
 }

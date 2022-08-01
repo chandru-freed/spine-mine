@@ -1,11 +1,11 @@
 <template>
   <div>
     Root Data : {{ bigFormData }}
-    <collect-client-info-task-stepper
+    <!-- <collect-client-info-task-stepper
       :ref="stepperMetaData.stepperRef"
       :step-meta-data-list="stepperMetaData.stepMetaDataList"
       v-model="bigFormData"
-    ></collect-client-info-task-stepper>
+    ></collect-client-info-task-stepper> -->
     <!-- <f-stepper
       :ref="stepperMetaData.stepperRef"
       :step-meta-data-list="stepperMetaData.stepMetaDataList"
@@ -21,18 +21,13 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 
-import CollectClientInfoTaskStepper from "./components/CollectClientInfoTaskStepper.vue";
-// import FStepper from "@/components/FStepper.vue";
-import { CollectClientInfoTaskStep1 } from "./CollectClientInfoTaskStep1";
-import { CollectClientInfoTaskStep2 } from "./CollectClientInfoTaskStep2";
-import { CollectClientInfoTaskStep3 } from "./CollectClientInfoTaskStep3";
 import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
 
 import { StepperMetaData } from "@/../src-def/form/FormComponentDef";
 
 @Component({
   components: {
-    "collect-client-info-task-stepper": CollectClientInfoTaskStepper
+    // "collect-client-info-task-stepper": CollectClientInfoTaskStepper
     // "f-stepper": FStepper
   },
 })
@@ -66,9 +61,7 @@ export default class CollectClientInfoTask
     return new StepperMetaData({
       stepperRef: this.rootRef,
       stepMetaDataList: [
-        new CollectClientInfoTaskStep1(this).getMetaData(),
-        new CollectClientInfoTaskStep2(this).getMetaData(),
-        //new CollectClientInfoTaskStep3(this).getMetaData(),
+        
       ],
     });
   }

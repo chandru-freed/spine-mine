@@ -51,14 +51,12 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/CollectClientInfoTask.vue";
-import ProvideFirstNumberTask from "@/section/spineapp/components/task/sample/ProvideFirstNumberTask.vue";
 
 import * as RemoteApiPoint from "@/remote-api-point";
 
 @Component({
   components: {
     CollectClientInfoTask,
-    ProvideFirstNumberTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -69,7 +67,9 @@ export default class FileTaskArea extends Vue {
 
   availableTaskList = ["CollectClientInfoTask"];
 
-  TASK_COMPONENT_MAP = new Map([["ProvideFirstNumber", "ProvideFirstNumberTask"]]);
+  TASK_COMPONENT_MAP = new Map([
+    ["ProvideFirstNumber", "ProvideFirstNumberTask"],
+  ]);
 
   taskId = this.$route.params.taskId;
 
@@ -127,7 +127,9 @@ export default class FileTaskArea extends Vue {
   startTask() {
     Action.TaskList.Start.execute1(
       this.$route.params.taskId,
-      (output) => {},
+      (output) => {
+        console.log("");
+      },
       (err) => {
         // console.error(err);
       },

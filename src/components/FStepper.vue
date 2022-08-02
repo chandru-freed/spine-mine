@@ -51,9 +51,13 @@ import FForm from "./form/FForm.vue";
 import ModelVue from "@/components/ModelVue";
 
 
+import CollectClientInfoTaskStep2 from  "@/section/spineapp/components/task/enrollment/CollectClientInfoTaskStep2.vue"
+
+
 @Component({
   components: {
-    FForm
+    FForm,
+    CollectClientInfoTaskStep2
   },
 })
 export default class FStepper extends ModelVue {

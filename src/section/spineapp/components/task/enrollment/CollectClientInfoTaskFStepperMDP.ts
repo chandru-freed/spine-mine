@@ -1,7 +1,9 @@
-import FStepperMDP from "@/components/FStepperMDP";
-import CollectClientInfoTaskProfileMDP from "./CollectClientInfoTaskProfileMDP";
-import CollectClientInfoTaskCreditorMDP from "./CollectClientInfoTaskCreditorMDP";
-import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
+import {
+  CollectClientInfoTaskInf,
+  CollectClientInfoTaskStep1MDP,
+  CollectClientInfoTaskStep2MDP,
+  FStepperMDP,
+} from "./CollectClientInfoTaskInf";
 
 export default class CollectClientInfoTaskFStepperMDP extends FStepperMDP {
   root: CollectClientInfoTaskInf;
@@ -16,11 +18,13 @@ export default class CollectClientInfoTaskFStepperMDP extends FStepperMDP {
     super({ myRef: myRef });
     this.root = root;
 
-    this.addStepMDP("Profile", new CollectClientInfoTaskProfileMDP(root, this));
-    this.addStepMDP("Creditor", new CollectClientInfoTaskCreditorMDP(root));
+    this.addStepMDP("Profile", new CollectClientInfoTaskStep1MDP(root, this));
+    this.addStepMDP("Creditor", new CollectClientInfoTaskStep2MDP(root, this));
   }
 
   getMyRef() {
+    console.log("CollectClientInfoTaskFStepperMDP")
+    console.log(this.root.$refs[this.myRef]);
     return this.root.$refs[this.myRef];
   }
 }

@@ -2,10 +2,10 @@ import FBtnMDP from "@/components/FBtnMDP";
 import FFormMDP from "@/components/form/FFormMDP";
 import { FFormChildMDP } from "@/components/form/FFormMDP";
 import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
-import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
+import {CollectClientInfoTaskInf} from "./CollectClientInfoTaskInf";
 import CollectClientInfoTaskFStepperMDP from "./CollectClientInfoTaskFStepperMDP";
 
-export default class CollectClientInfoTaskProfileMDP extends FFormMDP {
+export default class CollectClientInfoTaskStep1MDP extends FFormMDP {
   childMDP = new FFormChildMDP({});
 
   root: CollectClientInfoTaskInf;

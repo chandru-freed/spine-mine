@@ -18,10 +18,12 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 
-import CollectClientInfoTaskInf from "./CollectClientInfoTaskInf";
-import CollectClientInfoTaskFStepperMDP from "./CollectClientInfoTaskFStepperMDP";
 
-import FStepper from "@/components/FStepper.vue";
+import {
+  CollectClientInfoTaskInf,
+  FStepper,
+  CollectClientInfoTaskFStepperMDP,
+} from "./CollectClientInfoTaskInf";
 
 @Component({
   components: {
@@ -38,7 +40,7 @@ export default class CollectClientInfoTask
   taskId = this.$route.params.taskId;
 
   bigFormDataLocal: any = {
-    clientInfo: { name: "John", address: {} },
+    clientInfo: { name: "John", email: "", mobile: "" },
     budgetInfo: {},
     creditorList: [],
     needVerification: false,

@@ -2,6 +2,7 @@
   <div>
     Root Data : {{ bigFormData }}
     <component
+      v-if="!!taskDetails"
       :ref="stepperMetaData.myRef"
       :is="stepperMetaData.componentName"
       v-model="bigFormData"
@@ -43,17 +44,22 @@ export default class CollectClientInfoTask
     needVerification: false,
   };
 
+  taskOutputJson() {
+    return !!this.taskDetails && !!this.taskDetails.taskOutput
+      ? JSON.parse(this.taskDetails.taskOutput)
+      : {};
+  }
+
   get bigFormData() {
+    if (this.taskOutputJson().clientInfo) {
+      this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo;
+    }
     return this.bigFormDataLocal;
   }
 
   set bigFormData(value: any) {
     this.bigFormDataLocal = value;
   }
-
-  // getStepperRef() {
-  //   return this.$refs[this.stepperRef];
-  // }
 
   get stepperMetaData(): object {
     return new CollectClientInfoTaskFStepperMDP({
@@ -66,22 +72,6 @@ export default class CollectClientInfoTask
       this.taskDetails.taskState === "STARTED" ||
       this.taskDetails.taskState === "PARTIALLY_COMPLETED"
     );
-  }
-
-  @Watch("taskDetails")
-  updateTaskDetails(newValue: any, oldValue: any) {
-    console.log("task Details");
-    console.log(newValue);
-    if (!!newValue && !!newValue.taskOutput) {
-      this.bigFormData = JSON.parse(newValue.taskOutput);
-    }
-  }
-
-  mounted() {
-    console.log("I am in CollectClientInfoTask mounted");
-    console.log(this.$refs);
-    console.log(this.taskDetails);
-    this.bigFormData = JSON.parse(this.taskDetails.taskOutput);
   }
 
   completeTask() {

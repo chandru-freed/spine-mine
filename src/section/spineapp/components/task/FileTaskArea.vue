@@ -36,7 +36,7 @@
     <v-card-text class="pa-0">
       <!-- {{taskDetails}} -->
       <component
-        :disabled="taskFormDisabled"
+        v-if="!loading"
         :is="selectedComponent"
       ></component>
     </v-card-text>
@@ -64,6 +64,8 @@ export default class FileTaskArea extends Vue {
 
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+  loading = true
 
   availableTaskList = ["CollectClientInfoTask"];
 
@@ -116,6 +118,7 @@ export default class FileTaskArea extends Vue {
       this.$route.params.taskId,
       (output) => {
         // console.log(output);
+        this.loading = false
       },
       (err) => {
         // console.error(err);

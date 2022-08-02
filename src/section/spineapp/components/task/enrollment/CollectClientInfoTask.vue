@@ -61,7 +61,7 @@ export default class CollectClientInfoTask
     this.bigFormDataLocal = value;
   }
 
-  get stepperMetaData(): object {
+  get stepperMetaData(): any {
     return new CollectClientInfoTaskFStepperMDP({
       root: this,
     }).getMetaData();

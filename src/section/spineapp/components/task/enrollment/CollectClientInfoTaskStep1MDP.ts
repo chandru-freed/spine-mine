@@ -4,6 +4,9 @@ import { FFormChildMDP } from "@/components/form/FFormMDP";
 import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
 import {CollectClientInfoTaskInf} from "./CollectClientInfoTaskInf";
 import CollectClientInfoTaskFStepperMDP from "./CollectClientInfoTaskFStepperMDP";
+import FNumberFieldMDP from "@/components/form/field/FNumberFieldMDP";
+import FMobileFieldMDP from "@/components/form/field/FMobileFieldMDP";
+import FEmailFieldMDP from "@/components/form/field/FEmailFieldMDP";
 
 export default class CollectClientInfoTaskStep1MDP extends FFormMDP {
   childMDP = new FFormChildMDP({});
@@ -28,15 +31,33 @@ export default class CollectClientInfoTaskStep1MDP extends FFormMDP {
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "name",
-        label: "Name",
+        label: "Full Name",
         mandatory: true,
         rules: "max:20",
+        colWidth: 12,
+      })
+    ).addField(
+      new FMobileFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "mobile",
+        label: "Mobile",
+        mandatory: true,
         colWidth: 6,
       })
-    ).addOtherChild(
+    ).addField(
+      new FEmailFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "email",
+        label: "Email",
+        mandatory: true,
+        rules:"max:20",
+        colWidth: 6,
+      })
+    )
+    .addAction(
       new FBtnMDP({
         id: "saveBtn",
-        label: "Save",
+        label: "Save Client Info",
         outlined: true,
         onClick: this.validateAndSave,
       })

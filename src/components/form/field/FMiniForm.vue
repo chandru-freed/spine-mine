@@ -36,7 +36,6 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FBtn from "@/components/FBtn.vue";
 import FTextField from "@/components/form/field/FTextField.vue";
-import FNumberField from "@/components/form/field/FNumberField.vue";
 import FSwitch from "@/components/form/field/FSwitch.vue";
 import FAddress from "@/components/form/field/FAddress.vue";
 
@@ -45,7 +44,6 @@ import FAddress from "@/components/form/field/FAddress.vue";
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
     "f-text-field": FTextField,
-    "f-number-field": FNumberField,
     "f-switch": FSwitch,
     "f-address": FAddress,
     "f-btn": FBtn,

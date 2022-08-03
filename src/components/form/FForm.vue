@@ -31,16 +31,16 @@
               </v-row>
             </v-form>
           </v-card-text>
-          <v-card-actions v-if="otherChildren.length > 0">
+          <v-card-actions v-if="actionList.length > 0 && !disabled">
             <v-row no-gutters>
               <v-col
-                v-for="(otherChild, index) in otherChildren"
+                v-for="(action, index) in actionList"
                 :key="index"
-                :class="otherChild.boundaryClass"
+                :class="action.boundaryClass"
               >
                 <component
-                  :is="otherChild.componentName"
-                  v-bind="otherChild.props"
+                  :is="action.componentName"
+                  v-bind="action.props"
                 >
                 </component>
               </v-col>
@@ -67,7 +67,6 @@ import {
 import FBtn from "@/components/FBtn.vue";
 import FTextField from "@/components/form/field/FTextField.vue";
 import FTextarea from "@/components/form/field/FTextarea.vue";
-import FNumberField from "@/components/form/field/FNumberField.vue";
 import FSwitch from "@/components/form/field/FSwitch.vue";
 import FSelect from "@/components/form/field/FSelect.vue";
 import FAddress from "@/components/form/field/FAddress.vue";
@@ -91,12 +90,11 @@ import ModelVue from "@/components/ModelVue"
     "v-autocomplete": VAutocomplete,
     "v-file-input": VFileInput,
     "f-textarea": FTextarea,
-    "f-number-field": FNumberField,
     "f-switch": FSwitch,
     "f-select": FSelect,
     "f-address": FAddress,
     "f-document": FDocument,
-    "f-mini-form": FMiniForm,
+    "f-mini-form": FMiniForm, 
     "f-mini-form-with-total": FMiniFormWithTotal,
     
   },
@@ -126,7 +124,7 @@ export default class FForm extends ModelVue {
       return [];
     },
   })
-  public otherChildren!: any[];
+  public actionList!: any[];
 
   @Prop({ default: false })
   disabled: boolean;

@@ -97,7 +97,7 @@ export class CollectClientInfoTaskStep1AddFormMDP extends FFormMDP {
         colWidth: 6,
       })
     )
-      .addOtherChild(
+      .addAction(
         new FBtnMDP({
           id: "cancelAddForm",
           label: "Cancel",
@@ -105,7 +105,7 @@ export class CollectClientInfoTaskStep1AddFormMDP extends FFormMDP {
           onClick: this.cancelAddForm,
         })
       )
-      .addOtherChild(
+      .addAction(
         new FBtnMDP({
           id: "saveBtn",
           label: "Save",
@@ -157,7 +157,7 @@ export class CollectClientInfoTaskStep1EditFormMDP extends FFormMDP {
         colWidth: 6,
       })
     )
-      .addOtherChild(
+      .addAction(
         new FBtnMDP({
           id: "cancelEditForm",
           label: "Cancel",
@@ -165,7 +165,7 @@ export class CollectClientInfoTaskStep1EditFormMDP extends FFormMDP {
           onClick: this.cancelEditForm,
         })
       )
-      .addOtherChild(
+      .addAction(
         new FBtnMDP({
           id: "updateBtn",
           label: "Update",

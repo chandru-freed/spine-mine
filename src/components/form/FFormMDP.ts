@@ -1,4 +1,5 @@
 import { MDP } from "@/components/MDP";
+import FBtnMDP from "../FBtnMDP";
 
 export class FFormChildMDP {
   dense: boolean;
@@ -21,7 +22,7 @@ export class FFormChildMDP {
 }
 
 export default class FFormMDP implements MDP {
-  componentName = "f-form";
+  componentName = "FForm";
 
   id: string;
   myRef: string;
@@ -29,7 +30,7 @@ export default class FFormMDP implements MDP {
   dataSelectorKey?: string;
   disabled: boolean;
   fieldList: FFormFieldMDP[] = [];
-  otherChildren: MDP[] = [];
+  actionList: FBtnMDP[] = [];
 
   constructor({
     id,
@@ -53,8 +54,8 @@ export default class FFormMDP implements MDP {
     return this;
   }
 
-  addOtherChild(child: MDP) {
-    this.otherChildren.push(child);
+  addAction(action: FBtnMDP) {
+    this.actionList.push(action);
     return this;
   }
 
@@ -71,7 +72,7 @@ export default class FFormMDP implements MDP {
         fieldList: this.fieldList.map((comp: FFormFieldMDP) =>
           comp.getMetaData()
         ),
-        otherChildren: this.otherChildren.map((comp: MDP) =>
+        actionList: this.actionList.map((comp: FBtnMDP) =>
           comp.getMetaData()
         ),
         disabled: this.disabled,

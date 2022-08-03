@@ -3,6 +3,7 @@ import { FFormChildMDP } from "../FFormMDP";
 import FTextFieldMDP from "./FTextFieldMDP";
 
 export default class FNumberFieldMDP extends FTextFieldMDP {
+  componentName = "FNumberField";
   type = "number";
 
 

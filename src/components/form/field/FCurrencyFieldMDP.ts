@@ -1,11 +1,10 @@
 import { MDP } from "@/components/MDP";
 import { FFormChildMDP } from "../FFormMDP";
-import FTextFieldMDP from "./FTextFieldMDP";
+import FNumberFieldMDP from "./FNumberFieldMDP";
 
-export default class FMobileFieldMDP extends FTextFieldMDP {
-  componentName = "FNumberField";
-  mask = "##########";
-
+export default class FCurrencyFieldMDP extends FNumberFieldMDP {
+  componentName = "FCurrencyField";
+  type = "number";
 
   getMetaData(): object {
     return {

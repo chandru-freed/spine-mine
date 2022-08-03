@@ -66,12 +66,16 @@ import {
 } from "vuetify/lib";
 import FBtn from "@/components/FBtn.vue";
 import FTextField from "@/components/form/field/FTextField.vue";
+import FNumberField from "@/components/form/field/FNumberField.vue";
+import FCurrencyField from "@/components/form/field/FCurrencyField.vue";
+
 import FTextarea from "@/components/form/field/FTextarea.vue";
 import FSwitch from "@/components/form/field/FSwitch.vue";
 import FSelect from "@/components/form/field/FSelect.vue";
 import FAddress from "@/components/form/field/FAddress.vue";
 import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
+import FBudgetMiniForm from "@/components/form/field/FBudgetMiniForm.vue";
 import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
 import ModelVue from "@/components/ModelVue"
 
@@ -82,6 +86,10 @@ import ModelVue from "@/components/ModelVue"
     ValidationProvider: ValidationProvider,
     FBtn,
     FTextField,
+    FMiniForm, 
+    FBudgetMiniForm,
+    FNumberField,
+    FCurrencyField,
     "v-select": VSelect,
     "v-checkbox": VCheckbox,
     "v-switch": VSwitch,
@@ -94,7 +102,6 @@ import ModelVue from "@/components/ModelVue"
     "f-select": FSelect,
     "f-address": FAddress,
     "f-document": FDocument,
-    "f-mini-form": FMiniForm, 
     "f-mini-form-with-total": FMiniFormWithTotal,
     
   },

@@ -2,6 +2,7 @@ import {
   CollectClientInfoTaskInf,
   CollectClientInfoTaskStep1MDP,
   CollectClientInfoTaskStep2MDP,
+  CollectClientInfoTaskStep3MDP,
   FStepperMDP,
 } from "./CollectClientInfoTaskInf";
 
@@ -20,6 +21,7 @@ export default class CollectClientInfoTaskFStepperMDP extends FStepperMDP {
 
     this.addStepMDP("Profile", new CollectClientInfoTaskStep1MDP(root, this));
     this.addStepMDP("Creditor", new CollectClientInfoTaskStep2MDP(root, this));
+    this.addStepMDP("Budget", new CollectClientInfoTaskStep3MDP(root, this));
   }
 
   getMyRef() {

@@ -1,5 +1,5 @@
 <template>
-  <v-text-field prefix="$" v-mask="mask" v-model="modelValue" v-bind="$props" ></v-text-field>
+  <v-text-field prefix="₹" v-mask="mask" v-model="modelValue" v-bind="$props" ></v-text-field>
 </template>
 
 <script lang="ts">

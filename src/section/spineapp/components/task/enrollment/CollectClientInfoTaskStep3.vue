@@ -1,18 +1,18 @@
 <template>
-  <v-card>
-    <v-row>
+  <v-card flat color="transparent">
+    <v-row no-gutters>
       <v-col col="12">
         <v-card outlined>
           <component
-            :ref="budgetRelevantFormMetaData.myRef"
-            :is="budgetRelevantFormMetaData.componentName"
-            :value="modelValue[budgetRelevantFormMetaData.dataSelectorKey]"
-            v-bind="budgetRelevantFormMetaData.props"
+            :ref="profileFormMetaData.myRef"
+            :is="profileFormMetaData.componentName"
+            :value="modelValue[profileFormMetaData.dataSelectorKey]"
+            v-bind="profileFormMetaData.props"
           />
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row no-gutters>
       <template v-if="!!budgetFormMetaData.dataSelectorKey">
         <component
           :ref="budgetFormMetaData.myRef"
@@ -31,15 +31,18 @@
       </template>
     </v-row>
     <v-row>
-      <v-col class="mx-6">
-        <FCurrencyField
-          type="number"
-          disabled
-          :label="`Total Income`"
-          outlined
-          dense
-          :value="totalIncome"
-        ></FCurrencyField>
+      <v-col>
+        <v-card outlined>
+          <v-card-text>
+            <FCurrencyField
+              disabled
+              :label="`Total Income`"
+              outlined
+              dense
+              :value="totalIncome"
+            ></FCurrencyField>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-card>
@@ -60,7 +63,7 @@ import FCurrencyField from "@/components/form/field/FCurrencyField.vue";
 })
 export default class CollectClientInfoTaskStep3 extends ModelVue {
   @Prop()
-  budgetRelevantFormMetaData: any;
+  profileFormMetaData: any;
 
   @Prop()
   budgetFormMetaData: any;

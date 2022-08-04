@@ -1,15 +1,15 @@
 import { MDP } from "@/components/MDP";
 import FFormMDP from "@/components/form/FFormMDP";
 import { FFormChildMDP } from "@/components/form/FFormMDP";
-import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
 import {
   CollectClientInfoTaskFStepperMDP,
   CollectClientInfoTaskInf,
 } from "./CollectClientInfoTaskInf";
 import FBtnMDP from "@/components/FBtnMDP";
-import FMiniFormMDP from "@/components/form/field/FMiniFormMDP";
+import CollectClientInfoTaskStep3ProfileFormMDP from "./CollectClientInfoTaskStep3ProfileFormMDP";
 import IncomeSourceFMiniFormMDP from "./IncomeSourceFMiniFormMDP";
 import DebtRepaymentsFMiniFormMDP from "./DebtRepaymentsFMiniFormMDP";
+import CollectClientInfoTaskStep3BudgetFormMDP from "./CollectClientInfoTaskStep3BudgetFormMDP";
 
 export default class CollectClientInfoTaskStep3MDP implements MDP {
   childMDP = new FFormChildMDP({});
@@ -23,7 +23,7 @@ export default class CollectClientInfoTaskStep3MDP implements MDP {
   dataSelectorKey?: string;
   disabled: boolean;
 
-  budgetRelevantFormMDP: FFormMDP;
+  profileFormMDP: CollectClientInfoTaskStep3ProfileFormMDP;
   budgetFormMDP: FFormMDP;
   actionListMDP: FBtnMDP[] = [];
 
@@ -37,42 +37,14 @@ export default class CollectClientInfoTaskStep3MDP implements MDP {
     this.myRef = "budgetInfoRef";
     this.disabled = root.formDisabled;
 
-    this.budgetRelevantFormMDP = new FFormMDP({
-      id: "budgetRelevantForm",
-      myRef: "budgetRelevantFormRef",
-      disabled: true,
-      dataSelectorKey: "clientInfo"
-    });
-    this.budgetRelevantFormMDP.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "name",
-        label: "Full Name",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 12,
-      })
+    this.profileFormMDP = new CollectClientInfoTaskStep3ProfileFormMDP(
+      this.root,
+      this
     );
 
-    this.budgetFormMDP = new FFormMDP({
-      id: "mainBudgetForm",
-      myRef: "mainBudgetFormRef",
-      dataSelectorKey: "budgetInfo",
-      disabled: root.formDisabled,
-    });
-
-    this.budgetFormMDP.addField(new IncomeSourceFMiniFormMDP(this.root, this));
-    this.budgetFormMDP.addField(
-      new DebtRepaymentsFMiniFormMDP(this.root, this)
-    );
-
-    this.actionListMDP.push(
-      new FBtnMDP({
-        id: "saveBtn",
-        label: "Save",
-        outlined: true,
-        onClick: this.root.saveTask,
-      })
+    this.budgetFormMDP = new CollectClientInfoTaskStep3BudgetFormMDP(
+      this.root,
+      this
     );
   }
 
@@ -90,7 +62,7 @@ export default class CollectClientInfoTaskStep3MDP implements MDP {
         id: this.id,
         myRef: this.myRef,
         name: this.myRef,
-        budgetRelevantFormMetaData: this.budgetRelevantFormMDP.getMetaData(),
+        profileFormMetaData: this.profileFormMDP.getMetaData(),
         budgetFormMetaData: this.budgetFormMDP.getMetaData(),
         actionListMetaData: this.actionListMDP.map((mdp) => mdp.getMetaData()),
         disabled: this.disabled,

@@ -7,6 +7,8 @@ import {
   CollectClientInfoTaskInf,
 } from "./CollectClientInfoTaskInf";
 import FBtnMDP from "@/components/FBtnMDP";
+import { CollectClientInfoTaskStep2AddFormMDP } from "./CollectClientInfoTaskStep2AddFormMDP";
+import { CollectClientInfoTaskStep2EditFormMDP } from "./CollectClientInfoTaskStep2EditFormMDP";
 
 export default class CollectClientInfoTaskStep2MDP implements MDP {
   root: CollectClientInfoTaskInf;
@@ -34,8 +36,8 @@ export default class CollectClientInfoTaskStep2MDP implements MDP {
     this.dataSelectorKey = "creditorList";
     this.disabled = root.formDisabled;
 
-    this.addFormMDP = new CollectClientInfoTaskStep1AddFormMDP(root, this);
-    this.editFormMDP = new CollectClientInfoTaskStep1EditFormMDP(root, this);
+    this.addFormMDP = new CollectClientInfoTaskStep2AddFormMDP(root, this);
+    this.editFormMDP = new CollectClientInfoTaskStep2EditFormMDP(root, this);
     this.actionListMDP.push(
       new FBtnMDP({
         id: "saveBtn",
@@ -67,124 +69,4 @@ export default class CollectClientInfoTaskStep2MDP implements MDP {
       },
     };
   }
-}
-
-export class CollectClientInfoTaskStep1AddFormMDP extends FFormMDP {
-  childMDP = new FFormChildMDP({});
-
-  root: CollectClientInfoTaskInf;
-  parent: CollectClientInfoTaskStep2MDP;
-
-  constructor(
-    root: CollectClientInfoTaskInf,
-    parent: CollectClientInfoTaskStep2MDP
-  ) {
-    super({
-      id: "addCreditorForm",
-      myRef: "addCreditorFormRef",
-      disabled: root.formDisabled,
-    });
-    this.root = root;
-    this.parent = parent;
-
-    this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "creditor",
-        label: "Creditor",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    )
-      .addAction(
-        new FBtnMDP({
-          id: "cancelAddForm",
-          label: "Cancel",
-          outlined: true,
-          onClick: this.cancelAddForm,
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          id: "saveBtn",
-          label: "Save",
-          onClick: this.validateAndSave,
-        })
-      );
-  }
-
-  getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRef];
-  }
-
-  cancelAddForm = () => {
-    this.parent.getMyRef().closeAndClearAllForm();
-  };
-
-  validateAndSave = () => {
-    this.getMyRef().onSubmit((form: any) => {
-      this.parent.getMyRef().addCreditor();
-    });
-  };
-}
-
-export class CollectClientInfoTaskStep1EditFormMDP extends FFormMDP {
-  childMDP = new FFormChildMDP({});
-
-  root: CollectClientInfoTaskInf;
-  parent: CollectClientInfoTaskStep2MDP;
-
-  constructor(
-    root: CollectClientInfoTaskInf,
-    parent: CollectClientInfoTaskStep2MDP
-  ) {
-    super({
-      id: "editCreditorForm",
-      myRef: "editCreditorFormRef",
-      disabled: root.formDisabled,
-    });
-    this.root = root;
-    this.parent = parent;
-
-    this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "creditor",
-        label: "Creditor",
-        mandatory: true,
-        rules: "max:20",
-        colWidth: 6,
-      })
-    )
-      .addAction(
-        new FBtnMDP({
-          id: "cancelEditForm",
-          label: "Cancel",
-          outlined: true,
-          onClick: this.cancelEditForm,
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          id: "updateBtn",
-          label: "Update",
-          onClick: this.validateAndSave,
-        })
-      );
-  }
-
-  getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRef];
-  }
-
-  cancelEditForm = () => {
-    this.parent.getMyRef().closeAndClearAllForm();
-  };
-
-  validateAndSave = () => {
-    this.getMyRef().onSubmit((form: any) => {
-      this.parent.getMyRef().editCreditor();
-    });
-  };
 }

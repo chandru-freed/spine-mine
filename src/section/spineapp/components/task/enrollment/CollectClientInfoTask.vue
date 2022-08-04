@@ -41,7 +41,7 @@ export default class CollectClientInfoTask
 
   bigFormDataLocal: any = {
     clientInfo: { name: "John", email: "", mobile: "" },
-    budgetInfo: {name: "", incomeSources: {}, debtRepayments: {}, livingExpense: {}, lifestyleExpense: {}, dependentExpense: {}, incidentalExpense: {}, miscellaneousExpense: {}},
+    budgetInfo: { incomeSources: {}, debtRepayments: {}, livingExpense: {}, lifestyleExpense: {}, dependentExpense: {}, incidentalExpense: {}, miscellaneousExpense: {}},
     creditorList: [],
     needVerification: false,
   };

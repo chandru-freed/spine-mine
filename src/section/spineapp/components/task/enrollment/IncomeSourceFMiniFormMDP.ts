@@ -6,17 +6,17 @@ import FMiniFormMDP from "@/components/form/field/FMiniFormMDP";
 import FNumberFieldMDP from "@/components/form/field/FNumberFieldMDP";
 import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
 import { CollectClientInfoTaskInf } from "./CollectClientInfoTaskInf";
-import CollectClientInfoTaskStep3MDP from "./CollectClientInfoTaskStep3MDP";
+import CollectClientInfoTaskStep3BudgetFormMDP from "./CollectClientInfoTaskStep3BudgetFormMDP";
 
 export default class IncomeSourceFMiniFormMDP extends FBudgetMiniFormMDP {
   childMDP = new FFormChildMDP({});
 
   root: CollectClientInfoTaskInf;
-  parent: CollectClientInfoTaskStep3MDP
+  parent: CollectClientInfoTaskStep3BudgetFormMDP
 
   constructor(
     root: CollectClientInfoTaskInf,
-    parent: CollectClientInfoTaskStep3MDP
+    parent: CollectClientInfoTaskStep3BudgetFormMDP
   ) {
     super({
       parentMDP: new FFormChildMDP({}),

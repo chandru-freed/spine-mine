@@ -35,3 +35,6 @@ export default class FTextField extends VTextField {
 
 }
 </script>
+<style scoped>
+
+</style>

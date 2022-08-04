@@ -8,8 +8,8 @@
     <v-row>
       <v-col class="mx-6">
         <FCurrencyField
+          readonly
           type="number"
-          disabled
           :label="`Total ${label}`"
           outlined
           dense

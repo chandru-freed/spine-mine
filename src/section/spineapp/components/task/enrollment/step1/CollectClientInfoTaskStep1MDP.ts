@@ -6,6 +6,7 @@ import {CollectClientInfoTaskIntf} from "../CollectClientInfoTaskIntf";
 import CollectClientInfoTaskFStepperMDP from "../CollectClientInfoTaskFStepperMDP";
 import FMobileFieldMDP from "@/components/form/field/FMobileFieldMDP";
 import FEmailFieldMDP from "@/components/form/field/FEmailFieldMDP";
+import FSelectMDP from "@/components/form/field/FSelectMDP";
 
 export default class CollectClientInfoTaskStep1MDP extends FFormMDP {
   childMDP = new FFormChildMDP({});
@@ -40,6 +41,7 @@ export default class CollectClientInfoTaskStep1MDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "mobile",
         label: "Mobile",
+        placeholder: "Mobile Number",
         mandatory: true,
         colWidth: 6,
       })
@@ -51,6 +53,16 @@ export default class CollectClientInfoTaskStep1MDP extends FFormMDP {
         mandatory: true,
         rules:"max:20",
         colWidth: 6,
+      })
+    ).addField(
+      new FSelectMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "gender",
+        label: "Gender",
+        mandatory: true,
+        rules:"max:20",
+        colWidth: 6,
+        options: ["Male", "Female", "Others"]
       })
     )
     .addAction(

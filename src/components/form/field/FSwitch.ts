@@ -1,9 +1,9 @@
 
 import { FFormChildMDP, FFormFieldMDP } from "../FFormMDP";
 
-export default class FTextFieldMDP implements FFormFieldMDP {
+export default class FSwitchMDP implements FFormFieldMDP {
   // FIXED
-  componentName = "FTextField";
+  componentName = "FSwitch";
   type: string; // = "text";
   // MANDATORY
   id: string;
@@ -83,7 +83,6 @@ export default class FTextFieldMDP implements FFormFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         mask: this.mask,
-        placeholder: this.placeholder,
         onChange: this.onChange,
       },
     };

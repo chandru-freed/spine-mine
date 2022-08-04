@@ -12,18 +12,6 @@ import { VTextarea } from "vuetify/lib";
 })
 export default class FTextarea extends VTextarea {
   
-  @Prop()
-  onChange: () => void;
-
-
-
-
-
-
-
-
-
-  
 
   // V-MODEL START
   @Prop()

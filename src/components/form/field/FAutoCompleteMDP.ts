@@ -1,10 +1,9 @@
 
 import { FFormChildMDP, FFormFieldMDP } from "../FFormMDP";
 
-export default class FTextFieldMDP implements FFormFieldMDP {
+export default class FAutoCompleteMDP implements FFormFieldMDP {
   // FIXED
-  componentName = "FTextField";
-  type: string; // = "text";
+  componentName = "FAutoComplete";
   // MANDATORY
   id: string;
   dataSelectorKey: string;
@@ -16,14 +15,14 @@ export default class FTextFieldMDP implements FFormFieldMDP {
   disabled: boolean;
   mask: string;
   placeholder: string;
-  onChange: () => void;
+  onSelect: () => void;
   parentMDP: FFormChildMDP;
+  options: any[]
 
   constructor({
     parentMDP,
     id,
     dataSelectorKey,
-    type = "text",
     label,
     rules = "",
     colWidth = 12,
@@ -32,12 +31,12 @@ export default class FTextFieldMDP implements FFormFieldMDP {
     mask = "",
     placeholder = "",
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onChange = () => {},
+    onSelect = () => {},
+    options = []
   }: {
     parentMDP: FFormChildMDP;
     id?: string;
     dataSelectorKey: string;
-    type?: string;
     label: string;
     rules?: string;
     colWidth?: number;
@@ -45,12 +44,12 @@ export default class FTextFieldMDP implements FFormFieldMDP {
     disabled?: boolean;
     mask?: string;
     placeholder?: string;
-    onChange?: () => void;
+    onSelect?: () => void;
+    options: any[]
   }) {
     this.parentMDP = parentMDP;
     this.id = !!id ? id : dataSelectorKey;
     this.dataSelectorKey = dataSelectorKey;
-    this.type = type;
     this.label = label;
     this.rules = rules;
     this.colWidth = colWidth;
@@ -58,7 +57,8 @@ export default class FTextFieldMDP implements FFormFieldMDP {
     this.disabled = disabled;
     this.mask = mask;
     this.placeholder = placeholder;
-    this.onChange = onChange;
+    this.onSelect = onSelect;
+    this.options = options
   }
 
   getBoundaryClass() {
@@ -76,15 +76,14 @@ export default class FTextFieldMDP implements FFormFieldMDP {
       boundaryClass: this.getBoundaryClass(),
       props: {
         key: this.dataSelectorKey,
-        type: this.type,
         name: this.dataSelectorKey, // todo: check the name functionalities
         label: this.label,
         disabled: this.disabled,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         mask: this.mask,
-        placeholder: this.placeholder,
-        onChange: this.onChange,
+        onSelect: this.onSelect,
+        items: this.options
       },
     };
   }

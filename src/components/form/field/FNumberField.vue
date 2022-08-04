@@ -17,7 +17,7 @@ export default class FNumberField extends VTextField {
   mask: string;
 
   // V-MODEL START
-  @Prop()
+  @Prop({})
   value!: string;
 
   get modelValue(): string {
@@ -25,10 +25,14 @@ export default class FNumberField extends VTextField {
   }
 
   set modelValue(newValue) {
-    this.$emit('input', Number(newValue))
+    const newVal = Number.parseInt(newValue) || null;
+    this.$emit('input', newVal)
   }
   // V-MODEL END
 
 
 }
 </script>
+<style >
+
+</style>

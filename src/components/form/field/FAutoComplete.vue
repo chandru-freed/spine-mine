@@ -1,5 +1,5 @@
 <template>
-  <v-autocomplete v-model="modelValue" v-bind="$props" @change="onChange"></v-autocomplete>
+  <v-autocomplete v-model="modelValue" v-bind="$props" @select="onSelect"></v-autocomplete>
 </template>
 
 <script lang="ts">
@@ -13,7 +13,7 @@ import { VAutocomplete } from "vuetify/lib";
 export default class FAutocomplete extends VAutocomplete {
   
   @Prop()
-  onChange: () => void;
+  onSelect: () => void;
 
 
 

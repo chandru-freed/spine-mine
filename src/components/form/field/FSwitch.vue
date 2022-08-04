@@ -15,13 +15,6 @@ export default class FSwitch extends VSwitch {
 
 
 
-
-
-
-
-
-
-
   
   // V-MODEL START
   @Prop({default: false})

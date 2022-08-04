@@ -1,5 +1,5 @@
 <template>
-  <v-select v-model="modelValue" v-bind="$props" @change="onChange"></v-select>
+  <v-select v-model="modelValue" v-bind="$props" @select="onSelect"></v-select>
 </template>
 
 <script lang="ts">
@@ -13,7 +13,7 @@ import { VSelect } from "vuetify/lib";
 export default class FTextField extends VSelect {
   
   @Prop()
-  onChange: () => void;
+  onSelect: () => void;
 
 
 

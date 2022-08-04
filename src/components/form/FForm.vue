@@ -76,7 +76,6 @@ import FAddress from "@/components/form/field/FAddress.vue";
 import FDocument from "@/components/form/field/FDocument.vue";
 import FMiniForm from "@/components/form/field/FMiniForm.vue";
 import FBudgetMiniForm from "@/components/form/field/FBudgetMiniForm.vue";
-import FMiniFormWithTotal from "@/components/form/field/FMiniFormWithTotal.vue";
 import ModelVue from "@/components/ModelVue"
 
 
@@ -90,6 +89,7 @@ import ModelVue from "@/components/ModelVue"
     FBudgetMiniForm,
     FNumberField,
     FCurrencyField,
+    FSelect,
     "v-select": VSelect,
     "v-checkbox": VCheckbox,
     "v-switch": VSwitch,
@@ -99,10 +99,8 @@ import ModelVue from "@/components/ModelVue"
     "v-file-input": VFileInput,
     "f-textarea": FTextarea,
     "f-switch": FSwitch,
-    "f-select": FSelect,
     "f-address": FAddress,
     "f-document": FDocument,
-    "f-mini-form-with-total": FMiniFormWithTotal,
     
   },
 })

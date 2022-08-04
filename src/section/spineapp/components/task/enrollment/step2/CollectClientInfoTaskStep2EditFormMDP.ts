@@ -1,22 +1,22 @@
 import FBtnMDP from "@/components/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/form/FFormMDP";
 import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
-import { CollectClientInfoTaskInf } from "./CollectClientInfoTaskInf";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 import CollectClientInfoTaskStep2MDP from "./CollectClientInfoTaskStep2MDP";
 
-export class CollectClientInfoTaskStep2AddFormMDP extends FFormMDP {
+export class CollectClientInfoTaskStep2EditFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP({});
 
-  root: CollectClientInfoTaskInf;
+  root: CollectClientInfoTaskIntf;
   parent: CollectClientInfoTaskStep2MDP;
 
   constructor(
-    root: CollectClientInfoTaskInf,
+    root: CollectClientInfoTaskIntf,
     parent: CollectClientInfoTaskStep2MDP
   ) {
     super({
-      id: "addCreditorForm",
-      myRef: "addCreditorFormRef",
+      id: "editCreditorForm",
+      myRef: "editCreditorFormRef",
       disabled: root.formDisabled,
     });
     this.root = root;
@@ -34,16 +34,16 @@ export class CollectClientInfoTaskStep2AddFormMDP extends FFormMDP {
     )
       .addAction(
         new FBtnMDP({
-          id: "cancelAddForm",
+          id: "cancelEditForm",
           label: "Cancel",
           outlined: true,
-          onClick: this.cancelAddForm,
+          onClick: this.cancelEditForm,
         })
       )
       .addAction(
         new FBtnMDP({
-          id: "saveBtn",
-          label: "Save",
+          id: "updateBtn",
+          label: "Update",
           onClick: this.validateAndSave,
         })
       );
@@ -53,13 +53,13 @@ export class CollectClientInfoTaskStep2AddFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRef];
   }
 
-  cancelAddForm = () => {
+  cancelEditForm = () => {
     this.parent.getMyRef().closeAndClearAllForm();
   };
 
   validateAndSave = () => {
     this.getMyRef().onSubmit((form: any) => {
-      this.parent.getMyRef().addCreditor();
+      this.parent.getMyRef().editCreditor();
     });
   };
 }

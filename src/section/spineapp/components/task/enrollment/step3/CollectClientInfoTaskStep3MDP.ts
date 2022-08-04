@@ -1,43 +1,50 @@
 import { MDP } from "@/components/MDP";
 import FFormMDP from "@/components/form/FFormMDP";
 import { FFormChildMDP } from "@/components/form/FFormMDP";
-import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
 import {
   CollectClientInfoTaskFStepperMDP,
-  CollectClientInfoTaskInf,
-} from "./CollectClientInfoTaskInf";
+  CollectClientInfoTaskIntf,
+} from "../CollectClientInfoTaskIntf"
 import FBtnMDP from "@/components/FBtnMDP";
-import { CollectClientInfoTaskStep2AddFormMDP } from "./CollectClientInfoTaskStep2AddFormMDP";
-import { CollectClientInfoTaskStep2EditFormMDP } from "./CollectClientInfoTaskStep2EditFormMDP";
+import CollectClientInfoTaskStep3ProfileFormMDP from "./CollectClientInfoTaskStep3ProfileFormMDP";
+import CollectClientInfoTaskStep3BudgetFormMDP from "./CollectClientInfoTaskStep3BudgetFormMDP";
 
-export default class CollectClientInfoTaskStep2MDP implements MDP {
-  root: CollectClientInfoTaskInf;
+export default class CollectClientInfoTaskStep3MDP implements MDP {
+  childMDP = new FFormChildMDP({});
+  root: CollectClientInfoTaskIntf;
   parent: CollectClientInfoTaskFStepperMDP;
 
-  componentName = "CollectClientInfoTaskStep2";
+  componentName = "CollectClientInfoTaskStep3";
 
   id: string;
   myRef: string;
   dataSelectorKey?: string;
   disabled: boolean;
 
-  addFormMDP: FFormMDP;
-  editFormMDP: FFormMDP;
+  profileFormMDP: CollectClientInfoTaskStep3ProfileFormMDP;
+  budgetFormMDP: FFormMDP;
   actionListMDP: FBtnMDP[] = [];
 
   constructor(
-    root: CollectClientInfoTaskInf,
+    root: CollectClientInfoTaskIntf,
     parent: CollectClientInfoTaskFStepperMDP
   ) {
     this.root = root;
     this.parent = parent;
-    this.id = "creditorListInfo";
-    this.myRef = "creditorListInfoRef";
-    this.dataSelectorKey = "creditorList";
+    this.id = "budgetInfo";
+    this.myRef = "budgetInfoRef";
     this.disabled = root.formDisabled;
 
-    this.addFormMDP = new CollectClientInfoTaskStep2AddFormMDP(root, this);
-    this.editFormMDP = new CollectClientInfoTaskStep2EditFormMDP(root, this);
+    this.profileFormMDP = new CollectClientInfoTaskStep3ProfileFormMDP(
+      this.root,
+      this
+    );
+
+    this.budgetFormMDP = new CollectClientInfoTaskStep3BudgetFormMDP(
+      this.root,
+      this
+    );
+
     this.actionListMDP.push(
       new FBtnMDP({
         id: "saveBtn",
@@ -62,8 +69,8 @@ export default class CollectClientInfoTaskStep2MDP implements MDP {
         id: this.id,
         myRef: this.myRef,
         name: this.myRef,
-        addFormMetaData: this.addFormMDP.getMetaData(),
-        editFormMetaData: this.editFormMDP.getMetaData(),
+        profileFormMetaData: this.profileFormMDP.getMetaData(),
+        budgetFormMetaData: this.budgetFormMDP.getMetaData(),
         actionListMetaData: this.actionListMDP.map((mdp) => mdp.getMetaData()),
         disabled: this.disabled,
       },

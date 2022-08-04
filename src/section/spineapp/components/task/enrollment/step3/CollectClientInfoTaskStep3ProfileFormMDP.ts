@@ -1,17 +1,17 @@
 import FFormMDP from "@/components/form/FFormMDP";
 import { FFormChildMDP } from "@/components/form/FFormMDP";
 import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
-import { CollectClientInfoTaskInf } from "./CollectClientInfoTaskInf";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 import CollectClientInfoTaskStep3MDP from "./CollectClientInfoTaskStep3MDP";
 
 export default class CollectClientInfoTaskStep3ProfileFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP({});
 
-  root: CollectClientInfoTaskInf;
+  root: CollectClientInfoTaskIntf;
   parent: CollectClientInfoTaskStep3MDP;
 
   constructor(
-    root: CollectClientInfoTaskInf,
+    root: CollectClientInfoTaskIntf,
     parent: CollectClientInfoTaskStep3MDP
   ) {
     super({

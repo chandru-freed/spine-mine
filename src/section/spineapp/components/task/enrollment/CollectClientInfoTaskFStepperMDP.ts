@@ -1,19 +1,19 @@
 import {
-  CollectClientInfoTaskInf,
+  CollectClientInfoTaskIntf,
   CollectClientInfoTaskStep1MDP,
   CollectClientInfoTaskStep2MDP,
   CollectClientInfoTaskStep3MDP,
   FStepperMDP,
-} from "./CollectClientInfoTaskInf";
+} from "./CollectClientInfoTaskIntf";
 
 export default class CollectClientInfoTaskFStepperMDP extends FStepperMDP {
-  root: CollectClientInfoTaskInf;
+  root: CollectClientInfoTaskIntf;
 
   constructor({
     root,
     myRef = "myStepperRef", //todo:  change it to myRefName in all places
   }: {
-    root: CollectClientInfoTaskInf;
+    root: CollectClientInfoTaskIntf;
     myRef?: string;
   }) {
     super({ myRef: myRef });

@@ -51,8 +51,8 @@ import FForm from "./form/FForm.vue";
 import ModelVue from "@/components/ModelVue";
 
 
-import CollectClientInfoTaskStep2 from  "@/section/spineapp/components/task/enrollment/CollectClientInfoTaskStep2.vue"
-import CollectClientInfoTaskStep3 from  "@/section/spineapp/components/task/enrollment/CollectClientInfoTaskStep3.vue"
+import CollectClientInfoTaskStep2 from  "@/section/spineapp/components/task/enrollment/step2/CollectClientInfoTaskStep2.vue"
+import CollectClientInfoTaskStep3 from  "@/section/spineapp/components/task/enrollment/step3/CollectClientInfoTaskStep3.vue"
 
 
 @Component({

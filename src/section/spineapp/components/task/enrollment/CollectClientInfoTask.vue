@@ -23,7 +23,7 @@ import {
   CollectClientInfoTaskInf,
   FStepper,
   CollectClientInfoTaskFStepperMDP,
-} from "./CollectClientInfoTaskInf";
+} from "./CollectClientInfoTaskIntf";
 
 @Component({
   components: {

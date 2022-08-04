@@ -42,6 +42,22 @@
               :value="totalIncome"
             ></FCurrencyField>
           </v-card-text>
+          <v-card-actions>
+            <v-row no-gutters>
+              <v-col
+                v-for="(actionMetaData, index) in actionListMetaData"
+                :key="index"
+                :class="actionMetaData.boundaryClass"
+              >
+                <component
+                  name="index"
+                  :is="actionMetaData.componentName"
+                  v-bind="actionMetaData.props"
+                >
+                </component>
+              </v-col>
+            </v-row>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -67,6 +83,9 @@ export default class CollectClientInfoTaskStep3 extends ModelVue {
 
   @Prop()
   budgetFormMetaData: any;
+
+  @Prop()
+  actionListMetaData: any;
 
   @Prop()
   dataSelectorKey: string;

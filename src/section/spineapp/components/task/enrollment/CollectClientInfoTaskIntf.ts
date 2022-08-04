@@ -1,11 +1,11 @@
 
 import FStepper from "@/components/FStepper.vue";
 import FStepperMDP from "@/components/FStepperMDP";
-import CollectClientInfoTaskStep1MDP from "./CollectClientInfoTaskStep1MDP";
-import CollectClientInfoTaskStep2MDP from "./CollectClientInfoTaskStep2MDP";
-import CollectClientInfoTaskStep2 from "./CollectClientInfoTaskStep2.vue";
 import CollectClientInfoTaskFStepperMDP from "./CollectClientInfoTaskFStepperMDP";
-import CollectClientInfoTaskStep3MDP from "./CollectClientInfoTaskStep3MDP";
+import CollectClientInfoTaskStep1MDP from "./step1/CollectClientInfoTaskStep1MDP";
+import CollectClientInfoTaskStep2MDP from "./step2/CollectClientInfoTaskStep2MDP";
+import CollectClientInfoTaskStep2 from "./step2/CollectClientInfoTaskStep2.vue";
+import CollectClientInfoTaskStep3MDP from "./step3/CollectClientInfoTaskStep3MDP";
 
 
 export {
@@ -18,7 +18,7 @@ export {
   CollectClientInfoTaskStep3MDP
 }
 
-export interface CollectClientInfoTaskInf {
+export interface CollectClientInfoTaskIntf {
   $refs: any
   formDisabled: boolean
   saveTask: () => void

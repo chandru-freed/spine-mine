@@ -2,20 +2,19 @@ import FBtnMDP from "@/components/FBtnMDP";
 import FFormMDP from "@/components/form/FFormMDP";
 import { FFormChildMDP } from "@/components/form/FFormMDP";
 import FTextFieldMDP from "@/components/form/field/FTextFieldMDP";
-import {CollectClientInfoTaskInf} from "./CollectClientInfoTaskInf";
-import CollectClientInfoTaskFStepperMDP from "./CollectClientInfoTaskFStepperMDP";
-import FNumberFieldMDP from "@/components/form/field/FNumberFieldMDP";
+import {CollectClientInfoTaskIntf} from "../CollectClientInfoTaskIntf";
+import CollectClientInfoTaskFStepperMDP from "../CollectClientInfoTaskFStepperMDP";
 import FMobileFieldMDP from "@/components/form/field/FMobileFieldMDP";
 import FEmailFieldMDP from "@/components/form/field/FEmailFieldMDP";
 
 export default class CollectClientInfoTaskStep1MDP extends FFormMDP {
   childMDP = new FFormChildMDP({});
 
-  root: CollectClientInfoTaskInf;
+  root: CollectClientInfoTaskIntf;
   parent: CollectClientInfoTaskFStepperMDP
 
   constructor(
-    root: CollectClientInfoTaskInf,
+    root: CollectClientInfoTaskIntf,
     parent: CollectClientInfoTaskFStepperMDP
   ) {
     super({

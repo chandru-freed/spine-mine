@@ -3,8 +3,8 @@ import { FFormChildMDP } from "../FFormMDP";
 import FTextFieldMDP from "./FTextFieldMDP";
 
 export default class FMobileFieldMDP extends FTextFieldMDP {
-  componentName = "FNumberField";
-  // mask = "##########";
+  componentName = "FTextField";
+  mask = "##########";
 
 
   // getMetaData(): object {

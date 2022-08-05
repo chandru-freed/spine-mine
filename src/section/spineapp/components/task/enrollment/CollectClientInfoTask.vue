@@ -40,10 +40,13 @@ export default class CollectClientInfoTask
   taskId = this.$route.params.taskId;
 
   bigFormDataLocal: any = {
-    clientInfo: { name: "John", email: "", mobile: "" },
+    clientInfo: { name: "John", email: "", mobile: null },
     budgetInfo: { incomeSources: {}, debtRepayments: {}, livingExpense: {}, lifestyleExpense: {}, dependentExpense: {}, incidentalExpense: {}, miscellaneousExpense: {}},
     creditorList: [],
     needVerification: false,
+    paymentPlan: {paymentPlanCalculator: {}, paymentSchedule: []},
+    bankInfo: {accountNumber: "", accountType: "", ifscCode: "", nameInBank: ""},
+    docList: []
   };
 
   taskOutputJson() {

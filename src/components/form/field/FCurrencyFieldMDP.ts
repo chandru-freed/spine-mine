@@ -4,24 +4,50 @@ import FNumberFieldMDP from "./FNumberFieldMDP";
 
 export default class FCurrencyFieldMDP extends FNumberFieldMDP {
   componentName = "FCurrencyField";
-  type = "number";
 
-  getMetaData(): object {
-    return {
-      componentName: this.componentName,
-      rules: this.getRules(),
-      boundaryClass: this.getBoundaryClass(),
-      props: {
-        key: this.dataSelectorKey,
-        type: this.type,
-        name: this.dataSelectorKey, // todo: check the name functionalities
-        label: this.label,
-        disabled: this.disabled,
-        outlined: this.parentMDP.outlined,
-        dense: this.parentMDP.dense,
-        mask: this.mask,
-        onChange: this.onChange,
-      },
-    };
+  constructor({
+    parentMDP,
+    id,
+    dataSelectorKey,
+    type = "number",
+    label,
+    rules = "",
+    colWidth = 12,
+    mandatory = false,
+    disabled = false,
+    mask = "",
+    placeholder = "",
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onChange = () => {},
+  }: {
+    parentMDP: FFormChildMDP;
+    id?: string;
+    dataSelectorKey: string;
+    type?: string;
+    label: string;
+    rules?: string;
+    colWidth?: number;
+    mandatory?: boolean;
+    disabled?: boolean;
+    mask?: string;
+    placeholder?: string;
+    onChange?: () => void;
+  }) {
+    super({
+      parentMDP: parentMDP,
+      id: !!id ? id : dataSelectorKey,
+      dataSelectorKey: dataSelectorKey,
+      type: type,
+      label: label,
+      rules: rules,
+      colWidth: colWidth,
+      mandatory: mandatory,
+      disabled: disabled,
+      mask: mask,
+      placeholder: placeholder,
+      onChange: onChange,
+    });
   }
+
+  
 }

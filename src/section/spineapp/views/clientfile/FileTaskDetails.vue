@@ -34,7 +34,7 @@
           <v-tabs-items v-model="taskSummaryTab">
             <v-tab-item
               v-for="taskSummaryTab in taskSummaryTabList"
-              :key="taskSummaryTab.tabName"
+              :key="'tabName' + taskSummaryTab.tabName"
             >
               <v-card flat min-height="600">
                   <component :is="taskSummaryTab.component"></component>
@@ -59,10 +59,11 @@ import FileLogs from "@/section/spineapp/components/file/FileLogs.vue";
 
 @Component({
   components: {
-    "file-task-area": FileTaskArea,
-    "file-notes": FileNotes,
-    "file-highlights": FileHighlights,
-    "file-logs": FileLogs
+    
+    FileTaskArea,
+    FileNotes,
+    FileHighlights,
+    FileLogs
   },
 })
 export default class FileTaskDetails extends Vue {
@@ -74,20 +75,20 @@ export default class FileTaskDetails extends Vue {
   taskSummaryTabList = [
     {
       tabName: "Task Area",
-      component: "file-task-area",
+      component: "FileTaskArea",
     },
-    {
-      tabName: "Notes",
-      component: "file-notes",
-    },
-    {
-      tabName: "Highlights",
-      component: "file-highlights",
-    },
-    {
-      tabName: "Logs",
-      component: "file-logs",
-    },
+    // {
+    //   tabName: "Notes",
+    //   component: "FileNotes",
+    // },
+    // {
+    //   tabName: "Highlights",
+    //   component: "FileHighlights",
+    // },
+    // {
+    //   tabName: "Logs",
+    //   component: "FileLogs",
+    // },
   ];
 
 

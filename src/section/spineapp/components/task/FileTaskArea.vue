@@ -1,17 +1,10 @@
 <template>
   <v-card flat>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-12">
-        <!-- <v-autocomplete
-        v-model="selectedTask"
-        :items="availableTaskList"
-        dense
-        filled
-        label="Filled"
-      ></v-autocomplete> -->
-        <!-- {{selectedComponent}} -->
+        {{selectedComponent}}
       </div>
-    </div>
+    </div> -->
     <v-card-actions class="pb-0">
       <v-btn text @click="gotoFile">
         <v-icon>mdi-chevron-left</v-icon> All Tasks</v-btn
@@ -34,7 +27,6 @@
       >
     </v-card-actions>
     <v-card-text class="pa-0">
-      <!-- {{taskDetails}} -->
       <component
         v-if="!loading"
         :is="selectedComponent"
@@ -67,15 +59,15 @@ export default class FileTaskArea extends Vue {
 
   loading = true
 
-  availableTaskList = ["CollectClientInfoTask"];
 
   TASK_COMPONENT_MAP = new Map([
-    ["ProvideFirstNumber", "ProvideFirstNumberTask"],
+    ["CollectClientInfo", "CollectClientInfoTask"],
   ]);
 
   taskId = this.$route.params.taskId;
 
   get selectedComponent() {
+
     return this.TASK_COMPONENT_MAP.get(this.taskDetails.taskName);
   }
 
@@ -100,18 +92,11 @@ export default class FileTaskArea extends Vue {
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
 
-    this.buildTaskMap();
+    
 
     this.getExecutiveTaskDetails();
   }
 
-  buildTaskMap() {
-    this.TASK_COMPONENT_MAP.set("CollectClientInfo", "CollectClientInfoTask");
-    this.TASK_COMPONENT_MAP.set(
-      "ClientInfoVerification",
-      "ClientInfoVerificationTask"
-    );
-  }
 
   getExecutiveTaskDetails() {
     Action.TaskList.GetExecutiveTaskDetails.execute1(

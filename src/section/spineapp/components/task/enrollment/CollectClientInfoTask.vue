@@ -1,13 +1,16 @@
 <template>
   <div>
+    <h4>CollectClientProfileInfoTask</h4>
     Root Data : {{ bigFormData }}
+    <kbd>{{ testLocal }}</kbd>
+    <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
+    <!-- <kbd> {{ testMetaData }}</kbd> -->
+
     <component
-      v-if="!!taskDetails"
-      :ref="stepperMetaData.myRef"
-      :is="stepperMetaData.componentName"
-      v-model="bigFormData"
-      v-bind="stepperMetaData.props"
-    />
+      :is="testMetaData.componentName"
+      v-model="testLocal"
+      v-bind="testMetaData.props"
+    ></component>
   </div>
 </template>
 
@@ -17,36 +20,54 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
-
-
-import {
-  CollectClientInfoTaskInf,
-  FStepper,
-  CollectClientInfoTaskFStepperMDP,
-} from "./CollectClientInfoTaskIntf";
+import FTextFieldMDP from "@/components/generic/FTextFieldMDP";
+import FStepper from "@/components/generic/FStepper.vue";
+import FFormMDP from "@/components/generic/FFormMDP";
+import FStepperMDP from "@/components/generic/FStepperMDP";
+import CCITFStepperMDP from "./CCITFStepperMDP";
 
 @Component({
   components: {
     FStepper,
   },
 })
-export default class CollectClientInfoTask
-  extends Vue
-  implements CollectClientInfoTaskInf
-{
+export default class CollectClientInfoTask extends Vue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
+  testLocal = { firstName: "Deepak", lastName: "Kumar" };
+
+  testFunc() {
+    console.log("I am in test Func");
+  }
+
+  get testMetaData(): any {
+    return new CCITFStepperMDP().getMetaData()
+  }
+
   bigFormDataLocal: any = {
     clientInfo: { name: "John", email: "", mobile: null },
-    budgetInfo: { incomeSources: {}, debtRepayments: {}, livingExpense: {}, lifestyleExpense: {}, dependentExpense: {}, incidentalExpense: {}, miscellaneousExpense: {}},
+    budgetInfo: {
+      incomeSources: {},
+      debtRepayments: {},
+      livingExpense: {},
+      lifestyleExpense: {},
+      dependentExpense: {},
+      incidentalExpense: {},
+      miscellaneousExpense: {},
+    },
     creditorList: [],
     needVerification: false,
-    paymentPlan: {paymentPlanCalculator: {}, paymentSchedule: []},
-    bankInfo: {accountNumber: "", accountType: "", ifscCode: "", nameInBank: ""},
-    docList: []
+    paymentPlan: { paymentPlanCalculator: {}, paymentSchedule: [] },
+    bankInfo: {
+      accountNumber: "",
+      accountType: "",
+      ifscCode: "",
+      nameInBank: "",
+    },
+    docList: [],
   };
 
   taskOutputJson() {
@@ -67,9 +88,7 @@ export default class CollectClientInfoTask
   }
 
   get stepperMetaData(): any {
-    return new CollectClientInfoTaskFStepperMDP({
-      root: this,
-    }).getMetaData();
+    return "";
   }
 
   get formDisabled(): boolean {

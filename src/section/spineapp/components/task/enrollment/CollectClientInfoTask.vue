@@ -2,15 +2,14 @@
   <div >
     <h4>CollectClientProfileInfoTask</h4>
     Root Data : {{ bigFormData }}
-    <kbd>{{ testLocal }}</kbd>
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
     <component
-      :ref="testMetaData.myRefName"
-      :is="testMetaData.componentName"
-      v-model="testLocal"
-      v-bind="testMetaData.props"
+      :ref="stepperMetaData.myRefName"
+      :is="stepperMetaData.componentName"
+      v-model="bigFormData"
+      v-bind="stepperMetaData.props"
     ></component>
   </div>
 </template>
@@ -37,42 +36,10 @@ export default class CollectClientInfoTask extends Vue {
 
   taskId = this.$route.params.taskId;
 
-  testLocal = { firstName: "Deepak", lastName: "Kumar" };
-
-  
-
-  testFunc() {
-    console.log("I am in test Func");
-  }
-
-
-  get testMetaData(): any {
-    return new CCITFStepperMDP({
-      taskRoot: this
-    }).getMetaData();
-  }
-
   bigFormDataLocal: any = {
-    clientInfo: { name: "John", email: "", mobile: null },
-    budgetInfo: {
-      incomeSources: {},
-      debtRepayments: {},
-      livingExpense: {},
-      lifestyleExpense: {},
-      dependentExpense: {},
-      incidentalExpense: {},
-      miscellaneousExpense: {},
-    },
+    clientInfo: { name: "John", email: "", mobile: "", gender: "" },
     creditorList: [],
     needVerification: false,
-    paymentPlan: { paymentPlanCalculator: {}, paymentSchedule: [] },
-    bankInfo: {
-      accountNumber: "",
-      accountType: "",
-      ifscCode: "",
-      nameInBank: "",
-    },
-    docList: [],
   };
 
   taskOutputJson() {
@@ -93,15 +60,18 @@ export default class CollectClientInfoTask extends Vue {
   }
 
   get stepperMetaData(): any {
-    return "";
+   return new CCITFStepperMDP({
+      taskRoot: this
+    }).getMetaData();
   }
 
-  get formDisabled(): boolean {
+  get taskDisabled(): boolean {
     return !(
       this.taskDetails.taskState === "STARTED" ||
       this.taskDetails.taskState === "PARTIALLY_COMPLETED"
     );
   }
+
 
   completeTask() {
     Action.TaskList.Complete.execute1(

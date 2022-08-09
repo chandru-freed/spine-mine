@@ -1,16 +1,17 @@
 import FFieldMDP from "./FFieldMDP";
 import { FFormChildMDP } from "./FFormMDP";
 
-export default class FTextFieldMDP implements FFieldMDP {
-  componentName = "FTextField";
+export default class FSelectFieldMDP implements FFieldMDP {
+  componentName = "FSelectField";
   dataSelectorKey: string;
   label: string;
   type: string;
   rules: string;
   mandatory: boolean;
   parentMDP: FFormChildMDP;
-  boundaryClass: string;
-  disabled: boolean;
+  boundaryClass: string
+  items: string[]
+  disabled: boolean
 
   constructor({
     parentMDP,
@@ -20,7 +21,8 @@ export default class FTextFieldMDP implements FFieldMDP {
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
-    disabled = false,
+    items = [],
+    disabled = false
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -28,8 +30,9 @@ export default class FTextFieldMDP implements FFieldMDP {
     type?: string;
     rules?: string;
     mandatory?: boolean;
-    boundaryClass?: string;
-    disabled?: boolean;
+    boundaryClass?: string
+    items: string[],
+    disabled?: boolean
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -37,8 +40,9 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.type = type;
     this.rules = rules;
     this.mandatory = mandatory;
-    this.boundaryClass = boundaryClass;
-    this.disabled = disabled;
+    this.boundaryClass = boundaryClass
+    this.items = items
+    this.disabled = disabled
   }
 
   getRules() {
@@ -47,7 +51,7 @@ export default class FTextFieldMDP implements FFieldMDP {
   }
 
   getBoundaryClass() {
-    return `${this.boundaryClass} py-0 px-2`;
+    return `${this.boundaryClass} py-0 px-2`
   }
 
   getMetaData(): object {
@@ -62,7 +66,8 @@ export default class FTextFieldMDP implements FFieldMDP {
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        disabled: this.disabled,
+        items: this.items,
+        disabled: this.disabled
       },
     };
   }

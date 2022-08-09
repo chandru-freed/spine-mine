@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver :ref="myRefName" v-slot="{}">
-    <v-form class="d-flex flex-row align-start flex-wrap justify-start py-2">
+    <v-form :disabled="disabled" class="d-flex flex-row align-start flex-wrap justify-start py-2">
       <div v-for="(fieldMetaData, indx) in fieldMetaDataList" :key="indx" :class="fieldMetaData.boundaryClass">
         <ValidationProvider
           :vid="fieldMetaData.props.id"
@@ -11,14 +11,14 @@
           <component
             :is="fieldMetaData.componentName"
             v-bind="fieldMetaData.props"
-            v-model="modelValue[fieldMetaData.dataSelector]"
+            v-model="modelValue[fieldMetaData.dataSelectorKey]"
             :error-messages="errors"
           ></component>
         </ValidationProvider>
       </div>
     </v-form>
-    <div class="d-flex flex-row align-start flex-wrap justify-space-between pa-2">
-      <div  :class="actionMetaData.boundaryClass" v-for="(actionMetaData, indx) in actionMetaDataList" :key="indx">
+    <div class="d-flex flex-row align-start flex-wrap justify-space-around pa-2">
+      <div :class="actionMetaData.boundaryClass" v-for="(actionMetaData, indx) in actionMetaDataList" :key="indx">
         <component
           :is="actionMetaData.componentName"
           v-bind="actionMetaData.props"
@@ -30,6 +30,7 @@
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
 import FTextField from "./FTextField.vue";
+import FSelectField from "./FSelectField.vue";
 import FBtn from "./FBtn.vue";
 import ModelVue from "./ModelVue";
 
@@ -40,6 +41,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     ValidationObserver,
     ValidationProvider,
     FTextField,
+    FSelectField,
     FBtn,
   },
 })
@@ -52,6 +54,9 @@ export default class FForm extends ModelVue {
 
   @Prop()
   actionMetaDataList: any[];
+
+  @Prop({default: false})
+  disabled: boolean
 
   submitForm(action: () => void) {
     const observerRef: any = this.$refs[this.myRefName];

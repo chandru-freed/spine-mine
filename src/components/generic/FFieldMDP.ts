@@ -1,7 +1,7 @@
 import MDP from "./MDP";
 
 export default interface FFieldMDP extends MDP {
-  dataSelector: string
+  dataSelectorKey: string
   label: string;
   rules: string
 }

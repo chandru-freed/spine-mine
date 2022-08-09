@@ -4,10 +4,10 @@ export default class FStepperMDP implements MDP {
   componentName = "FStepper";
 
   stepList: FStepMDP[] = [];
-  myRef: string;
+  myRefName: string;
 
-  constructor({ myRef }: { myRef: string }) {
-    this.myRef = myRef;
+  constructor({ myRefName }: { myRefName: string }) {
+    this.myRefName = myRefName;
   }
 
   addStep(name: string, stepContent: MDP) {
@@ -17,9 +17,10 @@ export default class FStepperMDP implements MDP {
 
   getMetaData(): object {
     return {
+      myRefName: this.myRefName,
       componentName: this.componentName,
       props: {
-        myRef: this.myRef,
+        myRefName: this.myRefName,
         stepMetaDataList: this.stepList.map((step) => step.getMetaData()),
       },
     };

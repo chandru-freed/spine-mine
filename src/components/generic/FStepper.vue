@@ -20,11 +20,11 @@
         v-for="(step, stepIndx) in stepMetaDataList"
         :key="stepIndx"
       >
-        <v-card color="grey lighten-5" flat min-height="600">
-          <v-card-text class="pb-0">
+        <v-card color="grey lighten-4" flat min-height="600">
+          <v-card-text class="pa-0">
             <template v-if="!!step.stepContent.dataSelectorKey">
               <component
-                :ref="step.stepContent.myRef"
+                :ref="step.stepContent.myRefName"
                 :is="step.stepContent.componentName"
                 v-model="modelValue[step.stepContent.dataSelectorKey]"
                 v-bind="step.stepContent.props"
@@ -32,7 +32,7 @@
             </template>
             <template v-if="!step.stepContent.dataSelectorKey">
               <component
-                :ref="step.stepContent.myRef"
+                :ref="step.stepContent.myRefName"
                 :is="step.stepContent.componentName"
                 v-model="modelValue"
                 v-bind="step.stepContent.props"
@@ -61,7 +61,7 @@ export default class FStepper extends ModelVue {
 
 
   @Prop()
-  myRef: string;
+  myRefName: string;
 
   @Prop()
   stepMetaDataList: any[];

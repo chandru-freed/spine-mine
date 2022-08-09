@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <h4>CollectClientProfileInfoTask</h4>
     Root Data : {{ bigFormData }}
     <kbd>{{ testLocal }}</kbd>
@@ -7,6 +7,7 @@
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
     <component
+      :ref="testMetaData.myRefName"
       :is="testMetaData.componentName"
       v-model="testLocal"
       v-bind="testMetaData.props"
@@ -20,15 +21,14 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
-import FTextFieldMDP from "@/components/generic/FTextFieldMDP";
 import FStepper from "@/components/generic/FStepper.vue";
-import FFormMDP from "@/components/generic/FFormMDP";
-import FStepperMDP from "@/components/generic/FStepperMDP";
 import CCITFStepperMDP from "./CCITFStepperMDP";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     FStepper,
+    FBtn,
   },
 })
 export default class CollectClientInfoTask extends Vue {
@@ -39,12 +39,17 @@ export default class CollectClientInfoTask extends Vue {
 
   testLocal = { firstName: "Deepak", lastName: "Kumar" };
 
+  
+
   testFunc() {
     console.log("I am in test Func");
   }
 
+
   get testMetaData(): any {
-    return new CCITFStepperMDP().getMetaData()
+    return new CCITFStepperMDP({
+      taskRoot: this
+    }).getMetaData();
   }
 
   bigFormDataLocal: any = {

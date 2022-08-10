@@ -5,26 +5,22 @@ import CCIFProfileStepFFormMDP from "./CCIFProfileStepFFormMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: any;
-  parent: any
-  constructor({
-    taskRoot,
-  }: {
-    taskRoot: any;
-  }) {
+  parent: any;
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: "collectClientInfoStepperRef" });
     this.taskRoot = taskRoot;
-    this.parent = taskRoot
+    this.parent = taskRoot;
 
-    this.addStep(
-      "Profile",
-      new CCIFProfileStepFFormMDP({
+    this.addStep({
+      name: "Profile",
+      stepContent: new CCIFProfileStepFFormMDP({
         taskRoot: this.taskRoot,
         parent: this,
-      })
-    );
+      }),
+    });
   }
 
   getMyRef() {
-    return this.parent.$refs[this.myRefName]
+    return this.parent.$refs[this.myRefName];
   }
 }

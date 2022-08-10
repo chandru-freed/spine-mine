@@ -1,7 +1,14 @@
 <template>
   <ValidationObserver :ref="myRefName" v-slot="{}">
-    <v-form :disabled="disabled" class="d-flex flex-row align-start flex-wrap justify-start py-2">
-      <div v-for="(fieldMetaData, indx) in fieldMetaDataList" :key="indx" :class="fieldMetaData.boundaryClass">
+    <v-form
+      :disabled="disabled"
+      class="d-flex flex-row align-start flex-wrap justify-start py-2"
+    >
+      <div
+        v-for="(fieldMetaData, indx) in fieldMetaDataList"
+        :key="indx"
+        :class="fieldMetaData.boundaryClass"
+      >
         <ValidationProvider
           :vid="fieldMetaData.props.id"
           :name="fieldMetaData.props.label"
@@ -17,8 +24,14 @@
         </ValidationProvider>
       </div>
     </v-form>
-    <div class="d-flex flex-row align-start flex-wrap justify-space-around pa-2">
-      <div :class="actionMetaData.boundaryClass" v-for="(actionMetaData, indx) in actionMetaDataList" :key="indx">
+    <div
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+    >
+      <div
+        :class="actionMetaData.boundaryClass"
+        v-for="(actionMetaData, indx) in actionMetaDataList"
+        :key="indx"
+      >
         <component
           :is="actionMetaData.componentName"
           v-bind="actionMetaData.props"
@@ -33,6 +46,7 @@ import FTextField from "./FTextField.vue";
 import FSelectField from "./FSelectField.vue";
 import FBtn from "./FBtn.vue";
 import ModelVue from "./ModelVue";
+import FMiniForm from "./FMiniForm.vue";
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
@@ -43,6 +57,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FTextField,
     FSelectField,
     FBtn,
+    FMiniForm,
   },
 })
 export default class FForm extends ModelVue {
@@ -55,8 +70,8 @@ export default class FForm extends ModelVue {
   @Prop()
   actionMetaDataList: any[];
 
-  @Prop({default: false})
-  disabled: boolean
+  @Prop({ default: false })
+  disabled: boolean;
 
   submitForm(action: () => void) {
     const observerRef: any = this.$refs[this.myRefName];

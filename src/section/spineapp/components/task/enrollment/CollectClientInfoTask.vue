@@ -37,7 +37,7 @@ export default class CollectClientInfoTask extends Vue {
   taskId = this.$route.params.taskId;
 
   bigFormDataLocal: any = {
-    clientInfo: { name: "John", email: "", mobile: "", gender: "" },
+    clientInfo: { firstName: "", lastName: "", email: "", mobile: "", gender: "", residentialAddress: {} },
     creditorList: [],
     needVerification: false,
   };

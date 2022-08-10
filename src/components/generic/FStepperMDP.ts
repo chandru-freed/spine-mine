@@ -10,7 +10,7 @@ export default class FStepperMDP implements MDP {
     this.myRefName = myRefName;
   }
 
-  addStep(name: string, stepContent: MDP) {
+  addStep({name, stepContent}:{name: string, stepContent: MDP}) {
     this.stepList.push(new FStepMDP({ name: name, stepContent: stepContent }));
     return this;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <h4>CollectClientProfileInfoTask</h4>
     Root Data : {{ bigFormData }}
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
@@ -37,8 +37,17 @@ export default class CollectClientInfoTask extends Vue {
   taskId = this.$route.params.taskId;
 
   bigFormDataLocal: any = {
-    clientInfo: { firstName: "", lastName: "", email: "", mobile: "", gender: "", residentialAddress: {} },
+    clientInfo: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      mobile: "",
+      gender: "",
+      residentialAddress: {},
+    },
     creditorList: [],
+    budgetInfo:{incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}},
+    paymentPlan: {ppCalculator: {}, paymentSchedule: []},
     needVerification: false,
   };
 
@@ -60,8 +69,8 @@ export default class CollectClientInfoTask extends Vue {
   }
 
   get stepperMetaData(): any {
-   return new CCITFStepperMDP({
-      taskRoot: this
+    return new CCITFStepperMDP({
+      taskRoot: this,
     }).getMetaData();
   }
 
@@ -71,7 +80,6 @@ export default class CollectClientInfoTask extends Vue {
       this.taskDetails.taskState === "PARTIALLY_COMPLETED"
     );
   }
-
 
   completeTask() {
     Action.TaskList.Complete.execute1(

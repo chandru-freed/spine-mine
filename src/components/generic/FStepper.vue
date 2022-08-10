@@ -48,10 +48,12 @@
 import { Component, Prop } from "vue-property-decorator";
 import ModelVue from "./ModelVue";
 import FForm from "@/components/generic/FForm.vue";
+import CCITCreditorStep from "@/section/spineapp/components/task/enrollment/CCITCreditorStep.vue";
 
 @Component({
   components: {
-    FForm
+    FForm,
+    CCITCreditorStep
   },
 })
 export default class FStepper extends ModelVue {

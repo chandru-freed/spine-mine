@@ -2,6 +2,7 @@ import FFormMDP from "@/components/generic/FFormMDP";
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import FTextFieldMDP from "@/components/generic/FTextFieldMDP";
 import CCIFProfileStepFFormMDP from "./CCIFProfileStepFFormMDP";
+import CCITCreditorStepMDP from "./CCITCreditorStepMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: any;
@@ -16,6 +17,14 @@ export default class CCITFStepperMDP extends FStepperMDP {
       stepContent: new CCIFProfileStepFFormMDP({
         taskRoot: this.taskRoot,
         parent: this,
+      }),
+    }).addStep({
+      name: "Creditor",
+      stepContent: new CCITCreditorStepMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+        myRefName: "creditorListRef",
+        dataSelectorKey: "creditorList",
       }),
     });
   }

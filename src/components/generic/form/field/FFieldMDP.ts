@@ -1,4 +1,4 @@
-import MDP from "./MDP";
+import MDP from "./../../MDP";
 
 export default interface FFieldMDP extends MDP {
   dataSelectorKey: string

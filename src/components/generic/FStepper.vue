@@ -47,8 +47,8 @@
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
 import ModelVue from "./ModelVue";
-import FForm from "@/components/generic/FForm.vue";
-import CCITCreditorStep from "@/section/spineapp/components/task/enrollment/CCITCreditorStep.vue";
+import FForm from "@/components/generic/form/FForm.vue";
+import CCITCreditorStep from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/step2/CCITCreditorStep.vue";
 
 @Component({
   components: {

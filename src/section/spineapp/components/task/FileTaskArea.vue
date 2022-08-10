@@ -42,7 +42,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
-import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/CollectClientInfoTask.vue";
+import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/CollectClientInfoTask.vue";
 
 import * as RemoteApiPoint from "@/remote-api-point";
 

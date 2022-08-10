@@ -42,11 +42,11 @@
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
-import FTextField from "./FTextField.vue";
-import FSelectField from "./FSelectField.vue";
-import FBtn from "./FBtn.vue";
-import ModelVue from "./ModelVue";
-import FMiniForm from "./FMiniForm.vue";
+import FTextField from "./field/FTextField.vue";
+import FSelectField from "./field/FSelectField.vue";
+import FBtn from "../FBtn.vue";
+import ModelVue from "../ModelVue";
+import FMiniForm from "./field/FMiniForm.vue";
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 

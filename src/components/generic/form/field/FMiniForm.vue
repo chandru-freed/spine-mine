@@ -27,8 +27,8 @@
 import { Component, Prop } from "vue-property-decorator";
 import FTextField from "./FTextField.vue";
 import FSelectField from "./FSelectField.vue";
-import FBtn from "./FBtn.vue";
-import ModelVue from "./ModelVue";
+import FBtn from "@/components/generic/FBtn.vue";
+import ModelVue from "@/components/generic/ModelVue";
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 

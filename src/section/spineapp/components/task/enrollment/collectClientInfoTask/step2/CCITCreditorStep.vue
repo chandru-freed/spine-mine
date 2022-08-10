@@ -51,7 +51,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import FForm from "@/components/generic/FForm.vue";
+import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 @Component({
   components: {

@@ -1,6 +1,5 @@
-import FFieldMDP from "./FFieldMDP";
-import { FFormChildMDP } from "./FFormMDP";
-import FTextFieldMDP from "./FTextFieldMDP";
+import { FFormChildMDP } from "../FFormMDP";
+import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 export default class FEmailFieldMDP extends FTextFieldMDP {
   constructor({

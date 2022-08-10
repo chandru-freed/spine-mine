@@ -1,5 +1,5 @@
-import FFieldMDP from "./FFieldMDP";
-import { FFormChildMDP } from "./FFormMDP";
+import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
+import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
 export default class FTextFieldMDP implements FFieldMDP {
   componentName = "FTextField";

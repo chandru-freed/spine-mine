@@ -1,6 +1,5 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
-import FFormMDP, { FFormChildMDP } from "@/components/generic/FFormMDP";
-import FTextFieldMDP from "@/components/generic/FTextFieldMDP";
+import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
 import CCITAddCreditorFFormMDP from "./CCITAddCreditorFFormMDP";
 import CCITEditCreditorFFormMDP from "./CCITEditCreditorFFormMDP";

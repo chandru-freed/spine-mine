@@ -1,10 +1,9 @@
-import FBtnMDP, { BtnColor, BtnType } from "@/components/generic/FBtnMDP";
-import FEmailFieldMDP from "@/components/generic/FEmailFieldMDP";
-import FFormMDP, { FFormChildMDP } from "@/components/generic/FFormMDP";
-import FMiniFormMDP from "@/components/generic/FMiniFormMDP";
-import FSelectFieldMDP from "@/components/generic/FSelectFieldMDP";
-import FTextFieldMDP from "@/components/generic/FTextFieldMDP";
-import AddressFMiniFormMDP from "./AddressFMiniFormMDP";
+import FBtnMDP from "@/components/generic/FBtnMDP";
+import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
+import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
+import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 
 export default class CCIFProfileStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();

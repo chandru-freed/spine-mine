@@ -1,6 +1,5 @@
-import FFormMDP, { FFormChildMDP } from "@/components/generic/FFormMDP";
-import FTextFieldMDP from "@/components/generic/FTextFieldMDP";
-import MDP from "@/components/generic/MDP";
+import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 export default class CCITAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();

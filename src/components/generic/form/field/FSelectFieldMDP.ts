@@ -1,50 +1,48 @@
-import FBtnMDP from "./FBtnMDP";
 import FFieldMDP from "./FFieldMDP";
-import MDP from "./MDP";
+import { FFormChildMDP } from "./../FFormMDP";
 
-export class FFormChildMDP {
-  outlined = true;
-  dense = true;
-}
-
-export default class FMiniFormMDP implements FFieldMDP {
-  componentName = "FMiniForm";
-
-  fieldList: FFieldMDP[] = [];
-
+export default class FSelectFieldMDP implements FFieldMDP {
+  componentName = "FSelectField";
   dataSelectorKey: string;
-  disabled: boolean;
-
   label: string;
+  type: string;
   rules: string;
   mandatory: boolean;
-  boundaryClass: string;
   parentMDP: FFormChildMDP;
+  boundaryClass: string
+  items: string[]
+  disabled: boolean
 
   constructor({
     parentMDP,
     dataSelectorKey,
-    disabled = false,
     label,
+    type = "text",
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
+    items = [],
+    disabled = false
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
-    disabled?: boolean;
     label: string;
+    type?: string;
     rules?: string;
     mandatory?: boolean;
-    boundaryClass?: string;
+    boundaryClass?: string
+    items: string[],
+    disabled?: boolean
   }) {
-    this.parentMDP = parentMDP; // todo : Check not being used
+    this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
-    this.disabled = disabled;
     this.label = label;
+    this.type = type;
     this.rules = rules;
     this.mandatory = mandatory;
-    this.boundaryClass = boundaryClass;
+    this.boundaryClass = boundaryClass
+    this.items = items
+    this.disabled = disabled
   }
 
   getRules() {
@@ -53,12 +51,7 @@ export default class FMiniFormMDP implements FFieldMDP {
   }
 
   getBoundaryClass() {
-    return `${this.boundaryClass} py-0 px-2`;
-  }
-
-  addField(newField: FFieldMDP) {
-    this.fieldList.push(newField);
-    return this;
+    return `${this.boundaryClass} py-0 px-2`
   }
 
   getMetaData(): object {
@@ -68,9 +61,13 @@ export default class FMiniFormMDP implements FFieldMDP {
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
       props: {
+        id: this.dataSelectorKey,
         label: this.label,
-        fieldMetaDataList: this.fieldList.map((field) => field.getMetaData()),
-        disabled: this.disabled,
+        type: this.type,
+        outlined: this.parentMDP.outlined,
+        dense: this.parentMDP.dense,
+        items: this.items,
+        disabled: this.disabled
       },
     };
   }

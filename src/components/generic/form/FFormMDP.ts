@@ -1,6 +1,6 @@
-import FBtnMDP from "./FBtnMDP";
-import FFieldMDP from "./FFieldMDP";
-import MDP from "./MDP";
+import FBtnMDP from "@/components/generic/FBtnMDP";
+import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
+import MDP from "@/components/generic/MDP";
 
 export class FFormChildMDP {
   outlined = true;

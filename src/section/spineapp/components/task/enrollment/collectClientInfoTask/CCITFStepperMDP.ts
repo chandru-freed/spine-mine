@@ -1,8 +1,6 @@
-import FFormMDP from "@/components/generic/FFormMDP";
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import FTextFieldMDP from "@/components/generic/FTextFieldMDP";
-import CCIFProfileStepFFormMDP from "./CCIFProfileStepFFormMDP";
-import CCITCreditorStepMDP from "./CCITCreditorStepMDP";
+import CCIFProfileStepFFormMDP from "./step1/CCIFProfileStepFFormMDP";
+import CCITCreditorStepMDP from "./step2/CCITCreditorStepMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: any;

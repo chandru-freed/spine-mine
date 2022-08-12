@@ -1,19 +1,40 @@
 <template>
-  <div>
+  <div ref="creditorListRef">
     <component
       v-if="addCreditorDialog"
       :is="addCreditorFormMetaData.componentName"
-      :ref="addCreditorFormMetaData.myRef"
+      :ref="addCreditorFormMetaData.myRefName"
       v-model="addCreditorForm"
       v-bind="addCreditorFormMetaData.props"
     ></component>
 
     <component
+      v-if="editCreditorDialog"
       :is="editCreditorFormMetaData.componentName"
-      :ref="editCreditorFormMetaData.myRef"
+      :ref="editCreditorFormMetaData.myRefName"
       v-model="editCreditorForm"
       v-bind="editCreditorFormMetaData.props"
     ></component>
+
+    <v-alert text color="error" v-if="deleteCreditorDialog">
+      <div class="text-center py-3">Are you sure want to delete?</div>
+      <div
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+      >
+        <FBtn
+          label="Cancel"
+          :on-click="closeAndClearAllForms"
+          outlined
+          color="red"
+        />
+        <FBtn
+          label="Delete"
+          :on-click="deleteCeditorData"
+          outlined
+          color="red"
+        />
+      </div>
+    </v-alert>
 
     <v-col class="col-12">
       <!--GRID START-->
@@ -40,11 +61,38 @@
               </v-btn>
             </v-toolbar>
           </template>
+          <template v-slot:[`item.actions`]="{ item, index }">
+            <v-icon
+              :disabled="disabled"
+              small
+              class="mr-2"
+              @click="selectEditCreditor(item, index)"
+            >
+              mdi-pencil
+            </v-icon>
+            <v-icon
+              :disabled="disabled"
+              small
+              @click="selectDeleteCreditor(item, index)"
+            >
+              mdi-delete
+            </v-icon>
+          </template>
         </v-data-table>
       </v-card>
       <!--GRID END-->
       <!--ACTION START-->
-
+      <div
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+      >
+        <component
+          v-for="(actionMetaData, index) of actionMetaDataList"
+          :key="'action' + index"
+          :is="actionMetaData.componentName"
+          :ref="actionMetaData.myRefName"
+          v-bind="actionMetaData.props"
+        ></component>
+      </div>
       <!--ACTION END-->
     </v-col>
   </div>
@@ -53,15 +101,24 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
+import FBtn from "@/components/generic/FBtn.vue";
 @Component({
   components: {
     FForm,
+    FBtn,
   },
 })
 export default class CCITCreditorStep extends ModelVue {
   addCreditorForm = {};
-  editCreditorForm = {};
-
+  editCreditorForm: any = {
+    creditor: "ABC",
+    creditorBalance: 12,
+    lastDateOfPayment: "22-01-2022",
+    debtType: "Credi card",
+    accountNumber: "123456",
+    id: 0,
+  };
+  selectedCreditorIndex: number;
   headers = [
     {
       text: "Creditor",
@@ -77,10 +134,8 @@ export default class CCITCreditorStep extends ModelVue {
   ];
 
   addCreditorDialog = false;
-
-  showAddForm() {
-    this.addCreditorDialog = true;
-  }
+  editCreditorDialog = false;
+  deleteCreditorDialog = false;
 
   @Prop()
   addCreditorFormMetaData: any;
@@ -93,5 +148,63 @@ export default class CCITCreditorStep extends ModelVue {
 
   @Prop()
   disabled: boolean;
+
+  showAddForm() {
+    this.closeDialogs();
+    this.addCreditorDialog = true;
+  }
+
+  showEditForm() {
+    this.closeDialogs();
+    this.editCreditorDialog = true;
+  }
+  showDeletePopup() {
+    this.closeAndClearAllForms();
+    this.deleteCreditorDialog = true;
+  }
+  closeAndClearAllForms() {
+    this.closeDialogs();
+    this.resetForms();
+  }
+  closeDialogs() {
+    this.addCreditorDialog = false;
+    this.editCreditorDialog = false;
+    this.deleteCreditorDialog = false;
+  }
+  resetForms() {
+    this.addCreditorForm = {};
+    this.editCreditorForm = {};
+  }
+
+  addCreditorData() {
+    (this.modelValue as any).push(this.addCreditorForm);
+    this.closeAndClearAllForms();
+  }
+
+  editCreditorData() {
+    Object.assign(
+      this.modelValue[this.selectedCreditorIndex],
+      this.editCreditorForm
+    );
+    this.closeAndClearAllForms();
+  }
+
+  deleteCeditorData() {
+    this.modelValue.splice(this.selectedCreditorIndex, 1);
+    this.closeDialogs();
+  }
+
+  selectEditCreditor(item: any, index: any) {
+    this.selectedCreditorIndex = index;
+    this.editCreditorForm = {
+      ...item,
+    };
+    this.showEditForm();
+  }
+  selectDeleteCreditor(item: any, index: number) {
+    this.selectedCreditorIndex = index;
+    this.showDeletePopup();
+    console.log(this.deleteCreditorDialog);
+  }
 }
 </script>

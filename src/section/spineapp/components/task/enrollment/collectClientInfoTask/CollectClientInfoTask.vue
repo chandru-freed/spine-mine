@@ -50,6 +50,7 @@ export default class CollectClientInfoTask extends Vue {
     paymentPlan: {ppCalculator: {}, paymentSchedule: []},
     needVerification: false,
   };
+  
 
   taskOutputJson() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput

@@ -36,18 +36,20 @@ export default class CCITCreditorStepMDP implements MDP {
 
     this.addCreditorForm = new CCITAddCreditorFFormMDP({
       taskRoot: this.taskRoot,
-      parent: this.parent,
+      parent: this,
     });
 
     this.editCreditorForm = new CCITEditCreditorFFormMDP({
       taskRoot: this.taskRoot,
-      parent: this.parent,
+      parent: this,
     });
 
-    this.addAction(new FBtnMDP({
+    this.addAction(
+      new FBtnMDP({
         label: "Save",
         onClick: this.saveTask(),
-      }))
+      })
+    );
   }
 
   saveTask() {
@@ -75,5 +77,9 @@ export default class CCITCreditorStepMDP implements MDP {
         disabled: this.disabled,
       },
     };
+  }
+
+  getMyRef() {
+    return this.parent.getMyRef().$refs[this.myRefName];
   }
 }

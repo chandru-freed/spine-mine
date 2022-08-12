@@ -28,6 +28,7 @@ export default class CCITFStepperMDP extends FStepperMDP {
   }
 
   getMyRef() {
+    console.log(this.parent.$refs);
     return this.parent.$refs[this.myRefName];
   }
 }

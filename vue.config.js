@@ -38,6 +38,6 @@ module.exports = defineConfig({
     // proxy: 'http://127.0.0.1:9000'
     // proxy: 'http://10.10.14.78:9000'
     // proxy: 'https://dev-wms.rattusapps.com'
-     proxy: 'http://localhost:9001'
+     proxy: 'http://localhost:9000'
  }
 })

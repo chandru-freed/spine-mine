@@ -3,9 +3,9 @@ import { Prop } from "vue-property-decorator";
 
 export default class ModelVue extends Vue {
   @Prop()
-  value: string;
+  value: any;
 
-  get modelValue() {
+  get modelValue(): any {
     return this.value;
   }
 

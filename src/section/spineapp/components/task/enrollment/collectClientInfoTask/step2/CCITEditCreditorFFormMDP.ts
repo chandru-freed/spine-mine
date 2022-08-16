@@ -75,7 +75,7 @@ export default class CCITEditCreditorFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Edit Creditor",
+          label: "Update Creditor",
           onClick: this.submitEditCreditor(),
         })
       );

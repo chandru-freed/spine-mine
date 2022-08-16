@@ -84,6 +84,7 @@
       <!--ACTION START-->
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+        v-if="!disabled"
       >
         <component
           v-for="(actionMetaData, index) of actionMetaDataList"

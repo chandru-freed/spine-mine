@@ -18,21 +18,15 @@ export default class CCITCreditorStepMDP implements MDP {
   constructor({
     taskRoot,
     parent,
-    myRefName,
-    dataSelectorKey,
-    disabled = false,
   }: {
     taskRoot: any;
     parent: any;
-    myRefName: string;
-    dataSelectorKey?: string;
-    disabled?: boolean;
   }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
-    this.myRefName = myRefName;
-    this.dataSelectorKey = dataSelectorKey;
-    this.disabled = disabled;
+    this.myRefName = "creditorListRef";
+    this.dataSelectorKey = "creditorList";
+    this.disabled = this.taskRoot.taskDisabled;
 
     this.addCreditorForm = new CCITAddCreditorFFormMDP({
       taskRoot: this.taskRoot,

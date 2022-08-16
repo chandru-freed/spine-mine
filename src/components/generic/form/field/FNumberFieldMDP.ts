@@ -1,8 +1,8 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
-export default class FTextFieldMDP implements FFieldMDP {
-  componentName = "FTextField";
+export default class FNumberFieldMDP implements FFieldMDP {
+  componentName = "FNumberField";
   dataSelectorKey: string;
   label: string;
   type: string;

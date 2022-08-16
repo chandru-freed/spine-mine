@@ -1,0 +1,96 @@
+<template>
+  <div>
+    <component
+      v-if="!budgetFormMetaData.dataSelectorKey"
+      :is="budgetFormMetaData.componentName"
+      :ref="budgetFormMetaData.myRefName"
+      v-model="modelValue"
+      v-bind="budgetFormMetaData.props"
+    ></component>
+    <component
+      v-if="!!budgetFormMetaData.dataSelectorKey"
+      :is="budgetFormMetaData.componentName"
+      :ref="budgetFormMetaData.myRefName"
+      v-model="modelValue[budgetFormMetaData.dataSelectorKey]"
+      v-bind="budgetFormMetaData.props"
+    ></component>
+
+    <div class="d-flex justify-space-around">
+      <v-card outlined min-width="300px">
+        <v-list subheader two-line>
+          <v-subheader class="text-center">Budget Summary</v-subheader>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Total Income</v-list-item-title>
+
+              <v-list-item-subtitle
+                >Income earned in total per month</v-list-item-subtitle
+              >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text>
+                {{ totalIncomeAmount }}
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </div>
+
+    <div
+      v-if="!disabled"
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+    >
+      <div
+        :class="actionMetaData.boundaryClass"
+        v-for="(actionMetaData, indx) in actionMetaDataList"
+        :key="indx"
+      >
+        <component
+          :is="actionMetaData.componentName"
+          v-bind="actionMetaData.props"
+        ></component>
+      </div>
+    </div>
+  </div>
+</template>
+<script lang="ts">
+import { Vue, Component, Prop } from "vue-property-decorator";
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import FBtn from "@/components/generic/FBtn.vue";
+@Component({
+  components: {
+    FForm,
+    FBtn,
+  },
+})
+export default class CCITBudgetStep extends ModelVue {
+  get incomeSources() {
+    return this.modelValue.budgetInfo.incomeSources;
+  }
+
+  get totalIncomeAmount() {
+    return Object.values(this.incomeSources).reduce(
+      (accumulator: number, objValue: any) => {
+        return accumulator + objValue;
+      },
+      0
+    );
+  }
+
+  @Prop()
+  budgetFormMetaData: any;
+
+  @Prop({ default: false })
+  disabled: boolean;
+
+  @Prop({ default: false })
+  dataSelectorKey: boolean;
+
+  @Prop()
+  actionMetaDataList: any[];
+}
+</script>

@@ -4,6 +4,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
+import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 
 export default class CCIFProfileStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -76,7 +77,7 @@ export default class CCIFProfileStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "mothersMaidenName",
           label: "Mother's Maiden Name",
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
           mandatory: true,
         })
       )
@@ -85,7 +86,7 @@ export default class CCIFProfileStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "fathersName",
           label: "Father's Name",
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
           mandatory: true,
         })
       )
@@ -94,16 +95,16 @@ export default class CCIFProfileStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "pan",
           label: "PAN",
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
           mandatory: true,
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "dob",
           label: "Date Of Birth",
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
           mandatory: true,
         })
       )

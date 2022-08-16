@@ -1,6 +1,7 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import CCIFProfileStepFFormMDP from "./step1/CCIFProfileStepFFormMDP";
 import CCITCreditorStepMDP from "./step2/CCITCreditorStepMDP";
+import CCITBudgetStepMDP from "./step3/CCITBudgetStepMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: any;
@@ -21,10 +22,14 @@ export default class CCITFStepperMDP extends FStepperMDP {
       stepContent: new CCITCreditorStepMDP({
         taskRoot: this.taskRoot,
         parent: this,
-        myRefName: "creditorListRef",
-        dataSelectorKey: "creditorList",
       }),
-    });
+    }).addStep({
+      name: "Budget",
+      stepContent: new CCITBudgetStepMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+      }),
+    });;
   }
 
   getMyRef() {

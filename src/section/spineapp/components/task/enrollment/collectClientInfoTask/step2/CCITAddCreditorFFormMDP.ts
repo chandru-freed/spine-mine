@@ -1,5 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
+import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 export default class CCITAddCreditorFFormMDP extends FFormMDP {
@@ -32,7 +34,7 @@ export default class CCITAddCreditorFFormMDP extends FFormMDP {
         type:'number'
       }))
       .addField(
-        new FTextFieldMDP({
+        new FDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "lastDateOfPayment",
           label: "Last Date of Payment",
@@ -41,12 +43,13 @@ export default class CCITAddCreditorFFormMDP extends FFormMDP {
         }))
 
       .addField(
-        new FTextFieldMDP({
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "debtType",
           label: "Type of Debt",
           mandatory: true,
-          boundaryClass: "col-4"
+          boundaryClass: "col-4",
+          items:["Credit Card", "Personal Loans", "Secured", "Others (Unsecured)"]
         }))
 
       .addField(

@@ -79,7 +79,7 @@ export default class FileTaskArea extends Vue {
   }
 
   public getExecutiveTaskDetailsHandler = (output: string) =>
-    this.getExecutiveTaskDetails();
+    this.getExecutiveTaskDetailsWithDelay();
 
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
@@ -94,9 +94,14 @@ export default class FileTaskArea extends Vue {
 
     
 
-    this.getExecutiveTaskDetails();
+    this.getExecutiveTaskDetailsWithDelay();
   }
 
+
+  getExecutiveTaskDetailsWithDelay() {
+    setTimeout(
+    this.getExecutiveTaskDetails, 1000)
+  }
 
   getExecutiveTaskDetails() {
     Action.TaskList.GetExecutiveTaskDetails.execute1(
@@ -109,7 +114,7 @@ export default class FileTaskArea extends Vue {
         // console.error(err);
       },
       RemoteApiPoint.BenchApi
-    );
+    )
   }
 
   startTask() {

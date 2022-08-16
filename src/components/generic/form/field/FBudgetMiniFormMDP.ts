@@ -1,48 +1,50 @@
-import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
-import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FBtnMDP from "../../FBtnMDP";
+import FFieldMDP from "./FFieldMDP";
+import MDP from "../../MDP";
 
-export default class FTextFieldMDP implements FFieldMDP {
-  componentName = "FTextField";
+export class FFormChildMDP {
+  outlined = true;
+  dense = true;
+}
+
+export default class FBudgetMiniFormMDP implements FFieldMDP {
+  componentName = "FBudgetMiniForm";
+
+  fieldList: FFieldMDP[] = [];
+
   dataSelectorKey: string;
+  disabled: boolean;
+
   label: string;
-  type: string;
   rules: string;
   mandatory: boolean;
-  parentMDP: FFormChildMDP;
   boundaryClass: string;
-  disabled: boolean;
-  // defaultValue?: string;
+  parentMDP: FFormChildMDP;
 
   constructor({
     parentMDP,
     dataSelectorKey,
+    disabled = false,
     label,
-    type = "text",
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
-    disabled = false,
-    // defaultValue
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
+    disabled?: boolean;
     label: string;
-    type?: string;
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string;
-    disabled?: boolean;
-    // defaultValue?: string
   }) {
-    this.parentMDP = parentMDP;
+    this.parentMDP = parentMDP; // todo : Check not being used
     this.dataSelectorKey = dataSelectorKey;
+    this.disabled = disabled;
     this.label = label;
-    this.type = type;
     this.rules = rules;
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
-    this.disabled = disabled;
-    // this.defaultValue = defaultValue;
   }
 
   getRules() {
@@ -54,6 +56,11 @@ export default class FTextFieldMDP implements FFieldMDP {
     return `${this.boundaryClass} py-0 px-2`;
   }
 
+  addField(newField: FFieldMDP) {
+    this.fieldList.push(newField);
+    return this;
+  }
+
   getMetaData(): object {
     return {
       componentName: this.componentName,
@@ -61,13 +68,9 @@ export default class FTextFieldMDP implements FFieldMDP {
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
       props: {
-        id: this.dataSelectorKey,
         label: this.label,
-        type: this.type,
-        outlined: this.parentMDP.outlined,
-        dense: this.parentMDP.dense,
+        fieldMetaDataList: this.fieldList.map((field) => field.getMetaData()),
         disabled: this.disabled,
-        // defaultValue: this.defaultValue
       },
     };
   }

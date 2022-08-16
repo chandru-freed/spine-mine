@@ -1,26 +1,25 @@
 <template>
   <div class="d-flex flex-row align-start flex-wrap justify-start py-2">
+    <v-card outlined class="col-12">
     <v-subheader class=" col-12">{{label}}</v-subheader>
     <div
       v-for="(fieldMetaData, indx) in fieldMetaDataList"
       :key="indx"
       :class="fieldMetaData.boundaryClass"
     >
-      <ValidationProvider
-        :vid="fieldMetaData.props.id"
-        :name="fieldMetaData.props.label"
-        :rules="fieldMetaData.rules"
-        v-slot="{ errors }"
-      >
         <component
           :is="fieldMetaData.componentName"
           v-bind="fieldMetaData.props"
           v-model="modelValue[fieldMetaData.dataSelectorKey]"
-          :error-messages="errors"
           :disabled="disabled"
         ></component>
-      </ValidationProvider>
     </div>
+    <div
+      class="col-12 px-2"
+    >
+        <f-number-field outlined dense :value="totalAmount" :label="`TOTAL`" disabled></f-number-field>
+    </div>
+    </v-card>
   </div>
 </template>
 <script lang="ts">
@@ -45,7 +44,15 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FBtn,
   },
 })
-export default class FMiniForm extends ModelVue {
+export default class FBudgetMiniForm extends ModelVue {
+
+
+
+  get totalAmount() {
+    return Object.values(this.modelValue).reduce((accumulator: number, objValue: any) => {
+      return accumulator + objValue;
+    }, 0);
+  }
 
   @Prop()
   label: string
@@ -55,6 +62,9 @@ export default class FMiniForm extends ModelVue {
 
   @Prop({ default: false }) // Todo: disabled remve from html and put it in MDP
   disabled: boolean;
+
+
+
 
 }
 </script>

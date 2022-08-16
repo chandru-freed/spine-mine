@@ -25,6 +25,7 @@
       </div>
     </v-form>
     <div
+     v-if="!disabled"
       class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
     >
       <div
@@ -47,6 +48,9 @@ import FSelectField from "./field/FSelectField.vue";
 import FBtn from "../FBtn.vue";
 import ModelVue from "../ModelVue";
 import FMiniForm from "./field/FMiniForm.vue";
+import FTextarea from "./field/FTextarea.vue"
+import FDateField from "./field/FDateField.vue"
+import FBudgetMiniForm from "./field/FBudgetMiniForm.vue"
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
@@ -55,9 +59,12 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     ValidationObserver,
     ValidationProvider,
     FTextField,
+    FTextarea,
+    FDateField,
     FSelectField,
     FBtn,
     FMiniForm,
+    FBudgetMiniForm
   },
 })
 export default class FForm extends ModelVue {

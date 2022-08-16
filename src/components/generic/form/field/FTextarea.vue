@@ -1,17 +1,18 @@
 <template>
-  <v-text-field v-bind="$props" v-model="modelValue"></v-text-field>
+  <v-textarea v-bind="$props" v-model="modelValue"></v-textarea>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
-import { VTextField } from "vuetify/lib/components";
+import { VTextarea } from "vuetify/lib/components";
 
 @Component({
   components: {
-    VTextField,
+    VTextarea,
   },
 })
-export default class FTextField extends VTextField {
+export default class FTextarea extends VTextarea{
   
+
   // MODEL VALUE - START
   @Prop()
   value: string;
@@ -24,6 +25,5 @@ export default class FTextField extends VTextField {
     this.$emit("input", newModelValue);
   }
   // MODEL VALUE - END
-
 }
 </script>

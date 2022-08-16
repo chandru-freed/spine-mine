@@ -1,5 +1,5 @@
 <template>
-  <v-text-field v-bind="$props" v-model="modelValue"></v-text-field>
+  <v-text-field v-bind="$props" v-model="modelValue" type="number"></v-text-field>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
@@ -10,7 +10,7 @@ import { VTextField } from "vuetify/lib/components";
     VTextField,
   },
 })
-export default class FTextField extends VTextField {
+export default class FNumberField extends VTextField {
   
   // MODEL VALUE - START
   @Prop()
@@ -21,7 +21,12 @@ export default class FTextField extends VTextField {
   }
 
   set modelValue(newModelValue: string) {
-    this.$emit("input", newModelValue);
+    if(newModelValue) {
+      this.$emit("input", Number.parseFloat(newModelValue));
+    } else {
+      this.$emit("input", 0);
+    }
+    
   }
   // MODEL VALUE - END
 

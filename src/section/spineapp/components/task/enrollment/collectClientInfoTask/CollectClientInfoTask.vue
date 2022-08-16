@@ -61,6 +61,7 @@ export default class CollectClientInfoTask extends Vue {
   get bigFormData() {
     if (this.taskOutputJson().clientInfo) {
       this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo;
+      this.bigFormDataLocal.creditorList = this.taskOutputJson().creditorList;
     }
     return this.bigFormDataLocal;
   }

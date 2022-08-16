@@ -1,8 +1,8 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
-export default class FTextFieldMDP implements FFieldMDP {
-  componentName = "FTextField";
+export default class FTextareaMDP implements FFieldMDP {
+  componentName = "FTextarea";
   dataSelectorKey: string;
   label: string;
   type: string;
@@ -11,7 +11,6 @@ export default class FTextFieldMDP implements FFieldMDP {
   parentMDP: FFormChildMDP;
   boundaryClass: string;
   disabled: boolean;
-  // defaultValue?: string;
 
   constructor({
     parentMDP,
@@ -22,7 +21,6 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    // defaultValue
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -32,7 +30,6 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -42,7 +39,6 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
-    // this.defaultValue = defaultValue;
   }
 
   getRules() {
@@ -67,7 +63,6 @@ export default class FTextFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
-        // defaultValue: this.defaultValue
       },
     };
   }

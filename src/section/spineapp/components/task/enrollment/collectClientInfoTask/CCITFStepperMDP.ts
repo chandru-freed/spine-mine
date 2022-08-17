@@ -2,6 +2,7 @@ import FStepperMDP from "@/components/generic/FStepperMDP";
 import CCIFProfileStepFFormMDP from "./step1/CCIFProfileStepFFormMDP";
 import CCITCreditorStepMDP from "./step2/CCITCreditorStepMDP";
 import CCITBudgetStepMDP from "./step3/CCITBudgetStepMDP";
+import CCITPaymentPlanStepMDP from "./step4/CCITPaymentPlanStepMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: any;
@@ -29,11 +30,17 @@ export default class CCITFStepperMDP extends FStepperMDP {
         taskRoot: this.taskRoot,
         parent: this,
       }),
-    });;
+    }).addStep({
+      name: "Payment Plan",
+      stepContent: new CCITPaymentPlanStepMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+      }),
+    });
   }
 
   getMyRef() {
     console.log(this.parent.$refs);
-    return this.parent.$refs[this.myRefName];
+    return this.taskRoot.$refs[this.myRefName];
   }
 }

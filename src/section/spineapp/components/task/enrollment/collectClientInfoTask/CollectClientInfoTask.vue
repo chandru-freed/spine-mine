@@ -47,7 +47,7 @@ export default class CollectClientInfoTask extends Vue {
     },
     creditorList: [],
     budgetInfo:{incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}},
-    paymentPlan: {ppCalculator: {}, paymentSchedule: []},
+    paymentPlan: {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []},
     needVerification: false,
   };
   
@@ -62,6 +62,8 @@ export default class CollectClientInfoTask extends Vue {
     if (this.taskOutputJson().clientInfo) {
       this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo;
       this.bigFormDataLocal.creditorList = this.taskOutputJson().creditorList;
+      this.bigFormDataLocal.budgetInfo = this.taskOutputJson().budgetInfo;
+      this.bigFormDataLocal.paymentPlan = this.taskOutputJson().paymentPlan;
     }
     return this.bigFormDataLocal;
   }

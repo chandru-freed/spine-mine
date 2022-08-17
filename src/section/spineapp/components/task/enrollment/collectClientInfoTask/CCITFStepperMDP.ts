@@ -1,8 +1,10 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import CCIFProfileStepFFormMDP from "./step1/CCIFProfileStepFFormMDP";
+import CCITProfileStepFFormMDP from "./step1/CCITProfileStepFFormMDP";
 import CCITCreditorStepMDP from "./step2/CCITCreditorStepMDP";
 import CCITBudgetStepMDP from "./step3/CCITBudgetStepMDP";
 import CCITPaymentPlanStepMDP from "./step4/CCITPaymentPlanStepMDP";
+import CCITBankStepFFormMDP from "./step5/CCITBankStepFFormMDP";
+import CCITDocumentStepMDP from "./step6/CCITDocumentStepMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: any;
@@ -14,7 +16,7 @@ export default class CCITFStepperMDP extends FStepperMDP {
 
     this.addStep({
       name: "Profile",
-      stepContent: new CCIFProfileStepFFormMDP({
+      stepContent: new CCITProfileStepFFormMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),
@@ -33,6 +35,18 @@ export default class CCITFStepperMDP extends FStepperMDP {
     }).addStep({
       name: "Payment Plan",
       stepContent: new CCITPaymentPlanStepMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+      }),
+    }).addStep({
+      name: "Bank",
+      stepContent: new CCITBankStepFFormMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+      }),
+    }).addStep({
+      name: "Document",
+      stepContent: new CCITDocumentStepMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),

@@ -6,7 +6,7 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 
-export default class CCIFProfileStepFFormMDP extends FFormMDP {
+export default class CCITProfileStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
@@ -109,7 +109,14 @@ export default class CCIFProfileStepFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new AddressFMiniFormMDP({ taskRoot: this.taskRoot, parent: this })
+        new AddressFMiniFormMDP({
+          taskRoot: this.taskRoot,
+          parent: this,
+          dataSelectorKey: "residentialAddress",
+          disabled: taskRoot.taskDisabled,
+          label: "Residential Address",
+          mandatory: true,
+        })
       )
 
       .addAction(

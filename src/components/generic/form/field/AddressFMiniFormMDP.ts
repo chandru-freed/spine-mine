@@ -8,13 +8,18 @@ export default class AddressFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent, dataSelectorKey, disabled,label, mandatory}: { taskRoot: any; parent: any,dataSelectorKey: string, disabled: boolean, label: string, mandatory: boolean}) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "residentialAddress",
-      disabled: taskRoot.taskDisabled,
-      label: "Residential Address",
-      mandatory: true,
+      dataSelectorKey: dataSelectorKey,
+      disabled: disabled,
+      label: label,
+      mandatory: mandatory,
+      // parentMDP: new FFormChildMDP(),
+      // dataSelectorKey: "residentialAddress",
+      // disabled: taskRoot.taskDisabled,
+      // label: "Residential Address",
+      // mandatory: true,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

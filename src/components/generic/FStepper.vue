@@ -51,6 +51,7 @@ import FForm from "@/components/generic/form/FForm.vue";
 import CCITCreditorStep from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/step2/CCITCreditorStep.vue";
 import CCITBudgetStep from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/step3/CCITBudgetStep.vue";
 import CCITPaymentPlanStep from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/step4/CCITPaymentPlanStep.vue";
+import CCITDocumentStep from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/step6/CCITDocumentStep.vue";
 
 
 @Component({
@@ -58,7 +59,8 @@ import CCITPaymentPlanStep from "@/section/spineapp/components/task/enrollment/c
     FForm,
     CCITCreditorStep,
     CCITBudgetStep,
-    CCITPaymentPlanStep
+    CCITPaymentPlanStep,
+    CCITDocumentStep
   },
 })
 export default class FStepper extends ModelVue {

@@ -52,6 +52,7 @@ import FMiniForm from "./field/FMiniForm.vue";
 import FTextarea from "./field/FTextarea.vue"
 import FDateField from "./field/FDateField.vue"
 import FBudgetMiniForm from "./field/FBudgetMiniForm.vue"
+import FFileField from "./field/FFileField.vue"
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
@@ -66,7 +67,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FNumberField,
     FBtn,
     FMiniForm,
-    FBudgetMiniForm
+    FBudgetMiniForm,
+    FFileField,
   },
 })
 export default class FForm extends ModelVue {

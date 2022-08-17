@@ -89,7 +89,7 @@ export default class CollectClientInfoTask extends Vue {
     );
   }
 
-  completeTask() {
+  markComplete() {
     Action.TaskList.Complete.execute1(
       this.taskId,
       (output) => {

@@ -5,6 +5,7 @@ import CCITBudgetStepMDP from "./step3/CCITBudgetStepMDP";
 import CCITPaymentPlanStepMDP from "./step4/CCITPaymentPlanStepMDP";
 import CCITBankStepFFormMDP from "./step5/CCITBankStepFFormMDP";
 import CCITDocumentStepMDP from "./step6/CCITDocumentStepMDP";
+import CCITMarkCompleteStepFFormMDP from "./step7/CCITMarkCompleteStepFFormMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: any;
@@ -47,6 +48,12 @@ export default class CCITFStepperMDP extends FStepperMDP {
     }).addStep({
       name: "Document",
       stepContent: new CCITDocumentStepMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+      }),
+    }).addStep({
+      name: "Verify",
+      stepContent: new CCITMarkCompleteStepFFormMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),

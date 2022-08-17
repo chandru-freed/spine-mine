@@ -15,6 +15,7 @@
           :rules="fieldMetaData.rules"
           v-slot="{ errors }"
         >
+        
           <component
             :is="fieldMetaData.componentName"
             v-bind="fieldMetaData.props"
@@ -53,6 +54,7 @@ import FTextarea from "./field/FTextarea.vue"
 import FDateField from "./field/FDateField.vue"
 import FBudgetMiniForm from "./field/FBudgetMiniForm.vue"
 import FFileField from "./field/FFileField.vue"
+import FSwitch from "./field/FSwitch.vue"
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
@@ -69,6 +71,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FMiniForm,
     FBudgetMiniForm,
     FFileField,
+    FSwitch,
   },
 })
 export default class FForm extends ModelVue {

@@ -43,12 +43,16 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/CollectClientInfoTask.vue";
+import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
+import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue";
 
 import * as RemoteApiPoint from "@/remote-api-point";
 
 @Component({
   components: {
     CollectClientInfoTask,
+    UnderwrittingTask,
+    EnrollmentCompletionTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -62,6 +66,8 @@ export default class FileTaskArea extends Vue {
 
   TASK_COMPONENT_MAP = new Map([
     ["CollectClientInfo", "CollectClientInfoTask"],
+    ["Underwritting", "UnderwrittingTask"],
+    ["EnrollmentCompletion", "EnrollmentCompletionTask"]
   ]);
 
   taskId = this.$route.params.taskId;

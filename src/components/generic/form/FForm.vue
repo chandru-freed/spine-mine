@@ -55,6 +55,8 @@ import FDateField from "./field/FDateField.vue"
 import FBudgetMiniForm from "./field/FBudgetMiniForm.vue"
 import FFileField from "./field/FFileField.vue"
 import FSwitch from "./field/FSwitch.vue"
+import FPasswordField from "./field/FPasswordField.vue"
+
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
@@ -72,6 +74,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FBudgetMiniForm,
     FFileField,
     FSwitch,
+    FPasswordField,
   },
 })
 export default class FForm extends ModelVue {

@@ -103,7 +103,7 @@
         </v-chip>
       </template>
 
-      <template v-slot:item.allocatedTo="{ item }">
+      <template v-slot:item.allocatedTo="{ item }" >
         <!-- <v-chip outlined small v-if="item.assignedTo">
           <v-icon left small color="grey"> mdi-account-circle-outline </v-icon>
           {{ item.assignedTo }}
@@ -116,7 +116,7 @@
           outlined
           small
           color="primary"
-          v-if="!item.allocatedTo"
+          v-if="!item.allocatedTo && item.taskType === 'MANUAL'"
           @click="pullTask(item)"
           >PULL</v-btn
         >

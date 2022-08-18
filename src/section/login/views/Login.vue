@@ -4,46 +4,22 @@
       <v-container fluid fill-height>
         <v-row class="align-center justify-center">
           <v-col xs="12" sm="8" md="4">
-            <v-card outlined min-height="350px">
-              <v-toolbar flat dark color="primary ">
-                <v-toolbar-title>Sign In</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon color="secondary">
-                  <v-icon>mdi-account-circle</v-icon>
-                </v-btn>
-              </v-toolbar>
-              <v-card-text class="pa-10 pb-0">
-                <!-- <SmileForm
-              v-model='loginForm'
-              :decorator='decorator'
-              submit-text='Login'
-              :cancel='false'
-              @submit='login'>
-              </SmileForm> -->
-
-                <!-- <component
-                  ref="loginFormRef"
-                  key="loginForm"
-                  :is="loginFormComp.componentName"
-                  v-model="loginForm"
-                  v-bind="loginFormComp.props"
-                /> -->
-                <!-- <f-form
-                key="loginForm"
-                ref="loginFormRef"
-                name="Login Form"
-                form-key="loginForm"
-                :outlined="false"
-                :form-class="false"
-                :field-config-list="loginFormComp."
-              ></f-form> -->
-              </v-card-text>
-              <v-card-actions class="px-12 pt-0 pb-6">
-                <v-btn outlined color="secondary" block @click="login"
-                  >Login</v-btn
-                >
-              </v-card-actions>
-            </v-card>
+              <v-card flat outlined >
+                <v-toolbar color="primary" flat dark >
+                  <v-toolbar-title>Sign In</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-icon >mdi-account-circle-outline</v-icon>
+                </v-toolbar>
+                <v-card-text >
+                  <component
+                    v-if="!!loginFormMetaData"
+                    :ref="loginFormMetaData.myRefName"
+                    :is="loginFormMetaData.componentName"
+                    v-model="loginForm"
+                    v-bind="loginFormMetaData.props"
+                  ></component>
+                </v-card-text>
+              </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -59,31 +35,27 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 // import FForm1 from "@/components/FForm1.vue";
 import * as RemoteApiPoint from "@/remote-api-point";
-
+import FForm from "@/components/generic/form/FForm.vue";
+import LoginFFormMDP from "./LoginFFormMDP";
 
 import axios, { AxiosError, AxiosInstance } from "axios";
 @Component({
   components: {
-   //  "f-form-1": FForm1,
+    LoginFFormMDP,
+    FForm,
   },
 })
 export default class Login extends Vue {
   loginForm: Data.Login.LoginForm = new Data.Login.LoginForm("sagar", "Welcome@123");
-  loginFormComp = {}
+  
   roleList = [];
 
-  public requestLogin() {
-    (this.$refs as any)["loginFormRef"].onSubmit(() => {
-      console.log("Sumitted");
-      this.login();
-    });
+  get loginFormMetaData(): any {
+    return new LoginFFormMDP({taskRoot: this, parent: this}).getMetaData();
   }
 
   public login() {
     const vm = this;
-    console.log("-------login --------");
-    console.log(RemoteApiPoint);
-    console.log(RemoteApiPoint.GompaApi);
 
     Action.Login.Login.execute(
       this.loginForm,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>CollectClientProfileInfoTask</h4>
+    <h4>UnderwrittingTask</h4>
     Root Data : {{ bigFormData }}
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
@@ -21,8 +21,8 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
-import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";
+import UnderwrittingStepperMDP from "./UnderwrittingStepperMDP";
 
 @Component({
   components: {
@@ -77,7 +77,7 @@ export default class CollectClientInfoTask extends Vue {
   }
 
   get stepperMetaData(): any {
-    return new CCITFStepperMDP({
+    return new UnderwrittingStepperMDP({
       taskRoot: this,
     }).getMetaData();
   }

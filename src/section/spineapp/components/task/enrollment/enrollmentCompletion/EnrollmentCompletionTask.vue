@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h4>CollectClientProfileInfoTask</h4>
-    Root Data : {{ bigFormData }}
+    <h4>EnrollmentCompletionTask</h4>
+    <!-- Root Data : {{ bigFormData }} -->
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
@@ -21,8 +21,8 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
-import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";
+import EnrollmentCompletionStepperMDP from "./EnrollmentCompletionStepperMDP";
 
 @Component({
   components: {
@@ -30,7 +30,7 @@ import FBtn from "@/components/generic/FBtn.vue";
     FBtn,
   },
 })
-export default class CollectClientInfoTask extends Vue {
+export default class EnrollmentCompletionTask extends Vue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -77,7 +77,7 @@ export default class CollectClientInfoTask extends Vue {
   }
 
   get stepperMetaData(): any {
-    return new CCITFStepperMDP({
+    return new EnrollmentCompletionStepperMDP({
       taskRoot: this,
     }).getMetaData();
   }
@@ -94,6 +94,23 @@ export default class CollectClientInfoTask extends Vue {
       this.taskId,
       (output) => {
         this.gotoFile();
+      },
+      (err) => {
+        console.error(err);
+      },
+      RemoteApiPoint.BenchApi
+    );
+  }
+
+  saveAndMarkCompleteTask() {
+    const input = JSON.stringify(this.bigFormData);
+    console.log("Save take is being called");
+    Action.TaskList.Save.execute2(
+      this.taskId,
+      input,
+      (output) => {
+        // console.log(output);
+        this.markComplete()
       },
       (err) => {
         console.error(err);

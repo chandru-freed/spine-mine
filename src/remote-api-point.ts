@@ -10,6 +10,7 @@ export default class RemoteApiPoint {
 export const GompaApi = axios;
 export const BenchApi = axios;
 export const SpineApi = axios;
+export const ValeyApi = axios;
 
 
 //////////////// define the remote-api-point ///////////

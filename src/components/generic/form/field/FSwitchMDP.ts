@@ -11,6 +11,8 @@ export default class FSwitchMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   inset?: boolean;
+  falseValue: boolean
+  trueValue: boolean
 
   constructor({
     parentMDP,
@@ -20,7 +22,9 @@ export default class FSwitchMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    inset = true
+    inset = true,
+    falseValue = false,
+    trueValue = true
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -29,7 +33,9 @@ export default class FSwitchMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    inset?: boolean
+    inset?: boolean;
+    falseValue? : boolean;
+    trueValue? : boolean;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -39,6 +45,8 @@ export default class FSwitchMDP implements FFieldMDP {
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
     this.inset = inset;
+    this.falseValue = falseValue;
+    this.trueValue = trueValue;
   }
 
   getRules() {
@@ -62,7 +70,9 @@ export default class FSwitchMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
-        inset: this.inset
+        inset: this.inset,
+        falseValue: this.falseValue,
+        trueValue: this.trueValue,
       },
     };
   }

@@ -1,4 +1,4 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -36,6 +36,7 @@ export default class UnderwrittingApprovedFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Mark Complete",
           onClick: this.validateAndMarkComplete(),
+          btnType: BtnType.FILLED
         })
       );
   }
@@ -52,7 +53,7 @@ export default class UnderwrittingApprovedFFormMDP extends FFormMDP {
 
   validateAndMarkComplete() {
     return () => {
-      this.getMyRef().submitForm(this.markCompleteTask());
+      this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
     };
   }
 
@@ -64,9 +65,9 @@ export default class UnderwrittingApprovedFFormMDP extends FFormMDP {
     };
   }
 
-  markCompleteTask() {
+  saveAndMarkCompleteTask() {
     return () => {
-      this.taskRoot.markComplete();
+      this.taskRoot.saveAndMarkCompleteTask();
     };
   }
 }

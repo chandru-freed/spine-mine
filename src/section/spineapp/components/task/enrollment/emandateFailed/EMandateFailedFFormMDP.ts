@@ -7,25 +7,31 @@ import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFor
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 
-export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
+export default class EMandateFailedFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
-      myRefName: "verifyForm",
+      myRefName: "eMandateFailedForm",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
 
     this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "eMandateStatus",
+        label: "EMandate Status",
+        disabled: true
+      })
+    ).addField(
       new FSwitchMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "needVerification",
-        label: "Need Verification",
+        dataSelectorKey: "eMandateRetry",
+        label: "EMandate Retry",
         mandatory: true,
-        boundaryClass: "col-3",
       })
     ).addAction(
         new FBtnMDP({

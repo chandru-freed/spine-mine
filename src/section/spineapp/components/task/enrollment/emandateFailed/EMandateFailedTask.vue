@@ -1,10 +1,6 @@
 <template>
   <div>
-    <!-- <h4>UnderwrittingTask</h4> -->
-    <!-- Root Data : {{ bigFormData }} -->
-    <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
-    <!-- <kbd> {{ testMetaData }}</kbd> -->
-
+    {{bigFormData}}
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -22,7 +18,7 @@ import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
-import UnderwrittingStepperMDP from "./UnderwrittingStepperMDP";
+import EMandateFailedStepperMDP from "./EMandateFailedStepperMDP";
 
 @Component({
   components: {
@@ -30,27 +26,14 @@ import UnderwrittingStepperMDP from "./UnderwrittingStepperMDP";
     FBtn,
   },
 })
-export default class CollectClientInfoTask extends Vue {
+export default class EMandateFailedTask extends Vue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
   bigFormDataLocal: any = {
-    clientInfo: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      mobile: "",
-      gender: "",
-      residentialAddress: {},
-    },
-    creditorList: [],
-    budgetInfo:{incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}},
-    paymentPlan: {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []},
-    bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}},
-    fileDocumentList: [],
-    needVerification: false,
+    fileId: null, clientName: null, clientMobile: null, eMandateStatus: null
   };
   
 
@@ -60,15 +43,16 @@ export default class CollectClientInfoTask extends Vue {
       : {};
   }
 
+  taskInputJson() {
+    return !!this.taskDetails && !!this.taskDetails.taskInput
+      ? JSON.parse(this.taskDetails.taskInput)
+      : {};
+  }
+
   get bigFormData() {
-    
-      this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo ? this.taskOutputJson().clientInfo : {};
-      this.bigFormDataLocal.creditorList = this.taskOutputJson().creditorList ? this.taskOutputJson().creditorList: [];
-      this.bigFormDataLocal.budgetInfo = (this.taskOutputJson().budgetInfo && this.taskOutputJson().budgetInfo.incomeSources) ? this.taskOutputJson().budgetInfo : {incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}};
-      this.bigFormDataLocal.paymentPlan = this.taskOutputJson().paymentPlan && this.taskOutputJson().paymentPlan.ppCalculator ? this.taskOutputJson().paymentPlan : {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []};
-      this.bigFormDataLocal.bankInfo = this.taskOutputJson().bankInfo && this.taskOutputJson().bankInfo.accountNumber ?  this.taskOutputJson().bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}};
-      this.bigFormDataLocal.fileDocumentList = this.taskOutputJson().fileDocumentList ? this.taskOutputJson().fileDocumentList : [];
-    
+    console.log(this.taskInputJson);
+    console.log(this.taskOutputJson());
+    this.bigFormDataLocal = { ...this.taskInputJson(), ...this.taskOutputJson() }
     return this.bigFormDataLocal;
   }
 
@@ -77,7 +61,7 @@ export default class CollectClientInfoTask extends Vue {
   }
 
   get stepperMetaData(): any {
-    return new UnderwrittingStepperMDP({
+    return new EMandateFailedStepperMDP({
       taskRoot: this,
     }).getMetaData();
   }

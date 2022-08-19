@@ -45,6 +45,7 @@ import * as Action from "@/../src-gen/action";
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/CollectClientInfoTask.vue";
 import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
 import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue";
+import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/emandateFailed/EMandateFailedTask.vue"
 
 import * as RemoteApiPoint from "@/remote-api-point";
 
@@ -53,6 +54,7 @@ import * as RemoteApiPoint from "@/remote-api-point";
     CollectClientInfoTask,
     UnderwrittingTask,
     EnrollmentCompletionTask,
+    EMandateFailedTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -67,7 +69,8 @@ export default class FileTaskArea extends Vue {
   TASK_COMPONENT_MAP = new Map([
     ["CollectClientInfo", "CollectClientInfoTask"],
     ["Underwritting", "UnderwrittingTask"],
-    ["EnrollmentCompletion", "EnrollmentCompletionTask"]
+    ["EnrollmentCompletion", "EnrollmentCompletionTask"],
+    ["EMandateFailed", "EMandateFailedTask"]
   ]);
 
   taskId = this.$route.params.taskId;

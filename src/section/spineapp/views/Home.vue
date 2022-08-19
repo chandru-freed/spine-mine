@@ -56,9 +56,24 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
 // import * as Data from '@/../src-gen/data';
 // import * as ServerData from '@/../src-gen/server-data';
 // import * as Action from '@/../src-gen/action';
+import FSwitch from "@/components/generic/form/field/FSwitch.vue"
 
-@Component
+@Component({
+  components : {
+    FSwitch
+  }
+})
 export default class Home extends Vue {
+  public testSwitch = false
+  updateTestSwitch(x: any) {
+    console.log(x)
+    this.testSwitch = x
+  }
+
+foo(event: any) {
+  console.log("I am in foo")
+  console.log(event)
+}
 
   public counter = 0 ;
 

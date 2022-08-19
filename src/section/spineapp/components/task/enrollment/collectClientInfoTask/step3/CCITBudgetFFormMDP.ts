@@ -3,7 +3,9 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import CCITDebtRepaymentsMiniFormMDP from "./CCITDebtRepaymentsMiniFormMDP";
 import CCITIncomeSourcesFBudgetMiniFormMDP from "./CCITIncomeSourcesFBudgetMiniFormMDP";
+import CCITLivingExpensesFBudgetMiniFormMDP from "./CCITLivingExpensesFBudgetMiniFormMDP";
 
 export default class CCITBudgetFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -20,6 +22,10 @@ export default class CCITBudgetFFormMDP extends FFormMDP {
 
     this.addField(
       new CCITIncomeSourcesFBudgetMiniFormMDP({taskRoot: this.taskRoot, parent: this})
+    ).addField(
+      new CCITDebtRepaymentsMiniFormMDP({taskRoot: this.taskRoot, parent: this})
+    ).addField(
+      new CCITLivingExpensesFBudgetMiniFormMDP({taskRoot: this.taskRoot, parent: this})
     )
   }
 

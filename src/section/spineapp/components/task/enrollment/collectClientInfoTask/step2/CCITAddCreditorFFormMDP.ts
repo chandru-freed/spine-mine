@@ -1,6 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
+import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
@@ -25,7 +26,7 @@ export default class CCITAddCreditorFFormMDP extends FFormMDP {
         boundaryClass: "col-4"
       })
     ).addField(
-      new FTextFieldMDP({
+      new FNumberFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorBalance",
         label: "Creditor Balance",

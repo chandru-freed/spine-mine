@@ -68,7 +68,7 @@ import FileLogs from "@/section/spineapp/components/file/FileLogs.vue";
 })
 export default class FileTaskDetails extends Vue {
   leftFocused = false;
-  rightFocused = false;
+  rightFocused = true;
   
   taskSummaryTab = 0;
 

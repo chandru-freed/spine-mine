@@ -16,22 +16,82 @@
     ></component>
 
     <div class="d-flex justify-space-around">
-      <v-card outlined min-width="300px">
+      <v-card outlined min-width="600px">
         <v-list subheader two-line>
           <v-subheader class="text-center">Budget Summary</v-subheader>
 
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Total Income</v-list-item-title>
-
-              <v-list-item-subtitle
-                >Income earned in total per month</v-list-item-subtitle
-              >
+              <v-list-item-subtitle>Income earned in total per month</v-list-item-subtitle >
             </v-list-item-content>
 
             <v-list-item-action>
               <v-btn text>
                 {{ totalIncomeAmount }}
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Total Secured Debt Obligation</v-list-item-title>
+              <v-list-item-subtitle>All total debt</v-list-item-subtitle >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text>
+                {{ totalSecuredDebtAmount }}
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Total Monthly Expenses</v-list-item-title>
+              <v-list-item-subtitle>All monthly expenses</v-list-item-subtitle >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text>
+                {{ allExpensesAmount }}
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Available Income </v-list-item-title>
+              <v-list-item-subtitle>Income available after expense every month</v-list-item-subtitle >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text>
+                {{ totalIncomeAmount - totalSecuredDebtAmount - allExpensesAmount }}
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Proposed DS Payment</v-list-item-title>
+              <v-list-item-subtitle></v-list-item-subtitle >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text>
+                {{proposedDSPayment}}
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>SDTI (Secured Debt to Income Ratio) or SFOIR </v-list-item-title>
+              <v-list-item-subtitle></v-list-item-subtitle >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text>
+                Fill in
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -72,6 +132,14 @@ export default class CCITBudgetStep extends ModelVue {
     return this.modelValue.budgetInfo.incomeSources;
   }
 
+  get debtRepayments() {
+    return this.modelValue.budgetInfo.debtRepayments;
+  }
+
+  get livingExpenses() {
+    return this.modelValue.budgetInfo.livingExpenses
+  }
+
   get totalIncomeAmount() {
     return Object.values(this.incomeSources).reduce(
       (accumulator: number, objValue: any) => {
@@ -79,6 +147,37 @@ export default class CCITBudgetStep extends ModelVue {
       },
       0
     );
+  }
+
+  get totalLivingExpenses() {
+    return Object.values(this.livingExpenses).reduce(
+      (accumulator: number, objValue: any) => {
+        return accumulator + objValue;
+      },
+      0
+    );
+  }
+
+  get allExpensesAmount() {
+    const allExpenseList = this.totalLivingExpenses + 0
+    return allExpenseList
+  }
+
+  get totalSecuredDebtAmount() {
+    return Object.values(this.debtRepayments).reduce(
+      (accumulator: number, objValue: any) => {
+        return accumulator + objValue;
+      },
+      0
+    );
+  }
+
+  get availableIncome( ) {
+    return this.totalIncomeAmount - this.totalSecuredDebtAmount - this.allExpensesAmount
+  }
+
+  get proposedDSPayment( ) {
+    return (this.availableIncome  * 80) /100
   }
 
   @Prop()

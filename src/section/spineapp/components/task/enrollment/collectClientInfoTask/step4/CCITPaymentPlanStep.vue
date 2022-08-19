@@ -130,6 +130,10 @@ export default class CCITPaymentPlanStep extends ModelVue {
     { text: "Total Amount", value: "totalAmount" },
   ];
 
+  mounted() {
+    
+  }
+
   calculatePaymentSchedule() {
     const input =
       new ServerData.PaymentPlanWebReader.CalculatePaymentSchedule$Input(

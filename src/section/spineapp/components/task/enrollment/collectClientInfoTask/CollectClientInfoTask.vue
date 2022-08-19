@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h4>CollectClientProfileInfoTask</h4>
-    Root Data : {{ bigFormData }}
+    <!-- <h4>CollectClientProfileInfoTask</h4> -->
+    <!-- Root Data : {{ bigFormData }} -->
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
@@ -61,14 +61,27 @@ export default class CollectClientInfoTask extends Vue {
   }
 
   get bigFormData() {
+    console.log(this.bigFormDataLocal);
+      const totalOutstanding  = this.bigFormDataLocal.creditorList.map((creditor: any) => creditor.creditorBalance).reduce(
+        (accumulator: number, objValue: any) => {
+          return accumulator + objValue;
+        },
+        0
+      )
+      console.log("----------- outstanding ----------");
+      console.log(totalOutstanding);
+      //this.bigFormDataLocal.paymentPlan.ppCalculator.outstanding = totalOutstanding
     
       this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo ? this.taskOutputJson().clientInfo : {};
       this.bigFormDataLocal.creditorList = this.taskOutputJson().creditorList ? this.taskOutputJson().creditorList: [];
       this.bigFormDataLocal.budgetInfo = (this.taskOutputJson().budgetInfo && this.taskOutputJson().budgetInfo.incomeSources) ? this.taskOutputJson().budgetInfo : {incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}};
-      this.bigFormDataLocal.paymentPlan = this.taskOutputJson().paymentPlan && this.taskOutputJson().paymentPlan.ppCalculator ? this.taskOutputJson().paymentPlan : {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []};
+      this.bigFormDataLocal.paymentPlan = this.taskOutputJson().paymentPlan && this.taskOutputJson().paymentPlan.ppCalculator ? this.taskOutputJson().paymentPlan : {ppCalculator: {outstanding: totalOutstanding}, paymentSchedule: [], subscriptionFeeSchedule: []};
       this.bigFormDataLocal.bankInfo = this.taskOutputJson().bankInfo && this.taskOutputJson().bankInfo.accountNumber ?  this.taskOutputJson().bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}};
       this.bigFormDataLocal.fileDocumentList = this.taskOutputJson().fileDocumentList ? this.taskOutputJson().fileDocumentList : [];
-    
+
+
+      
+      
     return this.bigFormDataLocal;
   }
 

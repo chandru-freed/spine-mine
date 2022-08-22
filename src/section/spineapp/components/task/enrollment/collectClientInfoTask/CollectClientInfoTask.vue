@@ -26,6 +26,7 @@ import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
+import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
 
 @Component({
   components: {
@@ -33,7 +34,7 @@ import moment from "moment";
     FBtn,
   },
 })
-export default class CollectClientInfoTask extends ModelVue {
+export default class CollectClientInfoTask extends ModelVue implements CollectClientInfoTaskIntf{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -101,19 +102,9 @@ export default class CollectClientInfoTask extends ModelVue {
   
 
   set bigFormData(value: any) {
-    
     this.bigFormDataLocal = value;
-    
   }
 
-  setTotalDebtOutstanding() {
-    console.log("I am in set debt outstanding");
-    const totalDebtOutstanding = this.bigFormData.creditorList.map((creditor:any) => creditor.creditorBalance).reduce((accumulator: number, objValue: any) => {
-        return accumulator + objValue;
-      }, 0);
-      console.log("totalDebtOutstanding : " + totalDebtOutstanding );
-    this.bigFormData.totalDebtOutstanding = totalDebtOutstanding
-  }
 
   get stepperMetaData(): any {
     return new CCITFStepperMDP({

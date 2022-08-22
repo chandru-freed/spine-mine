@@ -1,12 +1,13 @@
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FBudgetMiniFormMDP from "@/components/generic/form/field/FBudgetMiniFormMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 
 export default class CCITIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
       dataSelectorKey: "incomeSources",

@@ -1,4 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
+import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
 import CCITProfileStepFFormMDP from "./step1/CCITProfileStepFFormMDP";
 import CCITCreditorStepMDP from "./step2/CCITCreditorStepMDP";
 import CCITBudgetStepMDP from "./step3/CCITBudgetStepMDP";
@@ -8,9 +9,9 @@ import CCITDocumentStepMDP from "./step6/CCITDocumentStepMDP";
 import CCITMarkCompleteStepFFormMDP from "./step7/CCITMarkCompleteStepFFormMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: any }) {
+  constructor({ taskRoot }: { taskRoot: CollectClientInfoTaskIntf }) {
     super({ myRefName: "collectClientInfoStepperRef" });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;

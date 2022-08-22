@@ -2,12 +2,13 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import MDP from "@/components/generic/MDP";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 
 export default class CCITEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
     super({
       myRefName: "editCreditorFormRef",
       disabled: taskRoot.taskDisabled,

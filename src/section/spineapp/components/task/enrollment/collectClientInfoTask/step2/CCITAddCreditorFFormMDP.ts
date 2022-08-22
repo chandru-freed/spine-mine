@@ -4,12 +4,13 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 
 export default class CCITAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
     super({
       myRefName: "addCreditorFormRef",
       disabled: taskRoot.taskDisabled,

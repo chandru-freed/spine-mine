@@ -1,12 +1,13 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 import CCITPaymentCalculatorFFormMDP from "./CCITPaymentCalculatorFFormMDP";
 
 
 export default class CCITPaymentPlanStepMDP implements MDP {
   componentName = "CCITPaymentPlanStep";
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
   myRefName: string;
   dataSelectorKey: string | undefined;
@@ -21,7 +22,7 @@ export default class CCITPaymentPlanStepMDP implements MDP {
     taskRoot,
     parent,
   }: {
-    taskRoot: any;
+    taskRoot: CollectClientInfoTaskIntf;
     parent: any;
   }) {
     this.taskRoot = taskRoot;

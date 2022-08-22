@@ -3,15 +3,16 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 import CCITDebtRepaymentsMiniFormMDP from "./CCITDebtRepaymentsMiniFormMDP";
 import CCITIncomeSourcesFBudgetMiniFormMDP from "./CCITIncomeSourcesFBudgetMiniFormMDP";
 import CCITLivingExpensesFBudgetMiniFormMDP from "./CCITLivingExpensesFBudgetMiniFormMDP";
 
 export default class CCITBudgetFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
     super({
       myRefName: "budgetFormRef",
       disabled: taskRoot.taskDisabled,

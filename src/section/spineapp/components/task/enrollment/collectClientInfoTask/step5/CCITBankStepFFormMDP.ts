@@ -5,12 +5,13 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 
 export default class CCITBankStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
     super({
       myRefName: "bankInfoForm",
       dataSelectorKey: "bankInfo",

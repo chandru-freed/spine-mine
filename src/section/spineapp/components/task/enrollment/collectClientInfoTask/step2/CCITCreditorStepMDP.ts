@@ -1,11 +1,12 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
+import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 import CCITAddCreditorFFormMDP from "./CCITAddCreditorFFormMDP";
 import CCITEditCreditorFFormMDP from "./CCITEditCreditorFFormMDP";
 export default class CCITCreditorStepMDP implements MDP {
   componentName = "CCITCreditorStep";
-  taskRoot: any;
+  taskRoot: CollectClientInfoTaskIntf;
   parent: any;
   myRefName: string;
   dataSelectorKey: string | undefined;
@@ -19,7 +20,7 @@ export default class CCITCreditorStepMDP implements MDP {
     taskRoot,
     parent,
   }: {
-    taskRoot: any;
+    taskRoot: CollectClientInfoTaskIntf;
     parent: any;
   }) {
     this.taskRoot = taskRoot;

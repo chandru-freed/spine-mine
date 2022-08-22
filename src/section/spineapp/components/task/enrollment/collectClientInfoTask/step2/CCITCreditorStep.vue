@@ -4,15 +4,18 @@
       v-if="addCreditorDialog"
       :is="addCreditorFormMetaData.componentName"
       :ref="addCreditorFormMetaData.myRefName"
-      v-model="addCreditorForm"
+      :value="selectModel(addCreditorForm, undefined)"
+      @input="(newValue) => updateModel(addCreditorForm, newValue, undefined)"
       v-bind="addCreditorFormMetaData.props"
     ></component>
+    
 
     <component
       v-if="editCreditorDialog"
       :is="editCreditorFormMetaData.componentName"
       :ref="editCreditorFormMetaData.myRefName"
-      v-model="editCreditorForm"
+      :value="selectModel(editCreditorForm, undefined)"
+      @input="(newValue) => updateModel(editCreditorForm, newValue, undefined)"
       v-bind="editCreditorFormMetaData.props"
     ></component>
 
@@ -29,7 +32,7 @@
         />
         <FBtn
           label="Delete"
-          :on-click="deleteCeditorData"
+          :on-click="deleteCreditorData"
           outlined
           color="red"
         />
@@ -41,7 +44,7 @@
       <v-card flat outlined>
         <v-data-table
           :headers="headers"
-          :items="modelValue"
+          :items="creditorList"
           sort-by="lastDateOfPayment"
           class="elevation-0"
         >
@@ -49,6 +52,7 @@
             <v-toolbar flat>
               <v-toolbar-title>Creditors</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
+              <v-chip label outlined color="primary">Total Debt - ₹{{totalDebtAmount}}</v-chip>
               <v-spacer></v-spacer>
               <v-btn
                 :disabled="disabled"
@@ -177,21 +181,33 @@ export default class CCITCreditorStep extends ModelVue {
     this.editCreditorForm = {};
   }
 
+  get creditorList() {
+    return this.modelValue.creditorList;
+  }
+
+  get totalDebtAmount() {
+    const totalDebtAmount = this.modelValue.creditorList.map((creditor:any) => creditor.creditorBalance).reduce((accumulator: number, objValue: any) => {
+        return accumulator + objValue;
+      }, 0);
+      this.modelValue.totalDebtAmount = totalDebtAmount
+      return this.modelValue.totalDebtAmount;
+  }
+
   addCreditorData() {
-    (this.modelValue as any).push(this.addCreditorForm);
+    (this.creditorList as any).push(this.addCreditorForm);
     this.closeAndClearAllForms();
   }
 
   editCreditorData() {
     Object.assign(
-      this.modelValue[this.selectedCreditorIndex],
+      this.creditorList[this.selectedCreditorIndex],
       this.editCreditorForm
     );
     this.closeAndClearAllForms();
   }
 
-  deleteCeditorData() {
-    this.modelValue.splice(this.selectedCreditorIndex, 1);
+  deleteCreditorData() {
+    this.creditorList.splice(this.selectedCreditorIndex, 1);
     this.closeDialogs();
   }
 

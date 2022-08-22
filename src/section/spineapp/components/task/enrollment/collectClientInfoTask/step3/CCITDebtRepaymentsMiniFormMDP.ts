@@ -1,6 +1,6 @@
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FBudgetMiniFormMDP from "@/components/generic/form/field/FBudgetMiniFormMDP";
-import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
 export default class CCITDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -19,7 +19,7 @@ export default class CCITDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FNumberFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "autoLoan",
         label: "Auto Loan",
@@ -27,7 +27,7 @@ export default class CCITDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
       })
     )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "housingLoan",
           label: "Housing Loan",
@@ -35,7 +35,7 @@ export default class CCITDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "loansAgainstSecurity",
           label: "Loans Against Security",
@@ -43,7 +43,7 @@ export default class CCITDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "collateralizedBussinessLoan",
           label: "Collateralized Bussiness Loan",

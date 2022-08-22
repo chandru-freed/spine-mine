@@ -27,7 +27,7 @@ export default class CCITPaymentPlanStepMDP implements MDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = "paymentPlanStepRef"
-    this.dataSelectorKey = "paymentPlan"
+    // this.dataSelectorKey = "paymentPlan"
 
     this.disabled = this.taskRoot.taskDisabled;
 

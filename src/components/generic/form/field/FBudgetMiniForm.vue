@@ -7,17 +7,26 @@
       :key="indx"
       :class="fieldMetaData.boundaryClass"
     >
+      <ValidationProvider
+        :vid="fieldMetaData.props.id"
+        :name="fieldMetaData.props.label"
+        :rules="fieldMetaData.rules"
+        v-slot="{ errors }"
+      >
         <component
           :is="fieldMetaData.componentName"
           v-bind="fieldMetaData.props"
-          v-model="modelValue[fieldMetaData.dataSelectorKey]"
+          :value="selectModel(modelValue, fieldMetaData.dataSelectorKey)"
+          @input="(newValue) => updateModel(modelValue, newValue, fieldMetaData.dataSelectorKey)"
+          :error-messages="errors"
           :disabled="disabled"
         ></component>
+      </ValidationProvider>
     </div>
     <div
       class="col-12 px-2"
     >
-        <f-number-field outlined dense :value="totalAmount" :label="`TOTAL`" disabled></f-number-field>
+        <FCurrencyField outlined dense :value="totalAmount" :label="`TOTAL`" disabled></FCurrencyField>
     </div>
     </v-card>
   </div>
@@ -25,10 +34,15 @@
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
 import FTextField from "./FTextField.vue";
-import FNumberField from "./FNumberField.vue"
-import FTextarea from "./FTextarea.vue"
 import FSelectField from "./FSelectField.vue";
-import FBtn from "@/components/generic/FBtn.vue";
+import FNumberField from "./FNumberField.vue"
+import FBtn from "../../FBtn.vue";
+import FTextarea from "./FTextarea.vue"
+import FDateField from "./FDateField.vue"
+import FFileField from "./FFileField.vue"
+import FSwitch from "./FSwitch.vue"
+import FPasswordField from "./FPasswordField.vue"
+import FCurrencyField from "./FCurrencyField.vue"
 import ModelVue from "@/components/generic/ModelVue";
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -42,6 +56,12 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FTextarea,
     FSelectField,
     FBtn,
+    FDateField,
+    FBudgetMiniForm,
+    FFileField,
+    FSwitch,
+    FPasswordField,
+    FCurrencyField,
   },
 })
 export default class FBudgetMiniForm extends ModelVue {

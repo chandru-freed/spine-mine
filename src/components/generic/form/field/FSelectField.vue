@@ -1,5 +1,5 @@
 <template>
-  <v-select v-bind="$props" v-model="modelValue" ></v-select>
+  <v-select v-bind="$props" :value="modelValue"  @input="(newValue) => modelValue = newValue" ></v-select>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";

@@ -1,18 +1,10 @@
 <template>
   <div>
     <component
-      v-if="!budgetFormMetaData.dataSelectorKey"
       :is="budgetFormMetaData.componentName"
-      :ref="budgetFormMetaData.myRefName"
-      v-model="modelValue"
       v-bind="budgetFormMetaData.props"
-    ></component>
-    <component
-      v-if="!!budgetFormMetaData.dataSelectorKey"
-      :is="budgetFormMetaData.componentName"
-      :ref="budgetFormMetaData.myRefName"
-      v-model="modelValue[budgetFormMetaData.dataSelectorKey]"
-      v-bind="budgetFormMetaData.props"
+      :value="selectModel(modelValue, budgetFormMetaData.dataSelectorKey)"
+      @input="(newValue) => updateModel(modelValue, newValue, budgetFormMetaData.dataSelectorKey)"
     ></component>
 
     <div class="d-flex justify-space-around">
@@ -28,12 +20,12 @@
 
             <v-list-item-action>
               <v-btn text>
-                {{ totalIncomeAmount }}
+                ₹ {{ totalIncomeAmount }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
 
-          <v-list-item>
+           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Total Secured Debt Obligation</v-list-item-title>
               <v-list-item-subtitle>All total debt</v-list-item-subtitle >
@@ -41,12 +33,12 @@
 
             <v-list-item-action>
               <v-btn text>
-                {{ totalSecuredDebtAmount }}
+                ₹ {{ totalSecuredDebtAmount }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
 
-          <v-list-item>
+         <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Total Monthly Expenses</v-list-item-title>
               <v-list-item-subtitle>All monthly expenses</v-list-item-subtitle >
@@ -54,32 +46,32 @@
 
             <v-list-item-action>
               <v-btn text>
-                {{ allExpensesAmount }}
+                ₹ {{ allExpensesAmount }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Available Income </v-list-item-title>
-              <v-list-item-subtitle>Income available after expense every month</v-list-item-subtitle >
+              <v-list-item-subtitle>Total Income - (Total Monthly Expense + Total Debt Repayments)</v-list-item-subtitle >
             </v-list-item-content>
 
             <v-list-item-action>
               <v-btn text>
-                {{ totalIncomeAmount - totalSecuredDebtAmount - allExpensesAmount }}
+                ₹ {{ availableIncome }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
 
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Proposed DS Payment</v-list-item-title>
-              <v-list-item-subtitle></v-list-item-subtitle >
+              <v-list-item-title>Proposed DS Payment (Affordability)</v-list-item-title>
+              <v-list-item-subtitle>{{affordabilityPercentage}}% of Available Income </v-list-item-subtitle >
             </v-list-item-content>
 
             <v-list-item-action>
               <v-btn text>
-                {{proposedDSPayment}}
+                ₹ {{proposedDSPayment}}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -128,20 +120,29 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class CCITBudgetStep extends ModelVue {
+  affordabilityPercentage = 80
+
   get incomeSources() {
-    return this.modelValue.budgetInfo.incomeSources;
+    return this.modelValue.incomeSources;
   }
 
   get debtRepayments() {
-    return this.modelValue.budgetInfo.debtRepayments;
+    return this.modelValue.debtRepayments;
   }
 
   get livingExpenses() {
-    return this.modelValue.budgetInfo.livingExpenses
+    return this.modelValue.livingExpenses
   }
 
   get totalIncomeAmount() {
-    return Object.values(this.incomeSources).reduce(
+    const totalIncome = this.sumMiniBudgetAmount(this.incomeSources)
+    this.modelValue.totalIncome = totalIncome
+    return totalIncome
+  }
+
+
+  sumMiniBudgetAmount(budgetObj: any) {
+    return Object.values(budgetObj).reduce(
       (accumulator: number, objValue: any) => {
         return accumulator + objValue;
       },
@@ -150,12 +151,9 @@ export default class CCITBudgetStep extends ModelVue {
   }
 
   get totalLivingExpenses() {
-    return Object.values(this.livingExpenses).reduce(
-      (accumulator: number, objValue: any) => {
-        return accumulator + objValue;
-      },
-      0
-    );
+     const totalLivingExpenses = this.sumMiniBudgetAmount(this.livingExpenses)
+    this.modelValue.totalLivingExpenses = totalLivingExpenses
+    return totalLivingExpenses
   }
 
   get allExpensesAmount() {
@@ -164,12 +162,9 @@ export default class CCITBudgetStep extends ModelVue {
   }
 
   get totalSecuredDebtAmount() {
-    return Object.values(this.debtRepayments).reduce(
-      (accumulator: number, objValue: any) => {
-        return accumulator + objValue;
-      },
-      0
-    );
+    const totalDebtRepayments = this.sumMiniBudgetAmount(this.debtRepayments)
+    this.modelValue.totalDebtRepayments = totalDebtRepayments
+    return totalDebtRepayments
   }
 
   get availableIncome( ) {
@@ -177,8 +172,9 @@ export default class CCITBudgetStep extends ModelVue {
   }
 
   get proposedDSPayment( ) {
-    return (this.availableIncome  * 80) /100
+    return (this.availableIncome  * this.affordabilityPercentage) /100
   }
+
 
   @Prop()
   budgetFormMetaData: any;

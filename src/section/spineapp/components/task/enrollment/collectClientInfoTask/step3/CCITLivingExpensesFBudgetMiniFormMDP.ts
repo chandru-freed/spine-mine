@@ -1,6 +1,6 @@
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FBudgetMiniFormMDP from "@/components/generic/form/field/FBudgetMiniFormMDP";
-import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
 export default class CCITLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -19,7 +19,7 @@ export default class CCITLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
     this.parent = parent;
 
     this.addField(
-      new FNumberFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "rentMaintenance",
         label: "Rent / Maintenance",
@@ -27,7 +27,7 @@ export default class CCITLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       })
     )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "grocerryExpense",
           label: "Grocerry Expense",
@@ -35,7 +35,7 @@ export default class CCITLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "electricBill",
           label: "Elctric Bill",
@@ -43,21 +43,21 @@ export default class CCITLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "gasBill",
           label: "Gas Bill",
           mandatory: true,
         })
       ).addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "phoneBill",
           label: "Phone Bill",
           mandatory: true,
         })
       ).addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "otherUtilities",
           label: "Other Utilities",

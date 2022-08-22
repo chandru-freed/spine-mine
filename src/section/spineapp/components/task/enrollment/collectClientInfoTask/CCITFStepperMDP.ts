@@ -33,25 +33,29 @@ export default class CCITFStepperMDP extends FStepperMDP {
         taskRoot: this.taskRoot,
         parent: this,
       }),
-    }).addStep({
+    })
+    .addStep({
       name: "Payment Plan",
       stepContent: new CCITPaymentPlanStepMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),
-    }).addStep({
+    })
+    .addStep({
       name: "Bank",
       stepContent: new CCITBankStepFFormMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),
-    }).addStep({
+    })
+    .addStep({
       name: "Document",
       stepContent: new CCITDocumentStepMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),
-    }).addStep({
+    })
+    .addStep({
       name: "Verify",
       stepContent: new CCITMarkCompleteStepFFormMDP({
         taskRoot: this.taskRoot,

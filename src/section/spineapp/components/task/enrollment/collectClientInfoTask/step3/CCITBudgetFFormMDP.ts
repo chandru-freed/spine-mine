@@ -15,16 +15,18 @@ export default class CCITBudgetFFormMDP extends FFormMDP {
     super({
       myRefName: "budgetFormRef",
       disabled: taskRoot.taskDisabled,
-      dataSelectorKey: "budgetInfo"
+      // dataSelectorKey: "budgetInfo"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
 
     this.addField(
       new CCITIncomeSourcesFBudgetMiniFormMDP({taskRoot: this.taskRoot, parent: this})
-    ).addField(
+    )
+    .addField(
       new CCITDebtRepaymentsMiniFormMDP({taskRoot: this.taskRoot, parent: this})
-    ).addField(
+    )
+    .addField(
       new CCITLivingExpensesFBudgetMiniFormMDP({taskRoot: this.taskRoot, parent: this})
     )
   }

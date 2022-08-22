@@ -1,5 +1,5 @@
 <template>
-  <v-textarea v-bind="$props" v-model="modelValue"></v-textarea>
+  <v-textarea v-bind="$props" :value="modelValue"  @input="(newValue) => modelValue = newValue"></v-textarea>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";

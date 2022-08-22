@@ -1,17 +1,10 @@
 <template>
   <div>
     <component
-      v-if="!paymentCalculatorFormMetaData.dataSelectorKey"
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
-      v-model="modelValue"
-      v-bind="paymentCalculatorFormMetaData.props"
-    ></component>
-    <component
-      v-if="!!paymentCalculatorFormMetaData.dataSelectorKey"
-      :is="paymentCalculatorFormMetaData.componentName"
-      :ref="paymentCalculatorFormMetaData.myRefName"
-      v-model="modelValue[paymentCalculatorFormMetaData.dataSelectorKey]"
+      :value="selectModel(modelValue, paymentCalculatorFormMetaData.dataSelectorKey)"
+      @input="(newValue) => updateModel(modelValue, newValue, paymentCalculatorFormMetaData.dataSelectorKey)"
       v-bind="paymentCalculatorFormMetaData.props"
     ></component>
 
@@ -33,7 +26,7 @@
             <v-card flat>
               <v-data-table
                 :headers="headers"
-                :items="modelValue.paymentSchedule"
+                :items="paymentSchedule"
                 sort-by="draftDate"
                 class="elevation-0"
               >
@@ -51,7 +44,7 @@
             <v-card flat>
               <v-data-table
                 :headers="feeHeaders"
-                :items="modelValue.subscriptionFeeSchedule"
+                :items="subscriptionFeeSchedule"
                 sort-by="draftDate"
                 class="elevation-0"
               >
@@ -134,18 +127,38 @@ export default class CCITPaymentPlanStep extends ModelVue {
     
   }
 
+  get paymentPlan() {
+    return this.modelValue.paymentPlan
+  }
+
+  get paymentSchedule() {
+    return this.paymentPlan.paymentSchedule
+  }
+
+  get subscriptionFeeSchedule() {
+    return this.paymentPlan.subscriptionFeeSchedule
+  }
+
+  get ppCalculator() {
+    return this.paymentPlan.ppCalculator
+  }
+
+  get totalDebtAmount() {
+    return this.modelValue.creditorInfo.totalDebtAmount
+  }
+
   calculatePaymentSchedule() {
     const input =
       new ServerData.PaymentPlanWebReader.CalculatePaymentSchedule$Input(
-        this.modelValue.ppCalculator.ppCode,
-        this.modelValue.ppCalculator.outstanding,
-        this.modelValue.ppCalculator.tenor,
-        this.modelValue.ppCalculator.firstDraftDate
+        this.ppCalculator.ppCode,
+        this.totalDebtAmount,
+        this.ppCalculator.tenor,
+        this.ppCalculator.firstDraftDate
       );
     Action.Spine.CalculatePaymentSchedule.execute(
       input,
       (output) => {
-        this.modelValue.paymentSchedule = output;
+        this.paymentPlan.paymentSchedule = output;
       },
       (err) => {},
       RemoteApiPoint.SpineApi
@@ -155,16 +168,16 @@ export default class CCITPaymentPlanStep extends ModelVue {
   calculateFeeSchedule() {
     const input =
       new ServerData.PaymentPlanWebReader.CalculateFeeSchedule$Input(
-        this.modelValue.ppCalculator.ppCode,
-        this.modelValue.ppCalculator.feeCode,
-        this.modelValue.ppCalculator.outstanding,
-        this.modelValue.ppCalculator.tenor,
-        this.modelValue.ppCalculator.feeFirstDraftDate
+        this.ppCalculator.ppCode,
+        this.ppCalculator.feeCode,
+        this.totalDebtAmount,
+        this.ppCalculator.tenor,
+        this.ppCalculator.feeFirstDraftDate
       );
     Action.Spine.CalculateFeeSchedule.execute(
       input,
       (output) => {
-        this.modelValue.subscriptionFeeSchedule = output;
+        this.paymentPlan.subscriptionFeeSchedule = output;
       },
       (err) => {},
       RemoteApiPoint.SpineApi

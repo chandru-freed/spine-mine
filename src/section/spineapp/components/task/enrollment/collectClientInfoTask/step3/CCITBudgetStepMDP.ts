@@ -27,6 +27,7 @@ export default class CCITBudgetStepMDP implements MDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = "budgetStepRef"
+    this.dataSelectorKey = "budgetInfo"
 
     this.disabled = this.taskRoot.taskDisabled;
 

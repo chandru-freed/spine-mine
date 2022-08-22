@@ -1,5 +1,10 @@
 <template>
-  <v-stepper v-model="selectedStep" flat non-linear>
+  <v-stepper
+    :value="selectModel(selectedStep, undefined)"
+    @change="(newValue) => updateModel(selectedStep, newValue, undefined)"
+    flat
+    non-linear
+  >
     <v-stepper-header flat>
       <v-stepper-step
         editable
@@ -10,10 +15,9 @@
       >
         {{ step.stepName }}
       </v-stepper-step>
-      
     </v-stepper-header>
 
-   <v-stepper-items>
+    <v-stepper-items>
       <v-stepper-content
         class="pa-4"
         :step="stepIndx"
@@ -22,22 +26,20 @@
       >
         <v-card color="grey lighten-4" flat min-height="600">
           <v-card-text class="pa-0">
-            <template v-if="!!step.stepContent.dataSelectorKey">
-              <component
-                :ref="step.stepContent.myRefName"
-                :is="step.stepContent.componentName"
-                v-model="modelValue[step.stepContent.dataSelectorKey]"
-                v-bind="step.stepContent.props"
-              />
-            </template>
-            <template v-if="!step.stepContent.dataSelectorKey">
-              <component
-                :ref="step.stepContent.myRefName"
-                :is="step.stepContent.componentName"
-                v-model="modelValue"
-                v-bind="step.stepContent.props"
-              />
-            </template>
+            <component
+              :ref="step.stepContent.myRefName"
+              :is="step.stepContent.componentName"
+              :value="selectModel(modelValue, step.stepContent.dataSelectorKey)"
+              @input="
+                (newValue) =>
+                  updateModel(
+                    modelValue,
+                    newValue,
+                    step.stepContent.dataSelectorKey
+                  )
+              "
+              v-bind="step.stepContent.props"
+            />
           </v-card-text>
         </v-card>
       </v-stepper-content>
@@ -53,21 +55,17 @@ import CCITBudgetStep from "@/section/spineapp/components/task/enrollment/collec
 import CCITPaymentPlanStep from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/step4/CCITPaymentPlanStep.vue";
 import CCITDocumentStep from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/step6/CCITDocumentStep.vue";
 
-
 @Component({
   components: {
     FForm,
     CCITCreditorStep,
     CCITBudgetStep,
     CCITPaymentPlanStep,
-    CCITDocumentStep
+    CCITDocumentStep,
   },
 })
 export default class FStepper extends ModelVue {
-
   selectedStep = 0;
-
-
 
   @Prop()
   myRefName: string;

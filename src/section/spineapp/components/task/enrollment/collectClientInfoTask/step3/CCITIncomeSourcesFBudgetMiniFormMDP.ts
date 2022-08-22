@@ -1,6 +1,6 @@
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FBudgetMiniFormMDP from "@/components/generic/form/field/FBudgetMiniFormMDP";
-import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
 export default class CCITIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -19,7 +19,7 @@ export default class CCITIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniForm
     this.parent = parent;
 
     this.addField(
-      new FNumberFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "salary",
         label: "Salary",
@@ -27,7 +27,7 @@ export default class CCITIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniForm
       })
     )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "businessIncome",
           label: "Business Income",
@@ -35,7 +35,7 @@ export default class CCITIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniForm
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "otherIncome",
           label: "Other Income",
@@ -43,7 +43,7 @@ export default class CCITIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniForm
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "familySupport",
           label: "Family Support",

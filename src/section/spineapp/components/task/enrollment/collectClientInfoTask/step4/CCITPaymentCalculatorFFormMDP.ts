@@ -13,7 +13,7 @@ export default class CCITPaymentCalculatorFFormMDP extends FFormMDP {
     super({
       myRefName: "paymentCalculatorFormRef",
       disabled: taskRoot.taskDisabled,
-      dataSelectorKey: "ppCalculator"
+      // dataSelectorKey: "ppCalculator"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -21,7 +21,7 @@ export default class CCITPaymentCalculatorFFormMDP extends FFormMDP {
     this.addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "ppCode",
+        dataSelectorKey: "paymentPlan.ppCalculator.ppCode",
         label: "Program Code",
         mandatory: true,
         items: ["PM", "AF"],
@@ -30,15 +30,16 @@ export default class CCITPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "outstanding",
+        dataSelectorKey: "creditorInfo.totalDebtAmount",
         label: "Outstanding Amount",
         mandatory: true,
         boundaryClass: "col-6",
+        disabled: true
       })
     ).addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "tenor",
+        dataSelectorKey: "paymentPlan.ppCalculator.tenor",
         label: "Tenor",
         mandatory: true,
         boundaryClass: "col-6",
@@ -46,7 +47,7 @@ export default class CCITPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FDateFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "firstDraftDate",
+        dataSelectorKey: "paymentPlan.ppCalculator.firstDraftDate",
         label: "First Draft Date",
         mandatory: true,
         boundaryClass: "col-6",
@@ -54,7 +55,7 @@ export default class CCITPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "feeCode",
+        dataSelectorKey: "paymentPlan.ppCalculator.feeCode",
         label: "Fee Code",
         mandatory: true,
         boundaryClass: "col-6",
@@ -63,7 +64,7 @@ export default class CCITPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FDateFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "feeFirstDraftDate",
+        dataSelectorKey: "paymentPlan.ppCalculator.feeFirstDraftDate",
         label: "Fee First Draft Date",
         mandatory: true,
         boundaryClass: "col-6",

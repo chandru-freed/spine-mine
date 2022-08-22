@@ -15,11 +15,11 @@
           :rules="fieldMetaData.rules"
           v-slot="{ errors }"
         >
-        
           <component
             :is="fieldMetaData.componentName"
             v-bind="fieldMetaData.props"
-            v-model="modelValue[fieldMetaData.dataSelectorKey]"
+            :value="selectModel(modelValue, fieldMetaData.dataSelectorKey)"
+            @input="(newValue) => updateModel(modelValue, newValue, fieldMetaData.dataSelectorKey)"
             :error-messages="errors"
           ></component>
         </ValidationProvider>
@@ -56,6 +56,9 @@ import FBudgetMiniForm from "./field/FBudgetMiniForm.vue"
 import FFileField from "./field/FFileField.vue"
 import FSwitch from "./field/FSwitch.vue"
 import FPasswordField from "./field/FPasswordField.vue"
+import FCurrencyField from "./field/FCurrencyField.vue"
+import FPhoneField from "./field/FPhoneField.vue"
+
 
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -75,6 +78,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FFileField,
     FSwitch,
     FPasswordField,
+    FCurrencyField,
+    FPhoneField
   },
 })
 export default class FForm extends ModelVue {
@@ -102,5 +107,10 @@ export default class FForm extends ModelVue {
       }
     });
   }
+
+
+
+
+  
 }
 </script>

@@ -5,6 +5,7 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
+import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 
 export default class CCITProfileStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -56,7 +57,7 @@ export default class CCITProfileStepFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FPhoneFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "mobile",
           label: "Mobile",

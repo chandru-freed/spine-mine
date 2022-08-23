@@ -9,6 +9,7 @@
     ></component>
   </div>
 </template>
+
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
@@ -16,13 +17,10 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
-// import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import moment from "moment";
-import EMandateFailedTaskIntf from "./EMandateFailedTaskIntf";
-import EMFTFStepperMDP from "./EMFTFStepperMDP";
-// import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
+import SignServiceAgreementFailedTaskIntf from "./SignServiceAgreementFailedTaskIntf";
+import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
 
 @Component({
   components: {
@@ -30,14 +28,25 @@ import EMFTFStepperMDP from "./EMFTFStepperMDP";
     FBtn,
   },
 })
-export default class EMandateFailedTask
+export default class SignServiceAgreementFailedTask
   extends ModelVue
-  implements EMandateFailedTaskIntf
+  implements SignServiceAgreementFailedTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
+
+  get taskDisabled(): boolean {
+    return !(
+      this.taskDetails.taskState === "STARTED" ||
+      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
+    );
+  }
+
+  get stepperMetaData() {
+    return new SSAFTFStepperMDP({ taskRoot: this }).getMetaData();
+  }
 
   // DATA
 
@@ -73,14 +82,12 @@ export default class EMandateFailedTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.EMandateFailedTaskOutput();
+  taskFormOutputLocal: any = new Data.Spine.SignServiceAgreementFailedTaskOutput(); // Initialize Task Output
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.eMandateRetry) {
-      this.taskFormOutputLocal.eMandateRetry =
-        this.taskDetailsOutput.eMandateRetry;
+    if (this.taskDetailsOutput.signAgreementRetry != null) {
+      this.taskFormOutputLocal.signAgreementRetry = this.taskDetailsOutput.signAgreementRetry;
     }
-
     return this.taskFormOutputLocal;
   }
 
@@ -91,27 +98,16 @@ export default class EMandateFailedTask
 
   //DATA
 
-  //METADATA
-  get stepperMetaData() {
-    return new EMFTFStepperMDP({ taskRoot: this }).getMetaData();
-  }
-  //METADATA
-
-  get taskDisabled(): boolean {
-    return !(
-      this.taskDetails.taskState === "STARTED" ||
-      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
-    );
-  }
-
-  //ACTION
   saveAndMarkCompleteTask() {
     const input = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save take is being called");
     Action.TaskList.SaveAndComplete.execute2(
       this.taskId,
       input,
-      (output) => {},
+      (output) => {
+        // console.log(output);
+        // this.markComplete();
+      },
       (err) => {
         console.error(err);
       },
@@ -143,3 +139,5 @@ export default class EMandateFailedTask
   }
 }
 </script>
+
+<style></style>

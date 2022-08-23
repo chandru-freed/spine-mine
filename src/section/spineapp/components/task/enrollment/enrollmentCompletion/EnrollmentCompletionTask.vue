@@ -1,19 +1,17 @@
 <template>
   <div>
     <!-- <h4>EnrollmentCompletionTask</h4> -->
-    <!-- Root Data : {{ bigFormData }} -->
-    <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
-    <!-- <kbd> {{ testMetaData }}</kbd> -->
+    <!-- Root Data : {{ taskFormData }} -->
 
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
-      v-model="bigFormData"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
       v-bind="stepperMetaData.props"
     ></component>
   </div>
 </template>
-
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
@@ -22,65 +20,77 @@ import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
-import EnrollmentCompletionStepperMDP from "./EnrollmentCompletionStepperMDP";
-
+import ModelVue from "@/components/generic/ModelVue";
+import moment from "moment";
+import EnrollmentCompletionTaskIntf from "./EnrollmentCompletionTaskIntf";
+import ECTFStepperMDP from "./ECTFStepperMDP";
 @Component({
   components: {
     FStepper,
     FBtn,
   },
 })
-export default class EnrollmentCompletionTask extends Vue {
+export default class EnrollmentCompletionTask
+  extends ModelVue
+  implements EnrollmentCompletionTaskIntf
+{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
-  bigFormDataLocal: any = {
-    clientInfo: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      mobile: "",
-      gender: "",
-      residentialAddress: {},
-    },
-    creditorList: [],
-    budgetInfo:{incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}},
-    paymentPlan: {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []},
-    bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}},
-    fileDocumentList: [],
-    needVerification: false,
-  };
-  
+  // DATA
 
-  taskOutputJson() {
+  get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
       : {};
   }
 
-  get bigFormData() {
-    
-      this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo ? this.taskOutputJson().clientInfo : {};
-      this.bigFormDataLocal.creditorList = this.taskOutputJson().creditorList ? this.taskOutputJson().creditorList: [];
-      this.bigFormDataLocal.budgetInfo = (this.taskOutputJson().budgetInfo && this.taskOutputJson().budgetInfo.incomeSources) ? this.taskOutputJson().budgetInfo : {incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}};
-      this.bigFormDataLocal.paymentPlan = this.taskOutputJson().paymentPlan && this.taskOutputJson().paymentPlan.ppCalculator ? this.taskOutputJson().paymentPlan : {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []};
-      this.bigFormDataLocal.bankInfo = this.taskOutputJson().bankInfo && this.taskOutputJson().bankInfo.accountNumber ?  this.taskOutputJson().bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}};
-      this.bigFormDataLocal.fileDocumentList = this.taskOutputJson().fileDocumentList ? this.taskOutputJson().fileDocumentList : [];
-    
-    return this.bigFormDataLocal;
+  get taskDetailsInput() {
+    return !!this.taskDetails && !!this.taskDetails.taskInput
+      ? JSON.parse(this.taskDetails.taskInput)
+      : {};
   }
 
-  set bigFormData(value: any) {
-    this.bigFormDataLocal = value;
+  //FORM
+
+  taskFormDataLocal: any = {
+    taskInput: {},
+    taskOutput: {},
+  };
+
+  get taskFormData() {
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskFormOutput,
+    };
   }
 
-  get stepperMetaData(): any {
-    return new EnrollmentCompletionStepperMDP({
-      taskRoot: this,
-    }).getMetaData();
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
   }
+  //FORM
+
+  //Task Output
+  taskFormOutputLocal: any = {}; // Initialize Task Output
+
+  get taskFormOutput() {
+    return this.taskFormOutputLocal;
+  }
+
+  set taskFormOutput(newValue) {
+    this.taskFormOutputLocal = newValue;
+  }
+  //Task Output
+
+  //DATA
+
+  //METADATA
+  get stepperMetaData() {
+    return new ECTFStepperMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
   get taskDisabled(): boolean {
     return !(
@@ -88,46 +98,14 @@ export default class EnrollmentCompletionTask extends Vue {
       this.taskDetails.taskState === "PARTIALLY_COMPLETED"
     );
   }
-
-  markComplete() {
-    Action.TaskList.Complete.execute1(
-      this.taskId,
-      (output) => {
-        this.gotoFile();
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
-  }
-
+  //ACTION
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.bigFormData);
+    const input = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
+    Action.TaskList.SaveAndComplete.execute2(
       this.taskId,
       input,
-      (output) => {
-        // console.log(output);
-        this.markComplete()
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
-  }
-
-  saveTask() {
-    const input = JSON.stringify(this.bigFormData);
-    console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-      },
+      (output) => {},
       (err) => {
         console.error(err);
       },
@@ -143,5 +121,3 @@ export default class EnrollmentCompletionTask extends Vue {
   }
 }
 </script>
-
-<style></style>

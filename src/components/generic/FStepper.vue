@@ -50,18 +50,18 @@
 import { Component, Prop } from "vue-property-decorator";
 import ModelVue from "./ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import CCITCreditorStep from "@/section/spineapp/components/task/enrollment/collectClientInfo/step2/CCITCreditorStep.vue";
-import CCITBudgetStep from "@/section/spineapp/components/task/enrollment/collectClientInfo/step3/CCITBudgetStep.vue";
-import CCITPaymentPlanStep from "@/section/spineapp/components/task/enrollment/collectClientInfo/step4/CCITPaymentPlanStep.vue";
-import CCITDocumentStep from "@/section/spineapp/components/task/enrollment/collectClientInfo/step6/CCITDocumentStep.vue";
+import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
+import FBudget from "@/components/generic/file/budget/FBudget.vue";
+import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue";
+import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
 
 @Component({
   components: {
     FForm,
-    CCITCreditorStep,
-    CCITBudgetStep,
-    CCITPaymentPlanStep,
-    CCITDocumentStep,
+    FCreditor,
+    FBudget,
+    FPaymentPlan,
+    FDocument,
   },
 })
 export default class FStepper extends ModelVue {

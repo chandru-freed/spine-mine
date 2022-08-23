@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h4>CollectClientProfileInfoTask</h4> -->
-    <!-- Root Data : {{ taskFormData }} -->
+    Root Data : {{ taskFormData }}
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
@@ -118,15 +118,13 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
   }
 
   saveAndMarkCompleteTask() {
-    const taskOutput = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save and Complete take is being called");
-    TaskAction.saveAndMarkCompleteTask({taskId: this.taskId, taskOutput: taskOutput})
+    TaskAction.saveAndMarkCompleteTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
   }
 
   saveTask() {
-    const taskOutput = JSON.stringify(this.taskFormData);
     console.log("Save take is being called");
-    TaskAction.saveTask({taskId: this.taskId, taskOutput: taskOutput})
+    TaskAction.saveTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
   }
 
   gotoFile() {

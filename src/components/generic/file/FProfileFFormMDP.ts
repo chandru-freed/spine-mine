@@ -6,17 +6,16 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
-import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
 
-export default class CCITProfileStepFFormMDP extends FFormMDP {
+export default class FProfileFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: CollectClientInfoTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent}: { taskRoot: CollectClientInfoTaskIntf; parent: any}) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey,  disabled}: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey: string; disabled: boolean }) {
     super({
-      myRefName: "clientInfoForm",
-      dataSelectorKey: "taskOutput.clientInfo",
-      disabled: taskRoot.taskDisabled,
+      myRefName: myRefName,
+      dataSelectorKey: dataSelectorKey,
+      disabled: disabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

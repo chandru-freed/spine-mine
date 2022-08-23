@@ -15,7 +15,7 @@ export default class CCITProfileStepFFormMDP extends FFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
     super({
       myRefName: "clientInfoForm",
-      dataSelectorKey: "clientInfo",
+      dataSelectorKey: "taskOutput.clientInfo",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;

@@ -14,7 +14,7 @@ export default class CCITBankStepFFormMDP extends FFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
     super({
       myRefName: "bankInfoForm",
-      dataSelectorKey: "bankInfo",
+      dataSelectorKey: "taskOutput.bankInfo",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;

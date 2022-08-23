@@ -25,7 +25,7 @@ export default class CCITDocumentStepMDP implements MDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = "documentListRef";
-    this.dataSelectorKey = "documentList";
+    this.dataSelectorKey = "taskOutput.documentList";
     this.disabled = this.taskRoot.taskDisabled;
 
     this.uploadDocumentForm = new CCITAddCreditorFFormMDP({

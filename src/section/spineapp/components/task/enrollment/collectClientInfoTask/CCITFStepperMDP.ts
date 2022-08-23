@@ -22,13 +22,15 @@ export default class CCITFStepperMDP extends FStepperMDP {
         taskRoot: this.taskRoot,
         parent: this,
       }),
-    }).addStep({
+    })
+    .addStep({
       name: "Creditor",
       stepContent: new CCITCreditorStepMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),
-    }).addStep({
+    })
+    .addStep({
       name: "Budget",
       stepContent: new CCITBudgetStepMDP({
         taskRoot: this.taskRoot,

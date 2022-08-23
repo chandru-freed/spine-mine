@@ -23,7 +23,7 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
     this.addField(
       new FSwitchMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "needVerification",
+        dataSelectorKey: "taskOutput.needVerification",
         label: "Need Verification",
         mandatory: true,
         boundaryClass: "col-3",

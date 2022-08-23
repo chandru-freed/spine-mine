@@ -37,7 +37,7 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FForm from "@/components/generic/form/FForm.vue";
-import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
+import EnrollmentFFormMDP from "./LoginFFormMDP";
 
 @Component({
   components: {

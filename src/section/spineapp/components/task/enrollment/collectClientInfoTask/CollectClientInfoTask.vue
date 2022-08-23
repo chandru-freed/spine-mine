@@ -1,15 +1,15 @@
 <template>
   <div>
     <!-- <h4>CollectClientProfileInfoTask</h4> -->
-    Root Data : {{ bigFormData }}
+    <!-- Root Data : {{ taskFormData }} -->
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
-      :value="selectModel(bigFormData, undefined)"
-      @input="(newValue) => updateModel(bigFormData, newValue, undefined)"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
       v-bind="stepperMetaData.props"
     ></component>
   </div>
@@ -40,69 +40,65 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
 
   taskId = this.$route.params.taskId;
 
-  bigFormDataLocal: any = new Data.Spine.CollectClientInfoTask()
-  //{
-    // clientInfo: {
-    //   firstName: "",
-    //   lastName: "",
-    //   email: "",
-    //   mobile: "",
-    //   gender: "",
-    //   residentialAddress: {},
-    // },
-    // creditorList: [],
-    // budgetInfo:{incomeSources: {salary: 0}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}},
-    // paymentPlan: {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []},
-    // bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}},
-    // fileDocumentList: [],
-    // needVerification: false,
-  // };
   
-
-  taskOutputJson() {
+  get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
       : {};
   }
 
+  get taskDetailsInput() {
+    return !!this.taskDetails && !!this.taskDetails.taskInput
+      ? JSON.parse(this.taskDetails.taskInput)
+      : {};
+  }
 
-  get bigFormData() {
-    
-      if(this.taskOutputJson().clientInfo && this.taskOutputJson().clientInfo.firstName) {
-        this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo
+  taskFormDataLocal: any = {taskInput: {}, taskOutput: new Data.Spine.CollectClientInfoTask()}
+
+  taskFormOutputLocal: any =  new Data.Spine.CollectClientInfoTask()
+
+  get taskFormOutput() {
+    if(this.taskDetailsOutput.clientInfo && this.taskDetailsOutput.clientInfo.firstName) {
+        this.taskFormOutputLocal.clientInfo = this.taskDetailsOutput.clientInfo
       }
 
-      if(this.taskOutputJson().creditorInfo && this.taskOutputJson().creditorInfo.creditorList) {
-        this.bigFormDataLocal.creditorInfo = this.taskOutputJson().creditorInfo
-      }
+      // if(this.taskOutput.creditorInfo && this.taskOutput.creditorInfo.creditorList) {
+      //   this.taskFormDataLocal.taskOutput.creditorInfo = this.taskOutput.creditorInfo
+      // }
 
-      if(this.taskOutputJson().budgetInfo && this.taskOutputJson().budgetInfo.incomeSources) {
-        this.bigFormDataLocal.budgetInfo.incomeSources = {...this.bigFormDataLocal.budgetInfo.incomeSources, ...this.taskOutputJson().budgetInfo.incomeSources}
-        this.bigFormDataLocal.budgetInfo.debtRepayments = {...this.bigFormDataLocal.budgetInfo.debtRepayments, ...this.taskOutputJson().budgetInfo.debtRepayments}
-      }
+      // if(this.taskOutput.budgetInfo && this.taskOutput.budgetInfo.incomeSources) {
+      //   this.taskFormDataLocal.taskOutput.budgetInfo.incomeSources = {...this.taskFormDataLocal.budgetInfo.incomeSources, ...this.taskOutput.budgetInfo.incomeSources}
+      //   this.taskFormDataLocal.taskOutput.budgetInfo.debtRepayments = {...this.taskFormDataLocal.budgetInfo.debtRepayments, ...this.taskOutput.budgetInfo.debtRepayments}
+      // }
 
-      if(this.taskOutputJson().paymentPlan && this.taskOutputJson().paymentPlan.ppCalculator && this.taskOutputJson().paymentPlan.ppCalculator.firstDraftDate) {
-        this.bigFormDataLocal.paymentPlan = this.taskOutputJson().paymentPlan
-      } else {
-        this.bigFormDataLocal.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
-      }
+      // if(this.taskOutput.paymentPlan && this.taskOutput.paymentPlan.ppCalculator && this.taskOutput.paymentPlan.ppCalculator.firstDraftDate) {
+      //   this.taskFormDataLocal.taskOutput.paymentPlan = this.taskOutput.paymentPlan
+      // } else {
+      //   this.taskFormDataLocal.taskOutput.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
+      // }
 
-      if(this.taskOutputJson().bankInfo && this.taskOutputJson().bankInfo.accountNumber) {
-        this.bigFormDataLocal.bankInfo = this.taskOutputJson().bankInfo
-      }
+      // if(this.taskOutput.bankInfo && this.taskOutput.bankInfo.accountNumber) {
+      //   this.taskFormDataLocal.taskOutput.bankInfo = this.taskOutput.bankInfo
+      // }
 
-      if(this.taskOutputJson().fileDocumentList) {
-        this.bigFormDataLocal.fileDocumentList = this.taskOutputJson().fileDocumentList
-      }
+      // if(this.taskOutput.fileDocumentList) {
+      //   this.taskFormDataLocal.taskOutput.fileDocumentList = this.taskOutput.fileDocumentList
+      // }
+    return this.taskFormOutputLocal
+  }
 
-    
-    return this.bigFormDataLocal;
+  set taskFormOutput(newValue) {
+    this.taskFormOutputLocal = newValue
+  }
+  
+  get taskFormData() {
+    return {taskInput: this.taskDetailsInput, taskOutput: this.taskFormOutput}
   }
 
   
 
-  set bigFormData(value: any) {
-    this.bigFormDataLocal = value;
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
   }
 
 
@@ -120,14 +116,12 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
   }
 
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.bigFormData);
+    const input = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
+    Action.TaskList.SaveAndComplete.execute2(
       this.taskId,
       input,
       (output) => {
-        // console.log(output);
-        this.markComplete()
       },
       (err) => {
         console.error(err);
@@ -136,7 +130,7 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
     );
   }
 
-  markComplete() {
+  private markComplete() {
     Action.TaskList.Complete.execute1(
       this.taskId,
       (output) => {
@@ -150,7 +144,7 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
   }
 
   saveTask() {
-    const input = JSON.stringify(this.bigFormData);
+    const input = JSON.stringify(this.taskFormData);
     console.log("Save take is being called");
     Action.TaskList.Save.execute2(
       this.taskId,

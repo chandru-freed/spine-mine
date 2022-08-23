@@ -1,0 +1,126 @@
+
+ addTask:
+     + create folder <taskNameFolder>
+     + <taskName>Task.vue - TaskRoot
+       <template>
+          <div>
+            <h4>Fill The Task Name</h4> 
+            <!-- Root Data : {{ taskFormData }} -->
+            
+
+            <!-- <component
+              :ref="stepperMetaData.myRefName"
+              :is="stepperMetaData.componentName"
+              :value="selectModel(taskFormData, undefined)"
+              @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+              v-bind="stepperMetaData.props"
+            ></component> -->
+          </div>
+        </template>
+       <script lang="ts">
+        import { Vue, Component, Watch } from "vue-property-decorator";
+        import store, * as Store from "@/../src-gen/store";
+        import * as Data from "@/../src-gen/data";
+        import * as Action from "@/../src-gen/action";
+        import * as RemoteApiPoint from "@/remote-api-point";
+        import FStepper from "@/components/generic/FStepper.vue";
+        import CCITFStepperMDP from "./CCITFStepperMDP";
+        import FBtn from "@/components/generic/FBtn.vue";
+        import ModelVue from "@/components/generic/ModelVue";
+        import moment from "moment";
+        import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
+
+        @Component({
+          components: {
+            FStepper,
+            FBtn,
+          },
+        })
+       export default class <taskname>Task extends ModelVue {
+          @Store.Getter.TaskList.Summary.executiveTaskDetails
+          taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+          taskId = this.$route.params.taskId;
+        }
+        </script>
+
+        <style></style>
+     + Add it to FileTaskArea - TASK_COMPONENT_MAP  -  [<taskname> : <taskname>Task]
+     + Add import to FileTaskArea
+       import import <taskName>Task from "@/section/spineapp/components/task/enrollment/<taskNameFolder>/<taskName>Task.vue"
+       Add to the 
+       @Component({
+        components: {
+        <taskName>Task
+        })
+     ☐ Task Page should appear 
+     + Implement <taskName>Task extends ModelVue implements <taskName>TaskIntf
+     ☐ <taskname>TaskIntf.ts - Interface only for Root
+        export default interface <taskName>TaskIntf {
+            $refs: any
+            taskDisabled: boolean
+            saveAndMarkCompleteTask: () => void
+            saveTask: () => void
+            gotoFile: () => void
+        }
+     
+   addStepper:
+     ☐ <abbrTaskName>FStepperMDP.ts extends FStepperMDP.ts
+     import FStepperMDP from "@/components/generic/FStepperMDP";
+      import <taskName>TaskIntf from "./<taskName>TaskIntf";
+
+      export default class <abbrTaskName>FStepperMDP extends FStepperMDP {
+          taskRoot: <taskName>TaskIntf;
+          parent: any;
+          constructor({ taskRoot }: { taskRoot: <taskName>TaskIntf }) {
+            super({ myRefName: " <taskName>StepperRef" });
+            this.taskRoot = taskRoot;
+            this.parent = taskRoot;
+          }
+      }
+      + Add in task root
+      //METADATA
+      get stepperMetaData() {
+        return new <abbrTaskName>FStepperMDP({taskRoot: this}).getMetaData()
+      }
+      //METADATA
+
+      + uncomment the html component
+      ☐ No error
+
+      + addStep
+      + addFormMDP
+        <abbrTaskName>FFormMDP.ts
+        export default class <abbrTaskName>FFormMDP extends FFormMDP {
+          childMDP = new FFormChildMDP();
+          taskRoot: <taskName>TaskIntf;
+          parent: any;
+          constructor({ taskRoot, parent }: { taskRoot: <taskName>TaskIntf; parent: any }) {
+            super({
+              myRefName: "<taskName>Form",
+              // dataSelectorKey: "taskOutput.clientInfo",
+              disabled: taskRoot.taskDisabled,
+            });
+            this.taskRoot = taskRoot;
+            this.parent = parent;
+        
+            this.addField(
+              new FTextFieldMDP({
+                parentMDP: this.childMDP,
+                dataSelectorKey: "firstName",
+                label: "First Name",
+                mandatory: true,
+                boundaryClass: "col-4",
+              })
+            )
+          }
+      }
+      + added the Step in Stepper
+      this.addStep({name: "Verify",stepContent: new <abbrTaskName>FFormMDP({taskRoot: taskRoot, parent: this})})
+
+
+      + addField
+      + addAction
+      + make sure outputTask data is initialized  
+
+         

@@ -27,6 +27,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
+import TaskAction from "@/section/spineapp/components/task/TaskAction"
 
 @Component({
   components: {
@@ -53,7 +54,16 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
       : {};
   }
 
-  taskFormDataLocal: any = {taskInput: {}, taskOutput: new Data.Spine.CollectClientInfoTask()}
+  taskFormDataLocal: any = {taskInput: {}, taskOutput: {}}
+
+  get taskFormData() {
+    return {taskInput: this.taskDetailsInput, taskOutput: this.taskFormOutput}
+  }
+
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
+  }
+
 
   taskFormOutputLocal: any =  new Data.Spine.CollectClientInfoTask()
 
@@ -62,28 +72,28 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
         this.taskFormOutputLocal.clientInfo = this.taskDetailsOutput.clientInfo
       }
 
-      // if(this.taskOutput.creditorInfo && this.taskOutput.creditorInfo.creditorList) {
-      //   this.taskFormDataLocal.taskOutput.creditorInfo = this.taskOutput.creditorInfo
-      // }
+      if(this.taskDetailsOutput.creditorInfo && this.taskDetailsOutput.creditorInfo.creditorList) {
+        this.taskFormOutputLocal.creditorInfo = this.taskDetailsOutput.creditorInfo
+      }
 
-      // if(this.taskOutput.budgetInfo && this.taskOutput.budgetInfo.incomeSources) {
-      //   this.taskFormDataLocal.taskOutput.budgetInfo.incomeSources = {...this.taskFormDataLocal.budgetInfo.incomeSources, ...this.taskOutput.budgetInfo.incomeSources}
-      //   this.taskFormDataLocal.taskOutput.budgetInfo.debtRepayments = {...this.taskFormDataLocal.budgetInfo.debtRepayments, ...this.taskOutput.budgetInfo.debtRepayments}
-      // }
+      if(this.taskDetailsOutput.budgetInfo && this.taskDetailsOutput.budgetInfo.incomeSources) {
+        this.taskFormOutputLocal.budgetInfo.incomeSources = {...this.taskFormOutputLocal.budgetInfo.incomeSources, ...this.taskDetailsOutput.budgetInfo.incomeSources}
+        this.taskFormOutputLocal.budgetInfo.debtRepayments = {...this.taskFormOutputLocal.budgetInfo.debtRepayments, ...this.taskDetailsOutput.budgetInfo.debtRepayments}
+      }
 
-      // if(this.taskOutput.paymentPlan && this.taskOutput.paymentPlan.ppCalculator && this.taskOutput.paymentPlan.ppCalculator.firstDraftDate) {
-      //   this.taskFormDataLocal.taskOutput.paymentPlan = this.taskOutput.paymentPlan
-      // } else {
-      //   this.taskFormDataLocal.taskOutput.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
-      // }
+      if(this.taskDetailsOutput.paymentPlan && this.taskDetailsOutput.paymentPlan.ppCalculator && this.taskDetailsOutput.paymentPlan.ppCalculator.firstDraftDate) {
+        this.taskFormOutputLocal.paymentPlan = this.taskDetailsOutput.paymentPlan
+      } else {
+        // this.taskFormOutputLocal.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
+      }
 
-      // if(this.taskOutput.bankInfo && this.taskOutput.bankInfo.accountNumber) {
-      //   this.taskFormDataLocal.taskOutput.bankInfo = this.taskOutput.bankInfo
-      // }
+      if(this.taskDetailsOutput.bankInfo && this.taskDetailsOutput.bankInfo.accountNumber) {
+        this.taskFormOutputLocal.bankInfo = this.taskDetailsOutput.bankInfo
+      }
 
-      // if(this.taskOutput.fileDocumentList) {
-      //   this.taskFormDataLocal.taskOutput.fileDocumentList = this.taskOutput.fileDocumentList
-      // }
+      if(this.taskDetailsOutput.fileDocumentList) {
+        this.taskFormOutputLocal.fileDocumentList = this.taskDetailsOutput.fileDocumentList
+      }
     return this.taskFormOutputLocal
   }
 
@@ -91,15 +101,7 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
     this.taskFormOutputLocal = newValue
   }
   
-  get taskFormData() {
-    return {taskInput: this.taskDetailsInput, taskOutput: this.taskFormOutput}
-  }
-
   
-
-  set taskFormData(value: any) {
-    this.taskFormDataLocal = value;
-  }
 
 
   get stepperMetaData(): any {
@@ -116,47 +118,15 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
   }
 
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.SaveAndComplete.execute2(
-      this.taskId,
-      input,
-      (output) => {
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
-  }
-
-  private markComplete() {
-    Action.TaskList.Complete.execute1(
-      this.taskId,
-      (output) => {
-        this.gotoFile();
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    const taskOutput = JSON.stringify(this.taskFormData.taskOutput);
+    console.log("Save and Complete take is being called");
+    TaskAction.saveAndMarkCompleteTask({taskId: this.taskId, taskOutput: taskOutput})
   }
 
   saveTask() {
-    const input = JSON.stringify(this.taskFormData);
+    const taskOutput = JSON.stringify(this.taskFormData);
     console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    TaskAction.saveTask({taskId: this.taskId, taskOutput: taskOutput})
   }
 
   gotoFile() {

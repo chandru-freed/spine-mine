@@ -45,9 +45,8 @@ import * as Action from "@/../src-gen/action";
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/CollectClientInfoTask.vue";
 import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
 import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue";
-import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/emandateFailed/EMandateFailedTask.vue"
 import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/clientInfoVerification/ClientInfoVerificationTask.vue"
-
+import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/eMandateFailed/EMandateFailedTask.vue"
 import * as RemoteApiPoint from "@/remote-api-point";
 
 @Component({
@@ -55,8 +54,8 @@ import * as RemoteApiPoint from "@/remote-api-point";
     CollectClientInfoTask,
     UnderwrittingTask,
     EnrollmentCompletionTask,
-    EMandateFailedTask,
-    ClientInfoVerificationTask
+    ClientInfoVerificationTask,
+    EMandateFailedTask
   },
 })
 export default class FileTaskArea extends Vue {

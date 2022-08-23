@@ -1,15 +1,14 @@
 <template>
   <div>
-    {{bigFormData}}
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
-      v-model="bigFormData"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
       v-bind="stepperMetaData.props"
     ></component>
   </div>
 </template>
-
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
@@ -17,8 +16,13 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
+// import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";
-import EMandateFailedStepperMDP from "./EMandateFailedStepperMDP";
+import ModelVue from "@/components/generic/ModelVue";
+import moment from "moment";
+import EMandateFailedTaskIntf from "./EMandateFailedTaskIntf";
+import EMFTFStepperMDP from "./EMFTFStepperMDP";
+// import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
 
 @Component({
   components: {
@@ -26,45 +30,72 @@ import EMandateFailedStepperMDP from "./EMandateFailedStepperMDP";
     FBtn,
   },
 })
-export default class EMandateFailedTask extends Vue {
+export default class EMandateFailedTask
+  extends ModelVue
+  implements EMandateFailedTaskIntf
+{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
-  bigFormDataLocal: any = {
-    fileId: null, clientName: null, clientMobile: null, eMandateStatus: null
-  };
-  
+  // DATA
 
-  taskOutputJson() {
+  get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
       : {};
   }
 
-  taskInputJson() {
+  get taskDetailsInput() {
     return !!this.taskDetails && !!this.taskDetails.taskInput
       ? JSON.parse(this.taskDetails.taskInput)
       : {};
   }
 
-  get bigFormData() {
-    console.log(this.taskInputJson);
-    console.log(this.taskOutputJson());
-    this.bigFormDataLocal = { ...this.taskInputJson(), ...this.taskOutputJson() }
-    return this.bigFormDataLocal;
+  //FORM
+
+  taskFormDataLocal: any = {
+    taskInput: {},
+    taskOutput: {},
+  };
+
+  get taskFormData() {
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskFormOutput,
+    };
   }
 
-  set bigFormData(value: any) {
-    this.bigFormDataLocal = value;
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
+  }
+  //FORM
+
+  //Task Output
+  taskFormOutputLocal: any = new Data.Spine.EMandateFailedTaskOutput();
+
+  get taskFormOutput() {
+    if (this.taskDetailsOutput.eMandateRetry) {
+      this.taskFormOutputLocal.eMandateRetry =
+        this.taskDetailsOutput.eMandateRetry;
+    }
+
+    return this.taskFormOutputLocal;
   }
 
-  get stepperMetaData(): any {
-    return new EMandateFailedStepperMDP({
-      taskRoot: this,
-    }).getMetaData();
+  set taskFormOutput(newValue) {
+    this.taskFormOutputLocal = newValue;
   }
+  //Task Output
+
+  //DATA
+
+  //METADATA
+  get stepperMetaData() {
+    return new EMFTFStepperMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
   get taskDisabled(): boolean {
     return !(
@@ -73,29 +104,14 @@ export default class EMandateFailedTask extends Vue {
     );
   }
 
+  //ACTION
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.bigFormData);
+    const input = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
+    Action.TaskList.SaveAndComplete.execute2(
       this.taskId,
       input,
-      (output) => {
-        // console.log(output);
-        this.markComplete()
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
-  }
-
-  markComplete() {
-    Action.TaskList.Complete.execute1(
-      this.taskId,
-      (output) => {
-        this.gotoFile();
-      },
+      (output) => {},
       (err) => {
         console.error(err);
       },
@@ -104,7 +120,7 @@ export default class EMandateFailedTask extends Vue {
   }
 
   saveTask() {
-    const input = JSON.stringify(this.bigFormData);
+    const input = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save take is being called");
     Action.TaskList.Save.execute2(
       this.taskId,
@@ -127,5 +143,3 @@ export default class EMandateFailedTask extends Vue {
   }
 }
 </script>
-
-<style></style>

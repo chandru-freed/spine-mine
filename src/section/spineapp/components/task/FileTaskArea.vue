@@ -47,6 +47,7 @@ import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/und
 import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue";
 import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/emandateFailed/EMandateFailedTask.vue"
 import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/clientInfoVerification/ClientInfoVerificationTask.vue"
+import SignServiceAgreementFailedTask from "@/section/spineapp/components/task/enrollment/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
 
 import * as RemoteApiPoint from "@/remote-api-point";
 
@@ -56,7 +57,8 @@ import * as RemoteApiPoint from "@/remote-api-point";
     UnderwrittingTask,
     EnrollmentCompletionTask,
     EMandateFailedTask,
-    ClientInfoVerificationTask
+    ClientInfoVerificationTask,
+    SignServiceAgreementFailedTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -70,6 +72,7 @@ export default class FileTaskArea extends Vue {
 
   TASK_COMPONENT_MAP = new Map([
     ["CollectClientInfo", "CollectClientInfoTask"],
+    ["SignServiceAgreementFailed", "SignServiceAgreementFailedTask"],
     ["ClientInfoVerification", "ClientInfoVerificationTask"],
     ["Underwritting", "UnderwrittingTask"],
     ["EnrollmentCompletion", "EnrollmentCompletionTask"],

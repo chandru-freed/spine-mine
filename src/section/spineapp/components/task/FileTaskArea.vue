@@ -42,7 +42,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
-import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfoTask/CollectClientInfoTask.vue";
+import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfo/CollectClientInfoTask.vue";
 import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
 import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue";
 import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/emandateFailed/EMandateFailedTask.vue"

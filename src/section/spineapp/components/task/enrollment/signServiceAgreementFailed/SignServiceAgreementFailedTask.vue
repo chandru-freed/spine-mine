@@ -20,7 +20,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import SignServiceAgreementFailedTaskIntf from "./SignServiceAgreementFailedTaskIntf";
-import SSAFFStepperMDP from "./SSAFFStepperMDP";
+import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
 
 @Component({
   components: {
@@ -45,7 +45,7 @@ export default class SignServiceAgreementFailedTask
   }
 
   get stepperMetaData() {
-    return new SSAFFStepperMDP({ taskRoot: this }).getMetaData();
+    return new SSAFTFStepperMDP({ taskRoot: this }).getMetaData();
   }
 
   // DATA

@@ -1,8 +1,8 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import SignServiceAgreementFailedTaskIntf from "./SignServiceAgreementFailedTaskIntf";
-import SSAFFFormMDP from "./SSAFFFormMDP";
+import SSAFTRetryStepFFormMDP from "./SSAFTRetryStepFFormMDP";
 
-export default class SSAFFStepperMDP extends FStepperMDP {
+export default class SSAFTFStepperMDP extends FStepperMDP {
     taskRoot: SignServiceAgreementFailedTaskIntf;
     parent: any;
     constructor({ taskRoot }: { taskRoot: SignServiceAgreementFailedTaskIntf }) {
@@ -10,7 +10,7 @@ export default class SSAFFStepperMDP extends FStepperMDP {
         this.taskRoot = taskRoot;
         this.parent = taskRoot;
 
-        this.addStep({ name: "Retry Sign Agreement", stepContent: new SSAFFFormMDP({ taskRoot: taskRoot, parent: this }) })
+        this.addStep({ name: "Retry Sign Agreement", stepContent: new SSAFTRetryStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
     }
 
     getMyRef() {

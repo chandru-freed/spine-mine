@@ -4,7 +4,7 @@ import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import SignServiceAgreementFailedTaskIntf from "./SignServiceAgreementFailedTaskIntf";
 
-export default class SSAFFFormMDP extends FFormMDP {
+export default class SSAFTRetryStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: SignServiceAgreementFailedTaskIntf;
     parent: any;

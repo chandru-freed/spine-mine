@@ -12,7 +12,7 @@ export default class CIVTFFormMDP extends FFormMDP {
     parent: any;
     constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
-            myRefName: "clientInfoVerificationForm",
+            myRefName: "clientInfoVerificationFormRef",
             // dataSelectorKey: "taskOutput.clientInfo",
             disabled: taskRoot.taskDisabled,
         });

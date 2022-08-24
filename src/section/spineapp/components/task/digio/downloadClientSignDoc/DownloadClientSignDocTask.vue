@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- <h4>UploadClientSignedDocTask</h4>
-    Root Data : {{ taskFormData }} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -11,17 +9,19 @@
     ></component>
   </div>
 </template>
-       <script lang="ts">
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
+import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
+import moment from "moment";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Task from "@/section/spineapp/util/Task";
-import Helper from "@/section/spineapp/util/Helper";
-import UCSDTFStepperMDP from "./UCSDTFStepperMDP";
+import DCSDTFStepperMDP from "./DCSDTFStepperMDP";
 
 @Component({
   components: {
@@ -29,7 +29,7 @@ import UCSDTFStepperMDP from "./UCSDTFStepperMDP";
     FBtn,
   },
 })
-export default class UploadClientSignedDocTask
+export default class DownloadClientSignDocTask
   extends ModelVue
   implements GenericTaskIntf
 {
@@ -37,6 +37,12 @@ export default class UploadClientSignedDocTask
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
+
+  //METADATA
+  get stepperMetaData() {
+    return new DCSDTFStepperMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
   // DATA
   get taskDetailsOutput() {
@@ -71,9 +77,14 @@ export default class UploadClientSignedDocTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {};
+  taskFormOutputLocal: any = new Data.Spine.DownloadClientSignDocTaskOutput();
 
   get taskFormOutput() {
+    if (this.taskDetailsOutput.clientSignedFilePath) {
+      this.taskFormOutputLocal.clientSignedFilePath =
+        this.taskDetailsOutput.clientSignedFilePath;
+    }
+
     return this.taskFormOutputLocal;
   }
 
@@ -82,15 +93,11 @@ export default class UploadClientSignedDocTask
   }
   //Task Output
 
-  //DATA
-
-  get stepperMetaData() {
-    return new UCSDTFStepperMDP({ taskRoot: this }).getMetaData();
-  }
-
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
+
+  //DATA
 
   //ACTION
   saveAndMarkCompleteTask() {
@@ -108,11 +115,10 @@ export default class UploadClientSignedDocTask
   }
 
   gotoFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      fileId: this.$route.params.fileId,
+    this.$router.push({
+      name: "Root.ClientFile.ClientFileDetails",
+      params: { fileId: this.$route.params.fileId },
     });
   }
 }
 </script>
-<style></style>

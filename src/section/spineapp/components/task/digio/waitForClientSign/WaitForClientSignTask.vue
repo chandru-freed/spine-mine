@@ -90,7 +90,7 @@ export default class WaitForClientSignTask
   //Task Output
 
   get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   //DATA

@@ -3,13 +3,13 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
-export default class DUSDTStepFFormMDP extends FFormMDP {
+export default class DCSDTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: GenericTaskIntf;
     parent: any;
     constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
-            myRefName: "downloadUnSignedDocFormRef",
+            myRefName: "downloadClientSignDocFormRef",
             disabled: taskRoot.taskDisabled,
         });
         this.taskRoot = taskRoot;
@@ -18,7 +18,7 @@ export default class DUSDTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
+                dataSelectorKey: "taskInput.fileId", 
                 label: "File Id",
                 mandatory: true,
                 boundaryClass: "col-6",
@@ -27,7 +27,7 @@ export default class DUSDTStepFFormMDP extends FFormMDP {
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.templateCode",
+                dataSelectorKey: "taskInput.templateCode", 
                 label: "Template Code",
                 mandatory: true,
                 boundaryClass: "col-6",
@@ -45,10 +45,10 @@ export default class DUSDTStepFFormMDP extends FFormMDP {
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.unsignedFilePath",
-                label: "Unsigned Filepath",
+                dataSelectorKey: "taskOutput.clientSignedFilePath",
+                label: "Client Signed Filepath",
                 mandatory: true,
-                boundaryClass: "col-6",
+                boundaryClass: "col-6"
             })
         ).addAction(
             new FBtnMDP({
@@ -63,7 +63,6 @@ export default class DUSDTStepFFormMDP extends FFormMDP {
             })
         );
     }
-
 
     getMyRef(): any {
         return this.parent.getMyRef().$refs[this.myRefName][0];

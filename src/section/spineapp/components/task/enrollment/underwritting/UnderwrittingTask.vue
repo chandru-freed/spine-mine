@@ -1,19 +1,15 @@
 <template>
   <div>
-    <!-- <h4>UnderwrittingTask</h4> -->
-    <!-- Root Data : {{ bigFormData }} -->
-    <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
-    <!-- <kbd> {{ testMetaData }}</kbd> -->
-
+    {{ taskFormData.taskOutput }}
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
-      v-model="bigFormData"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
       v-bind="stepperMetaData.props"
     ></component>
   </div>
 </template>
-
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
@@ -22,7 +18,10 @@ import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
-import UnderwrittingStepperMDP from "./UnderwrittingStepperMDP";
+import ModelVue from "@/components/generic/ModelVue";
+import moment from "moment";
+import UTFStepperMDP from "./UTFStepperMDP";
+import UnderwrittingTaskIntf from "./UnderwrittingTaskIntf";
 
 @Component({
   components: {
@@ -30,57 +29,20 @@ import UnderwrittingStepperMDP from "./UnderwrittingStepperMDP";
     FBtn,
   },
 })
-export default class CollectClientInfoTask extends Vue {
+export default class UnderwrittingTask
+  extends ModelVue
+  implements UnderwrittingTaskIntf
+{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
-  bigFormDataLocal: any = {
-    clientInfo: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      mobile: "",
-      gender: "",
-      residentialAddress: {},
-    },
-    creditorList: [],
-    budgetInfo:{incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}},
-    paymentPlan: {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []},
-    bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}},
-    fileDocumentList: [],
-    needVerification: false,
-  };
-  
-
-  taskOutputJson() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
+  //METADATA
+  get stepperMetaData() {
+    return new UTFStepperMDP({ taskRoot: this }).getMetaData();
   }
-
-  get bigFormData() {
-    
-      this.bigFormDataLocal.clientInfo = this.taskOutputJson().clientInfo ? this.taskOutputJson().clientInfo : {};
-      this.bigFormDataLocal.creditorList = this.taskOutputJson().creditorList ? this.taskOutputJson().creditorList: [];
-      this.bigFormDataLocal.budgetInfo = (this.taskOutputJson().budgetInfo && this.taskOutputJson().budgetInfo.incomeSources) ? this.taskOutputJson().budgetInfo : {incomeSources: {}, debtRepayments: {}, livingExpenses: {}, lifeStyleExpenses: {}, dependentExpenses: {}, incidentalExpenses: {}, miscellaneousExpenses: {}};
-      this.bigFormDataLocal.paymentPlan = this.taskOutputJson().paymentPlan && this.taskOutputJson().paymentPlan.ppCalculator ? this.taskOutputJson().paymentPlan : {ppCalculator: {}, paymentSchedule: [], subscriptionFeeSchedule: []};
-      this.bigFormDataLocal.bankInfo = this.taskOutputJson().bankInfo && this.taskOutputJson().bankInfo.accountNumber ?  this.taskOutputJson().bankInfo: {accountNumber: "", ifscCode: "", accountType: "SAVINGS", accountHolderName: "", bankAddress: {addressLine1: "", city: "", state: "", country: "", pinCode: ""}};
-      this.bigFormDataLocal.fileDocumentList = this.taskOutputJson().fileDocumentList ? this.taskOutputJson().fileDocumentList : [];
-    
-    return this.bigFormDataLocal;
-  }
-
-  set bigFormData(value: any) {
-    this.bigFormDataLocal = value;
-  }
-
-  get stepperMetaData(): any {
-    return new UnderwrittingStepperMDP({
-      taskRoot: this,
-    }).getMetaData();
-  }
+  //METADATA
 
   get taskDisabled(): boolean {
     return !(
@@ -89,28 +51,66 @@ export default class CollectClientInfoTask extends Vue {
     );
   }
 
+  // DATA
+
+  get taskDetailsOutput() {
+    return !!this.taskDetails && !!this.taskDetails.taskOutput
+      ? JSON.parse(this.taskDetails.taskOutput)
+      : {};
+  }
+
+  get taskDetailsInput() {
+    return !!this.taskDetails && !!this.taskDetails.taskInput
+      ? JSON.parse(this.taskDetails.taskInput)
+      : {};
+  }
+
+  //FORM
+
+  taskFormDataLocal: any = {
+    taskInput: {},
+    taskOutput: {},
+  };
+
+  get taskFormData() {
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskFormOutput,
+    };
+  }
+
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
+  }
+  //FORM
+
+  //Task Output
+  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); // Initialize Task Output
+
+  get taskFormOutput() {
+    if (this.taskDetailsOutput.underwrittingApproved != null) {
+      this.taskFormOutputLocal.underwrittingApproved =
+        this.taskDetailsOutput.underwrittingApproved;
+    }
+    return this.taskFormOutputLocal;
+  }
+
+  set taskFormOutput(newValue) {
+    this.taskFormOutputLocal = newValue;
+  }
+  //Task Output
+
+  //DATA
+
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.bigFormData);
+    const input = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
+    Action.TaskList.SaveAndComplete.execute2(
       this.taskId,
       input,
       (output) => {
         // console.log(output);
-        this.markComplete()
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
-  }
-
-  markComplete() {
-    Action.TaskList.Complete.execute1(
-      this.taskId,
-      (output) => {
-        this.gotoFile();
+        // this.markComplete();
       },
       (err) => {
         console.error(err);
@@ -120,7 +120,7 @@ export default class CollectClientInfoTask extends Vue {
   }
 
   saveTask() {
-    const input = JSON.stringify(this.bigFormData);
+    const input = JSON.stringify(this.taskFormData.taskOutput);
     console.log("Save take is being called");
     Action.TaskList.Save.execute2(
       this.taskId,

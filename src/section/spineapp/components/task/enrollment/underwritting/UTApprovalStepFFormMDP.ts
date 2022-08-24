@@ -2,16 +2,15 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import SignServiceAgreementFailedTaskIntf from "./SignServiceAgreementFailedTaskIntf";
+import UnderwrittingTaskIntf from "./UnderwrittingTaskIntf";
 
-export default class SSAFTRetryStepFFormMDP extends FFormMDP {
+export default class UTApprovalStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: SignServiceAgreementFailedTaskIntf;
+    taskRoot: UnderwrittingTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: SignServiceAgreementFailedTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: UnderwrittingTaskIntf; parent: any }) {
         super({
-            myRefName: "signServiceAgreementFailedFormRef",
-            // dataSelectorKey: "taskOutput.clientInfo",
+            myRefName: "underwrittingFormRef",
             disabled: taskRoot.taskDisabled,
         });
         this.taskRoot = taskRoot;
@@ -22,24 +21,13 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
                 parentMDP: this.childMDP,
                 dataSelectorKey: "taskInput.fileId",
                 label: "File ID",
-                boundaryClass: "col-6",
                 disabled: true
             })
-        )
-        .addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.digioSignStatus",
-                label: "Digio Status",
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        )
-        .addField(
+        ).addField(
             new FSwitchMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.signAgreementRetry",
-                label: "Retry Sign Agreement",
+                dataSelectorKey: "taskOutput.underwrittingApproved",
+                label: "Approve Underwritting",
                 mandatory: true,
             })
         ).addAction(

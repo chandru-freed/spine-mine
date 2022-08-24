@@ -1,7 +1,7 @@
 <template>
   <!-- <v-switch v-bind="$props" v-model="modelValue"></v-switch> -->
   <v-switch
-    :value="modelValue"
+    :input-value="modelValue"
     @change="(newValue) => modelValue = newValue"
     :false-value="falseValue"
     :true-value="trueValue"

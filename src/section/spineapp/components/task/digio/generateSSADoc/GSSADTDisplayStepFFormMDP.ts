@@ -27,7 +27,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "taskInput.fileId",
         label: "FileId",
-        mandatory: true,
+        disabled: true,
         boundaryClass: "col-4",
       })
     )
@@ -36,7 +36,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.docId",
           label: "DocId",
-          mandatory: true,
+          disabled: true,
           boundaryClass: "col-4",
         })
       )
@@ -45,7 +45,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.templateCode",
           label: "Template Code",
-          mandatory: true,
+          disabled: true,
           boundaryClass: "col-4",
         })
       )

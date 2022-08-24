@@ -21,7 +21,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import DownloadUnSignedDocTaskIntf from "./DownloadUnSignedDocTaskIntf";
 import DUSDTFStepperMDP from "./DUSDTFStepperMDP";
-import TaskAction from "../../TaskAction";
+import Task from "@/section/spineapp/util/Task";
 @Component({
   components: {
     FStepper,
@@ -92,24 +92,21 @@ export default class DownloadUnSignedDocTask
   //Task Output
 
   get taskDisabled(): boolean {
-    return !(
-      this.taskDetails.taskState === "STARTED" ||
-      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
-    );
+    return !Task.isTaskActionable(this.taskDetails.taskState);
   }
 
   //DATA
 
   //ACTION
   saveAndMarkCompleteTask() {
-    TaskAction.saveAndMarkCompleteTask({
+    Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
 
   saveTask() {
-    TaskAction.saveTask({
+    Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

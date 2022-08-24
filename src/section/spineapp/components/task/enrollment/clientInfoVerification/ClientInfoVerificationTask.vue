@@ -5,15 +5,15 @@
     <!-- Root Data : {{ taskFormData }} -->
 
     <component
-        :ref="stepperMetaData.myRefName"
-        :is="stepperMetaData.componentName"
-        :value="selectModel(taskFormData, undefined)"
-        @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
-        v-bind="stepperMetaData.props"
+      :ref="stepperMetaData.myRefName"
+      :is="stepperMetaData.componentName"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+      v-bind="stepperMetaData.props"
     ></component>
   </div>
 </template>
-          
+
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
@@ -25,7 +25,8 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import ClientInfoVerificationTaskIntf from "./ClientInfoVerificationTaskIntf";
-import CIVTFStepperMDP from "./CIVTFStepperMDP"
+import CIVTFStepperMDP from "./CIVTFStepperMDP";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
@@ -76,13 +77,13 @@ export default class ClientInfoVerificationTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {verified: false};// Initialize Task Output
+  taskFormOutputLocal: any = { verified: false }; // Initialize Task Output
 
   get taskFormOutput() {
-    if(this.taskDetailsOutput.verified) {
-        this.taskFormOutputLocal.verified = this.taskDetailsOutput.verified
+    if (this.taskDetailsOutput.verified) {
+      this.taskFormOutputLocal.verified = this.taskDetailsOutput.verified;
     }
-    
+
     return this.taskFormOutputLocal;
   }
 
@@ -91,51 +92,32 @@ export default class ClientInfoVerificationTask
   }
   //Task Output
 
-  
-
   //DATA
-
 
   //METADATA
   get stepperMetaData() {
-    return new CIVTFStepperMDP({taskRoot: this}).getMetaData()
+    return new CIVTFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
-
   get taskDisabled(): boolean {
-    return !(
-      this.taskDetails.taskState === "STARTED" ||
-      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
-    );
+    return !Task.isTaskActionable(this.taskDetails.taskState);
   }
+
+  //DATA
+
+  //ACTION
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.SaveAndComplete.execute2(
-      this.taskId,
-      input,
-      (output) => {},
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   saveTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   gotoFile() {

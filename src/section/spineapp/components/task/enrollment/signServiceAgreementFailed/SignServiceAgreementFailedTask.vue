@@ -21,6 +21,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import SignServiceAgreementFailedTaskIntf from "./SignServiceAgreementFailedTaskIntf";
 import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
@@ -36,13 +37,6 @@ export default class SignServiceAgreementFailedTask
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
-
-  get taskDisabled(): boolean {
-    return !(
-      this.taskDetails.taskState === "STARTED" ||
-      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
-    );
-  }
 
   get stepperMetaData() {
     return new SSAFTFStepperMDP({ taskRoot: this }).getMetaData();
@@ -82,11 +76,13 @@ export default class SignServiceAgreementFailedTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.SignServiceAgreementFailedTaskOutput(); // Initialize Task Output
+  taskFormOutputLocal: any =
+    new Data.Spine.SignServiceAgreementFailedTaskOutput(); // Initialize Task Output
 
   get taskFormOutput() {
     if (this.taskDetailsOutput.signAgreementRetry != null) {
-      this.taskFormOutputLocal.signAgreementRetry = this.taskDetailsOutput.signAgreementRetry;
+      this.taskFormOutputLocal.signAgreementRetry =
+        this.taskDetailsOutput.signAgreementRetry;
     }
     return this.taskFormOutputLocal;
   }
@@ -97,38 +93,25 @@ export default class SignServiceAgreementFailedTask
   //Task Output
 
   //DATA
+  get taskDisabled(): boolean {
+    return !Task.isTaskActionable(this.taskDetails.taskState);
+  }
 
+  //DATA
+
+  //ACTION
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.SaveAndComplete.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-        // this.markComplete();
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   saveTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   gotoFile() {

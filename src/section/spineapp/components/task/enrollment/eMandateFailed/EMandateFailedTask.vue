@@ -23,6 +23,7 @@ import moment from "moment";
 import EMandateFailedTaskIntf from "./EMandateFailedTaskIntf";
 import EMFTFStepperMDP from "./EMFTFStepperMDP";
 // import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
@@ -98,41 +99,24 @@ export default class EMandateFailedTask
   //METADATA
 
   get taskDisabled(): boolean {
-    return !(
-      this.taskDetails.taskState === "STARTED" ||
-      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
-    );
+    return !Task.isTaskActionable(this.taskDetails.taskState);
   }
+
+  //DATA
 
   //ACTION
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.SaveAndComplete.execute2(
-      this.taskId,
-      input,
-      (output) => {},
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   saveTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   gotoFile() {

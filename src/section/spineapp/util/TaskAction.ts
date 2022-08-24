@@ -36,6 +36,16 @@ export default class TaskAction  {
         RemoteApiPoint.BenchApi
       );
     }
+
+    static isTaskDisabled(taskState: string) {
+      console.log(taskState)
+      return !(
+        taskState === "STARTED" ||
+        taskState === "PARTIALLY_COMPLETED"||
+        taskState === "EXCEPTION_Q"||
+        taskState === "COMPLETED"
+      );
+    }
   
    
 }

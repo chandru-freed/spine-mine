@@ -51,6 +51,7 @@ import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollm
 import DownloadUnSignedDocTask from "@/section/spineapp/components/task/digio/downloadUnSignedDoc/DownloadUnSignedDocTask.vue"
 import GenerateSSADocTask from "@/section/spineapp/components/task/digio/generateSSADoc/GenerateSSADocTask.vue";
 import * as RemoteApiPoint from "@/remote-api-point";
+import WaitForClientSignTask from "@/section/spineapp/components/task/digio/waitForClientSign/WaitForClientSignTask.vue"
 
 @Component({
   components: {
@@ -61,7 +62,8 @@ import * as RemoteApiPoint from "@/remote-api-point";
     SignServiceAgreementFailedTask,
     EnrollmentCompletionTask,
     DownloadUnSignedDocTask,
-    GenerateSSADocTask
+    GenerateSSADocTask,
+    WaitForClientSignTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -82,6 +84,7 @@ export default class FileTaskArea extends Vue {
     ["EMandateFailed", "EMandateFailedTask"],
     ["DownloadUnSignedDoc", "DownloadUnSignedDocTask"],
     ["GenerateSSADoc", "GenerateSSADocTask"],
+    ["WaitForClientSign", "WaitForClientSignTask"]
   ]);
 
   taskId = this.$route.params.taskId;

@@ -1,6 +1,8 @@
 <template>
   <div>
-    {{ taskFormData.taskOutput }}
+    <h4>GenerateSSADocTask</h4>
+    Root Data : {{ taskFormData }}
+
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -14,14 +16,12 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import moment from "moment";
-import UTFStepperMDP from "./UTFStepperMDP";
-import UnderwrittingTaskIntf from "./UnderwrittingTaskIntf";
+import GenerateSSADocTaskIntf from "./GenerateSSADocTaskIntf";
+import GSSADTFStepperMDP from "./GSSADTFStepperMDP";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
@@ -29,27 +29,13 @@ import UnderwrittingTaskIntf from "./UnderwrittingTaskIntf";
     FBtn,
   },
 })
-export default class UnderwrittingTask
+export default class GenerateSSADocTask
   extends ModelVue
-  implements UnderwrittingTaskIntf
+  implements GenerateSSADocTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-
   taskId = this.$route.params.taskId;
-
-  //METADATA
-  get stepperMetaData() {
-    return new UTFStepperMDP({ taskRoot: this }).getMetaData();
-  }
-  //METADATA
-
-  get taskDisabled(): boolean {
-    return !(
-      this.taskDetails.taskState === "STARTED" ||
-      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
-    );
-  }
 
   // DATA
 
@@ -64,6 +50,12 @@ export default class UnderwrittingTask
       ? JSON.parse(this.taskDetails.taskInput)
       : {};
   }
+
+  //METADATA
+  get stepperMetaData() {
+    return new GSSADTFStepperMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
   //FORM
 
@@ -85,13 +77,11 @@ export default class UnderwrittingTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); // Initialize Task Output
+  taskFormOutputLocal: any = new Data.Spine.GenerateSSADocOutput(); // Initialize Task Output
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.underwrittingApproved != null) {
-      this.taskFormOutputLocal.underwrittingApproved =
-        this.taskDetailsOutput.underwrittingApproved;
-    }
+    this.taskFormOutputLocal.docId = this.taskDetailsOutput.docId;
+    this.taskFormOutputLocal.templateCode = this.taskDetailsOutput.templateCode;
     return this.taskFormOutputLocal;
   }
 
@@ -102,37 +92,22 @@ export default class UnderwrittingTask
 
   //DATA
 
+  get taskDisabled(): boolean {
+    return !Task.isTaskActionable(this.taskDetails.taskState);
+  }
+
   saveAndMarkCompleteTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.SaveAndComplete.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-        // this.markComplete();
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   saveTask() {
-    const input = JSON.stringify(this.taskFormData.taskOutput);
-    console.log("Save take is being called");
-    Action.TaskList.Save.execute2(
-      this.taskId,
-      input,
-      (output) => {
-        // console.log(output);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   gotoFile() {

@@ -27,7 +27,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
-import TaskAction from "@/section/spineapp/components/task/TaskAction"
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
@@ -111,20 +111,15 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
   }
 
   get taskDisabled(): boolean {
-    return !(
-      this.taskDetails.taskState === "STARTED" ||
-      this.taskDetails.taskState === "PARTIALLY_COMPLETED"
-    );
+    return !Task.isTaskActionable(this.taskDetails.taskState)
   }
 
   saveAndMarkCompleteTask() {
-    console.log("Save and Complete take is being called");
-    TaskAction.saveAndMarkCompleteTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
+    Task.Action.saveAndMarkCompleteTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
   }
 
   saveTask() {
-    console.log("Save take is being called");
-    TaskAction.saveTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
+    Task.Action.saveTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
   }
 
   gotoFile() {

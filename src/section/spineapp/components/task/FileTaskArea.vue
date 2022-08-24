@@ -53,6 +53,8 @@ import GenerateSSADocTask from "@/section/spineapp/components/task/digio/generat
 import UpdateClientSignStatusTask from "@/section/spineapp/components/task/digio/updateClientSignStatus/UpdateClientSignStatusTask.vue";
 import * as RemoteApiPoint from "@/remote-api-point";
 import WaitForClientSignTask from "@/section/spineapp/components/task/digio/waitForClientSign/WaitForClientSignTask.vue"
+import UploadClientSignedDocTask from "@/section/spineapp/components/task/digio/uploadClientSignedDoc/UploadClientSignedDocTask.vue"
+import SignByFreedTask from "@/section/spineapp/components/task/digio/signByFreed/SignByFreedTask.vue";
 import DownloadClientSignDocTask from "./digio/downloadClientSignDoc/DownloadClientSignDocTask.vue";
 import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSignedDocTask.vue";
 
@@ -69,7 +71,9 @@ import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSi
     UpdateClientSignStatusTask,
     WaitForClientSignTask,
     DownloadClientSignDocTask,
-    UploadFreedSignedDocTask
+    UploadFreedSignedDocTask,
+    UploadClientSignedDocTask,
+    SignByFreedTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -93,7 +97,9 @@ export default class FileTaskArea extends Vue {
     ["UpdateClientSignStatus", "UpdateClientSignStatusTask"],
     ["WaitForClientSign", "WaitForClientSignTask"],
     ["DownloadClientSignDoc", "DownloadClientSignDocTask"],
-    ["UploadFreedSignedDoc", "UploadFreedSignedDocTask"]
+    ["UploadFreedSignedDoc", "UploadFreedSignedDocTask"],
+    ["UploadClientSignedDoc", "UploadClientSignedDocTask"],
+    ["SignByFreed", "SignByFreedTask"]
   ]);
 
   taskId = this.$route.params.taskId;

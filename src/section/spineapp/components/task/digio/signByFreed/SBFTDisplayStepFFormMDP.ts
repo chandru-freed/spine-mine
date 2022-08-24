@@ -3,8 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
-
-export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
+export default class SBFTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: GenericTaskIntf;
   parent: any;
@@ -16,7 +15,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     parent: any;
   }) {
     super({
-      myRefName: "generateSSADocFormRef",
+      myRefName: "signByFreedFormRef",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
@@ -28,25 +27,53 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
         dataSelectorKey: "taskInput.fileId",
         label: "FileId",
         disabled: true,
-        boundaryClass: "col-4",
+        boundaryClass: "col-6",
       })
     )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.docId",
+          dataSelectorKey: "taskInput.docId",
           label: "DocId",
           disabled: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
         })
       )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.templateCode",
+          dataSelectorKey: "taskInput.templateCode",
           label: "Template Code",
           disabled: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.clientSignedFilePath",
+          label: "Client Signed File Path",
+          disabled: true,
+          boundaryClass: "col-6",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.digioSignStatus",
+          label: "Digio Sign Status",
+          disabled: true,
+          boundaryClass: "col-6",
+        })
+      )
+
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.freedSignedFilePath",
+          label: "Freed Signed File Path",
+          disabled: true,
+          boundaryClass: "col-6",
         })
       )
       .addAction(

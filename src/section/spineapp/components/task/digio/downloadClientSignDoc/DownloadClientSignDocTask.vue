@@ -19,10 +19,9 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-
-import Task from "@/section/spineapp/util/Task";
-import WFCSTFStepperMDP from "./WFCSTFStepperMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import Task from "@/section/spineapp/util/Task";
+import DCSDTFStepperMDP from "./DCSDTFStepperMDP";
 
 @Component({
   components: {
@@ -30,7 +29,7 @@ import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
     FBtn,
   },
 })
-export default class WaitForClientSignTask
+export default class DownloadClientSignDocTask
   extends ModelVue
   implements GenericTaskIntf
 {
@@ -41,7 +40,7 @@ export default class WaitForClientSignTask
 
   //METADATA
   get stepperMetaData() {
-    return new WFCSTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new DCSDTFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
@@ -78,9 +77,14 @@ export default class WaitForClientSignTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {}; 
+  taskFormOutputLocal: any = new Data.Spine.DownloadClientSignDocTaskOutput();
 
   get taskFormOutput() {
+    if (this.taskDetailsOutput.clientSignedFilePath) {
+      this.taskFormOutputLocal.clientSignedFilePath =
+        this.taskDetailsOutput.clientSignedFilePath;
+    }
+
     return this.taskFormOutputLocal;
   }
 

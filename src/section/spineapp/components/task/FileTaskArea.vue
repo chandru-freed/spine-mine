@@ -57,7 +57,7 @@ import UploadClientSignedDocTask from "@/section/spineapp/components/task/digio/
 import SignByFreedTask from "@/section/spineapp/components/task/digio/signByFreed/SignByFreedTask.vue";
 import DownloadClientSignDocTask from "./digio/downloadClientSignDoc/DownloadClientSignDocTask.vue";
 import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSignedDocTask.vue";
-
+import ClientSignExpiredTask from "./digio/clientSignExpired/ClientSignExpiredTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -74,6 +74,7 @@ import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSi
     UploadFreedSignedDocTask,
     UploadClientSignedDocTask,
     SignByFreedTask,
+    ClientSignExpiredTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -99,7 +100,8 @@ export default class FileTaskArea extends Vue {
     ["DownloadClientSignDoc", "DownloadClientSignDocTask"],
     ["UploadFreedSignedDoc", "UploadFreedSignedDocTask"],
     ["UploadClientSignedDoc", "UploadClientSignedDocTask"],
-    ["SignByFreed", "SignByFreedTask"]
+    ["SignByFreed", "SignByFreedTask"],
+    ["ClientSignExpired", "ClientSignExpiredTask"]
   ]);
 
   taskId = this.$route.params.taskId;

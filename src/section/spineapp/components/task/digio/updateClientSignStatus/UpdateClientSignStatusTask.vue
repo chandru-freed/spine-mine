@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <h4>GenerateSSADocTask</h4>
+    <!-- <h4>Update Client sign status</h4>
     Root Data : {{ taskFormData }} -->
 
     <component
@@ -12,29 +12,29 @@
     ></component>
   </div>
 </template>
-<script lang="ts">
+       <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import GenerateSSADocTaskIntf from "./GenerateSSADocTaskIntf";
-import GSSADTFStepperMDP from "./GSSADTFStepperMDP";
+import UpdateClientSignStatusTaskIntf from "./UpdateClientSignStatusTaskIntf";
 import Task from "@/section/spineapp/util/Task";
-
+import UCSSTFStepperMDP from "./UCSSTFStepperMDP";
 @Component({
   components: {
     FStepper,
     FBtn,
   },
 })
-export default class GenerateSSADocTask
+export default class UpdateClientSignStatusTask
   extends ModelVue
-  implements GenerateSSADocTaskIntf
+  implements UpdateClientSignStatusTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
   taskId = this.$route.params.taskId;
 
   // DATA
@@ -50,12 +50,6 @@ export default class GenerateSSADocTask
       ? JSON.parse(this.taskDetails.taskInput)
       : {};
   }
-
-  //METADATA
-  get stepperMetaData() {
-    return new GSSADTFStepperMDP({ taskRoot: this }).getMetaData();
-  }
-  //METADATA
 
   //FORM
 
@@ -77,11 +71,10 @@ export default class GenerateSSADocTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.GenerateSSADocOutput(); // Initialize Task Output
+  taskFormOutputLocal: any = new Data.Spine.UpdateClientSignStatusOutput(); // Initialize Task Output
 
-  get taskFormOutput() {
-    this.taskFormOutputLocal.docId = this.taskDetailsOutput.docId;
-    this.taskFormOutputLocal.templateCode = this.taskDetailsOutput.templateCode;
+  get taskFormOutput() { 
+    this.taskFormOutputLocal.digioSignStatus = this.taskDetailsOutput.digioSignStatus;
     return this.taskFormOutputLocal;
   }
 
@@ -92,10 +85,18 @@ export default class GenerateSSADocTask
 
   //DATA
 
+  //METADATA
+  get stepperMetaData() {
+    return new UCSSTFStepperMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
   get taskDisabled(): boolean {
     return !Task.isTaskActionable(this.taskDetails.taskState);
   }
 
+  //DATA
+
+  //ACTION
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,

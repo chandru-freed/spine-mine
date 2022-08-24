@@ -19,9 +19,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import WaitForClientSignTaskIntf from "./WaitForClientSignTaskIntf";
+
 import Task from "@/section/spineapp/util/Task";
 import WFCSTFStepperMDP from "./WFCSTFStepperMDP";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
 @Component({
   components: {
@@ -31,7 +32,7 @@ import WFCSTFStepperMDP from "./WFCSTFStepperMDP";
 })
 export default class WaitForClientSignTask
   extends ModelVue
-  implements WaitForClientSignTaskIntf
+  implements GenericTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;

@@ -19,9 +19,10 @@ import * as Data from "@/../src-gen/data";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import GenerateSSADocTaskIntf from "./GenerateSSADocTaskIntf";
+
 import GSSADTFStepperMDP from "./GSSADTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
 @Component({
   components: {
@@ -31,7 +32,7 @@ import Task from "@/section/spineapp/util/Task";
 })
 export default class GenerateSSADocTask
   extends ModelVue
-  implements GenerateSSADocTaskIntf
+  implements GenericTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;

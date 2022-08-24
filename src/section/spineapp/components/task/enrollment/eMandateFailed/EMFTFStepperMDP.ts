@@ -1,11 +1,12 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import EMandateFailedTaskIntf from "./EMandateFailedTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import EMFTRetryStepFFormMDP from "./EMFTRetryStepFFormMDP";
 
 export default class EMFTFStepperMDP extends FStepperMDP {
-    taskRoot: EMandateFailedTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: EMandateFailedTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: " eMandateFailedStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

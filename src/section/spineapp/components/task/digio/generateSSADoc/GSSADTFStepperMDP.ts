@@ -1,11 +1,11 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import GenerateSSADocTaskIntf from "./GenerateSSADocTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import GSSADTDisplayStepFFormMDP from "./GSSADTDisplayStepFFormMDP";
 
 export default class GSSADTFStepperMDP extends FStepperMDP {
-  taskRoot: GenerateSSADocTaskIntf;
+  taskRoot: GenericTaskIntf;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: GenerateSSADocTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
     super({ myRefName: " generateSSADocStepperRef" });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;

@@ -1,4 +1,4 @@
-export default interface UnderwrittingTaskIntf {
+export interface GenericTaskIntf {
     $refs: any
     taskDisabled: boolean
     saveAndMarkCompleteTask: () => void

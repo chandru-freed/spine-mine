@@ -1,11 +1,12 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import SignServiceAgreementFailedTaskIntf from "./SignServiceAgreementFailedTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import SSAFTRetryStepFFormMDP from "./SSAFTRetryStepFFormMDP";
 
 export default class SSAFTFStepperMDP extends FStepperMDP {
-    taskRoot: SignServiceAgreementFailedTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: SignServiceAgreementFailedTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: "signServiceAgreementFailedStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

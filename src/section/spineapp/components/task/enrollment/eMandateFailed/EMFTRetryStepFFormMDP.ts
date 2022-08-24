@@ -2,13 +2,14 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import EMandateFailedTaskIntf from "./EMandateFailedTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 
 export default class EMFTRetryStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: EMandateFailedTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: EMandateFailedTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
             myRefName: "eMandateFailedFormRef",
             disabled: taskRoot.taskDisabled,

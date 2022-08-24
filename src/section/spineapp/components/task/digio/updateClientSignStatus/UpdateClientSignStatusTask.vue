@@ -19,9 +19,10 @@ import * as Data from "@/../src-gen/data";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import UpdateClientSignStatusTaskIntf from "./UpdateClientSignStatusTaskIntf";
+
 import Task from "@/section/spineapp/util/Task";
 import UCSSTFStepperMDP from "./UCSSTFStepperMDP";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 @Component({
   components: {
     FStepper,
@@ -30,7 +31,7 @@ import UCSSTFStepperMDP from "./UCSSTFStepperMDP";
 })
 export default class UpdateClientSignStatusTask
   extends ModelVue
-  implements UpdateClientSignStatusTaskIntf
+  implements GenericTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;

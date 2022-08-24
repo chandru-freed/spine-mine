@@ -2,14 +2,15 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import ClientInfoVerificationTaskIntf from "./ClientInfoVerificationTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 
 
 export default class CIVTFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: ClientInfoVerificationTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: ClientInfoVerificationTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
             myRefName: "clientInfoVerificationForm",
             // dataSelectorKey: "taskOutput.clientInfo",

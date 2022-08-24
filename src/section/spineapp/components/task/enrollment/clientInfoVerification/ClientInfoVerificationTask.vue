@@ -100,7 +100,7 @@ export default class ClientInfoVerificationTask
   }
   //METADATA
   get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   //DATA

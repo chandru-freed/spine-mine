@@ -1,17 +1,18 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import UpdateClientSignStatusTaskIntf from "./UpdateClientSignStatusTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 
 export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: UpdateClientSignStatusTaskIntf;
+  taskRoot: GenericTaskIntf;
   parent: any;
   constructor({
     taskRoot,
     parent,
   }: {
-    taskRoot: UpdateClientSignStatusTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
   }) {
     super({

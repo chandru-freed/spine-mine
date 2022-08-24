@@ -20,10 +20,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import EMandateFailedTaskIntf from "./EMandateFailedTaskIntf";
 import EMFTFStepperMDP from "./EMFTFStepperMDP";
 // import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
 import Task from "@/section/spineapp/util/Task";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
 @Component({
   components: {
@@ -33,7 +33,7 @@ import Task from "@/section/spineapp/util/Task";
 })
 export default class EMandateFailedTask
   extends ModelVue
-  implements EMandateFailedTaskIntf
+  implements GenericTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -99,7 +99,7 @@ export default class EMandateFailedTask
   //METADATA
 
   get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   //DATA

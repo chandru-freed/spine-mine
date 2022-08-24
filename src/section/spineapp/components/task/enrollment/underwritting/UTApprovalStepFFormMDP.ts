@@ -2,13 +2,14 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import UnderwrittingTaskIntf from "./UnderwrittingTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 
 export default class UTApprovalStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: UnderwrittingTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: UnderwrittingTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
             myRefName: "underwrittingFormRef",
             disabled: taskRoot.taskDisabled,

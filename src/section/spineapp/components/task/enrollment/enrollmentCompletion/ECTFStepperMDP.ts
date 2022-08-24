@@ -1,11 +1,12 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import ECTStepFFormMDP from "./ECTStepFFormMDP";
-import EnrollmentCompletionTaskIntf from "./EnrollmentCompletionTaskIntf";
+
 
 export default class ECTFStepperMDP extends FStepperMDP {
-    taskRoot: EnrollmentCompletionTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: EnrollmentCompletionTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: "enrollmentCompletionStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

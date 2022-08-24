@@ -1,13 +1,13 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import DownloadUnSignedDocTaskIntf from "./DownloadUnSignedDocTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
 export default class DUSDTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: DownloadUnSignedDocTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: DownloadUnSignedDocTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
             myRefName: "downloadUnSignedDocFormRef",
             disabled: taskRoot.taskDisabled,

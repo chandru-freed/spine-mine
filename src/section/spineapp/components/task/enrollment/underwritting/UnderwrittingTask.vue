@@ -21,8 +21,8 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import UTFStepperMDP from "./UTFStepperMDP";
-import UnderwrittingTaskIntf from "./UnderwrittingTaskIntf";
 import Task from "@/section/spineapp/util/Task";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
 @Component({
   components: {
@@ -32,7 +32,7 @@ import Task from "@/section/spineapp/util/Task";
 })
 export default class UnderwrittingTask
   extends ModelVue
-  implements UnderwrittingTaskIntf
+  implements GenericTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;

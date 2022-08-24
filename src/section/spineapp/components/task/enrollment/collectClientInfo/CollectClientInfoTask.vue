@@ -26,8 +26,9 @@ import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Task from "@/section/spineapp/util/Task";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -35,13 +36,15 @@ import Task from "@/section/spineapp/util/Task";
     FBtn,
   },
 })
-export default class CollectClientInfoTask extends ModelVue implements CollectClientInfoTaskIntf{
+export default class CollectClientInfoTask
+  extends ModelVue
+  implements GenericTaskIntf
+{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
-  
   get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
@@ -54,55 +57,78 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
       : {};
   }
 
-  taskFormDataLocal: any = {taskInput: {}, taskOutput: {}}
+  taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
 
   get taskFormData() {
-    return {taskInput: this.taskDetailsInput, taskOutput: this.taskFormOutput}
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskFormOutput,
+    };
   }
 
   set taskFormData(value: any) {
     this.taskFormDataLocal = value;
   }
 
-
-  taskFormOutputLocal: any =  new Data.Spine.CollectClientInfoTask()
+  taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
 
   get taskFormOutput() {
-    if(this.taskDetailsOutput.clientInfo && this.taskDetailsOutput.clientInfo.firstName) {
-        this.taskFormOutputLocal.clientInfo = this.taskDetailsOutput.clientInfo
-      }
+    if (
+      this.taskDetailsOutput.clientInfo &&
+      this.taskDetailsOutput.clientInfo.firstName
+    ) {
+      this.taskFormOutputLocal.clientInfo = this.taskDetailsOutput.clientInfo;
+    }
 
-      if(this.taskDetailsOutput.creditorInfo && this.taskDetailsOutput.creditorInfo.creditorList) {
-        this.taskFormOutputLocal.creditorInfo = this.taskDetailsOutput.creditorInfo
-      }
+    if (
+      this.taskDetailsOutput.creditorInfo &&
+      this.taskDetailsOutput.creditorInfo.creditorList
+    ) {
+      this.taskFormOutputLocal.creditorInfo =
+        this.taskDetailsOutput.creditorInfo;
+    }
 
-      if(this.taskDetailsOutput.budgetInfo && this.taskDetailsOutput.budgetInfo.incomeSources) {
-        this.taskFormOutputLocal.budgetInfo.incomeSources = {...this.taskFormOutputLocal.budgetInfo.incomeSources, ...this.taskDetailsOutput.budgetInfo.incomeSources}
-        this.taskFormOutputLocal.budgetInfo.debtRepayments = {...this.taskFormOutputLocal.budgetInfo.debtRepayments, ...this.taskDetailsOutput.budgetInfo.debtRepayments}
-      }
+    if (
+      this.taskDetailsOutput.budgetInfo &&
+      this.taskDetailsOutput.budgetInfo.incomeSources
+    ) {
+      this.taskFormOutputLocal.budgetInfo.incomeSources = {
+        ...this.taskFormOutputLocal.budgetInfo.incomeSources,
+        ...this.taskDetailsOutput.budgetInfo.incomeSources,
+      };
+      this.taskFormOutputLocal.budgetInfo.debtRepayments = {
+        ...this.taskFormOutputLocal.budgetInfo.debtRepayments,
+        ...this.taskDetailsOutput.budgetInfo.debtRepayments,
+      };
+    }
 
-      if(this.taskDetailsOutput.paymentPlan && this.taskDetailsOutput.paymentPlan.ppCalculator && this.taskDetailsOutput.paymentPlan.ppCalculator.firstDraftDate) {
-        this.taskFormOutputLocal.paymentPlan = this.taskDetailsOutput.paymentPlan
-      } else {
-        // this.taskFormOutputLocal.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
-      }
+    if (
+      this.taskDetailsOutput.paymentPlan &&
+      this.taskDetailsOutput.paymentPlan.ppCalculator &&
+      this.taskDetailsOutput.paymentPlan.ppCalculator.firstDraftDate
+    ) {
+      this.taskFormOutputLocal.paymentPlan = this.taskDetailsOutput.paymentPlan;
+    } else {
+      // this.taskFormOutputLocal.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
+    }
 
-      if(this.taskDetailsOutput.bankInfo && this.taskDetailsOutput.bankInfo.accountNumber) {
-        this.taskFormOutputLocal.bankInfo = this.taskDetailsOutput.bankInfo
-      }
+    if (
+      this.taskDetailsOutput.bankInfo &&
+      this.taskDetailsOutput.bankInfo.accountNumber
+    ) {
+      this.taskFormOutputLocal.bankInfo = this.taskDetailsOutput.bankInfo;
+    }
 
-      if(this.taskDetailsOutput.fileDocumentList) {
-        this.taskFormOutputLocal.fileDocumentList = this.taskDetailsOutput.fileDocumentList
-      }
-    return this.taskFormOutputLocal
+    if (this.taskDetailsOutput.fileDocumentList) {
+      this.taskFormOutputLocal.fileDocumentList =
+        this.taskDetailsOutput.fileDocumentList;
+    }
+    return this.taskFormOutputLocal;
   }
 
   set taskFormOutput(newValue) {
-    this.taskFormOutputLocal = newValue
+    this.taskFormOutputLocal = newValue;
   }
-  
-  
-
 
   get stepperMetaData(): any {
     return new CCITFStepperMDP({
@@ -111,21 +137,27 @@ export default class CollectClientInfoTask extends ModelVue implements CollectCl
   }
 
   get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState)
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   saveTask() {
-    Task.Action.saveTask({taskId: this.taskId, taskOutput: this.taskFormData.taskOutput})
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      fileId: this.$route.params.fileId,
     });
   }
 }

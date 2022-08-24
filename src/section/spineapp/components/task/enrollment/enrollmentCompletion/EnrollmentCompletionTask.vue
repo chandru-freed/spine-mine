@@ -22,9 +22,9 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import EnrollmentCompletionTaskIntf from "./EnrollmentCompletionTaskIntf";
 import ECTFStepperMDP from "./ECTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 @Component({
   components: {
     FStepper,
@@ -33,8 +33,9 @@ import Task from "@/section/spineapp/util/Task";
 })
 export default class EnrollmentCompletionTask
   extends ModelVue
-  implements EnrollmentCompletionTaskIntf
+  implements GenericTaskIntf
 {
+  saveTask: () => void;
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -93,7 +94,7 @@ export default class EnrollmentCompletionTask
   }
   //METADATA
   get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   //DATA

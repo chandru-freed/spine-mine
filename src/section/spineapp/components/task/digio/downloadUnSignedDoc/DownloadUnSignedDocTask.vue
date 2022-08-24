@@ -19,9 +19,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import DownloadUnSignedDocTaskIntf from "./DownloadUnSignedDocTaskIntf";
+
 import DUSDTFStepperMDP from "./DUSDTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 @Component({
   components: {
     FStepper,
@@ -30,7 +31,7 @@ import Task from "@/section/spineapp/util/Task";
 })
 export default class DownloadUnSignedDocTask
   extends ModelVue
-  implements DownloadUnSignedDocTaskIntf
+  implements GenericTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;

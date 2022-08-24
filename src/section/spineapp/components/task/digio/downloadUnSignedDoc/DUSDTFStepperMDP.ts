@@ -1,11 +1,12 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import DownloadUnSignedDocTaskIntf from "./DownloadUnSignedDocTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import DUSDTStepFFormMDP from "./DUSDTStepFFormMDP";
 
 export default class DUSDTFStepperMDP extends FStepperMDP {
-    taskRoot: DownloadUnSignedDocTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: DownloadUnSignedDocTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: "downloadUnSignedDocStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

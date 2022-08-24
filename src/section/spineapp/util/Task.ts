@@ -9,6 +9,10 @@ export default class Task  {
         taskState === "EXCEPTION_Q"
       );
     }
+
+    static isTaskNotActionable(taskState: string) {
+      return !this.isTaskActionable(taskState)
+    }
   
    
 }

@@ -1,11 +1,12 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import WaitForClientSignTaskIntf from "./WaitForClientSignTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import WFCSTStepFFormMDP from "./WFCSTStepFFormMDP";
 
 export default class WFCSTFStepperMDP extends FStepperMDP {
-    taskRoot: WaitForClientSignTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: WaitForClientSignTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: "waitForClientSignStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

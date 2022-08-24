@@ -1,12 +1,13 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import MDP from "@/components/generic/MDP";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import CIVTFFormMDP from "./CIVTFFormMDP";
-import ClientInfoVerificationTaskIntf from "./ClientInfoVerificationTaskIntf";
+
 
 export default class CIVTFStepperMDP extends FStepperMDP {
-    taskRoot: ClientInfoVerificationTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: ClientInfoVerificationTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
       super({ myRefName: " clientInfoVerificationStepperRef" });
       this.taskRoot = taskRoot;
       this.parent = taskRoot;

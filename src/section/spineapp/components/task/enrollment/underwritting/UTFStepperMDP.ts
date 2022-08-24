@@ -1,11 +1,11 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import UnderwrittingTaskIntf from "./UnderwrittingTaskIntf";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import UTApprovalStepFFormMDP from "./UTApprovalStepFFormMDP";
 
 export default class UTFStepperMDP extends FStepperMDP {
-    taskRoot: UnderwrittingTaskIntf;
+    taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: UnderwrittingTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: "underwrittingStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

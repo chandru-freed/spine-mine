@@ -38,6 +38,7 @@ import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FForm from "@/components/generic/form/FForm.vue";
 import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
+import NsfMSFFFormMDP from "./NsfMSFFFormMDP";
 import Flow from "@/section/spineapp/util/Flow"
 
 @Component({
@@ -68,6 +69,16 @@ export default class CreateRequest extends Vue {
         teamCode: "chpp",
       },
     },
+
+    {
+      key: "NsfMSF",
+      value: {
+        fqFlowName: "DspFlow::NsfMSF",
+        netName: "Default",
+        priority: 1,
+        teamCode: "nsfmsf",
+      },
+    },
   ];
 
   initDocumentData: any = {}
@@ -84,6 +95,11 @@ export default class CreateRequest extends Vue {
       }).getMetaData(),
 
       "DspFlow::CHPP:Default": new EnrollmentFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+
+      "DspFlow::NsfMSF:Default": new NsfMSFFFormMDP({
         taskRoot: this,
         parent: this,
       }).getMetaData(),

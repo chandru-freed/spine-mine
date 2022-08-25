@@ -63,6 +63,7 @@ import CreateEMandateTask from "./eMandate/createEMandate/CreateEMandateTask.vue
 import WaitForEMandateTask from "./eMandate/waitForEMandate/WaitForEMandateTask.vue"
 import Helper from "../../util/Helper";
 import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
+import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatusTask.vue';
 @Component({
   components: {
     CollectClientInfoTask,
@@ -84,6 +85,7 @@ import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTa
     UploadUnSignedDocTask,
     WaitForEMandateTask,
     SendEMandateLinkTask,
+    GetEMandateStatusTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -114,7 +116,8 @@ export default class FileTaskArea extends Vue {
     ["CreateEMandate", "CreateEMandateTask"],
     ["UploadUnSignedDoc", "UploadUnSignedDocTask"],
     ["WaitForEMandate", "WaitForEMandateTask"],
-    ["SendEMandateLink", "SendEMandateLinkTask"]
+    ["SendEMandateLink", "SendEMandateLinkTask"],
+    ["GetEMandateStatus", "GetEMandateStatusTask"]
   ]);
 
   taskId = this.$route.params.taskId;

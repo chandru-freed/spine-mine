@@ -61,7 +61,10 @@ import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSi
 import ClientSignExpiredTask from "./digio/clientSignExpired/ClientSignExpiredTask.vue";
 import CreateEMandateTask from "./eMandate/createEMandate/CreateEMandateTask.vue";
 import CHPPTask from "@/section/spineapp/components/task/chpp/chpp/CHPPTask.vue";
+import WaitForEMandateTask from "./eMandate/waitForEMandate/WaitForEMandateTask.vue"
 import Helper from "../../util/Helper";
+import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
+import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatusTask.vue';
 @Component({
   components: {
     CollectClientInfoTask,
@@ -81,7 +84,10 @@ import Helper from "../../util/Helper";
     ClientSignExpiredTask,
     CreateEMandateTask,
     UploadUnSignedDocTask,
-    CHPPTask
+    CHPPTask,
+    WaitForEMandateTask,
+    SendEMandateLinkTask,
+    GetEMandateStatusTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -112,7 +118,9 @@ export default class FileTaskArea extends Vue {
     ["CreateEMandate", "CreateEMandateTask"],
     ["UploadUnSignedDoc", "UploadUnSignedDocTask"],
     ["CHPP", "CHPPTask"],
-    
+    ["WaitForEMandate", "WaitForEMandateTask"],
+    ["SendEMandateLink", "SendEMandateLinkTask"],
+    ["GetEMandateStatus", "GetEMandateStatusTask"],
   ]);
 
   taskId = this.$route.params.taskId;

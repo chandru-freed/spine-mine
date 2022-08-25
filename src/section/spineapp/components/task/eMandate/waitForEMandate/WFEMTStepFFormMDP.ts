@@ -3,13 +3,13 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
-export default class CEMTStepFFormMDP extends FFormMDP {
+export default class WFEMTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: GenericTaskIntf;
     parent: any;
     constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
-            myRefName: "createEMandateFormRef",
+            myRefName: "waitForEMandateFormRef",
             disabled: taskRoot.taskDisabled,
         });
         this.taskRoot = taskRoot;
@@ -21,24 +21,26 @@ export default class CEMTStepFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskInput.fileId",
                 label: "File Id",
                 mandatory: true,
-                boundaryClass: "col-12",
+                boundaryClass: "col-4",
                 disabled: true
             })
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.eMandateLink",
+                dataSelectorKey: "taskInput.eMandateLink",
                 label: "EMandate Link",
                 mandatory: true,
-                boundaryClass: "col-6",
+                boundaryClass: "col-4",
+                disabled: true
             })
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.eMandateId",
+                dataSelectorKey: "taskInput.eMandateId",
                 label: "EMandate Id",
                 mandatory: true,
-                boundaryClass: "col-6",
+                boundaryClass: "col-4",
+                disabled: true
             })
         ).addAction(
             new FBtnMDP({
@@ -53,7 +55,6 @@ export default class CEMTStepFFormMDP extends FFormMDP {
             })
         );
     }
-
     getMyRef(): any {
         return this.parent.getMyRef().$refs[this.myRefName][0];
     }

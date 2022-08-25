@@ -36,6 +36,10 @@ export default class TaskAction  {
         RemoteApiPoint.BenchApi
       );
     }
+
+    static rescueTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      //TODO: add rescue task to TaskList ads and implement
+    }
   
    
 }

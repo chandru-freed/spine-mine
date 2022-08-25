@@ -3,16 +3,18 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
-export default class CEMTStepFFormMDP extends FFormMDP {
+export default class SEMLTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: GenericTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
+
+    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf, parent: any }) {
         super({
-            myRefName: "createEMandateFormRef",
+            myRefName: "sendEMandateLinkFormRef",
             disabled: taskRoot.taskDisabled,
         });
-        this.taskRoot = taskRoot;
+
+        this.taskRoot = this.taskRoot;
         this.parent = parent;
 
         this.addField(
@@ -21,24 +23,26 @@ export default class CEMTStepFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskInput.fileId",
                 label: "File Id",
                 mandatory: true,
-                boundaryClass: "col-12",
+                boundaryClass: "col-4",
                 disabled: true
             })
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.eMandateLink",
-                label: "EMandate Link",
+                dataSelectorKey: "taskInput.eMandateId",
+                label: "EMandate Id",
                 mandatory: true,
-                boundaryClass: "col-6",
+                boundaryClass: "col-4",
+                disabled: true
             })
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.eMandateId",
-                label: "EMandate Id",
+                dataSelectorKey: "taskInput.eMandateLink",
+                label: "EMandateLink Id",
                 mandatory: true,
-                boundaryClass: "col-6",
+                boundaryClass: "col-4",
+                disabled: true
             })
         ).addAction(
             new FBtnMDP({
@@ -51,7 +55,7 @@ export default class CEMTStepFFormMDP extends FFormMDP {
                 onClick: this.validateAndMarkComplete(),
                 btnType: BtnType.FILLED
             })
-        );
+        );;
     }
 
     getMyRef(): any {

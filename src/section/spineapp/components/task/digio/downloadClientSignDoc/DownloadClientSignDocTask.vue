@@ -22,6 +22,7 @@ import moment from "moment";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import DCSDTFStepperMDP from "./DCSDTFStepperMDP";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -115,9 +116,9 @@ export default class DownloadClientSignDocTask
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      fileId: this.$route.params.fileId,
     });
   }
 }

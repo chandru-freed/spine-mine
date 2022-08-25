@@ -2,6 +2,7 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import MDP from "@/components/generic/MDP";
+import FNumberFieldMDP from "../../form/field/FNumberFieldMDP";
 
 export default class FEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -25,7 +26,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
       })
     )
       .addField(
-        new FTextFieldMDP({
+        new FNumberFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "creditorBalance",
           label: "Creditor Balance",

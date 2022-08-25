@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <h4>ClientInfoVerificationTask</h4> -->
-    <!-- {{taskFormData}} -->
-    <!-- Root Data : {{ taskFormData }} -->
-
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -13,7 +9,6 @@
     ></component>
   </div>
 </template>
-
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
@@ -24,10 +19,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import CIVTFStepperMDP from "./CIVTFStepperMDP";
+import UUSDTFStepperMDP from "./UUSDTFStepperMDP";
+import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
 @Component({
   components: {
@@ -35,7 +30,7 @@ import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
     FBtn,
   },
 })
-export default class ClientInfoVerificationTask
+export default class UploadUnSignedDocTask
   extends ModelVue
   implements GenericTaskIntf
 {
@@ -43,6 +38,16 @@ export default class ClientInfoVerificationTask
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
+
+  get taskDisabled(): boolean {
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
+  }
+
+  //METADATA
+  get stepperMetaData() {
+    return new UUSDTFStepperMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
   // DATA
 
@@ -78,13 +83,9 @@ export default class ClientInfoVerificationTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = { verified: false }; // Initialize Task Output
+  taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.verified) {
-      this.taskFormOutputLocal.verified = this.taskDetailsOutput.verified;
-    }
-
     return this.taskFormOutputLocal;
   }
 
@@ -95,18 +96,6 @@ export default class ClientInfoVerificationTask
 
   //DATA
 
-  //METADATA
-  get stepperMetaData() {
-    return new CIVTFStepperMDP({ taskRoot: this }).getMetaData();
-  }
-  //METADATA
-  get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
-  }
-
-  //DATA
-
-  //ACTION
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,

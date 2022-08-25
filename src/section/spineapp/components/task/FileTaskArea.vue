@@ -45,12 +45,13 @@ import * as Action from "@/../src-gen/action";
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfo/CollectClientInfoTask.vue";
 import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
 import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/clientInfoVerification/ClientInfoVerificationTask.vue"
-import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/eMandateFailed/EMandateFailedTask.vue"
+import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/eMandateFailed/EMandateFailedTask.vue";
 import SignServiceAgreementFailedTask from "@/section/spineapp/components/task/enrollment/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
 import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue"
 import DownloadUnSignedDocTask from "@/section/spineapp/components/task/digio/downloadUnSignedDoc/DownloadUnSignedDocTask.vue"
 import GenerateSSADocTask from "@/section/spineapp/components/task/digio/generateSSADoc/GenerateSSADocTask.vue";
 import UpdateClientSignStatusTask from "@/section/spineapp/components/task/digio/updateClientSignStatus/UpdateClientSignStatusTask.vue";
+import UploadUnSignedDocTask from "@/section/spineapp/components/task/digio/uploadUnSignedDoc/UploadUnSignedDocTask.vue";
 import * as RemoteApiPoint from "@/remote-api-point";
 import WaitForClientSignTask from "@/section/spineapp/components/task/digio/waitForClientSign/WaitForClientSignTask.vue"
 import UploadClientSignedDocTask from "@/section/spineapp/components/task/digio/uploadClientSignedDoc/UploadClientSignedDocTask.vue"
@@ -58,6 +59,7 @@ import SignByFreedTask from "@/section/spineapp/components/task/digio/signByFree
 import DownloadClientSignDocTask from "./digio/downloadClientSignDoc/DownloadClientSignDocTask.vue";
 import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSignedDocTask.vue";
 import ClientSignExpiredTask from "./digio/clientSignExpired/ClientSignExpiredTask.vue";
+import Helper from "../../util/Helper";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -74,7 +76,8 @@ import ClientSignExpiredTask from "./digio/clientSignExpired/ClientSignExpiredTa
     UploadFreedSignedDocTask,
     UploadClientSignedDocTask,
     SignByFreedTask,
-    ClientSignExpiredTask
+    ClientSignExpiredTask,
+    UploadUnSignedDocTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -101,7 +104,8 @@ export default class FileTaskArea extends Vue {
     ["UploadFreedSignedDoc", "UploadFreedSignedDocTask"],
     ["UploadClientSignedDoc", "UploadClientSignedDocTask"],
     ["SignByFreed", "SignByFreedTask"],
-    ["ClientSignExpired", "ClientSignExpiredTask"]
+    ["ClientSignExpired", "ClientSignExpiredTask"],
+    ["UploadUnSignedDoc", "UploadUnSignedDocTask"],
   ]);
 
   taskId = this.$route.params.taskId;
@@ -185,9 +189,9 @@ export default class FileTaskArea extends Vue {
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      fileId: this.$route.params.fileId,
     });
   }
 

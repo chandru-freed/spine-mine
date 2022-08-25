@@ -23,6 +23,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import UCSSTFStepperMDP from "./UCSSTFStepperMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import Helper from "@/section/spineapp/util/Helper";
 @Component({
   components: {
     FStepper,
@@ -113,9 +114,9 @@ export default class UpdateClientSignStatusTask
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      fileId: this.$route.params.fileId,
     });
   }
 }

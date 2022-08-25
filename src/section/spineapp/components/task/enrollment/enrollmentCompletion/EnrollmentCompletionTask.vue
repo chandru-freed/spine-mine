@@ -25,6 +25,7 @@ import moment from "moment";
 import ECTFStepperMDP from "./ECTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import Helper from "@/section/spineapp/util/Helper";
 @Component({
   components: {
     FStepper,
@@ -108,9 +109,9 @@ export default class EnrollmentCompletionTask
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      fileId: this.$route.params.fileId,
     });
   }
 }

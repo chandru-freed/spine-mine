@@ -12,7 +12,6 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
     constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
         super({
             myRefName: "signServiceAgreementFailedFormRef",
-            // dataSelectorKey: "taskOutput.clientInfo",
             disabled: taskRoot.taskDisabled,
         });
         this.taskRoot = taskRoot;

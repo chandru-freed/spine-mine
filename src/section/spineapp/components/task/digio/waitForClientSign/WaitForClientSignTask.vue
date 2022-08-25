@@ -23,6 +23,7 @@ import moment from "moment";
 import Task from "@/section/spineapp/util/Task";
 import WFCSTFStepperMDP from "./WFCSTFStepperMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -111,9 +112,9 @@ export default class WaitForClientSignTask
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      fileId: this.$route.params.fileId,
     });
   }
 }

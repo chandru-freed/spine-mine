@@ -53,7 +53,7 @@
             <v-toolbar flat>
               <v-toolbar-title>Creditors</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
-              <v-chip label outlined color="primary">Total Debt - ₹{{totalDebtAmount}}</v-chip>
+              <v-chip label outlined color="primary">Total Debt - ₹{{totalDebtAmount()}}</v-chip>
               <v-spacer></v-spacer>
               <v-btn
                 :disabled="disabled"
@@ -186,7 +186,7 @@ export default class FCreditor extends ModelVue {
     return this.modelValue.creditorList;
   }
 
-  get totalDebtAmount() {
+  totalDebtAmount() {
     const totalDebtAmount = this.modelValue.creditorList.map((creditor:any) => creditor.creditorBalance).reduce((accumulator: number, objValue: any) => {
         return accumulator + objValue;
       }, 0);

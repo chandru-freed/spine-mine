@@ -123,6 +123,10 @@ export default class CollectClientInfoTask
       this.taskFormOutputLocal.fileDocumentList =
         this.taskDetailsOutput.fileDocumentList;
     }
+    if (this.taskDetailsOutput.needVerification) {
+      this.taskFormOutputLocal.needVerification =
+        this.taskDetailsOutput.needVerification;
+    }
     return this.taskFormOutputLocal;
   }
 

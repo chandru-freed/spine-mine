@@ -1,17 +1,16 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
-import CEMTStepFFormMDP from "./CEMTStepFFormMDP";
+import SEMLTStepFFormMDP from "./SEMLTStepFFormMDP";
 
-export default class CEMTFStepperMDP extends FStepperMDP {
+export default class SEMLTFStepperMDP extends FStepperMDP {
     taskRoot: GenericTaskIntf;
     parent: any;
-
     constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
-        super({ myRefName: "createEMandateStepperRef" });
+        super({ myRefName: "sendEMandateLinkStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;
 
-        this.addStep({ name: "Create EMandate", stepContent: new CEMTStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
+        this.addStep({ name: "Send EMandate Link", stepContent: new SEMLTStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
     }
 
     getMyRef() {

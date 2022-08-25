@@ -151,5 +151,9 @@ export default class FDocument extends ModelVue {
     this.showDeletePopup();
     console.log(this.deleteDocumentDialog);
   }
+
+  uploadDocumentForFile(fileId: string, file: any) {
+
+  }
 }
 </script>

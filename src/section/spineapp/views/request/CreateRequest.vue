@@ -38,6 +38,7 @@ import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FForm from "@/components/generic/form/FForm.vue";
 import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
+import Flow from "@/section/spineapp/util/Flow"
 
 @Component({
   components: {
@@ -57,6 +58,16 @@ export default class CreateRequest extends Vue {
         teamCode: "enrollment",
       },
     },
+
+    {
+      key: "CHPP",
+      value: {
+        fqFlowName: "DspFlow::CHPP",
+        netName: "Default",
+        priority: 1,
+        teamCode: "chpp",
+      },
+    },
   ];
 
   initDocumentData: any = {}
@@ -71,6 +82,11 @@ export default class CreateRequest extends Vue {
         taskRoot: this,
         parent: this,
       }).getMetaData(),
+
+      "DspFlow::CHPP:Default": new EnrollmentFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
     };
   }
 
@@ -80,21 +96,12 @@ export default class CreateRequest extends Vue {
   }
 
   createFlow() {
-    console.log("createFlow is being called");
-    const input = ServerData.FlowWebWriter.Create$Input.fromJson(
-      this.createRequestFormData
-    );
-    Action.Spine.Create.execute(
-      input,
-      (output) => {
-        // console.log(output);
-        this.gotoFile(this.initDocumentData.fileId)
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.ValeyApi
-    );
+    Flow.Action.createFlow({
+      createRequestFormData: this.createRequestFormData,
+      fileId: this.initDocumentData.fileId,
+      router:this.$router
+    });
+ 
   }
 
   gotoFile(fileId: string) {

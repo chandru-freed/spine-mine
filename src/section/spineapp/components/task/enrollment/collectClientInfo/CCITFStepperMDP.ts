@@ -7,6 +7,7 @@ import FBudgetMDP from "@/components/generic/file/budget/FBudgetMDP";
 import FBankFFormMDP from "@/components/generic/file/FBankFFormMDP";
 import FDocumentMDP from "@/components/generic/file/documentUpload/FDocumentMDP";
 import FPaymentPlanMDP from "@/components/generic/file/paymentPlan/FPaymentPlanMDP";
+import CCITUploadStepFDocumentMDP from "./step6/CCITUploadStepFDocumentMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: CollectClientInfoTaskIntf;
@@ -68,9 +69,9 @@ export default class CCITFStepperMDP extends FStepperMDP {
     })
     .addStep({
       name: "Document",
-      stepContent: new FDocumentMDP({
+      stepContent: new CCITUploadStepFDocumentMDP({
         taskRoot: this.taskRoot,
-        parent: this,
+        parent: this
       }),
     })
     .addStep({

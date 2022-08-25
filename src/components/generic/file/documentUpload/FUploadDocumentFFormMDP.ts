@@ -30,7 +30,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "document",
         label: "Document",
-        mandatory: true,
+        mandatory: false,
         boundaryClass: "col-8"
       })
     ).addAction(new FBtnMDP({
@@ -50,7 +50,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
   uploadDocument() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.parent.getMyRef()[0].addCreditorData();
+        this.parent.getMyRef()[0].uploadDocumentForFile();
       });
     }
   }

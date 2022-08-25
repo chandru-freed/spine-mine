@@ -60,6 +60,7 @@ import DownloadClientSignDocTask from "./digio/downloadClientSignDoc/DownloadCli
 import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSignedDocTask.vue";
 import ClientSignExpiredTask from "./digio/clientSignExpired/ClientSignExpiredTask.vue";
 import CreateEMandateTask from "./eMandate/createEMandate/CreateEMandateTask.vue";
+import CHPPTask from "@/section/spineapp/components/task/chpp/chpp/CHPPTask.vue";
 import Helper from "../../util/Helper";
 @Component({
   components: {
@@ -80,6 +81,7 @@ import Helper from "../../util/Helper";
     ClientSignExpiredTask,
     CreateEMandateTask,
     UploadUnSignedDocTask,
+    CHPPTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -109,6 +111,8 @@ export default class FileTaskArea extends Vue {
     ["ClientSignExpired", "ClientSignExpiredTask"],
     ["CreateEMandate", "CreateEMandateTask"],
     ["UploadUnSignedDoc", "UploadUnSignedDocTask"],
+    ["CHPP", "CHPPTask"],
+    
   ]);
 
   taskId = this.$route.params.taskId;

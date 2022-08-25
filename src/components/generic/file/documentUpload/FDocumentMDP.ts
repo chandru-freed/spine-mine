@@ -14,36 +14,18 @@ export default class FDocumentMDP implements MDP {
   actionList: FBtnMDP[] = [];
   disabled: boolean;
 
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: any;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey: string; disabled: boolean }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
-    this.myRefName = "documentListRef";
-    this.dataSelectorKey = "taskOutput.documentList";
-    this.disabled = this.taskRoot.taskDisabled;
+    this.myRefName = myRefName;
+    this.dataSelectorKey = dataSelectorKey;
+    this.disabled = disabled;
 
     this.uploadDocumentForm = new CCITAddCreditorFFormMDP({
       taskRoot: this.taskRoot,
       parent: this,
     });
-
-    this.addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-      })
-    );
-  }
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
+    
   }
 
   addAction(newAction: FBtnMDP) {
@@ -64,9 +46,5 @@ export default class FDocumentMDP implements MDP {
         disabled: this.disabled,
       },
     };
-  }
-
-  getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName];
   }
 }

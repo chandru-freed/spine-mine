@@ -7,10 +7,10 @@ export default class SEMLTFStepperMDP extends FStepperMDP {
     parent: any;
     constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: "sendEMandateLinkStepperRef" });
-        this.taskRoot = this.taskRoot;
+        this.taskRoot = taskRoot;
         this.parent = taskRoot;
 
-        this.addStep({ name: "Send EMandate Link Stepper", stepContent: new SEMLTStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
+        this.addStep({ name: "Send EMandate Link", stepContent: new SEMLTStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
     }
 
     getMyRef() {

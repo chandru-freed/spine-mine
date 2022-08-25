@@ -79,14 +79,9 @@ export default class SendEMandateLinkTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {};
+  taskFormOutputLocal: any = {}; // Initialization
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.clientSignedFilePath) {
-      this.taskFormOutputLocal.clientSignedFilePath =
-        this.taskDetailsOutput.clientSignedFilePath;
-    }
-
     return this.taskFormOutputLocal;
   }
 

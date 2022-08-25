@@ -8,7 +8,7 @@ export default class CEMTFStepperMDP extends FStepperMDP {
 
     constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
         super({ myRefName: "createEMandateStepperRef" });
-        this.taskRoot = this.taskRoot;
+        this.taskRoot = taskRoot;
         this.parent = taskRoot;
 
         this.addStep({ name: "Create EMandate", stepContent: new CEMTStepFFormMDP({ taskRoot: taskRoot, parent: this }) })

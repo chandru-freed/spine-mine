@@ -61,6 +61,7 @@ import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSi
 import ClientSignExpiredTask from "./digio/clientSignExpired/ClientSignExpiredTask.vue";
 import CreateEMandateTask from "./eMandate/createEMandate/CreateEMandateTask.vue";
 import Helper from "../../util/Helper";
+import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -80,6 +81,7 @@ import Helper from "../../util/Helper";
     ClientSignExpiredTask,
     CreateEMandateTask,
     UploadUnSignedDocTask,
+    SendEMandateLinkTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -109,6 +111,7 @@ export default class FileTaskArea extends Vue {
     ["ClientSignExpired", "ClientSignExpiredTask"],
     ["CreateEMandate", "CreateEMandateTask"],
     ["UploadUnSignedDoc", "UploadUnSignedDocTask"],
+    ["SendEMandateLink", "SendEMandateLinkTask"]
   ]);
 
   taskId = this.$route.params.taskId;

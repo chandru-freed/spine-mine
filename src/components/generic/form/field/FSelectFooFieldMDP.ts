@@ -1,7 +1,7 @@
 import FFieldMDP from "./FFieldMDP";
 import { FFormChildMDP } from "./../FFormMDP";
 
-export default class FSelectFieldMDP implements FFieldMDP {
+export default class FSelectFooFieldMDP implements FFieldMDP {
   componentName = "FSelectFooField";
   dataSelectorKey: string;
   label: string;
@@ -15,7 +15,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
   returnObject: boolean;
   itemText: string|undefined;
   itemValue: string|undefined;
-
+  onSelect?: () => void;
   constructor({
     parentMDP,
     dataSelectorKey,
@@ -82,7 +82,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
         disabled: this.disabled,
         returnObject: this.returnObject,
         itemValue: this.itemValue,
-        itemText: this.itemText,
+        itemText: this.itemText
       },
     };
   }

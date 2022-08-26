@@ -1,6 +1,7 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
-import NMSFCallStepMDP from "./NMSFCallStepMDP";
+import NMSFTFFormMDP from "./NMSFTFFormMDP";
+
 
 export default class NMSFFStepperMDP extends FStepperMDP {
     taskRoot: ManualTaskIntf;
@@ -10,7 +11,7 @@ export default class NMSFFStepperMDP extends FStepperMDP {
         this.taskRoot = taskRoot;
         this.parent = taskRoot;
 
-        this.addStep({ name: "Call", stepContent: new NMSFCallStepMDP({ taskRoot: taskRoot, parent: this }) })
+        this.addStep({ name: "Call", stepContent: new NMSFTFFormMDP({ taskRoot: taskRoot, parent: this }) })
     }
 
     getMyRef() {

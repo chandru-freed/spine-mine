@@ -58,7 +58,7 @@ import FSwitch from "./field/FSwitch.vue"
 import FPasswordField from "./field/FPasswordField.vue"
 import FCurrencyField from "./field/FCurrencyField.vue"
 import FPhoneField from "./field/FPhoneField.vue"
-
+import FSelectFooField from "./field/FSelectFooField.vue"
 
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -79,7 +79,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FSwitch,
     FPasswordField,
     FCurrencyField,
-    FPhoneField
+    FPhoneField,
+    FSelectFooField
   },
 })
 export default class FForm extends ModelVue {

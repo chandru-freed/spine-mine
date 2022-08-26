@@ -4,29 +4,28 @@
     <!-- Root Data : {{ taskFormData }} -->
 
     <component
-              :ref="stepperMetaData.myRefName"
-              :is="stepperMetaData.componentName"
-              :value="selectModel(taskFormData, undefined)"
-              @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
-              v-bind="stepperMetaData.props"
-            ></component>
+      :ref="stepperMetaData.myRefName"
+      :is="stepperMetaData.componentName"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+      v-bind="stepperMetaData.props"
+    ></component>
   </div>
 </template>
        <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
 import FStepper from "@/components/generic/FStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import moment from "moment";
 import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
 import NMSFFStepperMDP from "./NMSFFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
+import ReceivePaymentFFormMDP from "./nMSFForms/ReceivePaymentFFormMDP";
+import { NsfMSFOptions } from "./NMSFTFFormMDP";
 
 @Component({
   components: {
@@ -46,7 +45,9 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   }
   //METADATA
 
-
+  selectedNMSFTaskOption() {
+    return this.taskFormData.taskOutput.selectedNMSFTaskOption;
+  }
 
   // DATA
   get taskDetailsOutput() {
@@ -84,15 +85,6 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
 
   get taskFormOutput() {
-    // if (
-    //   this.taskDetailsOutput.eMandateLink &&
-    //   this.taskDetailsOutput.eMandateId
-    // ) {
-    //   this.taskFormOutputLocal.eMandateLink =
-    //     this.taskDetailsOutput.eMandateLink;
-    //   this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
-    // }
-
     return this.taskFormOutputLocal;
   }
 
@@ -103,11 +95,9 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
 
   //DATA
 
-
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
-
 
   //ACTION
   saveAndMarkCompleteTask() {

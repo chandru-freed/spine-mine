@@ -54,7 +54,7 @@ import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
 import FBudget from "@/components/generic/file/budget/FBudget.vue";
 import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue";
 import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
-import NMSFCallStep from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NMSFCallStep.vue";
+
 @Component({
   components: {
     FForm,
@@ -62,7 +62,6 @@ import NMSFCallStep from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NMSFC
     FBudget,
     FPaymentPlan,
     FDocument,
-    NMSFCallStep
   },
 })
 export default class FStepper extends ModelVue {

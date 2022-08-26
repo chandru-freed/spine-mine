@@ -32,19 +32,9 @@ export default class FCreditorMDP implements MDP {
       parent: this,
     });
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-      })
-    );
+    
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
 
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);
@@ -67,7 +57,4 @@ export default class FCreditorMDP implements MDP {
     };
   }
 
-  getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName];
-  }
 }

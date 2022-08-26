@@ -27,7 +27,7 @@ export default class FPaymentPlanMDP implements MDP {
     taskRoot: any;
     parent: any;
     myRefName: string;
-    dataSelectorKey: string;
+    dataSelectorKey?: string;
     disabled: boolean
   }) {
     this.taskRoot = taskRoot;
@@ -38,28 +38,16 @@ export default class FPaymentPlanMDP implements MDP {
 
     this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this })
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-      })
-    );
+    
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
+  
 
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);
     return this;
   }
 
-  getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName][0]
-  }
 
   getMetaData(): object {
     return {

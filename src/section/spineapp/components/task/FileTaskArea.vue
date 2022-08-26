@@ -27,10 +27,7 @@
       >
     </v-card-actions>
     <v-card-text class="pa-0">
-      <component
-        v-if="!loading"
-        :is="selectedComponent"
-      ></component>
+      <component v-if="!loading" :is="selectedComponent"></component>
     </v-card-text>
   </v-card>
 </template>
@@ -44,28 +41,36 @@ import * as Action from "@/../src-gen/action";
 
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfo/CollectClientInfoTask.vue";
 import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
-import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/clientInfoVerification/ClientInfoVerificationTask.vue"
+import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/clientInfoVerification/ClientInfoVerificationTask.vue";
 import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/eMandateFailed/EMandateFailedTask.vue";
 import SignServiceAgreementFailedTask from "@/section/spineapp/components/task/enrollment/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
-import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue"
-import DownloadUnSignedDocTask from "@/section/spineapp/components/task/digio/downloadUnSignedDoc/DownloadUnSignedDocTask.vue"
+import EnrollmentCompletionTask from "@/section/spineapp/components/task/enrollment/enrollmentCompletion/EnrollmentCompletionTask.vue";
+import DownloadUnSignedDocTask from "@/section/spineapp/components/task/digio/downloadUnSignedDoc/DownloadUnSignedDocTask.vue";
 import GenerateSSADocTask from "@/section/spineapp/components/task/digio/generateSSADoc/GenerateSSADocTask.vue";
 import UpdateClientSignStatusTask from "@/section/spineapp/components/task/digio/updateClientSignStatus/UpdateClientSignStatusTask.vue";
 import UploadUnSignedDocTask from "@/section/spineapp/components/task/digio/uploadUnSignedDoc/UploadUnSignedDocTask.vue";
 import * as RemoteApiPoint from "@/remote-api-point";
-import WaitForClientSignTask from "@/section/spineapp/components/task/digio/waitForClientSign/WaitForClientSignTask.vue"
-import UploadClientSignedDocTask from "@/section/spineapp/components/task/digio/uploadClientSignedDoc/UploadClientSignedDocTask.vue"
+import WaitForClientSignTask from "@/section/spineapp/components/task/digio/waitForClientSign/WaitForClientSignTask.vue";
+import UploadClientSignedDocTask from "@/section/spineapp/components/task/digio/uploadClientSignedDoc/UploadClientSignedDocTask.vue";
 import SignByFreedTask from "@/section/spineapp/components/task/digio/signByFreed/SignByFreedTask.vue";
 import DownloadClientSignDocTask from "./digio/downloadClientSignDoc/DownloadClientSignDocTask.vue";
 import UploadFreedSignedDocTask from "./digio/uploadFreedSignedDoc/UploadFreedSignedDocTask.vue";
 import ClientSignExpiredTask from "./digio/clientSignExpired/ClientSignExpiredTask.vue";
 import CreateEMandateTask from "./eMandate/createEMandate/CreateEMandateTask.vue";
 import CHPPTask from "@/section/spineapp/components/task/chpp/chpp/CHPPTask.vue";
-import WaitForEMandateTask from "./eMandate/waitForEMandate/WaitForEMandateTask.vue"
+import WaitForEMandateTask from "./eMandate/waitForEMandate/WaitForEMandateTask.vue";
 import Helper from "../../util/Helper";
 import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
-import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatusTask.vue';
+import GetEMandateStatusTask from "./eMandate/getEMandateStatus/GetEMandateStatusTask.vue";
 import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFTask.vue";
+import GenerateLinkTask from "@/section/spineapp/components/task/manualPayment/generateLink/GenerateLinkTask.vue";
+import SendLinkTask from "@/section/spineapp/components/task/manualPayment/sendLink/SendLinkTask.vue";
+import NsfMSFCompletionTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFCompletion/NsfMSFCompletionTask.vue";
+import NsfMSFSystemDeferredTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFSystemDeferred/NsfMSFSystemDeferredTask.vue";
+import NsfMSFClientDeferredTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFClientDeferred/NsfMSFClientDeferredTask.vue";
+import PaymentReceivedConfirmationTask from '@/section/spineapp/components/task/manualPayment/paymentReceivedConfirmation/PaymentReceivedConfirmationTask.vue'
+import CheckManualPaymentReceivedTask from "@/section/spineapp/components/task/manualPayment/checkManualPaymentReceived/CheckManualPaymentReceivedTask.vue";
+  
 @Component({
   components: {
     CollectClientInfoTask,
@@ -89,7 +94,14 @@ import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFT
     WaitForEMandateTask,
     SendEMandateLinkTask,
     GetEMandateStatusTask,
-    NsfMSFTask
+    NsfMSFTask,
+    GenerateLinkTask,
+    SendLinkTask,
+    NsfMSFCompletionTask,
+    NsfMSFSystemDeferredTask,
+    NsfMSFClientDeferredTask,
+    PaymentReceivedConfirmationTask,
+    CheckManualPaymentReceivedTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -98,8 +110,7 @@ export default class FileTaskArea extends Vue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  loading = true
-
+  loading = true;
 
   TASK_COMPONENT_MAP = new Map([
     ["CollectClientInfo", "CollectClientInfoTask"],
@@ -124,13 +135,18 @@ export default class FileTaskArea extends Vue {
     ["SendEMandateLink", "SendEMandateLinkTask"],
     ["GetEMandateStatus", "GetEMandateStatusTask"],
     ["NsfMSF", "NsfMSFTask"],
-    
+    ["GenerateLink", "GenerateLinkTask"],
+    ["SendLink", "SendLinkTask"],
+    ["NsfMSFCompletion", "NsfMSFCompletionTask"],
+    ["NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
+    ["NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
+    ["PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
+    ["CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"]
   ]);
 
   taskId = this.$route.params.taskId;
 
   get selectedComponent() {
-
     return this.TASK_COMPONENT_MAP.get(this.taskDetails.taskName);
   }
 
@@ -155,15 +171,11 @@ export default class FileTaskArea extends Vue {
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
 
-    
-
     this.getExecutiveTaskDetailsWithDelay();
   }
 
-
   getExecutiveTaskDetailsWithDelay() {
-    setTimeout(
-    this.getExecutiveTaskDetails, 1000)
+    setTimeout(this.getExecutiveTaskDetails, 1000);
   }
 
   getExecutiveTaskDetails() {
@@ -171,13 +183,13 @@ export default class FileTaskArea extends Vue {
       this.$route.params.taskId,
       (output) => {
         // console.log(output);
-        this.loading = false
+        this.loading = false;
       },
       (err) => {
         // console.error(err);
       },
       RemoteApiPoint.BenchApi
-    )
+    );
   }
 
   startTask() {

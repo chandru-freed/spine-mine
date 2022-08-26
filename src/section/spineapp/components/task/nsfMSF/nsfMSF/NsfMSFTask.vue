@@ -24,8 +24,7 @@ import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
 import NMSFFStepperMDP from "./NMSFFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import ReceivePaymentFFormMDP from "./nMSFForms/ReceivePaymentFFormMDP";
-import { NsfMSFOptions } from "./NMSFTFFormMDP";
+import { NsfMSFOptions } from "./step1/NMSFTFFormMDP";
 
 @Component({
   components: {

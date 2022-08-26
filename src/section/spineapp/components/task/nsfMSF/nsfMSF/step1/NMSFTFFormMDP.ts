@@ -116,13 +116,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
           onClick: this.validateAndSubmit(),
         })
       )
-      .addAction(
-        new FBtnMDP({
-          label: "Mark Completed",
-          onClick: this.validateAndMarkComplete(),
-          btnType: BtnType.FILLED,
-        })
-      );
     
   }
 
@@ -147,17 +140,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
     };
   }
 
-  validateAndMarkComplete() {
-    return () => {
-      this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
-    };
-  }
-
-  saveAndMarkCompleteTask() {
-    return () => {
-      this.taskRoot.saveAndMarkCompleteTask();
-    };
-  }
 
   saveTask() {
     return () => {

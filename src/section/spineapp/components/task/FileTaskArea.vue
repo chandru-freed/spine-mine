@@ -65,6 +65,7 @@ import WaitForEMandateTask from "./eMandate/waitForEMandate/WaitForEMandateTask.
 import Helper from "../../util/Helper";
 import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
 import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatusTask.vue';
+import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -87,7 +88,8 @@ import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatu
     CHPPTask,
     WaitForEMandateTask,
     SendEMandateLinkTask,
-    GetEMandateStatusTask
+    GetEMandateStatusTask,
+    NsfMSFTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -121,6 +123,8 @@ export default class FileTaskArea extends Vue {
     ["WaitForEMandate", "WaitForEMandateTask"],
     ["SendEMandateLink", "SendEMandateLinkTask"],
     ["GetEMandateStatus", "GetEMandateStatusTask"],
+    ["NsfMSF", "NsfMSFTask"],
+    
   ]);
 
   taskId = this.$route.params.taskId;

@@ -7,4 +7,11 @@ export default class MyRouter {
       params: { fileId: fileId },
     });
   }
+
+  static gotoClient({router, clientId}: {router: VueRouter, clientId: string}) {
+    router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
+    });
+  }
 }

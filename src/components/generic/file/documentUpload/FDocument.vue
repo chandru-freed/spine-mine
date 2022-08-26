@@ -19,12 +19,7 @@
           outlined
           color="red"
         />
-        <FBtn
-          label="Delete"
-          :on-click="deleteDocument"
-          outlined
-          color="red"
-        />
+        <FBtn label="Delete" :on-click="deleteDocument" outlined color="red" />
       </div>
     </v-alert>
 
@@ -83,9 +78,16 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
+import ClientFile from "@/section/spineapp/util/ClientFile";
+
+import * as RemoteApiPoint from "@/remote-api-point";
 @Component({
   components: {
     FForm,
@@ -93,12 +95,12 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class FDocument extends ModelVue {
-  uploadDocumentForm = {};
+  uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
 
   selectedCreditorIndex: number;
   headers = [
     { text: "Doc Path", value: "documentPath" },
-    { text: "DocumentType", value: "documentType"},
+    { text: "DocumentType", value: "documentType" },
     { text: "Uploaded On", value: "uploadedTime" },
     { text: "Actions", value: "actions" },
   ];
@@ -133,12 +135,25 @@ export default class FDocument extends ModelVue {
     this.deleteDocumentDialog = false;
   }
   resetForms() {
-    this.uploadDocumentForm = {};
+    this.uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
   }
 
   uploadDocumentData() {
     (this.modelValue as any).push(this.uploadDocumentForm);
     this.closeAndClearAllForms();
+  }
+
+  uploadFileDocument() {
+    Action.ClientFile.UploadDocument.execute(
+      this.uploadDocumentForm,
+      (output) => {
+        console.log("document uploaded successfully");
+      },
+      (err) => {
+        console.error(err);
+      },
+      RemoteApiPoint.SpineApi
+    );
   }
 
   deleteDocument() {
@@ -152,8 +167,6 @@ export default class FDocument extends ModelVue {
     console.log(this.deleteDocumentDialog);
   }
 
-  uploadDocumentForFile(fileId: string, file: any) {
-
-  }
+  uploadDocumentForFile(fileId: string, file: any) {}
 }
 </script>

@@ -66,6 +66,7 @@ import Helper from "../../util/Helper";
 import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
 import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatusTask.vue';
 import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFTask.vue";
+import NsfMSFCompletionTask from '@/section/spineapp/components/task/nsfMSF/nsfMSFCompletion/NsfMSFCompletionTask.vue'
 @Component({
   components: {
     CollectClientInfoTask,
@@ -89,7 +90,8 @@ import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFT
     WaitForEMandateTask,
     SendEMandateLinkTask,
     GetEMandateStatusTask,
-    NsfMSFTask
+    NsfMSFTask,
+    NsfMSFCompletionTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -124,6 +126,7 @@ export default class FileTaskArea extends Vue {
     ["SendEMandateLink", "SendEMandateLinkTask"],
     ["GetEMandateStatus", "GetEMandateStatusTask"],
     ["NsfMSF", "NsfMSFTask"],
+    ["NsfMSFCompletion", "NsfMSFCompletionTask"]
     
   ]);
 

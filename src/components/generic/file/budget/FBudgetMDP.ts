@@ -27,19 +27,8 @@ export default class FBudgetMDP implements MDP {
 
     this.budgetForm = new CCITBudgetFFormMDP({ taskRoot: this.taskRoot, parent: this })
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-      })
-    );
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
 
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);

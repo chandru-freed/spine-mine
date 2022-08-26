@@ -10,9 +10,14 @@
           v-bind="clientDetailsFormMetaData.props"
         ></component>
       </v-card-text>
-      <v-card-actions>
-        <v-btn outlined @click="gotoFile(clientFileId)" v-for="clientFileId in clientDetails.clientFileIdList" :key="clientFileId">{{clientFileId}}</v-btn>
-      </v-card-actions>
+    </v-card>
+    <v-card flat outlined class="mt-3">
+      <v-card-text>
+        <v-btn color="secondary" outlined x-large @click="gotoFile(clientFileId)" v-for="clientFileId in clientDetails.clientFileIdList" :key="clientFileId">
+          <v-icon class="pr-4">mdi-file-account</v-icon>
+          {{clientFileId}}
+        </v-btn>
+      </v-card-text>
     </v-card>
   </div>
 </template>

@@ -1,5 +1,6 @@
 
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
@@ -17,32 +18,28 @@ export default class ReceivePaymentFFormMDP extends FFormMDP {
         this.parent = parent;
 
         this.addField(
-            new FTextFieldMDP({
+            new FNumberFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "fileId",
-                label: "File Id",
-                boundaryClass: "col-12",
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "fileId",
+                dataSelectorKey: "taskOutput.amountToBeReceived",
                 label: "Amount Received",
-                boundaryClass: "col-12",
+                boundaryClass: "col-6",
+                mandatory: true
             })
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "upiId",
+                dataSelectorKey: "taskOutput.upiId",
                 label: "UPI Id",
-                boundaryClass: "col-12",
+                boundaryClass: "col-6",
+                mandatory: true
             })
         ).addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "intent",
+                dataSelectorKey: "taskOutput.intent",
                 label: "Intent",
-                boundaryClass: "col-12",
+                boundaryClass: "col-6",
+                mandatory: true
             })
         )
     }

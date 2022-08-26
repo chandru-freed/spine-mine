@@ -6,7 +6,7 @@ export default class NMSFFStepperMDP extends FStepperMDP {
     taskRoot: ManualTaskIntf;
     parent: any;
     constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-        super({ myRefName: " nsfMSFStepperRef" });
+        super({ myRefName: "nsfMSFStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;
 

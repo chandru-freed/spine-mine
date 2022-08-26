@@ -127,12 +127,20 @@ export default class FPaymentPlan extends ModelVue {
     
   }
 
+  get taskOutput() {
+    return this.modelValue.taskOutput
+  }
+
   get paymentPlan() {
-    return this.modelValue.paymentPlan
+    return this.taskOutput.paymentPlan
   }
 
   get paymentSchedule() {
     return this.paymentPlan.paymentSchedule
+  }
+
+  get creditorInfo() {
+    return this.taskOutput.creditorInfo
   }
 
   get subscriptionFeeSchedule() {
@@ -144,7 +152,7 @@ export default class FPaymentPlan extends ModelVue {
   }
 
   get totalDebtAmount() {
-    return this.modelValue.creditorInfo.totalDebtAmount
+    return this.creditorInfo.totalDebtAmount
   }
 
   calculatePaymentSchedule() {

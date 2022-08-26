@@ -5,13 +5,13 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
 
-export default class SystemDeferredFFormMDP extends FFormMDP {
+export default class ClientDefferedFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: ManualTaskIntf;
     parent: any;
     constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
         super({
-            myRefName: "systemDeferredFormRef",
+            myRefName: "clientDeferredFormRef",
             disabled: taskRoot.taskDisabled,
         });
         this.taskRoot = taskRoot;
@@ -20,8 +20,8 @@ export default class SystemDeferredFFormMDP extends FFormMDP {
         this.addField(
             new FNumberFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.systemDefferedTime",
-                label: "System Deffered Time",
+                dataSelectorKey: "clientDefferedTime",
+                label: "Client Deffered Time",
                 mandatory: true,
                 boundaryClass: "col-6",
             })
@@ -32,27 +32,5 @@ export default class SystemDeferredFFormMDP extends FFormMDP {
         return this.parent.getMyRef().$refs[this.myRefName][0];
     }
 
-    validateAndSubmit() {
-        return () => {
-            this.getMyRef().submitForm(this.saveTask());
-        };
-    }
-
-    validateAndMarkComplete() {
-        return () => {
-            this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
-        };
-    }
-
-    saveAndMarkCompleteTask() {
-        return () => {
-            this.taskRoot.saveAndMarkCompleteTask();
-        };
-    }
-
-    saveTask() {
-        return () => {
-            this.taskRoot.saveTask();
-        };
-    }
+    
 }

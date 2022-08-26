@@ -10,6 +10,7 @@ export default class FEmailFieldMDP extends FTextFieldMDP {
     rules,
     mandatory,
     boundaryClass,
+    disabled = false
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -18,6 +19,7 @@ export default class FEmailFieldMDP extends FTextFieldMDP {
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string;
+    disabled?: boolean
   }) {
     super({
       parentMDP: parentMDP,
@@ -27,6 +29,7 @@ export default class FEmailFieldMDP extends FTextFieldMDP {
       rules: rules,
       mandatory: mandatory,
       boundaryClass: boundaryClass,
+      disabled: disabled
     });
   }
 

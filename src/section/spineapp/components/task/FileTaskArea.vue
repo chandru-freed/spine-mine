@@ -66,6 +66,9 @@ import Helper from "../../util/Helper";
 import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
 import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatusTask.vue';
 import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFTask.vue";
+import GenerateLinkTask from "@/section/spineapp/components/task/manualPayment/generateLink/GenerateLinkTask.vue"
+import SendLinkTask from "@/section/spineapp/components/task/manualPayment/sendLink/SendLinkTask.vue";
+
 @Component({
   components: {
     CollectClientInfoTask,
@@ -89,7 +92,9 @@ import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFT
     WaitForEMandateTask,
     SendEMandateLinkTask,
     GetEMandateStatusTask,
-    NsfMSFTask
+    NsfMSFTask,
+    GenerateLinkTask,
+    SendLinkTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -124,7 +129,8 @@ export default class FileTaskArea extends Vue {
     ["SendEMandateLink", "SendEMandateLinkTask"],
     ["GetEMandateStatus", "GetEMandateStatusTask"],
     ["NsfMSF", "NsfMSFTask"],
-    
+    ["GenerateLink", "GenerateLinkTask"],
+    ["SendLink", "SendLinkTask"],
   ]);
 
   taskId = this.$route.params.taskId;

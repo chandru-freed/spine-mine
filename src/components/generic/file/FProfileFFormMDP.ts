@@ -120,27 +120,8 @@ export default class FProfileFFormMDP extends FFormMDP {
         })
       )
 
-      .addAction(
-        new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
-        })
-      );
   }
 
-  getMyRef(): any {
-    return this.parent.getMyRef().$refs[this.myRefName][0];
-  }
-
-  validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.saveTask());
-    };
-  }
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
+  
+  
 }

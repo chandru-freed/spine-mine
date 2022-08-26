@@ -6,7 +6,7 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 
-export default class BankFFormMDP extends FFormMDP {
+export default class FBankFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
@@ -67,27 +67,7 @@ export default class BankFFormMDP extends FFormMDP {
         })
       )
 
-      .addAction(
-        new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
-        })
-      );
+     
   }
 
-  getMyRef(): any {
-    return this.parent.getMyRef().$refs[this.myRefName][0];
-  }
-
-  validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.saveTask());
-    };
-  }
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
 }

@@ -12,7 +12,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     super({
       myRefName: "paymentCalculatorFormRef",
       disabled: taskRoot.taskDisabled,
-      // dataSelectorKey: "ppCalculator"
+      dataSelectorKey: "taskOutput"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

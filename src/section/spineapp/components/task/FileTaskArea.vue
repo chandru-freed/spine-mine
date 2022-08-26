@@ -67,6 +67,8 @@ import SendEMandateLinkTask from "./eMandate/sendEMandateLink/SendEMandateLinkTa
 import GetEMandateStatusTask from './eMandate/getEMandateStatus/GetEMandateStatusTask.vue';
 import NsfMSFTask from "@/section/spineapp/components/task/nsfMSF/nsfMSF/NsfMSFTask.vue";
 import NsfMSFCompletionTask from '@/section/spineapp/components/task/nsfMSF/nsfMSFCompletion/NsfMSFCompletionTask.vue'
+import NsfMSFSystemDeferredTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFSystemDeferred/NsfMSFSystemDeferredTask.vue";
+import NsfMSFClientDeferredTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFClientDeferred/NsfMSFClientDeferredTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -91,7 +93,9 @@ import NsfMSFCompletionTask from '@/section/spineapp/components/task/nsfMSF/nsfM
     SendEMandateLinkTask,
     GetEMandateStatusTask,
     NsfMSFTask,
-    NsfMSFCompletionTask
+    NsfMSFCompletionTask,
+    NsfMSFSystemDeferredTask,
+    NsfMSFClientDeferredTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -126,8 +130,9 @@ export default class FileTaskArea extends Vue {
     ["SendEMandateLink", "SendEMandateLinkTask"],
     ["GetEMandateStatus", "GetEMandateStatusTask"],
     ["NsfMSF", "NsfMSFTask"],
-    ["NsfMSFCompletion", "NsfMSFCompletionTask"]
-    
+    ["NsfMSFCompletion", "NsfMSFCompletionTask"],
+    ["NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
+    ["NsfMSFClientDeferred", "NsfMSFClientDeferredTask"]    
   ]);
 
   taskId = this.$route.params.taskId;

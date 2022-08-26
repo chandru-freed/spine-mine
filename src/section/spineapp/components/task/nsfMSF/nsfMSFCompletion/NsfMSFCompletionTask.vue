@@ -81,11 +81,6 @@ export default class NsfMSFCompletionTask
   taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.clientSignedFilePath) {
-      this.taskFormOutputLocal.clientSignedFilePath =
-        this.taskDetailsOutput.clientSignedFilePath;
-    }
-
     return this.taskFormOutputLocal;
   }
 

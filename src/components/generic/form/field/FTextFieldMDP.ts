@@ -11,6 +11,7 @@ export default class FTextFieldMDP implements FFieldMDP {
   parentMDP: FFormChildMDP;
   boundaryClass: string;
   disabled: boolean;
+  condition: boolean;
   // defaultValue?: string;
 
   constructor({
@@ -22,6 +23,7 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
+    condition = true
     // defaultValue
   }: {
     parentMDP: FFormChildMDP;
@@ -32,6 +34,7 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
+    condition?: boolean
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -42,6 +45,7 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
+    this.condition = condition
     // this.defaultValue = defaultValue;
   }
 
@@ -60,6 +64,7 @@ export default class FTextFieldMDP implements FFieldMDP {
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
+      condition: this.condition,
       props: {
         id: this.dataSelectorKey,
         label: this.label,

@@ -25,6 +25,7 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
   }
 
   getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName];
+    console.log("CCITPaymentPlanStepFPaymentPlanMDP", this.parent.getMyRef().$refs[this.myRefName][0]);
+    return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 }

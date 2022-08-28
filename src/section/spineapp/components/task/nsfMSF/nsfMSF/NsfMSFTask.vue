@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h4>NsfMSFTask</h4>
-    <!-- Root Data : {{ taskFormData }} -->
+    Root Data : {{ taskFormData }}
 
     <component
       :ref="stepperMetaData.myRefName"
@@ -84,6 +83,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
 
   get taskFormOutput() {
+    this.taskFormOutputLocal = {...this.taskDetailsOutput, selectedNMSFTaskOption: this.selectedNMSFTaskOption}
     return this.taskFormOutputLocal;
   }
 
@@ -107,6 +107,8 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   }
 
   saveTask() {
+    this.taskFormOutput.manualPayment = (this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment")
+    this.taskFormOutput.answered = !(this.taskFormOutput.selectedNMSFTaskOption === "System Deferred")
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

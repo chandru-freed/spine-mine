@@ -33,7 +33,7 @@
         >
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title>Creditors</v-toolbar-title>
+              <v-toolbar-title>Document(s)</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-btn
@@ -167,6 +167,5 @@ export default class FDocument extends ModelVue {
     console.log(this.deleteDocumentDialog);
   }
 
-  uploadDocumentForFile(fileId: string, file: any) {}
 }
 </script>

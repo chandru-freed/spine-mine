@@ -6,7 +6,7 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
-import FTextareaMDP from "@/components/generic/form/field/FTextarea";
+import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 
 export default class CreateRequestFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();

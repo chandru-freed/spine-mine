@@ -77,6 +77,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
+    console.log(this.parent.getMyRef())
     return this.parent.getMyRef().$refs[this.myRefName]
   }
 

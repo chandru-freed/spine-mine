@@ -26,6 +26,6 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
   }
 
   getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName];
+    return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 }

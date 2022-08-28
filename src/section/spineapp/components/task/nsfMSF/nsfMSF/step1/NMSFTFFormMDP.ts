@@ -3,6 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFooFieldMDP from "@/components/generic/form/field/FSelectFooFieldMDP";
+import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 
@@ -41,7 +42,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
         dataSelectorKey: "taskOutput.clientDeferredTime",
         label: "Client Deferred Time",
         boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.ClientDeferred),
+        condition: !this.isDisabled(NsfMSFOptions.ClientDeferred),
         mandatory:true
       })
     ) 
@@ -51,26 +52,26 @@ export default class NMSFTFFormMDP extends FFormMDP {
         dataSelectorKey: "taskOutput.systemDeferredTime",
         label: "System Deferred Time",
         boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.SystemDeferred)
+        condition: !this.isDisabled(NsfMSFOptions.SystemDeferred)
       })
     )
-    .addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.manualPayment",
-        label: "Disposition",
-        boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
-      })
-    ) 
+    // .addField(
+    //   new FTextFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "taskOutput.manualPayment",
+    //     label: "Manual Payment",
+    //     boundaryClass: "col-4",
+    //     disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
+    //   })
+    // ) 
 
     .addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.amountToBeReceived",
-        label: "Disposition",
+        label: "Amount To Be Received",
         boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
+        condition: !this.isDisabled(NsfMSFOptions.ReceivePayment)
       })
     ) 
     .addField(
@@ -79,7 +80,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
         dataSelectorKey: "taskOutput.upiId",
         label: "UPI Id",
         boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
+        condition: !this.isDisabled(NsfMSFOptions.ReceivePayment)
       })
     ) 
     .addField(
@@ -88,16 +89,25 @@ export default class NMSFTFFormMDP extends FFormMDP {
         dataSelectorKey: "taskOutput.intent",
         label: "Intent",
         boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
+        condition: !this.isDisabled(NsfMSFOptions.ReceivePayment)
       })
     )
     .addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.disposition",
+        dataSelectorKey: "taskOutput.disposition.dispositionType",
         label: "Disposition",
         boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
+        condition: !this.isDisabled(NsfMSFOptions.SystemDeferred)
+      })
+    )
+    .addField(
+      new FTextareaMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.disposition.dispositionDescription",
+        label: "Disposition",
+        boundaryClass: "col-4",
+        condition: !this.isDisabled(NsfMSFOptions.SystemDeferred)
       })
     )
 
@@ -107,7 +117,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
         dataSelectorKey: "taskOutput.msfScheduledDraftDate",
         label: "Msf Scheduled Draft Date",
         boundaryClass: "col-4",
-        disabled: this.isDisabled(NsfMSFOptions.DraftRescheduled)
+        condition: !this.isDisabled(NsfMSFOptions.DraftRescheduled)
       })
     )
       .addAction(
@@ -127,6 +137,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
   }
 
   isDisabled(status: string) {
+    console.log(status, this.taskRoot.selectedNMSFTaskOption(), this.taskRoot.selectedNMSFTaskOption() !== status)
     return this.taskRoot.selectedNMSFTaskOption() !== status || this.taskRoot.selectedNMSFTaskOption()===''
   }
  
@@ -153,4 +164,6 @@ export enum NsfMSFOptions {
   SystemDeferred = "System Deferred",
   ReceivePayment = "Receive Payment",
   DraftRescheduled = "Draft Rescheduled",
+
+
 }

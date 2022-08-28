@@ -2,7 +2,7 @@
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import FTextareaMDP from "@/components/generic/form/field/FTextarea";
+import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 
 export default class AddressFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();

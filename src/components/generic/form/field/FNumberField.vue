@@ -11,7 +11,7 @@ import { VTextField } from "vuetify/lib/components";
   },
 })
 export default class FNumberField extends VTextField {
-  
+
   // MODEL VALUE - START
   @Prop()
   value: string;

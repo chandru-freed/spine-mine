@@ -44,19 +44,19 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    return this.parent.getMyRef()[0].$refs[this.myRefName]
+    return this.parent.getMyRef().$refs[this.myRefName]
   }
 
   uploadDocument() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.parent.getMyRef()[0].uploadDocumentForFile();
+        this.parent.getMyRef().uploadFileDocument();
       });
     }
   }
 
   closeAddForm() {
-    this.parent.getMyRef()[0].closeAndClearAllForms();
+    this.parent.getMyRef().closeAndClearAllForms();
   }
 
 }

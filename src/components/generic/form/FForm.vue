@@ -5,7 +5,7 @@
       class="d-flex flex-row align-start flex-wrap justify-start py-2"
     >
       <div
-        v-for="(fieldMetaData, indx) in fieldMetaDataList"
+        v-for="(fieldMetaData, indx) in fieldMetaDataListFiltered"
         :key="indx"
         :class="fieldMetaData.boundaryClass"
       >
@@ -107,6 +107,11 @@ export default class FForm extends ModelVue {
         console.log("Validation UN Successfull");
       }
     });
+  }
+
+
+  get fieldMetaDataListFiltered() {
+    return this.fieldMetaDataList.filter(fieldMetaData => (fieldMetaData.condition === undefined || fieldMetaData.condition === true ))
   }
 
 

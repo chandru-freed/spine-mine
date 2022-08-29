@@ -7,6 +7,7 @@ export default class UTPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP {
           parent: parent,
           myRefName: "paymentPlanRef",
           disabled: taskRoot.taskDisabled,
+          dataSelectorKey:"taskInput"
         });
 
     }

@@ -8,6 +8,7 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
       parent: parent,
       myRefName: "paymentPlanRef",
       disabled: taskRoot.taskDisabled,
+      dataSelectorKey: "taskOutput"
     });
 
     this.addAction(

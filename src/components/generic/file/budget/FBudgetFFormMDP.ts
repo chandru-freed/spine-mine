@@ -11,10 +11,10 @@ export default class FBudgetFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent , disabled}: { taskRoot: any; parent: any, disabled: boolean }) {
     super({
       myRefName: "budgetFormRef",
-      disabled: taskRoot.taskDisabled,
+      disabled: disabled,
       // dataSelectorKey: "budgetInfo"
     });
     this.taskRoot = taskRoot;

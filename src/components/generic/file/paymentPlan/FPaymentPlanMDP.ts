@@ -22,7 +22,7 @@ export default class FPaymentPlanMDP implements MDP {
     parent,
     myRefName,
     dataSelectorKey,
-    disabled 
+    disabled
   }: {
     taskRoot: any;
     parent: any;
@@ -36,12 +36,12 @@ export default class FPaymentPlanMDP implements MDP {
     this.dataSelectorKey = dataSelectorKey
     this.disabled = disabled
 
-    this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this })
+    this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: this.disabled })
 
-    
+
   }
 
-  
+
 
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);

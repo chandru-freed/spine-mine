@@ -8,10 +8,10 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
+  constructor({ taskRoot, parent, disabled }: { taskRoot: any; parent: any, disabled: boolean }) {
     super({
       myRefName: "paymentCalculatorFormRef",
-      disabled: taskRoot.taskDisabled,
+      disabled: disabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -89,6 +89,6 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     }
   }
 
-  
+
 
 }

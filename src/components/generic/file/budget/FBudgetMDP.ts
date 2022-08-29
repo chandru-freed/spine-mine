@@ -25,7 +25,7 @@ export default class FBudgetMDP implements MDP {
 
     this.disabled = disabled
 
-    this.budgetForm = new CCITBudgetFFormMDP({ taskRoot: this.taskRoot, parent: this })
+    this.budgetForm = new CCITBudgetFFormMDP({ taskRoot: this.taskRoot, parent: this,  disabled: disabled})
 
   }
 

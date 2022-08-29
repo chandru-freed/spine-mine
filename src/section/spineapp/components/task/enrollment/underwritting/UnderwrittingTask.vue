@@ -78,12 +78,17 @@ export default class UnderwrittingTask
   //FORM
 
   //Task Output
-  // taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); 
 
-  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); // Change This to underwriting output data
+  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); 
 
   get taskFormOutput() {
-    
+    if(this.taskDetailsOutput.underwrittingApproved)
+    {
+      this.taskFormOutputLocal.underwrittingApproved = this.taskDetailsOutput.underwrittingApproved
+    }
+    if(this.taskDetailsOutput.reasonForUnderwrittingDecline){
+      this.taskFormOutputLocal.reasonForUnderwrittingDecline = this.taskDetailsOutput.reasonForUnderwrittingDecline
+    }
     return this.taskFormOutputLocal;
   }
 

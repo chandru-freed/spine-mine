@@ -70,7 +70,8 @@ import NsfMSFSystemDeferredTask from "@/section/spineapp/components/task/nsfMSF/
 import NsfMSFClientDeferredTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFClientDeferred/NsfMSFClientDeferredTask.vue";
 import PaymentReceivedConfirmationTask from '@/section/spineapp/components/task/manualPayment/paymentReceivedConfirmation/PaymentReceivedConfirmationTask.vue'
 import CheckManualPaymentReceivedTask from "@/section/spineapp/components/task/manualPayment/checkManualPaymentReceived/CheckManualPaymentReceivedTask.vue";
-  
+import NsfMSFDraftRescheduledTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFDraftRescheduled/NsfMSFDraftRescheduledTask.vue";
+
 @Component({
   components: {
     CollectClientInfoTask,
@@ -102,6 +103,7 @@ import CheckManualPaymentReceivedTask from "@/section/spineapp/components/task/m
     NsfMSFClientDeferredTask,
     PaymentReceivedConfirmationTask,
     CheckManualPaymentReceivedTask,
+    NsfMSFDraftRescheduledTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -141,7 +143,8 @@ export default class FileTaskArea extends Vue {
     ["NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
     ["NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
     ["PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
-    ["CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"]
+    ["CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"],
+    ["NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
   ]);
 
   taskId = this.$route.params.taskId;

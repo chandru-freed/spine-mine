@@ -9,7 +9,7 @@
     ></component>
   </div>
 </template>
-<script lang="ts">
+       <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -20,7 +20,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
-import GLTFStepperMDP from "./GLTFStepperMDP";
+import NMSFDRTFStepperMDP from "./NMSFDRTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 
@@ -30,7 +30,7 @@ import Helper from "@/section/spineapp/util/Helper";
     FBtn,
   },
 })
-export default class GeneratePaymentTask
+export default class NsfMSFDraftRescheduledTask
   extends ModelVue
   implements SelfTaskIntf
 {
@@ -41,12 +41,11 @@ export default class GeneratePaymentTask
 
   //METADATA
   get stepperMetaData() {
-    return new GLTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new NMSFDRTFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
   // DATA
-
   get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
@@ -79,11 +78,12 @@ export default class GeneratePaymentTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.GenerateLinkTaskOutput(); // Initialize Task Output
+  taskFormOutputLocal: any = {}; // Initialization
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.upiLink) {
-      this.taskFormOutputLocal.upiLink = this.taskDetailsOutput.upiLink;
+    if (this.taskDetailsOutput.clientSignedFilePath) {
+      this.taskFormOutputLocal.clientSignedFilePath =
+        this.taskDetailsOutput.clientSignedFilePath;
     }
 
     return this.taskFormOutputLocal;
@@ -95,11 +95,12 @@ export default class GeneratePaymentTask
   //Task Output
 
   get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   //DATA
 
+  //ACTION
   rescueTask() {
     Task.Action.saveTask({
       taskId: this.taskId,

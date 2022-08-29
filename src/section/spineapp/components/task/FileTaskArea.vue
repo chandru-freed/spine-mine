@@ -40,7 +40,6 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfo/CollectClientInfoTask.vue";
-import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
 import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/clientInfoVerification/ClientInfoVerificationTask.vue";
 import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/eMandateFailed/EMandateFailedTask.vue";
 import SignServiceAgreementFailedTask from "@/section/spineapp/components/task/enrollment/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
@@ -68,15 +67,15 @@ import SendLinkTask from "@/section/spineapp/components/task/manualPayment/sendL
 import NsfMSFCompletionTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFCompletion/NsfMSFCompletionTask.vue";
 import NsfMSFSystemDeferredTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFSystemDeferred/NsfMSFSystemDeferredTask.vue";
 import NsfMSFClientDeferredTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFClientDeferred/NsfMSFClientDeferredTask.vue";
-import PaymentReceivedConfirmationTask from '@/section/spineapp/components/task/manualPayment/paymentReceivedConfirmation/PaymentReceivedConfirmationTask.vue'
+import PaymentReceivedConfirmationTask from "@/section/spineapp/components/task/manualPayment/paymentReceivedConfirmation/PaymentReceivedConfirmationTask.vue";
 import CheckManualPaymentReceivedTask from "@/section/spineapp/components/task/manualPayment/checkManualPaymentReceived/CheckManualPaymentReceivedTask.vue";
-  
+import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/underwritting/UnderwrittingTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
-    UnderwrittingTask,
     ClientInfoVerificationTask,
     EMandateFailedTask,
+    UnderwrittingTask,
     SignServiceAgreementFailedTask,
     EnrollmentCompletionTask,
     DownloadUnSignedDocTask,
@@ -141,7 +140,7 @@ export default class FileTaskArea extends Vue {
     ["NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
     ["NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
     ["PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
-    ["CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"]
+    ["CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"],
   ]);
 
   taskId = this.$route.params.taskId;

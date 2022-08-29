@@ -1,6 +1,8 @@
 <template>
   <div>
-    {{ taskFormData.taskOutput }}
+    <h4>UnderwrittingTask</h4>
+    Root Data : {{ taskFormData }}
+
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -10,7 +12,7 @@
     ></component>
   </div>
 </template>
-<script lang="ts">
+       <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -20,10 +22,9 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import UTFStepperMDP from "./UTFStepperMDP";
-import Task from "@/section/spineapp/util/Task";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
-import Helper from "@/section/spineapp/util/Helper";
+import Task from "@/section/spineapp/util/Task";
+import UTFStepperMDP from "./UTFStepperMDP";
 
 @Component({
   components: {
@@ -40,14 +41,11 @@ export default class UnderwrittingTask
 
   taskId = this.$route.params.taskId;
 
-  //METADATA
   get stepperMetaData() {
     return new UTFStepperMDP({ taskRoot: this }).getMetaData();
   }
-  //METADATA
 
   // DATA
-
   get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
@@ -80,13 +78,12 @@ export default class UnderwrittingTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); // Initialize Task Output
+  // taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); 
+
+  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); // Change This to underwriting output data
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.underwrittingApproved != null) {
-      this.taskFormOutputLocal.underwrittingApproved =
-        this.taskDetailsOutput.underwrittingApproved;
-    }
+    
     return this.taskFormOutputLocal;
   }
 
@@ -95,9 +92,8 @@ export default class UnderwrittingTask
   }
   //Task Output
 
-  //DATA
   get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   //DATA
@@ -118,12 +114,12 @@ export default class UnderwrittingTask
   }
 
   gotoFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      fileId: this.$route.params.fileId,
+    this.$router.push({
+      name: "Root.ClientFile.ClientFileDetails",
+      params: { fileId: this.$route.params.fileId },
     });
   }
 }
 </script>
 
-<style></style>
+ <style></style>

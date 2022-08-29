@@ -1,8 +1,5 @@
 <template>
   <div>
-    <h4>UnderwrittingTask</h4>
-    Root Data : {{ taskFormData }}
-
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"

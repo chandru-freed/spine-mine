@@ -31,116 +31,111 @@ export default class NMSFTFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.selectedNMSFTaskOption",
         label: "Select Option",
-        boundaryClass: "col-4",
+        boundaryClass: "col-12",
         items: Object.values(NsfMSFOptions),
         mandatory: true
       })
-    ) 
-    .addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.clientDeferredTime",
-        label: "Client Deferred Time",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.ClientDeferred),
-        mandatory:true
-      })
-    ) 
-    .addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.systemDeferredTime",
-        label: "System Deferred Time",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.SystemDeferred)
-      })
     )
-    // .addField(
-    //   new FTextFieldMDP({
-    //     parentMDP: this.childMDP,
-    //     dataSelectorKey: "taskOutput.manualPayment",
-    //     label: "Manual Payment",
-    //     boundaryClass: "col-4",
-    //     disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
-    //   })
-    // ) 
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.clientDeferredTime",
+          label: "Client Deferred Time",
+          boundaryClass: "col-4",
+          condition: this.isClientDeffered(),
+          mandatory: true
+        })
+      )
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.systemDeferredTime",
+          label: "System Deferred Time",
+          boundaryClass: "col-4",
+          condition: this.isSystemDeffered()
+        })
+      )
+      // .addField(
+      //   new FTextFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.manualPayment",
+      //     label: "Manual Payment",
+      //     boundaryClass: "col-4",
+      //     disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
+      //   })
+      // ) 
 
-    .addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.amountToBeReceived",
-        label: "Amount To Be Received",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.ReceivePayment)
-      })
-    ) 
-    .addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.upiId",
-        label: "UPI Id",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.ReceivePayment)
-      })
-    ) 
-    .addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.intent",
-        label: "Intent",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.ReceivePayment)
-      })
-    )
-    .addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.disposition.dispositionType",
-        label: "Disposition",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.SystemDeferred)
-      })
-    )
-    .addField(
-      new FTextareaMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.disposition.dispositionDescription",
-        label: "Disposition",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.SystemDeferred)
-      })
-    )
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.amountToBeReceived",
+          label: "Amount To Be Received",
+          boundaryClass: "col-4",
+          condition: this.isReceivePayment()
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.upiId",
+          label: "UPI Id",
+          boundaryClass: "col-4",
+          condition: this.isReceivePayment()
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.intent",
+          label: "Intent",
+          boundaryClass: "col-4",
+          condition: this.isReceivePayment()
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.disposition.dispositionType",
+          label: "Disposition",
+          boundaryClass: "col-4",
+          condition: this.isSystemDeffered()
+        })
+      )
+      .addField(
+        new FTextareaMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.disposition.dispositionDescription",
+          label: "Disposition",
+          boundaryClass: "col-4",
+          condition: this.isSystemDeffered()
+        })
+      )
 
-    .addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.msfScheduledDraftDate",
-        label: "Msf Scheduled Draft Date",
-        boundaryClass: "col-4",
-        condition: !this.isDisabled(NsfMSFOptions.DraftRescheduled)
-      })
-    )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.msfScheduledDraftDate",
+          label: "Msf Scheduled Draft Date",
+          boundaryClass: "col-4",
+          condition: this.isDraftRescheduled()
+        })
+      )
       .addAction(
         new FBtnMDP({
           label: "Save",
           onClick: this.validateAndSubmit(),
         })
       )
-    
+
   }
 
   getSelectedOption() {
     return () => {
-      this.selectedOption =  this.taskRoot.taskFormData.taskOutput.selectedNMSFTaskOption;
+      this.selectedOption = this.taskRoot.taskFormData.taskOutput.selectedNMSFTaskOption;
     }
-    
+
   }
 
-  isDisabled(status: string) {
-    console.log(status, this.taskRoot.selectedNMSFTaskOption(), this.taskRoot.selectedNMSFTaskOption() !== status)
-    return this.taskRoot.selectedNMSFTaskOption() !== status || this.taskRoot.selectedNMSFTaskOption()===''
-  }
- 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
@@ -156,6 +151,21 @@ export default class NMSFTFFormMDP extends FFormMDP {
     return () => {
       this.taskRoot.saveTask();
     };
+  }
+
+  isClientDeffered(): boolean {
+    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ClientDeferred
+  }
+
+  isSystemDeffered(): boolean {
+    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.SystemDeferred
+  }
+
+  isReceivePayment(): boolean {
+    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ReceivePayment
+  }
+  isDraftRescheduled(): boolean {
+    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.DraftRescheduled
   }
 }
 

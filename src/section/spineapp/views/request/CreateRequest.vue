@@ -39,7 +39,8 @@ import * as RemoteApiPoint from "@/remote-api-point";
 import FForm from "@/components/generic/form/FForm.vue";
 import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
 import NsfMSFFFormMDP from "./NsfMSFFFormMDP";
-import Flow from "@/section/spineapp/util/Flow"
+import Flow from "@/section/spineapp/util/Flow";
+import WelcomeCallFFormMDP from "./WelcomeCallFFormMDP";
 
 @Component({
   components: {
@@ -79,6 +80,16 @@ export default class CreateRequest extends Vue {
         teamCode: "nsfmsf",
       },
     },
+
+    {
+      key: "WelcomeCall",
+      value: {
+        fqFlowName: "DspFlow::WelcomeCall",
+        netName: "Default",
+        priority: 1,
+        teamCode: "welcomecall",
+      },
+    },
   ];
 
   initDocumentData: any = {}
@@ -103,6 +114,13 @@ export default class CreateRequest extends Vue {
         taskRoot: this,
         parent: this,
       }).getMetaData(),
+
+      "DspFlow::WelcomeCall:Default": new WelcomeCallFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+
+      
     };
   }
 

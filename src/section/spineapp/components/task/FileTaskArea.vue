@@ -73,6 +73,7 @@ import UnderwrittingTask from "@/section/spineapp/components/task/enrollment/und
 import NsfMSFDraftRescheduledTask from "@/section/spineapp/components/task/nsfMSF/nsfMSFDraftRescheduled/NsfMSFDraftRescheduledTask.vue";
 import SignServiceAgreementTask from "@/section/spineapp/components/task/enrollment/signServiceAgreement/SignServiceAgreementTask.vue";
 import EMandateTask from "@/section/spineapp/components/task/enrollment/eMandate/EMandateTask.vue";
+import ManageClientInfoTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfo/ManageClientInfoTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -106,7 +107,8 @@ import EMandateTask from "@/section/spineapp/components/task/enrollment/eMandate
     CheckManualPaymentReceivedTask,
     NsfMSFDraftRescheduledTask,
     SignServiceAgreementTask,
-    EMandateTask
+    EMandateTask,
+    ManageClientInfoTask,
     
   },
 })
@@ -150,7 +152,8 @@ export default class FileTaskArea extends Vue {
     ["CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"],
     ["NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
     ["SignServiceAgreement", "SignServiceAgreementTask"],
-    ["EMandate", "EMandateTask"]
+    ["EMandate", "EMandateTask"],
+    ["ManageClientInfo", "ManageClientInfoTask"],
   ]);
 
   taskId = this.$route.params.taskId;

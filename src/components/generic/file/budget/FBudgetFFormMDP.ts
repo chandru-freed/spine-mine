@@ -19,7 +19,6 @@ export default class FBudgetFFormMDP extends FFormMDP {
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
-
     this.addField(
       new FIncomeSourcesFBudgetMiniFormMDP({taskRoot: this.taskRoot, parent: this})
     )

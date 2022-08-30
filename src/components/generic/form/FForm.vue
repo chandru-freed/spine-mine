@@ -1,4 +1,5 @@
 <template>
+<div :class="boundaryClass" >
   <ValidationObserver :ref="myRefName" v-slot="{}">
     <v-form
       :disabled="disabled"
@@ -41,6 +42,7 @@
       </div>
     </div>
   </ValidationObserver>
+</div>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
@@ -59,7 +61,7 @@ import FPasswordField from "./field/FPasswordField.vue"
 import FCurrencyField from "./field/FCurrencyField.vue"
 import FPhoneField from "./field/FPhoneField.vue"
 import FSelectFooField from "./field/FSelectFooField.vue"
-
+import FAutoCompleteField from "./field/FAutoCompleteField.vue";
 
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
@@ -80,7 +82,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FPasswordField,
     FCurrencyField,
     FPhoneField,
-    FSelectFooField
+    FSelectFooField,
+    FAutoCompleteField
   },
 })
 export default class FForm extends ModelVue {
@@ -95,6 +98,10 @@ export default class FForm extends ModelVue {
 
   @Prop({ default: false })
   disabled: boolean;
+
+  @Prop({ default: '' })
+  boundaryClass: string;
+  
 
   submitForm(action: () => void) {
     const observerRef: any = this.$refs[this.myRefName];

@@ -1,6 +1,6 @@
 <template>
   <div>
-    Root Data : {{ taskFormData }}
+    <!-- Root Data : {{ taskFormData }} -->
 
     <component
       :ref="stepperMetaData.myRefName"
@@ -83,7 +83,11 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
 
   get taskFormOutput() {
-    this.taskFormOutputLocal = {...this.taskDetailsOutput, selectedNMSFTaskOption: this.selectedNMSFTaskOption}
+    if(this.taskDetailsOutput.disposition === null) {
+    this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
+    }
+    this.taskFormOutputLocal = {...this.taskDetailsOutput}
+
     return this.taskFormOutputLocal;
   }
 

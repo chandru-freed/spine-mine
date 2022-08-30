@@ -44,7 +44,7 @@ export default class FBankFFormMDP extends FFormMDP {
           label: "Account Type",
           boundaryClass: "col-3",
           mandatory: true,
-          items: ["SAVINGS", "CURRENT"],
+          options: ["SAVINGS", "CURRENT"],
         })
       )
       .addField(

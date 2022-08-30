@@ -22,7 +22,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         dataSelectorKey: "paymentPlan.ppCalculator.ppCode",
         label: "Program Code",
         mandatory: true,
-        items: ["PM", "AF"],
+        options: ["PM", "AF"],
         boundaryClass: "col-6",
       })
     ).addField(
@@ -57,7 +57,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         label: "Fee Code",
         mandatory: true,
         boundaryClass: "col-6",
-        items: ["MSFFee"]
+        options: ["MSFFee"]
       })
     ).addField(
       new FDateFieldMDP({

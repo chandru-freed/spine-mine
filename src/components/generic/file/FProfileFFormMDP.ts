@@ -45,7 +45,7 @@ export default class FProfileFFormMDP extends FFormMDP {
           label: "Gender",
           boundaryClass: "col-4",
           mandatory: true,
-          items: ["Female", "Male", "Others"],
+          options: ["Female", "Male", "Others"],
         })
       )
       .addField(

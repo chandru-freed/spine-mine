@@ -14,20 +14,24 @@ export default class FFormMDP implements MDP {
   actionList: FBtnMDP[] = [];
   myRefName: string;
   dataSelectorKey: string | undefined;
-  disabled: boolean
+  disabled: boolean;
+  colWidth: number;
 
   constructor({
     myRefName,
     dataSelectorKey,
     disabled = false,
+    colWidth = 12
   }: {
     myRefName: string;
     dataSelectorKey?: string;
     disabled?: boolean
+    colWidth?: number
   }) {
     this.myRefName = myRefName;
     this.dataSelectorKey = dataSelectorKey;
     this.disabled = disabled
+    this.colWidth = colWidth;
   }
 
   addField(newField: FFieldMDP) {
@@ -38,6 +42,10 @@ export default class FFormMDP implements MDP {
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);
     return this;
+  }
+
+  getFFormBoundaryClass() {
+    return `col-${this.colWidth}`
   }
 
   getMetaData(): object {
@@ -51,7 +59,8 @@ export default class FFormMDP implements MDP {
         actionMetaDataList: this.actionList.map((action) =>
           action.getMetaData()
         ),
-        disabled: this.disabled
+        disabled: this.disabled,
+        boundaryClass: this.getFFormBoundaryClass()
       },
     };
   }

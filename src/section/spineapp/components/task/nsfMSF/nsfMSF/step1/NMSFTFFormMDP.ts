@@ -1,5 +1,6 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import DispositionFMiniFormMDP, { DispositionType } from "@/components/generic/form/field/DispositionFMiniFormMDP";
 import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFooFieldMDP from "@/components/generic/form/field/FSelectFooFieldMDP";
@@ -23,6 +24,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
     super({
       myRefName: "nMSFTFormRef",
       disabled: taskRoot.taskDisabled,
+      colWidth: 12
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -31,7 +33,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.selectedNMSFTaskOption",
         label: "Select Option",
-        boundaryClass: "col-12",
         items: Object.values(NsfMSFOptions),
         mandatory: true
       })
@@ -41,7 +42,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.clientDeferredTime",
           label: "Client Deferred Time",
-          boundaryClass: "col-4",
           condition: this.isClientDeffered(),
           mandatory: true
         })
@@ -51,7 +51,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.systemDeferredTime",
           label: "System Deferred Time",
-          boundaryClass: "col-4",
           condition: this.isSystemDeffered()
         })
       )
@@ -70,7 +69,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.amountToBeReceived",
           label: "Amount To Be Received",
-          boundaryClass: "col-4",
           condition: this.isReceivePayment()
         })
       )
@@ -79,7 +77,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.upiId",
           label: "UPI Id",
-          boundaryClass: "col-4",
           condition: this.isReceivePayment()
         })
       )
@@ -88,45 +85,50 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.intent",
           label: "Intent",
-          boundaryClass: "col-4",
           condition: this.isReceivePayment()
         })
       )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.disposition.dispositionType",
-          label: "Disposition",
-          boundaryClass: "col-4",
-          condition: this.isSystemDeffered()
-        })
-      )
-      .addField(
-        new FTextareaMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.disposition.dispositionDescription",
-          label: "Disposition",
-          boundaryClass: "col-4",
-          condition: this.isSystemDeffered()
-        })
-      )
-
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.msfScheduledDraftDate",
           label: "Msf Scheduled Draft Date",
-          boundaryClass: "col-4",
           condition: this.isDraftRescheduled()
         })
-      )
+      ).addField(new DispositionFMiniFormMDP({
+        taskRoot,
+        parent,
+        dataSelectorKey: "taskOutput.disposition",
+        condition: this.isSystemDeffered(),
+        dispositionTypeList: [
+          new DispositionType({
+            label: "Not Answered",
+            value: "NotAnswered"
+          }),
+        ]
+      }))
+      .addField(new DispositionFMiniFormMDP({
+        taskRoot,
+        parent,
+        dataSelectorKey: "taskOutput.disposition",
+        condition: this.isClientDeffered(),
+        dispositionTypeList: [
+          new DispositionType({
+            label: "Client Busy",
+            value: "ClientBusy"
+          }),
+          new DispositionType({
+            label: "No Enough Funds",
+            value: "NoEnoughFunds"
+          }),
+        ]
+      }))
       .addAction(
         new FBtnMDP({
           label: "Save",
           onClick: this.validateAndSubmit(),
         })
       )
-
   }
 
   getSelectedOption() {
@@ -174,6 +176,4 @@ export enum NsfMSFOptions {
   SystemDeferred = "System Deferred",
   ReceivePayment = "Receive Payment",
   DraftRescheduled = "Draft Rescheduled",
-
-
 }

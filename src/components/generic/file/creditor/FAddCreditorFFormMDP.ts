@@ -50,7 +50,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           label: "Type of Debt",
           mandatory: true,
           boundaryClass: "col-4",
-          items:["Credit Card", "Personal Loans", "Secured", "Others (Unsecured)"]
+          options:["Credit Card", "Personal Loans", "Secured", "Others (Unsecured)"]
         }))
 
       .addField(

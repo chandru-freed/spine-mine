@@ -25,7 +25,7 @@
         :key="stepIndx"
       >
         <v-card color="grey lighten-4" flat min-height="600">
-          <v-card-text class="pa-0">
+          <v-card-text class="pa-0 d-flex justify-center">
             <component
               :ref="step.stepContent.myRefName"
               :is="step.stepContent.componentName"

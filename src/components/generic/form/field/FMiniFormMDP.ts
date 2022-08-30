@@ -20,6 +20,7 @@ export default class FMiniFormMDP implements FFieldMDP {
   mandatory: boolean;
   boundaryClass: string;
   parentMDP: FFormChildMDP;
+  condition: boolean;
 
   constructor({
     parentMDP,
@@ -29,6 +30,7 @@ export default class FMiniFormMDP implements FFieldMDP {
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
+    condition =true
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -37,6 +39,7 @@ export default class FMiniFormMDP implements FFieldMDP {
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string;
+    condition?: boolean
   }) {
     this.parentMDP = parentMDP; // todo : Check not being used
     this.dataSelectorKey = dataSelectorKey;
@@ -45,6 +48,7 @@ export default class FMiniFormMDP implements FFieldMDP {
     this.rules = rules;
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
+    this.condition = condition;
   }
 
   getRules() {
@@ -67,6 +71,7 @@ export default class FMiniFormMDP implements FFieldMDP {
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
+      condition: this.condition,
       props: {
         label: this.label,
         fieldMetaDataList: this.fieldList.map((field) => field.getMetaData()),

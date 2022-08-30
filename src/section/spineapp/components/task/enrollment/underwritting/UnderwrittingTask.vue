@@ -102,6 +102,7 @@ export default class UnderwrittingTask
 
   //ACTION
   saveAndMarkCompleteTask() {
+    this.isUnderwrittingApproved()
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
@@ -109,6 +110,7 @@ export default class UnderwrittingTask
   }
 
   saveTask() {
+    this.isUnderwrittingApproved()
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
@@ -120,6 +122,11 @@ export default class UnderwrittingTask
       name: "Root.ClientFile.ClientFileDetails",
       params: { fileId: this.$route.params.fileId },
     });
+  }
+  isUnderwrittingApproved(){
+     if(this.taskFormData.taskOutput.underwrittingApproved) {
+      this.taskFormData.taskOutput.reasonForUnderwrittingDecline = undefined
+    }
   }
 }
 </script>

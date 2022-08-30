@@ -138,7 +138,7 @@ export default class ClientFileSummary extends Vue {
   @Prop()
   public fileDetails: any;
 
-  public showLessSummary = false;
+  public showLessSummary = true;
 
   // public fileDetails = {
   //   clientName: "John Doe",

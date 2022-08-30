@@ -7,7 +7,7 @@
           v-if="!!createClientFormMetaData"
           :ref="createClientFormMetaData.myRefName"
           :is="createClientFormMetaData.componentName"
-          v-model="createClientFormData"
+          v-model="registerClientFormData"
           v-bind="createClientFormMetaData.props"
         ></component>
       </v-card-text>
@@ -36,7 +36,7 @@ export default class CreateClient extends Vue implements CreateClientIntf{
 
   selectedRequestType: any = {};
   
-  createClientFormData: any = new Data.Client.CreateClientForm()
+  registerClientFormData: any = new Data.Client.RegisterClientForm()
   
 
   get createClientFormMetaData(): any {
@@ -45,8 +45,14 @@ export default class CreateClient extends Vue implements CreateClientIntf{
 
 
 createClient () {
-    Action.Client.CreateClient.execute(this.createClientFormData, output => {
-        Helper.Router.gotoClient({router: this.$router, clientId: this.createClientFormData.clientId})
+    // Action.Client.CreateClient.execute(this.createClientFormData, output => {
+    //     Helper.Router.gotoClient({router: this.$router, clientId: this.createClientFormData.clientId})
+    // } , err => {}, RemoteApiPoint.SpineApi)
+    Action.Client.RegisterClient.execute(this.registerClientFormData, (output: any) => {
+      console.log("RegisterClient : ",output)
+      
+        const clientId = output.clientId
+        Helper.Router.gotoClient({router: this.$router, clientId: clientId})
     } , err => {}, RemoteApiPoint.SpineApi)
 }
 

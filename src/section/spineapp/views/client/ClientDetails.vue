@@ -1,23 +1,46 @@
 <template>
   <div>
+    
+    
+
     <v-card flat outlined>
-      <v-card-text>
-        <component
-          v-if="!!clientDetailsFormMetaData"
-          :ref="clientDetailsFormMetaData.myRefName"
-          :is="clientDetailsFormMetaData.componentName"
-          v-model="clientDetails"
-          v-bind="clientDetailsFormMetaData.props"
-        ></component>
-      </v-card-text>
-    </v-card>
-    <v-card flat outlined class="mt-3">
-      <v-card-text>
-        <v-btn color="secondary" outlined x-large @click="gotoFile(clientFileId)" v-for="clientFileId in clientDetails.clientFileIdList" :key="clientFileId">
+      
+        <div class="row px-2 pt-2 pb-4 align-center justify-between">
+          <div class="col-4  pb-0">
+            <v-list-item>
+              <v-list-item-avatar tile size="80" color="primary">
+                <v-icon size="40" color="secondary">mdi-account-circle</v-icon>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="text-overline">{{
+                  clientDetails.emailId
+                }}</v-list-item-title>
+                <v-list-item-title class="text-h5">{{
+                  clientDetails.firstName
+                }} {{
+                  clientDetails.lastName
+                }}</v-list-item-title>
+
+                <v-list-item-subtitle
+                  class="text-h6"
+                  v-text="clientDetails.mobile"
+                ></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+        </div>
+      
+      <v-card-actions>
+        <v-btn class="mx-3" color="secondary" outlined x-large @click="gotoFile(clientFile.clientFileId)" v-for="clientFile in clientDetails.clientFileList" :key="clientFile.clientFileId">
           <v-icon class="pr-4">mdi-file-account</v-icon>
-          {{clientFileId}}
+          {{clientFile.clientFileNumber}}
         </v-btn>
-      </v-card-text>
+        <v-spacer></v-spacer>
+        <v-btn class="mx-3" color="primary" outlined large @click="addClientFile()">
+          <v-icon class="pr-4">mdi-file-document-plus-outline</v-icon>
+          Add Client File
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -66,7 +89,10 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
   }
 
   addClientFile() {
-    Action.Client.AddFileForClient.execute2(this.clientId, "F-XYZ", output => {}, err => {}, RemoteApiPoint.SpineApi)
+    const input = new Data.ClientFile.AddClientFileForm(this.clientId,  "KFS-100-9004")
+    Action.ClientFile.AddClientFile.execute(input, output => {
+      setTimeout(this.getClientDetails, 1000)
+    }, err => {}, RemoteApiPoint.SpineApi)
   }
 
   gotoFile(clientFileId: string) {

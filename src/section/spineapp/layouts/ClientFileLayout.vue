@@ -24,5 +24,8 @@ import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSumm
     "client-file-summary": ClientFileSummary,
   },
 })
-export default class ClientFileLayout extends Vue {}
+export default class ClientFileLayout extends Vue {
+
+  
+}
 </script>

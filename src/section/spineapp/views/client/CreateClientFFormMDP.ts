@@ -20,15 +20,6 @@ export default class CreateClientFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "clientId",
-          label: "Client Id",
-          mandatory: true,
-          boundaryClass: "col-4",
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
           dataSelectorKey: "firstName",
           label: "First Name",
           boundaryClass: "col-4",
@@ -38,10 +29,17 @@ export default class CreateClientFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
+          dataSelectorKey: "middleName",
+          label: "Middle Name",
+          boundaryClass: "col-4",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
           dataSelectorKey: "lastName",
           label: "Last Name",
           boundaryClass: "col-4",
-          mandatory: true,
         })
       )
       .addField(

@@ -74,7 +74,7 @@ export default class ManageClientInfoTask
 
   //Task Output
   
-  taskFormOutputLocal: any = new Data.Spine.WelcomeCallCollectClientInfoTask();
+  taskFormOutputLocal: any = new Data.Spine.WelcomeCallManageClientInfoTask();
 
   get taskFormOutput() {
     if (

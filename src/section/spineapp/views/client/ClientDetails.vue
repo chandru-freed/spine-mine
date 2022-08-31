@@ -13,32 +13,32 @@
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-overline">{{
-                  clientDetails.emailId
+                  clientBasicInfo.emailId
                 }}</v-list-item-title>
                 <v-list-item-title class="text-h5">{{
-                  clientDetails.firstName
+                  clientBasicInfo.firstName
                 }} {{
-                  clientDetails.lastName
+                  clientBasicInfo.lastName
                 }}</v-list-item-title>
 
                 <v-list-item-subtitle
                   class="text-h6"
-                  v-text="clientDetails.mobile"
+                  v-text="clientBasicInfo.mobile"
                 ></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </div>
         </div>
-      
+      <v-divider></v-divider>
       <v-card-actions>
-        <v-btn class="mx-3" color="secondary" outlined x-large @click="gotoFile(clientFile.clientFileId)" v-for="clientFile in clientDetails.clientFileList" :key="clientFile.clientFileId">
+        <v-btn class="mx-3" color="secondary" outlined x-large @click="gotoFile(clientFileBasicInfo.clientFileId)" v-for="clientFileBasicInfo in clientFileBasicInfoList" :key="clientFileBasicInfo.clientFileId">
           <v-icon class="pr-4">mdi-file-account</v-icon>
-          {{clientFile.clientFileNumber}}
+          {{clientFileBasicInfo.clientFileNumber}}
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn class="mx-3" color="primary" outlined large @click="addClientFile()">
           <v-icon class="pr-4">mdi-file-document-plus-outline</v-icon>
-          Add Client File
+          Add File to Client
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -67,21 +67,34 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
 
   clientId = this.$route.params.clientId;
 
-  clientDetails: any = new Data.Client.ClientDetails();
+  clientBasicInfo: Data.Client.ClientBasicInfo = new Data.Client.ClientBasicInfo();
+  clientFileBasicInfoList: Data.Client.ClientFileBasicInfo[] = [];
 
-  get clientDetailsFormMetaData(): any {
+  get clientBasicInfoFormMetaData(): any {
     return new ClientDetailsFFormMDP({ root: this }).getMetaData();
   }
 
   mounted() {
-    this.getClientDetails();
+    this.getClientBasicInfo();
+    this.getClientFileBasicInfoList();
   }
 
-  getClientDetails() {
-    Action.Client.GetClientDetails.execute1(
+  getClientBasicInfo() {
+    Action.Client.GetClientBasicInfo.execute1(
       this.clientId,
       (output) => {
-        this.clientDetails = output;
+        this.clientBasicInfo = output;
+      },
+      (err) => {},
+      RemoteApiPoint.SpineApi
+    );
+  }
+
+  getClientFileBasicInfoList() {
+    Action.Client.GetClientFileBasicInfoList.execute1(
+      this.clientId,
+      (output) => {
+        this.clientFileBasicInfoList = output;
       },
       (err) => {},
       RemoteApiPoint.SpineApi
@@ -91,7 +104,7 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
   addClientFile() {
     const input = new Data.ClientFile.AddClientFileForm(this.clientId,  "KFS-100-9004")
     Action.ClientFile.AddClientFile.execute(input, output => {
-      setTimeout(this.getClientDetails, 1000)
+      setTimeout(this.getClientBasicInfo, 1000)
     }, err => {}, RemoteApiPoint.SpineApi)
   }
 

@@ -6,10 +6,10 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import store, * as Store from '@/../src-gen/store';
+import * as Data from '@/../src-gen/data';
+import * as ServerData from '@/../src-gen/server-data';
+import * as Action from '@/../src-gen/action';
 import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSummary.vue";
 
 @Component({
@@ -18,6 +18,10 @@ import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSumm
   },
 })
 export default class FileSummary extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientBasicInfo;
+
+
   fileDetails = {
     clientName: "John Doe",
     fileId: "KFS-123-123-1234",

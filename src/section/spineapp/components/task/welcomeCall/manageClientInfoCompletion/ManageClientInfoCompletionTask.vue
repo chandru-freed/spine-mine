@@ -22,7 +22,7 @@ import moment from "moment";
 import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
+import MCICTFStepperMDP from "./MCICTFStepperMDP";
 
 @Component({
   components: {
@@ -30,7 +30,7 @@ import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
     FBtn,
   },
 })
-export default class SignServiceAgreementFailedTask
+export default class ManageClientInfoCompletionTask
   extends ModelVue
   implements ManualTaskIntf
 {
@@ -41,9 +41,8 @@ export default class SignServiceAgreementFailedTask
 
   //METADATA
   get stepperMetaData() {
-    return new SSAFTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new MCICTFStepperMDP({ taskRoot: this }).getMetaData();
   }
-
   //METADATA
 
   // DATA
@@ -79,14 +78,14 @@ export default class SignServiceAgreementFailedTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any =
-    new Data.Spine.WelcomeCallSSAFailedTaskOutput();
+  taskFormOutputLocal: any = {}; // Initialization
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.signAgreementRetry !== null) {
-      this.taskFormOutputLocal.signAgreementRetry =
-        this.taskDetailsOutput.signAgreementRetry;
+    if (this.taskDetailsOutput.clientSignedFilePath) {
+      this.taskFormOutputLocal.clientSignedFilePath =
+        this.taskDetailsOutput.clientSignedFilePath;
     }
+
     return this.taskFormOutputLocal;
   }
 

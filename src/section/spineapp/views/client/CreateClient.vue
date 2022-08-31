@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card flat outlined>
-      <v-card-title>Create Client</v-card-title>
+      <v-card-title>Register Client</v-card-title>
       <v-card-text >
         <component
           v-if="!!createClientFormMetaData"

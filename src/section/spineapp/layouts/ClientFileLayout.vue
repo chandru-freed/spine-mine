@@ -8,7 +8,7 @@
       <div class="col-12">
         <v-card tile height="1200px" class="" flat color="transparent">
           <router-view name="fileDetails"></router-view>
-          <router-view ></router-view>
+          <router-view></router-view>
         </v-card>
       </div>
     </div>
@@ -16,8 +16,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
 import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSummary.vue";
+import * as RemoteApiPoint from "@/remote-api-point";
+import { GetClientFileBasicInfo } from "src-gen/action/clientfile-action";
 
 @Component({
   components: {
@@ -25,7 +31,22 @@ import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSumm
   },
 })
 export default class ClientFileLayout extends Vue {
-
   
+  clientFileId = this.$route.params.fileId;
+
+  mounted() {
+    this.getClientFileBasicInfo();
+  }
+
+  getClientFileBasicInfo() {
+    Action.ClientFile.GetClientFileBasicInfo.execute1(
+      this.clientFileId,
+      (output) => {},
+      (err) => {
+        // console.error(err);
+      },
+      RemoteApiPoint.SpineApi
+    );
+  }
 }
 </script>

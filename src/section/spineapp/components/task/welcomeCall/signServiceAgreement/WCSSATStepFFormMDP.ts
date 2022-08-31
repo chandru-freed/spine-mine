@@ -3,13 +3,13 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
 
-export default class SSATStepFFormMDP extends FFormMDP {
+export default class WCSSATStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: FlowTaskIntf;
   parent: any;
   constructor({ taskRoot, parent }: { taskRoot: FlowTaskIntf; parent: any }) {
     super({
-      myRefName: "sSATDigiSignStatusFFormRef",
+      myRefName: "wCSSATDigiSignStatusFFormRef",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;

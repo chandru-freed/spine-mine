@@ -10,15 +10,15 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-overline">{{
-              fileDetails.fileId
+              clientFileBasicInfo.clientFileNumber
             }}</v-list-item-title>
-            <v-list-item-title class="text-h5">{{
-              fileDetails.clientName
-            }}</v-list-item-title>
+            <v-list-item-title class="text-h5">
+              {{ clientFileBasicInfo.clientBasicInfo.firstName }} {{ clientFileBasicInfo.clientBasicInfo.middleName }} {{ clientFileBasicInfo.clientBasicInfo.lastName }}
+            </v-list-item-title>
 
             <v-list-item-subtitle
               class="text-h6"
-              v-text="fileDetails.phoneNumber"
+              v-text="clientFileBasicInfo.clientBasicInfo.mobile"
             ></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -128,13 +128,16 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import store, * as Store from '@/../src-gen/store';
+import * as Data from '@/../src-gen/data';
+import * as ServerData from '@/../src-gen/server-data';
+import * as Action from '@/../src-gen/action';
 
 @Component
 export default class ClientFileSummary extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientBasicInfo;
+
   @Prop()
   public fileDetails: any;
 

@@ -3,14 +3,14 @@
   <div>
     <h4>Manage client info task</h4>
     Root Data : {{ taskFormData }}
-    
-    <component 
-  :ref="stepperMetaData.myRefName"
-  :is="stepperMetaData.componentName"
-  :value="selectModel(taskFormData, undefined)"
-  @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
-  v-bind="stepperMetaData.props"
-></component>
+
+    <component
+      :ref="stepperMetaData.myRefName"
+      :is="stepperMetaData.componentName"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+      v-bind="stepperMetaData.props"
+    ></component>
   </div>
 </template>
 <script lang="ts">
@@ -69,6 +69,10 @@ export default class ManageClientInfoTask
 
   set taskFormData(value: any) {
     this.taskFormDataLocal = value;
+  }
+
+  isAmendmentNeeded() {
+    return this.taskFormOutput.amendmentNeeded===true
   }
   //FORM
 
@@ -180,4 +184,5 @@ export default class ManageClientInfoTask
   //Action
 }
 </script>
-<style> </style>
+<style>
+</style>

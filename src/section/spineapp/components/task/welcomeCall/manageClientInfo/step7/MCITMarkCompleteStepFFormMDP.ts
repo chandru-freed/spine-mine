@@ -4,11 +4,13 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 
 
 export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: ManualTaskIntf;
+  taskRoot: any;
   parent: any;
   constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
     super({
@@ -19,34 +21,34 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FSwitchMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.cancelRequest",
-        label: "Cancel Request",
-        boundaryClass: "col-3",
-      })
-    ).addField(
         new FSwitchMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.signServiceAgreementNeeded",
           label: "Sign Service Agreement Needed",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
         })
       ).addField(
         new FSwitchMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.amendmentNeeded",
           label: "Amendment Needed",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4"
         })
       ).addField(
         new FSwitchMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.eMandateNeeded",
           label: "EMandate Needed",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4"
         })
-      )
+      ).addField(new FSelectFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.amendmentType",
+        label:"Amendment Type",
+        boundaryClass:"col-12",
+        condition: this.taskRoot.isAmendmentNeeded(),
+        options: ["Amendment1","Amendment2"]
+      }))
       .addAction(
         new FBtnMDP({
           label: "Save",

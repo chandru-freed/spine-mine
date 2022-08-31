@@ -80,6 +80,7 @@ import ReceiveManualPaymentTask from "@/section/spineapp/components/task/enrollm
 import ManageClientInfoCompletionTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfoCompletion/ManageClientInfoCompletionTask.vue";
 import WelcomeCallSSATask from "@/section/spineapp/components/task/welcomeCall/signServiceAgreement/WelcomeCallSSATask.vue";
 import WelcomeCallEMandateTask from "@/section/spineapp/components/task/welcomeCall/eMandate/EMandateTask.vue";
+import SignAmendmentTask from "@/section/spineapp/components/task/welcomeCall/signAmendment/SignAmendmentTask.vue";
 
 @Component({
   components: {
@@ -118,6 +119,7 @@ import WelcomeCallEMandateTask from "@/section/spineapp/components/task/welcomeC
     EMandateTask,
     ManageClientInfoTask,
     WelcomeCallSignServiceAgreementFailedTask,
+    SignAmendmentTask,
     ManageClientInfoCompletionTask,
     WelcomeCallSSATask,
     WelcomeCallEMandateTask,
@@ -167,11 +169,11 @@ export default class FileTaskArea extends Vue {
     ["ManualPayment::PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
     ["WelcomeCall::ManageClientInfo", "ManageClientInfoTask"],
     ["WelcomeCall::SignServiceAgreementFailed", "WelcomeCallSignServiceAgreementFailedTask"],
+    ["WelcomeCall::SignAmendment", "SignAmendmentTask"],
     ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"],
     ["WelcomeCall::SignServiceAgreement", "WelcomeCallSSATask"],
     ["WelcomeCall::EMandate", "WelcomeCallEMandateTask"],
     ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"],
-
   ]);
 
   taskId = this.$route.params.taskId;

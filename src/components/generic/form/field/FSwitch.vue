@@ -7,6 +7,7 @@
     :true-value="trueValue"
     :inset="inset"
     :label="label"
+    :disabled="disabled"
   ></v-switch>
 </template>
 <script lang="ts">
@@ -40,6 +41,8 @@ export default class FSwitch extends Vue {
   @Prop()
   inset: boolean;
   
+  @Prop()
+  disabled: boolean;
   // MODEL VALUE - START
   @Prop()
   value: boolean;

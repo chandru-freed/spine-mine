@@ -9,6 +9,7 @@
       <v-btn text @click="gotoFile">
         <v-icon>mdi-chevron-left</v-icon> All Tasks</v-btn
       >
+      
       <v-spacer></v-spacer>
       <v-btn
         outlined

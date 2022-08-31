@@ -75,7 +75,7 @@ import SignServiceAgreementTask from "@/section/spineapp/components/task/enrollm
 import EMandateTask from "@/section/spineapp/components/task/enrollment/eMandate/EMandateTask.vue";
 import ManageClientInfoTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfo/ManageClientInfoTask.vue";
 import WelcomeCallSignServiceAgreementFailedTask from "@/section/spineapp/components/task/welcomeCall/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
-
+import ReceiveManualPaymentTask from "@/section/spineapp/components/task/enrollment/receiveManualPayment/ReceiveManualPaymentTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -108,6 +108,7 @@ import WelcomeCallSignServiceAgreementFailedTask from "@/section/spineapp/compon
     PaymentReceivedConfirmationTask,
     CheckManualPaymentReceivedTask,
     NsfMSFDraftRescheduledTask,
+    ReceiveManualPaymentTask,
     SignServiceAgreementTask,
     EMandateTask,
     ManageClientInfoTask,
@@ -150,6 +151,7 @@ export default class FileTaskArea extends Vue {
     ["NsfMSF::NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
     ["NsfMSF::NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
     ["NsfMSF::NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
+    ["NsfMSF::ReceiveManualPayment", "ReceiveManualPaymentTask"],
     ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
     ["ManualPayment::GenerateLink", "GenerateLinkTask"],
     ["ManualPayment::SendLink", "SendLinkTask"],

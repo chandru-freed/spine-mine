@@ -19,10 +19,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
 import Task from "@/section/spineapp/util/Task";
+import EMTStepperMDP from "./EMTFStepperMDP";
 import Helper from "@/section/spineapp/util/Helper";
-import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
 
 @Component({
   components: {
@@ -30,10 +30,7 @@ import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
     FBtn,
   },
 })
-export default class SignServiceAgreementFailedTask
-  extends ModelVue
-  implements ManualTaskIntf
-{
+export default class EMandateTask extends ModelVue implements FlowTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -41,9 +38,8 @@ export default class SignServiceAgreementFailedTask
 
   //METADATA
   get stepperMetaData() {
-    return new SSAFTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new EMTStepperMDP({ taskRoot: this }).getMetaData();
   }
-
   //METADATA
 
   // DATA
@@ -79,13 +75,19 @@ export default class SignServiceAgreementFailedTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any =
-    new Data.Spine.WelcomeCallSSAFailedTaskOutput();
+  taskFormOutputLocal: any = new Data.Spine.WelcomeCallEMandateTaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.signAgreementRetry !== null) {
-      this.taskFormOutputLocal.signAgreementRetry =
-        this.taskDetailsOutput.signAgreementRetry;
+    if (this.taskDetailsOutput.eMandateStatus) {
+      this.taskFormOutputLocal.eMandateStatus =
+        this.taskDetailsOutput.eMandateStatus;
+    }
+    if (this.taskDetailsOutput.eMandateLink) {
+      this.taskFormOutputLocal.eMandateLink =
+        this.taskDetailsOutput.eMandateLink;
+    }
+    if (this.taskDetailsOutput.eMandateId) {
+      this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
     }
     return this.taskFormOutputLocal;
   }
@@ -101,15 +103,9 @@ export default class SignServiceAgreementFailedTask
 
   //DATA
 
-  //ACTION
-  saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
-
-  saveTask() {
+ //ACTION
+  
+  rescueTask() {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
@@ -124,5 +120,3 @@ export default class SignServiceAgreementFailedTask
   }
 }
 </script>
-
-<style></style>

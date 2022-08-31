@@ -1,4 +1,3 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
@@ -48,12 +47,7 @@ export default class EMTStepFFormMDP extends FFormMDP {
                 mandatory: true,
                 boundaryClass: "col-6",
             })
-        ).addAction(
-            new FBtnMDP({
-              label: "Rescue",
-              onClick: this.validateAndSubmit(),
-            })
-          );
+        );
     }
 
     getMyRef(): any {

@@ -75,7 +75,9 @@ import SignServiceAgreementTask from "@/section/spineapp/components/task/enrollm
 import EMandateTask from "@/section/spineapp/components/task/enrollment/eMandate/EMandateTask.vue";
 import ManageClientInfoTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfo/ManageClientInfoTask.vue";
 import WelcomeCallSignServiceAgreementFailedTask from "@/section/spineapp/components/task/welcomeCall/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
+import ReceiveManualPaymentTask from "@/section/spineapp/components/task/enrollment/receiveManualPayment/ReceiveManualPaymentTask.vue";
 import ManageClientInfoCompletionTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfoCompletion/ManageClientInfoCompletionTask.vue";
+import WelcomeCallEMandateTask from "@/section/spineapp/components/task/welcomeCall/eMandate/EMandateTask.vue";
 
 
 @Component({
@@ -110,11 +112,13 @@ import ManageClientInfoCompletionTask from "@/section/spineapp/components/task/w
     PaymentReceivedConfirmationTask,
     CheckManualPaymentReceivedTask,
     NsfMSFDraftRescheduledTask,
+    ReceiveManualPaymentTask,
     SignServiceAgreementTask,
     EMandateTask,
     ManageClientInfoTask,
     WelcomeCallSignServiceAgreementFailedTask,
     ManageClientInfoCompletionTask,
+    WelcomeCallEMandateTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -153,6 +157,7 @@ export default class FileTaskArea extends Vue {
     ["NsfMSF::NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
     ["NsfMSF::NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
     ["NsfMSF::NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
+    ["NsfMSF::ReceiveManualPayment", "ReceiveManualPaymentTask"],
     ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
     ["ManualPayment::GenerateLink", "GenerateLinkTask"],
     ["ManualPayment::SendLink", "SendLinkTask"],
@@ -160,7 +165,8 @@ export default class FileTaskArea extends Vue {
     ["ManualPayment::PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
     ["WelcomeCall::ManageClientInfo", "ManageClientInfoTask"],
     ["WelcomeCall::SignServiceAgreementFailed", "WelcomeCallSignServiceAgreementFailedTask"],
-    ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"]
+    ["WelcomeCall::EMandate", "WelcomeCallEMandateTask"],
+    ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"],
   ]);
 
   taskId = this.$route.params.taskId;

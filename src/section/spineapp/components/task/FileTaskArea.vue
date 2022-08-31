@@ -74,6 +74,12 @@ import NsfMSFDraftRescheduledTask from "@/section/spineapp/components/task/nsfMS
 import SignServiceAgreementTask from "@/section/spineapp/components/task/enrollment/signServiceAgreement/SignServiceAgreementTask.vue";
 import EMandateTask from "@/section/spineapp/components/task/enrollment/eMandate/EMandateTask.vue";
 import ManageClientInfoTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfo/ManageClientInfoTask.vue";
+import WelcomeCallSignServiceAgreementFailedTask from "@/section/spineapp/components/task/welcomeCall/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
+import ReceiveManualPaymentTask from "@/section/spineapp/components/task/enrollment/receiveManualPayment/ReceiveManualPaymentTask.vue";
+import ManageClientInfoCompletionTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfoCompletion/ManageClientInfoCompletionTask.vue";
+import WelcomeCallSSATask from "@/section/spineapp/components/task/welcomeCall/signServiceAgreement/WelcomeCallSSATask.vue";
+import WelcomeCallEMandateTask from "@/section/spineapp/components/task/welcomeCall/eMandate/EMandateTask.vue";
+
 @Component({
   components: {
     CollectClientInfoTask,
@@ -106,10 +112,14 @@ import ManageClientInfoTask from "@/section/spineapp/components/task/welcomeCall
     PaymentReceivedConfirmationTask,
     CheckManualPaymentReceivedTask,
     NsfMSFDraftRescheduledTask,
+    ReceiveManualPaymentTask,
     SignServiceAgreementTask,
     EMandateTask,
     ManageClientInfoTask,
-    
+    WelcomeCallSignServiceAgreementFailedTask,
+    ManageClientInfoCompletionTask,
+    WelcomeCallSSATask,
+    WelcomeCallEMandateTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -121,45 +131,56 @@ export default class FileTaskArea extends Vue {
   loading = true;
 
   TASK_COMPONENT_MAP = new Map([
-    ["CollectClientInfo", "CollectClientInfoTask"],
-    ["SignServiceAgreementFailed", "SignServiceAgreementFailedTask"],
-    ["ClientInfoVerification", "ClientInfoVerificationTask"],
-    ["Underwritting", "UnderwrittingTask"],
-    ["EnrollmentCompletion", "EnrollmentCompletionTask"],
-    ["EMandateFailed", "EMandateFailedTask"],
-    ["DownloadUnSignedDoc", "DownloadUnSignedDocTask"],
-    ["GenerateSSADoc", "GenerateSSADocTask"],
-    ["UpdateClientSignStatus", "UpdateClientSignStatusTask"],
-    ["WaitForClientSign", "WaitForClientSignTask"],
-    ["DownloadClientSignDoc", "DownloadClientSignDocTask"],
-    ["UploadFreedSignedDoc", "UploadFreedSignedDocTask"],
-    ["UploadClientSignedDoc", "UploadClientSignedDocTask"],
-    ["SignByFreed", "SignByFreedTask"],
-    ["ClientSignExpired", "ClientSignExpiredTask"],
-    ["CreateEMandate", "CreateEMandateTask"],
-    ["UploadUnSignedDoc", "UploadUnSignedDocTask"],
-    ["CHPP", "CHPPTask"],
-    ["WaitForEMandate", "WaitForEMandateTask"],
-    ["SendEMandateLink", "SendEMandateLinkTask"],
-    ["GetEMandateStatus", "GetEMandateStatusTask"],
-    ["NsfMSF", "NsfMSFTask"],
-    ["GenerateLink", "GenerateLinkTask"],
-    ["SendLink", "SendLinkTask"],
-    ["NsfMSFCompletion", "NsfMSFCompletionTask"],
-    ["NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
-    ["NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
-    ["PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
-    ["CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"],
-    ["NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
-    ["SignServiceAgreement", "SignServiceAgreementTask"],
-    ["EMandate", "EMandateTask"],
-    ["ManageClientInfo", "ManageClientInfoTask"],
+    ["Enrollment::CollectClientInfo", "CollectClientInfoTask"],
+    ["Enrollment::ClientInfoVerification", "ClientInfoVerificationTask"],
+    ["Enrollment::SignServiceAgreement", "SignServiceAgreementTask"],
+    ["Enrollment::SignServiceAgreementFailed", "SignServiceAgreementFailedTask"],
+    ["Enrollment::EMandate", "EMandateTask"],
+    ["Enrollment::EMandateFailed", "EMandateFailedTask"],
+    ["Enrollment::Underwritting", "UnderwrittingTask"],
+    ["Enrollment::EnrollmentCompletion", "EnrollmentCompletionTask"],
+    ["EMandate::CreateEMandate", "CreateEMandateTask"],
+    ["EMandate::SendEMandateLink", "SendEMandateLinkTask"],
+    ["EMandate::WaitForEMandate", "WaitForEMandateTask"],
+    ["EMandate::GetEMandateStatus", "GetEMandateStatusTask"],
+    ["Digio::GenerateSSADoc", "GenerateSSADocTask"],
+    ["Digio::DownloadUnSignedDoc", "DownloadUnSignedDocTask"],
+    ["Digio::UploadUnSignedDoc", "UploadUnSignedDocTask"],
+    ["Digio::WaitForClientSign", "WaitForClientSignTask"],
+    ["Digio::UpdateClientSignStatus", "UpdateClientSignStatusTask"],
+    ["Digio::DownloadClientSignDoc", "DownloadClientSignDocTask"],
+    ["Digio::UploadClientSignedDoc", "UploadClientSignedDocTask"],
+    ["Digio::SignByFreed", "SignByFreedTask"],
+    ["Digio::UploadFreedSignedDoc", "UploadFreedSignedDocTask"],
+    ["Digio::ClientSignExpired", "ClientSignExpiredTask"],
+    ["CHPP::CHPP", "CHPPTask"],
+    ["NsfMSF::NsfMSF", "NsfMSFTask"],
+    ["NsfMSF::NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
+    ["NsfMSF::NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
+    ["NsfMSF::NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
+    ["NsfMSF::ReceiveManualPayment", "ReceiveManualPaymentTask"],
+    ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
+    ["ManualPayment::GenerateLink", "GenerateLinkTask"],
+    ["ManualPayment::SendLink", "SendLinkTask"],
+    ["ManualPayment::CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"],
+    ["ManualPayment::PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
+    ["WelcomeCall::ManageClientInfo", "ManageClientInfoTask"],
+    ["WelcomeCall::SignServiceAgreementFailed", "WelcomeCallSignServiceAgreementFailedTask"],
+    ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"],
+    ["WelcomeCall::SignServiceAgreement", "WelcomeCallSSATask"],
+    ["WelcomeCall::EMandate", "WelcomeCallEMandateTask"],
+    ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"],
+
   ]);
 
   taskId = this.$route.params.taskId;
 
+  get fqTaskName() {
+    return `${this.taskDetails.flowName}::${this.taskDetails.taskName}`
+  }
+
   get selectedComponent() {
-    return this.TASK_COMPONENT_MAP.get(this.taskDetails.taskName);
+    return this.TASK_COMPONENT_MAP.get(this.fqTaskName);
   }
 
   get taskFormDisabled() {

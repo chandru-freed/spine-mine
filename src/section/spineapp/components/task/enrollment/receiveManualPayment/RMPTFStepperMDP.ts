@@ -1,18 +1,16 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
-import SSATStepFFormMDP from "./SSATStepFFormMDP";
+import RMPTStepFFormMDP from "./RMPTStepFFormMDP";
 
-
-export default class SSATFStepperMDP extends FStepperMDP {
+export default class RMPTFStepperMDP extends FStepperMDP {
     taskRoot: FlowTaskIntf;
     parent: any;
     constructor({ taskRoot }: { taskRoot: FlowTaskIntf }) {
-        super({ myRefName: "sSATFStepperRef" });
+        super({ myRefName: "receiveManualPaymentStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;
 
-        this.addStep({ name: "Sign Service Agreement", stepContent: new SSATStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
-
+        this.addStep({ name: "Receive Manual Payment", stepContent: new RMPTStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
     }
     getMyRef() {
         return this.taskRoot.$refs[this.myRefName];

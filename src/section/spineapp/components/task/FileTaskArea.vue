@@ -79,7 +79,6 @@ import ReceiveManualPaymentTask from "@/section/spineapp/components/task/enrollm
 import ManageClientInfoCompletionTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfoCompletion/ManageClientInfoCompletionTask.vue";
 import WelcomeCallEMandateTask from "@/section/spineapp/components/task/welcomeCall/eMandate/EMandateTask.vue";
 
-
 @Component({
   components: {
     CollectClientInfoTask,

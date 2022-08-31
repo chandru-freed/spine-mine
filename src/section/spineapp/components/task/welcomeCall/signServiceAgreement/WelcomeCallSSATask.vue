@@ -22,7 +22,7 @@ import moment from "moment";
 import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import RMPTFStepperMDP from "@/section/spineapp/components/task/enrollment/receiveManualPayment/RMPTFStepperMDP";
+import WCSSATFStepperMDP from "./WCSSATFStepperMDP";
 
 @Component({
   components: {
@@ -30,7 +30,7 @@ import RMPTFStepperMDP from "@/section/spineapp/components/task/enrollment/recei
     FBtn,
   },
 })
-export default class ReceiveManualPaymentTask
+export default class WelcomeCallSSATask
   extends ModelVue
   implements FlowTaskIntf
 {
@@ -38,12 +38,6 @@ export default class ReceiveManualPaymentTask
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
-
-  //METADATA
-  get stepperMetaData() {
-    return new RMPTFStepperMDP({ taskRoot: this }).getMetaData();
-  }
-  //METADATA
 
   // DATA
   get taskDetailsOutput() {
@@ -58,6 +52,12 @@ export default class ReceiveManualPaymentTask
       : {};
   }
 
+  //METADATA
+  get stepperMetaData() {
+    return new WCSSATFStepperMDP({ taskRoot:this}).getMetaData();
+  }
+  //METADATA
+  
   //FORM
 
   taskFormDataLocal: any = {
@@ -78,20 +78,14 @@ export default class ReceiveManualPaymentTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.ReceiveManualPaymentTaskOutput();
+  taskFormOutputLocal: any = new Data.Spine.WelcomeCallSSATaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.paymentSuccessfull) {
-      this.taskFormOutputLocal.paymentSuccessfull =
-        this.taskDetailsOutput.paymentSuccessfull;
+    if (this.taskDetailsOutput.digioSignStatus) {
+      this.taskFormOutputLocal.digioSignStatus =
+        this.taskDetailsOutput.digioSignStatus;
     }
-    if (this.taskDetailsOutput.failureCode) {
-      this.taskFormOutputLocal.failureCode = this.taskDetailsOutput.failureCode;
-    }
-    if (this.taskDetailsOutput.failureReason) {
-      this.taskFormOutputLocal.failureReason =
-        this.taskDetailsOutput.failureReason;
-    }
+
     return this.taskFormOutputLocal;
   }
 
@@ -105,9 +99,8 @@ export default class ReceiveManualPaymentTask
   }
 
   //DATA
-
-  //ACTION
-
+//ACTION
+  
   rescueTask() {
     Task.Action.saveTask({
       taskId: this.taskId,

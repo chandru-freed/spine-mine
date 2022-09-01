@@ -15,7 +15,6 @@
         prepend-icon="mdi-calendar"
         readonly
         v-bind="{...$props,...attrs}"
-        outlined
         v-on="on"
       ></v-text-field>
     </template>
@@ -61,6 +60,10 @@ export default class FDateSelectField extends VTextField {
   @Prop()
   futureDaysDisabled: boolean;
 
+  @Prop({
+    default: "DD/MM/YYYY"
+  }) dateDisplayFormat: string;
+
   get minDate() {
     return this.pastDaysDisabled ? moment().format("YYYY-MM-DD") : null;
   }
@@ -73,7 +76,7 @@ export default class FDateSelectField extends VTextField {
   }
 
   get dateInDisplayFormat() {
-    return this.modelValue ? moment(this.modelValue).format("DD/MM/YYYY") : "";
+    return this.modelValue ? moment(this.modelValue).format(this.dateDisplayFormat) : "";
   }
 
   set modelValue(newModelValue: string) {

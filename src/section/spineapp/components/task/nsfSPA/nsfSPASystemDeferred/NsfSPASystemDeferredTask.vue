@@ -9,7 +9,8 @@
     ></component>
   </div>
 </template>
-       <script lang="ts">
+
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -19,10 +20,11 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
-import NMSFDRTFStepperMDP from "./NMSFDRTFStepperMDP";
-import Task from "@/section/spineapp/util/Task";
+import DeferredTaskIntf from "@/section/spineapp/util/DeferredTaskIntf";
 import Helper from "@/section/spineapp/util/Helper";
+import Task from "@/section/spineapp/util/Task";
+import NSPASDTFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NSPASDTFStepperMDP";
+
 
 @Component({
   components: {
@@ -30,9 +32,9 @@ import Helper from "@/section/spineapp/util/Helper";
     FBtn,
   },
 })
-export default class NsfMSFDraftRescheduledTask
+export default class NsfSPASystemDeferredTask
   extends ModelVue
-  implements SelfTaskIntf
+  implements DeferredTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -41,7 +43,7 @@ export default class NsfMSFDraftRescheduledTask
 
   //METADATA
   get stepperMetaData() {
-    return new NMSFDRTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new NSPASDTFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
@@ -96,12 +98,6 @@ export default class NsfMSFDraftRescheduledTask
   //DATA
 
   //ACTION
-  rescueTask() {
-    Task.Action.saveTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
 
   gotoFile() {
     Helper.Router.gotoFile({
@@ -111,5 +107,3 @@ export default class NsfMSFDraftRescheduledTask
   }
 }
 </script>
-
-        <style></style>

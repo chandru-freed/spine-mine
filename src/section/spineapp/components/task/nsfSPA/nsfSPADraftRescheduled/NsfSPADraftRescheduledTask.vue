@@ -9,7 +9,7 @@
     ></component>
   </div>
 </template>
-       <script lang="ts">
+ <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -20,8 +20,8 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
-import NMSFDRTFStepperMDP from "./NMSFDRTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
+import NSPADRTFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPADraftRescheduled/NSPADRTFStepperMDP";
 import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
@@ -30,7 +30,7 @@ import Helper from "@/section/spineapp/util/Helper";
     FBtn,
   },
 })
-export default class NsfMSFDraftRescheduledTask
+export default class NsfSPADraftRescheduledTask
   extends ModelVue
   implements SelfTaskIntf
 {
@@ -41,7 +41,7 @@ export default class NsfMSFDraftRescheduledTask
 
   //METADATA
   get stepperMetaData() {
-    return new NMSFDRTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new NSPADRTFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
@@ -111,5 +111,3 @@ export default class NsfMSFDraftRescheduledTask
   }
 }
 </script>
-
-        <style></style>

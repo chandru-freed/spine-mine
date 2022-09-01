@@ -54,6 +54,9 @@ import WelcomeCallFFormMDP from "./WelcomeCallFFormMDP";
   },
 })
 export default class FileCreateRequest extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   selectedRequestType: any = {};
   requestTypeFlowMapList = [
     {
@@ -98,8 +101,11 @@ export default class FileCreateRequest extends Vue {
   ];
   fileId = this.$route.params.fileId
 
-  initDocumentData: any = {fileId: this.fileId, clientName: "John Doe", clientMobile: "987654321"}
+  get initDocumentData() {
+    return {fileId: this.fileId, clientName: `${this.clientFileBasicInfo.clientBasicInfo.firstName} ${this.clientFileBasicInfo.clientBasicInfo.middleName} ${this.clientFileBasicInfo.clientBasicInfo.lastName}`, clientMobile: this.clientFileBasicInfo.clientBasicInfo.mobile, clientId: this.clientFileBasicInfo.clientBasicInfo.clientId }
+  }
   get createRequestFormData() {
+    
     return {...this.selectedRequestType, initDocument: JSON.stringify(this.initDocumentData)}
   }
   
@@ -138,7 +144,7 @@ export default class FileCreateRequest extends Vue {
   createFlow() {
     Flow.Action.createFlow({
       createRequestFormData: this.createRequestFormData,
-      fileId: this.initDocumentData.fileId,
+      fileId: this.fileId,
       router:this.$router
     });
  

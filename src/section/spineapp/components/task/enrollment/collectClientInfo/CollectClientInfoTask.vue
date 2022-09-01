@@ -100,6 +100,29 @@ export default class CollectClientInfoTask
         ...this.taskFormOutputLocal.budgetInfo.debtRepayments,
         ...this.taskDetailsOutput.budgetInfo.debtRepayments,
       };
+      this.taskFormOutputLocal.budgetInfo.livingExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.livingExpenses,
+        ...this.taskDetailsOutput.budgetInfo.livingExpenses,
+      };
+      this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses,
+        ...this.taskDetailsOutput.budgetInfo.lifeStyleExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.dependentExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.dependentExpenses,
+        ...this.taskDetailsOutput.budgetInfo.dependentExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.incidentalExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.incidentalExpenses,
+        ...this.taskDetailsOutput.budgetInfo.incidentalExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses,
+        ...this.taskDetailsOutput.budgetInfo.miscellaneousExpenses,
+      };
     }
 
     if (

@@ -32,7 +32,7 @@
     >
       <div
         :class="actionMetaData.boundaryClass"
-        v-for="(actionMetaData, indx) in actionMetaDataList"
+        v-for="(actionMetaData, indx) in actionMetaDataListFiltered"
         :key="indx"
       >
         <component
@@ -119,6 +119,10 @@ export default class FForm extends ModelVue {
 
   get fieldMetaDataListFiltered() {
     return this.fieldMetaDataList.filter(fieldMetaData => (fieldMetaData.condition === undefined || fieldMetaData.condition === true ))
+  }
+
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(actionMetaData => (actionMetaData.condition === undefined || actionMetaData.condition === true ))
   }
 
 

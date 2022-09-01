@@ -39,7 +39,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import ModelVue from "../../ModelVue";
 import FTextField from "@/components/generic/form/field/FTextField.vue";
 import moment from "moment";
 import { VTextField } from "vuetify/lib/components";

@@ -41,6 +41,8 @@ import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
 import NsfMSFFFormMDP from "./NsfMSFFFormMDP";
 import Flow from "@/section/spineapp/util/Flow";
 import WelcomeCallFFormMDP from "./WelcomeCallFFormMDP";
+import NsfSPAFFormMDP from "./NsfSPAFFormMDP";
+import CHPPDefaultFFormMDP from "./CHPPDefaultFFormMDP";
 
 @Component({
   components: {
@@ -90,6 +92,15 @@ export default class CreateRequest extends Vue {
         teamCode: "welcomecall",
       },
     },
+     {
+      key: "NsfSPA",
+      value: {
+        fqFlowName: "DspFlow::NsfSPA",
+        netName: "Default",
+        priority: 1,
+        teamCode: "nsfspa",
+      },
+    },
   ];
 
   initDocumentData: any = {}
@@ -105,7 +116,7 @@ export default class CreateRequest extends Vue {
         parent: this,
       }).getMetaData(),
 
-      "DspFlow::CHPP:Default": new EnrollmentFFormMDP({
+      "DspFlow::CHPP:Default": new CHPPDefaultFFormMDP({
         taskRoot: this,
         parent: this,
       }).getMetaData(),
@@ -116,6 +127,12 @@ export default class CreateRequest extends Vue {
       }).getMetaData(),
 
       "DspFlow::WelcomeCall:Default": new WelcomeCallFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+
+
+      "DspFlow::NsfSPA:Default": new NsfSPAFFormMDP({
         taskRoot: this,
         parent: this,
       }).getMetaData(),

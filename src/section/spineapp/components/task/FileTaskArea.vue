@@ -9,7 +9,7 @@
       <v-btn text @click="gotoFile">
         <v-icon>mdi-chevron-left</v-icon> All Tasks</v-btn
       >
-      
+
       <v-spacer></v-spacer>
       <v-btn
         outlined
@@ -76,12 +76,17 @@ import SignServiceAgreementTask from "@/section/spineapp/components/task/enrollm
 import EMandateTask from "@/section/spineapp/components/task/enrollment/eMandate/EMandateTask.vue";
 import ManageClientInfoTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfo/ManageClientInfoTask.vue";
 import WelcomeCallSignServiceAgreementFailedTask from "@/section/spineapp/components/task/welcomeCall/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
-import ReceiveManualPaymentTask from "@/section/spineapp/components/task/enrollment/receiveManualPayment/ReceiveManualPaymentTask.vue";
+import ReceiveManualPaymentTask from "@/section/spineapp/components/task/nsfMSF/receiveManualPayment/ReceiveManualPaymentTask.vue";
 import ManageClientInfoCompletionTask from "@/section/spineapp/components/task/welcomeCall/manageClientInfoCompletion/ManageClientInfoCompletionTask.vue";
 import WelcomeCallSSATask from "@/section/spineapp/components/task/welcomeCall/signServiceAgreement/WelcomeCallSSATask.vue";
 import WelcomeCallEMandateTask from "@/section/spineapp/components/task/welcomeCall/eMandate/EMandateTask.vue";
 import SignAmendmentTask from "@/section/spineapp/components/task/welcomeCall/signAmendment/SignAmendmentTask.vue";
-
+import NsfSPATask from "@/section/spineapp/components/task/nsfSPA/nsfSPA/NsfSPATask.vue";
+import NsfSPADraftRescheduledTask from "@/section/spineapp/components/task/nsfSPA/nsfSPADraftRescheduled/NsfSPADraftRescheduledTask.vue";
+import NsfSPACompletionTask from "@/section/spineapp/components/task/nsfSPA/nsfSPACompletion/NsfSPACompletionTask.vue";
+import NsfSPAClientDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPAClientDeferred/NsfSPAClientDeferredTask.vue";
+import NsfSPAReceiveManualPaymentTask from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/ReceiveManualPaymentTask.vue";
+import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -123,6 +128,12 @@ import SignAmendmentTask from "@/section/spineapp/components/task/welcomeCall/si
     ManageClientInfoCompletionTask,
     WelcomeCallSSATask,
     WelcomeCallEMandateTask,
+    NsfSPATask,
+    NsfSPADraftRescheduledTask,
+    NsfSPACompletionTask,
+    NsfSPAClientDeferredTask,
+    NsfSPAReceiveManualPaymentTask,
+    NsfSPASystemDeferredTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -137,7 +148,10 @@ export default class FileTaskArea extends Vue {
     ["Enrollment::CollectClientInfo", "CollectClientInfoTask"],
     ["Enrollment::ClientInfoVerification", "ClientInfoVerificationTask"],
     ["Enrollment::SignServiceAgreement", "SignServiceAgreementTask"],
-    ["Enrollment::SignServiceAgreementFailed", "SignServiceAgreementFailedTask"],
+    [
+      "Enrollment::SignServiceAgreementFailed",
+      "SignServiceAgreementFailedTask",
+    ],
     ["Enrollment::EMandate", "EMandateTask"],
     ["Enrollment::EMandateFailed", "EMandateFailedTask"],
     ["Enrollment::Underwritting", "UnderwrittingTask"],
@@ -165,21 +179,43 @@ export default class FileTaskArea extends Vue {
     ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
     ["ManualPayment::GenerateLink", "GenerateLinkTask"],
     ["ManualPayment::SendLink", "SendLinkTask"],
-    ["ManualPayment::CheckManualPaymentReceived", "CheckManualPaymentReceivedTask"],
-    ["ManualPayment::PaymentReceivedConfirmation", "PaymentReceivedConfirmationTask"],
+    [
+      "ManualPayment::CheckManualPaymentReceived",
+      "CheckManualPaymentReceivedTask",
+    ],
+    [
+      "ManualPayment::PaymentReceivedConfirmation",
+      "PaymentReceivedConfirmationTask",
+    ],
     ["WelcomeCall::ManageClientInfo", "ManageClientInfoTask"],
-    ["WelcomeCall::SignServiceAgreementFailed", "WelcomeCallSignServiceAgreementFailedTask"],
+    [
+      "WelcomeCall::SignServiceAgreementFailed",
+      "WelcomeCallSignServiceAgreementFailedTask",
+    ],
     ["WelcomeCall::SignAmendment", "SignAmendmentTask"],
-    ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"],
+    [
+      "WelcomeCall::ManageClientInfoCompletion",
+      "ManageClientInfoCompletionTask",
+    ],
     ["WelcomeCall::SignServiceAgreement", "WelcomeCallSSATask"],
     ["WelcomeCall::EMandate", "WelcomeCallEMandateTask"],
-    ["WelcomeCall::ManageClientInfoCompletion", "ManageClientInfoCompletionTask"],
+    [
+      "WelcomeCall::ManageClientInfoCompletion",
+      "ManageClientInfoCompletionTask",
+    ],
+    ["NsfSPA::NsfSPA", "NsfSPATask"],
+    ["NsfSPA::NsfSPADraftRescheduled", "NsfSPADraftRescheduledTask"],
+    ["NsfSPA::NsfSPACompletion", "NsfSPACompletionTask"],
+    ["NsfSPA::NsfSPAClientDeferred", "NsfSPAClientDeferredTask"],
+    ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
+    ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
+    
   ]);
 
   taskId = this.$route.params.taskId;
 
   get fqTaskName() {
-    return `${this.taskDetails.flowName}::${this.taskDetails.taskName}`
+    return `${this.taskDetails.flowName}::${this.taskDetails.taskName}`;
   }
 
   get selectedComponent() {

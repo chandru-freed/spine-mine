@@ -1,10 +1,14 @@
 <template>
   <div>
     <component
+      style="height: 100%"
       :is="budgetFormMetaData.componentName"
       v-bind="budgetFormMetaData.props"
       :value="selectModel(modelValue, budgetFormMetaData.dataSelectorKey)"
-      @input="(newValue) => updateModel(modelValue, newValue, budgetFormMetaData.dataSelectorKey)"
+      @input="
+        (newValue) =>
+          updateModel(modelValue, newValue, budgetFormMetaData.dataSelectorKey)
+      "
     ></component>
 
     <div class="d-flex justify-space-around">
@@ -15,76 +19,77 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Total Income</v-list-item-title>
-              <v-list-item-subtitle>Income earned in total per month</v-list-item-subtitle >
+              <v-list-item-subtitle
+                >Income earned in total per month</v-list-item-subtitle
+              >
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text>
-                ₹ {{ totalIncomeAmount }}
-              </v-btn>
+              <v-btn text> ₹ {{ totalIncomeAmount }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
-           <v-list-item>
+          <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Total Secured Debt Obligation</v-list-item-title>
-              <v-list-item-subtitle>All total debt</v-list-item-subtitle >
+              <v-list-item-title
+                >Total Secured Debt Obligation</v-list-item-title
+              >
+              <v-list-item-subtitle>All total debt</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text>
-                ₹ {{ totalSecuredDebtAmount }}
-              </v-btn>
+              <v-btn text> ₹ {{ totalSecuredDebtAmount }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
-         <v-list-item>
+          <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Total Monthly Expenses</v-list-item-title>
-              <v-list-item-subtitle>All monthly expenses</v-list-item-subtitle >
+              <v-list-item-subtitle>All monthly expenses</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text>
-                ₹ {{ allExpensesAmount }}
-              </v-btn>
+              <v-btn text> ₹ {{ allExpensesAmount }} </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Available Income </v-list-item-title>
-              <v-list-item-subtitle>Total Income - (Total Monthly Expense + Total Debt Repayments)</v-list-item-subtitle >
+              <v-list-item-subtitle
+                >Total Income - (Total Monthly Expense + Total Debt
+                Repayments)</v-list-item-subtitle
+              >
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text>
-                ₹ {{ availableIncome }}
-              </v-btn>
+              <v-btn text> ₹ {{ availableIncome }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Proposed DS Payment (Affordability)</v-list-item-title>
-              <v-list-item-subtitle>{{affordabilityPercentage}}% of Available Income </v-list-item-subtitle >
+              <v-list-item-title
+                >Proposed DS Payment (Affordability)</v-list-item-title
+              >
+              <v-list-item-subtitle
+                >{{ affordabilityPercentage }}% of Available Income
+              </v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text>
-                ₹ {{proposedDSPayment}}
-              </v-btn>
+              <v-btn text> ₹ {{ proposedDSPayment }} </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>SDTI (Secured Debt to Income Ratio) or SFOIR </v-list-item-title>
-              <v-list-item-subtitle></v-list-item-subtitle >
+              <v-list-item-title
+                >SDTI (Secured Debt to Income Ratio) or SFOIR
+              </v-list-item-title>
+              <v-list-item-subtitle></v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text>
-                Fill in
-              </v-btn>
+              <v-btn text> {{sdtiRatio}}% </v-btn>
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -120,7 +125,7 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class FBudget extends ModelVue {
-  affordabilityPercentage = 80
+  affordabilityPercentage = 80;
 
   get incomeSources() {
     return this.modelValue.incomeSources;
@@ -131,15 +136,30 @@ export default class FBudget extends ModelVue {
   }
 
   get livingExpenses() {
-    return this.modelValue.livingExpenses
+    return this.modelValue.livingExpenses;
+  }
+
+  get lifeStyleExpenses() {
+    return this.modelValue.lifeStyleExpenses;
+  }
+
+  get dependentExpenses() {
+    return this.modelValue.dependentExpenses;
+  }
+
+  get incidentalExpenses() {
+    return this.modelValue.incidentalExpenses;
+  }
+
+  get miscellaneousExpenses() {
+    return this.modelValue.miscellaneousExpenses;
   }
 
   get totalIncomeAmount() {
-    const totalIncome = this.sumMiniBudgetAmount(this.incomeSources)
-    this.modelValue.totalIncome = totalIncome
-    return totalIncome
+    const totalIncome = this.sumMiniBudgetAmount(this.incomeSources);
+    this.modelValue.totalIncome = totalIncome;
+    return totalIncome;
   }
-
 
   sumMiniBudgetAmount(budgetObj: any) {
     return Object.values(budgetObj).reduce(
@@ -151,30 +171,75 @@ export default class FBudget extends ModelVue {
   }
 
   get totalLivingExpenses() {
-     const totalLivingExpenses = this.sumMiniBudgetAmount(this.livingExpenses)
-    this.modelValue.totalLivingExpenses = totalLivingExpenses
-    return totalLivingExpenses
+    const totalLivingExpenses = this.sumMiniBudgetAmount(this.livingExpenses);
+    this.modelValue.totalLivingExpenses = totalLivingExpenses;
+    return totalLivingExpenses;
   }
 
+  get totalLifeStyleExpenses() {
+    const totalLifeStyleExpenses = this.sumMiniBudgetAmount(
+      this.lifeStyleExpenses
+    );
+    this.modelValue.totalLifeStyleExpenses = totalLifeStyleExpenses;
+    return totalLifeStyleExpenses;
+  }
+
+  get totalDependentExpenses() {
+    const totalDependentExpenses = this.sumMiniBudgetAmount(
+      this.dependentExpenses
+    );
+    this.modelValue.totalDependentExpenses = totalDependentExpenses;
+    return totalDependentExpenses;
+  }
+
+  get totalIncidentalExpenses() {
+    const totalIncidentalExpenses = this.sumMiniBudgetAmount(
+      this.incidentalExpenses
+    );
+    this.modelValue.totalIncidentalExpenses = totalIncidentalExpenses;
+    return totalIncidentalExpenses;
+  }
+
+  get totalMiscellaneousExpenses() {
+    const totalMiscellaneousExpenses = this.sumMiniBudgetAmount(
+      this.miscellaneousExpenses
+    );
+    this.modelValue.totalMiscellaneousExpenses = totalMiscellaneousExpenses;
+    return totalMiscellaneousExpenses;
+  }
   get allExpensesAmount() {
-    const allExpenseList = this.totalLivingExpenses + 0
-    return allExpenseList
+    const allExpenseList =
+      this.totalLivingExpenses +
+      this.totalLifeStyleExpenses +
+      this.totalDependentExpenses +
+      this.totalIncidentalExpenses +
+      this.totalMiscellaneousExpenses;
+    return allExpenseList;
   }
 
   get totalSecuredDebtAmount() {
-    const totalDebtRepayments = this.sumMiniBudgetAmount(this.debtRepayments)
-    this.modelValue.totalDebtRepayments = totalDebtRepayments
-    return totalDebtRepayments
+    const totalDebtRepayments = this.sumMiniBudgetAmount(this.debtRepayments);
+    this.modelValue.totalDebtRepayments = totalDebtRepayments;
+    return totalDebtRepayments;
   }
 
-  get availableIncome( ) {
-    return this.totalIncomeAmount - this.totalSecuredDebtAmount - this.allExpensesAmount
+  get availableIncome() {
+    return (
+      this.totalIncomeAmount -
+      this.totalSecuredDebtAmount -
+      this.allExpensesAmount
+    );
   }
 
-  get proposedDSPayment( ) {
-    return (this.availableIncome  * this.affordabilityPercentage) /100
+  get proposedDSPayment() {
+    return (this.availableIncome * this.affordabilityPercentage) / 100;
   }
 
+  get sdtiRatio() {
+    return this.totalIncomeAmount!==0
+    ?(this.totalSecuredDebtAmount /this.totalIncomeAmount) * 100
+    :0;
+  }
 
   @Prop()
   budgetFormMetaData: any;

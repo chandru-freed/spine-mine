@@ -1,11 +1,12 @@
 <template>
   <div class="d-flex flex-row align-start flex-wrap justify-start py-2">
-    <v-card outlined class="col-12">
+    <v-card outlined class="col-12 " style="d-flex">
     <v-subheader class=" col-12">{{label}}</v-subheader>
     <div
       v-for="(fieldMetaData, indx) in fieldMetaDataList"
       :key="indx"
       :class="fieldMetaData.boundaryClass"
+      style="flex:1;"
     >
       <ValidationProvider
         :vid="fieldMetaData.props.id"

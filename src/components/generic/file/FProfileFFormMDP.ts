@@ -6,6 +6,7 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
+import FSelectDateFieldMDP from "../form/field/FDateSelectFieldMDP";
 
 export default class FProfileFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -101,12 +102,13 @@ export default class FProfileFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FDateFieldMDP({
+        new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "dob",
           label: "Date Of Birth",
           boundaryClass: "col-6",
           mandatory: true,
+          futureDaysDisabled: true
         })
       )
       .addField(

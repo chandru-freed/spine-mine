@@ -19,10 +19,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import RMPTFStepperMDP from "@/section/spineapp/components/task/enrollment/receiveManualPayment/RMPTFStepperMDP";
+import NSPAFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPA/NSPAFStepperMDP";
 
 @Component({
   components: {
@@ -30,10 +30,7 @@ import RMPTFStepperMDP from "@/section/spineapp/components/task/enrollment/recei
     FBtn,
   },
 })
-export default class ReceiveManualPaymentTask
-  extends ModelVue
-  implements FlowTaskIntf
-{
+export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -41,9 +38,13 @@ export default class ReceiveManualPaymentTask
 
   //METADATA
   get stepperMetaData() {
-    return new RMPTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new NSPAFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
+
+  selectedNSPATaskOption() {
+    return this.taskFormData.taskOutput.selectedNSPATaskOption;
+  }
 
   // DATA
   get taskDetailsOutput() {
@@ -78,20 +79,14 @@ export default class ReceiveManualPaymentTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.ReceiveManualPaymentTaskOutput();
+  taskFormOutputLocal: any = new Data.Spine.NsfSPATaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.paymentSuccessfull) {
-      this.taskFormOutputLocal.paymentSuccessfull =
-        this.taskDetailsOutput.paymentSuccessfull;
+    if (this.taskDetailsOutput.disposition === null) {
+      this.taskDetailsOutput.disposition = new Data.Spine.NsfSPADisposition();
     }
-    if (this.taskDetailsOutput.failureCode) {
-      this.taskFormOutputLocal.failureCode = this.taskDetailsOutput.failureCode;
-    }
-    if (this.taskDetailsOutput.failureReason) {
-      this.taskFormOutputLocal.failureReason =
-        this.taskDetailsOutput.failureReason;
-    }
+    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
+
     return this.taskFormOutputLocal;
   }
 
@@ -100,15 +95,26 @@ export default class ReceiveManualPaymentTask
   }
   //Task Output
 
+  //DATA
+
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
-  //DATA
-
   //ACTION
+  saveAndMarkCompleteTask() {
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
 
-  rescueTask() {
+  saveTask() {
+    this.taskFormOutput.manualPayment =
+      this.taskFormOutput.selectedNSPATaskOption === "Receive Payment";
+    this.taskFormOutput.answered = !(
+      this.taskFormOutput.selectedNSPATaskOption === "System Deferred"
+    );
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
@@ -123,3 +129,5 @@ export default class ReceiveManualPaymentTask
   }
 }
 </script>
+
+<style></style>

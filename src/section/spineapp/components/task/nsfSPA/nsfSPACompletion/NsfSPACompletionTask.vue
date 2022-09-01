@@ -19,10 +19,9 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
-import NMSFDRTFStepperMDP from "./NMSFDRTFStepperMDP";
+import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
-import Helper from "@/section/spineapp/util/Helper";
+import NSPACTFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPACompletion/NSPACTFStepperMDP"
 
 @Component({
   components: {
@@ -30,9 +29,9 @@ import Helper from "@/section/spineapp/util/Helper";
     FBtn,
   },
 })
-export default class NsfMSFDraftRescheduledTask
+export default class NsfSPACompletionTask
   extends ModelVue
-  implements SelfTaskIntf
+  implements ManualTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -41,8 +40,9 @@ export default class NsfMSFDraftRescheduledTask
 
   //METADATA
   get stepperMetaData() {
-    return new NMSFDRTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new NSPACTFStepperMDP({ taskRoot: this }).getMetaData();
   }
+
   //METADATA
 
   // DATA
@@ -78,7 +78,7 @@ export default class NsfMSFDraftRescheduledTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {}; // Initialization
+  taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
     return this.taskFormOutputLocal;
@@ -96,7 +96,14 @@ export default class NsfMSFDraftRescheduledTask
   //DATA
 
   //ACTION
-  rescueTask() {
+  saveAndMarkCompleteTask() {
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
+  saveTask() {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
@@ -104,12 +111,10 @@ export default class NsfMSFDraftRescheduledTask
   }
 
   gotoFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      fileId: this.$route.params.fileId,
+    this.$router.push({
+      name: "Root.ClientFile.ClientFileDetails",
+      params: { fileId: this.$route.params.fileId },
     });
   }
 }
 </script>
-
-        <style></style>

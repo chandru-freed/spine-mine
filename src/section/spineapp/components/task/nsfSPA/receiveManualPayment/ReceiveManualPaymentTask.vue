@@ -19,10 +19,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
-import NMSFDRTFStepperMDP from "./NMSFDRTFStepperMDP";
+import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
+import NSPARMPTFStepperMDP from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/NSPARMPTFStepperMDP";
 
 @Component({
   components: {
@@ -30,9 +30,9 @@ import Helper from "@/section/spineapp/util/Helper";
     FBtn,
   },
 })
-export default class NsfMSFDraftRescheduledTask
+export default class ReceiveManualPaymentTask
   extends ModelVue
-  implements SelfTaskIntf
+  implements FlowTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -41,7 +41,7 @@ export default class NsfMSFDraftRescheduledTask
 
   //METADATA
   get stepperMetaData() {
-    return new NMSFDRTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new NSPARMPTFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
@@ -78,9 +78,20 @@ export default class NsfMSFDraftRescheduledTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {}; // Initialization
+  taskFormOutputLocal: any = new Data.Spine.ReceiveManualPaymentTaskOutput();
 
   get taskFormOutput() {
+    if (this.taskDetailsOutput.paymentSuccessfull) {
+      this.taskFormOutputLocal.paymentSuccessfull =
+        this.taskDetailsOutput.paymentSuccessfull;
+    }
+    if (this.taskDetailsOutput.failureCode) {
+      this.taskFormOutputLocal.failureCode = this.taskDetailsOutput.failureCode;
+    }
+    if (this.taskDetailsOutput.failureReason) {
+      this.taskFormOutputLocal.failureReason =
+        this.taskDetailsOutput.failureReason;
+    }
     return this.taskFormOutputLocal;
   }
 
@@ -96,6 +107,7 @@ export default class NsfMSFDraftRescheduledTask
   //DATA
 
   //ACTION
+
   rescueTask() {
     Task.Action.saveTask({
       taskId: this.taskId,
@@ -111,5 +123,3 @@ export default class NsfMSFDraftRescheduledTask
   }
 }
 </script>
-
-        <style></style>

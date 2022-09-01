@@ -15,7 +15,7 @@ export default class FSelectField extends VSelect {
 
   // MODEL VALUE - START
   @Prop()
-  value: string;
+  value: any;
 
   get modelValue() {
     return this.value;

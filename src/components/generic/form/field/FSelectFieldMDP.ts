@@ -11,6 +11,9 @@ export default class FSelectFieldMDP implements FFieldMDP {
   parentMDP: FFormChildMDP;
   boundaryClass: string
   options: string[]
+  optionLabel: string|undefined;
+  optionValue: string|undefined;
+  returnObject: boolean;
   disabled: boolean
   condition: boolean;
   constructor({
@@ -23,7 +26,10 @@ export default class FSelectFieldMDP implements FFieldMDP {
     boundaryClass = "col-12",
     options = [],
     disabled = false,
-    condition=true
+    returnObject=false,
+    condition=true,
+    optionLabel,
+    optionValue
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -32,9 +38,12 @@ export default class FSelectFieldMDP implements FFieldMDP {
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string
-    options: string[]
+    options: any[]
     disabled?: boolean
     condition?:boolean
+    returnObject?: boolean
+    optionLabel?:string|undefined
+    optionValue?:string|undefined
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -46,6 +55,9 @@ export default class FSelectFieldMDP implements FFieldMDP {
     this.options = options
     this.disabled = disabled
     this.condition = condition;
+    this.returnObject = returnObject;
+    this.optionLabel = optionLabel;
+    this.optionValue = optionValue;
   }
 
   getRules() {
@@ -71,7 +83,10 @@ export default class FSelectFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         items: this.options,
-        disabled: this.disabled
+        disabled: this.disabled,
+        returnObject: this.returnObject,
+        itemText: this.optionLabel,
+        itemValue: this.optionValue
       },
     };
   }

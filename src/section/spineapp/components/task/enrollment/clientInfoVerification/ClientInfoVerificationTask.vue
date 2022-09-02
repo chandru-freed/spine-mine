@@ -113,7 +113,7 @@ export default class ClientInfoVerificationTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
+ 
   saveTask() {
     Task.Action.saveTask({
       taskId: this.taskId,

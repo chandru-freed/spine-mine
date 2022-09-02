@@ -1,10 +1,18 @@
 <template>
   <div>
     <component
+      v-if="profileFormData.clientId && profileFormData.clientInfo"
       :ref="profileFormMetaData.myRefName"
       :is="profileFormMetaData.componentName"
       :value="selectModel(profileFormData, profileFormMetaData.dataSelectorKey)"
-      @input="(newValue) => updateModel(profileFormData, newValue, profileFormMetaData.dataSelectorKey)"
+      @input="
+        (newValue) =>
+          updateModel(
+            profileFormData,
+            newValue,
+            profileFormMetaData.dataSelectorKey
+          )
+      "
       v-bind="profileFormMetaData.props"
     ></component>
   </div>
@@ -16,7 +24,6 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import ClientProfileFProfileFFormMDP from "@/section/spineapp/components/file/profile/ClientProfileFProfileFFormMDP";
-import DeferredTaskIntf from "../../../util/DeferredTaskIntf";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import Helper from "../../../util/Helper";
@@ -45,17 +52,21 @@ export default class FileProfile extends ModelVue {
   //METADATA
 
   //FORM
-  
-  profileFormDataLocal: any = new Data.ClientFile.ClientInfoOutput() 
+
+  profileFormDataLocal: any = new Data.ClientFile.ClientInfoOutput();
 
   get profileFormData() {
-    if(!!this.clientInfoOutput && !!this.clientInfoOutput.clientInfo) {
-      this.profileFormDataLocal.clientInfo = this.clientInfoOutput.clientInfo
-      if(!this.clientInfoOutput.clientInfo.residentialAddress) {
-        this.profileFormDataLocal.clientInfo.residentialAddress = new Data.ClientFile.ClientAddress();
+    if (!!this.clientInfoOutput && !!this.clientInfoOutput.clientId) {
+      this.profileFormDataLocal.clientId = this.clientInfoOutput.clientId;
+    }
+    if (!!this.clientInfoOutput && !!this.clientInfoOutput.clientInfo) {
+      this.profileFormDataLocal.clientInfo = this.clientInfoOutput.clientInfo;
+      if (!this.clientInfoOutput.clientInfo.residentialAddress) {
+        this.profileFormDataLocal.clientInfo.residentialAddress =
+          new Data.ClientFile.ClientAddress();
       }
     }
-    return this.profileFormDataLocal
+    return this.profileFormDataLocal;
   }
 
   set profileFormData(value: any) {
@@ -65,27 +76,20 @@ export default class FileProfile extends ModelVue {
   //FORM
 
   mounted() {
-      this.findClientInfo();
+    this.findClientInfo();
   }
 
   //ACTION
   findClientInfo() {
     Action.ClientFile.FindClientInfo.execute1(
       this.clientFileBasicInfo.clientBasicInfo.clientId,
-      (output) => {
-        console.log("clientInfo called");
-      },
+      (output) => {},
       (error) => {},
       RemoteApiPoint.SpineApi
     );
   }
 
-  gotoFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      fileId: this.$route.params.fileId,
-    });
-  }
+  
 }
 </script>
 

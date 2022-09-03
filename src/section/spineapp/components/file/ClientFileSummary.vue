@@ -136,7 +136,7 @@ import * as Action from '@/../src-gen/action';
 @Component
 export default class ClientFileSummary extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientBasicInfo;
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
   @Prop()
   public fileDetails: any;

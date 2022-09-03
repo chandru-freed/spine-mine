@@ -79,7 +79,7 @@ export default class FProfileFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "mothersMaidenName",
+          dataSelectorKey: "motherMaidenName",
           label: "Mother's Maiden Name",
           boundaryClass: "col-6",
           mandatory: true,
@@ -88,7 +88,7 @@ export default class FProfileFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "fathersName",
+          dataSelectorKey: "fatherName",
           label: "Father's Name",
           boundaryClass: "col-6",
           mandatory: true,

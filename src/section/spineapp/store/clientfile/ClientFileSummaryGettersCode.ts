@@ -7,10 +7,10 @@ export class ClientFileSummaryInit {
 }
 
 export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
-   public clientInfoOutput(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.ClientInfoOutput {
-     return state.clientInfoOutput
+   personalInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.ClPersonalInfo | undefined {
+     return state.personalInfo
    }
-
+   
 
    public clientFileBasicInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.ClientFileBasicInfo {
      return state.clientFileBasicInfo

@@ -1,14 +1,14 @@
 <template>
   <div>
     <component
-      v-if="profileFormData.clientId && profileFormData.clientInfo"
+      v-if="personalInfoForm.clientId && personalInfoForm.clientInfo"
       :ref="profileFormMetaData.myRefName"
       :is="profileFormMetaData.componentName"
-      :value="selectModel(profileFormData, profileFormMetaData.dataSelectorKey)"
+      :value="selectModel(personalInfoForm, profileFormMetaData.dataSelectorKey)"
       @input="
         (newValue) =>
           updateModel(
-            profileFormData,
+            personalInfoForm,
             newValue,
             profileFormMetaData.dataSelectorKey
           )
@@ -38,8 +38,8 @@ export default class FileProfile extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  @Store.Getter.ClientFile.ClientFileSummary.clientInfoOutput
-  clientInfoOutput: Data.ClientFile.ClientInfoOutput;
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfo: Data.ClientFile.ClPersonalInfo;
 
   fileId = this.$route.params.fileId;
   //METADATA
@@ -53,24 +53,22 @@ export default class FileProfile extends ModelVue {
 
   //FORM
 
-  profileFormDataLocal: any = new Data.ClientFile.ClientInfoOutput();
+  personalInfoFormLocal: any = new Data.ClientFile.ClPersonalInfo();
 
-  get profileFormData() {
-    if (!!this.clientInfoOutput && !!this.clientInfoOutput.clientId) {
-      this.profileFormDataLocal.clientId = this.clientInfoOutput.clientId;
-    }
-    if (!!this.clientInfoOutput && !!this.clientInfoOutput.clientInfo) {
-      this.profileFormDataLocal.clientInfo = this.clientInfoOutput.clientInfo;
-      if (!this.clientInfoOutput.clientInfo.residentialAddress) {
-        this.profileFormDataLocal.clientInfo.residentialAddress =
+  get personalInfoForm() {
+    
+    if (!!this.personalInfo ) {
+      this.personalInfoFormLocal = this.personalInfo;
+      if (!this.personalInfo.residentialAddress) {
+        this.personalInfoFormLocal.residentialAddress =
           new Data.ClientFile.ClientAddress();
       }
     }
-    return this.profileFormDataLocal;
+    return this.personalInfoFormLocal;
   }
 
-  set profileFormData(value: any) {
-    this.profileFormDataLocal = value;
+  set personalInfoForm(value: any) {
+    this.personalInfoFormLocal = value;
   }
 
   //FORM
@@ -81,7 +79,7 @@ export default class FileProfile extends ModelVue {
 
   //ACTION
   findClientInfo() {
-    Action.ClientFile.FindClientInfo.execute1(
+    Action.ClientFile.FindPersonalInfo.execute1(
       this.clientFileBasicInfo.clientBasicInfo.clientId,
       (output) => {},
       (error) => {},

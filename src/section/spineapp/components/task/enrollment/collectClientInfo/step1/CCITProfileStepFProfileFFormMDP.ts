@@ -7,7 +7,7 @@ export default class CCITProfileStepFProfileFFormMDP extends FProfileFFormMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "clientInfoFormRef",
-      dataSelectorKey: "taskOutput.clientInfo",
+      dataSelectorKey: "taskOutput.personalInfo",
       disabled: taskRoot.taskDisabled,
     });
 

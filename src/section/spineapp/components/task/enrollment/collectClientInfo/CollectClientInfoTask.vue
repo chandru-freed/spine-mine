@@ -74,10 +74,10 @@ export default class CollectClientInfoTask
 
   get taskFormOutput() {
     if (
-      this.taskDetailsOutput.clientInfo &&
-      this.taskDetailsOutput.clientInfo.firstName
+      this.taskDetailsOutput.personalInfo &&
+      this.taskDetailsOutput.personalInfo.firstName
     ) {
-      this.taskFormOutputLocal.clientInfo = this.taskDetailsOutput.clientInfo;
+      this.taskFormOutputLocal.personalInfo = this.taskDetailsOutput.personalInfo;
     }
 
     if (

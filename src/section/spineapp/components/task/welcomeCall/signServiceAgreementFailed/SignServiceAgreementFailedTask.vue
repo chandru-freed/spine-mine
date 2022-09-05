@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import SSAFTFStepperMDP from "./SSAFTFStepperMDP";
@@ -79,8 +79,7 @@ export default class SignServiceAgreementFailedTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any =
-    new Data.Spine.WelcomeCallSSAFailedTaskOutput();
+  taskFormOutputLocal: any = new Data.Spine.WelcomeCallSSAFailedTaskOutput();
 
   get taskFormOutput() {
     if (this.taskDetailsOutput.signAgreementRetry !== null) {
@@ -111,6 +110,19 @@ export default class SignServiceAgreementFailedTask
 
   saveTask() {
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

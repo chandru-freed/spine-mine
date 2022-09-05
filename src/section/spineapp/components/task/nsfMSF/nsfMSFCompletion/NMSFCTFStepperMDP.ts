@@ -1,6 +1,6 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import NMSFCTStepFFormMDP from "./NMSFCTStepFFormMDP";
 
 export default class NMSFCTFStepperMDP extends FStepperMDP {

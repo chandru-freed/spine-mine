@@ -40,6 +40,13 @@ export default class TaskAction  {
     static rescueTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
       //TODO: add rescue task to TaskList ads and implement
     }
+
+    static forceCompleteTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      //TODO: add force complete task to TaskList ads and implement
+    }
   
-   
+    static proceedTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      //TODO: add proceed task to TaskList ads and implement
+    }
+  
 }

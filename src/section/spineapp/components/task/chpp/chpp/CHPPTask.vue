@@ -20,10 +20,10 @@ import FStepper from "@/components/generic/FStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import CHPPFStepperMDP from "./CHPPFStepperMDP";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 @Component({
   components: {
@@ -31,7 +31,7 @@ import CHPPFStepperMDP from "./CHPPFStepperMDP";
     FBtn,
   },
 })
-export default class CHPPTask extends ModelVue implements GenericTaskIntf {
+export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -112,6 +112,20 @@ export default class CHPPTask extends ModelVue implements GenericTaskIntf {
 
   saveTask() {
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
+
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

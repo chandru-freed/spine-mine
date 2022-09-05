@@ -1,7 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import SelfTaskIntf  from "@/section/spineapp/util/SelfTaskIntf";
+import SelfTaskIntf  from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 
 export default class GEMSTStepFFormMDP extends FFormMDP {

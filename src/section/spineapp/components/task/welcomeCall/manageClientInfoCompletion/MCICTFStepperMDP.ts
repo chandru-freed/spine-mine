@@ -1,5 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCICTCompletionStepFFormMDP from "./MCICTCompletionStepFFormMDP";
 
 export default class MCICTFFStepperMDP extends FStepperMDP {

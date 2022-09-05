@@ -2,8 +2,8 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import DeferredTaskIntf from "@/section/spineapp/util/DeferredTaskIntf";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class NMSFTFinalFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();

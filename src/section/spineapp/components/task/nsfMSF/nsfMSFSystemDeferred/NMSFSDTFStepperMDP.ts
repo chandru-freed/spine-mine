@@ -1,5 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import DeferredTaskIntf from "@/section/spineapp/util/DeferredTaskIntf";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 import NMSFSDTStepFFormMDP from "./NMSFSDTStepFFormMDP";
 
 export default class NMSFSDTFStepperMDP extends FStepperMDP {

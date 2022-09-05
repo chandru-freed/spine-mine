@@ -1,5 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import NMSFDRTRescheduleStepFFormMDP from "./NMSFDRTRescheduleStepFFormMDP";
 
 export default class NMSFDRTFStepperMDP extends FStepperMDP {

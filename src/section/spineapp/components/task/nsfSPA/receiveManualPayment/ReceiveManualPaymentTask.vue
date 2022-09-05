@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
+import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import NSPARMPTFStepperMDP from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/NSPARMPTFStepperMDP";
@@ -109,7 +109,13 @@ export default class ReceiveManualPaymentTask
   //ACTION
 
   rescueTask() {
-    Task.Action.saveTask({
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

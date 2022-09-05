@@ -3,7 +3,7 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 

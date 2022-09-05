@@ -1,5 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
+import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 import NSPARMPTStepFFormMDP from "./NSPARMPTStepFFormMDP";
 
 export default class NSPARMPTFStepperMDP extends FStepperMDP {

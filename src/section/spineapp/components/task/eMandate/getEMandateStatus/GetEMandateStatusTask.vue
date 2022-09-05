@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import Helper from "@/section/spineapp/util/Helper";
 import Task from "@/section/spineapp/util/Task";
 import GEMSTFStepperMDP from "./GEMSTFStepperMDP";
@@ -100,11 +100,18 @@ export default class GetEMandateStatusTask
   //ACTION
   
   rescueTask() {
-    Task.Action.saveTask({
+    Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
 
   gotoFile() {
     Helper.Router.gotoFile({

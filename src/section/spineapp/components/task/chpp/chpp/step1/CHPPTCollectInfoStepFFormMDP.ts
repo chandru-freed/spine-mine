@@ -3,17 +3,17 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: GenericTaskIntf;
+  taskRoot: ManualTaskIntf;
   parent: any;
   constructor({
     taskRoot,
     parent,
   }: {
-    taskRoot: GenericTaskIntf;
+    taskRoot: ManualTaskIntf;
     parent: any;
   }) {
     super({

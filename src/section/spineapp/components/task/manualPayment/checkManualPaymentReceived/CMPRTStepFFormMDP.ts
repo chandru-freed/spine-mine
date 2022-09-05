@@ -1,7 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import DeferredTaskIntf from "@/section/spineapp/util/DeferredTaskIntf";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 
 export default class CMPRTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();

@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import NMSFCTFStepperMDP from "@/section/spineapp/components/task/nsfMSF/nsfMSFCompletion/NMSFCTFStepperMDP";
 
@@ -105,6 +105,19 @@ export default class NsfMSFCompletionTask
 
   saveTask() {
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

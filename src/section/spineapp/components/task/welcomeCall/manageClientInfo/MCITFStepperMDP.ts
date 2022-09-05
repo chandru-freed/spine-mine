@@ -1,6 +1,6 @@
 
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITProfileStepFProfileFFormMDP from "./step1/MCITProfileStepFProfileFFormMDP";
 import MCITCreditorStepFCreditorMDP from "./step2/MCITCreditorStepFCreditorMDP";
 import MCITBudgetStepFBudgetMDP from "./step3/MCITBudgetStepFBudgetMDP";

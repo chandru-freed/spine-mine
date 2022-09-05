@@ -3,7 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
+import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 
 export default class RMPTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();

@@ -1,16 +1,17 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+
 
 export default class CHPPTFinalStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: GenericTaskIntf;
+  taskRoot: ManualTaskIntf;
   parent: any;
   constructor({
     taskRoot,
     parent,
   }: {
-    taskRoot: GenericTaskIntf;
+    taskRoot: ManualTaskIntf;
     parent: any;
   }) {
     super({

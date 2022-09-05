@@ -1,5 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import NMSFTFFormMDP from "./step1/NMSFTFFormMDP";
 import NMSFTFinalFFormMDP from "./step2/NMSFTFinalFFormMDP";
 

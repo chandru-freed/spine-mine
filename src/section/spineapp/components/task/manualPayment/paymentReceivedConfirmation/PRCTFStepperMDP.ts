@@ -1,5 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import PRCTStepFFormMDP from "./PRCTStepFFormMDP";
 
 export default class PRCTFStepperMDP extends FStepperMDP {

@@ -1,7 +1,7 @@
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import DeferredTaskIntf from "@/section/spineapp/util/DeferredTaskIntf";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 
 export default class NMSFSDTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();

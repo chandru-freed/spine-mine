@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import NSPAFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPA/NSPAFStepperMDP";
@@ -125,6 +125,18 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
     Helper.Router.gotoFile({
       router: this.$router,
       fileId: this.$route.params.fileId,
+    });
+  }
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
     });
   }
 }

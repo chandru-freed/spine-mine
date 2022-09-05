@@ -2,7 +2,7 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class SSAFTStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();

@@ -1,6 +1,6 @@
 
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
+import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 import SATDisplayStepFFormMDP from "./SATDisplayStepFFormMDP";
 
 

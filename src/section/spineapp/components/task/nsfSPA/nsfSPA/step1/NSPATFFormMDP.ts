@@ -6,7 +6,7 @@ import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFooFieldMDP from "@/components/generic/form/field/FSelectFooFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 
 

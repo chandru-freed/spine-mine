@@ -20,7 +20,7 @@ import * as Data from "@/../src-gen/data";
 import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITFStepperMDP from "./MCITFStepperMDP";
 import FStepper from "@/components/generic/FStepper.vue";
 @Component({

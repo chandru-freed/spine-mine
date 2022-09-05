@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import DeferredTaskIntf from "@/section/spineapp/util/DeferredTaskIntf";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 import Helper from "@/section/spineapp/util/Helper";
 import Task from "@/section/spineapp/util/Task";
 import NMSFCDTFStepperMDP from "./NMSFCDTFStepperMDP";
@@ -94,6 +94,26 @@ export default class NsfMSFClientDeferredTask
   }
 
   //DATA
+
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
+  proceedTask() {
+    Task.Action.proceedTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
 
   //ACTION
 

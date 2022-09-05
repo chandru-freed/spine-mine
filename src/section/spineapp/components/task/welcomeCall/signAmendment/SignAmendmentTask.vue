@@ -20,7 +20,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import SATFStepperMDP from "./SATFStepperMDP"
-import FlowTaskIntf from "@/section/spineapp/util/FlowTaskIntf";
+import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 import FStepper from "@/components/generic/FStepper.vue";
 @Component({
   components: {
@@ -90,12 +90,15 @@ export default class SignAmendmentTask extends ModelVue implements FlowTaskIntf 
     Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
-    })
-    //Task.Action.saveTask({
-    //taskId: this.taskId,
-    //taskOutput: this.taskFormData.taskOutput,
-    //});
+    });
   }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,

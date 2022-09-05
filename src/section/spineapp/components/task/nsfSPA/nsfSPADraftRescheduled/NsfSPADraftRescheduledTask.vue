@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import SelfTaskIntf from "@/section/spineapp/util/SelfTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import NSPADRTFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPADraftRescheduled/NSPADRTFStepperMDP";
 import Helper from "@/section/spineapp/util/Helper";
@@ -97,7 +97,13 @@ export default class NsfSPADraftRescheduledTask
 
   //ACTION
   rescueTask() {
-    Task.Action.saveTask({
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

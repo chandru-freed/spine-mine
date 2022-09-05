@@ -19,7 +19,7 @@ import FStepper from "@/components/generic/FStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import ManualTaskIntf from "@/section/spineapp/util/ManualTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import NMSFFStepperMDP from "./NMSFFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
@@ -83,10 +83,10 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
 
   get taskFormOutput() {
-    if(this.taskDetailsOutput.disposition === null) {
-    this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
+    if (this.taskDetailsOutput.disposition === null) {
+      this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
     }
-    this.taskFormOutputLocal = {...this.taskDetailsOutput}
+    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
 
     return this.taskFormOutputLocal;
   }
@@ -111,9 +111,25 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   }
 
   saveTask() {
-    this.taskFormOutput.manualPayment = (this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment")
-    this.taskFormOutput.answered = !(this.taskFormOutput.selectedNMSFTaskOption === "System Deferred")
+    this.taskFormOutput.manualPayment =
+      this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
+    this.taskFormOutput.answered = !(
+      this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
+    );
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

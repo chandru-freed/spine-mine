@@ -21,7 +21,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import DeferredTaskIntf from "@/section/spineapp/util/DeferredTaskIntf";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 import CMPRTFStepperMDP from "./CMPRTFStepperMDP";
 
 @Component({
@@ -94,6 +94,26 @@ export default class CheckManualPaymentReceivedTask
   }
 
   //DATA
+
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
+  proceedTask() {
+    Task.Action.proceedTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
 
   //ACTION
   gotoFile() {

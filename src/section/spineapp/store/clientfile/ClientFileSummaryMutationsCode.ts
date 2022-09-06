@@ -4,6 +4,7 @@ import {ClientFileSummaryMutations} from '@/../src-gen/store/clientfile-store-su
 
 export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutations   {
    updatePersonalInfo(state: Data.ClientFile.ClientFileSummary, personalInfo: Data.ClientFile.ClPersonalInfo | undefined): void {
+    console.log("inside getters", personalInfo)
      state.personalInfo  = personalInfo
    }
   

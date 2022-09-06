@@ -7,7 +7,6 @@ export default class ClientProfileFProfileFFormMDP extends FProfileFFormMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "clientProfileFFormRef",
-      dataSelectorKey: "clientInfo",
       disabled: true,
     });
 

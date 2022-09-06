@@ -12,7 +12,7 @@ export default class FProfileFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey,  disabled}: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey: string; disabled: boolean }) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey,  disabled}: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string; disabled: boolean }) {
     super({
       myRefName: myRefName,
       dataSelectorKey: dataSelectorKey,

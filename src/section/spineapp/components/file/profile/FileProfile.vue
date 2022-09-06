@@ -1,7 +1,7 @@
 <template>
   <div>
     <component
-      v-if="personalInfoForm"
+      v-if="personalInfoForm.residentialAddress"
       :ref="profileFormMetaData.myRefName"
       :is="profileFormMetaData.componentName"
       :value="selectModel(personalInfoForm, profileFormMetaData.dataSelectorKey)"

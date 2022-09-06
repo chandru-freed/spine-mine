@@ -26,7 +26,6 @@ import * as ServerData from "@/../src-gen/server-data";
 import ClientProfileFProfileFFormMDP from "@/section/spineapp/components/file/profile/ClientProfileFProfileFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 @Component({

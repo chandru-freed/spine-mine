@@ -19,10 +19,11 @@ import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import Task from "@/section/spineapp/util/Task";
 import UFSDTFStepperMDP from "./UFSDTFStepperMDP";
 import Helper from "@/section/spineapp/util/Helper";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 @Component({
   components: {
@@ -32,7 +33,7 @@ import Helper from "@/section/spineapp/util/Helper";
 })
 export default class UploadFreedSignedDocTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements SelfTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -96,15 +97,14 @@ export default class UploadFreedSignedDocTask
   //DATA
 
   //ACTION
-  saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
+  rescueTask() {
+    Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
-  saveTask() {
-    Task.Action.saveTask({
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

@@ -7,11 +7,12 @@ import CCITCreditorStepFCreditorMDP from "./step2/CCITCreditorStepFCreditorMDP";
 import CCITBudgetStepFBudgetMDP from "./step3/CCITBudgetStepFBudgetMDP";
 import CCITPaymentPlanStepFPaymentPlanMDP from "./step4/CCITPaymentPlanStepFPaymentPlanMDP";
 import CCITBankStepFBankFFormMDP from "./step5/CCITBankStepFBankFFormMDP";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class CCITFStepperMDP extends FStepperMDP {
-  taskRoot: CollectClientInfoTaskIntf;
+  taskRoot: ManualTaskIntf;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: CollectClientInfoTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
     super({ myRefName: "collectClientInfoStepperRef" });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;

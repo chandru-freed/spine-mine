@@ -26,9 +26,10 @@ import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 @Component({
   components: {
@@ -38,7 +39,7 @@ import Helper from "@/section/spineapp/util/Helper";
 })
 export default class CollectClientInfoTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements ManualTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -77,7 +78,8 @@ export default class CollectClientInfoTask
       this.taskDetailsOutput.personalInfo &&
       this.taskDetailsOutput.personalInfo.firstName
     ) {
-      this.taskFormOutputLocal.personalInfo = this.taskDetailsOutput.personalInfo;
+      this.taskFormOutputLocal.personalInfo =
+        this.taskDetailsOutput.personalInfo;
     }
 
     if (
@@ -173,9 +175,20 @@ export default class CollectClientInfoTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
   saveTask() {
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

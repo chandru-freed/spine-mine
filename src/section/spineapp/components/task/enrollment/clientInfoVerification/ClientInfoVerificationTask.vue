@@ -27,7 +27,8 @@ import moment from "moment";
 import CIVTFStepperMDP from "./CIVTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 @Component({
   components: {
@@ -37,7 +38,7 @@ import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 })
 export default class ClientInfoVerificationTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements ManualTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -113,9 +114,20 @@ export default class ClientInfoVerificationTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
- 
   saveTask() {
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

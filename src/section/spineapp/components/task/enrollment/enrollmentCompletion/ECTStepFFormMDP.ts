@@ -1,14 +1,15 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 
 export default class ECTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: GenericTaskIntf;
+    taskRoot: ManualTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
         super({
             myRefName: "enrollmentCompletionFormRef",
             disabled: taskRoot.taskDisabled,

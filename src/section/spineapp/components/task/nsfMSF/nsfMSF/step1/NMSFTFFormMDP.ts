@@ -6,7 +6,8 @@ import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFooFieldMDP from "@/components/generic/form/field/FSelectFooFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+
 
 
 export default class NMSFTFFormMDP extends FFormMDP {
@@ -18,7 +19,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
     taskRoot,
     parent,
   }: {
-    taskRoot: GenericTaskIntf;
+    taskRoot: ManualTaskIntf;
     parent: any;
   }) {
     super({

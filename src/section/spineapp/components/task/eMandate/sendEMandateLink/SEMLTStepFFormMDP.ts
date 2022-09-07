@@ -1,14 +1,14 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 export default class SEMLTStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: GenericTaskIntf;
+    taskRoot: SelfTaskIntf;
     parent: any;
 
-    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf, parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf, parent: any }) {
         super({
             myRefName: "sendEMandateLinkFormRef",
             disabled: taskRoot.taskDisabled,
@@ -46,43 +46,20 @@ export default class SEMLTStepFFormMDP extends FFormMDP {
             })
         ).addAction(
             new FBtnMDP({
-                label: "Save",
-                onClick: this.validateAndSubmit(),
+                label: "Rescue",
+                onClick: this.rescueTask(),
             })
-        ).addAction(
-            new FBtnMDP({
-                label: "Mark Complete",
-                onClick: this.validateAndMarkComplete(),
-                btnType: BtnType.FILLED
-            })
-        );;
+        );
     }
 
     getMyRef(): any {
         return this.parent.getMyRef().$refs[this.myRefName][0];
     }
 
-    validateAndSubmit() {
-        return () => {
-            this.getMyRef().submitForm(this.saveTask());
-        };
-    }
 
-    validateAndMarkComplete() {
+    rescueTask() {
         return () => {
-            this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
-        };
-    }
-
-    saveAndMarkCompleteTask() {
-        return () => {
-            this.taskRoot.saveAndMarkCompleteTask();
-        };
-    }
-
-    saveTask() {
-        return () => {
-            this.taskRoot.saveTask();
+            this.taskRoot.rescueTask();
         };
     }
 }

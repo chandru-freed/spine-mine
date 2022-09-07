@@ -1,11 +1,11 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import UCSSTDisplayStepFFormMDP from "./UCSSTDisplayStepFFormMDP";
 
 export default class GSSADTFStepperMDP extends FStepperMDP {
-  taskRoot: GenericTaskIntf;
+  taskRoot: SelfTaskIntf;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: SelfTaskIntf }) {
     super({ myRefName: "updateClientSignStatusStepperRef" });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;

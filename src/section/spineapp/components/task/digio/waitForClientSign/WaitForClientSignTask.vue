@@ -22,8 +22,9 @@ import moment from "moment";
 
 import Task from "@/section/spineapp/util/Task";
 import WFCSTFStepperMDP from "./WFCSTFStepperMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import Helper from "@/section/spineapp/util/Helper";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 
 @Component({
   components: {
@@ -33,7 +34,7 @@ import Helper from "@/section/spineapp/util/Helper";
 })
 export default class WaitForClientSignTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements DeferredTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -79,7 +80,7 @@ export default class WaitForClientSignTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {}; 
+  taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
     return this.taskFormOutputLocal;
@@ -97,15 +98,20 @@ export default class WaitForClientSignTask
   //DATA
 
   //ACTION
-  saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
+  rescueTask() {
+    Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
-  saveTask() {
-    Task.Action.saveTask({
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  proceedTask() {
+    Task.Action.proceedTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

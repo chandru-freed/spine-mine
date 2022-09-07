@@ -9,7 +9,6 @@
       @input="(newValue) => updateModel(addCreditorForm, newValue, undefined)"
       v-bind="addCreditorFormMetaData.props"
     ></component>
-    
 
     <component
       v-if="editCreditorDialog"
@@ -53,7 +52,9 @@
             <v-toolbar flat>
               <v-toolbar-title>Creditors</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
-              <v-chip label outlined color="primary">Total Debt - ₹{{totalDebtAmount()}}</v-chip>
+              <v-chip label outlined color="primary"
+                >Total Debt - ₹{{ totalDebtAmount() }}</v-chip
+              >
               <v-spacer></v-spacer>
               <v-btn
                 :disabled="disabled"
@@ -92,7 +93,7 @@
         v-if="!disabled"
       >
         <component
-          v-for="(actionMetaData, index) of actionMetaDataList"
+          v-for="(actionMetaData, index) of actionMetaDataListFiltered"
           :key="'action' + index"
           :is="actionMetaData.componentName"
           :ref="actionMetaData.myRefName"
@@ -187,11 +188,13 @@ export default class FCreditor extends ModelVue {
   }
 
   totalDebtAmount() {
-    const totalDebtAmount = this.modelValue.creditorList.map((creditor:any) => creditor.creditorBalance).reduce((accumulator: number, objValue: any) => {
+    const totalDebtAmount = this.modelValue.creditorList
+      .map((creditor: any) => creditor.creditorBalance)
+      .reduce((accumulator: number, objValue: any) => {
         return accumulator + objValue;
       }, 0);
-      this.modelValue.totalDebtAmount = totalDebtAmount
-      return this.modelValue.totalDebtAmount;
+    this.modelValue.totalDebtAmount = totalDebtAmount;
+    return this.modelValue.totalDebtAmount;
   }
 
   addCreditorData() {
@@ -223,6 +226,14 @@ export default class FCreditor extends ModelVue {
     this.selectedCreditorIndex = index;
     this.showDeletePopup();
     console.log(this.deleteCreditorDialog);
+  }
+
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(
+      (actionMetaData) =>
+        actionMetaData.condition === undefined ||
+        actionMetaData.condition === true
+    );
   }
 }
 </script>

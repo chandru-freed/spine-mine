@@ -34,6 +34,7 @@ export default class SSATStepFFormMDP extends FFormMDP {
       new FBtnMDP({
         label: "Rescue",
         onClick: this.validateAndSubmit(),
+        condition: this.isException()
       })
     )
   }
@@ -53,6 +54,14 @@ export default class SSATStepFFormMDP extends FFormMDP {
     return () => {
       this.taskRoot.rescueTask();
     };
+  }
+
+  isStarted() {
+    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+  }
+
+  isException() {
+    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
   }
 
 

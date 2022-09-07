@@ -38,14 +38,17 @@ export default class TaskAction  {
     }
 
     static rescueTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      console.log("Rescue task call");
       //TODO: add rescue task to TaskList ads and implement
     }
 
     static forceCompleteTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      console.log("Force complete task call");
       //TODO: add force complete task to TaskList ads and implement
     }
   
     static proceedTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      console.log("Proceed task call");
       //TODO: add proceed task to TaskList ads and implement
     }
   

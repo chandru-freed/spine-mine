@@ -42,12 +42,20 @@ export default class EMFTRetryStepFFormMDP extends FFormMDP {
             new FBtnMDP({
                 label: "Save",
                 onClick: this.validateAndSubmit(),
+                condition: this.isStarted()
             })
         ).addAction(
             new FBtnMDP({
                 label: "Mark Complete",
                 onClick: this.validateAndMarkComplete(),
-                btnType: BtnType.FILLED
+                btnType: BtnType.FILLED,
+                condition: this.isStarted()
+            })
+        ).addAction(
+            new FBtnMDP({
+                label: "Rescue",
+                onClick: this.rescueTask(),
+                condition: this.isException()
             })
         );
     }
@@ -78,5 +86,19 @@ export default class EMFTRetryStepFFormMDP extends FFormMDP {
         return () => {
             this.taskRoot.saveTask();
         };
+    }
+
+    rescueTask() {
+        return () => {
+            this.taskRoot.rescueTask();
+        };
+    }
+
+    isStarted() {
+        return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+    }
+
+    isException() {
+        return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
     }
 }

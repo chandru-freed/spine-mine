@@ -23,8 +23,9 @@ import moment from "moment";
 import EMFTFStepperMDP from "./EMFTFStepperMDP";
 // import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
 import Task from "@/section/spineapp/util/Task";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import Helper from "@/section/spineapp/util/Helper";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 @Component({
   components: {
@@ -34,7 +35,7 @@ import Helper from "@/section/spineapp/util/Helper";
 })
 export default class EMandateFailedTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements ManualTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -112,9 +113,20 @@ export default class EMandateFailedTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
   saveTask() {
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });

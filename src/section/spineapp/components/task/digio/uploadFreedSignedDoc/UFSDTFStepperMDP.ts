@@ -1,12 +1,13 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import UFSDTStepFFormMDP from "./UFSDTStepFFormMDP";
 
 
 export default class UFSDTFStepperMDP extends FStepperMDP {
-    taskRoot: GenericTaskIntf;
+    taskRoot: SelfTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: SelfTaskIntf }) {
         super({ myRefName: "uploadFreedSignedDocStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

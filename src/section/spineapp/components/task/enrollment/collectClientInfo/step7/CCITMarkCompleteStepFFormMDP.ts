@@ -6,13 +6,13 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
-import { CollectClientInfoTaskIntf } from "../CollectClientInfoTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: CollectClientInfoTaskIntf;
+  taskRoot: ManualTaskIntf;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: CollectClientInfoTaskIntf; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
     super({
       myRefName: "verifyForm",
       disabled: taskRoot.taskDisabled,

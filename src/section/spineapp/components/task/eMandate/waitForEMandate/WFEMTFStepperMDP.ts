@@ -1,11 +1,12 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 import WFEMTStepFFormMDP from "./WFEMTStepFFormMDP";
 
 export default class WFEMTFStepperMDP extends FStepperMDP {
-    taskRoot: GenericTaskIntf;
+    taskRoot: DeferredTaskIntf;
     parent: any;
-    constructor({ taskRoot }: { taskRoot: GenericTaskIntf }) {
+    constructor({ taskRoot }: { taskRoot: DeferredTaskIntf }) {
         super({ myRefName: "waitForEMandateStepperRef" });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;

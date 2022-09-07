@@ -102,7 +102,7 @@
     >
       <div
         :class="actionMetaData.boundaryClass"
-        v-for="(actionMetaData, indx) in actionMetaDataList"
+        v-for="(actionMetaData, indx) in actionMetaDataListFiltered"
         :key="indx"
       >
         <component
@@ -239,6 +239,15 @@ export default class FBudget extends ModelVue {
     return this.totalIncomeAmount!==0
     ?(this.totalSecuredDebtAmount /this.totalIncomeAmount) * 100
     :0;
+  }
+
+
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(
+      (actionMetaData) =>
+        actionMetaData.condition === undefined ||
+        actionMetaData.condition === true
+    );
   }
 
   @Prop()

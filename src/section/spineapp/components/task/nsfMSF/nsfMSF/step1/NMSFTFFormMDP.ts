@@ -128,6 +128,13 @@ export default class NMSFTFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Save",
           onClick: this.validateAndSubmit(),
+          condition: this.isStarted()
+        })
+      ).addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.rescueTask(),
+          condition: this.isException()
         })
       )
   }
@@ -150,11 +157,20 @@ export default class NMSFTFFormMDP extends FFormMDP {
   }
 
 
+
   saveTask() {
     return () => {
       this.taskRoot.saveTask();
     };
   }
+
+
+  rescueTask() {
+    return () => {
+      this.taskRoot.rescueTask();
+    };
+  }
+
 
   isClientDeffered(): boolean {
     return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ClientDeferred
@@ -169,6 +185,14 @@ export default class NMSFTFFormMDP extends FFormMDP {
   }
   isDraftRescheduled(): boolean {
     return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.DraftRescheduled
+  }
+
+  isStarted() {
+    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+  }
+
+  isException() {
+    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
   }
 }
 

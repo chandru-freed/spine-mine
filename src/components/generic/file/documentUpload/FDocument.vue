@@ -65,7 +65,7 @@
         v-if="!disabled"
       >
         <component
-          v-for="(actionMetaData, index) of actionMetaDataList"
+          v-for="(actionMetaData, index) of actionMetaDataListFiltered"
           :key="'action' + index"
           :is="actionMetaData.componentName"
           :ref="actionMetaData.myRefName"
@@ -166,6 +166,16 @@ export default class FDocument extends ModelVue {
     this.showDeletePopup();
     console.log(this.deleteDocumentDialog);
   }
+
+
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(
+      (actionMetaData) =>
+        actionMetaData.condition === undefined ||
+        actionMetaData.condition === true
+    );
+  }
+
 
 }
 </script>

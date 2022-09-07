@@ -50,10 +50,11 @@ export default class EMTStepFFormMDP extends FFormMDP {
             })
         ).addAction(
             new FBtnMDP({
-              label: "Rescue",
-              onClick: this.validateAndSubmit(),
+                label: "Rescue",
+                onClick: this.validateAndSubmit(),
+                condition: this.isException()
             })
-          );
+        );
     }
 
     getMyRef(): any {
@@ -64,6 +65,10 @@ export default class EMTStepFFormMDP extends FFormMDP {
         return () => {
             this.getMyRef().submitForm(this.rescueTask());
         };
+    }
+
+    isException() {
+        return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
     }
 
     rescueTask() {

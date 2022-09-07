@@ -67,7 +67,7 @@
     >
       <div
         :class="actionMetaData.boundaryClass"
-        v-for="(actionMetaData, indx) in actionMetaDataList"
+        v-for="(actionMetaData, indx) in actionMetaDataListFiltered"
         :key="indx"
       >
         <component
@@ -187,6 +187,15 @@ export default class FPaymentPlan extends ModelVue {
       },
       (err) => {},
       RemoteApiPoint.SpineApi
+    );
+  }
+
+
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(
+      (actionMetaData) =>
+        actionMetaData.condition === undefined ||
+        actionMetaData.condition === true
     );
   }
 

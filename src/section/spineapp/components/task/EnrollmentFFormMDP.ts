@@ -8,7 +8,7 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 
-export default class CreateRequestFFormMDP extends FFormMDP {
+export default class EnrollmentFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
@@ -24,33 +24,15 @@ export default class CreateRequestFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "fileId",
-          label: "File Id",
+          dataSelectorKey: "clientFileNumber",
+          label: "Client File Number",
           mandatory: true,
-          boundaryClass: "col-4",
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "clientName",
-          label: "Client Name",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "clientMobile",
-          label: "Client Mobile",
-          boundaryClass: "col-4",
-          mandatory: true,
+          disabled: true
         })
       )
       .addAction(
         new FBtnMDP({
-          label: "Create",
+          label: "CREATE REQUEST",
           onClick: this.validateAndSubmit(),
         })
       );
@@ -62,13 +44,13 @@ export default class CreateRequestFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.createFlow());
+      this.getMyRef().submitForm(this.createEnrollmentFlow());
     };
   }
 
-  createFlow() {
+  createEnrollmentFlow() {
     return () => {
-      this.taskRoot.createFlow();
+      this.taskRoot.createEnrollmentFlow();
     };
   }
 }

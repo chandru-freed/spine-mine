@@ -1,8 +1,13 @@
 <template>
   <!-- TASK TAB -->
-  <div class="d-flex justify-center" >
-  <v-card class="pa-0 ma-0 mt-5 col-6"  color="white" outlined min-height="700px">
-    <v-card-text>
+  <div class="d-flex justify-center">
+    <v-card
+      class="pa-0 ma-0 mt-5 col-6"
+      color="white"
+      outlined
+      min-height="700px"
+    >
+      <v-card-text>
         <v-autocomplete
           v-model="selectedRequestType"
           :items="requestTypeFlowMapList"
@@ -12,24 +17,21 @@
           hide-details
           label="Select Request Type"
           outlined
-          item-value="value"
+          item-value="contentMetaData"
           item-text="key"
         ></v-autocomplete>
-        </v-card-text>
-        <!-- <v-btn outlined color="primary" @click="createFlow" x-large>Create</v-btn> -->
-      <!-- <v-card-text >
+      </v-card-text>
+
+      <v-card-text>
         <component
-          v-if="!!initMetaData"
-          :ref="initMetaData.myRefName"
-          :is="initMetaData.componentName"
+          v-if="!!selectedRequestType"
+          :ref="selectedRequestType.myRefName"
+          :is="selectedRequestType.componentName"
           v-model="initDocumentData"
-          v-bind="initMetaData.props"
+          v-bind="selectedRequestType.props"
         ></component>
-      </v-card-text> -->
-      <v-card-actions class="mx-2">
-        <v-btn outlined block color="primary" @click="createFlow" large>CREATE REQUEST</v-btn>
-      </v-card-actions>
-  </v-card>
+      </v-card-text>
+    </v-card>
   </div>
   <!--  TASK TAB -->
 </template>
@@ -61,93 +63,37 @@ export default class FileCreateRequest extends Vue {
   requestTypeFlowMapList = [
     {
       key: "Enrollment",
-      value: {
-        fqFlowName: "DspFlow::Enrollment",
-        netName: "Default",
-        priority: 1,
-        teamCode: "enrollment",
-      },
-    },
-
-    {
-      key: "CHPP",
-      value: {
-        fqFlowName: "DspFlow::CHPP",
-        netName: "Default",
-        priority: 1,
-        teamCode: "chpp",
-      },
-    },
-
-    {
-      key: "NsfMSF",
-      value: {
-        fqFlowName: "DspFlow::NsfMSF",
-        netName: "Default",
-        priority: 1,
-        teamCode: "nsfmsf",
-      },
-    },
-
-    {
-      key: "WelcomeCall",
-      value: {
-        fqFlowName: "DspFlow::WelcomeCall",
-        netName: "Default",
-        priority: 1,
-        teamCode: "welcomecall",
-      },
+      contentMetaData: new EnrollmentFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
     },
   ];
-  fileId = this.$route.params.fileId
+  fileId = this.$route.params.fileId;
 
   get initDocumentData() {
-    return {fileId: this.fileId, clientName: `${this.clientFileBasicInfo.clientBasicInfo.firstName} ${this.clientFileBasicInfo.clientBasicInfo.middleName} ${this.clientFileBasicInfo.clientBasicInfo.lastName}`, clientMobile: this.clientFileBasicInfo.clientBasicInfo.mobile, clientId: this.clientFileBasicInfo.clientBasicInfo.clientId }
+    return {
+      clientFileNumber: this.clientFileBasicInfo.clientFileNumber,
+    };
   }
   get createRequestFormData() {
-    
-    return {...this.selectedRequestType, initDocument: JSON.stringify(this.initDocumentData)}
-  }
-  
-
-  get initFormMetaDataList(): any {
     return {
-      "DspFlow::Enrollment:Default": new EnrollmentFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-
-      "DspFlow::CHPP:Default": new EnrollmentFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-
-      "DspFlow::NsfMSF:Default": new NsfMSFFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-
-      "DspFlow::WelcomeCall:Default": new WelcomeCallFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-
-      
+      ...this.selectedRequestType,
+      initDocument: JSON.stringify(this.initDocumentData),
     };
   }
 
-  get initMetaData(): any {
-    const fqFlowNameNet = `${this.selectedRequestType.fqFlowName}:${this.selectedRequestType.netName}`
-    return this.initFormMetaDataList[fqFlowNameNet]
-  }
-
-  createFlow() {
-    Flow.Action.createFlow({
-      createRequestFormData: this.createRequestFormData,
-      fileId: this.fileId,
-      router:this.$router
-    });
- 
+  createEnrollmentFlow() {
+    Action.Spine.CreateEnrollment.execute1(
+      this.initDocumentData.clientFileNumber,
+      (output) => {
+        console.log("");
+      },
+      (err) => {
+        // console.error(err);
+      },
+      RemoteApiPoint.DspApi
+    );
   }
 
   gotoFile(fileId: string) {
@@ -156,8 +102,6 @@ export default class FileCreateRequest extends Vue {
       params: { fileId: fileId },
     });
   }
-
- 
 }
 </script>
 

@@ -85,7 +85,7 @@ export default class FileCreateRequest extends Vue {
 
   createEnrollmentFlow() {
     Action.Spine.CreateEnrollment.execute1(
-      this.initDocumentData.clientFileNumber,
+      this.clientFileBasicInfo.clientFileId,
       (output) => {
         console.log("");
       },

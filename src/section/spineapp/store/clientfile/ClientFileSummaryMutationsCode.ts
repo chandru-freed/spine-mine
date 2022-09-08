@@ -3,10 +3,10 @@ import * as Data from '@/../src-gen/data';
 import {ClientFileSummaryMutations} from '@/../src-gen/store/clientfile-store-support';
 
 export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutations   {
-   public updateFiCreditorInfo(state: Data.ClientFile.ClientFileSummary, fiCreditorList: Data.ClientFile.FiCreditor[]): void {
-     console.log("inside update Cred")
-     state.fiCreditorList = fiCreditorList
+   public updateFiCreditorInfo(state: Data.ClientFile.ClientFileSummary, fiCreditorInfo: Data.ClientFile.FiCreditorInfo | undefined): void {
+     state.fiCreditorInfo = fiCreditorInfo
    }
+   
    public updateFiBankInfo(state: Data.ClientFile.ClientFileSummary, fiBankInfo: Data.ClientFile.FiBankInfo | undefined): void {
     state.fiBankInfo  = fiBankInfo
    }

@@ -7,10 +7,10 @@ export class ClientFileSummaryInit {
 }
 
 export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
-   public fiCreditorList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditor[] {
-    console.log("inside getters Cred")
-      return state.fiCreditorList
+   public fiCreditorInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditorInfo | undefined {
+      return state.fiCreditorInfo
    }
+   
    public fiBankInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiBankInfo | undefined {
     return state.fiBankInfo
    }

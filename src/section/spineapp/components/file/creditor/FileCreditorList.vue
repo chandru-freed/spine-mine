@@ -1,21 +1,19 @@
 <template>
   <div class="FileCreditorList">
-    <!-- {{creditorInfoForm}} -->
-
     <component
-      v-if="creditorInfoForm"
-      :ref="creditorInfoFormMetaData.myRefName"
-      :is="creditorInfoFormMetaData.componentName"
-      :value="selectModel(creditorInfoForm, creditorInfoFormMetaData.dataSelectorKey)"
+      v-if="!!creditorInfo.creditorList"
+      :ref="creditorInfoMetaData.myRefName"
+      :is="creditorInfoMetaData.componentName"
+      :value="selectModel(creditorInfo, creditorInfoMetaData.dataSelectorKey)"
       @input="
         (newValue) =>
           updateModel(
-            creditorInfoForm,
+            creditorInfo,
             newValue,
-            creditorInfoFormMetaData.dataSelectorKey
+            creditorInfoMetaData.dataSelectorKey
           )
       "
-      v-bind="creditorInfoFormMetaData.props"
+      v-bind="creditorInfoMetaData.props"
     ></component>
   </div>
 
@@ -43,12 +41,12 @@ export default class FileCreditorList extends ModelVue  {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorList
-  fiCreditorList: Data.ClientFile.FiCreditor[];
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditor;
 
   fileId = this.$route.params.fileId;
   //METADATA
-  get creditorInfoFormMetaData() {
+  get creditorInfoMetaData() {
     return new ClientCreditorFCreditorMDP({
       taskRoot: this,
       parent: this,
@@ -58,17 +56,17 @@ export default class FileCreditorList extends ModelVue  {
 
   //FORM
 
-  creditorInfoFormLocal: any = new Data.ClientFile.FiCreditor();
+  creditorInfoLocal: any = new Data.ClientFile.FiCreditor();
 
-  get creditorInfoForm() { 
-    if (!!this.fiCreditorList ) {
-      this.creditorInfoFormLocal = this.fiCreditorList;
+  get creditorInfo() { 
+    if (!!this.fiCreditorInfo ) {
+      this.creditorInfoLocal = this.fiCreditorInfo;
     }
-    return this.creditorInfoFormLocal;
+    return this.creditorInfoLocal;
   }
 
-  set creditorInfoForm(value: any) {
-    this.creditorInfoFormLocal = value;
+  set creditorInfo(value: any) {
+    this.creditorInfoLocal = value;
   }
 
   //FORM
@@ -80,7 +78,7 @@ export default class FileCreditorList extends ModelVue  {
   //ACTION
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
-      "63197423df05e8d173b38f62",//this.clientFileBasicInfo.clientFileId,
+     this.clientFileBasicInfo.clientFileId,
       (output) => {},
       (error) => {},
       RemoteApiPoint.SpineApi

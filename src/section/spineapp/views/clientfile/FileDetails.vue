@@ -52,9 +52,9 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 // import * as Action from '@/../src-gen/action';
 import FileInfo from "@/section/spineapp/components/file/FileInfo.vue";
 import FileProfile from "@/section/spineapp/components/file/profile/FileProfile.vue";
-import FileBank from "@/section/spineapp/components/file/FileBank.vue";
+import FileBank from "@/section/spineapp/components/file/bank/FileBank.vue";
 import FileBudget from "@/section/spineapp/components/file/FileBudget.vue";
-import FileCreditorList from "@/section/spineapp/components/file/FileCreditorList.vue";
+import FileCreditorList from "@/section/spineapp/components/file/creditor/FileCreditorList.vue";
 import FilePaymentPlan from "@/section/spineapp/components/file/FilePaymentPlan.vue";
 
 @Component({

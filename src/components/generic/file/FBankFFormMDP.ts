@@ -10,7 +10,7 @@ export default class FBankFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey: string; disabled: boolean }) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string|undefined; disabled: boolean }) {
     super({
       myRefName: myRefName,
       dataSelectorKey: dataSelectorKey,
@@ -44,7 +44,9 @@ export default class FBankFFormMDP extends FFormMDP {
           label: "Account Type",
           boundaryClass: "col-3",
           mandatory: true,
-          options: ["SAVINGS", "CURRENT"],
+          options: [{id: "SAVING", name: "SAVING"}, {id: "CURRENT", name: "CURRENT"}],
+          optionLabel: "name",
+          optionValue: "id"
         })
       )
       .addField(

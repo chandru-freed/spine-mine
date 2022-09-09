@@ -11,8 +11,7 @@
 
       <v-tab
         :active="activeTab === tabIndx"
-        :disabled="activeTab === tabIndx"
-        @click="$router.push({ name: tab.routerName })"
+        @click="goto(tab.routerName)"
         v-for="(tab, tabIndx) in tabList"
         :key="tab.tabName"
       >
@@ -48,6 +47,16 @@ export default class SearchLayout extends Vue {
       .map((tab) => tab.routerName)
       .indexOf(this.$route.name!);
     this.activeTab = ret;
+  }
+
+
+  goto(routerName: string) {
+    if(this.$route.name === routerName) {
+      // do nothing
+    } else {
+      this.$router.push({ name: routerName})
+    }
+    
   }
 }
 </script>

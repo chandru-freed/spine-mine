@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode ${MODE:-playdev}",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build --mode ${MODE:-playdev}",
+    "lint": "vue-cli-service lint",
+    "build-prod": "vue-cli-service build --mode ${MODE:-playprod} --dest ../spine/public/spine/modules/spine/spineapp"
   },
   "dependencies": {
     "axios": "^0.27.2",

@@ -21,7 +21,7 @@ export default class ClientSearchFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "firstName",
+          dataSelectorKey: "nameContains",
           label: "Name",
           mandatory: true,
           boundaryClass: "col-4",
@@ -29,7 +29,7 @@ export default class ClientSearchFFormMDP extends FFormMDP {
       )
       .addField(new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "mobile",
+        dataSelectorKey: "mobileContains",
         label: "Mobile",
         boundaryClass: "col-4"
       }))

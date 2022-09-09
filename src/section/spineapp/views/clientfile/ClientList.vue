@@ -1,12 +1,12 @@
 <template>
   <div class="TaskAssignedToMe">
     <v-card-text>
-      {{clientSearchFormData}}
+      {{ clientSearchFormLocal }}
       <component
         v-if="!!clientSearchFormMetaData"
         :ref="clientSearchFormMetaData.myRefName"
         :is="clientSearchFormMetaData.componentName"
-        v-model="clientSearchFormData"
+        v-model="clientSearchForm"
         v-bind="clientSearchFormMetaData.props"
       ></component>
     </v-card-text>
@@ -14,7 +14,7 @@
     <v-card class="pa-0 ma-0" color="transparent">
       <v-data-table
         :headers="clientGridHeaderList"
-        :items="clientList"
+        :items="searchResultList"
         sort-by="calories"
         class="elevation-0"
         :search="search"
@@ -77,6 +77,12 @@ import * as RemoteApiPoint from "@/remote-api-point";
   },
 })
 export default class ClientList extends Vue implements CreateClientIntf {
+  @Store.Getter.Client.ClientSearchStore.searchCriteria
+  searchCriteria: Data.Client.SearchClientInput;
+
+  @Store.Getter.Client.ClientSearchStore.searchResultList
+  searchResultList: Data.Client.SearchClientOutput;
+
   tab = 0;
 
   selected = [];
@@ -107,27 +113,37 @@ export default class ClientList extends Vue implements CreateClientIntf {
 
   mounted() {}
 
-  // clientSearchFormData: any = new Data.Client.SearchClient()
-clientSearchFormData: any = {}
+  clientSearchFormLocal: any = new Data.Client.SearchClientInput();
+
+  get clientSearchForm() {
+     this.clientSearchFormLocal = this.searchCriteria;
+    return this.clientSearchFormLocal;
+  }
+
+  set clientSearchForm(value: any) {
+    this.clientSearchFormLocal = value;
+  }
+
   get clientSearchFormMetaData(): any {
     return new ClientSearchFFormMDP({ root: this }).getMetaData();
   }
 
-  addClientFile: () => void;
+  addClientFile() {
+    this.searchClient();
+  }
 
-
-  // searchClient() {
-  //   Action.Client.SearchClient.execute(
-  //     this.searchDataList,
-  //     (output) => {
-  //       console.log("document uploaded successfully");
-  //     },
-  //     (err) => {
-  //       console.error(err);
-  //     },
-  //     RemoteApiPoint.SpineApi
-  //   );
-  // }
+  searchClient() {
+    Action.Client.SearchClient.execute(
+      this.clientSearchFormLocal,
+      (output) => {
+        console.log("document uploaded successfully");
+      },
+      (err) => {
+        console.error(err);
+      },
+      RemoteApiPoint.SpineApi
+    );
+  }
 
   gotoFile(item: any) {
     this.$router.push({

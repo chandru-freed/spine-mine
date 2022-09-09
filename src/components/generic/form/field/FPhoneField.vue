@@ -62,7 +62,7 @@ export default class FPhoneField extends VTextField {
       // this.$emit("input",this.unmask(newModelValue));
       this.$emit("input",newModelValue);
     } else {
-      this.$emit("input", 0);
+      this.$emit("input", "");
     }
     
   }

@@ -3,31 +3,29 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
-import ClientDetailsIntf from "../client/ClientDetailsIntf";
-import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import ClientSearchIntf from "./ClientSearchIntf";
 
 export default class ClientSearchFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  root: ClientDetailsIntf;
-  // parent: any;
-  constructor({ root }: { root: ClientDetailsIntf }) {
+  taskRoot: ClientSearchIntf;
+
+  constructor({ taskRoot }: { taskRoot: ClientSearchIntf}) {
     super({
-      myRefName: "ClientSearchFFormRef",
+      myRefName: "clientSearchFFormRef",
     });
-    this.root = root;
-    // this.parent = parent;
+    this.taskRoot = taskRoot;
+    
 
     this
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "nameContains",
-          label: "Name",
-          mandatory: true,
+          label: "Client Name",
           boundaryClass: "col-4",
         })
       )
-      .addField(new FNumberFieldMDP({
+      .addField(new FPhoneFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "mobileContains",
         label: "Mobile",
@@ -44,18 +42,18 @@ export default class ClientSearchFFormMDP extends FFormMDP {
       .addAction(
         new FBtnMDP({
           label: "Search",
-          onClick: this.addClientFile(),
+          onClick: this.searchClient(),
         })
       );
   }
 
   getMyRef(): any {
-    return this.root.$refs[this.myRefName];
+    return this.taskRoot.$refs[this.myRefName];
   }
 
-  addClientFile() {
+  searchClient() {
     return () => {
-      this.root.addClientFile();
+      this.taskRoot.searchClient();
     };
   }
 }

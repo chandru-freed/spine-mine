@@ -42,11 +42,11 @@
         </v-list-item-icon>
         <v-list-item-title>Dashboard</v-list-item-title>
       </v-list-item>
-      <v-list-item  @click="$router.push({ name: 'Root.ClientSearch' })">
+      <v-list-item  @click="$router.push({ name: 'Root.Search.ClientSearch' })">
         <v-list-item-icon>
           <v-icon>mdi-magnify</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Clients</v-list-item-title>
+        <v-list-item-title>Search</v-list-item-title>
       </v-list-item>
       <v-list-item  @click="$router.push({ name: 'Root.TaskList.TaskAssignedToMe' })">
         <v-list-item-icon>

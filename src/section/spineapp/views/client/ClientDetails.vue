@@ -102,8 +102,7 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
   }
 
   addClientFile() {
-    const input = new Data.ClientFile.AddClientFileForm(this.clientId,  "KFS-100-9004")
-    Action.ClientFile.AddClientFile.execute(input, output => {
+    Action.ClientFile.AddClientFile.execute1(this.clientId, output => {
       setTimeout(this.getClientFileBasicInfoList, 1000)
     }, err => {}, RemoteApiPoint.SpineApi)
   }

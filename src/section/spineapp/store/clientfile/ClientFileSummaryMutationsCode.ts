@@ -18,6 +18,12 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
      state.clientFileBasicInfo = clientFileBasicInfo
    }
 
+   public updateFileSummary(state: Data.ClientFile.ClientFileSummary, fileSummary: Data.ClientFile.FileSummary  ): void  {
+    state.fileSummary = fileSummary
+  }
+
+   
+
 
 }
 

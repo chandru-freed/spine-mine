@@ -11,6 +11,7 @@ import * as Data from '@/../src-gen/data';
 import * as ServerData from '@/../src-gen/server-data';
 import * as Action from '@/../src-gen/action';
 import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSummary.vue";
+import { SpineApi } from "@/remote-api-point";
 
 @Component({
   components: {
@@ -18,10 +19,7 @@ import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSumm
   },
 })
 export default class FileSummary extends Vue {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientBasicInfo;
-
-
+  fileId: string = this.$route.params.fileId;
   fileDetails = {
     clientName: "John Doe",
     fileId: "KFS-123-123-1234",
@@ -40,6 +38,8 @@ export default class FileSummary extends Vue {
       monthlyPlan: "13,000",
     },
   };
+  mounted() {
+  }
 }
 </script>
 

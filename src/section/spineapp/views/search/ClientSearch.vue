@@ -40,8 +40,8 @@
             </v-col>
           </v-toolbar>
         </template>
-        <template v-slot:item.fullName="{ item }">
-          <router-link to="/">{{ item.fullName }}</router-link>
+         <template v-slot:item.fullName="{ item }">
+           <v-btn text color="green"  @click="gotoClient(item.clientId)">{{ item.fullName }}</v-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -111,5 +111,9 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
       RemoteApiPoint.SpineApi
     );
   }
+
+    gotoClient(clientId: string) {
+      this.$router.push({name: "Root.Client.ClientDetails", params: {clientId: clientId}})
+    }
 }
 </script>

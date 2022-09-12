@@ -66,6 +66,7 @@ export default class CreateClientFFormMDP extends FFormMDP {
           dataSelectorKey: "leadSource",
           label: "Lead Source",
           boundaryClass: "col-4",
+          disabled: true
         })
       )
       .addAction(

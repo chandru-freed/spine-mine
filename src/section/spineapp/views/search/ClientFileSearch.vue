@@ -41,7 +41,10 @@
           </v-toolbar>
         </template>
         <template v-slot:item.fullName="{ item }">
-          <router-link to="/">{{ item.fullName }}</router-link>
+           <v-btn text color="green"  @click="gotoClient(item.clientId)">{{ item.fullName }}</v-btn>
+        </template>
+        <template v-slot:item.clientFileNumber="{ item }">
+          <v-btn text color="secondary"  @click="gotoClientFile(item.clientFileNumber)">{{ item.clientFileNumber }}</v-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -114,5 +117,9 @@ export default class ClientFileSearch
       RemoteApiPoint.SpineApi
     );
   }
+
+    gotoClientFile(clientFileNumber: string) {
+      this.$router.push({name: "Root.ClientFile.ClientFileDetails", params: {fileId: clientFileNumber}})
+    }
 }
 </script>

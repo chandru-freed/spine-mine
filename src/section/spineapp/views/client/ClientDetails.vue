@@ -31,7 +31,7 @@
         </div>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn class="mx-3" color="secondary" outlined x-large @click="gotoFile(clientFileBasicInfo.clientFileId)" v-for="clientFileBasicInfo in clientFileBasicInfoList" :key="clientFileBasicInfo.clientFileId">
+        <v-btn class="mx-3" color="secondary" outlined x-large @click="gotoFile(clientFileBasicInfo.clientFileNumber)" v-for="clientFileBasicInfo in clientFileBasicInfoList" :key="clientFileBasicInfo.clientFileId">
           <v-icon class="pr-4">mdi-file-account</v-icon>
           {{clientFileBasicInfo.clientFileNumber}}
         </v-btn>

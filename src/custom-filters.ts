@@ -9,6 +9,7 @@ export default class CustomFilters {
     this.duration();
     this.toDateTime();
     this.toDateTimeWithDuration();
+    this.toDateWithDuration();
     this.parseJson();
     this.emptyObject();
     this.withBase();
@@ -55,6 +56,23 @@ export default class CustomFilters {
     });
   }
 
+  private static toDateWithDuration() {
+    Vue.filter("date-duration", (value: any) => {
+      const daysDiffFromNow = Moment(new Date(value)).diff(Moment(), "days");
+      return (
+        Moment(new Date(value)).format("Do MMM YYYY") +
+        " ( " +
+        (daysDiffFromNow === 0
+          ? "Today"
+          : daysDiffFromNow > 0
+            ? `${daysDiffFromNow} days to go`
+            : `${daysDiffFromNow} days ago`)
+        +
+        " ) "
+      );
+    });
+  }
+
   private static parseJson() {
     Vue.filter("json-parse", (value: string) => {
       // console.log('value : ' + value);
@@ -68,7 +86,7 @@ export default class CustomFilters {
     });
   }
 
- 
+
 
   private static withBase() {
     Vue.filter("withBase", (value: string) => {

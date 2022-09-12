@@ -48,8 +48,8 @@
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >Due on 3rd July (5 days to go)</v-list-item-subtitle
-                >
+                  >Due on {{fileSummary.msfDueDate|date-duration}}</v-list-item-subtitle>
+                  <!-- >Due on 3rd July (5 days to go)</v-list-item-subtitle> -->
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -64,11 +64,11 @@
                 <v-list-item-title
                   class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileDetails.spa.monthlyPlan }}
+                  ₹ {{ fileSummary.spaAmount }}
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >Due on 12rd July (12 days to go)</v-list-item-subtitle
+                  >Due on {{fileSummary.spaDueDate | date-duration}}</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
@@ -84,10 +84,10 @@
                 <v-list-item-title
                   class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileDetails.spaBalance }}
+                  ₹ {{ fileSummary.totalSaving }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="white--text"
-                  >Last paid 12th June (15 days ago)</v-list-item-subtitle
+                  >Last paid {{fileSummary.lastPaidDate|date-duration}}</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
@@ -105,13 +105,13 @@
                 <v-list-item-title
                   class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileDetails.totalOutstandingAmount }}
-                  <span class="text-subtitle-1 pl-1 pt-2">/ 24 months</span>
+                  ₹ {{ fileSummary.totalOutstanding }}
+                  <span class="text-subtitle-1 pl-1 pt-2">/ {{fileSummary.remainingTenure}} months</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
                   ><v-btn block x-small outlined dark
-                    >{{ fileDetails.noOfCreditorsSettled }} Settled out of
-                    {{ fileDetails.noOfCreditors }} Total Creditors</v-btn
+                    >{{ fileSummary.numberOfCredirotrsSettled }} Settled out of
+                    {{ fileSummary.numberOfCreditorsTotal }} Total Creditors</v-btn
                   ></v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -142,21 +142,7 @@ export default class ClientFileSummary extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  @Prop()
-  public fileDetails: any;
-
   public showLessSummary = true;
-
-  // public fileDetails = {
-  //   clientName: "John Doe",
-  //   fileId: "KFS-123-123-1234",
-  //   phoneNumber: "987-654-3210",
-  //   program: "DSP",
-  //   plan: "699",
-  //   totalOutstandingAmount: "2,40,000",
-  //   tenure: "24 months",
-  //   noOfCreditors: "3",
-  // };
 
   public mounted() {
     console.log(this.fileSummary)

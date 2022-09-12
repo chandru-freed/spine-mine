@@ -29,8 +29,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class FTab extends Vue {
   activeTab = 0;
 
-  @Prop()
-  tabList: any[] = [];
+  @Prop({default: []})
+  tabList: any[];
 
   mounted() {
     const ret = this.tabList

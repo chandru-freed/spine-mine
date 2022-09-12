@@ -44,7 +44,7 @@
                 <v-list-item-title
                   class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileDetails.msf.monthlyPlan }}
+                  ₹ {{ fileSummary.msfAmount }}
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
@@ -135,6 +135,10 @@ import * as Action from '@/../src-gen/action';
 
 @Component
 export default class ClientFileSummary extends Vue {
+
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: any;
+
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
@@ -154,7 +158,9 @@ export default class ClientFileSummary extends Vue {
   //   noOfCreditors: "3",
   // };
 
-  public mounted() {}
+  public mounted() {
+    console.log(this.fileSummary)
+  }
 
   public created() {}
 }

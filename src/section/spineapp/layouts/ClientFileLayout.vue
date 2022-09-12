@@ -31,22 +31,35 @@ import { GetClientFileBasicInfo } from "src-gen/action/clientfile-action";
   },
 })
 export default class ClientFileLayout extends Vue {
-  
-  clientFileId = this.$route.params.fileId;
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+
+  clientFileNumber = this.$route.params.fileId; //::TODO will change the fileId to clientfileNumber in router
   mounted() {
     this.getClientFileBasicInfo();
   }
 
   getClientFileBasicInfo() {
     Action.ClientFile.GetClientFileBasicInfo.execute1(
-      this.clientFileId,
-      (output) => {},
+      this.clientFileNumber,
+      (output) => {
+        this.getClientFileSummary();
+      },
       (err) => {
-        // console.error(err);
       },
       RemoteApiPoint.SpineApi
     );
+  }
+
+  getClientFileSummary() {
+    Action.ClientFile.GetClientFileSummary.execute1(this.clientFileBasicInfo.clientFileId, output => {
+
+    },
+    err => {
+
+    },
+    RemoteApiPoint.SpineApi)
   }
 }
 </script>

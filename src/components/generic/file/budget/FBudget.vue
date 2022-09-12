@@ -125,7 +125,7 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class FBudget extends ModelVue {
-  affordabilityPercentage = 80;
+  affordabilityPercentage = 85;
 
   get incomeSources() {
     return this.modelValue.incomeSources;

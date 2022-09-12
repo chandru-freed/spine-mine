@@ -11,7 +11,7 @@
         append-icon="mdi-magnify"
       ></v-text-field>
     </div>
-    <v-btn icon @click="$router.push({name: 'Root.Request.CreateRequest'})"><v-icon>mdi-plus-box</v-icon></v-btn>
+    <!-- <v-btn icon @click="$router.push({name: 'Root.Request.CreateRequest'})"><v-icon>mdi-plus-box</v-icon></v-btn> -->
     <v-btn icon @click="$router.push({name: 'Root.CreateClient'})"><v-icon>mdi-account-plus</v-icon></v-btn>
     <app-bar-notification-menu />
     <app-bar-user-menu />

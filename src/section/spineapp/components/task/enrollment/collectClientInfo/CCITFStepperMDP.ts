@@ -2,12 +2,12 @@ import FStepperMDP from "@/components/generic/FStepperMDP";
 import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
 import CCITMarkCompleteStepFFormMDP from "./step7/CCITMarkCompleteStepFFormMDP";
 import CCITUploadStepFDocumentMDP from "./step6/CCITUploadStepFDocumentMDP";
-import CCITProfileStepFProfileFFormMDP from "./step1/CCITProfileStepFProfileFFormMDP";
 import CCITCreditorStepFCreditorMDP from "./step2/CCITCreditorStepFCreditorMDP";
 import CCITBudgetStepFBudgetMDP from "./step3/CCITBudgetStepFBudgetMDP";
 import CCITPaymentPlanStepFPaymentPlanMDP from "./step4/CCITPaymentPlanStepFPaymentPlanMDP";
 import CCITBankStepFBankFFormMDP from "./step5/CCITBankStepFBankFFormMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import CCITProfileStepMDP from "./step1/CCITProfileStepMDP";
 
 export default class CCITFStepperMDP extends FStepperMDP {
   taskRoot: ManualTaskIntf;
@@ -19,7 +19,7 @@ export default class CCITFStepperMDP extends FStepperMDP {
 
     this.addStep({
       name: "Profile",
-      stepContent: new CCITProfileStepFProfileFFormMDP({
+      stepContent: new CCITProfileStepMDP({
         taskRoot: this.taskRoot,
         parent: this,
       }),
@@ -70,7 +70,6 @@ export default class CCITFStepperMDP extends FStepperMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.$refs);
     return this.taskRoot.$refs[this.myRefName];
   }
 }

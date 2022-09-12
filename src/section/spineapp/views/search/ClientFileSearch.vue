@@ -41,10 +41,17 @@
           </v-toolbar>
         </template>
         <template v-slot:item.fullName="{ item }">
-           <v-btn text color="green"  @click="gotoClient(item.clientId)">{{ item.fullName }}</v-btn>
+          <v-btn text color="green" @click="gotoClient(item.clientId)">{{
+            item.fullName
+          }}</v-btn>
         </template>
         <template v-slot:item.clientFileNumber="{ item }">
-          <v-btn text color="secondary"  @click="gotoClientFile(item.clientFileNumber)">{{ item.clientFileNumber }}</v-btn>
+          <v-btn
+            text
+            color="secondary"
+            @click="gotoClientFile(item.clientFileNumber)"
+            >{{ item.clientFileNumber }}</v-btn
+          >
         </template>
       </v-data-table>
     </v-card>
@@ -118,8 +125,18 @@ export default class ClientFileSearch
     );
   }
 
-    gotoClientFile(clientFileNumber: string) {
-      this.$router.push({name: "Root.ClientFile.ClientFileDetails", params: {fileId: clientFileNumber}})
-    }
+  gotoClientFile(clientFileNumber: string) {
+    this.$router.push({
+      name: "Root.ClientFile.ClientFileDetails",
+      params: { fileId: clientFileNumber },
+    });
+  }
+
+  gotoClient(clientId: string) {
+    this.$router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
+    });
+  }
 }
 </script>

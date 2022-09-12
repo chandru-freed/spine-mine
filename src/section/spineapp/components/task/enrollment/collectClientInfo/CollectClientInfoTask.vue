@@ -74,12 +74,8 @@ export default class CollectClientInfoTask
   taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
 
   get taskFormOutput() {
-    if (
-      this.taskDetailsOutput.personalInfo &&
-      this.taskDetailsOutput.personalInfo.firstName
-    ) {
-      this.taskFormOutputLocal.personalInfo =
-        this.taskDetailsOutput.personalInfo;
+    if ( this.taskDetailsOutput.personalInfo && this.taskDetailsOutput.personalInfo.gender) {
+      this.taskFormOutputLocal.personalInfo = this.taskDetailsOutput.personalInfo;
     }
 
     if (

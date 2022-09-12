@@ -1,62 +1,28 @@
 <template>
   <div>
-    <v-tabs
-      background-color="transparent"
-      flat
-      color="secondary"
-      centered
-      :value="activeTab"
-    >
-      <v-tabs-slider></v-tabs-slider>
-
-      <v-tab
-        :active="activeTab === tabIndx"
-        @click="goto(tab.routerName)"
-        v-for="(tab, tabIndx) in tabList"
-        :key="tab.tabName"
-      >
-        {{ tab.tabName }}
-        <!-- <v-icon>mdi-phone</v-icon> -->
-      </v-tab>
-    </v-tabs>
+    <component
+      :ref="searchLayoutTabMetaData.myRefName"
+      :is="searchLayoutTabMetaData.componentName"
+      v-bind="searchLayoutTabMetaData.props"
+    ></component>
     <v-divider></v-divider>
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
+import FTab from "@/components/generic/FTab.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
+import SearchLayoutFTabMDP from "./SearchLayoutFTabMDP";
 
-@Component
+@Component({
+  components: {
+    FTab,
+  },
+})
 export default class SearchLayout extends Vue {
-  activeTab = 0;
-
-  tabList = [
-    {
-      tabName: "Client",
-      routerName: "Root.Search.ClientSearch",
-    },
-    {
-      tabName: "File",
-      routerName: "Root.Search.ClientFileSearch",
-    },
-  ];
-
-  mounted() {
-    const ret = this.tabList
-      .map((tab) => tab.routerName)
-      .indexOf(this.$route.name!);
-    this.activeTab = ret;
-  }
-
-
-  goto(routerName: string) {
-    if(this.$route.name === routerName) {
-      // do nothing
-    } else {
-      this.$router.push({ name: routerName})
-    }
-    
+  get searchLayoutTabMetaData(): any {
+    return new SearchLayoutFTabMDP({ taskRoot: this }).getMetaData();
   }
 }
 </script>

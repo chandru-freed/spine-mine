@@ -1,6 +1,6 @@
 <template>
   <div class="TaskAssignedToMe">
-    <v-card-text>
+    <v-card class="pa-0 ma-0" color="transparent">
       <component
         v-if="!!clientFileSearchFormMetaData"
         :ref="clientFileSearchFormMetaData.myRefName"
@@ -11,7 +11,7 @@
         "
         v-bind="clientFileSearchFormMetaData.props"
       ></component>
-    </v-card-text>
+    </v-card>
     <!-- CLIENT FILE LIST -->
     <v-card class="pa-0 ma-0" color="transparent">
       <v-data-table

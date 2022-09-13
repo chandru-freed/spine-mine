@@ -20,7 +20,7 @@ export default class ECTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
+                dataSelectorKey: "taskInput.clientFileId",
                 label: "File Id",
                 mandatory: true,
                 disabled: true

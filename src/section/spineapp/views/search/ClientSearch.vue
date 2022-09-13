@@ -1,5 +1,5 @@
 <template>
-  <div class="TaskAssignedToMe">
+  <div>
     <v-card class="pa-0 ma-0" color="transparent">
       <component
         v-if="!!clientSearchFormMetaData"

@@ -1,18 +1,10 @@
 <template>
-  <div class="Document">
+  <div class="fileDocumentList">
     <component
       v-if="!!documentList"
       :ref="documentListMetaData.myRefName"
       :is="documentListMetaData.componentName"
       :value="selectModel(documentList, documentListMetaData.dataSelectorKey)"
-      @input="
-        (newValue) =>
-          updateModel(
-            documentList,
-            newValue,
-            documentListMetaData.dataSelectorKey
-          )
-      "
       v-bind="documentListMetaData.props"
     ></component>
   </div>

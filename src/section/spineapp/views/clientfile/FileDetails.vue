@@ -55,12 +55,8 @@ import FileProfile from "@/section/spineapp/components/file/profile/FileProfile.
 import FileBank from "@/section/spineapp/components/file/bank/FileBank.vue";
 import FileBudget from "@/section/spineapp/components/file/budget/FileBudget.vue";
 import FileCreditorList from "@/section/spineapp/components/file/creditor/FileCreditorList.vue";
-<<<<<<< HEAD
-import FilePaymentPlan from "@/section/spineapp/components/file/FilePaymentPlan.vue";
 import FileDocumentList from "../../components/file/document/FileDocumentList.vue";
-=======
-import FilePaymentPlan from "@/section/spineapp/components/file/paymentplan/FilePaymentPlan.vue";
->>>>>>> da91f6287015450512c8b4e1fdccd82bd6899856
+import FilePaymentPlan from "../../components/file/paymentplan/FilePaymentPlan.vue";
 
 @Component({
   components: {

@@ -1,11 +1,12 @@
-import FDocumentMDP from "@/components/generic/file/documentUpload/FDocumentMDP";
+import FPaymentPlanMDP from "@/components/generic/file/paymentPlan/FPaymentPlanMDP";
 
-export default class FileDocumentFDocumentMDP extends FDocumentMDP {
+
+export default class FilePaymentPlanFPaymentPlanMDP extends FPaymentPlanMDP {
     constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
         super({
             taskRoot: taskRoot,
             parent: parent,
-            myRefName: "fileDocumentRef",
+            myRefName: "filePaymentPlanRef",
             disabled: true,
         });
 

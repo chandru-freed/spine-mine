@@ -53,10 +53,14 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import FileInfo from "@/section/spineapp/components/file/FileInfo.vue";
 import FileProfile from "@/section/spineapp/components/file/profile/FileProfile.vue";
 import FileBank from "@/section/spineapp/components/file/bank/FileBank.vue";
-import FileBudget from "@/section/spineapp/components/file/FileBudget.vue";
+import FileBudget from "@/section/spineapp/components/file/budget/FileBudget.vue";
 import FileCreditorList from "@/section/spineapp/components/file/creditor/FileCreditorList.vue";
+<<<<<<< HEAD
 import FilePaymentPlan from "@/section/spineapp/components/file/FilePaymentPlan.vue";
 import FileDocumentList from "../../components/file/document/FileDocumentList.vue";
+=======
+import FilePaymentPlan from "@/section/spineapp/components/file/paymentplan/FilePaymentPlan.vue";
+>>>>>>> da91f6287015450512c8b4e1fdccd82bd6899856
 
 @Component({
   components: {

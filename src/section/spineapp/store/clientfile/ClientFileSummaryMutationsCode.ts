@@ -26,6 +26,13 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
   public updateFiDocumentList(state: Data.ClientFile.ClientFileSummary, fiDocumentList: Data.ClientFile.FiDocument[]): void {
     state.fiDocumentList = fiDocumentList
   }
+  public updateFiPaymentPlan(state: Data.ClientFile.ClientFileSummary, fiPaymentPlanInfo: Data.ClientFile.FiPaymentPlanInfo | undefined): void {
+    state.fiPaymentPlanInfo = fiPaymentPlanInfo;
+  }
+
+  public updateBudgetInfo(state: Data.ClientFile.ClientFileSummary, budgetInfo: Data.ClientFile.BudgetInfo | undefined): void {
+    state.budgetInfo = budgetInfo;
+  }
 
 
 }

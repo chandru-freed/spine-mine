@@ -1,10 +1,10 @@
 <template>
   <div class="fileDocumentList">
     <component
-      v-if="!!documentList"
+      v-if="!!fiDocumentList"
       :ref="documentListMetaData.myRefName"
       :is="documentListMetaData.componentName"
-      :value="selectModel(documentList, documentListMetaData.dataSelectorKey)"
+      :value="selectModel(fiDocumentList, undefined)"
       v-bind="documentListMetaData.props"
     ></component>
   </div>
@@ -43,23 +43,6 @@ export default class FileDocumentList extends ModelVue {
     }).getMetaData();
   }
   //METADATA
-
-  //FORM
-
-  documentListLocal: any = new Data.ClientFile.FiCreditor();
-
-  get documentList() {
-    if (!!this.fiDocumentList) {
-      this.documentListLocal = this.fiDocumentList;
-    }
-    return this.documentListLocal;
-  }
-
-  set documentList(value: any) {
-    this.documentListLocal = value;
-  }
-
-  //FORM
 
   mounted() {
     this.getFiDocumentList();

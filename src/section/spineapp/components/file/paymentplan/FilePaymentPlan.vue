@@ -1,16 +1,10 @@
 <template>
   <div class="FilePaymentPlan">
-    File payment plan
-
-    {{ paymentPlanInfoLocal }}
-
     <component
-      v-if="!!paymentPlanInfo"
+      v-if="!!paymentPlanWithTotalDebt"
       :ref="paymentPlanInfoMetaData.myRefName"
       :is="paymentPlanInfoMetaData.componentName"
-      :value="
-        selectModel(fiPaymentPlanInfo, paymentPlanInfoMetaData.dataSelectorKey)
-      "
+      :value="selectModel(paymentPlanWithTotalDebt, undefined)"
       v-bind="paymentPlanInfoMetaData.props"
     ></component>
   </div>
@@ -48,6 +42,9 @@ export default class FilePaymentPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
   fiPaymentPlanInfo: Data.ClientFile.FiPaymentPlanInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
+
   //METADATA
   get paymentPlanInfoMetaData() {
     return new FilePaymentPlanFPaymentPlanMDP({
@@ -57,25 +54,15 @@ export default class FilePaymentPlan extends ModelVue {
   }
   //METADATA
 
-  //FORM
-
-  paymentPlanInfoLocal: any = new Data.ClientFile.FiPaymentPlanInfo();
-
-  get paymentPlanInfo() {
-    if (!!this.fiPaymentPlanInfo) {
-      this.paymentPlanInfoLocal = this.fiPaymentPlanInfo;
-    }
-    return this.paymentPlanInfoLocal;
-  }
-
-  set paymentPlanInfo(value: any) {
-    this.paymentPlanInfoLocal = value;
-  }
-
-  //FORM
-
   mounted() {
     this.getFiPaymentPlanInfo();
+  }
+
+  get paymentPlanWithTotalDebt() {
+    return new Data.ClientFile.FiPaymentPlanWithCreditor(
+      this.fiPaymentPlanInfo,
+      this.fiCreditorInfo
+    );
   }
 
   getFiPaymentPlanInfo() {

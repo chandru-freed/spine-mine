@@ -3,6 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
+import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
 
 export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -43,7 +44,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
       })
     ).addField(
-      new FDateFieldMDP({
+      new FSelectDateFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.firstDraftDate",
         label: "First Draft Date",
@@ -60,7 +61,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         options: ["MSFFee"]
       })
     ).addField(
-      new FDateFieldMDP({
+      new FSelectDateFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.feeFirstDraftDate",
         label: "Fee First Draft Date",

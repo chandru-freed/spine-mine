@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{modelValue.paymentPlan}} -->
     <component
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
@@ -36,6 +37,10 @@
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
                   </v-toolbar>
+                </template>
+
+                <template v-slot:[`item.draftDate`]="{ item}">
+                  {{item.draftDate | date}}
                 </template>
               </v-data-table>
             </v-card>
@@ -102,7 +107,7 @@ export default class FPaymentPlan extends ModelVue {
       text: "Draft Date",
       align: "start",
       sortable: false,
-      value: "draftDate",
+      value: "draftDate"
     },
     { text: "Total Amount", value: "totalAmount" },
     { text: "Settlement Amount", value: "settlementReserve" },
@@ -114,7 +119,7 @@ export default class FPaymentPlan extends ModelVue {
       text: "Draft Date",
       align: "start",
       sortable: false,
-      value: "draftDate",
+      value: "draftDate"
     },
     { text: "Fee Code", value: "feeCode" },
     { text: "Collection Order", value: "collectionOrder" },

@@ -22,6 +22,7 @@ import moment from "moment";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import NMSFCTFStepperMDP from "@/section/spineapp/components/task/nsfMSF/nsfMSFCompletion/NMSFCTFStepperMDP";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -124,9 +125,9 @@ export default class NsfMSFCompletionTask
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber
     });
   }
 }

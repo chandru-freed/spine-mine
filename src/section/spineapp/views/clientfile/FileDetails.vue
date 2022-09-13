@@ -68,7 +68,7 @@ import FilePaymentPlan from "@/section/spineapp/components/file/FilePaymentPlan.
   },
 })
 export default class FileDetails extends Vue {
-  fileId = this.$route.params.fileId;
+  fileId = this.$route.params.clientFileNumber;
   
   leftFocused = false;
   rightFocused = false;

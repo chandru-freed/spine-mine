@@ -138,7 +138,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      fileId: this.$route.params.fileId,
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
 }

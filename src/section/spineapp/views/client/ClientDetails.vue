@@ -107,8 +107,8 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
     }, err => {}, RemoteApiPoint.SpineApi)
   }
 
-  gotoFile(clientFileId: string) {
-    Helper.Router.gotoFile({router: this.$router, fileId: clientFileId})
+  gotoFile(clientFileNumber: string) {
+    Helper.Router.gotoFile({router: this.$router, clientFileNumber: clientFileNumber})
   }
 }
 </script>

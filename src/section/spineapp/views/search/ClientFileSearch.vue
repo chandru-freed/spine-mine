@@ -49,7 +49,7 @@
           <v-btn
             text
             color="secondary"
-            @click="gotoClientFile(item.clientFileNumber)"
+            @click="gotoFile(item.clientFileNumber)"
             >{{ item.clientFileNumber }}</v-btn
           >
         </template>
@@ -71,6 +71,7 @@ import * as RemoteApiPoint from "@/remote-api-point";
 import ClientFileSearchFFormMDP from "./ClientFileSearchFFormMDP";
 import ClientFileSearchIntf from "./ClientFileSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
+import Helper from "../../util/Helper";
 
 @Component({
   components: {
@@ -125,11 +126,11 @@ export default class ClientFileSearch
     );
   }
 
-  gotoClientFile(clientFileNumber: string) {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: clientFileNumber },
-    });
+  gotoFile(clientFileNumber: string) {
+      Helper.Router.gotoFile({
+        router: this.$router,
+        clientFileNumber: clientFileNumber,
+      });
   }
 
   gotoClient(clientId: string) {

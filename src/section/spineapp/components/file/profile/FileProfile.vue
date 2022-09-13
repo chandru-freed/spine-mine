@@ -40,7 +40,6 @@ export default class FileProfile extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfo: Data.ClientFile.ClPersonalInfo;
 
-  fileId = this.$route.params.fileId;
   //METADATA
   get profileFormMetaData() {
     return new ClientProfileFProfileFFormMDP({

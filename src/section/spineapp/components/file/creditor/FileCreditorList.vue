@@ -44,7 +44,6 @@ export default class FileCreditorList extends ModelVue  {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditor;
 
-  fileId = this.$route.params.fileId;
   //METADATA
   get creditorInfoMetaData() {
     return new ClientCreditorFCreditorMDP({

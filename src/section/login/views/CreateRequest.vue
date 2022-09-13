@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-card flat outlined>
+    <h1>Dont use</h1>
+    <!-- <v-card flat outlined>
       <v-toolbar color="grey lighten-2" flat>
         <v-toolbar-title>Request Type</v-toolbar-title>
         <v-autocomplete
@@ -26,7 +27,7 @@
           v-bind="initMetaData.props"
         ></component>
       </v-card-text>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 <script lang="ts">
@@ -88,7 +89,7 @@ export default class CreateRequest extends Vue {
       input,
       (output) => {
         // console.log(output);
-        this.gotoFile(this.initDocumentData.fileId)
+        // this.gotoFile(this.initDocumentData.fileId)
       },
       (err) => {
         console.error(err);
@@ -97,11 +98,6 @@ export default class CreateRequest extends Vue {
     );
   }
 
-  gotoFile(fileId: string) {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: fileId },
-    });
-  }
+  
 }
 </script>

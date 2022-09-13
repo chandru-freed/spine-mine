@@ -149,17 +149,11 @@ export default class CreateRequest extends Vue {
   createFlow() {
     Flow.Action.createFlow({
       createRequestFormData: this.createRequestFormData,
-      fileId: this.initDocumentData.fileId,
+      clientFileNumber: this.initDocumentData.fileId,
       router:this.$router
     });
  
   }
 
-  gotoFile(fileId: string) {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: fileId },
-    });
-  }
 }
 </script>

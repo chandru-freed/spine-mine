@@ -41,8 +41,6 @@ export default class FileBank extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.fiBankInfo
   bankInfo: Data.ClientFile.FiBankInfo;
-
-  fileId = this.$route.params.fileId;
   //METADATA
   get bankInfoFormMetaData() {
     return new ClientBankInfoFBankFFormMDP({

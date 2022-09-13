@@ -185,6 +185,7 @@ import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
 import * as RemoteApiPoint from "@/remote-api-point";
+import Helper from "../../util/Helper";
 
 @Component({
   components: {
@@ -217,7 +218,7 @@ export default class FileTaskList extends Vue {
   showOnlyActive = 0;
 
   get fileId(): string {
-    return this.$route.params.fileId;
+    return this.$route.params.clientFileNumber;
   }
 
   mounted() {
@@ -254,9 +255,13 @@ export default class FileTaskList extends Vue {
   }
 
   gotoFile(item: any) {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: item.fileId },
+    // this.$router.push({
+    //   name: "Root.ClientFile.ClientFileDetails",
+    //   params: { fileId: item.fileId },
+    // });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: item.displayId,
     });
   }
 

@@ -48,6 +48,7 @@ import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
 import NsfMSFFFormMDP from "./NsfMSFFFormMDP";
 import Flow from "@/section/spineapp/util/Flow";
 import WelcomeCallFFormMDP from "./WelcomeCallFFormMDP";
+import Helper from "../../util/Helper";
 
 @Component({
   components: {
@@ -69,7 +70,7 @@ export default class FileCreateRequest extends Vue {
       }).getMetaData(),
     },
   ];
-  fileId = this.$route.params.fileId;
+  fileId = this.$route.params.clientFileNumber;
 
   get initDocumentData() {
     return {
@@ -96,10 +97,10 @@ export default class FileCreateRequest extends Vue {
     );
   }
 
-  gotoFile(fileId: string) {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: fileId },
+  gotoFile(clientFileNumber: string) {
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: clientFileNumber
     });
   }
 }

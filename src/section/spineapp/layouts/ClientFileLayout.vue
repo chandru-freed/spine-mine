@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    hi
     <!-- <router-view/> -->
     <div clas="row pa-0 ma-0">
       <div class="col-12">
@@ -35,7 +36,7 @@ export default class ClientFileLayout extends Vue {
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
 
-  clientFileNumber = this.$route.params.fileId; //::TODO will change the fileId to clientfileNumber in router
+  clientFileNumber = this.$route.params.clientFileNumber; //::TODO will change the fileId to clientfileNumber in router
   mounted() {
     this.getClientFileBasicInfo();
   }

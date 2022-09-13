@@ -1,10 +1,10 @@
 import VueRouter from "vue-router";
 
 export default class MyRouter {
-  static gotoFile({router, fileId}: {router: VueRouter, fileId: string}) {
+  static gotoFile({router, clientFileNumber}: {router: VueRouter, clientFileNumber: string}) {
     router.push({
       name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: fileId },
+      params: { clientFileNumber: clientFileNumber },
     });
   }
 

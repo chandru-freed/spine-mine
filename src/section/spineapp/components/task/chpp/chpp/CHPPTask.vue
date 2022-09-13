@@ -132,10 +132,10 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   }
 
   gotoFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      fileId: this.$route.params.fileId,
-    });
+      Helper.Router.gotoFile({
+        router: this.$router,
+        clientFileNumber: this.$route.params.clientFileNumber,
+      });
   }
 }
 </script>

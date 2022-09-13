@@ -23,6 +23,7 @@ import moment from "moment";
 import Task from "@/section/spineapp/util/Task";
 import UTFStepperMDP from "./UTFStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -129,10 +130,10 @@ export default class UnderwrittingTask
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
-    });
+      Helper.Router.gotoFile({
+        router: this.$router,
+        clientFileNumber: this.$route.params.clientFileNumber,
+      });
   }
   isUnderwrittingApproved() {
     if (this.taskFormData.taskOutput.underwrittingApproved) {

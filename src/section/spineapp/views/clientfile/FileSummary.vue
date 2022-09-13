@@ -19,7 +19,7 @@ import { SpineApi } from "@/remote-api-point";
   },
 })
 export default class FileSummary extends Vue {
-  fileId: string = this.$route.params.fileId;
+  fileId: string = this.$route.params.clientFileNumber;
   fileDetails = {
     clientName: "John Doe",
     fileId: "KFS-123-123-1234",

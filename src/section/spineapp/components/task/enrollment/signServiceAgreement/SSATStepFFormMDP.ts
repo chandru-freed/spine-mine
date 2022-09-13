@@ -27,7 +27,7 @@ export default class SSATStepFFormMDP extends FFormMDP {
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.digioSignStatus",
-        label: "Underwritting Approved",
+        label: "Digio Sign Status",
         mandatory: true,
       })
     ).addAction(

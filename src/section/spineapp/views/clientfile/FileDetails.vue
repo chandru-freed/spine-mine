@@ -55,7 +55,8 @@ import FileProfile from "@/section/spineapp/components/file/profile/FileProfile.
 import FileBank from "@/section/spineapp/components/file/bank/FileBank.vue";
 import FileBudget from "@/section/spineapp/components/file/budget/FileBudget.vue";
 import FileCreditorList from "@/section/spineapp/components/file/creditor/FileCreditorList.vue";
-import FilePaymentPlan from "@/section/spineapp/components/file/paymentplan/FilePaymentPlan.vue";
+import FileDocumentList from "../../components/file/document/FileDocumentList.vue";
+import FilePaymentPlan from "../../components/file/paymentplan/FilePaymentPlan.vue";
 
 @Component({
   components: {
@@ -64,7 +65,8 @@ import FilePaymentPlan from "@/section/spineapp/components/file/paymentplan/File
     "file-bank": FileBank,
     "file-budget": FileBudget,
     "file-creditor-list": FileCreditorList,
-    "file-payment-plan": FilePaymentPlan
+    "file-payment-plan": FilePaymentPlan,
+    "file-document-list": FileDocumentList
   },
 })
 export default class FileDetails extends Vue {
@@ -98,6 +100,10 @@ export default class FileDetails extends Vue {
     {
       tabName: "Pay Plan",
       component: "file-payment-plan",
+    },
+    {
+      tabName: "Document",
+      component: "file-document-list",
     },
   ];
 

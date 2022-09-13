@@ -23,7 +23,7 @@ export default class CustomFilters {
 
   private static toDate() {
     Vue.filter("date", (value: any) => {
-      return Moment(new Date(value)).format("MMMM Do YYYY");
+      return Moment(new Date(value)).format("Do MMM YY");
     });
   }
 

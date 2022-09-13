@@ -7,6 +7,8 @@ export class ClientFileSummaryInit {
 }
 
 export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
+   
+   
    public fiCreditorInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditorInfo | undefined {
       return state.fiCreditorInfo
    }
@@ -33,4 +35,10 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
     return state.budgetInfo
   }
 
+  public fiDocumentList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiDocument[] {
+    return state.fiDocumentList
+  }
+
 }
+
+

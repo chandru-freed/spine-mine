@@ -18,7 +18,7 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "clienFileNumberContains",
+          dataSelectorKey: "clientFileNumberContains", 
           label: "File Number",
           boundaryClass: "col-3",
         })

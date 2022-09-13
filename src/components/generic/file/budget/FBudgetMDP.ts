@@ -17,7 +17,7 @@ export default class FBudgetMDP implements MDP {
 
   disabled: boolean;
 
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey: string; disabled: boolean }) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string; disabled: boolean }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = myRefName

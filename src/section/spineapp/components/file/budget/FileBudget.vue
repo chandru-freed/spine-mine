@@ -1,7 +1,12 @@
 <template>
   <div class="FileBudget">
-    File budget
-    {{ budgetInfo }}
+    <component
+      v-if="budgetInfo"
+      :ref="budgetInfoFormMetaData.myRefName"
+      :is="budgetInfoFormMetaData.componentName"
+      :value="selectModel(budgetInfo, budgetInfoFormMetaData.dataSelectorKey)"
+      v-bind="budgetInfoFormMetaData.props"
+    ></component>
   </div>
 </template>
 
@@ -12,14 +17,27 @@ import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
-
-@Component
-export default class FileBudget extends Vue {
+import ClientBudgetInfoFBudgetMDP from "@/section/spineapp/components/file/budget/ClientBudgetInfoFBudgetMDP";
+import FBudget from "@/components/generic/file/budget/FBudget.vue";
+import ModelVue from "@/components/generic/ModelVue";
+@Component({
+  components: {
+    FBudget,
+  },
+})
+export default class FileBudget extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfo: Data.ClientFile.BudgetInfo;
+
+  get budgetInfoFormMetaData() {
+    return new ClientBudgetInfoFBudgetMDP({
+      taskRoot: this,
+      parent: this,
+    }).getMetaData();
+  }
 
   public mounted() {
     this.getBudgetInfo();

@@ -43,7 +43,7 @@
       <!--GRID START-->
       <v-card flat outlined>
         <v-data-table
-          :headers="headers"
+          :headers="filteredHeaders"
           :items="creditorList"
           sort-by="lastDateOfPayment"
           class="elevation-0"
@@ -156,6 +156,10 @@ export default class FCreditor extends ModelVue {
   @Prop()
   disabled: boolean;
 
+
+  @Prop()
+  readonly: boolean;
+
   showAddForm() {
     this.closeDialogs();
     this.addCreditorDialog = true;
@@ -226,6 +230,13 @@ export default class FCreditor extends ModelVue {
     this.selectedCreditorIndex = index;
     this.showDeletePopup();
     console.log(this.deleteCreditorDialog);
+  }
+
+  get filteredHeaders() {
+    if (this.readonly === true) {
+      return this.headers.filter((item) => item.value !== "actions");
+    }
+    return this.headers;
   }
 
   get actionMetaDataListFiltered() {

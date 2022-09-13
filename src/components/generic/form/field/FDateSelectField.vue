@@ -12,7 +12,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         :value="dateInDisplayFormat"
-        prepend-icon="mdi-calendar"
+        append-icon="mdi-calendar"
         readonly
         v-bind="{...$props,...attrs}"
         v-on="on"

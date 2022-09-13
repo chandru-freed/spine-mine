@@ -14,13 +14,15 @@ export default class FCreditorMDP implements MDP {
   editCreditorForm: FFormMDP;
   actionList: FBtnMDP[] = [];
   disabled: boolean;
+  readonly: boolean | undefined;
 
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string | undefined; disabled: boolean }) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled,readonly }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string | undefined; disabled: boolean;readonly?: boolean }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = myRefName;
     this.dataSelectorKey = dataSelectorKey;
     this.disabled = disabled;
+    this.readonly = readonly;
 
     this.addCreditorForm = new FAddCreditorFFormMDP({
       taskRoot: this.taskRoot,
@@ -53,6 +55,7 @@ export default class FCreditorMDP implements MDP {
           action.getMetaData()
         ),
         disabled: this.disabled,
+        readonly: this.readonly
       },
     };
   }

@@ -3,6 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FTextareaMDP from "../../form/field/FTextareaMDP";
 import FDebtRepaymentsMiniFormMDP from "./FDebtRepaymentsMiniFormMDP";
 import FDependentExpensesFBudgetMiniFormMDP from "./FDependentExpensesFBudgetMiniFormMDP";
 import FIncidentalExpensesFBudgetMiniFormMDP from "./FIncidentalExpensesFBudgetMiniFormMDP";
@@ -23,6 +24,9 @@ export default class FBudgetFFormMDP extends FFormMDP {
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
+    this.addField(
+      new FTextareaMDP({ parentMDP: this.childMDP, label:"Reason For Hardship", dataSelectorKey:"hardshipReason" })
+    )
     this.addField(
       new FIncomeSourcesFBudgetMiniFormMDP({ taskRoot: this.taskRoot, parent: this })
     )

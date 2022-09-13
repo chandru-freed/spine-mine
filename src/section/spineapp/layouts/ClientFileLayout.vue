@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    hi
     <!-- <router-view/> -->
     <div clas="row pa-0 ma-0">
       <div class="col-12">

@@ -4,6 +4,9 @@ import router from './router'
 import store from './../src-gen/store'
 import vuetify from './plugins/vuetify'
 
+import 'node-snackbar/dist/snackbar.min.css';
+import 'node-snackbar/dist/snackbar.min.js';
+
 import CustomFilters from './custom-filters';
 import Validator from './validator';
 import * as RemoteApiPoint from './remote-api-point';

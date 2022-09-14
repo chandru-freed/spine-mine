@@ -88,8 +88,7 @@ export default class CreateRequest extends Vue {
     Action.Spine.Create.execute(
       input,
       (output) => {
-        // console.log(output);
-        // this.gotoFile(this.initDocumentData.fileId)
+        
       },
       (err) => {
         console.error(err);

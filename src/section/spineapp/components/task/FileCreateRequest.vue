@@ -45,9 +45,6 @@ import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FForm from "@/components/generic/form/FForm.vue";
 import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
-import NsfMSFFFormMDP from "./NsfMSFFFormMDP";
-import Flow from "@/section/spineapp/util/Flow";
-import WelcomeCallFFormMDP from "./WelcomeCallFFormMDP";
 import Helper from "../../util/Helper";
 
 @Component({
@@ -70,7 +67,6 @@ export default class FileCreateRequest extends Vue {
       }).getMetaData(),
     },
   ];
-  fileId = this.$route.params.clientFileNumber;
 
   get initDocumentData() {
     return {

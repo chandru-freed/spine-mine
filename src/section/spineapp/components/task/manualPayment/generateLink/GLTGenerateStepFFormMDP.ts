@@ -18,7 +18,7 @@ export default class GLTFFormMDP extends FFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.fileId",
+        dataSelectorKey: "taskInput.clientFileNumber",
         label: "File ID",
         mandatory: true,
         boundaryClass: "col-4",

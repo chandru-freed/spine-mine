@@ -151,14 +151,14 @@ export default class TaskAssignedToMe extends Vue {
   gotoFile(item: any) {
     this.$router.push({
       name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: item.cid },
+      params: { clientFileNumber: item.cid },
     });
   }
 
   gotoTask(item: any) {
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
-      params: { fileId: item.cid, taskId: item.taskId },
+      params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
   }
 }

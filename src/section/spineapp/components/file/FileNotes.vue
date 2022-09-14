@@ -67,7 +67,7 @@
                   </v-chip>
                 </span>
                 <v-btn
-                  @click="highLightNote(note.noteId)"
+                  @click="highlightNote(note.noteId)"
                   color="primary"
                   text
                   small
@@ -129,7 +129,7 @@ export default class FileNotes extends ModelVue {
     this.getFiNoteList();
   }
 
-  highLightNote(noteId: string) {
+  highlightNote(noteId: string) {
     this.tagNoteInput.tagKey = "highlight";
     this.tagNoteInput.tagValue = "true";
     this.tagNoteInput.noteId = noteId;

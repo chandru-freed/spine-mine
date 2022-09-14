@@ -70,7 +70,7 @@ import FilePaymentPlan from "../../components/file/paymentplan/FilePaymentPlan.v
   },
 })
 export default class FileDetails extends Vue {
-  fileId = this.$route.params.clientFileNumber;
+  clientfileNumber = this.$route.params.clientFileNumber;
   
   leftFocused = false;
   rightFocused = false;

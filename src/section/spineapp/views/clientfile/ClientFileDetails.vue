@@ -134,7 +134,7 @@ import FileLogs from "@/section/spineapp/components/file/FileLogs.vue";
   },
 })
 export default class ClientFileDetails extends Vue {
-  fileId = this.$route.params.clientFileNumber;
+  clientFileNumber = this.$route.params.clientFileNumber;
 
   miniLeft = false;
   miniRight = false;
@@ -145,7 +145,7 @@ export default class ClientFileDetails extends Vue {
 
   fileDetails = {
     clientName: "John Doe",
-    fileId: "KFS-123-123-1234",
+    clientFileNumber: "KFS-123-123-1234",
     phoneNumber: "987-654-3210",
     program: "DSP",
     plan: "699",

@@ -21,7 +21,7 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
+                dataSelectorKey: "taskInput.clientFileNumber",
                 label: "File ID",
                 boundaryClass: "col-6",
                 disabled: true

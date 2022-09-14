@@ -157,50 +157,7 @@ export default class TaskPinned extends Vue {
 
   initialize() {
     this.taskList = [
-      {
-        taskId: "62be9d92fcd30c99e512cd46",
-        displayId: "KFS-100-1003",
-        cid: "KFS-100-1003",
-        taskName: "CollectClientInfo",
-        priority: 1,
-        readyTime: "2022-07-01T12:39:06.469+05:30",
-        taskInput: '{ "fileId" : "KFS-100-1003", "clientInfo" : null }',
-        tagList: [],
-        isSuspended: false,
-      },
-      {
-        taskId: "62be9d92fcd30c99e512cd47",
-        displayId: "KFS-100-1004",
-        cid: "KFS-100-1004",
-        taskName: "WelcomeCall",
-        priority: 2,
-        readyTime: "2022-07-01T12:39:06.469+05:30",
-        taskInput: '{ "fileId" : "KFS-100-1003", "clientInfo" : null }',
-        tagList: [],
-        isSuspended: false,
-      },
-      {
-        taskId: "62be9d92fcd30c99e512cd48",
-        displayId: "KFS-100-1005",
-        cid: "KFS-100-1005",
-        taskName: "WelcomeCall",
-        priority: 2,
-        readyTime: "2022-07-01T12:39:06.469+05:30",
-        taskInput: '{ "fileId" : "KFS-100-1003", "clientInfo" : null }',
-        tagList: [],
-        isSuspended: false,
-      },
-      {
-        taskId: "62be9d92fcd30c99e512cd49",
-        displayId: "KFS-100-1006",
-        cid: "KFS-100-1006",
-        taskName: "WelcomeCall",
-        priority: 2,
-        readyTime: "2022-07-01T12:39:06.469+05:30",
-        taskInput: '{ "fileId" : "KFS-100-1003", "clientInfo" : null }',
-        tagList: [],
-        isSuspended: false,
-      },
+      
     ];
   }
 
@@ -218,7 +175,7 @@ export default class TaskPinned extends Vue {
   gotoFile(item: any) {
     this.$router.push({
       name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: item.fileId },
+      params: { clientFileNumber: item.cid },
     });
   }
 

@@ -217,7 +217,7 @@ export default class FileTaskList extends Vue {
 
   showOnlyActive = 0;
 
-  get fileId(): string {
+  get clientFileNumber(): string {
     return this.$route.params.clientFileNumber;
   }
 
@@ -227,7 +227,7 @@ export default class FileTaskList extends Vue {
 
   getToBePulledTaskList() {
     Action.TaskList.GetTaskListByCid.execute1(
-      this.fileId,
+      this.clientFileNumber,
       (output) => {
         this.taskList = output;
       },
@@ -257,7 +257,7 @@ export default class FileTaskList extends Vue {
   gotoFile(item: any) {
     // this.$router.push({
     //   name: "Root.ClientFile.ClientFileDetails",
-    //   params: { fileId: item.fileId },
+    //   params: { clientFileNumber: item.clientFileNumber },
     // });
     Helper.Router.gotoFile({
       router: this.$router,

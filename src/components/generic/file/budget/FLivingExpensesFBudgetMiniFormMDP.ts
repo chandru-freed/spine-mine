@@ -29,16 +29,16 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "grocerryExpense",
-          label: "Grocerry Expense",
+          dataSelectorKey: "groceryExpense",
+          label: "Grocery Expense",
           mandatory: true,
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "electricBill",
-          label: "Elctric Bill",
+          dataSelectorKey: "electricityBill",
+          label: "Electricity Bill",
           mandatory: true,
         })
       )

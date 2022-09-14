@@ -18,7 +18,7 @@ export default class SLTFFormMDP extends FFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.fileId", // that needs to be updated the data Selector Key
+        dataSelectorKey: "taskInput.clientFileNumber", // that needs to be updated the data Selector Key
         label: "File ID",
         mandatory: true,
         boundaryClass: "col-4",

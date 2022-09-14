@@ -19,8 +19,8 @@ export default class UFSDTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
-                label: "File Id",
+                dataSelectorKey: "taskInput.clientFileNumber",
+                label: "File Number",
                 mandatory: true,
                 boundaryClass: "col-6",
                 disabled: true

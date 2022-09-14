@@ -54,7 +54,7 @@ import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 
 @Component({
   components: {
@@ -86,11 +86,7 @@ export default class TaskCompleted extends Vue {
       this.toDate,
       (output) => {
         this.completedTaskTList = output;
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 

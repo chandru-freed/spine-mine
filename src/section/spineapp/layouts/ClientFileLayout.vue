@@ -22,7 +22,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSummary.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import { GetClientFileBasicInfo } from "src-gen/action/clientfile-action";
 
 @Component({
@@ -45,21 +45,14 @@ export default class ClientFileLayout extends Vue {
       this.clientFileNumber,
       (output) => {
         this.getClientFileSummary();
-      },
-      (err) => {
-      },
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
   getClientFileSummary() {
     Action.ClientFile.GetClientFileSummary.execute1(this.clientFileBasicInfo.clientFileId, output => {
 
-    },
-    err => {
-
-    },
-    RemoteApiPoint.SpineApi)
+    })
   }
 }
 </script>

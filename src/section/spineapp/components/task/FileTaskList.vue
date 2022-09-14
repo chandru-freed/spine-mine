@@ -184,7 +184,7 @@ import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import Helper from "../../util/Helper";
 
 @Component({
@@ -230,9 +230,7 @@ export default class FileTaskList extends Vue {
       this.clientFileNumber,
       (output) => {
         this.taskList = output;
-      },
-      (err) => {},
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
@@ -284,9 +282,7 @@ export default class FileTaskList extends Vue {
       this.userName,
       (output) => {
         this.gotoTask(item);
-      },
-      (err) => {},
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 }

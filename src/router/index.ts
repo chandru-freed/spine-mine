@@ -4,7 +4,8 @@ import SmileRouter from '@/../src-gen/smile-router'
 import store, * as Store from '@/../src-gen/store';
 import * as Data from '@/../src-gen/data';
 import * as Action from '@/../src-gen/action';
-import * as RemoteApiPoint from "@/remote-api-point";
+import * as RemoteApiPoint from '@/remote-api-point';
+
 
 Vue.use(VueRouter)
 
@@ -35,20 +36,20 @@ const router = new VueRouter({
 
 //  for Gompa Integration using Login ADS   -- uncomment this
 router.beforeEach((to, from, next) => {
-   console.log("ROUTER ------------ beforeEach --------")
-   console.log(to.matched)
+   // console.log("ROUTER ------------ beforeEach --------")
+   // console.log(to.matched)
   if (to.matched.some(record => record.meta.authenticated)) {
 
     const userLocal = new UserLocal();
 
     if (userLocal.absent()) {
-       console.log("ROUTER ------------ beforeEach -------- user NOT logged in")
+       // console.log("ROUTER ------------ beforeEach -------- user NOT logged in")
       next({
         path: '/login',
         query: { redirect: to.fullPath }
       });
     } else {
-       console.log("ROUTER ------------ beforeEach -------- user logged in")
+       // console.log("ROUTER ------------ beforeEach -------- user logged in")
       Store.Mutation.Login.LoginDetails.SET_USER_NAME(new Data.Login.LoginForm(userLocal.userName!));
       if (!!to && !!to.meta && to.meta.roles) {
 
@@ -75,7 +76,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-   console.log("ROUTER ------------ beforeEach -------- END")
+   // console.log("ROUTER ------------ beforeEach -------- END")
 });
 
 class UserLocal  {
@@ -108,7 +109,7 @@ class UserLocal  {
     } else {
       Action.Login.GetRoleListForUser.execute(new Data.Login.MyAppId(), (output: any) => {
           f(output.roleList);
-      }, (err) => console.error(err), RemoteApiPoint.GompaApi);
+      })
     }
   }
 }

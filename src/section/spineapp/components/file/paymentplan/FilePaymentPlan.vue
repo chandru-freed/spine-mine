@@ -23,7 +23,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FilePaymentPlanFPaymentPlanMDP from "./FilePaymentPlanFPaymentPlanMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
@@ -68,9 +68,7 @@ export default class FilePaymentPlan extends ModelVue {
   getFiPaymentPlanInfo() {
     Action.ClientFile.GetPaymentPlanInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
-      (output) => {},
-      (error) => {},
-      RemoteApiPoint.SpineApi
+      (output) => {}
     );
   }
 }

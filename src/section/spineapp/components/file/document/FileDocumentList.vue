@@ -18,7 +18,7 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FileDocumentFDocumentMDP from "./FileDocumentFDocumentMDP";
 import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
 
@@ -52,9 +52,7 @@ export default class FileDocumentList extends ModelVue {
   getFiDocumentList() {
     Action.ClientFile.GetDocumentList.execute1(
       this.clientFileBasicInfo.clientFileId,
-      (output) => {},
-      (error) => {},
-      RemoteApiPoint.SpineApi
+      (output) => {}
     );
   }
 }

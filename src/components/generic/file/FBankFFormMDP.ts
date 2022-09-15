@@ -10,7 +10,19 @@ export default class FBankFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string|undefined; disabled: boolean }) {
+  constructor({
+    taskRoot,
+    parent,
+    myRefName,
+    dataSelectorKey,
+    disabled,
+  }: {
+    taskRoot: any;
+    parent: any;
+    myRefName: string;
+    dataSelectorKey?: string | undefined;
+    disabled: boolean;
+  }) {
     super({
       myRefName: myRefName,
       dataSelectorKey: dataSelectorKey,
@@ -31,6 +43,15 @@ export default class FBankFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
+          dataSelectorKey: "name",
+          label: "Bank Name",
+          mandatory: true,
+          boundaryClass: "col-3",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           mandatory: true,
@@ -44,9 +65,12 @@ export default class FBankFFormMDP extends FFormMDP {
           label: "Account Type",
           boundaryClass: "col-3",
           mandatory: true,
-          options: [{id: "SAVING", name: "SAVING"}, {id: "CURRENT", name: "CURRENT"}],
+          options: [
+            { id: "SAVINGS", name: "SAVINGS" },
+            { id: "CURRENT", name: "CURRENT" },
+          ],
           optionLabel: "name",
-          optionValue: "id"
+          optionValue: "id",
         })
       )
       .addField(
@@ -67,9 +91,6 @@ export default class FBankFFormMDP extends FFormMDP {
           label: "Bank Address",
           mandatory: true,
         })
-      )
-
-     
+      );
   }
-
 }

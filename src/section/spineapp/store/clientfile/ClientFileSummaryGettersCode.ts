@@ -24,7 +24,7 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
      return state.clientFileBasicInfo
    }
 
-   public fileSummary(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FileSummary {
+   public fileSummary(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FileSummary | undefined {
     return state.fileSummary
   }
   public fiPaymentPlanInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPaymentPlanInfo | undefined {

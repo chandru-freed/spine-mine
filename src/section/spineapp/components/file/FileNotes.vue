@@ -13,7 +13,7 @@
           v-model="addNoteInput.noteMessage"
         >
           <template v-slot:append>
-            <v-btn class="mx-0" depressed @click="addNote" color="secondary">
+            <v-btn :disabled="addNoteInput.noteMessage.length<2" class="mx-0" depressed @click="addNote" color="secondary">
               Post
             </v-btn>
           </template>
@@ -123,6 +123,8 @@ export default class FileNotes extends ModelVue {
 
   @Store.Getter.FiNote.FiNoteStore.fiNoteList
   fiNoteList: Data.FiNote.FiNote[];
+
+  
 
   mounted() {
     this.getFiNoteList();

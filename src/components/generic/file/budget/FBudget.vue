@@ -2,6 +2,7 @@
   <div>
     <component
       style="height: 100%"
+      :ref="budgetFormMetaData.myRefName"
       :is="budgetFormMetaData.componentName"
       v-bind="budgetFormMetaData.props"
       :value="selectModel(modelValue, budgetFormMetaData.dataSelectorKey)"

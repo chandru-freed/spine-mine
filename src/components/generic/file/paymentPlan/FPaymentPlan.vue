@@ -164,7 +164,8 @@ export default class FPaymentPlan extends ModelVue {
         this.ppCalculator.ppCode,
         this.totalDebtAmount,
         this.ppCalculator.tenor,
-        this.ppCalculator.firstDraftDate
+        this.ppCalculator.firstDraftDate,
+        this.ppCalculator.approxSettlementPercentage,
       );
     Action.Spine.CalculatePaymentSchedule.execute(
       input,

@@ -13,4 +13,8 @@ export class FiNoteStoreGettersCode implements FiNoteStoreGetters {
      return state.fiNoteList
    }
 
+   public fiHighlightedNoteList(state: Data.FiNote.FiNoteStore): Data.FiNote.FiNote[] {
+     return state.fiHighlightedNoteList
+   }
+
 }

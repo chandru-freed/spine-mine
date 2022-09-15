@@ -2,11 +2,12 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBudgetMDP from "@/components/generic/file/budget/FBudgetMDP";
 
 export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
+  budgetFormRef = "budgetFormRef";
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       taskRoot: taskRoot,
       parent: parent,
-      myRefName: "budgetStepRef",
+      myRefName: "budgetRef",
       dataSelectorKey: "taskOutput.budgetInfo",
       disabled: taskRoot.taskDisabled
     });
@@ -14,7 +15,7 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
     this.addAction(
       new FBtnMDP({
         label: "Save",
-        onClick: this.saveTask(),
+        onClick: this.validateAndSave(),
         condition: this.isStarted()
       })
     ).addAction(
@@ -26,11 +27,6 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
     );
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
 
   rescueTask() {
     return () => {
@@ -48,5 +44,19 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName];
+  }
+
+  getBudgetFormRef() {
+    return this.getMyRef()[0].$refs[this.budgetFormRef]
+  }
+
+  validateAndSave() {
+    return () => {
+      this.getBudgetFormRef().submitForm(() => {
+        console.log("Budget profile");
+        console.log("task rook", this.taskRoot);
+        this.taskRoot.saveTask();
+      });
+    }
   }
 }

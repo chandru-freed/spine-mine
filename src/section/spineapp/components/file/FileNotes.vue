@@ -125,7 +125,6 @@ export default class FileNotes extends ModelVue {
   fiNoteList: Data.FiNote.FiNote[];
 
   mounted() {
-    this.addNoteInput.clientFileId = this.clientFileBasicInfo.clientFileId;
     this.getFiNoteList();
   }
 
@@ -137,6 +136,7 @@ export default class FileNotes extends ModelVue {
   }
 
   addNote() {
+    this.addNoteInput.clientFileId = this.clientFileBasicInfo.clientFileId;
     Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
       this.addNoteInput = new Data.FiNote.AddNoteInput();
       this.getFiNoteList();

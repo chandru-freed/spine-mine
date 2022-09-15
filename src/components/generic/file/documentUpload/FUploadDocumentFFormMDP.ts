@@ -20,7 +20,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
     this.addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "documentType",
+        dataSelectorKey: "docType",
         label: "Type of Document",
         mandatory: true,
         boundaryClass: "col-4",
@@ -28,7 +28,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
       })).addField(
       new FFileFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "document",
+        dataSelectorKey: "fileDoc",
         label: "Document",
         mandatory: false,
         boundaryClass: "col-8"
@@ -50,7 +50,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
   uploadDocument() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.parent.getMyRef().uploadFileDocument();
+        this.parent.getMyRef().getPresignedURLAndUpload();
       });
     }
   }

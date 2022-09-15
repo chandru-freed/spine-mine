@@ -1,5 +1,5 @@
 <template>
-  <div ref="creditorListRef">
+  <div ref="documentListRef">
     <component
       v-if="uploadDocumentDialog"
       :is="uploadDocumentFormMetaData.componentName"
@@ -31,6 +31,9 @@
           :items="modelValue"
           class="elevation-0"
         >
+        <template v-slot:[`item.uploadedOn`]="{ item}">
+          {{item.uploadedOn | date}}
+        </template>
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Document(s)</v-toolbar-title>
@@ -86,7 +89,7 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ClientFile from "@/section/spineapp/util/ClientFile";
-
+import axios from "axios";
 
 @Component({
   components: {
@@ -96,17 +99,19 @@ import ClientFile from "@/section/spineapp/util/ClientFile";
 })
 export default class FDocument extends ModelVue {
   uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
-
+  uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
   selectedCreditorIndex: number;
   headers = [
     { text: "Doc Path", value: "documentPath" },
     { text: "DocumentType", value: "documentType" },
-    { text: "Uploaded On", value: "uploadedTime" },
+    { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },
   ];
 
   uploadDocumentDialog = false;
   deleteDocumentDialog = false;
+
+  presignedUrl: string;
 
   @Prop()
   uploadDocumentFormMetaData: any;
@@ -116,6 +121,9 @@ export default class FDocument extends ModelVue {
 
   @Prop()
   disabled: boolean;
+
+  @Prop()
+  taskRoot: any;
 
   showAddForm() {
     this.closeDialogs();
@@ -136,21 +144,26 @@ export default class FDocument extends ModelVue {
   }
   resetForms() {
     this.uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
+    this.uploadedDocument = new Data.Spine.FileDocument();
   }
 
-  uploadDocumentData() {
-    (this.modelValue as any).push(this.uploadDocumentForm);
-    this.closeAndClearAllForms();
+  mounted() {
+    console.log(this.$refs);
   }
 
-  uploadFileDocument() {
-    Action.ClientFile.UploadDocument.execute(
-      this.uploadDocumentForm,
-      (output) => {
-        console.log("document uploaded successfully");
-      }
-    );
-  }
+
+  // uploadFileDocument() {
+    
+    // this.getPresignedURLAndUpload();
+    // const url = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
+    // console.log(url)
+    // Action.ClientFile.UploadDocument.execute(
+    //   this.uploadDocumentForm,
+    //   (output) => {
+    //     console.log("document uploaded successfully");
+    //   }
+    // );
+  // }
 
   deleteDocument() {
     this.modelValue.splice(this.selectedCreditorIndex, 1);
@@ -163,7 +176,6 @@ export default class FDocument extends ModelVue {
     console.log(this.deleteDocumentDialog);
   }
 
-
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(
       (actionMetaData) =>
@@ -172,6 +184,45 @@ export default class FDocument extends ModelVue {
     );
   }
 
+  getPresignedURLAndUpload() {
+    const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
+    const key = "clientfile/documents/" + fileName;
+    this.uploadedDocument.documentPath = key;
+    Action.Spine.GetPresignedURLForUpload.execute1(key, (output) => {
+      this.presignedUrl = output.url;
+      this.uploadFile();
+    });
+  }
 
+  async uploadFile() {
+    const options: any = {
+      headers: {
+        "Content-Type": this.uploadDocumentForm.fileDoc?.type,
+      },
+    };
+    const axiosResponse = await axios.put(
+      this.presignedUrl,
+      this.uploadDocumentForm.fileDoc,
+      options
+    );
+    this.addAndSaveUploadedFile();
+    console.log(axiosResponse);
+  }
+
+  addAndSaveUploadedFile() {
+    this.uploadedDocument.documentType = this.uploadDocumentForm.docType;
+    this.uploadedDocument.uploadedOn = new Date();
+    (this.modelValue as any).push(this.uploadedDocument);
+    this.taskRoot?.saveTask();
+    this.closeAndClearAllForms();
+  }
+
+  generateRandomUrl(file: File| null) {
+    if(file) {
+    const dateValue = new Date().valueOf();
+    return dateValue + file.name;
+    }
+    return "";
+  }
 }
 </script>

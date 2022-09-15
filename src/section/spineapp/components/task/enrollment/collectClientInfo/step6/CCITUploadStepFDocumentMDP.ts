@@ -7,7 +7,7 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "documentListRef",
-      dataSelectorKey: "taskOutput.documentList",
+      dataSelectorKey: "taskOutput.fileDocumentList",
       disabled: taskRoot.taskDisabled,
     });
 

@@ -44,6 +44,7 @@ export default class FDocumentMDP implements MDP {
           action.getMetaData()
         ),
         disabled: this.disabled,
+        taskRoot: this.taskRoot
       },
     };
   }

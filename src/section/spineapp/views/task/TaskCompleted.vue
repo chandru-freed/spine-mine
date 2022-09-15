@@ -4,7 +4,7 @@
       <task-tab v-model="tab"></task-tab>
       <!--  COMPLETED TASK -->
       <v-data-table
-        :headers="toBeCompletedTaskheaders"
+        :headers="completedTaskheaders"
         :items="completedTaskTList"
         class="elevation-0"
         :search="search"
@@ -74,6 +74,7 @@ import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
+import Helper from "../../util/Helper";
 
 @Component({
   components: {
@@ -85,9 +86,12 @@ export default class TaskCompleted extends Vue {
   tab = 0;
   selected = [];
   search = "";
-  toDate = moment().format("YYYY-MM-DD");
-  fromDate = moment().subtract(7, "d").format("YYYY-MM-DD");
-  toBeCompletedTaskheaders = [
+  searchDurationInDays = 7
+
+  toDate = moment().format(Helper.DATE_FORMAT);
+  fromDate = moment().subtract(this.searchDurationInDays, "d").format(Helper.DATE_FORMAT);
+
+  completedTaskheaders = [
     { text: "File Number", value: "cid" },
     { text: "Client", value: "displayId" },
     { text: "Task Name", value: "taskName" },

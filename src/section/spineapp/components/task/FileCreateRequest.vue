@@ -49,8 +49,13 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
+import EnrollmentFFormMDP from "./createRequestForm/EnrollmentFFormMDP";
 import Helper from "../../util/Helper";
+import CHPPFFormMDP from "./createRequestForm/CHPPFFormMDP";
+import NsfMSFFFormMDP from "./createRequestForm/NsfMSFFFormMDP";
+import WelcomeCallFFormMDP from "./createRequestForm/WelcomeCallFFormMDP";
+import MFCFFormMDP from "./createRequestForm/MFCFFormMDP";
+import NsfSPAFFormMDP from "./createRequestForm/NsfSPAFFormMDP";
 
 @Component({
   components: {
@@ -71,6 +76,41 @@ export default class FileCreateRequest extends Vue {
         parent: this,
       }).getMetaData(),
     },
+    {
+      key: "CHPP",
+      contentMetaData: new CHPPFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+    },
+    {
+      key: "NsfMSF",
+      contentMetaData: new NsfMSFFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+    },
+    {
+      key: "Welcome Call",
+      contentMetaData: new WelcomeCallFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+    },
+    {
+      key: "MFC",
+      contentMetaData: new MFCFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+    },
+    {
+      key: "NsfSPA",
+      contentMetaData: new NsfSPAFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+    },
   ];
 
   get initDocumentData() {
@@ -87,7 +127,61 @@ export default class FileCreateRequest extends Vue {
 
   createEnrollmentFlow() {
     Action.Spine.CreateEnrollment.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
+      }
+    );
+  }
+
+  createCHPPFlow() {
+    Action.Spine.CreateCHPP.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
+      }
+    );
+  }
+
+  createNsfMSFFlow() {
+    Action.Spine.CreateNsfMSF.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
+      }
+    );
+  }
+
+  createWelcomeCall() {
+    Action.Spine.CreateWelcomeCall.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
+      }
+    );
+  }
+
+  createMFC() {
+    Action.Spine.CreateMFC.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
+      }
+    );
+  }
+  createNsfSPA() {
+    Action.Spine.CreateNsfSPA.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");

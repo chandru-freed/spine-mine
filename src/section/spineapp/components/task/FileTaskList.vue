@@ -2,12 +2,12 @@
   <!-- TASK TAB -->
   <v-card class="pa-0 ma-0 my-3" color="white" outlined min-height="100px">
     <file-create-request
-    v-if="showCreateRequestScreen"
-    @backButtonPressed="showCreateRequestScreen=false"
-    @flowCreated="getToBePulledTaskList"
+      v-if="showCreateRequestScreen"
+      @backButtonPressed="showCreateRequestScreen = false"
+      @flowCreated="getTaskListForClientFile"
     />
     <v-data-table
-    v-if="!showCreateRequestScreen"
+      v-if="!showCreateRequestScreen"
       dense
       min-height="600px"
       :headers="headers"
@@ -47,8 +47,7 @@
               >Show All</v-btn
             > -->
           </v-col>
-          <v-col class="col-5">
-          </v-col>
+          <v-col class="col-5"> </v-col>
           <v-col>
             <v-text-field
               v-model="search"
@@ -62,12 +61,17 @@
               class="shrink"
             ></v-text-field>
           </v-col>
-            <v-btn
-              color="primary"
-             small
-              @click="showCreateRequestScreen = true"
-              >Create Request</v-btn
-            >
+          <v-btn
+            icon
+            class="mr-3"
+            small
+            text
+            @click="getTaskListForClientFile()"
+            ><v-icon>mdi-refresh</v-icon></v-btn
+          >
+          <v-btn color="primary" small @click="showCreateRequestScreen = true"
+            >Create Request</v-btn
+          >
         </v-toolbar>
       </template>
       <template v-slot:item.taskState="{ item }">
@@ -137,49 +141,7 @@
         <span class="grey--text">
           {{ getLastUpdatedTime(item) | fromNow }}
         </span>
-        <!-- <span class="grey--text" v-if="!item.lastUserActivityTime">
-          {{ item.allocatedTime | fromNow }}
-        </span> -->
       </template>
-
-      <!-- <template v-slot:item.taskState="{ item }">
-          <v-btn rounded outlined small color="secondary" @click="pullTask(item)">{{ item.taskState }}</v-btn>
-        </template> -->
-
-      <template v-slot:item.actions="{ item }">
-        <!-- <v-icon small class="mr-2" @click="editItem(item)">
-            mdi-pencil
-          </v-icon>
-          <v-icon small class="mr-2" @click="deleteItem(item)">
-            mdi-delete
-          </v-icon> -->
-        <v-menu
-          offset-y
-          left
-          nudge-bottom="14"
-          min-width="230"
-          content-class="user-profile-menu-content"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon small v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-          </template>
-          <v-list dense>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-download</v-icon> Download
-            </v-list-item>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-eye</v-icon> Preview
-            </v-list-item>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-pencil</v-icon> Edit
-            </v-list-item>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-delete</v-icon> Delete
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </template>
-
       <template v-slot:no-data> No Tasks Available </template>
     </v-data-table>
   </v-card>
@@ -197,13 +159,12 @@ import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 import moment from "moment";
 
 import Helper from "../../util/Helper";
-import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
 import FileCreateRequest from "./FileCreateRequest.vue";
 
 @Component({
   components: {
     // "task-tab": TaskTab
-    "file-create-request": FileCreateRequest
+    "file-create-request": FileCreateRequest,
   },
 })
 export default class FileTaskList extends Vue {
@@ -229,15 +190,6 @@ export default class FileTaskList extends Vue {
   ];
 
   selectedRequestType: any = {};
-  requestTypeFlowMapList = [
-    {
-      key: "Enrollment",
-      contentMetaData: new EnrollmentFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-    },
-  ];
 
   taskList: Data.TaskList.GetTaskListByCidGrid[] = [];
 
@@ -248,11 +200,11 @@ export default class FileTaskList extends Vue {
   }
 
   mounted() {
-    this.getToBePulledTaskList();
+    this.getTaskListForClientFile();
   }
 
-  getToBePulledTaskList() {
-    this.showCreateRequestScreen=false;
+  getTaskListForClientFile() {
+    this.showCreateRequestScreen = false;
     Action.TaskList.GetTaskListByCid.execute1(
       this.clientFileNumber,
       (output) => {

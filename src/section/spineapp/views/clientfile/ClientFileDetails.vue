@@ -193,10 +193,10 @@ export default class ClientFileDetails extends Vue {
   taskSummaryTab = 0;
 
   taskSummaryTabList = [
-    {
-      tabName: "Request",
-      component: "file-create-request",
-    },
+    // {
+    //   tabName: "Request",
+    //   component: "file-create-request",
+    // },
     {
       tabName: "Tasks",
       component: "file-task-list",

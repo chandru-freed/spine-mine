@@ -1,37 +1,42 @@
 <template>
   <!-- TASK TAB -->
-  <div class="d-flex justify-center">
-    <v-card
-      class="pa-0 ma-0 mt-5 col-6"
-      color="white"
-      outlined
-      min-height="700px"
-    >
-      <v-card-text>
-        <v-autocomplete
-          v-model="selectedRequestType"
-          :items="requestTypeFlowMapList"
-          cache-items
-          flat
-          hide-no-data
-          hide-details
-          label="Select Request Type"
-          outlined
-          item-value="contentMetaData"
-          item-text="key"
-        ></v-autocomplete>
-      </v-card-text>
+  <div>
+    <v-btn @click="backButtonPressed" text icon color="lighten-2" class="ma-2">
+      <v-icon size="40">mdi-chevron-left</v-icon>
+    </v-btn>
+    <div class="d-flex justify-center">
+      <v-card
+        class="pa-0 ma-0 mt-5 col-6"
+        color="white"
+        outlined
+        min-height="300px"
+      >
+        <v-card-text>
+          <v-autocomplete
+            v-model="selectedRequestType"
+            :items="requestTypeFlowMapList"
+            cache-items
+            flat
+            hide-no-data
+            hide-details
+            label="Select Request Type"
+            outlined
+            item-value="contentMetaData"
+            item-text="key"
+          ></v-autocomplete>
+        </v-card-text>
 
-      <v-card-text>
-        <component
-          v-if="!!selectedRequestType"
-          :ref="selectedRequestType.myRefName"
-          :is="selectedRequestType.componentName"
-          v-model="initDocumentData"
-          v-bind="selectedRequestType.props"
-        ></component>
-      </v-card-text>
-    </v-card>
+        <v-card-text>
+          <component
+            v-if="!!selectedRequestType"
+            :ref="selectedRequestType.myRefName"
+            :is="selectedRequestType.componentName"
+            v-model="initDocumentData"
+            v-bind="selectedRequestType.props"
+          ></component>
+        </v-card-text>
+      </v-card>
+    </div>
   </div>
   <!--  TASK TAB -->
 </template>
@@ -84,7 +89,9 @@ export default class FileCreateRequest extends Vue {
     Action.Spine.CreateEnrollment.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {
-        console.log("");
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
       }
     );
   }
@@ -92,8 +99,12 @@ export default class FileCreateRequest extends Vue {
   gotoFile(clientFileNumber: string) {
     Helper.Router.gotoFile({
       router: this.$router,
-      clientFileNumber: clientFileNumber
+      clientFileNumber: clientFileNumber,
     });
+  }
+
+  backButtonPressed() {
+    this.$emit("backButtonPressed");
   }
 }
 </script>

@@ -1,9 +1,13 @@
 <template>
   <!-- TASK TAB -->
-  <v-card class="pa-0 ma-0" color="white" outlined min-height="700px">
-    <!-- <task-tab></task-tab> -->
-    <!-- {{taskListFiltered}} -->
+  <v-card class="pa-0 ma-0 my-3" color="white" outlined min-height="100px">
+    <file-create-request
+    v-if="showCreateRequestScreen"
+    @backButtonPressed="showCreateRequestScreen=false"
+    @flowCreated="getToBePulledTaskList"
+    />
     <v-data-table
+    v-if="!showCreateRequestScreen"
       dense
       min-height="600px"
       :headers="headers"
@@ -43,7 +47,8 @@
               >Show All</v-btn
             > -->
           </v-col>
-          <v-col class="col-5"></v-col>
+          <v-col class="col-5">
+          </v-col>
           <v-col>
             <v-text-field
               v-model="search"
@@ -57,6 +62,12 @@
               class="shrink"
             ></v-text-field>
           </v-col>
+            <v-btn
+              color="primary"
+             small
+              @click="showCreateRequestScreen = true"
+              >Create Request</v-btn
+            >
         </v-toolbar>
       </template>
       <template v-slot:item.taskState="{ item }">
@@ -103,7 +114,7 @@
         </v-chip>
       </template>
 
-      <template v-slot:item.allocatedTo="{ item }" >
+      <template v-slot:item.allocatedTo="{ item }">
         <!-- <v-chip outlined small v-if="item.assignedTo">
           <v-icon left small color="grey"> mdi-account-circle-outline </v-icon>
           {{ item.assignedTo }}
@@ -186,13 +197,17 @@ import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 import moment from "moment";
 
 import Helper from "../../util/Helper";
+import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
+import FileCreateRequest from "./FileCreateRequest.vue";
 
 @Component({
   components: {
-    // "task-tab": TaskTab,
+    // "task-tab": TaskTab
+    "file-create-request": FileCreateRequest
   },
 })
 export default class FileTaskList extends Vue {
+  showCreateRequestScreen: boolean = false;
   @Store.Getter.Login.LoginDetails.userName userName: string;
 
   public tab = 0;
@@ -213,6 +228,17 @@ export default class FileTaskList extends Vue {
     { text: "", value: "actions" },
   ];
 
+  selectedRequestType: any = {};
+  requestTypeFlowMapList = [
+    {
+      key: "Enrollment",
+      contentMetaData: new EnrollmentFFormMDP({
+        taskRoot: this,
+        parent: this,
+      }).getMetaData(),
+    },
+  ];
+
   taskList: Data.TaskList.GetTaskListByCidGrid[] = [];
 
   showOnlyActive = 0;
@@ -226,6 +252,7 @@ export default class FileTaskList extends Vue {
   }
 
   getToBePulledTaskList() {
+    this.showCreateRequestScreen=false;
     Action.TaskList.GetTaskListByCid.execute1(
       this.clientFileNumber,
       (output) => {
@@ -277,13 +304,9 @@ export default class FileTaskList extends Vue {
   }
 
   pullTask(item: Data.TaskList.ToBePulledTaskGrid) {
-    Action.TaskList.PullTask.execute2(
-      item.taskId,
-      this.userName,
-      (output) => {
-        this.gotoTask(item);
-      }
-    );
+    Action.TaskList.PullTask.execute2(item.taskId, this.userName, (output) => {
+      this.gotoTask(item);
+    });
   }
 }
 </script>

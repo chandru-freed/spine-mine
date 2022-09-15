@@ -2,12 +2,12 @@
   <!-- TASK TAB -->
   <v-card class="pa-0 ma-0 my-3" color="white" outlined min-height="100px">
     <file-create-request
-    v-if="showCreateRequestScreen"
-    @backButtonPressed="showCreateRequestScreen=false"
-    @flowCreated="getToBePulledTaskList"
+      v-if="showCreateRequestScreen"
+      @backButtonPressed="showCreateRequestScreen = false"
+      @flowCreated="getTaskListForClientFile"
     />
     <v-data-table
-    v-if="!showCreateRequestScreen"
+      v-if="!showCreateRequestScreen"
       dense
       min-height="600px"
       :headers="headers"
@@ -47,8 +47,7 @@
               >Show All</v-btn
             > -->
           </v-col>
-          <v-col class="col-5">
-          </v-col>
+          <v-col class="col-5"> </v-col>
           <v-col>
             <v-text-field
               v-model="search"
@@ -62,12 +61,12 @@
               class="shrink"
             ></v-text-field>
           </v-col>
-            <v-btn
-              color="primary"
-             small
-              @click="showCreateRequestScreen = true"
-              >Create Request</v-btn
-            >
+          <v-btn color="primary mr-3" small @click="getTaskListForClientFile()"
+            ><v-icon>mdi-refresh</v-icon></v-btn
+          >
+          <v-btn color="primary" small @click="showCreateRequestScreen = true"
+            >Create Request</v-btn
+          >
         </v-toolbar>
       </template>
       <template v-slot:item.taskState="{ item }">
@@ -203,7 +202,7 @@ import FileCreateRequest from "./FileCreateRequest.vue";
 @Component({
   components: {
     // "task-tab": TaskTab
-    "file-create-request": FileCreateRequest
+    "file-create-request": FileCreateRequest,
   },
 })
 export default class FileTaskList extends Vue {
@@ -248,11 +247,11 @@ export default class FileTaskList extends Vue {
   }
 
   mounted() {
-    this.getToBePulledTaskList();
+    this.getTaskListForClientFile();
   }
 
-  getToBePulledTaskList() {
-    this.showCreateRequestScreen=false;
+  getTaskListForClientFile() {
+    this.showCreateRequestScreen = false;
     Action.TaskList.GetTaskListByCid.execute1(
       this.clientFileNumber,
       (output) => {

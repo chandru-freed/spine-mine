@@ -127,7 +127,7 @@ export default class FileCreateRequest extends Vue {
 
   createEnrollmentFlow() {
     Action.Spine.CreateEnrollment.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");
@@ -138,7 +138,7 @@ export default class FileCreateRequest extends Vue {
 
   createCHPPFlow() {
     Action.Spine.CreateCHPP.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");
@@ -149,7 +149,7 @@ export default class FileCreateRequest extends Vue {
 
   createNsfMSFFlow() {
     Action.Spine.CreateNsfMSF.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");
@@ -160,7 +160,7 @@ export default class FileCreateRequest extends Vue {
 
   createWelcomeCall() {
     Action.Spine.CreateWelcomeCall.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");
@@ -171,7 +171,7 @@ export default class FileCreateRequest extends Vue {
 
   createMFC() {
     Action.Spine.CreateMFC.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");
@@ -181,7 +181,7 @@ export default class FileCreateRequest extends Vue {
   }
   createNsfSPA() {
     Action.Spine.CreateNsfSPA.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");

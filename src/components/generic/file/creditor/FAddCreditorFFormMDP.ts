@@ -4,6 +4,7 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -35,7 +36,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
         type:'number'
       }))
       .addField(
-        new FDateFieldMDP({
+        new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "lastDateOfPayment",
           label: "Last Date of Payment",

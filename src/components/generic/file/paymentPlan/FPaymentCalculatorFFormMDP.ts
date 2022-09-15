@@ -44,6 +44,13 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
       })
     ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.approxSettlementPercentage",
+        label: "Settlement Percentage",
+        boundaryClass: "col-6",
+      })
+    ).addField(
       new FSelectDateFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.firstDraftDate",

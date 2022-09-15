@@ -135,8 +135,8 @@ export default class TaskAssignedToMe extends Vue {
 
   allocatedTaskGridHeaderList = [
     // { text: "Task Id", value: "taskId" },
-    { text: "File Id", value: "cid", align: "start" },
-    { text: "Display Id", value: "displayId", align: "start" },
+    { text: "File Number", value: "cid", align: "start" },
+    { text: "Client", value: "displayId", align: "start" },
     { text: "Task", value: "taskName", align: "start" },
     { text: "", value: "priority" },
     { text: "Status", value: "taskState" },

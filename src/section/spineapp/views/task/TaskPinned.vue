@@ -1,77 +1,79 @@
 <template>
-    <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" color="white" outlined min-height="800px">
-      <task-tab></task-tab>
-      <v-data-table
-        min-height="600px"
-        :headers="headers"
-        :items="taskList"
-        sort-by="taskId"
-        class="elevation-0"
-        :search="search"
-        v-model="selected"
-        :single-select="false"
-        show-select
-        item-key="taskId"
-        :disable-pagination="true"
-        hide-default-footer
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-col class="col-2">
-              <v-select
-                :disabled="selected.length === 0"
-                :items="['Delete', 'Edit', 'Send']"
-                label="Bulk Actions"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-              ></v-select>
-            </v-col>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.taskName="{ item }">
-          <v-btn text color="primary" @click="gotoTask(item)" >
-            {{ item.taskName }}
-          </v-btn>
-        </template>
-        <template v-slot:item.displayId="{ item }">
-          <v-btn text color="secondary" @click="gotoFile(item)">
-            {{ item.displayId }}
-          </v-btn>
-        </template>
-        <template v-slot:item.priority="{ item }">
-          <v-chip label small >
-            {{ item.priority }}
-          </v-chip>
-        </template>
+  <!-- TASK TAB -->
+  <v-card class="pa-0 ma-0" color="white" outlined min-height="800px">
+    <task-tab></task-tab>
+    <v-data-table
+      min-height="600px"
+      :headers="headers"
+      :items="taskList"
+      sort-by="taskId"
+      class="elevation-0"
+      :search="search"
+      v-model="selected"
+      :single-select="false"
+      show-select
+      item-key="taskId"
+      :disable-pagination="true"
+      hide-default-footer
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-col class="col-2">
+            <v-select
+              :disabled="selected.length === 0"
+              :items="['Delete', 'Edit', 'Send']"
+              label="Bulk Actions"
+              single-line
+              hide-details
+              outlined
+              rounded
+              dense
+            ></v-select>
+          </v-col>
+          <v-col class="col-7"></v-col>
+          <v-col>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search Item"
+              single-line
+              hide-details
+              outlined
+              rounded
+              dense
+              class="shrink"
+            ></v-text-field>
+          </v-col>
+        </v-toolbar>
+      </template>
+      <template v-slot:item.taskName="{ item }">
+        <v-btn text color="primary" @click="gotoTask(item)">
+          {{ item.taskName }}
+        </v-btn>
+      </template>
+      <template v-slot:item.displayId="{ item }">
+        <v-btn text color="secondary" @click="gotoFile(item)">
+          {{ item.displayId }}
+        </v-btn>
+      </template>
+      <template v-slot:item.priority="{ item }">
+        <v-chip label small>
+          {{ item.priority }}
+        </v-chip>
+      </template>
 
-        <template v-slot:item.readyTime="{ item }">
-          <span class="grey--text">
-            {{ item.readyTime | date-time }} ({{ item.readyTime | fromNow }})
-          </span>
-        </template>
+      <template v-slot:item.readyTime="{ item }">
+        <span class="grey--text">
+          {{ item.readyTime | (date - time) }} ({{ item.readyTime | fromNow }})
+        </span>
+      </template>
 
-        <template v-slot:item.actions="{ item }">
-          <v-btn outlined small color="secondary" @click="pullTask(item)">PULL</v-btn>
-        </template>
-        <!-- <template v-slot:item.actions="{ item }">
+      <template v-slot:item.actions="{ item }">
+        <v-btn outlined small color="secondary" @click="pullTask(item)"
+          >PULL</v-btn
+        >
+      </template>
+      <!-- <template v-slot:item.actions="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">
             mdi-pencil
           </v-icon>
@@ -104,12 +106,10 @@
             </v-list>
           </v-menu>
         </template> -->
-        <template v-slot:no-data>
-          No Tasks Available
-        </template>
-      </v-data-table>
-    </v-card>
-    <!--  TASK TAB -->
+      <template v-slot:no-data> No Tasks Available </template>
+    </v-data-table>
+  </v-card>
+  <!--  TASK TAB -->
 </template>
 
 <script lang="ts">
@@ -120,7 +120,7 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 // import * as Action from '@/../src-gen/action';
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
-import moment from 'moment';
+import moment from "moment";
 
 @Component({
   components: {
@@ -133,14 +133,14 @@ export default class TaskPinned extends Vue {
   selected = [];
   search = "";
   headers = [
+    { text: "File Number", value: "cid" },
+    { text: "Client", value: "displayId" },
     {
       text: "Task",
       align: "start",
       sortable: false,
       value: "taskName",
     },
-    { text: "File", value: "displayId" },
-    { text: "CID", value: "cid" },
     { text: "Priority", value: "priority" },
     // { text: "Status", value: "taskStatus" },
     { text: "Ready On", value: "readyTime" },
@@ -149,22 +149,16 @@ export default class TaskPinned extends Vue {
     { text: "Actions", value: "actions", sortable: false },
   ];
   taskList = [];
-  
 
   mounted() {
     this.initialize();
   }
 
   initialize() {
-    this.taskList = [
-      
-    ];
+    this.taskList = [];
   }
 
-  
-
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  
 
   getColor(calories: any) {
     if (calories > 400) return "red";
@@ -196,7 +190,6 @@ export default class TaskPinned extends Vue {
 </script>
 
 <style>
-
 .v-btn {
   text-transform: unset !important;
 }

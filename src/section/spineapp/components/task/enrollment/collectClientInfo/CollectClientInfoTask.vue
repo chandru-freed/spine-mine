@@ -5,6 +5,10 @@
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
+    <div class="row my-5 mx-5">
+      <v-spacer />
+      <V-btn @click="setTestData">FILL TEST DATA</V-btn>
+    </div>
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -74,8 +78,12 @@ export default class CollectClientInfoTask
   taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
 
   get taskFormOutput() {
-    if ( this.taskDetailsOutput.personalInfo && this.taskDetailsOutput.personalInfo.gender) {
-      this.taskFormOutputLocal.personalInfo = this.taskDetailsOutput.personalInfo;
+    if (
+      this.taskDetailsOutput.personalInfo &&
+      this.taskDetailsOutput.personalInfo.gender
+    ) {
+      this.taskFormOutputLocal.personalInfo =
+        this.taskDetailsOutput.personalInfo;
     }
 
     if (
@@ -195,6 +203,71 @@ export default class CollectClientInfoTask
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
     });
+  }
+  setTestData() {
+    console.log(
+      " this.taskFormData.taskOutput.creditorList ==>",
+      JSON.stringify(this.taskFormData.taskOutput.creditorInfo.creditorList)
+    );
+    console.log(" taskDetailsOutput ==>", this.taskDetailsOutput);
+    console.log(" taskFormData ==>", this.taskFormData);
+    this.taskFormData.taskOutput.personalInfo.gender = "MALE";
+    this.taskFormData.taskOutput.personalInfo.secondaryPhone = "12345676543";
+    this.taskFormData.taskOutput.personalInfo.fatherName = "Father";
+    this.taskFormData.taskOutput.personalInfo.motherMaidenName = "Mother";
+    this.taskFormData.taskOutput.personalInfo.firstName = "John";
+    this.taskFormData.taskOutput.personalInfo.lastName = "Doe";
+    this.taskFormData.taskOutput.personalInfo.pan = "ABCDE1234F";
+    this.taskFormData.taskOutput.personalInfo.dob = "09-09-1981";
+    this.taskFormData.taskOutput.personalInfo.residentialAddress.addressLine1 =
+      "1185, 5th Main Rd, Sector 7, HSR Layout";
+    this.taskFormData.taskOutput.personalInfo.residentialAddress.city =
+      "Bengaluru";
+    this.taskFormData.taskOutput.personalInfo.residentialAddress.country =
+      "India";
+    this.taskFormData.taskOutput.personalInfo.residentialAddress.pinCode =
+      "560102";
+    this.taskFormData.taskOutput.personalInfo.residentialAddress.state = "KA";
+
+    this.taskFormData.taskOutput.creditorInfo.creditorList = [
+      {
+        creditor: "ICICI Bank",
+        creditorBalance: 100000,
+        lastDateOfPayment: "2022-08-15",
+        debtType: "Personal Loans",
+        accountNumber: "1234567890",
+      },
+      {
+        creditor: "HDFC Bank",
+        creditorBalance: 50000,
+        lastDateOfPayment: "2022-08-15",
+        debtType: "Credit Card",
+        accountNumber: "1111222233334444",
+      },
+    ];
+    this.taskFormData.taskOutput.creditorInfo.totalDebtAmount = 150000;
+    this.taskFormData.taskOutput.budgetInfo.hardshipReason = "Business losses.";
+    this.taskFormData.taskOutput.budgetInfo.incomeSources.salary = 50000;
+    this.taskFormData.taskOutput.budgetInfo.debtRepayments.autoLoan = 10000;
+    this.taskFormData.taskOutput.budgetInfo.debtRepayments.housingLoan = 10000;
+
+    this.taskFormData.taskOutput.paymentPlan.ppCalculator.feeFirstDraftDate =
+      new Date();
+    this.taskFormData.taskOutput.paymentPlan.ppCalculator.firstDraftDate =
+      new Date();
+
+    this.taskFormData.taskOutput.bankInfo.accountHolderName = "John Doe";
+
+    this.taskFormData.taskOutput.bankInfo.accountNumber = "1234567890";
+    this.taskFormData.taskOutput.bankInfo.accountType = "SAVINGS";
+    this.taskFormData.taskOutput.bankInfo.ifscCode = "ICIC0000519";
+    this.taskFormData.taskOutput.bankInfo.name = "ICICI Bank";
+    this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
+      "420, 27th Main Rd, 1st Sector, HSR Layout";
+    this.taskFormData.taskOutput.bankInfo.bankAddress.city = "Bengaluru";
+    this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
+    this.taskFormData.taskOutput.bankInfo.bankAddress.pinCode = "560102";
+    this.taskFormData.taskOutput.bankInfo.bankAddress.state = "KA";
   }
 }
 </script>

@@ -9,6 +9,8 @@
         class="elevation-0"
         :search="search"
         item-key="completedTaskId"
+        :single-select="false"
+        show-select
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -29,6 +31,11 @@
             </v-col>
           </v-toolbar>
         </template>
+        <template v-slot:item.cid="{ item }">
+          <v-btn text color="secondary" @click="gotoFile(item)">
+            {{ item.cid }}
+          </v-btn>
+        </template>
         <template v-slot:item.taskName="{ item }">
           <v-btn text color="primary" @click="gotoTask(item)">
             {{ item.taskName }}
@@ -39,6 +46,21 @@
             {{ item.displayId }}
           </span>
         </template>
+        <template v-slot:item.startedTime="{ item }">
+          <span class="grey--text">
+            {{ item.startedTime | date-time }} ({{
+              item.startedTime | fromNow
+            }})
+          </span>
+        </template>
+
+        <template v-slot:item.completedTime="{ item }">
+          <span class="grey--text">
+            {{ item.completedTime | date-time }} ({{
+              item.completedTime | fromNow
+            }})
+          </span>
+        </template>
       </v-data-table>
       <!--  COMPLETED TASK -->
     </v-card>
@@ -47,14 +69,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
-
 
 @Component({
   components: {
@@ -66,11 +85,11 @@ export default class TaskCompleted extends Vue {
   tab = 0;
   selected = [];
   search = "";
-  fromDate = "2022-09-14";
-  toDate = "2022-09-7";
+  toDate = moment().format("YYYY-MM-DD");
+  fromDate = moment().subtract(7, "d").format("YYYY-MM-DD");
   toBeCompletedTaskheaders = [
-    { text: "Display Id", value: "displayId" },
-    { text: "CID", value: "cid" },
+    { text: "File Number", value: "cid" },
+    { text: "Client", value: "displayId" },
     { text: "Task Name", value: "taskName" },
     { text: "Started Time", value: "startedTime" },
     { text: "Completed Time", value: "completedTime" },
@@ -90,10 +109,17 @@ export default class TaskCompleted extends Vue {
     );
   }
 
+  gotoFile(item: any) {
+    this.$router.push({
+      name: "Root.ClientFile.ClientFileDetails",
+      params: { clientFileNumber: item.cid },
+    });
+  }
+
   gotoTask(item: any) {
     this.$router.push({
-      name: "Root.TaskList.Task.TaskDetails",
-      params: { taskId: item.taskId },
+      name: "Root.ClientFile.FileTask.FileTaskDetails",
+      params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
   }
 }

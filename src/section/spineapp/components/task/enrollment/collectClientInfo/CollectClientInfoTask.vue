@@ -20,7 +20,7 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FStepper from "@/components/generic/FStepper.vue";
 import CCITFStepperMDP from "./CCITFStepperMDP";
 import FBtn from "@/components/generic/FBtn.vue";

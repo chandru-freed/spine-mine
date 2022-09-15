@@ -27,7 +27,7 @@ import * as ServerData from "@/../src-gen/server-data";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import ClientCreditorFCreditorMDP from "@/section/spineapp/components/file/creditor/ClientCreditorFCreditorMDP";
 import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
 @Component({
@@ -78,9 +78,7 @@ export default class FileCreditorList extends ModelVue  {
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
      this.clientFileBasicInfo.clientFileId,
-      (output) => {},
-      (error) => {},
-      RemoteApiPoint.SpineApi
+      (output) => {}
     );
   }
 

@@ -117,7 +117,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import moment from "moment";
 
 @Component({
@@ -150,27 +150,13 @@ export default class TaskAssignedToMe extends Vue {
     // this.getAllocatedTaskList();
     this.getActiveTaskListAllocatedGrid();
   }
-  // getAllocatedTaskList() {
-  //   Action.TaskList.GetAllocatedTaskList.execute(
-  //     (output) => {
-  //       this.allocatedTaskList = output;
-  //     },
-  //     (err) => {
-  //       console.error(err);
-  //     },
-  //     RemoteApiPoint.BenchApi
-  //   );
-  // }
+
 
   getActiveTaskListAllocatedGrid() {
     Action.TaskList.GetActiveTaskListAllocated.execute(
       (output) => {
         this.allocatedTaskList = output;
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
@@ -179,11 +165,7 @@ export default class TaskAssignedToMe extends Vue {
       item.taskId,
       (output) => {
         this.gotoTask(item);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 

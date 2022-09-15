@@ -4,22 +4,22 @@
       <v-container fluid fill-height>
         <v-row class="align-center justify-center">
           <v-col xs="12" sm="8" md="4">
-              <v-card flat outlined >
-                <v-toolbar color="primary" flat dark >
-                  <v-toolbar-title>Sign In</v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-icon >mdi-account-circle-outline</v-icon>
-                </v-toolbar>
-                <v-card-text >
-                  <component
-                    v-if="!!loginFormMetaData"
-                    :ref="loginFormMetaData.myRefName"
-                    :is="loginFormMetaData.componentName"
-                    v-model="loginForm"
-                    v-bind="loginFormMetaData.props"
-                  ></component>
-                </v-card-text>
-              </v-card>
+            <v-card flat outlined>
+              <v-toolbar color="primary" flat dark>
+                <v-toolbar-title>Sign In</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-icon>mdi-account-circle-outline</v-icon>
+              </v-toolbar>
+              <v-card-text>
+                <component
+                  v-if="!!loginFormMetaData"
+                  :ref="loginFormMetaData.myRefName"
+                  :is="loginFormMetaData.componentName"
+                  v-model="loginForm"
+                  v-bind="loginFormMetaData.props"
+                ></component>
+              </v-card-text>
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -34,7 +34,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 // import FForm1 from "@/components/FForm1.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FForm from "@/components/generic/form/FForm.vue";
 import LoginFFormMDP from "./LoginFFormMDP";
 
@@ -46,47 +46,39 @@ import axios, { AxiosError, AxiosInstance } from "axios";
   },
 })
 export default class Login extends Vue {
-  loginForm: Data.Login.LoginForm = new Data.Login.LoginForm("sagar", "Welcome@123");
-  
+  loginForm: Data.Login.LoginForm = new Data.Login.LoginForm(
+    "sagar",
+    "Welcome@123"
+  );
+
   roleList = [];
 
   get loginFormMetaData(): any {
-    return new LoginFFormMDP({taskRoot: this, parent: this}).getMetaData();
+    return new LoginFFormMDP({ taskRoot: this, parent: this }).getMetaData();
   }
 
   public login() {
     const vm = this;
 
-    Action.Login.Login.execute(
-      this.loginForm,
-      (output) => {
-        vm.getRoleListForUser(this.loginForm.userName);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.GompaApi
-    );
+    Action.Login.Login.execute(this.loginForm, (output) => {
+      vm.getRoleListForUser(this.loginForm.userName);
+    });
   }
 
   getLoggedInUser(userName: string) {
-    Action.Login.GetUserDetails.execute1(userName, (output) => "",
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.GompaApi);
+    Action.Login.GetUserDetails.execute1(userName, (output) => {
+      
+    });
   }
 
   getRoleListForUser(userName: string) {
     const vm = this;
-    console.log("-----getRoleListForUser ----");
-    console.log(RemoteApiPoint.GompaApi);
     Action.Login.GetRoleListForUser.execute(
       new Data.Login.MyAppId(),
       (output) => {
-        console.log(output);
+        //console.log(output);
         if (output.roleList.indexOf("USER") >= 0) {
-          console.log("USER role present");
+          //console.log("USER role present");
           window.localStorage.setItem("userName", this.loginForm.userName);
           vm.getLoggedInUser(this.loginForm.userName);
           if (this.$route.query.redirect) {
@@ -102,11 +94,7 @@ export default class Login extends Vue {
           //   pos: 'bottom-center'
           // });
         }
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.GompaApi
+      }
     );
   }
 }

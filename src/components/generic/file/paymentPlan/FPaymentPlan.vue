@@ -88,7 +88,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -170,9 +170,7 @@ export default class FPaymentPlan extends ModelVue {
       input,
       (output) => {
         this.paymentPlan.paymentSchedule = output;
-      },
-      (err) => {},
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
@@ -189,9 +187,7 @@ export default class FPaymentPlan extends ModelVue {
       input,
       (output) => {
         this.paymentPlan.subscriptionFeeSchedule = output;
-      },
-      (err) => {},
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 

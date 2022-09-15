@@ -3,8 +3,8 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
 
+import * as Snackbar from 'node-snackbar';
 export default class TaskAction  {
     
     static saveAndMarkCompleteTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
@@ -13,11 +13,7 @@ export default class TaskAction  {
       Action.TaskList.SaveAndComplete.execute2(
         taskId,
         input,
-        (output) => {},
-        (err) => {
-          console.error(err);
-        },
-        RemoteApiPoint.BenchApi
+        (output) => {}
       );
     }
   
@@ -28,12 +24,12 @@ export default class TaskAction  {
         taskId,
         input,
         (output) => {
+          Snackbar.show({
+            text: "Succesfully saved",
+            pos:"bottom-center"
+          })
           // console.log(output);
-        },
-        (err) => {
-          console.error(err);
-        },
-        RemoteApiPoint.BenchApi
+        }
       );
     }
 

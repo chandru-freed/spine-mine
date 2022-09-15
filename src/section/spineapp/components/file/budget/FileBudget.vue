@@ -16,7 +16,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import ClientBudgetInfoFBudgetMDP from "@/section/spineapp/components/file/budget/ClientBudgetInfoFBudgetMDP";
 import FBudget from "@/components/generic/file/budget/FBudget.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -46,9 +46,7 @@ export default class FileBudget extends ModelVue {
   getBudgetInfo() {
     Action.ClientFile.GetBudgetInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
-      (output) => {},
-      (error) => {},
-      RemoteApiPoint.SpineApi
+      (output) => {}
     );
   }
 }

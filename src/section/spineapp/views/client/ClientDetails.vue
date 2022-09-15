@@ -50,7 +50,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FForm from "@/components/generic/form/FForm.vue";
 import ClientDetailsFFormMDP from "./ClientDetailsFFormMDP";
 import Flow from "@/section/spineapp/util/Flow";
@@ -84,9 +84,7 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
       this.clientId,
       (output) => {
         this.clientBasicInfo = output;
-      },
-      (err) => {},
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
@@ -95,16 +93,14 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
       this.clientId,
       (output) => {
         this.clientFileBasicInfoList = output;
-      },
-      (err) => {},
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
   addClientFile() {
     Action.ClientFile.AddClientFile.execute1(this.clientId, output => {
       setTimeout(this.getClientFileBasicInfoList, 1000)
-    }, err => {}, RemoteApiPoint.SpineApi)
+    })
   }
 
   gotoFile(clientFileNumber: string) {

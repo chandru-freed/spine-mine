@@ -42,7 +42,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FForm from "@/components/generic/form/FForm.vue";
 import EnrollmentFFormMDP from "./EnrollmentFFormMDP";
 import Helper from "../../util/Helper";
@@ -85,11 +85,7 @@ export default class FileCreateRequest extends Vue {
       this.clientFileBasicInfo.clientFileId,
       (output) => {
         console.log("");
-      },
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.DspApi
+      }
     );
   }
 

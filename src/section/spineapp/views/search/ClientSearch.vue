@@ -58,7 +58,7 @@ import * as Action from "@/../src-gen/action";
 import moment from "moment";
 import ClientSearchFFormMDP from "./ClientSearchFFormMDP";
 import FForm from "@/components/generic/form/FForm.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import ClientSearchIntf from "./ClientSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
 
@@ -104,11 +104,7 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
       this.clientSearchFormLocal,
       (output) => {
         console.log("Client search uploaded successfully");
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 

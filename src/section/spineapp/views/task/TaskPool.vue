@@ -87,7 +87,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import moment from "moment";
 
 @Component({
@@ -126,11 +126,7 @@ export default class TaskAssignedToMe extends Vue {
     Action.TaskList.GetToBePulledTaskList.execute(
       (output) => {
         this.toBePulledTaskList = output;
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
@@ -140,11 +136,7 @@ export default class TaskAssignedToMe extends Vue {
       this.userName,
       (output) => {
         this.gotoTask(item)
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 

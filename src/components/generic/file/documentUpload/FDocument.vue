@@ -87,7 +87,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ClientFile from "@/section/spineapp/util/ClientFile";
 
-import * as RemoteApiPoint from "@/remote-api-point";
+
 @Component({
   components: {
     FForm,
@@ -148,11 +148,7 @@ export default class FDocument extends ModelVue {
       this.uploadDocumentForm,
       (output) => {
         console.log("document uploaded successfully");
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 

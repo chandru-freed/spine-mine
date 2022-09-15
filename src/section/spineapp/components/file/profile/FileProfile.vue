@@ -27,7 +27,7 @@ import ClientProfileFProfileFFormMDP from "@/section/spineapp/components/file/pr
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 @Component({
   components: {
     FForm,
@@ -79,9 +79,7 @@ export default class FileProfile extends ModelVue {
   findClientInfo() {
     Action.ClientFile.FindPersonalInfo.execute1(
       this.clientFileBasicInfo.clientBasicInfo.clientId,
-      (output) => {},
-      (error) => {},
-      RemoteApiPoint.SpineApi
+      (output) => {}
     );
   }
 

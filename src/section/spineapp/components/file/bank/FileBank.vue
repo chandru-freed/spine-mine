@@ -27,7 +27,7 @@ import * as Data from '@/../src-gen/data';
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import ClientBankInfoFBankFFormMDP from "@/section/spineapp/components/file/bank/ClientBankInfoFBankFFormMDP"
 
 @Component({
@@ -80,9 +80,7 @@ export default class FileBank extends ModelVue {
   getFiBankInfo() {
     Action.ClientFile.GetFiBankInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
-      (output) => {},
-      (error) => {},
-      RemoteApiPoint.SpineApi
+      (output) => {}
     );
   }
 

@@ -67,7 +67,7 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import moment from "moment";
 import FForm from "@/components/generic/form/FForm.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import ClientFileSearchFFormMDP from "./ClientFileSearchFFormMDP";
 import ClientFileSearchIntf from "./ClientFileSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
@@ -118,11 +118,7 @@ export default class ClientFileSearch
       this.clientFileSearchFormLocal,
       (output) => {
         console.log("Client search file uploaded successfully");
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 

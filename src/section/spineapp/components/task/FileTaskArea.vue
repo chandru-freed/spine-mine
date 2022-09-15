@@ -49,7 +49,7 @@ import DownloadUnSignedDocTask from "@/section/spineapp/components/task/digio/do
 import GenerateSSADocTask from "@/section/spineapp/components/task/digio/generateSSADoc/GenerateSSADocTask.vue";
 import UpdateClientSignStatusTask from "@/section/spineapp/components/task/digio/updateClientSignStatus/UpdateClientSignStatusTask.vue";
 import UploadUnSignedDocTask from "@/section/spineapp/components/task/digio/uploadUnSignedDoc/UploadUnSignedDocTask.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import WaitForClientSignTask from "@/section/spineapp/components/task/digio/waitForClientSign/WaitForClientSignTask.vue";
 import UploadClientSignedDocTask from "@/section/spineapp/components/task/digio/uploadClientSignedDoc/UploadClientSignedDocTask.vue";
 import SignByFreedTask from "@/section/spineapp/components/task/digio/signByFreed/SignByFreedTask.vue";
@@ -256,11 +256,7 @@ export default class FileTaskArea extends Vue {
       (output) => {
         // console.log(output);
         this.loading = false;
-      },
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
@@ -269,11 +265,7 @@ export default class FileTaskArea extends Vue {
       this.$route.params.taskId,
       (output) => {
         console.log("");
-      },
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
@@ -283,11 +275,7 @@ export default class FileTaskArea extends Vue {
       this.userName,
       (output) => {
         // this.gotoTask(item);
-      },
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 

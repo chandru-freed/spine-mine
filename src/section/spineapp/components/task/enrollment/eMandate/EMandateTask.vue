@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{taskFormData}}
+    <!-- {{taskFormData}} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"

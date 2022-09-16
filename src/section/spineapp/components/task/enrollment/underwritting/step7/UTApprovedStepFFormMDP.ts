@@ -39,7 +39,7 @@ export default class UTApprovedStepFFormMDP extends FFormMDP {
       new FTextareaMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskInput.reasonForUnderwrittingDecline",
-        label: "Reason for Cancellation",
+        label: "Reason for Rejection",
         mandatory: false,
         disabled: this.taskRoot.taskFormData.taskOutput.underwrittingApproved
       })

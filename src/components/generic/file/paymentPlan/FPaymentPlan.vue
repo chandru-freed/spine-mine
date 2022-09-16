@@ -122,7 +122,7 @@ export default class FPaymentPlan extends ModelVue {
       value: "draftDate"
     },
     { text: "Fee Code", value: "feeCode" },
-    { text: "Collection Order", value: "collectionOrder" },
+    // { text: "Collection Order", value: "collectionOrder" },
     { text: "Amount", value: "amount" },
     { text: "Tax Amount", value: "taxAmount" },
     { text: "Total Amount", value: "totalAmount" },

@@ -64,6 +64,7 @@ import FSelectFooField from "./field/FSelectFooField.vue"
 import FAutoCompleteField from "./field/FAutoCompleteField.vue";
 import FDateSelectField from "./field/FDateSelectField.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import FIFSCCodeField from "./field/FIFSCCodeField.vue";
 
 @Component({
   components: {
@@ -84,7 +85,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FPhoneField,
     FSelectFooField,
     FAutoCompleteField,
-    FDateSelectField
+    FDateSelectField,
+    FIFSCCodeField
   },
 })
 export default class FForm extends ModelVue {

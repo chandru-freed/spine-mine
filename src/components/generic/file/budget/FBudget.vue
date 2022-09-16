@@ -78,7 +78,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ proposedDSPayment }} </v-btn>
+              <v-btn text class="font-weight-black" color="secondary"> ₹ {{ proposedDSPayment.toFixed(2) }} </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -90,7 +90,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> {{sdtiRatio}}% </v-btn>
+              <v-btn text> {{sdtiRatio.toFixed(0)}}% </v-btn>
             </v-list-item-action>
           </v-list-item>
         </v-list>

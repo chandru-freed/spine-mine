@@ -3,7 +3,8 @@ import axios from 'axios';
 export default class RemoteApiPoint {
 
    public static setup() {
-     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    // ::Note Commented this because of CORS issue in external apis.
+    //  axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
    }
 }
 

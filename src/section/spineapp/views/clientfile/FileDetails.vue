@@ -86,20 +86,20 @@ export default class FileDetails extends Vue {
       component: "file-profile",
     },
     {
-      tabName: "Bank",
-      component: "file-bank",
+      tabName: "Creditor",
+      component: "file-creditor-list",
     },
     {
       tabName: "Budget",
       component: "file-budget",
     },
     {
-      tabName: "Cred",
-      component: "file-creditor-list",
+      tabName: "Payment Plan",
+      component: "file-payment-plan",
     },
     {
-      tabName: "Pay Plan",
-      component: "file-payment-plan",
+      tabName: "Bank",
+      component: "file-bank",
     },
     {
       tabName: "Document",

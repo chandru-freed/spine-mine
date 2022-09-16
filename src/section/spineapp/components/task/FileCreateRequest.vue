@@ -21,6 +21,7 @@
             hide-details
             label="Select Request Type"
             outlined
+            dense
             item-value="contentMetaData"
             item-text="key"
           ></v-autocomplete>

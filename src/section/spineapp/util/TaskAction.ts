@@ -13,7 +13,12 @@ export default class TaskAction  {
       Action.TaskList.SaveAndComplete.execute2(
         taskId,
         input,
-        (output) => {}
+        (output) => {
+          Snackbar.show({
+            text: "Succesfully completed the task",
+            pos:"bottom-center"
+          })
+        }
       );
     }
   

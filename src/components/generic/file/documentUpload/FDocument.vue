@@ -34,7 +34,7 @@
           <template v-slot:[`item.documentPath`]="{ item }">
             <a @click="openUnsignedFileURL(item.documentPath)">
               <v-icon small>mdi-file</v-icon>
-              {{getFileNameFromKey(item.documentPath)}}
+              {{getFileNameFromDocPath(item.documentPath)}}
             </a>
           </template>
           <template v-slot:[`item.uploadedOn`]="{ item }">
@@ -193,16 +193,15 @@ export default class FDocument extends ModelVue {
     );
   }
 
-  getFileNameFromKey(key: string) {
+  getFileNameFromDocPath(key: string) {
     return key.split('/').pop()
   }
 
   getPresignedURLAndUpload() {
     const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
-    const key = `client-file/${this.clientFileNumber}/documents/${fileName}`;
-    this.uploadedDocument.documentPath = key;
-    Action.Spine.GetPresignedURLForUpload.execute1(key, (output) => {
+    Action.Spine.GetFiPresignedURLForUpload.execute2(this.clientFileNumber,fileName, (output) => {
       this.presignedUrl = output.url;
+      this.uploadedDocument.documentPath = output.docUploadedPath;
       this.uploadFile();
     });
   }

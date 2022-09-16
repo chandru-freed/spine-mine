@@ -4,24 +4,27 @@ import FProfileFFormMDP from "@/components/generic/file/FProfileFFormMDP";
 import FRegistrationDetailsMDP from "@/components/generic/file/FRegistrationDetailsMDP";
 import MDP from "@/components/generic/MDP";
 
-export default class CCITProfileStepMDP extends CLProfileMDP {
+
+export default class MCITProfileStepMDP extends CLProfileMDP {
     profileFFormRef = "profileFFormRef"
 
     constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
         super({
             taskRoot: taskRoot,
             parent: parent,
-            myRefName: "personalInfoProfileRef",
+            myRefName: "welcomeCallClientInfoFormRef",
             disabled: taskRoot.taskDisabled,
         });
 
-        this.addForm(new FRegistrationDetailsMDP({
+        this
+        .addForm(new FRegistrationDetailsMDP({
             taskRoot: taskRoot,
             parent: parent,
             myRefName: "clRegistrationDetailsFFormRef",
             dataSelectorKey: "taskInput.clRegistrationDetails",
             disabled: true
-        })).addForm(new FProfileFFormMDP({
+        }))
+        .addForm(new FProfileFFormMDP({
             taskRoot: taskRoot,
             parent: parent,
             myRefName: this.profileFFormRef,

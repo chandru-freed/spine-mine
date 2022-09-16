@@ -3,8 +3,8 @@ import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
-export default class CCITProfileMDP implements MDP {
-    componentName = "CCITProfile";
+export default class CLProfileMDP implements MDP {
+    componentName = "CLProfile";
     taskRoot: ManualTaskIntf;
     parent: any;
     myRefName: string;

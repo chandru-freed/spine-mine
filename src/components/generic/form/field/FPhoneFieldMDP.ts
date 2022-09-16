@@ -18,7 +18,7 @@ export default class FPhoneFieldMDP implements FFieldMDP {
     dataSelectorKey,
     label,
     type = "text",
-    rules = "",
+    rules = "digits:10",
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,

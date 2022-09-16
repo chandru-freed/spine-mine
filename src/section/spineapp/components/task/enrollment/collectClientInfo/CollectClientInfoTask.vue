@@ -93,6 +93,10 @@ export default class CollectClientInfoTask
       this.taskFormOutputLocal.creditorInfo =
         this.taskDetailsOutput.creditorInfo;
     }
+    if (this.taskDetailsOutput.budgetInfo) {
+      this.taskFormOutputLocal.budgetInfo.hardshipReason =
+        this.taskDetailsOutput.budgetInfo.hardshipReason;
+    }
 
     if (
       this.taskDetailsOutput.budgetInfo &&

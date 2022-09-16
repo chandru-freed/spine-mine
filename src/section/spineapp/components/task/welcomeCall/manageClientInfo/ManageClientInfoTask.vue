@@ -1,8 +1,7 @@
-
 <template>
   <div>
-    <h4>Manage client info task</h4>
-    Root Data : {{ taskFormData }}
+    <!-- <h4>Manage client info task</h4> -->
+    <!-- Root Data : {{ taskFormData }} -->
 
     <component
       :ref="stepperMetaData.myRefName"
@@ -25,11 +24,12 @@ import MCITFStepperMDP from "./MCITFStepperMDP";
 import FStepper from "@/components/generic/FStepper.vue";
 @Component({
   components: {
-    FStepper
+    FStepper,
   },
 })
 export default class ManageClientInfoTask
   extends ModelVue
+  implements ManualTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -72,20 +72,21 @@ export default class ManageClientInfoTask
   }
 
   isAmendmentNeeded() {
-    return this.taskFormOutput.amendmentNeeded===true
+    return this.taskFormOutput.amendmentNeeded === true;
   }
   //FORM
 
   //Task Output
-  
+
   taskFormOutputLocal: any = new Data.Spine.WelcomeCallManageClientInfoTask();
 
   get taskFormOutput() {
     if (
-      this.taskDetailsOutput.clientInfo &&
-      this.taskDetailsOutput.clientInfo.firstName
+      this.taskDetailsOutput.personalInfo &&
+      this.taskDetailsOutput.personalInfo.gender
     ) {
-      this.taskFormOutputLocal.clientInfo = this.taskDetailsOutput.clientInfo;
+      this.taskFormOutputLocal.personalInfo =
+        this.taskDetailsOutput.personalInfo;
     }
 
     if (
@@ -94,6 +95,11 @@ export default class ManageClientInfoTask
     ) {
       this.taskFormOutputLocal.creditorInfo =
         this.taskDetailsOutput.creditorInfo;
+    }
+
+    if (this.taskDetailsOutput.budgetInfo) {
+      this.taskFormOutputLocal.budgetInfo.hardshipReason =
+        this.taskDetailsOutput.budgetInfo.hardshipReason;
     }
 
     if (
@@ -107,6 +113,29 @@ export default class ManageClientInfoTask
       this.taskFormOutputLocal.budgetInfo.debtRepayments = {
         ...this.taskFormOutputLocal.budgetInfo.debtRepayments,
         ...this.taskDetailsOutput.budgetInfo.debtRepayments,
+      };
+      this.taskFormOutputLocal.budgetInfo.livingExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.livingExpenses,
+        ...this.taskDetailsOutput.budgetInfo.livingExpenses,
+      };
+      this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses,
+        ...this.taskDetailsOutput.budgetInfo.lifeStyleExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.dependentExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.dependentExpenses,
+        ...this.taskDetailsOutput.budgetInfo.dependentExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.incidentalExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.incidentalExpenses,
+        ...this.taskDetailsOutput.budgetInfo.incidentalExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses,
+        ...this.taskDetailsOutput.budgetInfo.miscellaneousExpenses,
       };
     }
 
@@ -131,24 +160,9 @@ export default class ManageClientInfoTask
       this.taskFormOutputLocal.fileDocumentList =
         this.taskDetailsOutput.fileDocumentList;
     }
-    if (this.taskDetailsOutput.cancelRequest) {
-      this.taskFormOutputLocal.cancelRequest =
-        this.taskDetailsOutput.cancelRequest;
-    }
-
-    if (this.taskDetailsOutput.signServiceAgreementNeeded) {
-      this.taskFormOutputLocal.signServiceAgreementNeeded =
-        this.taskDetailsOutput.signServiceAgreementNeeded;
-    }
-
-    if (this.taskDetailsOutput.eMandateNeeded) {
-      this.taskFormOutputLocal.eMandateNeeded =
-        this.taskDetailsOutput.eMandateNeeded;
-    }
-
-    if (this.taskDetailsOutput.amendmentNeeded) {
-      this.taskFormOutputLocal.amendmentNeeded =
-        this.taskDetailsOutput.amendmentNeeded;
+    if (this.taskDetailsOutput.needVerification) {
+      this.taskFormOutputLocal.needVerification =
+        this.taskDetailsOutput.needVerification;
     }
     return this.taskFormOutputLocal;
   }
@@ -175,6 +189,19 @@ export default class ManageClientInfoTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
@@ -184,5 +211,4 @@ export default class ManageClientInfoTask
   //Action
 }
 </script>
-<style>
-</style>
+<style></style>

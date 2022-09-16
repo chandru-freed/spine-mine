@@ -2,6 +2,7 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBudgetMDP from "@/components/generic/file/budget/FBudgetMDP";
 
 export default class MCITBudgetStepFBudgetMDP extends FBudgetMDP {
+  budgetFormRef = "budgetFormRef";
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       taskRoot: taskRoot,
@@ -14,7 +15,7 @@ export default class MCITBudgetStepFBudgetMDP extends FBudgetMDP {
     this.addAction(
       new FBtnMDP({
         label: "Save",
-        onClick: this.saveTask(),
+        onClick: this.validateAndSave(),
       })
     );
   }
@@ -27,5 +28,19 @@ export default class MCITBudgetStepFBudgetMDP extends FBudgetMDP {
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName];
+  }
+
+  getBudgetFormRef() {
+    return this.getMyRef()[0].$refs[this.budgetFormRef]
+  }
+
+  validateAndSave() {
+    return () => {
+      this.getBudgetFormRef().submitForm(() => {
+        console.log("Budget profile");
+        console.log("task rook", this.taskRoot);
+        this.taskRoot.saveTask();
+      });
+    }
   }
 }

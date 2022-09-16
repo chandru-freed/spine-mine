@@ -50,16 +50,16 @@
 import { Component, Prop } from "vue-property-decorator";
 import ModelVue from "./ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import CCITProfile from "@/section/spineapp/components/task/enrollment/collectClientInfo/step1/CCITProfile.vue"
 import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
 import FBudget from "@/components/generic/file/budget/FBudget.vue";
 import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue";
 import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
+import CLProfile from "./clientProfile/CLProfile.vue";
 
 @Component({
   components: {
     FForm,
-    CCITProfile,
+    CLProfile,
     FCreditor,
     FBudget,
     FPaymentPlan,

@@ -204,6 +204,14 @@ export default class CollectClientInfoTask
       clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
+
+  populateBankDetails(details: any) {
+    this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
+      details.ADDRESS;
+    this.taskFormData.taskOutput.bankInfo.bankAddress.city = details.CITY;
+    this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
+    this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
+  }
   setTestData() {
     console.log(
       " this.taskFormData.taskOutput.creditorList ==>",

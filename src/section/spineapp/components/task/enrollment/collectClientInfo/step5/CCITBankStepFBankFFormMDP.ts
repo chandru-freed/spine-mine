@@ -14,7 +14,7 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
     this.addAction(
       new FBtnMDP({
         label: "Save",
-        onClick: this.saveTask(),
+        onClick: this.validateAndSubmit(),
         condition: this.isStarted()
       })
     ).addAction(
@@ -25,6 +25,11 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
       })
     );
   }
+  validateAndSubmit() {
+    return () => {
+        this.getMyRef().submitForm(this.saveTask());
+    };
+}
 
   saveTask() {
     return () => {
@@ -45,8 +50,9 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
   isException() {
     return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
   }
+  
 
   getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName];
+    return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 }

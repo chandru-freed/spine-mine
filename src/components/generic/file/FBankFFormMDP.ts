@@ -5,6 +5,7 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
+import FIFSCCodeFieldMDP from "../form/field/FIFSCCodeFieldMDP";
 
 export default class FBankFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -50,12 +51,13 @@ export default class FBankFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FIFSCCodeFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           mandatory: true,
-          boundaryClass: "col-3",
+          boundaryClass: "col-6",
+          onSelect: (details) => {this.populateBankDetails(details)}
         })
       )
       .addField(
@@ -92,5 +94,9 @@ export default class FBankFFormMDP extends FFormMDP {
           mandatory: true,
         })
       );
+  }
+
+  populateBankDetails(details: any) {
+    this.taskRoot.populateBankDetails(details)
   }
 }

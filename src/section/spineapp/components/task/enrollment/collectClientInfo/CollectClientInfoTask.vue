@@ -49,7 +49,12 @@ export default class CollectClientInfoTask
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
-
+  nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+  getNupayBankMasterList() {
+    Action.ClientFile.GetNupayBankMasterList.execute((output) => {
+      this.nupayBankMasterList = output.nupayBankMasterList;
+    });
+  }
   get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
@@ -176,7 +181,9 @@ export default class CollectClientInfoTask
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
-
+  mounted() {
+    this.getNupayBankMasterList();
+  }
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,

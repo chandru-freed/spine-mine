@@ -41,12 +41,15 @@ export default class FBankFFormMDP extends FFormMDP {
       })
     )
       .addField(
-        new FTextFieldMDP({
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "name",
+          dataSelectorKey: "nupayBankMasterId",
           label: "Bank Name",
-          mandatory: true,
           boundaryClass: "col-3",
+          mandatory: true,
+          options: this.taskRoot.nupayBankMasterList,
+          optionLabel: "nupayBnkName",
+          optionValue: "nupayBankMasterId",
         })
       )
       .addField(

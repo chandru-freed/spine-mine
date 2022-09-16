@@ -49,7 +49,7 @@ export default class CollectClientInfoTask
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
-    nupayBankMasterList: Data.ClientFile.NupayBankMaster[] =[];
+  nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
   getNupayBankMasterList() {
     Action.ClientFile.GetNupayBankMasterList.execute((output) => {
       this.nupayBankMasterList = output.nupayBankMasterList;

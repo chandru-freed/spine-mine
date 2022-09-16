@@ -68,6 +68,9 @@
         <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
           >mdi-cancel</v-icon
         >
+        <v-icon color="red" v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
+          >mdi-alert-circle</v-icon
+        >
         <!-- </v-btn> -->
       </template>
       <template v-slot:item.priority="{ item }">

@@ -31,9 +31,15 @@
           :items="modelValue"
           class="elevation-0"
         >
-        <template v-slot:[`item.uploadedOn`]="{ item}">
-          {{item.uploadedOn | date}}
-        </template>
+          <template v-slot:[`item.documentPath`]="{ item }">
+            <a @click="openUnsignedFileURL(item.documentPath)">
+              <v-icon small>mdi-file</v-icon>
+              {{getFileNameFromDocPath(item.documentPath)}}
+            </a>
+          </template>
+          <template v-slot:[`item.uploadedOn`]="{ item }">
+            {{ item.uploadedOn | date }}
+          </template>
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Document(s)</v-toolbar-title>
@@ -102,8 +108,8 @@ export default class FDocument extends ModelVue {
   uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
   selectedCreditorIndex: number;
   headers = [
-    { text: "Doc Path", value: "documentPath" },
     { text: "DocumentType", value: "documentType" },
+    { text: "Doc Path", value: "documentPath" },
     { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },
   ];
@@ -124,6 +130,10 @@ export default class FDocument extends ModelVue {
 
   @Prop()
   taskRoot: any;
+
+  get clientFileNumber(): string {
+    return this.$route.params.clientFileNumber;
+  }
 
   showAddForm() {
     this.closeDialogs();
@@ -151,18 +161,17 @@ export default class FDocument extends ModelVue {
     console.log(this.$refs);
   }
 
-
   // uploadFileDocument() {
-    
-    // this.getPresignedURLAndUpload();
-    // const url = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
-    // console.log(url)
-    // Action.ClientFile.UploadDocument.execute(
-    //   this.uploadDocumentForm,
-    //   (output) => {
-    //     console.log("document uploaded successfully");
-    //   }
-    // );
+
+  // this.getPresignedURLAndUpload();
+  // const url = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
+  // console.log(url)
+  // Action.ClientFile.UploadDocument.execute(
+  //   this.uploadDocumentForm,
+  //   (output) => {
+  //     console.log("document uploaded successfully");
+  //   }
+  // );
   // }
 
   deleteDocument() {
@@ -184,12 +193,15 @@ export default class FDocument extends ModelVue {
     );
   }
 
+  getFileNameFromDocPath(key: string) {
+    return key.split('/').pop()
+  }
+
   getPresignedURLAndUpload() {
     const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
-    const key = "clientfile/documents/" + fileName;
-    this.uploadedDocument.documentPath = key;
-    Action.Spine.GetPresignedURLForUpload.execute1(key, (output) => {
+    Action.Spine.GetFiPresignedURLForUpload.execute2(this.clientFileNumber,fileName, (output) => {
       this.presignedUrl = output.url;
+      this.uploadedDocument.documentPath = output.docUploadedPath;
       this.uploadFile();
     });
   }
@@ -217,12 +229,18 @@ export default class FDocument extends ModelVue {
     this.closeAndClearAllForms();
   }
 
-  generateRandomUrl(file: File| null) {
-    if(file) {
-    const dateValue = new Date().valueOf();
-    return dateValue + file.name;
+  generateRandomUrl(file: File | null) {
+    if (file) {
+      const dateValue = new Date().valueOf();
+      return dateValue + file.name;
     }
     return "";
+  }
+
+  openUnsignedFileURL(key: string) {
+    Action.Spine.GetFileUrl.execute1(key, (output) => {
+      window.open(output.url);
+    });
   }
 }
 </script>

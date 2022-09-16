@@ -22,12 +22,12 @@
       <template v-slot:top>
         <v-toolbar flat dense>
           <v-col class="col-2">
-            <v-btn-toggle x-small v-model="showOnlyActive">
-              <v-btn x-small>
-                <v-icon small>mdi-checkbox-intermediate-variant</v-icon>
+            <v-btn-toggle small v-model="showOnlyActive">
+              <v-btn small>
+                Active Tasks
               </v-btn>
-              <v-btn x-small>
-                <v-icon small>mdi-checkbox-intermediate</v-icon>
+              <v-btn small>
+                All Tasks
               </v-btn>
             </v-btn-toggle>
             <!-- <v-btn
@@ -69,7 +69,7 @@
             @click="getTaskListForClientFile()"
             ><v-icon>mdi-refresh</v-icon></v-btn
           >
-          <v-btn color="primary" small @click="showCreateRequestScreen = true"
+          <v-btn color="primary" outlined  @click="showCreateRequestScreen = true"
             >Create Request</v-btn
           >
         </v-toolbar>
@@ -99,6 +99,9 @@
 
         <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
           >mdi-cancel</v-icon
+        >
+        <v-icon color="red" v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
+          >mdi-alert-circle</v-icon
         >
         <!-- </v-btn> -->
       </template>
@@ -221,7 +224,9 @@ export default class FileTaskList extends Vue {
           task.taskState === "TO_BE_PULLED" ||
           task.taskState === "ALLOCATED" ||
           task.taskState === "STARTED" ||
-          task.taskState === "PARTIALLY_COMPLETED"
+          task.taskState === "PARTIALLY_COMPLETED" ||
+          task.taskState === "EXCEPTION_Q" ||
+          task.taskState === "EXIT_Q" 
         );
       });
 

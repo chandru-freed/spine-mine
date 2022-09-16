@@ -7,10 +7,11 @@
     :label="label"
     :disabled="disabled"
     :outlined="outlined"
+    :dense="dense"
   ></v-file-input>
 </template>
 <script lang="ts">
-import { Component, Prop,Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { VFileInput } from "vuetify/lib/components";
 
 @Component({
@@ -35,12 +36,15 @@ export default class FFileField extends Vue {
   @Prop()
   outlined: boolean;
 
+  @Prop()
+  dense: boolean;
+
   get modelValue() {
     return this.value;
   }
 
   set modelValue(newModelValue: File) {
-    console.log(newModelValue)
+    console.log(newModelValue);
     this.$emit("input", newModelValue);
   }
   // MODEL VALUE - END
@@ -48,7 +52,7 @@ export default class FFileField extends Vue {
 </script>
 
 <style>
-::v-deep .v-input__slot{
+.v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 42px !important;
 }
 </style>

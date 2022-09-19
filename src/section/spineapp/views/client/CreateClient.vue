@@ -50,9 +50,10 @@ createClient () {
     // } )
     Action.Client.RegisterClient.execute(this.registerClientFormData, (output: any) => {
       console.log("RegisterClient : ",output)
-      
         const clientId = output.clientId
+       setTimeout(() => {
         Helper.Router.gotoClient({router: this.$router, clientId: clientId})
+        }, 1000);
     } )
 }
 

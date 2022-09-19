@@ -37,6 +37,7 @@
               {{getFileNameFromDocPath(item.documentPath)}}
             </a>
           </template>
+
           <template v-slot:[`item.uploadedOn`]="{ item }">
             {{ item.uploadedOn | date }}
           </template>
@@ -110,6 +111,7 @@ export default class FDocument extends ModelVue {
   headers = [
     { text: "DocumentType", value: "documentType" },
     { text: "Doc Path", value: "documentPath" },
+    { text: "Description", value: "description" },
     { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },
   ];
@@ -224,6 +226,7 @@ export default class FDocument extends ModelVue {
   addAndSaveUploadedFile() {
     this.uploadedDocument.documentType = this.uploadDocumentForm.docType;
     this.uploadedDocument.uploadedOn = new Date();
+    this.uploadedDocument.description = this.uploadDocumentForm.description;
     (this.modelValue as any).push(this.uploadedDocument);
     this.taskRoot?.saveTask();
     this.closeAndClearAllForms();

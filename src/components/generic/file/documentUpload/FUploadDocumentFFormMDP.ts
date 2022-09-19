@@ -4,6 +4,7 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FFileFieldMDP from "@/components/generic/form/field/FFileFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FTextareaMDP from "../../form/field/FTextareaMDP";
 
 export default class FUploadDocumentFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -32,6 +33,14 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
         label: "Document",
         mandatory: false,
         boundaryClass: "col-8"
+      })
+    ).addField(
+      new FTextareaMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "description",
+        label: "Description",
+        mandatory: false,
+        boundaryClass: "col-12"
       })
     ).addAction(new FBtnMDP({
         label: "Cancel",

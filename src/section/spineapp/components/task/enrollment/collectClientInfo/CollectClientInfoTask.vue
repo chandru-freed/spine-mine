@@ -280,7 +280,8 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.bankInfo.accountNumber = "1234567890";
     this.taskFormData.taskOutput.bankInfo.accountType = "SAVINGS";
     this.taskFormData.taskOutput.bankInfo.ifscCode = "ICIC0000519";
-    this.taskFormData.taskOutput.bankInfo.name = "ICICI Bank";
+    this.taskFormData.taskOutput.bankInfo.nupayBankMasterId =
+      "63252af87237b82191530250";
     this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
       "420, 27th Main Rd, 1st Sector, HSR Layout";
     this.taskFormData.taskOutput.bankInfo.bankAddress.city = "Bengaluru";

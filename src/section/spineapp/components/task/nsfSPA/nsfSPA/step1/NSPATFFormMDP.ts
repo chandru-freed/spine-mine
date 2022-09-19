@@ -1,6 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import DispositionFMiniFormMDP, { DispositionType } from "@/components/generic/form/field/DispositionFMiniFormMDP";
+import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFooFieldMDP from "@/components/generic/form/field/FSelectFooFieldMDP";
@@ -79,12 +80,13 @@ export default class NSPATFFormMDP extends FFormMDP {
           label: "Intent",
           condition: this.isReceivePayment()
         })
-      )
-      .addField(
-        new FTextFieldMDP({
+      ).addField(
+        new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.spaScheduledDraftDate",
-          label: "Msf Scheduled Draft Date",
+          label: "NsfSPA Scheduled Draft Date",
+          mandatory: true,
+          futureDaysDisabled: true,
           condition: this.isDraftRescheduled()
         })
       ).addField(new DispositionFMiniFormMDP({

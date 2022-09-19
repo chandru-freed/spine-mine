@@ -79,7 +79,8 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
     this.taskFormOutputLocal.creditorInfo.creditorPhoneNumber = this.taskDetailsOutput.creditorInfo.creditorPhoneNumber;
     this.taskFormOutputLocal.creditorInfo.creditorBank = this.taskDetailsOutput.creditorInfo.creditorBank;
     this.taskFormOutputLocal.creditorInfo.description = this.taskDetailsOutput.creditorInfo.description;
-    
+    this.taskFormOutputLocal.creditorInfo.creditor = this.taskDetailsOutput.creditorInfo.creditor;
+    this.taskFormOutputLocal.creditorInfo.harassmentDetails = this.taskDetailsOutput.creditorInfo.harassmentDetails;
     }
     return this.taskFormOutputLocal;
   }

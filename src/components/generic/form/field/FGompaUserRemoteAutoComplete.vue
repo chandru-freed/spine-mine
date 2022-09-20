@@ -6,19 +6,33 @@
     :loading="isLoading"
     :search-input.sync="searchValue"
     v-bind="this.$props"
-  ></v-autocomplete>
+  >
+    <template v-slot:item="data">
+      <div class="d-flex flex-row align-center ">
+        <v-list-item>
+            <v-icon>mdi-account-circle-outline</v-icon>
+        </v-list-item>
+        <v-list-item>
+          {{ data.item.firstName }}
+        </v-list-item>
+        <v-list-item>
+          {{ data.item.mobile }}
+        </v-list-item>
+      </div>
+    </template>
+  </v-autocomplete>
 </template>
 <script lang="ts">
 import axios from "axios";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import { VAutocomplete, VSelect } from "vuetify/lib";
+import { VAutocomplete } from "vuetify/lib";
 
 @Component({
   components: {
     VAutocomplete,
   },
 })
-export default class FRemoteAutoCompleteField extends VAutocomplete {
+export default class FGompaUserRemoteAutoCompleteField extends VAutocomplete {
   // MODEL VALUE - START
   @Prop()
   value: any;
@@ -28,12 +42,17 @@ export default class FRemoteAutoCompleteField extends VAutocomplete {
   })
   queryUrl: string;
 
+  @Prop({
+    default: 3,
+  })
+  minSearchValueLength: number;
+
   searchValue: string = "";
   isLoading: boolean = false;
   fetchedItems: any[] = [];
 
   @Watch("searchValue") onSearchValueChanged(value: string) {
-    if (value?.length > 2) {
+    if (value?.length >= this.minSearchValueLength) {
       this.fetchItems();
     } else {
       this.fetchedItems = [];

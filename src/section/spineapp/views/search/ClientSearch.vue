@@ -76,8 +76,8 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
 
   clientGridHeaderList = [
     { text: "Client Name", value: "fullName" },
-    { text: "E-mail", value: "emailId" },
     { text: "Mobile", value: "mobile" },
+    { text: "E-mail", value: "emailId" },
     { text: "City", value: "city" },
     { text: "State", value: "state" },
   ];

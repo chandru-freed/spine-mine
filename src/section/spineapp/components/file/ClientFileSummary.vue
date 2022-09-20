@@ -1,8 +1,7 @@
 <template>
-  
   <div>
     <div class="row px-2 pt-2 pb-4 align-center justify-between">
-      <div class="col-4  pb-0">
+      <div class="col-4 pb-0">
         <v-list-item>
           <v-list-item-avatar tile size="80" color="primary">
             <v-icon size="40" color="secondary">mdi-file</v-icon>
@@ -12,7 +11,9 @@
               clientFileBasicInfo.clientFileNumber
             }}</v-list-item-title>
             <v-list-item-title class="text-h5">
-              {{ clientFileBasicInfo.clientBasicInfo.firstName }} {{ clientFileBasicInfo.clientBasicInfo.middleName }} {{ clientFileBasicInfo.clientBasicInfo.lastName }}
+              {{ clientFileBasicInfo.clientBasicInfo.firstName }}
+              {{ clientFileBasicInfo.clientBasicInfo.middleName }}
+              {{ clientFileBasicInfo.clientBasicInfo.lastName }}
             </v-list-item-title>
 
             <v-list-item-subtitle
@@ -22,19 +23,61 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <div class="col-6  pb-0">
-        <v-alert dense outlined type="error">
+      <div class="col-6 pb-0">
+        <!-- <v-alert dense outlined type="error">
           I'm a dense alert with the <strong>outlined</strong> prop and a
           <strong>type</strong> of error
-        </v-alert>
+        </v-alert> -->
       </div>
-      <f-btn label="Assign" :onClick="()=>handleAssignClick()"></f-btn>
+      <div>
+        <v-menu
+          offset-y
+          left
+          nudge-bottom="14"
+          min-width="230"
+          content-class="user-profile-menu-content"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-avatar size="40px" v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-avatar>
+          </template>
+          <v-list>
+            <!-- Assign RM -->
+            <v-list-item @click="handleAssignRMClick()">
+              <v-list-item-content>
+                <v-list-item-title>Assign RM</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
+            <!-- Assign Sales Rep -->
+            <v-list-item @click="handleAssignSalesRepClick()">
+              <v-list-item-content>
+                <v-list-item-title>Assign Sales Rep</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
       <div class="col-1 text-right pt-0">
-        <v-btn icon v-if="!showLessSummary" @click="showLessSummary = !showLessSummary"><v-icon>mdi-chevron-up</v-icon></v-btn>
-        <v-btn icon v-if="showLessSummary" @click="showLessSummary = !showLessSummary"><v-icon>mdi-chevron-down</v-icon></v-btn>
+        <v-btn
+          icon
+          v-if="!showLessSummary"
+          @click="showLessSummary = !showLessSummary"
+          ><v-icon>mdi-chevron-up</v-icon></v-btn
+        >
+        <v-btn
+          icon
+          v-if="showLessSummary"
+          @click="showLessSummary = !showLessSummary"
+          ><v-icon>mdi-chevron-down</v-icon></v-btn
+        >
       </div>
     </div>
-    <div class="row px-4 pb-2 pt-0 align-center justify-between" v-if="!showLessSummary">
+    <div
+      class="row px-4 pb-2 pt-0 align-center justify-between"
+      v-if="!showLessSummary"
+    >
       <div class="col-3">
         <v-sheet color="secondary" outlined rounded>
           <v-card flat>
@@ -48,8 +91,12 @@
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >Due on {{fileSummary.msfDueDate|date-duration}}</v-list-item-subtitle>
-                  <!-- >Due on 3rd July (5 days to go)</v-list-item-subtitle> -->
+                  >Due on
+                  {{
+                    fileSummary.msfDueDate | (date - duration)
+                  }}</v-list-item-subtitle
+                >
+                <!-- >Due on 3rd July (5 days to go)</v-list-item-subtitle> -->
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -68,7 +115,10 @@
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >Due on {{fileSummary.spaDueDate | date-duration}}</v-list-item-subtitle
+                  >Due on
+                  {{
+                    fileSummary.spaDueDate | (date - duration)
+                  }}</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
@@ -87,7 +137,10 @@
                   ₹ {{ fileSummary.totalSaving }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="white--text"
-                  >Last paid {{fileSummary.lastPaidDate|date-duration}}</v-list-item-subtitle
+                  >Last paid
+                  {{
+                    fileSummary.lastPaidDate | (date - duration)
+                  }}</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
@@ -106,12 +159,15 @@
                   class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
                 >
                   ₹ {{ fileSummary.totalOutstanding }}
-                  <span class="text-subtitle-1 pl-1 pt-2">/ {{fileSummary.remainingTenure}} months</span>
+                  <span class="text-subtitle-1 pl-1 pt-2"
+                    >/ {{ fileSummary.remainingTenure }} months</span
+                  >
                 </v-list-item-title>
                 <v-list-item-subtitle
                   ><v-btn block x-small outlined dark
                     >{{ fileSummary.numberOfCredirotrsSettled }} Settled out of
-                    {{ fileSummary.numberOfCreditorsTotal }} Total Creditors</v-btn
+                    {{ fileSummary.numberOfCreditorsTotal }} Total
+                    Creditors</v-btn
                   ></v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -128,19 +184,18 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-import store, * as Store from '@/../src-gen/store';
-import * as Data from '@/../src-gen/data';
-import * as ServerData from '@/../src-gen/server-data';
-import * as Action from '@/../src-gen/action';
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
-  components:{
-    "f-btn": FBtn
-  }
+  components: {
+    "f-btn": FBtn,
+  },
 })
 export default class ClientFileSummary extends Vue {
-
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: any;
 
@@ -150,13 +205,19 @@ export default class ClientFileSummary extends Vue {
   public showLessSummary = true;
 
   public mounted() {
-    console.log(this.fileSummary)
+    console.log(this.fileSummary);
   }
 
   public created() {}
 
-  handleAssignClick(){
-     this.$router.push({ name: "Root.ClientFile.AssignRM" });
+  handleAssignRMClick() {
+    this.$router.push({ name: "Root.ClientFile.AssignRM" });
+
+  }
+
+
+  handleAssignSalesRepClick() {
+     this.$router.push({ name: "Root.ClientFile.AssignSalesRep" });
   }
 }
 </script>

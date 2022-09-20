@@ -1,7 +1,6 @@
 <template>
   
   <div>
-    
     <div class="row px-2 pt-2 pb-4 align-center justify-between">
       <div class="col-4  pb-0">
         <v-list-item>
@@ -23,12 +22,13 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <div class="col-7  pb-0">
+      <div class="col-6  pb-0">
         <v-alert dense outlined type="error">
           I'm a dense alert with the <strong>outlined</strong> prop and a
           <strong>type</strong> of error
         </v-alert>
       </div>
+      <f-btn label="Assign" :onClick="()=>handleAssignClick()"></f-btn>
       <div class="col-1 text-right pt-0">
         <v-btn icon v-if="!showLessSummary" @click="showLessSummary = !showLessSummary"><v-icon>mdi-chevron-up</v-icon></v-btn>
         <v-btn icon v-if="showLessSummary" @click="showLessSummary = !showLessSummary"><v-icon>mdi-chevron-down</v-icon></v-btn>
@@ -132,8 +132,13 @@ import store, * as Store from '@/../src-gen/store';
 import * as Data from '@/../src-gen/data';
 import * as ServerData from '@/../src-gen/server-data';
 import * as Action from '@/../src-gen/action';
+import FBtn from "@/components/generic/FBtn.vue";
 
-@Component
+@Component({
+  components:{
+    "f-btn": FBtn
+  }
+})
 export default class ClientFileSummary extends Vue {
 
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
@@ -149,6 +154,10 @@ export default class ClientFileSummary extends Vue {
   }
 
   public created() {}
+
+  handleAssignClick(){
+     this.$router.push({ name: "Root.ClientFile.AssignRM" });
+  }
 }
 </script>
 

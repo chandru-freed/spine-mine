@@ -24,8 +24,27 @@
         </v-list-item>
       </div>
       <div class="col-1-0">
-        <f-btn label="Assign RM" elevation color="secondary" class="mr-5"></f-btn>
-        <f-btn label="Assign Sales Rep"  outlined color="primary"></f-btn>
+        <f-btn
+          :label="
+            clientFileBasicInfo.assignedRM
+              ? 'RM : ' + clientFileBasicInfo.assignedRM
+              : 'Assing RM'
+          "
+          elevation
+          :color="clientFileBasicInfo.assignedRM ? 'secondary' : 'primary'"
+          class="mr-5"
+        ></f-btn>
+        <f-btn
+          :label="
+            clientFileBasicInfo.assignedSalesRep
+              ? 'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep
+              : 'Assing Sales Rep'
+          "
+          elevation
+          :color="
+            clientFileBasicInfo.assignedSalesRep ? 'secondary' : 'primary'
+          "
+        ></f-btn>
       </div>
       <div class="col-5 pb-0">
         <!-- <v-alert dense outlined type="error">
@@ -216,12 +235,10 @@ export default class ClientFileSummary extends Vue {
 
   handleAssignRMClick() {
     this.$router.push({ name: "Root.ClientFile.AssignRM" });
-
   }
 
-
   handleAssignSalesRepClick() {
-     this.$router.push({ name: "Root.ClientFile.AssignSalesRep" });
+    this.$router.push({ name: "Root.ClientFile.AssignSalesRep" });
   }
 }
 </script>

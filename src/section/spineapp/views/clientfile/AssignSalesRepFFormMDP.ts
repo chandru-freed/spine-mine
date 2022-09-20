@@ -16,7 +16,7 @@ export default class AssignSalesRepFFormMDP extends FFormMDP {
     this.addField(
       new FGompaUserRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "assignSalesRep",
+        dataSelectorKey: "assignedSalesRep",
         label: "Select Sales Rep"
       })
     ).addAction(

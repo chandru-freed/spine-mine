@@ -34,13 +34,14 @@
           </v-list-item>
 
           <v-card-actions>
-            <v-btn
+            <f-btn
+              label="Button"
               outlined
               rounded
               text
             >
-              Button
-            </v-btn>
+              
+            </f-btn>
           </v-card-actions>
         </v-card>
       </div>
@@ -57,10 +58,12 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
 // import * as ServerData from '@/../src-gen/server-data';
 // import * as Action from '@/../src-gen/action';
 import FSwitch from "@/components/generic/form/field/FSwitch.vue"
+import FBtn from '@/components/generic/FBtn.vue';
 
 @Component({
   components : {
-    FSwitch
+    FSwitch,
+    "f-btn":FBtn
   }
 })
 export default class Home extends Vue {

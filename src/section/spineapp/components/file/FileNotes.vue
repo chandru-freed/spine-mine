@@ -13,9 +13,15 @@
           v-model="addNoteInput.noteMessage"
         >
           <template v-slot:append>
-            <v-btn :disabled="addNoteInput.noteMessage.length<2" class="mx-0" depressed @click="addNote" color="secondary">
-              Post
-            </v-btn>
+            <f-btn
+              label="Post"
+              :disabled="addNoteInput.noteMessage.length < 2"
+              class="mx-0"
+              depressed
+              :onClick="() => addNote()"
+              color="secondary"
+            >
+            </f-btn>
           </template>
         </v-textarea>
       </v-toolbar>
@@ -82,7 +88,7 @@
                   content-class="user-profile-menu-content"
                 >
                   <v-list dense>
-                    <v-list-item link @click="removeNote(note.noteId)" >
+                    <v-list-item link @click="removeNote(note.noteId)">
                       <v-icon small class="mr-2">mdi-delete</v-icon> Remove
                     </v-list-item>
                   </v-list>
@@ -108,9 +114,11 @@ import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from "@/../src-gen/action";
 import ModelVue from "@/components/generic/ModelVue";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
+    "f-btn": FBtn,
   },
 })
 export default class FileNotes extends ModelVue {
@@ -123,8 +131,6 @@ export default class FileNotes extends ModelVue {
 
   @Store.Getter.FiNote.FiNoteStore.fiNoteList
   fiNoteList: Data.FiNote.FiNote[];
-
-  
 
   mounted() {
     this.getFiNoteList();
@@ -189,7 +195,7 @@ export default class FileNotes extends ModelVue {
   }
 
   removeNote(noteId: string) {
-    Action.FiNote.RemoveNote.execute1(noteId, output => {
+    Action.FiNote.RemoveNote.execute1(noteId, (output) => {
       this.getFiNoteList();
     });
   }

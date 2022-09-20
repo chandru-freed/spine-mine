@@ -7,7 +7,7 @@
 
     <div class="row my-5 mx-5">
       <v-spacer />
-      <V-btn @click="setTestData">FILL TEST DATA</V-btn>
+      <f-btn label="FILL TEST DATA" :onClick="()=> setTestData()"></f-btn>
     </div>
     <component
       :ref="stepperMetaData.myRefName"
@@ -27,18 +27,19 @@ import * as Action from "@/../src-gen/action";
 
 import FStepper from "@/components/generic/FStepper.vue";
 import CCITFStepperMDP from "./CCITFStepperMDP";
-import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     FStepper,
-    FBtn,
+    "f-btn":FBtn,
   },
 })
 export default class CollectClientInfoTask
@@ -177,7 +178,9 @@ export default class CollectClientInfoTask
       taskRoot: this,
     }).getMetaData();
   }
-
+  get btnMetaData(): any {
+     return new FBtnMDP({label:"FILL TEST DATA",onClick:this.setTestData}).getMetaData()
+  }
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }

@@ -47,14 +47,12 @@
         </v-toolbar>
       </template>
       <template v-slot:item.taskName="{ item }">
-        <v-btn text color="primary" @click="gotoTask(item)">
-          {{ item.taskName }}
-        </v-btn>
+        <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)">
+        </f-btn>
       </template>
       <template v-slot:item.displayId="{ item }">
-        <v-btn text color="secondary" @click="gotoFile(item)">
-          {{ item.displayId }}
-        </v-btn>
+        <f-btn :label="item.displayId" text color="secondary" :onClick="()=>gotoFile(item)">
+        </f-btn>
       </template>
       <template v-slot:item.priority="{ item }">
         <v-chip label small>
@@ -69,8 +67,7 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-btn outlined small color="secondary" @click="pullTask(item)"
-          >PULL</v-btn
+        <f-btn label="PULL" outlined small color="secondary" :onClick="pullTask(item)"></f-btn
         >
       </template>
       <!-- <template v-slot:item.actions="{ item }">
@@ -121,10 +118,12 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     "task-tab": TaskTab,
+    "f-btn":FBtn
   },
 })
 export default class TaskDeferred extends Vue {
@@ -190,7 +189,7 @@ export default class TaskDeferred extends Vue {
 </script>
 
 <style>
-.v-btn {
+.f-btn {
   text-transform: unset !important;
 }
 </style>

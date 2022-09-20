@@ -46,7 +46,6 @@
           </v-toolbar>
         </template>
         <template v-slot:item.taskState="{ item }">
-        <!-- <v-btn icon small> -->
 
         <v-icon color="grey" v-if="item.taskState === 'CREATED'"
           >mdi-plus-circle-outline</v-icon
@@ -71,7 +70,6 @@
         <v-icon color="red" v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
           >mdi-alert-circle</v-icon
         >
-        <!-- </v-btn> -->
       </template>
       <template v-slot:item.priority="{ item }">
         <v-chip  small outlined>
@@ -79,14 +77,10 @@
         </v-chip>
       </template>
         <template v-slot:item.taskName="{ item }">
-          <v-btn text color="primary" @click="gotoTask(item)">
-            {{ item.taskName }}
-          </v-btn>
+          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
         </template>
         <template v-slot:item.cid="{ item }">
-          <v-btn text color="secondary" @click="gotoFile(item)">
-            {{ item.cid }}
-          </v-btn>
+          <f-btn :label="item.cid" text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
         </template>
         <template v-slot:item.displayId="{ item }">
           <span class="overline">
@@ -103,9 +97,8 @@
         </template>
 
         <template v-slot:item.action="{ item }" >
-          <v-btn v-if="item.taskState === 'ALLOCATED'" outlined small color="primary" @click="startTask('', item)">
-            START
-          </v-btn>
+          <f-btn label="START" v-if="item.taskState === 'ALLOCATED'" outlined small color="primary" :onClick="()=>startTask('', item)">   
+          </f-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -122,10 +115,12 @@ import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     "task-tab": TaskTab,
+    "f-btn":FBtn
   },
 })
 export default class TaskAssignedToMe extends Vue {

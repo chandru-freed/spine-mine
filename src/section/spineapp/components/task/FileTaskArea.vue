@@ -88,6 +88,7 @@ import NsfSPAClientDeferredTask from "@/section/spineapp/components/task/nsfSPA/
 import NsfSPAReceiveManualPaymentTask from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/ReceiveManualPaymentTask.vue";
 import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
 import FBtn from "@/components/generic/FBtn.vue";
+import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -135,7 +136,8 @@ import FBtn from "@/components/generic/FBtn.vue";
     NsfSPAClientDeferredTask,
     NsfSPAReceiveManualPaymentTask,
     NsfSPASystemDeferredTask,
-    "f-btn":FBtn
+    "f-btn":FBtn,
+    FollowUpCallTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -211,7 +213,7 @@ export default class FileTaskArea extends Vue {
     ["NsfSPA::NsfSPAClientDeferred", "NsfSPAClientDeferredTask"],
     ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
     ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
-    
+    ["MFC::FollowUpCall", "FollowUpCallTask"]
   ]);
 
   taskId = this.$route.params.taskId;

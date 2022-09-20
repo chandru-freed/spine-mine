@@ -19,13 +19,7 @@ export default class CIVTFFormMDP extends FFormMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
-        this.addField(new FTextFieldMDP({
-            parentMDP: this.childMDP,
-            dataSelectorKey: "taskInput.clientFileNumber",
-            label: "File Number",
-            disabled: true
-        }))
-        .addField(
+        this.addField(
             new FSwitchMDP({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "taskOutput.verified",

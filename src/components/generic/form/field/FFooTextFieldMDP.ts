@@ -1,8 +1,8 @@
-import FFieldMDP from "./FFieldMDP";
-import { FFormChildMDP } from "./../FFormMDP";
+import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
+import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
-export default class FSelectFooFieldMDP implements FFieldMDP {
-  componentName = "FSelectFooField";
+export default class FFooTextFieldMDP implements FFieldMDP {
+  componentName = "FFooTextField";
   dataSelectorKey: string;
   label: string;
   type: string;
@@ -10,12 +10,10 @@ export default class FSelectFooFieldMDP implements FFieldMDP {
   mandatory: boolean;
   parentMDP: FFormChildMDP;
   boundaryClass: string;
-  items: any[];
   disabled: boolean;
-  returnObject: boolean;
-  itemText: string|undefined;
-  itemValue: string|undefined;
-  onSelect?: () => void;
+  condition: boolean;
+  // defaultValue?: string;
+
   constructor({
     parentMDP,
     dataSelectorKey,
@@ -24,11 +22,9 @@ export default class FSelectFooFieldMDP implements FFieldMDP {
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
-    items = [],
     disabled = false,
-    returnObject=false,
-    itemText,
-    itemValue
+    condition = true
+    // defaultValue
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -36,12 +32,10 @@ export default class FSelectFooFieldMDP implements FFieldMDP {
     type?: string;
     rules?: string;
     mandatory?: boolean;
-    boundaryClass?: string
-    items: any[],
-    disabled?: boolean
-    returnObject?: boolean
-    itemText?:string|undefined
-    itemValue?:string|undefined
+    boundaryClass?: string;
+    disabled?: boolean;
+    condition?: boolean
+    // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -50,11 +44,9 @@ export default class FSelectFooFieldMDP implements FFieldMDP {
     this.rules = rules;
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
-    this.items = items;
     this.disabled = disabled;
-    this.returnObject = returnObject;
-    this.itemValue = itemValue;
-    this.itemText = itemText;
+    this.condition = condition
+    // this.defaultValue = defaultValue;
   }
 
   getRules() {
@@ -63,7 +55,7 @@ export default class FSelectFooFieldMDP implements FFieldMDP {
   }
 
   getBoundaryClass() {
-    return `${this.boundaryClass} py-0 px-2`
+    return `${this.boundaryClass} py-0 px-2`;
   }
 
   getMetaData(): object {
@@ -72,17 +64,15 @@ export default class FSelectFooFieldMDP implements FFieldMDP {
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
+      condition: this.condition,
       props: {
         id: this.dataSelectorKey,
         label: this.label,
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        items: this.items,
         disabled: this.disabled,
-        returnObject: this.returnObject,
-        itemValue: this.itemValue,
-        itemText: this.itemText
+        // defaultValue: this.defaultValue
       },
     };
   }

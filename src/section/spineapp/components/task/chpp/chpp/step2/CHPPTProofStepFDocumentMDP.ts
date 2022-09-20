@@ -7,7 +7,7 @@ export default class CHPPTProofStepFDocumentMDP extends FDocumentMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "documentListRef",
-      dataSelectorKey: "taskOutput.documentList",
+      dataSelectorKey: "taskOutput.proof",
       disabled: taskRoot.taskDisabled,
     });
 

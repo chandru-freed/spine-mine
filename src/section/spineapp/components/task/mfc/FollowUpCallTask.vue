@@ -1,18 +1,16 @@
 <template>
   <div>
-    <!-- <h4>CHPP</h4>
-    Root Data : {{ taskFormData }} -->
-
+    <!-- Root Data : {{ taskFormData }}
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
       :value="selectModel(taskFormData, undefined)"
       @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
       v-bind="stepperMetaData.props"
-    ></component>
+    ></component> -->
   </div>
 </template>
-<script lang="ts">
+       <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -20,10 +18,11 @@ import FStepper from "@/components/generic/FStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import CHPPFStepperMDP from "./CHPPFStepperMDP";
-import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import FollowUpCallFStepperMDP from "./FollowUpCallFStepperMDP";
+
 
 @Component({
   components: {
@@ -31,11 +30,21 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
     FBtn,
   },
 })
-export default class CHPPTask extends ModelVue implements ManualTaskIntf {
+export default class FollowUpCallTask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
+
+  //METADATA
+  get stepperMetaData() {
+    return new FollowUpCallFStepperMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
+
+  selectedNMSFTaskOption() {
+    return this.taskFormData.taskOutput.selectedNMSFTaskOption;
+  }
 
   // DATA
   get taskDetailsOutput() {
@@ -70,18 +79,14 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.CHPPTaskOutput();
+  taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
-    if(this.taskDetailsOutput.creditorInfo) {
-    this.taskFormOutputLocal.creditorInfo.creditorName = this.taskDetailsOutput.creditorInfo.creditorName;
-    this.taskFormOutputLocal.creditorInfo.creditorBalance = this.taskDetailsOutput.creditorInfo.creditorBalance;
-    this.taskFormOutputLocal.creditorInfo.creditorPhoneNumber = this.taskDetailsOutput.creditorInfo.creditorPhoneNumber;
-    this.taskFormOutputLocal.creditorInfo.creditorBank = this.taskDetailsOutput.creditorInfo.creditorBank;
-    this.taskFormOutputLocal.creditorInfo.description = this.taskDetailsOutput.creditorInfo.description;
-    this.taskFormOutputLocal.creditorInfo.creditor = this.taskDetailsOutput.creditorInfo.creditor;
-    this.taskFormOutputLocal.creditorInfo.harassmentDetails = this.taskDetailsOutput.creditorInfo.harassmentDetails;
+    if (this.taskDetailsOutput.disposition === null) {
+      this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
     }
+    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
+
     return this.taskFormOutputLocal;
   }
 
@@ -91,13 +96,6 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   //Task Output
 
   //DATA
-
-
-   //METADATA
-  get stepperMetaData() {
-    return new CHPPFStepperMDP({ taskRoot: this }).getMetaData();
-  }
-  //METADATA
 
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
@@ -112,12 +110,16 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   }
 
   saveTask() {
+    this.taskFormOutput.manualPayment =
+      this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
+    this.taskFormOutput.answered = !(
+      this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
+    );
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
 
   rescueTask() {
     Task.Action.rescueTask({
@@ -133,11 +135,12 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   }
 
   gotoFile() {
-      Helper.Router.gotoFile({
-        router: this.$router,
-        clientFileNumber: this.$route.params.clientFileNumber,
-      });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+    });
   }
 }
 </script>
-<style></style>
+
+        <style></style>

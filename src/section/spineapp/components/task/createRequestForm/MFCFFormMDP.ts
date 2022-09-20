@@ -14,17 +14,7 @@ export default class MFCFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "clientFileNumber",
-          label: "Client File Number",
-          mandatory: true,
-          disabled: true
-        })
-      )
-      .addAction(
+    this.addAction(
         new FBtnMDP({
           label: "CREATE REQUEST",
           onClick: this.validateAndSubmit(),

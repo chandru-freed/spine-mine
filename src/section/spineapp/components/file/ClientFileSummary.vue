@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row px-2 pt-2 pb-4 align-center justify-between">
-      <div class="col-4 pb-0">
+      <div class="col-3 pb-0">
         <v-list-item>
           <v-list-item-avatar tile size="80" color="primary">
             <v-icon size="40" color="secondary">mdi-file</v-icon>
@@ -23,7 +23,11 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <div class="col-6 pb-0">
+      <div class="col-1-0">
+        <f-btn label="Assign RM" elevation color="secondary" class="mr-5"></f-btn>
+        <f-btn label="Assign Sales Rep"  outlined color="primary"></f-btn>
+      </div>
+      <div class="col-5 pb-0">
         <!-- <v-alert dense outlined type="error">
           I'm a dense alert with the <strong>outlined</strong> prop and a
           <strong>type</strong> of error
@@ -59,7 +63,7 @@
           </v-list>
         </v-menu>
       </div>
-      <div class="col-1 text-right pt-0">
+      <div class="text-right pt-0">
         <v-btn
           icon
           v-if="!showLessSummary"

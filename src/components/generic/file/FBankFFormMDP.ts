@@ -68,7 +68,7 @@ export default class FBankFFormMDP extends FFormMDP {
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           mandatory: true,
-          boundaryClass: "col-6",
+          boundaryClass: "col-3",
           onSelect: (details) => {this.populateBankDetails(details)}
         })
       )

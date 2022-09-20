@@ -93,8 +93,8 @@ export default class ClientFileSearch
   clientGridHeaderList = [
     { text: "Client File Number", value: "clientFileNumber", align: "start" },
     { text: "Client Name", value: "fullName" },
-    { text: "E-mail", value: "emailId" },
     { text: "Mobile", value: "mobile" },
+    { text: "E-mail", value: "emailId" },
     { text: "City", value: "city" },
     { text: "State", value: "state" },
   ];

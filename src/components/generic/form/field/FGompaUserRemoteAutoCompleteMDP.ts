@@ -1,8 +1,8 @@
 import MDP from "@/components/generic/MDP";
 import { FFormChildMDP } from "../FFormMDP";
 
-export default class FRemoteAutoCompleteFieldMDP implements MDP {
-    componentName: string = "FRemoteAutoCompleteField";
+export default class FGompaUserRemoteAutoCompleteFieldMDP implements MDP {
+    componentName: string = "FGompaUserRemoteAutoCompleteField";
     dataSelectorKey: string;
     label: string;
     rules: string;
@@ -18,27 +18,29 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
     clearable: boolean;
     hideNoData: boolean = true;
     hideSelected: boolean = true;
+    minSearchValueLength: number;
     constructor({
         parentMDP,
-        label,
+        label="User Search",
         dataSelectorKey,
         boundaryClass = "col-12",
-        itemText,
-        itemValue,
+        itemText="userName",
+        itemValue="userName",
         mandatory = false,
         disabled = false,
         rules="",
         condition=true,
-        queryUrl,
+        queryUrl="/gompa-api/user/find-user?userName=",
         returnObject,
-        clearable=true
+        clearable=true,
+        minSearchValueLength=2
 
     }: {
         parentMDP: FFormChildMDP;
-        label: string;
-        queryUrl: string;
-        itemText: string;
         dataSelectorKey: string;
+        queryUrl?: string;
+        label?: string;
+        itemText?: string;
         boundaryClass?: string;
         itemValue?: string
         mandatory?: boolean;
@@ -47,6 +49,7 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
         condition?:boolean;
         returnObject?: boolean;
         clearable?:boolean;
+        minSearchValueLength?:number;
     }) {
         this.parentMDP = parentMDP;
         this.label = label;
@@ -61,6 +64,7 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
         this.queryUrl = queryUrl;
         this.returnObject = returnObject;
         this.clearable = clearable;
+        this.minSearchValueLength = minSearchValueLength;
     }
 
 
@@ -93,7 +97,8 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
                 returnObject: this.returnObject,
                 clearable: this.clearable,
                 hideNoData: this.hideNoData,
-                hideSelected: this.hideSelected
+                hideSelected: this.hideSelected,
+                minSearchValueLength: this.minSearchValueLength
             }
         }
     }

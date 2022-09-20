@@ -32,14 +32,10 @@
           </v-toolbar>
         </template>
         <template v-slot:item.cid="{ item }">
-          <v-btn text color="secondary" @click="gotoFile(item)">
-            {{ item.cid }}
-          </v-btn>
+          <f-btn :label="item.cid" text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
         </template>
         <template v-slot:item.taskName="{ item }">
-          <v-btn text color="primary" @click="gotoTask(item)">
-            {{ item.taskName }}
-          </v-btn>
+          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
         </template>
         <template v-slot:item.displayId="{ item }">
           <span class="overline">
@@ -75,10 +71,12 @@ import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
 import Helper from "../../util/Helper";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     "task-tab": TaskTab,
+    "f-btn":FBtn
   },
 })
 export default class TaskCompleted extends Vue {
@@ -130,7 +128,7 @@ export default class TaskCompleted extends Vue {
 </script>
 
 <style>
-.v-btn {
+.f-btn {
   text-transform: unset !important;
 }
 </style>

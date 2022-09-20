@@ -38,7 +38,7 @@ import FSwitch from "./FSwitch.vue"
 import FPasswordField from "./FPasswordField.vue"
 import FCurrencyField from "./FCurrencyField.vue"
 import ModelVue from "@/components/generic/ModelVue";
-import FSelectFooField from "./FSelectFooField.vue";
+
 import FAutoCompleteField from "./FAutoCompleteField.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
@@ -57,7 +57,6 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
     FSwitch,
     FPasswordField,
     FCurrencyField,
-    FSelectFooField,
     FAutoCompleteField
   },
 })

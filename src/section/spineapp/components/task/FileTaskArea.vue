@@ -11,21 +11,21 @@
       >
 
       <v-spacer></v-spacer>
-      <v-btn
+      <f-btn
+        label="START"
         outlined
         color="primary"
-        @click="startTask"
+        :onClick="()=>startTask()"
         v-if="taskDetails.taskState === 'ALLOCATED'"
-        >START</v-btn
-      >
+        ></f-btn>
 
-      <v-btn
+      <f-btn
+        label="PULL"
         outlined
         color="primary"
-        @click="pullTask"
+        :onClick="()=>pullTask()"
         v-if="taskDetails.taskState === 'TO_BE_PULLED'"
-        >PULL</v-btn
-      >
+        ></f-btn>
     </v-card-actions>
     <v-card-text class="pa-0">
       <component v-if="!loading" :is="selectedComponent"></component>
@@ -87,8 +87,8 @@ import NsfSPACompletionTask from "@/section/spineapp/components/task/nsfSPA/nsfS
 import NsfSPAClientDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPAClientDeferred/NsfSPAClientDeferredTask.vue";
 import NsfSPAReceiveManualPaymentTask from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/ReceiveManualPaymentTask.vue";
 import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
+import FBtn from "@/components/generic/FBtn.vue";
 import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
-
 @Component({
   components: {
     CollectClientInfoTask,
@@ -136,6 +136,7 @@ import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
     NsfSPAClientDeferredTask,
     NsfSPAReceiveManualPaymentTask,
     NsfSPASystemDeferredTask,
+    "f-btn":FBtn,
     FollowUpCallTask,
   },
 })

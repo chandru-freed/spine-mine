@@ -60,7 +60,6 @@ import FSwitch from "./field/FSwitch.vue"
 import FPasswordField from "./field/FPasswordField.vue"
 import FCurrencyField from "./field/FCurrencyField.vue"
 import FPhoneField from "./field/FPhoneField.vue"
-import FSelectFooField from "./field/FSelectFooField.vue"
 import FAutoCompleteField from "./field/FAutoCompleteField.vue";
 import FDateSelectField from "./field/FDateSelectField.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -84,7 +83,6 @@ import FFooTextField from "./field/FFooTextField.vue";
     FPasswordField,
     FCurrencyField,
     FPhoneField,
-    FSelectFooField,
     FAutoCompleteField,
     FDateSelectField,
     FIFSCCodeField,

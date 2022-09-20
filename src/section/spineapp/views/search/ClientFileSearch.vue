@@ -41,16 +41,15 @@
           </v-toolbar>
         </template>
         <template v-slot:item.fullName="{ item }">
-          <v-btn text color="green" @click="gotoClient(item.clientId)">{{
-            item.fullName
-          }}</v-btn>
+          <f-btn :label="item.fullName" text color="green" :onClick="()=>gotoClient(item.clientId)"></f-btn>
         </template>
         <template v-slot:item.clientFileNumber="{ item }">
-          <v-btn
+          <f-btn
+            :label="item.clientFileNumber"
             text
             color="secondary"
-            @click="gotoFile(item.clientFileNumber)"
-            >{{ item.clientFileNumber }}</v-btn
+            :onClick="()=>gotoFile(item.clientFileNumber)"
+            ></f-btn
           >
         </template>
       </v-data-table>
@@ -72,10 +71,12 @@ import ClientFileSearchFFormMDP from "./ClientFileSearchFFormMDP";
 import ClientFileSearchIntf from "./ClientFileSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
 import Helper from "../../util/Helper";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     FForm,
+    "f-btn":FBtn
   },
 })
 export default class ClientFileSearch

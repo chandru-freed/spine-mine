@@ -5,24 +5,25 @@
       :value="modelValue"
       @input="(newValue) => (modelValue = newValue)"
     ></v-text-field>
-    <v-btn
-      :disabled="!isValidIfscCode"
+    <f-btn 
+      label="Get Details"
       class="mx-2"
-      @click="getBankDetails()"
+      :onClick="()=> getBankDetails()"
       color="primary"
-      >Get Details</v-btn
-    >
+    ></f-btn>
   </div>
 </template>
 <script lang="ts">
 import axios from "axios";
 import { Component, Prop } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib/components";
+import FBtn from "../../FBtn.vue";
 // const ifsc =require("ifsc");
 
 @Component({
   components: {
     VTextField,
+    "f-btn":FBtn
   },
 })
 export default class FIFSCCodeField extends VTextField {

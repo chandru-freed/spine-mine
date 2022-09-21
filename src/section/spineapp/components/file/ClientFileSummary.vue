@@ -24,8 +24,8 @@
         </v-list-item>
       </div>
       <div class="col-1-0">
-        <v-chip outlined label color="secondary" class="mr-5">{{'RM : ' + clientFileBasicInfo.assignedRM}}</v-chip>
-         <v-chip outlined label color="secondary">{{'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep}}</v-chip>
+        <v-chip outlined label color="secondary" class="mr-5" v-if="clientFileBasicInfo.assignedRM">{{'RM : ' + clientFileBasicInfo.assignedRM}}</v-chip>
+         <v-chip outlined label color="secondary" v-if="clientFileBasicInfo.assignedSalesRep">{{'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep}}</v-chip>
       </div>
       <div class="col-5 pb-0">
         <!-- <v-alert dense outlined type="error">

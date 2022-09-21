@@ -44,7 +44,7 @@ export default class FBankFFormMDP extends FFormMDP {
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "accountNumberConfirmed",
-        label: "Account confirmed Number",
+        label: "Confirmed Account Number",
         mandatory: true,
         boundaryClass: "col-3",
         rules:"confirmed:accountNumber"

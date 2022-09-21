@@ -1,5 +1,7 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FPaymentPlanMDP from "@/components/generic/file/paymentPlan/FPaymentPlanMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
@@ -28,7 +30,7 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
 
   saveTask() {
     return () => {
-      this.taskRoot.saveTask();
+      this.schedulePaymentPlan();
     };
   }
 
@@ -50,5 +52,14 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
   getMyRef() {
     console.log("CCITPaymentPlanStepFPaymentPlanMDP", this.parent.getMyRef().$refs[this.myRefName][0]);
     return this.parent.getMyRef().$refs[this.myRefName][0];
+  }
+
+  schedulePaymentPlan() {
+    console.log(this.taskRoot.taskFormData.taskOutput.paymentPlan)
+    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
+    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+    Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
+      this.taskRoot.saveTask();
+    })
   }
 }

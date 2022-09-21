@@ -7,9 +7,11 @@
       :width="rightFocused ? '100%' : '49%'"
       v-if="!leftFocused"
     >
-      <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
-        <v-icon size="40">mdi-chevron-left</v-icon>
-      </v-btn>
+      <div class="d-flex justify-end">
+        <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+          <v-icon size="20">mdi-close</v-icon>
+        </v-btn>
+      </div>
       <component
         :ref="assignRMMetaData.myRefName"
         :is="assignRMMetaData.componentName"

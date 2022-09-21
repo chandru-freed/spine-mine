@@ -10,7 +10,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
   mandatory: boolean;
   parentMDP: FFormChildMDP;
   boundaryClass: string
-  options: string[]
+  options: any[]
   optionLabel: string|undefined;
   optionValue: string|undefined;
   returnObject: boolean;

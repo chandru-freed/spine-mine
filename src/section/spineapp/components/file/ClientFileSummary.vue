@@ -24,19 +24,8 @@
         </v-list-item>
       </div>
       <div class="col-1-0">
-        <f-btn
-          v-if="clientFileBasicInfo.assignedRM"
-          :label="'RM : ' + clientFileBasicInfo.assignedRM"
-          outlined
-          color="secondary"
-          class="mr-5"
-        ></f-btn>
-        <f-btn
-          v-if="clientFileBasicInfo.assignedSalesRep"
-          :label="'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep"
-          outlined
-          color="secondary"
-        ></f-btn>
+        <v-chip outlined label color="secondary" class="mr-5">{{'RM : ' + clientFileBasicInfo.assignedRM}}</v-chip>
+         <v-chip outlined label color="secondary">{{'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep}}</v-chip>
       </div>
       <div class="col-5 pb-0">
         <!-- <v-alert dense outlined type="error">

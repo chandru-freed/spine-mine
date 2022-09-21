@@ -3,6 +3,8 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FProfileFFormMDP from "@/components/generic/file/FProfileFFormMDP";
 import FRegistrationDetailsMDP from "@/components/generic/file/FRegistrationDetailsMDP";
 import MDP from "@/components/generic/MDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 export default class CCITProfileStepMDP extends CLProfileMDP {
     profileFFormRef = "profileFFormRef"
@@ -41,7 +43,7 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
                 onClick: this.rescueTask(),
                 condition: this.isException()
             })
-        );;
+        );
     }
 
 
@@ -71,9 +73,17 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
             this.getProfileFormRef().submitForm(() => {
                 console.log("client profile");
                 console.log("task rook", this.taskRoot);
-                this.taskRoot.saveTask();
+                this.updateClPersonalInfo();
             });
         }
+    }
+
+    updateClPersonalInfo() {
+        const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.personalInfo)
+        input.clientId = (this.taskRoot as any).clientFileBasicInfo.clientBasicInfo.clientId
+        Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
+            this.taskRoot.saveTask();
+        })
     }
 
 }

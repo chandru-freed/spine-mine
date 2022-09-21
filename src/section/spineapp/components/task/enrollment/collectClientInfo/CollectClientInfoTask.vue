@@ -46,11 +46,16 @@ export default class CollectClientInfoTask
   extends ModelVue
   implements ManualTaskIntf
 {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
+  
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+
   getNupayBankMasterList() {
     Action.ClientFile.GetNupayBankMasterList.execute((output) => {
       this.nupayBankMasterList = output.nupayBankMasterList;
@@ -187,6 +192,9 @@ export default class CollectClientInfoTask
   mounted() {
     this.getNupayBankMasterList();
   }
+
+
+  
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
@@ -226,6 +234,8 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
   }
+
+
   setTestData() {
     console.log(
       " this.taskFormData.taskOutput.creditorList ==>",

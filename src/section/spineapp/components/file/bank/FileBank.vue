@@ -41,6 +41,8 @@ export default class FileBank extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.fiBankInfo
   bankInfo: Data.ClientFile.FiBankInfo;
+
+  nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
   //METADATA
   get bankInfoFormMetaData() {
     return new ClientBankInfoFBankFFormMDP({
@@ -70,9 +72,16 @@ export default class FileBank extends ModelVue {
     this.bankInfoFormLocal = value;
   }
 
+  getNupayBankMasterList() {
+    Action.ClientFile.GetNupayBankMasterList.execute((output) => {
+      this.nupayBankMasterList = output.nupayBankMasterList;
+    });
+  }
+
   //FORM
 
   mounted() {
+    this.getNupayBankMasterList();
     this.getFiBankInfo();
   }
 

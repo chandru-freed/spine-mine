@@ -12,13 +12,24 @@
           <v-icon size="20">mdi-close</v-icon>
         </v-btn>
       </div>
-      <component
-        :ref="assignRMMetaData.myRefName"
-        :is="assignRMMetaData.componentName"
-        :value="selectModel(assignRMInput, undefined)"
-        @input="(newValue) => updateModel(assignRMInput, newValue, undefined)"
-        v-bind="assignRMMetaData.props"
-      ></component>
+      <div class="d-flex justify-center">
+        <v-card
+          class="pa-0 ma-0 mt-5 col-6"
+          color="white"
+          outlined
+          min-height="300px"
+        >
+          <component
+            :ref="assignRMMetaData.myRefName"
+            :is="assignRMMetaData.componentName"
+            :value="selectModel(assignRMInput, undefined)"
+            @input="
+              (newValue) => updateModel(assignRMInput, newValue, undefined)
+            "
+            v-bind="assignRMMetaData.props"
+          ></component>
+        </v-card>
+      </div>
     </v-navigation-drawer>
   </div>
 </template>

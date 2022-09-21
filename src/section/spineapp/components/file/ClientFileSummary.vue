@@ -23,17 +23,17 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <div class="col-1-0">
+      <div class="col-8">
         <v-chip outlined label color="secondary" class="mr-5" v-if="clientFileBasicInfo.assignedRM">{{'RM : ' + clientFileBasicInfo.assignedRM}}</v-chip>
          <v-chip outlined label color="secondary" v-if="clientFileBasicInfo.assignedSalesRep">{{'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep}}</v-chip>
       </div>
-      <div class="col-5 pb-0">
-        <!-- <v-alert dense outlined type="error">
+      <!-- <div class="col-5 pb-0">
+        <v-alert dense outlined type="error">
           I'm a dense alert with the <strong>outlined</strong> prop and a
           <strong>type</strong> of error
-        </v-alert> -->
-      </div>
-      <div>
+        </v-alert>
+      </div> -->
+      <div class="text-right pt-0">
         <v-menu
           offset-y
           left

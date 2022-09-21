@@ -25,25 +25,17 @@
       </div>
       <div class="col-1-0">
         <f-btn
-          :label="
-            clientFileBasicInfo.assignedRM
-              ? 'RM : ' + clientFileBasicInfo.assignedRM
-              : 'Assing RM'
-          "
-          elevation
-          :color="clientFileBasicInfo.assignedRM ? 'secondary' : 'primary'"
+          v-if="clientFileBasicInfo.assignedRM"
+          :label="'RM : ' + clientFileBasicInfo.assignedRM"
+          outlined
+          color="secondary"
           class="mr-5"
         ></f-btn>
         <f-btn
-          :label="
-            clientFileBasicInfo.assignedSalesRep
-              ? 'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep
-              : 'Assing Sales Rep'
-          "
-          elevation
-          :color="
-            clientFileBasicInfo.assignedSalesRep ? 'secondary' : 'primary'
-          "
+          v-if="clientFileBasicInfo.assignedSalesRep"
+          :label="'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep"
+          outlined
+          color="secondary"
         ></f-btn>
       </div>
       <div class="col-5 pb-0">

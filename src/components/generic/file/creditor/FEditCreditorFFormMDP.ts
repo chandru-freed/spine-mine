@@ -6,6 +6,7 @@ import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
 import FNumberFieldMDP from "../../form/field/FNumberFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 
 export default class FEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -49,14 +50,14 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
       )
 
       .addField(
-        new FTextFieldMDP({
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "debtType",
           label: "Type of Debt",
           mandatory: true,
           boundaryClass: "col-4",
-        })
-      )
+          options: ["Credit Card", "Personal Loans", "Secured", "Others (Unsecured)"]
+        }))
 
       .addField(
         new FTextFieldMDP({

@@ -28,7 +28,7 @@ export default class AssignSalesRepFFormMDP extends FFormMDP {
     ).addAction(
       new FBtnMDP({
         label: "Assign Sales Rep",
-        onClick: this.assignRM(),
+        onClick: this.assignSalesRep(),
       })
     );
   }
@@ -36,9 +36,9 @@ export default class AssignSalesRepFFormMDP extends FFormMDP {
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
-  assignRM() {
+  assignSalesRep() {
     return () => {
-      this.taskRoot.assignRM();
+      this.taskRoot.assignSalesRep();
     };
   }
 

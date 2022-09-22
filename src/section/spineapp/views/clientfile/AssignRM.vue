@@ -82,11 +82,19 @@ export default class AssignRM extends ModelVue {
       this.clientFileBasicInfo.clientFileId,
       (output) => {
         this.gotoClientFile();
+        this.getClientFileBasicInfo();
         Snackbar.show({
           text: "Succesfully assigned",
           pos: "bottom-center",
         });
       }
+    );
+  }
+
+  getClientFileBasicInfo() {
+    Action.ClientFile.GetClientFileBasicInfo.execute1(
+      this.clientFileNumber,
+      (output) => {}
     );
   }
 

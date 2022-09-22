@@ -76,18 +76,26 @@ export default class AssignSalesRep extends ModelVue {
   }
   //METADATA
 
-  assignRM() {
+  assignSalesRep() {
     Action.ClientFile.AssignSalesRep.execute2(
       this.assignSalesRepInput.assignedSalesRep,
       this.clientFileBasicInfo.clientFileId,
       (output) => {
         this.gotoClientFile();
+        this.getClientFileBasicInfo();
         Snackbar.show({
           text: "Succesfully assigned",
           pos: "bottom-center",
         });
-        console.log("AssignSalesRep");
+        
       }
+    );
+  }
+
+  getClientFileBasicInfo() {
+    Action.ClientFile.GetClientFileBasicInfo.execute1(
+      this.clientFileNumber,
+      (output) => {}
     );
   }
 

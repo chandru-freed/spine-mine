@@ -1,5 +1,7 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBankFFormMDP from "@/components/generic/file/FBankFFormMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
@@ -27,15 +29,19 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
   }
   validateAndSubmit() {
     return () => {
-        this.getMyRef().submitForm(this.saveTask());
+        this.getMyRef().submitForm(() => {
+          this.updateBankInfo();
+        });
     };
 }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
+  updateBankInfo() {
+    const input = Data.Spine.UpdateBankInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.bankInfo)
+    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+    Action.Spine.UpdateBankInfo.execute(input, (output: any) => {
+        this.taskRoot.saveTask();
+    });
+}
 
   rescueTask() {
     return () => {

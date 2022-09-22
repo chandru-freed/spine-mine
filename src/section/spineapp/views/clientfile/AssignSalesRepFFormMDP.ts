@@ -1,4 +1,4 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -21,6 +21,12 @@ export default class AssignSalesRepFFormMDP extends FFormMDP {
       })
     ).addAction(
       new FBtnMDP({
+        label: "Cancel",
+        onClick: this.gotoClientFile(),
+        btnType: BtnType.TEXT,
+      })
+    ).addAction(
+      new FBtnMDP({
         label: "Assign Sales Rep",
         onClick: this.assignRM(),
       })
@@ -34,5 +40,11 @@ export default class AssignSalesRepFFormMDP extends FFormMDP {
     return () => {
       this.taskRoot.assignRM();
     };
+  }
+
+  gotoClientFile() {
+    return () => {
+      this.taskRoot.gotoClientFile();
+    }
   }
 }

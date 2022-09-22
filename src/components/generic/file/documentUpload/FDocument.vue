@@ -34,7 +34,7 @@
           <template v-slot:[`item.documentPath`]="{ item }">
             <a @click="openUnsignedFileURL(item.documentPath)">
               <v-icon small>mdi-file</v-icon>
-              {{getFileNameFromDocPath(item.documentPath)}}
+              {{ getFileNameFromDocPath(item.documentPath) }}
             </a>
           </template>
 
@@ -111,7 +111,7 @@ export default class FDocument extends ModelVue {
   headers = [
     { text: "DocumentType", value: "documentType" },
     { text: "Doc Path", value: "documentPath" },
-    { text: "Description", value: "description" },
+    { text: "Description", value: "documentDescription" },
     { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },
   ];
@@ -177,8 +177,13 @@ export default class FDocument extends ModelVue {
   // }
 
   deleteDocument() {
-    this.modelValue.splice(this.selectedCreditorIndex, 1);
-    this.closeDialogs();
+    const fiDocumentId =
+      this.modelValue[this.selectedCreditorIndex].fiDocumentId;
+    Action.Spine.DetachDocument.execute1(fiDocumentId, (output) => {
+      this.modelValue.splice(this.selectedCreditorIndex, 1);
+      this.closeDialogs();
+      this.taskRoot.saveTask();
+    });
   }
 
   selectDeleteDocument(item: any, index: number) {
@@ -196,16 +201,20 @@ export default class FDocument extends ModelVue {
   }
 
   getFileNameFromDocPath(key: string) {
-    return key.split('/').pop()
+    return key.split("/").pop();
   }
 
   getPresignedURLAndUpload() {
     const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
-    Action.Spine.GetFiPresignedURLForUpload.execute2(this.clientFileNumber,fileName, (output) => {
-      this.presignedUrl = output.url;
-      this.uploadedDocument.documentPath = output.docUploadedPath;
-      this.uploadFile();
-    });
+    Action.Spine.GetFiPresignedURLForUpload.execute2(
+      this.clientFileNumber,
+      fileName,
+      (output) => {
+        this.presignedUrl = output.url;
+        this.uploadedDocument.documentPath = output.docUploadedPath;
+        this.uploadFile();
+      }
+    );
   }
 
   async uploadFile() {
@@ -219,17 +228,37 @@ export default class FDocument extends ModelVue {
       this.uploadDocumentForm.fileDoc,
       options
     );
-    this.addAndSaveUploadedFile();
+    this.attachAndSaveUploadedFile();
     console.log(axiosResponse);
   }
 
-  addAndSaveUploadedFile() {
+  attachAndSaveUploadedFile() {
     this.uploadedDocument.documentType = this.uploadDocumentForm.docType;
     this.uploadedDocument.uploadedOn = new Date();
-    this.uploadedDocument.description = this.uploadDocumentForm.description;
+    this.uploadedDocument.documentDescription =
+      this.uploadDocumentForm.documentDescription;
+    const input = Data.Spine.AttachDocumentInput.fromJson(
+      this.uploadedDocument
+    );
+    input.clientFileId = this.taskRoot.clientFileBasicInfo.clientFileId;
+    Action.Spine.AttachDocument.execute(input, (output) => {
+      this.saveAttachedDocument(output.fiDocumentId);
+    });
+  }
+
+  saveAttachedDocument(fiDocumentId: string) {
+    this.uploadedDocument.fiDocumentId = fiDocumentId;
     (this.modelValue as any).push(this.uploadedDocument);
     this.taskRoot?.saveTask();
     this.closeAndClearAllForms();
+  }
+
+  dettachDocument() {
+    Action.Spine.DetachDocument.execute1("", (output) => {
+      (this.modelValue as any).push(this.uploadedDocument);
+      this.taskRoot?.saveTask();
+      this.closeAndClearAllForms();
+    });
   }
 
   generateRandomUrl(file: File | null) {

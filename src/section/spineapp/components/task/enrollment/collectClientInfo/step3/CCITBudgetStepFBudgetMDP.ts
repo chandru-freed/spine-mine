@@ -1,5 +1,7 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBudgetMDP from "@/components/generic/file/budget/FBudgetMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
   budgetFormRef = "budgetFormRef";
@@ -55,8 +57,16 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
       this.getBudgetFormRef().submitForm(() => {
         console.log("Budget profile");
         console.log("task rook", this.taskRoot);
-        this.taskRoot.saveTask();
+        this.updateBudgetInfo();
       });
     }
+  }
+
+  updateBudgetInfo() {
+    const input = Data.Spine.UpdateBudgetInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.budgetInfo)
+    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+    Action.Spine.UpdateBudgetInfo.execute(input, (output: any) => {
+      this.taskRoot.saveTask();
+    })
   }
 }

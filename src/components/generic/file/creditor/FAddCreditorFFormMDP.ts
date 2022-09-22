@@ -7,6 +7,7 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -21,12 +22,13 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FTextFieldMDP({
+      new FRemoteComboBoxFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorName",
         label: "Creditor",
         mandatory: true,
-        boundaryClass: "col-4"
+        boundaryClass: "col-4",
+        queryUrl:"/spineapi/master/search-creditor?creditorName=",
       })
     ).addField(
       new FNumberFieldMDP({

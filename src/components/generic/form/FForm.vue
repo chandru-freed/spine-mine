@@ -66,6 +66,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FIFSCCodeField from "./field/FIFSCCodeField.vue";
 import FFooTextField from "./field/FFooTextField.vue";
 import FGompaUserRemoteAutoCompleteField from "./field/FGompaUserRemoteAutoComplete.vue";
+import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
 
 @Component({
   components: {
@@ -88,7 +89,8 @@ import FGompaUserRemoteAutoCompleteField from "./field/FGompaUserRemoteAutoCompl
     FDateSelectField,
     FIFSCCodeField,
     FFooTextField,
-    FGompaUserRemoteAutoCompleteField
+    FGompaUserRemoteAutoCompleteField,
+    FRemoteComboBoxField
   },
 })
 export default class FForm extends ModelVue {

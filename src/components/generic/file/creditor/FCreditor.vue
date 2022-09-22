@@ -120,7 +120,7 @@ import * as Action from "@/../src-gen/action";
 export default class FCreditor extends ModelVue {
   addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
-  selectedCreditorIndex: number;
+  selectedCreditorItem: Data.Spine.Creditor;
   headers = [
     {
       text: "Creditor Name",
@@ -207,31 +207,33 @@ export default class FCreditor extends ModelVue {
   }
 
   editCreditorData() {
+    const selectedCreditorIndex = this.creditorList.findIndex((item: any) => item.fiCreditorId==this.selectedCreditorItem.fiCreditorId)
     Object.assign(
-      this.creditorList[this.selectedCreditorIndex],
+      this.creditorList[selectedCreditorIndex],
       this.editCreditorForm
     );
     this.closeAndClearAllForms();
   }
 
   deleteCreditorData() {
-    const fiCreditorId = this.creditorList[this.selectedCreditorIndex].fiCreditorId;
+    const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
     Action.Spine.RemoveCreditor.execute1(fiCreditorId, output => {
-      this.creditorList.splice(this.selectedCreditorIndex, 1);
+      const selectedCreditorIndex = this.creditorList.findIndex((item: any) => item.fiCreditorId==this.selectedCreditorItem.fiCreditorId)
+      this.creditorList.splice(selectedCreditorIndex, 1);
       this.closeDialogs();
       this.taskRoot.saveTask();
     })
   }
 
   selectEditCreditor(item: any, index: any) {
-    this.selectedCreditorIndex = index;
+    this.selectedCreditorItem = item;
     this.editCreditorForm = {
       ...item,
     };
     this.showEditForm();
   }
   selectDeleteCreditor(item: any, index: number) {
-    this.selectedCreditorIndex = index;
+    this.selectedCreditorItem = item;
     this.showDeletePopup();
     console.log(this.deleteCreditorDialog);
   }

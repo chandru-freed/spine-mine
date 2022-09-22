@@ -118,7 +118,7 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 // import FileBudget from "@/section/spineapp/components/file/FileBudget.vue";
 // import FileCreditorList from "@/section/spineapp/components/file/FileCreditorList.vue";
 // import FilePaymentPlan from "@/section/spineapp/components/file/FilePaymentPlan.vue";
-import FileCreateRequest from "@/section/spineapp/components/task/FileCreateRequest.vue";
+
 import FileTaskList from "@/section/spineapp/components/task/FileTaskList.vue";
 import FileNotes from "@/section/spineapp/components/file/FileNotes.vue";
 import FileHighlights from "@/section/spineapp/components/file/FileHighlights.vue";
@@ -126,7 +126,6 @@ import FileLogs from "@/section/spineapp/components/file/FileLogs.vue";
 
 @Component({
   components: {
-    "file-create-request": FileCreateRequest,
     "file-task-list": FileTaskList,
     "file-notes": FileNotes,
     "file-highlights": FileHighlights,

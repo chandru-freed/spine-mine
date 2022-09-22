@@ -1,13 +1,7 @@
 <template>
   <!-- TASK TAB -->
   <v-card class="pa-0 ma-0 my-3" color="white" outlined min-height="100px">
-    <file-create-request
-      v-if="showCreateRequestScreen"
-      @backButtonPressed="showCreateRequestScreen = false"
-      @flowCreated="getTaskListForClientFile"
-    />
     <v-data-table
-      v-if="!showCreateRequestScreen"
       dense
       min-height="600px"
       :headers="headers"
@@ -65,12 +59,6 @@
             @click="getTaskListForClientFile()"
             ><v-icon>mdi-refresh</v-icon></v-btn
           >
-          <f-btn
-            label="Create Request"
-            color="primary"
-            outlined
-            :onClick="() => (showCreateRequestScreen = true)"
-          ></f-btn>
         </v-toolbar>
       </template>
       <template v-slot:item.taskState="{ item }">
@@ -169,18 +157,16 @@ import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 import moment from "moment";
 
 import Helper from "../../util/Helper";
-import FileCreateRequest from "./FileCreateRequest.vue";
+
 import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     // "task-tab": TaskTab
-    "file-create-request": FileCreateRequest,
     "f-btn": FBtn,
   },
 })
 export default class FileTaskList extends Vue {
-  showCreateRequestScreen: boolean = false;
   @Store.Getter.Login.LoginDetails.userName userName: string;
 
   public tab = 0;
@@ -216,7 +202,6 @@ export default class FileTaskList extends Vue {
   }
 
   getTaskListForClientFile() {
-    this.showCreateRequestScreen = false;
     Action.TaskList.GetTaskListByCid.execute1(
       this.clientFileNumber,
       (output) => {

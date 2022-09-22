@@ -1,9 +1,19 @@
 <template>
   <!-- TASK TAB -->
   <div>
-    <v-btn @click="backButtonPressed" text icon color="lighten-2" class="ma-2">
-      <v-icon size="40">mdi-chevron-left</v-icon>
-    </v-btn>
+    <v-navigation-drawer
+      absolute
+      permanent
+      right
+      :width="rightFocused ? '100%' : '49%'"
+      v-if="!leftFocused"
+    >
+  <div>
+    <div class="d-flex justify-end">
+        <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+          <v-icon size="20">mdi-close</v-icon>
+        </v-btn>
+      </div>
     <div class="d-flex justify-center">
       <v-card
         class="pa-0 ma-0 mt-5 col-6"
@@ -39,6 +49,8 @@
       </v-card>
     </div>
   </div>
+    </v-navigation-drawer>
+  </div>
   <!--  TASK TAB -->
 </template>
 
@@ -50,13 +62,13 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import EnrollmentFFormMDP from "./createRequestForm/EnrollmentFFormMDP";
+import EnrollmentFFormMDP from "@/section/spineapp/components/task/createRequestForm/EnrollmentFFormMDP";
 import Helper from "../../util/Helper";
-import CHPPFFormMDP from "./createRequestForm/CHPPFFormMDP";
-import NsfMSFFFormMDP from "./createRequestForm/NsfMSFFFormMDP";
-import WelcomeCallFFormMDP from "./createRequestForm/WelcomeCallFFormMDP";
-import MFCFFormMDP from "./createRequestForm/MFCFFormMDP";
-import NsfSPAFFormMDP from "./createRequestForm/NsfSPAFFormMDP";
+import CHPPFFormMDP from "@/section/spineapp/components/task/createRequestForm/CHPPFFormMDP";
+import NsfMSFFFormMDP from "@/section/spineapp/components/task/createRequestForm/NsfMSFFFormMDP";
+import WelcomeCallFFormMDP from "@/section/spineapp/components/task/createRequestForm/WelcomeCallFFormMDP";
+import MFCFFormMDP from "@/section/spineapp/components/task/createRequestForm/MFCFFormMDP";
+import NsfSPAFFormMDP from "@/section/spineapp/components/task/createRequestForm/NsfSPAFFormMDP";
 
 @Component({
   components: {
@@ -65,8 +77,12 @@ import NsfSPAFFormMDP from "./createRequestForm/NsfSPAFFormMDP";
   },
 })
 export default class FileCreateRequest extends Vue {
+clientFileNumber = this.$route.params.clientFileNumber;
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  leftFocused = false;
+  rightFocused = true;
 
   selectedRequestType: any = {};
   requestTypeFlowMapList = [
@@ -131,7 +147,7 @@ export default class FileCreateRequest extends Vue {
       this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
-          this.$emit("flowCreated");
+          this.gotoClientFile();
         }, 400);
       }
     );
@@ -142,7 +158,7 @@ export default class FileCreateRequest extends Vue {
       this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
-          this.$emit("flowCreated");
+          this.gotoClientFile();
         }, 400);
       }
     );
@@ -153,7 +169,7 @@ export default class FileCreateRequest extends Vue {
       this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
-          this.$emit("flowCreated");
+          this.gotoClientFile();
         }, 400);
       }
     );
@@ -164,7 +180,7 @@ export default class FileCreateRequest extends Vue {
       this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
-          this.$emit("flowCreated");
+          this.gotoClientFile();
         }, 400);
       }
     );
@@ -175,7 +191,7 @@ export default class FileCreateRequest extends Vue {
       this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
-          this.$emit("flowCreated");
+          this.gotoClientFile();
         }, 400);
       }
     );
@@ -198,8 +214,12 @@ export default class FileCreateRequest extends Vue {
     });
   }
 
-  backButtonPressed() {
-    this.$emit("backButtonPressed");
+
+   gotoClientFile() {
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.clientFileNumber,
+    });
   }
 }
 </script>

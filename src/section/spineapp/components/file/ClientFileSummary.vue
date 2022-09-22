@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row px-2 pt-2 pb-4 align-center justify-between">
-      <div class="col-3 pb-0">
+      <div class="col-4 pb-0">
         <v-list-item>
           <v-list-item-avatar tile size="80" color="primary">
             <v-icon size="40" color="secondary">mdi-file</v-icon>
@@ -23,7 +23,7 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <div class="col-8">
+      <div class="col-7">
         <v-chip outlined label color="secondary" class="mr-5" v-if="clientFileBasicInfo.assignedRM">{{'RM : ' + clientFileBasicInfo.assignedRM}}</v-chip>
          <v-chip outlined label color="secondary" v-if="clientFileBasicInfo.assignedSalesRep">{{'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep}}</v-chip>
       </div>
@@ -58,6 +58,12 @@
             <v-list-item @click="handleAssignSalesRepClick()">
               <v-list-item-content>
                 <v-list-item-title>Assign Sales Rep</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <!-- Create File Request  -->
+            <v-list-item @click="handleCreateRequestClick()">
+              <v-list-item-content>
+                <v-list-item-title>Create Request</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -220,6 +226,9 @@ export default class ClientFileSummary extends Vue {
 
   handleAssignSalesRepClick() {
     this.$router.push({ name: "Root.ClientFile.AssignSalesRep" });
+  }
+  handleCreateRequestClick() {
+    this.$router.push({ name: "Root.ClientFile.FileCreateRequest" });
   }
 }
 </script>

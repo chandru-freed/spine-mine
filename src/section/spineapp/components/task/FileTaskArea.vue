@@ -238,7 +238,7 @@ export default class FileTaskArea extends Vue {
 
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Start.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.StartAndMerge.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.interested(
@@ -265,7 +265,7 @@ export default class FileTaskArea extends Vue {
   }
 
   startTask() {
-    Action.TaskList.Start.execute1(
+    Action.TaskList.StartAndMerge.execute1(
       this.$route.params.taskId,
       (output) => {
         console.log("");
@@ -302,7 +302,7 @@ export default class FileTaskArea extends Vue {
 
   public destroyed() {
     Action.TaskList.PullTask.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Start.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.StartAndMerge.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.notInterested(

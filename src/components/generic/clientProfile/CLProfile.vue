@@ -12,7 +12,7 @@
       </div>
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
       >
         <component
@@ -46,6 +46,9 @@ export default class CCITProfile extends ModelVue {
   @Prop()
   actionMetaDataList: any[];
 
+  @Prop()
+  taskRoot: any;
+
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(
@@ -54,6 +57,8 @@ export default class CCITProfile extends ModelVue {
         actionMetaData.condition === true
     );
   }
+
+
 }
 </script>
 

@@ -71,7 +71,7 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
       >
         <component

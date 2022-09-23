@@ -15,6 +15,11 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
 
     this.addAction(
       new FBtnMDP({
+        label: "Previous",
+        onClick: this.goToPrevStep(),
+      })
+    ).addAction(
+      new FBtnMDP({
         label: "Save",
         onClick: this.validateAndSubmit(),
         condition: this.isStarted()
@@ -24,6 +29,11 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
         label: "Rescue",
         onClick: this.rescueTask(),
         condition: this.isException()
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Save And Next",
+        onClick: this.validateAndSaveAndNext(),
       })
     );
   }
@@ -35,11 +45,28 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
     };
 }
 
-  updateBankInfo() {
+validateAndSaveAndNext() {
+    return () => {
+      this.getMyRef().submitForm(() => {
+        this.updateBankInfo(true);
+      });
+    }
+  }
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(1);
+    }
+  }
+
+  updateBankInfo(goToNextStep: boolean = false) {
     const input = Data.Spine.UpdateBankInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.bankInfo)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
     Action.Spine.UpdateBankInfo.execute(input, (output: any) => {
         this.taskRoot.saveTask();
+        if(goToNextStep) {
+          (this.taskRoot as any).goToStep(5)
+        }
     });
 }
 

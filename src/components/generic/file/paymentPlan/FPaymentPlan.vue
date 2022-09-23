@@ -68,7 +68,7 @@
 
     <div
       v-if="!disabled"
-      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
     >
       <div
         :class="actionMetaData.boundaryClass"

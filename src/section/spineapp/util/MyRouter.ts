@@ -14,4 +14,12 @@ export default class MyRouter {
       params: { clientId: clientId },
     });
   }
+
+  static gotoStep({router, clientFileNumber,step}: {router: VueRouter, clientFileNumber: string, step: any}) {
+    router.push({
+      name: "Root.ClientFile.FileTask.FileTaskDetails",
+      params: { clientFileNumber: clientFileNumber },
+      query:{ step },
+    });
+  }
 }

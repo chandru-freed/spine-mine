@@ -35,11 +35,13 @@ import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBtn from "@/components/generic/FBtn.vue";
+import FFooStepper from "@/components/generic/FFooStepper.vue";
 
 @Component({
   components: {
     FStepper,
     "f-btn":FBtn,
+    FFooStepper
   },
 })
 export default class CollectClientInfoTask
@@ -301,6 +303,18 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
     this.taskFormData.taskOutput.bankInfo.bankAddress.pinCode = "560102";
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = "KA";
+  }
+
+  goToStep(step: number) {
+    Helper.Router.gotoStep({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+      step
+    });
+  }
+
+  get currentStep(): number {
+    return this.$route.query.step ? Number(this.$route.query.step) : 0
   }
 }
 </script>

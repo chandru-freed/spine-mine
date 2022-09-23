@@ -7,8 +7,9 @@ import CCITPaymentPlanStepFPaymentPlanMDP from "./step4/CCITPaymentPlanStepFPaym
 import CCITBankStepFBankFFormMDP from "./step5/CCITBankStepFBankFFormMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import CCITProfileStepMDP from "./step1/CCITProfileStepMDP";
+import FFooStepperMDP from "@/components/generic/FFooStepperMDP";
 
-export default class CCITFStepperMDP extends FStepperMDP {
+export default class CCITFStepperMDP extends FFooStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {

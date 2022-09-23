@@ -6,30 +6,53 @@ export default class CCITCreditorStepFCreditorMDP extends FCreditorMDP {
     super({
       taskRoot: taskRoot,
       parent: parent,
-      myRefName :"creditorRef",
+      myRefName: "creditorRef",
       dataSelectorKey: "taskOutput.creditorInfo",
       disabled: taskRoot.taskDisabled,
     });
 
     this.addAction(
       new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-        condition: this.isStarted()
+        label: "Previous",
+        onClick: this.goToPrevStep(),
       })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.rescueTask(),
-        condition: this.isException()
-      })
-    );
+    )
+      .addAction(
+        new FBtnMDP({
+          label: "Save",
+          onClick: this.saveTask(),
+          condition: this.isStarted()
+        })
+      ).addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.rescueTask(),
+          condition: this.isException()
+        })
+      ).addAction(
+        new FBtnMDP({
+          label: "Save And Next",
+          onClick: this.goToNextStep(),
+
+        })
+      );
   }
 
   saveTask() {
     return () => {
       this.taskRoot.saveTask();
     };
+  }
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(0);
+    }
+  }
+  goToNextStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(2);
+    }
   }
 
   rescueTask() {

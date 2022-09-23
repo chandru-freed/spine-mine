@@ -15,6 +15,12 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
 
     this.addAction(
       new FBtnMDP({
+        label: "Previous",
+        onClick: this.goToPrevStep(),
+      })
+    )
+    .addAction(
+      new FBtnMDP({
         label: "Save",
         onClick: this.saveTask(),
         condition: this.isStarted()
@@ -24,6 +30,11 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
         label: "Rescue",
         onClick: this.rescueTask(),
         condition: this.isException()
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Save And Next",
+        onClick: this.goToNextStep(),
       })
     );
   }
@@ -61,5 +72,16 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
     Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
       this.taskRoot.saveTask();
     })
+  }
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(2);
+    }
+  }
+  goToNextStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(4);
+    }
   }
 }

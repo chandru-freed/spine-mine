@@ -16,17 +16,28 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
 
     this.addAction(
       new FBtnMDP({
-        label: "Save",
-        onClick: this.validateAndSave(),
-        condition: this.isStarted()
+        label: "Previous",
+        onClick: this.goToPrevStep(),
       })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.rescueTask(),
-        condition: this.isException()
-      })
-    );
+    )
+      .addAction(
+        new FBtnMDP({
+          label: "Save",
+          onClick: this.validateAndSave(),
+          condition: this.isStarted()
+        })
+      ).addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.rescueTask(),
+          condition: this.isException()
+        })
+      ).addAction(
+        new FBtnMDP({
+          label: "Save And Next",
+          onClick: this.validateAndSaveAndNext(),
+        })
+      );
   }
 
 
@@ -62,11 +73,30 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
     }
   }
 
-  updateBudgetInfo() {
+  validateAndSaveAndNext() {
+    return () => {
+      this.getBudgetFormRef().submitForm(() => {
+        this.updateBudgetInfo(true);
+      });
+    }
+  }
+
+  updateBudgetInfo(goToNextStep: boolean = false) {
     const input = Data.Spine.UpdateBudgetInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.budgetInfo)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
     Action.Spine.UpdateBudgetInfo.execute(input, (output: any) => {
       this.taskRoot.saveTask();
+      if (goToNextStep) {
+        (this.taskRoot as any).goToStep(3);
+      }
     })
+  }
+
+  
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(1);
+    }
   }
 }

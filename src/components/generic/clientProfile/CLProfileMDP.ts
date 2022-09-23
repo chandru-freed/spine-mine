@@ -14,14 +14,14 @@ export default class CLProfileMDP implements MDP {
 
     actionList: FBtnMDP[] = [];
     disabled: boolean;
+    nextFunction: () => void;
 
-    constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: ManualTaskIntf; parent: any; myRefName: string; dataSelectorKey?: string | undefined; disabled: boolean }) {
+    constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: ManualTaskIntf; parent: any; myRefName: string; dataSelectorKey?: string | undefined; disabled: boolean; }) {
         this.taskRoot = taskRoot;
         this.parent = parent;
         this.myRefName = myRefName;
         this.dataSelectorKey = dataSelectorKey;
         this.disabled = disabled;
-
     }
 
     addAction(newAction: FBtnMDP) {
@@ -48,6 +48,7 @@ export default class CLProfileMDP implements MDP {
                     form.getMetaData()
                 ),
                 disabled: this.disabled,
+                taskRoot: this.taskRoot
             },
         };
     }

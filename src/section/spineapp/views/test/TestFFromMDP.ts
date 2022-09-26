@@ -3,7 +3,6 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
-import FFooCurrencyField from "@/components/generic/form/field/FFooCurrencyFieldMDP";
 import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FTimeFieldMDP from "@/components/generic/form/field/FTimeFieldMDP";
 import TestIntf from "./TestIntf";
@@ -27,14 +26,6 @@ export default class TestFormMDP extends FFormMDP {
         boundaryClass: "col-4",
       })
     )
-      .addField(
-        new FFooCurrencyField({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "lastName",
-          label: "Currency",
-          boundaryClass: "col-4",
-        })
-      )
       .addField(
         new FTimeFieldMDP({
           parentMDP: this.childMDP,

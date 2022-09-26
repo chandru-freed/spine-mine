@@ -72,7 +72,6 @@ import FAutoCompleteField from "./field/FAutoCompleteField.vue";
 import FDateSelectField from "./field/FDateSelectField.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FIFSCCodeField from "./field/FIFSCCodeField.vue";
-import FFooCurrencyField from "./field/FFooCurrencyField.vue";
 import FAccountField from "./field/FAccountField.vue";
 import FTimeField from "./field/FTimeField.vue";
 import FGompaUserRemoteAutoCompleteField from "./field/FGompaUserRemoteAutoComplete.vue";
@@ -98,7 +97,6 @@ import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
     FAutoCompleteField,
     FDateSelectField,
     FIFSCCodeField,
-    FFooCurrencyField,
     FAccountField,
     FTimeField,
     FGompaUserRemoteAutoCompleteField,

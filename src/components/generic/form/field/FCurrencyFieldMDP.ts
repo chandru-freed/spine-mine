@@ -12,6 +12,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
+  precession: string;
   // defaultValue?: string;
 
   constructor({
@@ -24,6 +25,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     boundaryClass = "col-12",
     disabled = false,
     condition = true,
+    precession = "0",
   }: // defaultValue
   {
     parentMDP: FFormChildMDP;
@@ -35,6 +37,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     boundaryClass?: string;
     disabled?: boolean;
     condition?: boolean;
+    precession?: string;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -46,6 +49,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
     this.condition = condition;
+    this.precession = precession;
     // this.defaultValue = defaultValue;
   }
 
@@ -72,6 +76,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
+        precession: this.precession,
         // defaultValue: this.defaultValue
       },
     };

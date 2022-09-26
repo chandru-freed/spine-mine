@@ -6,6 +6,7 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FIFSCCodeFieldMDP from "../form/field/FIFSCCodeFieldMDP";
+import FAccountFieldMDP from "../form/field/FAccountFieldMDP";
 
 export default class FBankFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -33,23 +34,24 @@ export default class FBankFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FTextFieldMDP({
+      new FAccountFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "accountNumber",
         label: "Account Number",
         mandatory: true,
         boundaryClass: "col-3",
       })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "confirmAccountNumber",
-        label: "Confirmed Account Number",
-        mandatory: true,
-        boundaryClass: "col-3",
-        rules:"confirmed:accountNumber"
-      })
     )
+      .addField(
+        new FAccountFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "confirmAccountNumber",
+          label: "Confirme Account Number",
+          mandatory: true,
+          boundaryClass: "col-3",
+          rules: "confirmed:accountNumber",
+        })
+      )
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
@@ -69,7 +71,9 @@ export default class FBankFFormMDP extends FFormMDP {
           label: "IFSC Code",
           mandatory: true,
           boundaryClass: "col-3",
-          onSelect: (details) => {this.populateBankDetails(details)}
+          onSelect: (details) => {
+            this.populateBankDetails(details);
+          },
         })
       )
       .addField(
@@ -109,6 +113,6 @@ export default class FBankFFormMDP extends FFormMDP {
   }
 
   populateBankDetails(details: any) {
-    this.taskRoot.populateBankDetails(details)
+    this.taskRoot.populateBankDetails(details);
   }
 }

@@ -22,7 +22,8 @@ import { VTextField } from "vuetify/lib/components";
 export default class FCurrencyField extends VTextField {
   @Prop()
   value: string;
-  precession: string = "2";
+  @Prop({ default: "0" })
+  precession: string;
   mounted() {}
 
   get modelValue() {
@@ -30,7 +31,10 @@ export default class FCurrencyField extends VTextField {
   }
 
   set modelValue(newModelValue: string) {
-    this.$emit("input", this.getUnMaskedValue(newModelValue));
+    this.$emit(
+      "input",
+      Number.parseFloat(this.getUnMaskedValue(newModelValue))
+    );
   }
   getMaskedValued(value: any) {
     if (!value && value !== 0) {

@@ -46,10 +46,11 @@ export default class FBankFFormMDP extends FFormMDP {
         new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "confirmAccountNumber",
-          label: "Confirme Account Number",
+          label: "Confirm Account Number",
           mandatory: true,
           boundaryClass: "col-3",
           rules: "confirmed:accountNumber",
+          condition: !disabled
         })
       )
       .addField(
@@ -74,6 +75,7 @@ export default class FBankFFormMDP extends FFormMDP {
           onSelect: (details) => {
             this.populateBankDetails(details);
           },
+          disabled: this.disabled
         })
       )
       .addField(
@@ -114,5 +116,9 @@ export default class FBankFFormMDP extends FFormMDP {
 
   populateBankDetails(details: any) {
     this.taskRoot.populateBankDetails(details);
+  }
+
+  getMyRef(): any {
+    return this.parent.getMyRef()[0].$refs[this.myRefName];
   }
 }

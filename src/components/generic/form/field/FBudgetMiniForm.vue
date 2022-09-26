@@ -1,16 +1,16 @@
 <template>
-  <div class="d-flex flex-row align-start flex-wrap justify-start py-2 align-stretch">
+  <!-- <div class="d-flex flex-row align-start flex-wrap justify-start py-2 align-stretch"> -->
+    <div class="py-2">
     <v-card
       outlined
-      class="col-12"
+      class="col-12 d-flex flex-column align-stretch"
       :min-height="minHeight"
     >
-      <v-subheader class="col-12">{{ label }}</v-subheader>
+      <v-subheader class="pa-2 mb-2">{{ label }}</v-subheader>
       <div
         v-for="(fieldMetaData, indx) in fieldMetaDataList"
         :key="indx"
         :class="fieldMetaData.boundaryClass"
-        style="flex: 1"
       >
         <ValidationProvider
           :vid="fieldMetaData.props.id"
@@ -31,7 +31,7 @@
           ></component>
         </ValidationProvider>
       </div>
-      <div class="col-12 px-2">
+      <div class="col-12 px-2" style="margin-top: auto;">
         <FCurrencyField
           outlined
           dense

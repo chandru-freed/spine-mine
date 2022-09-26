@@ -1,5 +1,10 @@
 <template>
-  <v-text-field v-bind="$props" :value="modelValue"  @input="(newValue) => modelValue = newValue" type="number"></v-text-field>
+  <v-text-field
+    v-bind="$props"
+    :value="modelValue"
+    @input="(newValue) => (modelValue = newValue)"
+    @keypress="keyPress"
+  ></v-text-field>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
@@ -11,7 +16,6 @@ import { VTextField } from "vuetify/lib/components";
   },
 })
 export default class FNumberField extends VTextField {
-
   // MODEL VALUE - START
   @Prop()
   value: string;
@@ -21,14 +25,22 @@ export default class FNumberField extends VTextField {
   }
 
   set modelValue(newModelValue: string) {
-    if(newModelValue) {
+    if (newModelValue) {
       this.$emit("input", Number.parseFloat(newModelValue));
     } else {
       this.$emit("input", 0);
     }
-    
+  }
+
+  keyPress(event: any) {
+    // console.log($event.keyCode); //keyCodes value
+    let keyCode = event.keyCode ? event.keyCode : event.which;
+    // if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+    if (keyCode < 48 || keyCode > 57) {
+      // 46 is dot
+      event.preventDefault();
+    }
   }
   // MODEL VALUE - END
-
 }
 </script>

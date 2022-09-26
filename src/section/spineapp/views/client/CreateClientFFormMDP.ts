@@ -3,7 +3,6 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
-import FFooPhoneField from "@/components/generic/form/field/FFooPhoneFieldMDP";
 import CreateClientIntf from "./CreateClientIntf";
 
 export default class CreateClientFFormMDP extends FFormMDP {

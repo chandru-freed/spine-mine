@@ -3,7 +3,6 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
-import FFooPhoneField from "@/components/generic/form/field/FFooPhoneFieldMDP";
 import ClientDetailsIntf from "./ClientDetailsIntf";
 
 export default class ClientDetailsFFormMDP extends FFormMDP {
@@ -58,7 +57,7 @@ export default class ClientDetailsFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FFooPhoneField({
+        new FPhoneFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "mobile",
           label: "Mobile",

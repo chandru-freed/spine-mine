@@ -7,7 +7,7 @@
 
     <div class="row my-5 mx-5">
       <v-spacer />
-      <V-btn @click="setTestData">FILL TEST DATA</V-btn>
+      <f-btn label="FILL TEST DATA" :onClick="()=> setTestData()"></f-btn>
     </div>
     <component
       :ref="stepperMetaData.myRefName"
@@ -27,29 +27,37 @@ import * as Action from "@/../src-gen/action";
 
 import FStepper from "@/components/generic/FStepper.vue";
 import CCITFStepperMDP from "./CCITFStepperMDP";
-import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtn from "@/components/generic/FBtn.vue";
+import FFooStepper from "@/components/generic/FFooStepper.vue";
 
 @Component({
   components: {
     FStepper,
-    FBtn,
+    "f-btn":FBtn,
+    FFooStepper
   },
 })
 export default class CollectClientInfoTask
   extends ModelVue
   implements ManualTaskIntf
 {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
+  
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+
   getNupayBankMasterList() {
     Action.ClientFile.GetNupayBankMasterList.execute((output) => {
       this.nupayBankMasterList = output.nupayBankMasterList;
@@ -177,13 +185,18 @@ export default class CollectClientInfoTask
       taskRoot: this,
     }).getMetaData();
   }
-
+  get btnMetaData(): any {
+     return new FBtnMDP({label:"FILL TEST DATA",onClick:this.setTestData}).getMetaData()
+  }
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
   mounted() {
     this.getNupayBankMasterList();
   }
+
+
+  
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
@@ -223,6 +236,8 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
   }
+
+
   setTestData() {
     console.log(
       " this.taskFormData.taskOutput.creditorList ==>",
@@ -280,13 +295,26 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.bankInfo.accountNumber = "1234567890";
     this.taskFormData.taskOutput.bankInfo.accountType = "SAVINGS";
     this.taskFormData.taskOutput.bankInfo.ifscCode = "ICIC0000519";
-    this.taskFormData.taskOutput.bankInfo.name = "ICICI Bank";
+    this.taskFormData.taskOutput.bankInfo.nupayBankMasterId =
+      "63252af87237b82191530250";
     this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
       "420, 27th Main Rd, 1st Sector, HSR Layout";
     this.taskFormData.taskOutput.bankInfo.bankAddress.city = "Bengaluru";
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
     this.taskFormData.taskOutput.bankInfo.bankAddress.pinCode = "560102";
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = "KA";
+  }
+
+  goToStep(step: number) {
+    Helper.Router.gotoStep({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+      step
+    });
+  }
+
+  get currentStep(): number {
+    return this.$route.query.step ? Number(this.$route.query.step) : 0
   }
 }
 </script>

@@ -1,13 +1,7 @@
 <template>
   <!-- TASK TAB -->
   <v-card class="pa-0 ma-0 my-3" color="white" outlined min-height="100px">
-    <file-create-request
-      v-if="showCreateRequestScreen"
-      @backButtonPressed="showCreateRequestScreen = false"
-      @flowCreated="getTaskListForClientFile"
-    />
     <v-data-table
-      v-if="!showCreateRequestScreen"
       dense
       min-height="600px"
       :headers="headers"
@@ -23,12 +17,8 @@
         <v-toolbar flat dense>
           <v-col class="col-2">
             <v-btn-toggle small v-model="showOnlyActive">
-              <v-btn small>
-                Active Tasks
-              </v-btn>
-              <v-btn small>
-                All Tasks
-              </v-btn>
+              <v-btn small> Active Tasks </v-btn>
+              <v-btn small> All Tasks </v-btn>
             </v-btn-toggle>
             <!-- <v-btn
               outlined
@@ -69,9 +59,6 @@
             @click="getTaskListForClientFile()"
             ><v-icon>mdi-refresh</v-icon></v-btn
           >
-          <v-btn color="primary" outlined  @click="showCreateRequestScreen = true"
-            >Create Request</v-btn
-          >
         </v-toolbar>
       </template>
       <template v-slot:item.taskState="{ item }">
@@ -100,20 +87,28 @@
         <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
           >mdi-cancel</v-icon
         >
-        <v-icon color="red" v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
+        <v-icon
+          color="red"
+          v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
           >mdi-alert-circle</v-icon
         >
         <!-- </v-btn> -->
       </template>
       <template v-slot:item.taskName="{ item }">
-        <v-btn text color="primary" @click="gotoTask(item)">
-          {{ item.taskName }}
-        </v-btn>
+        <f-btn
+          :label="item.taskName"
+          text
+          color="primary"
+          :onClick="() => gotoTask(item)"
+        ></f-btn>
       </template>
       <template v-slot:item.displayId="{ item }">
-        <v-btn text color="secondary" @click="gotoFile(item)">
-          {{ item.displayId }}
-        </v-btn>
+        <f-btn
+          :label="item.displayId"
+          text
+          color="secondary"
+          :onClick="() => gotoFile(item)"
+        ></f-btn>
       </template>
       <template v-slot:item.priority="{ item }">
         <v-chip small outlined>
@@ -130,14 +125,14 @@
           <v-icon small left> mdi-account-circle-outline </v-icon>
           {{ item.allocatedTo }}
         </v-chip>
-        <v-btn
+        <f-btn
+          label="PULL"
           outlined
           small
           color="primary"
           v-if="!item.allocatedTo && item.taskType === 'MANUAL'"
-          @click="pullTask(item)"
-          >PULL</v-btn
-        >
+          :onClick="() => pullTask(item)"
+        ></f-btn>
       </template>
 
       <template v-slot:item.lastUserActivityTime="{ item }">
@@ -162,16 +157,16 @@ import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 import moment from "moment";
 
 import Helper from "../../util/Helper";
-import FileCreateRequest from "./FileCreateRequest.vue";
+
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     // "task-tab": TaskTab
-    "file-create-request": FileCreateRequest,
+    "f-btn": FBtn,
   },
 })
 export default class FileTaskList extends Vue {
-  showCreateRequestScreen: boolean = false;
   @Store.Getter.Login.LoginDetails.userName userName: string;
 
   public tab = 0;
@@ -207,7 +202,6 @@ export default class FileTaskList extends Vue {
   }
 
   getTaskListForClientFile() {
-    this.showCreateRequestScreen = false;
     Action.TaskList.GetTaskListByCid.execute1(
       this.clientFileNumber,
       (output) => {
@@ -226,7 +220,7 @@ export default class FileTaskList extends Vue {
           task.taskState === "STARTED" ||
           task.taskState === "PARTIALLY_COMPLETED" ||
           task.taskState === "EXCEPTION_Q" ||
-          task.taskState === "EXIT_Q" 
+          task.taskState === "EXIT_Q"
         );
       });
 

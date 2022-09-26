@@ -5,6 +5,9 @@ import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
+import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -19,12 +22,13 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FTextFieldMDP({
+      new FRemoteComboBoxFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "creditor",
+        dataSelectorKey: "creditorName",
         label: "Creditor",
         mandatory: true,
-        boundaryClass: "col-4"
+        boundaryClass: "col-4",
+        queryUrl:"/spineapi/master/search-creditor?creditorName=",
       })
     ).addField(
       new FNumberFieldMDP({
@@ -33,7 +37,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
         label: "Creditor Balance",
         mandatory: true,
         boundaryClass: "col-4",
-        type:'number'
+        type: 'number'
       }))
       .addField(
         new FSelectDateFieldMDP({
@@ -51,7 +55,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           label: "Type of Debt",
           mandatory: true,
           boundaryClass: "col-4",
-          options:["Credit Card", "Personal Loans", "Secured", "Others (Unsecured)"]
+          options: ["Credit Card", "Personal Loans", "Secured", "Others (Unsecured)"]
         }))
 
       .addField(
@@ -61,7 +65,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           label: "Account Number",
           mandatory: true,
           boundaryClass: "col-4",
-          type:'number'
+          type: 'number'
         }))
 
       .addAction(new FBtnMDP({
@@ -81,13 +85,22 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
   submitAddCreditor() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.parent.getMyRef()[0].addCreditorData();
+        this.addCreditor();
       });
     }
   }
 
   closeAddForm() {
     this.parent.getMyRef()[0].closeAndClearAllForms();
+  }
+
+  addCreditor() {
+    const input = Data.Spine.AddCreditorInput.fromJson(this.parent.getMyRef()[0].addCreditorForm)
+    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId
+    Action.Spine.AddCreditor.execute(input, (output) => {
+      this.parent.getMyRef()[0].addCreditorData(output.fiCreditorId);
+      this.taskRoot.saveTask();
+    })
   }
 
 }

@@ -16,17 +16,16 @@ export default class ClientDetailsFFormMDP extends FFormMDP {
     this.root = root;
     // this.parent = parent;
 
-    this
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "clientId",
-          label: "Client Id",
-          mandatory: true,
-          boundaryClass: "col-4",
-          disabled: true
-        })
-      )
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "clientId",
+        label: "Client Id",
+        mandatory: true,
+        boundaryClass: "col-4",
+        disabled: true,
+      })
+    )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
@@ -34,7 +33,7 @@ export default class ClientDetailsFFormMDP extends FFormMDP {
           label: "First Name",
           boundaryClass: "col-4",
           mandatory: true,
-          disabled: true
+          disabled: true,
         })
       )
       .addField(
@@ -44,7 +43,7 @@ export default class ClientDetailsFFormMDP extends FFormMDP {
           label: "Last Name",
           boundaryClass: "col-4",
           mandatory: true,
-          disabled: true
+          disabled: true,
         })
       )
       .addField(
@@ -54,7 +53,7 @@ export default class ClientDetailsFFormMDP extends FFormMDP {
           label: "Email",
           boundaryClass: "col-4",
           mandatory: true,
-          disabled: true
+          disabled: true,
         })
       )
       .addField(
@@ -64,7 +63,7 @@ export default class ClientDetailsFFormMDP extends FFormMDP {
           label: "Mobile",
           boundaryClass: "col-4",
           mandatory: true,
-          disabled: true
+          disabled: true,
         })
       )
       .addField(
@@ -73,9 +72,10 @@ export default class ClientDetailsFFormMDP extends FFormMDP {
           dataSelectorKey: "leadSource",
           label: "Lead Source",
           boundaryClass: "col-4",
-          disabled: true
+          disabled: true,
         })
-      ).addAction(
+      )
+      .addAction(
         new FBtnMDP({
           label: "Add A File",
           onClick: this.addClientFile(),

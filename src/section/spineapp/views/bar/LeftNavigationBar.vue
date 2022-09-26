@@ -42,6 +42,15 @@
         </v-list-item-icon>
         <v-list-item-title>Dashboard</v-list-item-title>
       </v-list-item>
+
+      <v-list-item link @click="$router.push({ name: 'Root.MyClientFiles' })">
+        <v-list-item-icon>
+          <v-icon>mdi-file</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>My Client Files</v-list-item-title>
+      </v-list-item>
+
+
       <v-list-item  @click="$router.push({ name: 'Root.Search.ClientSearch' })">
         <v-list-item-icon>
           <v-icon>mdi-magnify</v-icon>

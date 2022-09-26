@@ -11,21 +11,21 @@
       >
 
       <v-spacer></v-spacer>
-      <v-btn
+      <f-btn
+        label="START"
         outlined
         color="primary"
-        @click="startTask"
+        :onClick="()=>startTask()"
         v-if="taskDetails.taskState === 'ALLOCATED'"
-        >START</v-btn
-      >
+        ></f-btn>
 
-      <v-btn
+      <f-btn
+        label="PULL"
         outlined
         color="primary"
-        @click="pullTask"
+        :onClick="()=>pullTask()"
         v-if="taskDetails.taskState === 'TO_BE_PULLED'"
-        >PULL</v-btn
-      >
+        ></f-btn>
     </v-card-actions>
     <v-card-text class="pa-0">
       <component v-if="!loading" :is="selectedComponent"></component>
@@ -87,6 +87,8 @@ import NsfSPACompletionTask from "@/section/spineapp/components/task/nsfSPA/nsfS
 import NsfSPAClientDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPAClientDeferred/NsfSPAClientDeferredTask.vue";
 import NsfSPAReceiveManualPaymentTask from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/ReceiveManualPaymentTask.vue";
 import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
+import FBtn from "@/components/generic/FBtn.vue";
+import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
 @Component({
   components: {
     CollectClientInfoTask,
@@ -133,7 +135,9 @@ import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA
     NsfSPACompletionTask,
     NsfSPAClientDeferredTask,
     NsfSPAReceiveManualPaymentTask,
-    NsfSPASystemDeferredTask
+    NsfSPASystemDeferredTask,
+    "f-btn":FBtn,
+    FollowUpCallTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -209,7 +213,7 @@ export default class FileTaskArea extends Vue {
     ["NsfSPA::NsfSPAClientDeferred", "NsfSPAClientDeferredTask"],
     ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
     ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
-    
+    ["MFC::FollowUpCall", "FollowUpCallTask"]
   ]);
 
   taskId = this.$route.params.taskId;
@@ -234,7 +238,7 @@ export default class FileTaskArea extends Vue {
 
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Start.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.StartAndMerge.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.interested(
@@ -261,7 +265,7 @@ export default class FileTaskArea extends Vue {
   }
 
   startTask() {
-    Action.TaskList.Start.execute1(
+    Action.TaskList.StartAndMerge.execute1(
       this.$route.params.taskId,
       (output) => {
         console.log("");
@@ -298,7 +302,7 @@ export default class FileTaskArea extends Vue {
 
   public destroyed() {
     Action.TaskList.PullTask.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Start.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.StartAndMerge.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.notInterested(

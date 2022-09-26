@@ -75,6 +75,8 @@ import FIFSCCodeField from "./field/FIFSCCodeField.vue";
 import FFooCurrencyField from "./field/FFooCurrencyField.vue";
 import FAccountField from "./field/FAccountField.vue";
 import FTimeField from "./field/FTimeField.vue";
+import FGompaUserRemoteAutoCompleteField from "./field/FGompaUserRemoteAutoComplete.vue";
+import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
 
 @Component({
   components: {
@@ -93,13 +95,14 @@ import FTimeField from "./field/FTimeField.vue";
     FPasswordField,
     FCurrencyField,
     FPhoneField,
-    FSelectFooField,
     FAutoCompleteField,
     FDateSelectField,
     FIFSCCodeField,
     FFooCurrencyField,
     FAccountField,
     FTimeField,
+    FGompaUserRemoteAutoCompleteField,
+    FRemoteComboBoxField,
   },
 })
 export default class FForm extends ModelVue {

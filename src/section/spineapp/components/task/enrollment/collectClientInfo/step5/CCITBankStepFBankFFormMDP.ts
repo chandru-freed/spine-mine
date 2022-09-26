@@ -1,5 +1,7 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBankFFormMDP from "@/components/generic/file/FBankFFormMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
@@ -13,6 +15,11 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
 
     this.addAction(
       new FBtnMDP({
+        label: "Previous",
+        onClick: this.goToPrevStep(),
+      })
+    ).addAction(
+      new FBtnMDP({
         label: "Save",
         onClick: this.validateAndSubmit(),
         condition: this.isStarted()
@@ -23,19 +30,45 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
         onClick: this.rescueTask(),
         condition: this.isException()
       })
+    ).addAction(
+      new FBtnMDP({
+        label: "Save And Next",
+        onClick: this.validateAndSaveAndNext(),
+      })
     );
   }
   validateAndSubmit() {
     return () => {
-        this.getMyRef().submitForm(this.saveTask());
+        this.getMyRef().submitForm(() => {
+          this.updateBankInfo();
+        });
     };
 }
 
-  saveTask() {
+validateAndSaveAndNext() {
     return () => {
-      this.taskRoot.saveTask();
-    };
+      this.getMyRef().submitForm(() => {
+        this.updateBankInfo(true);
+      });
+    }
   }
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(1);
+    }
+  }
+
+  updateBankInfo(goToNextStep: boolean = false) {
+    const input = Data.Spine.UpdateBankInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.bankInfo)
+    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+    Action.Spine.UpdateBankInfo.execute(input, (output: any) => {
+        this.taskRoot.saveTask();
+        if(goToNextStep) {
+          (this.taskRoot as any).goToStep(5)
+        }
+    });
+}
 
   rescueTask() {
     return () => {

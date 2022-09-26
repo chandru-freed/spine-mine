@@ -40,6 +40,15 @@ export default class FBankFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-3",
       })
+    ).addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "confirmAccountNumber",
+        label: "Confirmed Account Number",
+        mandatory: true,
+        boundaryClass: "col-3",
+        rules:"confirmed:accountNumber"
+      })
     )
       .addField(
         new FSelectFieldMDP({
@@ -59,7 +68,7 @@ export default class FBankFFormMDP extends FFormMDP {
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           mandatory: true,
-          boundaryClass: "col-6",
+          boundaryClass: "col-3",
           onSelect: (details) => {this.populateBankDetails(details)}
         })
       )

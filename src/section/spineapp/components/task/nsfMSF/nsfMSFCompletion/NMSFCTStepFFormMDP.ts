@@ -16,15 +16,7 @@ export default class NMSFCTStepFFormMDP extends FFormMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
-        this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.clientFileNumber",
-                label: "File Number",
-                mandatory: true,
-                disabled: true
-            })
-        ).addAction(
+        this.addAction(
             new FBtnMDP({
                 label: "Mark Complete",
                 onClick: this.validateAndMarkComplete(),

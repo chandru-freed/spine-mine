@@ -7,25 +7,29 @@ export default class FBtnMDP implements MDP {
   color: BtnColor;
   elevation = 0;
   btnType: BtnType;
-  condition: boolean
+  condition: boolean;
+  disabled: boolean;
   constructor({
     label,
     onClick,
     color = BtnColor.PRIMARY,
     btnType = BtnType.OUTLINED,
-    condition = true
+    condition = true,
+    disabled=false
   }: {
     label: string;
     onClick: () => void;
     color?: BtnColor;
     btnType?: BtnType;
-    condition?: boolean
+    condition?: boolean;
+    disabled?:boolean;
   }) {
     this.label = label;
     this.onClick = onClick;
     this.color = color;
     this.btnType = btnType;
     this.condition = condition
+    this.disabled = disabled;
   }
   getMetaData(): object {
     return {
@@ -38,6 +42,7 @@ export default class FBtnMDP implements MDP {
         text: this.btnType === BtnType.TEXT,
         elevation: this.elevation,
         color: this.color,
+        disabled: this.disabled
       },
     };
   }

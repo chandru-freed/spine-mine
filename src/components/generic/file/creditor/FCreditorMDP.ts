@@ -55,7 +55,8 @@ export default class FCreditorMDP implements MDP {
           action.getMetaData()
         ),
         disabled: this.disabled,
-        readonly: this.readonly
+        readonly: this.readonly,
+        taskRoot: this.taskRoot
       },
     };
   }

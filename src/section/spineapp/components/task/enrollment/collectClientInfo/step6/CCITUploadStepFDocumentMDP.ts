@@ -13,6 +13,11 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
 
     this.addAction(
       new FBtnMDP({
+        label: "Previous",
+        onClick: this.goToPrevStep(),
+      })
+    ).addAction(
+      new FBtnMDP({
         label: "Save",
         onClick: this.saveTask(),
         condition: this.isStarted()
@@ -22,6 +27,11 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
         label: "Rescue",
         onClick: this.rescueTask(),
         condition: this.isException()
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Save And Next",
+        onClick: this.goToNextStep(),
       })
     );
   }
@@ -36,6 +46,17 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
     return () => {
       this.taskRoot.rescueTask();
     };
+  }
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(4);
+    }
+  }
+  goToNextStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(6);
+    }
   }
 
   isStarted() {

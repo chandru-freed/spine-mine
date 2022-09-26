@@ -28,7 +28,15 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-3",
       })
-    ).addAction(
+    ).
+
+      addAction(
+        new FBtnMDP({
+          label: "Previous",
+          onClick: this.goToPrevStep(),
+          condition: this.isStarted()
+        })
+      ).addAction(
         new FBtnMDP({
           label: "Save",
           onClick: this.validateAndSubmit(),
@@ -54,6 +62,13 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(5);
+    }
+  }
+
   validateAndSubmit() {
     return () => {
       this.getMyRef().submitForm(this.saveTask());
@@ -66,7 +81,7 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
     };
   }
 
-  
+
 
   saveTask() {
     return () => {

@@ -1,10 +1,10 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import DispositionFMiniFormMDP, { DispositionType } from "@/components/generic/form/field/DispositionFMiniFormMDP";
+import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
-import FSelectFooFieldMDP from "@/components/generic/form/field/FSelectFooFieldMDP";
-import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
+import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
@@ -30,11 +30,11 @@ export default class NMSFTFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.addField(
-      new FSelectFooFieldMDP({
+      new FSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.selectedNMSFTaskOption",
         label: "Select Option",
-        items: Object.values(NsfMSFOptions),
+        options: Object.values(NsfMSFOptions),
         mandatory: true
       })
     )
@@ -88,12 +88,13 @@ export default class NMSFTFFormMDP extends FFormMDP {
           label: "Intent",
           condition: this.isReceivePayment()
         })
-      )
-      .addField(
-        new FTextFieldMDP({
+      ).addField(
+        new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.msfScheduledDraftDate",
           label: "Msf Scheduled Draft Date",
+          mandatory: true,
+          futureDaysDisabled: true,
           condition: this.isDraftRescheduled()
         })
       ).addField(new DispositionFMiniFormMDP({

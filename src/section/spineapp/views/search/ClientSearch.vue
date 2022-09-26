@@ -41,7 +41,7 @@
           </v-toolbar>
         </template>
          <template v-slot:item.fullName="{ item }">
-           <v-btn text color="green"  @click="gotoClient(item.clientId)">{{ item.fullName }}</v-btn>
+           <f-btn :label="item.fullName" text color="green"  :onClick="()=>gotoClient(item.clientId)"></f-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -61,10 +61,12 @@ import FForm from "@/components/generic/form/FForm.vue";
 
 import ClientSearchIntf from "./ClientSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     FForm,
+    "f-btn":FBtn
   },
 })
 export default class ClientSearch extends ModelVue implements ClientSearchIntf {
@@ -76,8 +78,8 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
 
   clientGridHeaderList = [
     { text: "Client Name", value: "fullName" },
-    { text: "E-mail", value: "emailId" },
     { text: "Mobile", value: "mobile" },
+    { text: "E-mail", value: "emailId" },
     { text: "City", value: "city" },
     { text: "State", value: "state" },
   ];

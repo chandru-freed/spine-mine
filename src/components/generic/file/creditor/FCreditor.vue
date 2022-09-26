@@ -89,7 +89,7 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
       >
         <component
@@ -109,6 +109,8 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 @Component({
   components: {
     FForm,
@@ -116,22 +118,15 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class FCreditor extends ModelVue {
-  addCreditorForm = {};
-  editCreditorForm: any = {
-    creditor: "ABC",
-    creditorBalance: 12,
-    lastDateOfPayment: "22-01-2022",
-    debtType: "Credi card",
-    accountNumber: "123456",
-    id: 0,
-  };
-  selectedCreditorIndex: number;
+  addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
+  editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
+  selectedCreditorItem: Data.Spine.Creditor;
   headers = [
     {
-      text: "Creditor",
+      text: "Creditor Name",
       align: "start",
       sortable: false,
-      value: "creditor",
+      value: "creditorName",
     },
     { text: "Creditor Balance", value: "creditorBalance" },
     { text: "Last Date Of Payment", value: "lastDateOfPayment" },
@@ -160,6 +155,10 @@ export default class FCreditor extends ModelVue {
   @Prop()
   readonly: boolean;
 
+  @Prop()
+  taskRoot: any;
+  
+
   showAddForm() {
     this.closeDialogs();
     this.addCreditorDialog = true;
@@ -183,8 +182,8 @@ export default class FCreditor extends ModelVue {
     this.deleteCreditorDialog = false;
   }
   resetForms() {
-    this.addCreditorForm = {};
-    this.editCreditorForm = {};
+    this.addCreditorForm = new Data.Spine.Creditor();
+    this.editCreditorForm = new Data.Spine.Creditor();
   }
 
   get creditorList() {
@@ -201,33 +200,40 @@ export default class FCreditor extends ModelVue {
     return this.modelValue.totalDebtAmount;
   }
 
-  addCreditorData() {
+  addCreditorData(fiCreditorId: string) {
+    this.addCreditorForm.fiCreditorId = fiCreditorId;
     (this.creditorList as any).push(this.addCreditorForm);
     this.closeAndClearAllForms();
   }
 
   editCreditorData() {
+    const selectedCreditorIndex = this.creditorList.findIndex((item: any) => item.fiCreditorId==this.selectedCreditorItem.fiCreditorId)
     Object.assign(
-      this.creditorList[this.selectedCreditorIndex],
+      this.creditorList[selectedCreditorIndex],
       this.editCreditorForm
     );
     this.closeAndClearAllForms();
   }
 
   deleteCreditorData() {
-    this.creditorList.splice(this.selectedCreditorIndex, 1);
-    this.closeDialogs();
+    const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
+    Action.Spine.RemoveCreditor.execute1(fiCreditorId, output => {
+      const selectedCreditorIndex = this.creditorList.findIndex((item: any) => item.fiCreditorId==this.selectedCreditorItem.fiCreditorId)
+      this.creditorList.splice(selectedCreditorIndex, 1);
+      this.closeDialogs();
+      this.taskRoot.saveTask();
+    })
   }
 
   selectEditCreditor(item: any, index: any) {
-    this.selectedCreditorIndex = index;
+    this.selectedCreditorItem = item;
     this.editCreditorForm = {
       ...item,
     };
     this.showEditForm();
   }
   selectDeleteCreditor(item: any, index: number) {
-    this.selectedCreditorIndex = index;
+    this.selectedCreditorItem = item;
     this.showDeletePopup();
     console.log(this.deleteCreditorDialog);
   }

@@ -3,6 +3,8 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FProfileFFormMDP from "@/components/generic/file/FProfileFFormMDP";
 import FRegistrationDetailsMDP from "@/components/generic/file/FRegistrationDetailsMDP";
 import MDP from "@/components/generic/MDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 export default class CCITProfileStepMDP extends CLProfileMDP {
     profileFFormRef = "profileFFormRef"
@@ -12,7 +14,7 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
             taskRoot: taskRoot,
             parent: parent,
             myRefName: "personalInfoProfileRef",
-            disabled: taskRoot.taskDisabled,
+            disabled: taskRoot.taskDisabled
         });
 
         this.addForm(new FRegistrationDetailsMDP({
@@ -31,6 +33,12 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
 
         this.addAction(
             new FBtnMDP({
+                label: "Previous",
+                onClick: () => { },
+                disabled: true
+            })
+        ).addAction(
+            new FBtnMDP({
                 label: "Save",
                 onClick: this.validateAndSave(),
                 condition: this.isStarted()
@@ -41,7 +49,20 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
                 onClick: this.rescueTask(),
                 condition: this.isException()
             })
-        );;
+        ).addAction(
+            new FBtnMDP({
+                label: "Save And Next",
+                onClick: this.validateSaveAndNext(),
+            })
+        );
+    }
+
+    validateSaveAndNext() {
+        return () => {
+            this.getProfileFormRef().submitForm(() => {
+                this.updateClPersonalInfo(true);
+            });
+        }
     }
 
 
@@ -69,11 +90,31 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
     validateAndSave() {
         return () => {
             this.getProfileFormRef().submitForm(() => {
-                console.log("client profile");
-                console.log("task rook", this.taskRoot);
-                this.taskRoot.saveTask();
+                this.updateClPersonalInfo();
             });
         }
+    }
+
+    handleSaveAndNext() {
+        return async () => {
+            try {
+                await this.validateAndSave();
+                (this.taskRoot as any).goToStep(1);
+            } catch (e) {
+            }
+        }
+    }
+
+
+    updateClPersonalInfo(goToNextStep: boolean = false) {
+        const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.personalInfo)
+        input.clientId = (this.taskRoot as any).clientFileBasicInfo.clientBasicInfo.clientId
+        Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
+            this.taskRoot.saveTask();
+            if (goToNextStep) {
+                (this.taskRoot as any).goToStep(1);
+            }
+        });
     }
 
 }

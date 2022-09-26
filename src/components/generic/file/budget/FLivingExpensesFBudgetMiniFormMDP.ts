@@ -14,6 +14,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
       label: "Living Expenses",
       mandatory: true,
       boundaryClass: "col-4",
+      minHeight: "575"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

@@ -34,8 +34,7 @@ export default class ClientFileLayout extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-
-  clientFileNumber = this.$route.params.clientFileNumber; 
+  clientFileNumber = this.$route.params.clientFileNumber;
   mounted() {
     this.getClientFileBasicInfo();
   }
@@ -44,15 +43,16 @@ export default class ClientFileLayout extends Vue {
     Action.ClientFile.GetClientFileBasicInfo.execute1(
       this.clientFileNumber,
       (output) => {
-        this.getClientFileSummary();
+        this.findClientFileSummary();
       }
     );
   }
 
-  getClientFileSummary() {
-    Action.ClientFile.GetClientFileSummary.execute1(this.clientFileBasicInfo.clientFileId, output => {
-
-    })
+  findClientFileSummary() {
+    Action.ClientFile.FindClientFileSummary.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 }
 </script>

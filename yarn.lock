@@ -3885,11 +3885,6 @@ ignore@^5.1.1, ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
 
-imask@^6.4.3-alpha.0:
-  version "6.4.3-alpha.0"
-  resolved "https://registry.yarnpkg.com/imask/-/imask-6.4.3-alpha.0.tgz#edaa81aca932aa9c35b5a340f8edd3dcbcf8a6b4"
-  integrity sha512-+IHNjnRQkoGmuVZ7NPQR/YZSrEsjijfvA/DQ3qhZxXJd+09KV+TGCrA5PymulG3pNAcEMoGtecZytk7JFuw71A==
-
 immutable@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.1.0.tgz#f795787f0db780183307b9eb2091fcac1f6fafef"
@@ -6284,11 +6279,6 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
-
-v-mask@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/v-mask/-/v-mask-2.3.0.tgz#2329c352ce9997eb721d160cf3f0a8552c5c9e1c"
-  integrity sha512-ap7pTtCTvj25CqX4VYXqudCBd0+XvYyhiiLbzWQQR7AMQosJ2+DPu0a94P9stk0EGmGcmYxJaPkFkfjD8hquWQ==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"

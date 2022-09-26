@@ -3,6 +3,7 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
+import FFooPhoneField from "@/components/generic/form/field/FFooPhoneFieldMDP";
 import CreateClientIntf from "./CreateClientIntf";
 
 export default class CreateClientFFormMDP extends FFormMDP {
@@ -16,16 +17,15 @@ export default class CreateClientFFormMDP extends FFormMDP {
     this.root = root;
     // this.parent = parent;
 
-    this
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "firstName",
-          label: "First Name",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "firstName",
+        label: "First Name",
+        boundaryClass: "col-4",
+        mandatory: true,
+      })
+    )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
@@ -66,7 +66,7 @@ export default class CreateClientFFormMDP extends FFormMDP {
           dataSelectorKey: "leadSource",
           label: "Lead Source",
           boundaryClass: "col-4",
-          disabled: true
+          disabled: true,
         })
       )
       .addAction(

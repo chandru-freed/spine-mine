@@ -7,6 +7,7 @@
       @input="(newValue) => (modelValue = newValue)"
       v-bind:maxlength="mask.length"
       v-on:keypress="keyPress"
+      prefix="+91"
     ></v-text-field>
   </div>
 </template>

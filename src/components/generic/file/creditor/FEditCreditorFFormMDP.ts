@@ -7,6 +7,7 @@ import FNumberFieldMDP from "../../form/field/FNumberFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
+import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
 
 export default class FEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -56,17 +57,22 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           label: "Type of Debt",
           mandatory: true,
           boundaryClass: "col-4",
-          options: ["Credit Card", "Personal Loans", "Secured", "Others (Unsecured)"]
-        }))
+          options: [
+            "Credit Card",
+            "Personal Loans",
+            "Secured",
+            "Others (Unsecured)",
+          ],
+        })
+      )
 
       .addField(
-        new FTextFieldMDP({
+        new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           mandatory: true,
           boundaryClass: "col-4",
-          type: "number",
         })
       )
       .addAction(
@@ -103,14 +109,16 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
     this.parent.getMyRef()[0].closeAndClearAllForms();
   }
 
-
   updateCreditor() {
-    const input = Data.Spine.UpdateCreditorInput.fromJson(this.parent.getMyRef()[0].editCreditorForm)
-    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId
+    const input = Data.Spine.UpdateCreditorInput.fromJson(
+      this.parent.getMyRef()[0].editCreditorForm
+    );
+    input.clientFileId = (
+      this.taskRoot as any
+    ).clientFileBasicInfo.clientFileId;
     Action.Spine.UpdateCreditor.execute(input, (output) => {
       this.parent.getMyRef()[0].editCreditorData();
       this.taskRoot.saveTask();
-    })
+    });
   }
-
 }

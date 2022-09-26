@@ -5,11 +5,12 @@
       :value="modelValue"
       @input="(newValue) => (modelValue = newValue)"
     ></v-text-field>
-    <f-btn 
+    <f-btn
       label="Get Details"
       class="mx-2"
-      :onClick="()=> getBankDetails()"
+      :onClick="() => getBankDetails()"
       color="primary"
+      v-if="btnCondition"
     ></f-btn>
   </div>
 </template>
@@ -23,7 +24,7 @@ import FBtn from "../../FBtn.vue";
 @Component({
   components: {
     VTextField,
-    "f-btn":FBtn
+    "f-btn": FBtn,
   },
 })
 export default class FIFSCCodeField extends VTextField {
@@ -32,6 +33,9 @@ export default class FIFSCCodeField extends VTextField {
   onSelect: (details: any) => void;
   @Prop()
   value: string;
+
+  @Prop()
+  btnCondition: boolean;
 
   ifscCodeRegex = /^[A-Za-z]{4}\d{7}$/;
 

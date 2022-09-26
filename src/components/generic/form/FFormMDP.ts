@@ -9,7 +9,6 @@ export class FFormChildMDP {
 
 export default class FFormMDP implements MDP {
   componentName = "FForm";
-
   fieldList: FFieldMDP[] = [];
   actionList: FBtnMDP[] = [];
   myRefName: string;

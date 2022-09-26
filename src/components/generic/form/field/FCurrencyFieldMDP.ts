@@ -11,21 +11,23 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
   parentMDP: FFormChildMDP;
   boundaryClass: string;
   disabled: boolean;
-  prefix
+  condition: boolean;
+  precession: string;
   // defaultValue?: string;
 
   constructor({
     parentMDP,
     dataSelectorKey,
     label,
-    type = "number",
+    type = "text",
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    prefix = "₹"
-    // defaultValue
-  }: {
+    condition = true,
+    precession = "0",
+  }: // defaultValue
+  {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
     label: string;
@@ -34,8 +36,9 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
+    condition?: boolean;
+    precession?: string;
     // defaultValue?: string
-    prefix?: string;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -45,7 +48,8 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
-    this.prefix = prefix
+    this.condition = condition;
+    this.precession = precession;
     // this.defaultValue = defaultValue;
   }
 
@@ -64,6 +68,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
+      condition: this.condition,
       props: {
         id: this.dataSelectorKey,
         label: this.label,
@@ -71,7 +76,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
-        prefix: this.prefix,
+        precession: this.precession,
         // defaultValue: this.defaultValue
       },
     };

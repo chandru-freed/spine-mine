@@ -7,11 +7,10 @@
       @input="(newValue) => (modelValue = newValue)"
       v-bind:maxlength="mask.length"
       v-on:keypress="keyPress"
-      prefix="+91"
     ></v-text-field>
   </div>
 </template>
-<script lang="ts">
+  <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib/components";
 
@@ -20,14 +19,14 @@ import { VTextField } from "vuetify/lib/components";
     VTextField,
   },
 })
-export default class FPhoneField extends VTextField {
+export default class FAccountField extends VTextField {
   @Prop()
   value: string;
 
-  @Prop({ default: "##### #####" })
+  @Prop({ default: "####-####-####-####" })
   mask: string;
 
-  @Prop({ default: "##########" })
+  @Prop({ default: "################" })
   unmask: string;
 
   mounted() {}
@@ -110,3 +109,4 @@ export default class FPhoneField extends VTextField {
   }
 }
 </script>
+  

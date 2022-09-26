@@ -24,8 +24,21 @@
         </v-list-item>
       </div>
       <div class="col-7">
-        <v-chip outlined label color="secondary" class="mr-5" v-if="clientFileBasicInfo.assignedRM">{{'RM : ' + clientFileBasicInfo.assignedRM}}</v-chip>
-         <v-chip outlined label color="secondary" v-if="clientFileBasicInfo.assignedSalesRep">{{'Sales Rep : ' + clientFileBasicInfo.assignedSalesRep}}</v-chip>
+        <v-chip
+          outlined
+          label
+          color="secondary"
+          class="mr-5"
+          v-if="clientFileBasicInfo.assignedRM"
+          >{{ "RM : " + clientFileBasicInfo.assignedRM }}</v-chip
+        >
+        <v-chip
+          outlined
+          label
+          color="secondary"
+          v-if="clientFileBasicInfo.assignedSalesRep"
+          >{{ "Sales Rep : " + clientFileBasicInfo.assignedSalesRep }}</v-chip
+        >
       </div>
       <!-- <div class="col-5 pb-0">
         <v-alert dense outlined type="error">
@@ -86,7 +99,7 @@
     </div>
     <div
       class="row px-4 pb-2 pt-0 align-center justify-between"
-      v-if="!showLessSummary"
+      v-if="fileSummary && !showLessSummary"
     >
       <div class="col-3">
         <v-sheet color="secondary" outlined rounded>
@@ -103,7 +116,7 @@
                 <v-list-item-subtitle
                   >Due on
                   {{
-                    fileSummary.msfDueDate | (date - duration)
+                    fileSummary.msfDueDate | date-duration
                   }}</v-list-item-subtitle
                 >
                 <!-- >Due on 3rd July (5 days to go)</v-list-item-subtitle> -->
@@ -127,7 +140,7 @@
                 <v-list-item-subtitle
                   >Due on
                   {{
-                    fileSummary.spaDueDate | (date - duration)
+                    fileSummary.spaDueDate | date-duration
                   }}</v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -149,7 +162,7 @@
                 <v-list-item-subtitle class="white--text"
                   >Last paid
                   {{
-                    fileSummary.lastPaidDate | (date - duration)
+                    fileSummary.lastPaidDate | date-duration
                   }}</v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -185,6 +198,11 @@
           </v-card>
         </v-sheet>
       </div>
+    </div>
+    <div class="pa-5 justify-center" v-if="!fileSummary && !showLessSummary">
+      <v-alert dense outlined color="info">
+        <small class="d-flex justify-center">Not yet available</small>
+      </v-alert>
     </div>
   </div>
   <!-- </v-card> -->

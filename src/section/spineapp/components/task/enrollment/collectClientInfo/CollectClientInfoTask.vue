@@ -246,7 +246,7 @@ export default class CollectClientInfoTask
     console.log(" taskDetailsOutput ==>", this.taskDetailsOutput);
     console.log(" taskFormData ==>", this.taskFormData);
     this.taskFormData.taskOutput.personalInfo.gender = "MALE";
-    this.taskFormData.taskOutput.personalInfo.secondaryPhone = "12345676543";
+    this.taskFormData.taskOutput.personalInfo.secondaryPhone = "1234567654";
     this.taskFormData.taskOutput.personalInfo.fatherName = "Father";
     this.taskFormData.taskOutput.personalInfo.motherMaidenName = "Mother";
     this.taskFormData.taskOutput.personalInfo.firstName = "John";

@@ -116,7 +116,7 @@
                 <v-list-item-subtitle
                   >Due on
                   {{
-                    fileSummary.msfDueDate | (date - duration)
+                    fileSummary.msfDueDate | date-duration
                   }}</v-list-item-subtitle
                 >
                 <!-- >Due on 3rd July (5 days to go)</v-list-item-subtitle> -->
@@ -140,7 +140,7 @@
                 <v-list-item-subtitle
                   >Due on
                   {{
-                    fileSummary.spaDueDate | (date - duration)
+                    fileSummary.spaDueDate | date-duration
                   }}</v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -162,7 +162,7 @@
                 <v-list-item-subtitle class="white--text"
                   >Last paid
                   {{
-                    fileSummary.lastPaidDate | (date - duration)
+                    fileSummary.lastPaidDate | date-duration
                   }}</v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -199,11 +199,8 @@
         </v-sheet>
       </div>
     </div>
-    <div
-      class="pa-5 justify-center"
-      v-if="!fileSummary && !showLessSummary"
-    >
-      <v-alert dense  outlined color="info">
+    <div class="pa-5 justify-center" v-if="!fileSummary && !showLessSummary">
+      <v-alert dense outlined color="info">
         <small class="d-flex justify-center">Not yet available</small>
       </v-alert>
     </div>

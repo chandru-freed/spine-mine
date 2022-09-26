@@ -8,12 +8,13 @@ import CCITBankStepFBankFFormMDP from "./step5/CCITBankStepFBankFFormMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import CCITProfileStepMDP from "./step1/CCITProfileStepMDP";
 import FFooStepperMDP from "@/components/generic/FFooStepperMDP";
+import CCITFMarkCompleteMDP from "./step7/CCITFMarkCompleteMDP";
 
 export default class CCITFStepperMDP extends FFooStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-    super({ myRefName: "collectClientInfoStepperRef" });
+    super({ myRefName: "collectClientInfoStepperRef",disabled: taskRoot.taskDisabled });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
@@ -62,9 +63,9 @@ export default class CCITFStepperMDP extends FFooStepperMDP {
       })
       .addStep({
         name: "Verify",
-        stepContent: new CCITMarkCompleteStepFFormMDP({
+        stepContent: new CCITFMarkCompleteMDP({
           taskRoot: this.taskRoot,
-          parent: this,
+          parent: this
         }),
       });
   }

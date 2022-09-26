@@ -1,5 +1,6 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import { readonly } from "vue";
 
 export default class FTextFieldMDP implements FFieldMDP {
   componentName = "FTextField";
@@ -12,6 +13,7 @@ export default class FTextFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
+  readonly: boolean;
   // defaultValue?: string;
 
   constructor({
@@ -23,7 +25,8 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    condition = true
+    condition = true,
+    readonly=false,
     // defaultValue
   }: {
     parentMDP: FFormChildMDP;
@@ -34,7 +37,8 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean
+    condition?: boolean;
+    readonly?: boolean;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -46,6 +50,7 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
     this.condition = condition
+    this.readonly = readonly;
     // this.defaultValue = defaultValue;
   }
 
@@ -56,6 +61,10 @@ export default class FTextFieldMDP implements FFieldMDP {
 
   getBoundaryClass() {
     return `${this.boundaryClass} py-0 px-2`;
+  }
+
+  isDisabled() {
+    return this.disabled || this.readonly
   }
 
   getMetaData(): object {
@@ -71,7 +80,8 @@ export default class FTextFieldMDP implements FFieldMDP {
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        disabled: this.disabled,
+        disabled: this.isDisabled(),
+        readonly: this.readonly
         // defaultValue: this.defaultValue
       },
     };

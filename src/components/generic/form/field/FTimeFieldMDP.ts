@@ -1,8 +1,8 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
-export default class FCurrencyFieldMDP implements FFieldMDP {
-  componentName = "FCurrencyField";
+export default class FTimeFieldMDP implements FFieldMDP {
+  componentName = "FTimeField";
   dataSelectorKey: string;
   label: string;
   type: string;
@@ -12,7 +12,9 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
-  precession: string;
+  mask: string;
+  unMask: string;
+  placeholder: string;
   // defaultValue?: string;
 
   constructor({
@@ -20,12 +22,14 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     dataSelectorKey,
     label,
     type = "text",
-    rules = "",
+    rules = "timeValidatorwithSeconds",
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
     condition = true,
-    precession = "0",
+    mask = "##:##:##",
+    unMask = "##:##:##",
+    placeholder = "HH:MM:ss",
   }: // defaultValue
   {
     parentMDP: FFormChildMDP;
@@ -37,7 +41,9 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     boundaryClass?: string;
     disabled?: boolean;
     condition?: boolean;
-    precession?: string;
+    mask?: string;
+    unMask?: string;
+    placeholder?: string;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -49,13 +55,18 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
     this.condition = condition;
-    this.precession = precession;
+    this.mask = mask;
+    this.unMask = unMask;
+    this.placeholder = placeholder;
     // this.defaultValue = defaultValue;
   }
 
   getRules() {
     const required = this.mandatory ? "required" : "";
-    return `${required}|${this.rules}`;
+    return {
+      required: this.mandatory || false,
+      regex: /^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/,
+    };
   }
 
   getBoundaryClass() {
@@ -76,7 +87,9 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
-        precession: this.precession,
+        mask: this.mask,
+        unmask: this.unMask,
+        placeholder: this.placeholder,
         // defaultValue: this.defaultValue
       },
     };

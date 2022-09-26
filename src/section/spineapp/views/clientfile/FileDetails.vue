@@ -1,47 +1,50 @@
 <template>
-  <v-navigation-drawer
-    absolute
-    permanent
-    outlined
-    left
-    :width="leftFocused ? '100%' : '49%'"
-    v-if="!rightFocused"
-  >
-    <template v-slot:prepend>
-      <v-toolbar flat dense color="grey lighten-2">
-        <v-btn icon v-if="!leftFocused" @click="focusLeft">
-          <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
-        </v-btn>
-        <v-btn icon v-if="leftFocused" @click="resumeNormal">
-          <v-icon>mdi-circle-slice-8</v-icon>
-        </v-btn>
-        <v-tabs
-          v-model="fileDetailsTab"
-          background-color="grey lighten-2"
-          color="secondary"
-          grow
-        >
-          <v-tab
-            v-for="item in fileDetailsTabList"
-            :key="item.tabName"
-            class="text-caption"
+  <div class="navigation-drawer-left">
+    <v-navigation-drawer
+      absolute
+      permanent
+      :width="leftFocused ? '100%' : '49%'"
+      v-if="!rightFocused"
+      :temporary="leftFocused"
+      overlay-color="transparent"
+      overlay-opacity="0"
+    >
+      <template v-slot:prepend>
+        <v-toolbar flat dense color="grey lighten-2">
+          <v-btn icon v-if="!leftFocused" @click="focusLeft">
+            <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
+          </v-btn>
+          <v-btn icon v-if="leftFocused" @click="resumeNormal">
+            <v-icon>mdi-circle-slice-8</v-icon>
+          </v-btn>
+          <v-tabs
+            v-model="fileDetailsTab"
+            background-color="grey lighten-2"
+            color="secondary"
+            grow
           >
-            {{ item.tabName }}
-          </v-tab>
-        </v-tabs>
-      </v-toolbar>
-    </template>
+            <v-tab
+              v-for="item in fileDetailsTabList"
+              :key="item.tabName"
+              class="text-caption"
+            >
+              {{ item.tabName }}
+            </v-tab>
+          </v-tabs>
+        </v-toolbar>
+      </template>
 
-    <v-divider></v-divider>
+      <v-divider></v-divider>
 
-    <v-tabs-items v-model="fileDetailsTab" flat>
-      <v-tab-item v-for="item in fileDetailsTabList" :key="item.tabName">
-        <v-card flat min-height="700">
-          <component :is="item.component"></component>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-navigation-drawer>
+      <v-tabs-items v-model="fileDetailsTab" flat>
+        <v-tab-item v-for="item in fileDetailsTabList" :key="item.tabName">
+          <v-card flat min-height="700">
+            <component :is="item.component"></component>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 <script lang="ts">
@@ -66,12 +69,12 @@ import FilePaymentPlan from "../../components/file/paymentplan/FilePaymentPlan.v
     "file-budget": FileBudget,
     "file-creditor-list": FileCreditorList,
     "file-payment-plan": FilePaymentPlan,
-    "file-document-list": FileDocumentList
+    "file-document-list": FileDocumentList,
   },
 })
 export default class FileDetails extends Vue {
   clientfileNumber = this.$route.params.clientFileNumber;
-  
+
   leftFocused = false;
   rightFocused = false;
 
@@ -107,7 +110,6 @@ export default class FileDetails extends Vue {
     },
   ];
 
-
   focusLeft() {
     this.leftFocused = true;
     this.rightFocused = !this.leftFocused;
@@ -117,8 +119,14 @@ export default class FileDetails extends Vue {
     this.leftFocused = false;
     this.rightFocused = false;
   }
-
 }
 </script>
 
-<style></style>
+<style scoped>
+.navigation-drawer-left
+  .v-navigation-drawer--is-mobile:not(.v-navigation-drawer--close),
+.navigation-drawer-left
+  .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
+  box-shadow: none;
+}
+</style>

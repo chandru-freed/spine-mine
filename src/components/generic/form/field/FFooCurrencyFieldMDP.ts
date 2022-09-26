@@ -1,8 +1,8 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
-export default class FCurrencyFieldMDP implements FFieldMDP {
-  componentName = "FCurrencyField";
+export default class FFooCurrencyFieldMDP implements FFieldMDP {
+  componentName = "FFooCurrencyField";
   dataSelectorKey: string;
   label: string;
   type: string;

@@ -5,12 +5,12 @@
         <client-file-summary :file-details="fileDetails"></client-file-summary>
       </v-card>
     </div> -->
-    <!-- <div class="col-6 py-0">
+  <!-- <div class="col-6 py-0">
       <v-card> -->
-    <!-- <div class="col-12">
+  <!-- <div class="col-12">
       <v-card tile height="700px" class="" flat color="transparent"> -->
-        <!-- FILE DETAILS -->
-        <!-- <v-navigation-drawer
+  <!-- FILE DETAILS -->
+  <!-- <v-navigation-drawer
           absolute
           permanent
           outlined
@@ -53,54 +53,55 @@
             </v-tab-item>
           </v-tabs-items>
         </v-navigation-drawer> -->
-        <!-- FILE DETAILS -->
+  <!-- FILE DETAILS -->
 
-        <!-- WORK AREA-->
-        <v-navigation-drawer
-          absolute
-          permanent
-          right
-          :width="rightFocused ? '100%' : '49%'"
-          v-if="!leftFocused"
+  <!-- WORK AREA-->
+
+  <v-navigation-drawer
+    absolute
+    permanent
+    right
+    :width="rightFocused ? '100%' : '49%'"
+    v-if="!leftFocused"
+  >
+    <template v-slot:prepend>
+      <v-toolbar flat dense color="grey lighten-2">
+        <v-btn icon v-if="!rightFocused" @click="focusRight">
+          <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
+        </v-btn>
+        <v-btn icon v-if="rightFocused" @click="resumeNormal">
+          <v-icon>mdi-circle-slice-8</v-icon>
+        </v-btn>
+        <v-tabs
+          v-model="taskSummaryTab"
+          background-color="grey lighten-2"
+          color="secondary"
+          grow
         >
-          <template v-slot:prepend>
-            <v-toolbar flat dense color="grey lighten-2">
-              <v-btn icon v-if="!rightFocused" @click="focusRight">
-                <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
-              </v-btn>
-              <v-btn icon v-if="rightFocused" @click="resumeNormal">
-                <v-icon>mdi-circle-slice-8</v-icon>
-              </v-btn>
-              <v-tabs
-                v-model="taskSummaryTab"
-                background-color="grey lighten-2"
-                color="secondary"
-                grow
-              >
-                <v-tab
-                  v-for="taskSummaryTab in taskSummaryTabList"
-                  :key="taskSummaryTab.tabName"
-                >
-                  {{ taskSummaryTab.tabName }}
-                </v-tab>
-              </v-tabs>
-            </v-toolbar>
-          </template>
+          <v-tab
+            v-for="taskSummaryTab in taskSummaryTabList"
+            :key="taskSummaryTab.tabName"
+          >
+            {{ taskSummaryTab.tabName }}
+          </v-tab>
+        </v-tabs>
+      </v-toolbar>
+    </template>
 
-          <v-divider></v-divider>
-          <v-tabs-items v-model="taskSummaryTab">
-            <v-tab-item
-              v-for="taskSummaryTab in taskSummaryTabList"
-              :key="taskSummaryTab.tabName"
-            >
-              <v-card flat min-height="600">
-                  <component :is="taskSummaryTab.component"></component>
-              </v-card>
-            </v-tab-item>
-          </v-tabs-items>
-        </v-navigation-drawer>
-        <!-- WORK AREA-->
-      <!-- </v-card>
+    <v-divider></v-divider>
+    <v-tabs-items v-model="taskSummaryTab">
+      <v-tab-item
+        v-for="taskSummaryTab in taskSummaryTabList"
+        :key="taskSummaryTab.tabName"
+      >
+        <v-card flat min-height="600">
+          <component :is="taskSummaryTab.component"></component>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-navigation-drawer>
+  <!-- WORK AREA-->
+  <!-- </v-card>
     </div>
   </div> -->
 </template>

@@ -5,7 +5,7 @@
       outlined
       :value="modelValue"
       v-on:keypress="keyPress"
-      prefix="₹"
+      prefix="$"
       @input="(newValue) => (modelValue = newValue)"
     ></v-text-field>
   </div>
@@ -19,7 +19,7 @@ import { VTextField } from "vuetify/lib/components";
     VTextField,
   },
 })
-export default class FCurrencyField extends VTextField {
+export default class FFooCurrencyField extends VTextField {
   @Prop()
   value: string;
   precession: string = "2";

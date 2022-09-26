@@ -55,7 +55,7 @@ validateAndSaveAndNext() {
 
   goToPrevStep() {
     return () => {
-      (this.taskRoot as any).goToStep(1);
+      (this.taskRoot as any).goToStep(3);
     }
   }
 

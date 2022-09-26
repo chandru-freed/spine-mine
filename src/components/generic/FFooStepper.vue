@@ -5,6 +5,7 @@
     <v-stepper-header flat>
       <!-- :editable="stepIndx<selectedStep" -->
       <v-stepper-step
+        :editable="stepsEditable"
         :complete="selectedStep > stepIndx"
         :step="stepIndx"
         v-for="(step, stepIndx) in stepMetaDataList"
@@ -52,6 +53,7 @@ import FBudget from "@/components/generic/file/budget/FBudget.vue";
 import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue";
 import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
 import CLProfile from "./clientProfile/CLProfile.vue";
+import FMarkComplete from "./file/markcomplete/FMarkComplete.vue";
 
 @Component({
   components: {
@@ -61,6 +63,7 @@ import CLProfile from "./clientProfile/CLProfile.vue";
     FBudget,
     FPaymentPlan,
     FDocument,
+    FMarkComplete
   },
 })
 export default class FFooStepper extends ModelVue {
@@ -76,6 +79,11 @@ export default class FFooStepper extends ModelVue {
 
   @Prop()
   stepMetaDataList: any[];
+  
+  @Prop({
+    default: false
+  })
+  stepsEditable: boolean;
 
   changeStepQuery(val: any) {
     console.log(val)

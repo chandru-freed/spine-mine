@@ -5,14 +5,20 @@ export default class FFooStepperMDP implements MDP {
 
   stepList: FStepMDP[] = [];
   myRefName: string;
+  disabled: boolean;
 
-  constructor({ myRefName }: { myRefName: string }) {
+  constructor({ myRefName, disabled=false }: { myRefName: string;disabled?: boolean}) {
     this.myRefName = myRefName;
+    this.disabled = disabled;
   }
 
   addStep({name, stepContent}:{name: string, stepContent: MDP}) {
     this.stepList.push(new FStepMDP({ name: name, stepContent: stepContent }));
     return this;
+  }
+
+  isStepEditable() {
+    return this.disabled
   }
 
   getMetaData(): object {
@@ -22,6 +28,7 @@ export default class FFooStepperMDP implements MDP {
       props: {
         myRefName: this.myRefName,
         stepMetaDataList: this.stepList.map((step) => step.getMetaData()),
+        stepsEditable: this.isStepEditable()
       },
     };
   }

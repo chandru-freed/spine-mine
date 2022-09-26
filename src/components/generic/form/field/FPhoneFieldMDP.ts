@@ -11,6 +11,9 @@ export default class FPhoneFieldMDP implements FFieldMDP {
   parentMDP: FFormChildMDP;
   boundaryClass: string;
   disabled: boolean;
+  condition: boolean;
+  mask: string;
+  unMask: string;
   // defaultValue?: string;
 
   constructor({
@@ -22,8 +25,11 @@ export default class FPhoneFieldMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    // defaultValue
-  }: {
+    condition = true,
+    mask = "##### #####",
+    unMask = "##########",
+  }: // defaultValue
+  {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
     label: string;
@@ -32,6 +38,9 @@ export default class FPhoneFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
+    condition?: boolean;
+    mask?: string;
+    unMask?: string;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -42,6 +51,9 @@ export default class FPhoneFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
+    this.condition = condition;
+    this.mask = mask;
+    this.unMask = unMask;
     // this.defaultValue = defaultValue;
   }
 
@@ -60,6 +72,7 @@ export default class FPhoneFieldMDP implements FFieldMDP {
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
+      condition: this.condition,
       props: {
         id: this.dataSelectorKey,
         label: this.label,
@@ -67,6 +80,8 @@ export default class FPhoneFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
+        mask: this.mask,
+        unmask: this.unMask,
         // defaultValue: this.defaultValue
       },
     };

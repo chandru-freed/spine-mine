@@ -11,10 +11,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
-    "imask": "^6.4.3-alpha.0",
     "moment": "^2.29.3",
     "node-snackbar": "^0.1.16",
-    "v-mask": "^2.3.0",
     "vee-validate": "^3.4.14",
     "vue": "^2.7.5",
     "vue-class-component": "^7.2.6",

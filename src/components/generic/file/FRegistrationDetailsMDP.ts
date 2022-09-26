@@ -4,6 +4,7 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
+import FFooPhoneField from "@/components/generic/form/field/FFooPhoneFieldMDP";
 import FSelectDateFieldMDP from "../form/field/FDateSelectFieldMDP";
 
 export default class FRegistrationDetailsMDP extends FFormMDP {
@@ -51,7 +52,7 @@ export default class FRegistrationDetailsMDP extends FFormMDP {
                 mandatory: true
             })
         ).addField(
-            new FPhoneFieldMDP({
+            new FFooPhoneField({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "mobile",
                 label: "Mobile",

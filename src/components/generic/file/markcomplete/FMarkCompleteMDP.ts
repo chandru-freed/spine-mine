@@ -7,9 +7,11 @@ import BudgetSummaryFFormMDP from "./summary/BudgetSummaryFFormMDP";
 import PaymentPlanSummaryFFormMDP from "./summary/PaymentPlanSummaryFFormMDP";
 import BankInfoSummaryFFormMDP from "./summary/BankInfoSummaryFFormMDP";
 import DocumentSummaryFFormMDP from "./summary/DocumentSummaryFFormMDP";
+import FFormMDP from "../../form/FFormMDP";
 
 export default class FMarkCompleteMDP implements MDP {
     componentName: string = "FMarkComplete";
+    formList: FFormMDP[] = [];
     actionList: FBtnMDP[] = [];
     constructor() {
     }
@@ -19,6 +21,12 @@ export default class FMarkCompleteMDP implements MDP {
         console.log(this.actionList)
         return this;
     }
+
+    addForm(newForm: FFormMDP) {
+        this.formList.push(newForm);
+        return this;
+    }
+
     getClientInfoSummaryMetaData() {
         return new StepSummaryMDP()
             .addSummary({
@@ -47,7 +55,7 @@ export default class FMarkCompleteMDP implements MDP {
             }).addSummary({
                 name: "Documents",
                 content: new DocumentSummaryFFormMDP(),
-                stepIndex:4
+                stepIndex:5
                 
             })
             .getMetaData()
@@ -60,7 +68,10 @@ export default class FMarkCompleteMDP implements MDP {
                 actionMetaDataList: this.actionList.map((action) =>
                     action.getMetaData(),
                 ),
-                clientInfoSummaryMetaData: this.getClientInfoSummaryMetaData()
+                clientInfoSummaryMetaData: this.getClientInfoSummaryMetaData(),
+                formMetaDataList: this.formList.map((form) =>
+                    form.getMetaData()
+                ),
             }
         }
     }

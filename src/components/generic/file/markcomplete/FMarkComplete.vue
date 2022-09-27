@@ -11,6 +11,17 @@
     <PaymentPlanSummary />
     <BankInfoSummary /> -->
     <!--ACTION START-->
+
+    <div v-for="formMetaData in formMetaDataList" :key="formMetaData.myRefName">
+        <component
+          :ref="formMetaData.myRefName"
+          :is="formMetaData.componentName"
+          :value="selectModel(modelValue, formMetaData.dataSelectorKey)"
+          @input="(newValue) => updateModel(modelValue, newValue, formMetaData.dataSelectorKey)"
+          v-bind="formMetaData.props"
+        ></component>
+      </div>
+
     <div
       class="
         d-flex
@@ -37,12 +48,14 @@
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
 import FBtn from "../../FBtn.vue";
+import FForm from "../../form/FForm.vue";
 import ModelVue from "../../ModelVue";
 import StepSummary from "./summary/StepSummary.vue";
 @Component({
   components: {
     FBtn,
-    StepSummary
+    StepSummary,
+    FForm
   },
 })
 export default class FMarkComplete extends ModelVue {
@@ -53,6 +66,9 @@ export default class FMarkComplete extends ModelVue {
 
   @Prop() 
   clientInfoSummaryMetaData: any;
+
+  @Prop()
+  formMetaDataList: any;
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(

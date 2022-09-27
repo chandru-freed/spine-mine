@@ -6,7 +6,7 @@ import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FTimeFieldMDP from "@/components/generic/form/field/FTimeFieldMDP";
 import TestIntf from "./TestIntf";
-import FFooTextFieldMDP from "@/components/generic/form/field/FFooTextFieldMDP";
+// import FFooTextFieldMDP from "@/components/generic/form/field/FFooTextFieldMDP";
 import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFieldMDP";
 
 export default class TestFormMDP extends FFormMDP {

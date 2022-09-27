@@ -14,6 +14,7 @@ export default class FSelectDateFieldMDP implements MDP {
     futureDaysDisabled: boolean;
     dateDisplayFormat: string;
     condition: boolean;
+    readonly: boolean;
     constructor({
         parentMDP,
         dataSelectorKey,
@@ -25,7 +26,8 @@ export default class FSelectDateFieldMDP implements MDP {
         pastDaysDisabled = false,
         futureDaysDisabled = false,
         dateDisplayFormat="DD/MM/YYYY",
-        condition = true
+        condition = true,
+        readonly = true
     }: {
         parentMDP: FFormChildMDP;
         dataSelectorKey: string;
@@ -38,7 +40,8 @@ export default class FSelectDateFieldMDP implements MDP {
         pastDaysDisabled?: boolean
         futureDaysDisabled?:boolean
         dateDisplayFormat?: string
-        condition?: boolean
+        condition?: boolean;
+        readonly?: boolean;
     }) {
         this.parentMDP = parentMDP;
         this.dataSelectorKey = dataSelectorKey;
@@ -51,6 +54,7 @@ export default class FSelectDateFieldMDP implements MDP {
         this.futureDaysDisabled = futureDaysDisabled;
         this.dateDisplayFormat = dateDisplayFormat;
         this.condition = condition;
+        this.readonly = readonly;
     }
 
 
@@ -62,6 +66,11 @@ export default class FSelectDateFieldMDP implements MDP {
     getBoundaryClass() {
         return `${this.boundaryClass} py-0 px-2`;
     }
+
+
+  isDisabled() {
+    return this.disabled || this.readonly
+  }
     
     getMetaData() {
         return {
@@ -75,7 +84,8 @@ export default class FSelectDateFieldMDP implements MDP {
                 label: this.label,
                 outlined: this.parentMDP.outlined,
                 dense: this.parentMDP.dense,
-                disabled: this.disabled,
+                disabled: this.isDisabled(),
+                readonly: this.readonly,
                 pastDaysDisabled: this.pastDaysDisabled,
                 futureDaysDisabled: this.futureDaysDisabled,
                 dateDisplayFormat: this.dateDisplayFormat

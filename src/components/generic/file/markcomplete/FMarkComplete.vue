@@ -1,10 +1,15 @@
 <template>
   <div class="col-12">
-    <ProfileSummary />
+    <component
+        :is="clientInfoSummaryMetaData.componentName"
+        :ref="clientInfoSummaryMetaData.myRefName"
+        v-bind="clientInfoSummaryMetaData.props"
+      ></component>
+    <!-- <ProfileSummary />
     <CreditorSummary />
     <BudgetSummary />
     <PaymentPlanSummary />
-    <BankInfoSummary />
+    <BankInfoSummary /> -->
     <!--ACTION START-->
     <div
       class="
@@ -33,20 +38,11 @@
 import { Component, Prop } from "vue-property-decorator";
 import FBtn from "../../FBtn.vue";
 import ModelVue from "../../ModelVue";
-import BankInfoSummary from "./summary/BankInfoSummary.vue";
-import BudgetSummary from "./summary/BudgetSummary.vue";
-import CreditorSummary from "./summary/CreditorSummary.vue";
-import PaymentPlanSummary from "./summary/PaymentPlanSummary.vue";
-import ProfileSummary from "./summary/ProfileSummary.vue";
-
+import StepSummary from "./summary/StepSummary.vue";
 @Component({
   components: {
-    ProfileSummary,
-    CreditorSummary,
-    BudgetSummary,
-    PaymentPlanSummary,
-    BankInfoSummary,
     FBtn,
+    StepSummary
   },
 })
 export default class FMarkComplete extends ModelVue {
@@ -54,6 +50,9 @@ export default class FMarkComplete extends ModelVue {
     default: () => [],
   })
   actionMetaDataList: any[];
+
+  @Prop() 
+  clientInfoSummaryMetaData: any;
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(

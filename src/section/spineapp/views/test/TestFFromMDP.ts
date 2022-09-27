@@ -6,6 +6,8 @@ import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FTimeFieldMDP from "@/components/generic/form/field/FTimeFieldMDP";
 import TestIntf from "./TestIntf";
+import FFooTextFieldMDP from "@/components/generic/form/field/FFooTextFieldMDP";
+import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFieldMDP";
 
 export default class TestFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -19,19 +21,23 @@ export default class TestFormMDP extends FFormMDP {
     // this.parent = parent;
 
     this.addField(
-      new FAccountFieldMDP({
+      new FNumberTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "firstName",
-        label: "Credit Card",
+        label: "Pincode",
         boundaryClass: "col-4",
+        mask: "######",
+        unmask: "######",
       })
     )
       .addField(
-        new FTimeFieldMDP({
+        new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "middleName",
-          label: "Time",
+          dataSelectorKey: "name",
+          label: "Name",
           boundaryClass: "col-4",
+          mask: "### ###",
+          unmask: "######",
         })
       )
       .addAction(

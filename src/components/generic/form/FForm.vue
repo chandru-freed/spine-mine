@@ -66,16 +66,14 @@ import FFileField from "./field/FFileField.vue";
 import FSwitch from "./field/FSwitch.vue";
 import FPasswordField from "./field/FPasswordField.vue";
 import FCurrencyField from "./field/FCurrencyField.vue";
-import FPhoneField from "./field/FPhoneField.vue";
-import FSelectFooField from "./field/FSelectFooField.vue";
 import FAutoCompleteField from "./field/FAutoCompleteField.vue";
 import FDateSelectField from "./field/FDateSelectField.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FIFSCCodeField from "./field/FIFSCCodeField.vue";
-import FAccountField from "./field/FAccountField.vue";
 import FTimeField from "./field/FTimeField.vue";
 import FGompaUserRemoteAutoCompleteField from "./field/FGompaUserRemoteAutoComplete.vue";
 import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
+import FNumberTextField from "./field/FNumberTextField.vue";
 
 @Component({
   components: {
@@ -93,14 +91,13 @@ import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
     FSwitch,
     FPasswordField,
     FCurrencyField,
-    FPhoneField,
     FAutoCompleteField,
     FDateSelectField,
     FIFSCCodeField,
-    FAccountField,
     FTimeField,
     FGompaUserRemoteAutoCompleteField,
     FRemoteComboBoxField,
+    FNumberTextField,
   },
 })
 export default class FForm extends ModelVue {

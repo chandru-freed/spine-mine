@@ -3,6 +3,7 @@ import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FNumberFieldMDP from "./FNumberFieldMDP";
+import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFieldMDP";
 
 export default class AddressFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -75,13 +76,15 @@ export default class AddressFMiniFormMDP extends FMiniFormMDP {
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FNumberTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "pinCode",
           label: "Pin Code",
           mandatory: true,
           boundaryClass: "col-3",
           rules: "digits:6",
+          mask: "######",
+          unmask: "######",
         })
       );
   }

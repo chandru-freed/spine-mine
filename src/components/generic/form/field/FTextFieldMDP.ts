@@ -12,7 +12,11 @@ export default class FTextFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
-  // defaultValue?: string;
+  mask: string;
+  unmask: string;
+  prefix: string;
+  hint: string;
+  placeholder: string;
 
   constructor({
     parentMDP,
@@ -23,8 +27,12 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    condition = true
-    // defaultValue
+    condition = true,
+    mask = "",
+    unmask = "",
+    prefix = "",
+    placeholder = "",
+    hint = "",
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -34,8 +42,12 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean
-    // defaultValue?: string
+    condition?: boolean;
+    mask?: string;
+    unmask?: string;
+    prefix?: string;
+    placeholder?: string;
+    hint?: string;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -45,7 +57,12 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
-    this.condition = condition
+    this.condition = condition;
+    this.mask = mask;
+    this.unmask = unmask;
+    this.prefix = prefix;
+    this.hint = hint;
+    this.placeholder = placeholder;
     // this.defaultValue = defaultValue;
   }
 
@@ -56,6 +73,10 @@ export default class FTextFieldMDP implements FFieldMDP {
 
   getBoundaryClass() {
     return `${this.boundaryClass} py-0 px-2`;
+  }
+
+  getMaxLength() {
+    return this.mask ? this.mask.length : undefined;
   }
 
   getMetaData(): object {
@@ -72,6 +93,12 @@ export default class FTextFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
+        unmask: this.unmask,
+        mask: this.mask,
+        maxlength: this.getMaxLength(),
+        prefix: this.prefix,
+        placeholder: this.placeholder,
+        hint: this.hint,
         // defaultValue: this.defaultValue
       },
     };

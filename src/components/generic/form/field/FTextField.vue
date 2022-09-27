@@ -109,3 +109,8 @@ export default class FTextField extends VTextField {
   // MODEL VALUE - END
 }
 </script>
+<style>
+.v-input--is-readonly input  {
+  color: #000 !important;
+}
+</style>

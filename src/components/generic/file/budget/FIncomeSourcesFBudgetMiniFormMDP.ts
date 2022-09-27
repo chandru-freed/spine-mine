@@ -14,6 +14,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
       label: "Income Sources",
       mandatory: true,
       boundaryClass: "col-4",
+      minHeight: "575"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

@@ -39,17 +39,18 @@ export default class FBankFFormMDP extends FFormMDP {
         dataSelectorKey: "accountNumber",
         label: "Account Number",
         mandatory: true,
-        boundaryClass: "col-3",
+        boundaryClass: "col-4",
       })
     )
       .addField(
         new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "confirmAccountNumber",
-          label: "Confirme Account Number",
+          label: "Confirm Account Number",
           mandatory: true,
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           rules: "confirmed:accountNumber",
+          condition: !disabled
         })
       )
       .addField(
@@ -57,7 +58,7 @@ export default class FBankFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "nupayBankMasterId",
           label: "Bank Name",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           mandatory: true,
           options: this.taskRoot.nupayBankMasterList,
           optionLabel: "nupayBnkName",
@@ -70,10 +71,11 @@ export default class FBankFFormMDP extends FFormMDP {
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           mandatory: true,
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           onSelect: (details) => {
             this.populateBankDetails(details);
           },
+          disabled: this.disabled
         })
       )
       .addField(
@@ -81,7 +83,7 @@ export default class FBankFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "accountType",
           label: "Account Type",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           mandatory: true,
           options: [
             { id: "SAVINGS", name: "SAVINGS" },
@@ -97,7 +99,7 @@ export default class FBankFFormMDP extends FFormMDP {
           dataSelectorKey: "accountHolderName",
           label: "Account Holder Name",
           mandatory: true,
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
         })
       )
       .addField(
@@ -114,5 +116,9 @@ export default class FBankFFormMDP extends FFormMDP {
 
   populateBankDetails(details: any) {
     this.taskRoot.populateBankDetails(details);
+  }
+
+  getMyRef(): any {
+    return this.parent.getMyRef()[0].$refs[this.myRefName];
   }
 }

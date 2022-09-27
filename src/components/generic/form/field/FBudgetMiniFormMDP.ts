@@ -14,6 +14,7 @@ export default class FBudgetMiniFormMDP implements FFieldMDP {
 
   dataSelectorKey: string;
   disabled: boolean;
+  minHeight: string;
 
   label: string;
   rules: string;
@@ -29,6 +30,7 @@ export default class FBudgetMiniFormMDP implements FFieldMDP {
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
+    minHeight = "",
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -37,6 +39,7 @@ export default class FBudgetMiniFormMDP implements FFieldMDP {
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string;
+    minHeight?: string;
   }) {
     this.parentMDP = parentMDP; // todo : Check not being used
     this.dataSelectorKey = dataSelectorKey;
@@ -45,6 +48,7 @@ export default class FBudgetMiniFormMDP implements FFieldMDP {
     this.rules = rules;
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
+    this.minHeight = minHeight;
   }
 
   getRules() {
@@ -71,6 +75,7 @@ export default class FBudgetMiniFormMDP implements FFieldMDP {
         label: this.label,
         fieldMetaDataList: this.fieldList.map((field) => field.getMetaData()),
         disabled: this.disabled,
+        minHeight: this.minHeight,
       },
     };
   }

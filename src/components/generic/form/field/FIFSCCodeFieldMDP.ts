@@ -36,7 +36,7 @@ export default class FIFSCCodeFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean
+    condition?: boolean;
     onSelect: (details: any) => void
     // defaultValue?: string
   }) {
@@ -76,6 +76,7 @@ export default class FIFSCCodeFieldMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
+        btnCondition: !this.disabled,
         onSelect: this.onSelect
         // defaultValue: this.defaultValue
       },

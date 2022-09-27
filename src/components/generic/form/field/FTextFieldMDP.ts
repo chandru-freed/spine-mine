@@ -1,5 +1,6 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import { readonly } from "vue";
 
 export default class FTextFieldMDP implements FFieldMDP {
   componentName = "FTextField";
@@ -17,6 +18,8 @@ export default class FTextFieldMDP implements FFieldMDP {
   prefix: string;
   hint: string;
   placeholder: string;
+  readonly: boolean;
+  // defaultValue?: string;
 
   constructor({
     parentMDP,
@@ -33,7 +36,9 @@ export default class FTextFieldMDP implements FFieldMDP {
     prefix = "",
     placeholder = "",
     hint = "",
-  }: {
+    readonly = false,
+  }: // defaultValue
+  {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
     label: string;
@@ -48,6 +53,8 @@ export default class FTextFieldMDP implements FFieldMDP {
     prefix?: string;
     placeholder?: string;
     hint?: string;
+    readonly?: boolean;
+    // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -63,6 +70,8 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.prefix = prefix;
     this.hint = hint;
     this.placeholder = placeholder;
+    this.condition = condition;
+    this.readonly = readonly;
     // this.defaultValue = defaultValue;
   }
 
@@ -78,6 +87,9 @@ export default class FTextFieldMDP implements FFieldMDP {
   getMaxLength() {
     return this.mask ? this.mask.length : undefined;
   }
+  isDisabled() {
+    return this.disabled || this.readonly;
+  }
 
   getMetaData(): object {
     return {
@@ -92,13 +104,14 @@ export default class FTextFieldMDP implements FFieldMDP {
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        disabled: this.disabled,
         unmask: this.unmask,
         mask: this.mask,
         maxlength: this.getMaxLength(),
         prefix: this.prefix,
         placeholder: this.placeholder,
         hint: this.hint,
+        disabled: this.isDisabled(),
+        readonly: this.readonly,
         // defaultValue: this.defaultValue
       },
     };

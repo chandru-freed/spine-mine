@@ -89,7 +89,15 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
+        class="
+          d-flex
+          flex-row
+          align-start
+          flex-wrap
+          justify-space-around
+          pa-2
+          my-5
+        "
         v-if="!disabled"
       >
         <component
@@ -111,6 +119,8 @@ import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import * as Snackbar from "node-snackbar";
+
 @Component({
   components: {
     FForm,
@@ -151,13 +161,11 @@ export default class FCreditor extends ModelVue {
   @Prop()
   disabled: boolean;
 
-
   @Prop()
   readonly: boolean;
 
   @Prop()
   taskRoot: any;
-  
 
   showAddForm() {
     this.closeDialogs();
@@ -207,7 +215,9 @@ export default class FCreditor extends ModelVue {
   }
 
   editCreditorData() {
-    const selectedCreditorIndex = this.creditorList.findIndex((item: any) => item.fiCreditorId==this.selectedCreditorItem.fiCreditorId)
+    const selectedCreditorIndex = this.creditorList.findIndex(
+      (item: any) => item.fiCreditorId == this.selectedCreditorItem.fiCreditorId
+    );
     Object.assign(
       this.creditorList[selectedCreditorIndex],
       this.editCreditorForm
@@ -217,12 +227,18 @@ export default class FCreditor extends ModelVue {
 
   deleteCreditorData() {
     const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
-    Action.Spine.RemoveCreditor.execute1(fiCreditorId, output => {
-      const selectedCreditorIndex = this.creditorList.findIndex((item: any) => item.fiCreditorId==this.selectedCreditorItem.fiCreditorId)
+    Action.Spine.RemoveCreditor.execute1(fiCreditorId, (output) => {
+      const selectedCreditorIndex = this.creditorList.findIndex(
+        (item: any) =>
+          item.fiCreditorId == this.selectedCreditorItem.fiCreditorId
+      );
       this.creditorList.splice(selectedCreditorIndex, 1);
       this.closeDialogs();
-      this.taskRoot.saveTask();
-    })
+      Snackbar.show({
+        text: "Succesfully Removed",
+        pos: "bottom-center",
+      });
+    });
   }
 
   selectEditCreditor(item: any, index: any) {

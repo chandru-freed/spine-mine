@@ -3,6 +3,7 @@ export default interface ManualTaskIntf {
     taskDisabled: boolean
     taskFormData: any
     taskDetails: any
+    taskId: string;
     gotoFile: () => void
 
 

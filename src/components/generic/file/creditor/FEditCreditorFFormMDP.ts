@@ -8,6 +8,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
+import * as Snackbar from 'node-snackbar';
 
 export default class FEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -116,9 +117,13 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
+    input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateCreditor.execute(input, (output) => {
       this.parent.getMyRef()[0].editCreditorData();
-      this.taskRoot.saveTask();
+      Snackbar.show({
+        text: "Succesfully Updated",
+        pos: "bottom-center"
+      });
     });
   }
 }

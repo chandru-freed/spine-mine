@@ -2,6 +2,7 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBankFFormMDP from "@/components/generic/file/FBankFFormMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import * as Snackbar from "node-snackbar";
 
 export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
@@ -39,13 +40,13 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
   }
   validateAndSubmit() {
     return () => {
-        this.getMyRef().submitForm(() => {
-          this.updateBankInfo();
-        });
+      this.getMyRef().submitForm(() => {
+        this.updateBankInfo();
+      });
     };
-}
+  }
 
-validateAndSaveAndNext() {
+  validateAndSaveAndNext() {
     return () => {
       this.getMyRef().submitForm(() => {
         this.updateBankInfo(true);
@@ -62,13 +63,17 @@ validateAndSaveAndNext() {
   updateBankInfo(goToNextStep: boolean = false) {
     const input = Data.Spine.UpdateBankInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.bankInfo)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+    input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateBankInfo.execute(input, (output: any) => {
-        this.taskRoot.saveTask();
-        if(goToNextStep) {
-          (this.taskRoot as any).goToStep(5)
-        }
+      Snackbar.show({
+        text: "Succesfully Saved",
+        pos: "bottom-center",
+      });
+      if (goToNextStep) {
+        (this.taskRoot as any).goToStep(5)
+      }
     });
-}
+  }
 
   rescueTask() {
     return () => {
@@ -83,7 +88,7 @@ validateAndSaveAndNext() {
   isException() {
     return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
   }
-  
+
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName][0];

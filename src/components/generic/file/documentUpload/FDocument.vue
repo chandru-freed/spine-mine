@@ -88,14 +88,12 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
-import ClientFile from "@/section/spineapp/util/ClientFile";
+import * as Snackbar from "node-snackbar";
 import axios from "axios";
 
 @Component({
@@ -179,10 +177,13 @@ export default class FDocument extends ModelVue {
   deleteDocument() {
     const fiDocumentId =
       this.modelValue[this.selectedCreditorIndex].fiDocumentId;
-    Action.Spine.DetachDocument.execute1(fiDocumentId, (output) => {
+    Action.Spine.DetachDocument.execute2(this.taskRoot.taskId,fiDocumentId, (output) => {
       this.modelValue.splice(this.selectedCreditorIndex, 1);
       this.closeDialogs();
-      this.taskRoot.saveTask();
+      Snackbar.show({
+        text: "Succesfully Removed",
+        pos: "bottom-center",
+      });
     });
   }
 
@@ -241,6 +242,7 @@ export default class FDocument extends ModelVue {
       this.uploadedDocument
     );
     input.clientFileId = this.taskRoot.clientFileBasicInfo.clientFileId;
+    input.taskId = this.taskRoot.taskId;
     Action.Spine.AttachDocument.execute(input, (output) => {
       this.saveAttachedDocument(output.fiDocumentId);
     });
@@ -249,16 +251,11 @@ export default class FDocument extends ModelVue {
   saveAttachedDocument(fiDocumentId: string) {
     this.uploadedDocument.fiDocumentId = fiDocumentId;
     (this.modelValue as any).push(this.uploadedDocument);
-    this.taskRoot?.saveTask();
-    this.closeAndClearAllForms();
-  }
-
-  dettachDocument() {
-    Action.Spine.DetachDocument.execute1("", (output) => {
-      (this.modelValue as any).push(this.uploadedDocument);
-      this.taskRoot?.saveTask();
-      this.closeAndClearAllForms();
+    Snackbar.show({
+        text: "Succesfully Removed",
+        pos: "bottom-center",
     });
+    this.closeAndClearAllForms();
   }
 
   generateRandomUrl(file: File | null) {

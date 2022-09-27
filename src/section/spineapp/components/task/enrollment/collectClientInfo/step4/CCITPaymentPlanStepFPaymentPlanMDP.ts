@@ -2,6 +2,7 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FPaymentPlanMDP from "@/components/generic/file/paymentPlan/FPaymentPlanMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import * as Snackbar from "node-snackbar";
 
 export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
@@ -69,8 +70,12 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
     console.log(this.taskRoot.taskFormData.taskOutput.paymentPlan)
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+    input.taskId = this.taskRoot.taskId;
     Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
-      this.taskRoot.saveTask();
+      Snackbar.show({
+        text: "Succesfully Saved",
+        pos: "bottom-center",
+      });
     })
   }
 

@@ -5,6 +5,7 @@ import FRegistrationDetailsMDP from "@/components/generic/file/FRegistrationDeta
 import MDP from "@/components/generic/MDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import * as Snackbar from 'node-snackbar';
 
 export default class CCITProfileStepMDP extends CLProfileMDP {
     profileFFormRef = "profileFFormRef"
@@ -109,8 +110,13 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
     updateClPersonalInfo(goToNextStep: boolean = false) {
         const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.personalInfo)
         input.clientId = (this.taskRoot as any).clientFileBasicInfo.clientBasicInfo.clientId
+        input.taskId = this.taskRoot.taskId;
+        console.log(this.taskRoot.taskId)
         Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
-            this.taskRoot.saveTask();
+            Snackbar.show({
+                text: "Succesfully saved",
+                pos:"bottom-center"
+            })
             if (goToNextStep) {
                 (this.taskRoot as any).goToStep(1);
             }

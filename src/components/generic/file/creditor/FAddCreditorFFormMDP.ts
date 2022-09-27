@@ -9,6 +9,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
+import * as Snackbar from 'node-snackbar';
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -118,9 +119,13 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
+    input.taskId = this.taskRoot.taskId;
     Action.Spine.AddCreditor.execute(input, (output) => {
       this.parent.getMyRef()[0].addCreditorData(output.fiCreditorId);
-      this.taskRoot.saveTask();
+      Snackbar.show({
+        text: "Succesfully saved",
+        pos: "bottom-center"
+      });
     });
   }
 }

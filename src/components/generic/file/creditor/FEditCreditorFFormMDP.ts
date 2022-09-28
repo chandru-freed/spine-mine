@@ -121,7 +121,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
     ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateCreditor.execute(input, (output) => {
-      this.parent.getMyRef()[0].editCreditorData();
+      this.parent.getMyRef()[0].closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully Updated",
         pos: "bottom-center"

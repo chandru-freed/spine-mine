@@ -71,7 +71,15 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
+        class="
+          d-flex
+          flex-row
+          align-start
+          flex-wrap
+          justify-space-around
+          pa-2
+          my-5
+        "
         v-if="!disabled"
       >
         <component
@@ -161,36 +169,25 @@ export default class FDocument extends ModelVue {
     console.log(this.$refs);
   }
 
-  // uploadFileDocument() {
-
-  // this.getPresignedURLAndUpload();
-  // const url = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
-  // console.log(url)
-  // Action.ClientFile.UploadDocument.execute(
-  //   this.uploadDocumentForm,
-  //   (output) => {
-  //     console.log("document uploaded successfully");
-  //   }
-  // );
-  // }
-
   deleteDocument() {
     const fiDocumentId =
       this.modelValue[this.selectedCreditorIndex].fiDocumentId;
-    Action.Spine.DetachDocument.execute2(this.taskRoot.taskId,fiDocumentId, (output) => {
-      this.modelValue.splice(this.selectedCreditorIndex, 1);
-      this.closeDialogs();
-      Snackbar.show({
-        text: "Succesfully Removed",
-        pos: "bottom-center",
-      });
-    });
+    Action.Spine.DetachDocument.execute2(
+      this.taskRoot.taskId,
+      fiDocumentId,
+      (output) => {
+        this.closeDialogs();
+        Snackbar.show({
+          text: "Succesfully Removed",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 
   selectDeleteDocument(item: any, index: number) {
     this.selectedCreditorIndex = index;
     this.showDeletePopup();
-    console.log(this.deleteDocumentDialog);
   }
 
   get actionMetaDataListFiltered() {
@@ -244,18 +241,12 @@ export default class FDocument extends ModelVue {
     input.clientFileId = this.taskRoot.clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.AttachDocument.execute(input, (output) => {
-      this.saveAttachedDocument(output.fiDocumentId);
-    });
-  }
-
-  saveAttachedDocument(fiDocumentId: string) {
-    this.uploadedDocument.fiDocumentId = fiDocumentId;
-    (this.modelValue as any).push(this.uploadedDocument);
-    Snackbar.show({
+      Snackbar.show({
         text: "Succesfully Removed",
         pos: "bottom-center",
+      });
+      this.closeAndClearAllForms();
     });
-    this.closeAndClearAllForms();
   }
 
   generateRandomUrl(file: File | null) {

@@ -47,7 +47,8 @@
           style="vertical-align:middle"
         >
           <span class="text--primary font-weight-semibold mb-n1">
-            John Doe
+            {{loggedInUser.userName}}
+            <!-- John Doe -->
           </span>
           <small class="text--disabled text-capitalize">Admin</small>
         </div>
@@ -156,10 +157,13 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 @Component
 export default class AppBarUserMenu extends Vue { 
-  
+  @Store.Getter.Login.LoginDetails.loggedInUser
+  loggedInUser: Data.Login.LoginDetails;
 
   logout() {
     window.localStorage.removeItem("userName");

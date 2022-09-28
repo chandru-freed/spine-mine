@@ -32,12 +32,23 @@
 import { Component, Vue } from "vue-property-decorator";
 import AppBar from "@/section/spineapp/views/bar/AppBar.vue";
 import LeftNavigationBar from "@/section/spineapp/views/bar/LeftNavigationBar.vue";
-
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 @Component({
   components: {
     LeftNavigationBar,
     AppBar,
   },
 })
-export default class RootLayout extends Vue {}
+export default class RootLayout extends Vue {
+  mounted() {
+    this.getLoggedInUser()
+  }
+  getLoggedInUser() {
+    const userName: any = localStorage.getItem("userName");
+    Action.Login.GetUserDetails.execute1(userName, (output) => {
+      
+    });
+  }
+}
 </script>

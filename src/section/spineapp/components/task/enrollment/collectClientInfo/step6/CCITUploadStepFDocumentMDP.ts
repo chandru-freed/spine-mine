@@ -16,13 +16,15 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
         label: "Previous",
         onClick: this.goToPrevStep(),
       })
-    ).addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-        condition: this.isStarted()
-      })
-    ).addAction(
+    )
+    // .addAction(
+    //   new FBtnMDP({
+    //     label: "Save",
+    //     onClick: this.saveTask(),
+    //     condition: this.isStarted()
+    //   })
+    // )
+    .addAction(
       new FBtnMDP({
         label: "Rescue",
         onClick: this.rescueTask(),

@@ -37,6 +37,8 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
         onClick: this.validateAndSaveAndNext(),
       })
     );
+
+    this.taskRoot.setConfirmAccountNumber();
   }
   validateAndSubmit() {
     return () => {

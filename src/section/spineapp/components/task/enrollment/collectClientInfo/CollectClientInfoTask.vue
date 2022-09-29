@@ -193,7 +193,6 @@ export default class CollectClientInfoTask
   }
   mounted() {
     this.getNupayBankMasterList();
-    this.setConfirmAccountNumber();
   }
 
   setConfirmAccountNumber() {

@@ -14,23 +14,27 @@ export default class FFormMDP implements MDP {
   myRefName: string;
   dataSelectorKey: string | undefined;
   disabled: boolean;
+  readonly: boolean;
   colWidth: number;
 
   constructor({
     myRefName,
     dataSelectorKey,
     disabled = false,
-    colWidth = 12
+    colWidth = 12,
+    readonly=false,
   }: {
     myRefName: string;
     dataSelectorKey?: string;
-    disabled?: boolean
-    colWidth?: number
+    disabled?: boolean;
+    colWidth?: number;
+    readonly?: boolean;
   }) {
     this.myRefName = myRefName;
     this.dataSelectorKey = dataSelectorKey;
     this.disabled = disabled
     this.colWidth = colWidth;
+    this.readonly = readonly;
   }
 
   addField(newField: FFieldMDP) {
@@ -59,7 +63,8 @@ export default class FFormMDP implements MDP {
           action.getMetaData()
         ),
         disabled: this.disabled,
-        boundaryClass: this.getFFormBoundaryClass()
+        boundaryClass: this.getFFormBoundaryClass(),
+        readonly: this.readonly
       },
     };
   }

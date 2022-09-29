@@ -110,7 +110,15 @@ export default class FTextField extends VTextField {
 }
 </script>
 <style>
-.v-input--is-readonly input  {
+.v-input--is-readonly input,
+.v-input--is-readonly .v-select__selection,
+.v-input--is-readonly textarea  {
   color: #000 !important;
+  cursor: default !important;
 }
+
+
+
+
+
 </style>

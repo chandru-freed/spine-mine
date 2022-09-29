@@ -18,17 +18,20 @@ export default class FProfileFFormMDP extends FFormMDP {
     myRefName,
     dataSelectorKey,
     disabled,
+    readonly=false,
   }: {
     taskRoot: any;
     parent: any;
     myRefName: string;
     dataSelectorKey?: string;
     disabled: boolean;
+    readonly?: boolean
   }) {
     super({
       myRefName: myRefName,
       dataSelectorKey: dataSelectorKey,
       disabled: disabled,
+      readonly: readonly
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

@@ -17,6 +17,7 @@
         </v-btn>
       </div>
       <component
+        v-if="currentStep === '6'"
         :is="summaryMetaData.content.componentName"
         :value="summaryData"
         :ref="summaryMetaData.content.myRefName"
@@ -43,7 +44,105 @@ export default class StepSummary extends Vue {
   summaryMetaDataList: any[];
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-  get taskOutput() {
+
+  //Data
+  taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
+  get taskFormOutput() {
+    if (
+      this.taskDetailsOutput.personalInfo &&
+      this.taskDetailsOutput.personalInfo.gender
+    ) {
+      this.taskFormOutputLocal.personalInfo =
+        this.taskDetailsOutput.personalInfo;
+    }
+
+    if (
+      this.taskDetailsOutput.creditorInfo &&
+      this.taskDetailsOutput.creditorInfo.creditorList
+    ) {
+      this.taskFormOutputLocal.creditorInfo =
+        this.taskDetailsOutput.creditorInfo;
+    }
+    if (this.taskDetailsOutput.budgetInfo) {
+      this.taskFormOutputLocal.budgetInfo.hardshipReason =
+        this.taskDetailsOutput.budgetInfo.hardshipReason;
+    }
+
+    if (
+      this.taskDetailsOutput.budgetInfo &&
+      this.taskDetailsOutput.budgetInfo.incomeSources
+    ) {
+      this.taskFormOutputLocal.budgetInfo.incomeSources = {
+        ...this.taskFormOutputLocal.budgetInfo.incomeSources,
+        ...this.taskDetailsOutput.budgetInfo.incomeSources,
+      };
+      this.taskFormOutputLocal.budgetInfo.debtRepayments = {
+        ...this.taskFormOutputLocal.budgetInfo.debtRepayments,
+        ...this.taskDetailsOutput.budgetInfo.debtRepayments,
+      };
+      this.taskFormOutputLocal.budgetInfo.livingExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.livingExpenses,
+        ...this.taskDetailsOutput.budgetInfo.livingExpenses,
+      };
+      this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses,
+        ...this.taskDetailsOutput.budgetInfo.lifeStyleExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.dependentExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.dependentExpenses,
+        ...this.taskDetailsOutput.budgetInfo.dependentExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.incidentalExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.incidentalExpenses,
+        ...this.taskDetailsOutput.budgetInfo.incidentalExpenses,
+      };
+
+      this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses = {
+        ...this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses,
+        ...this.taskDetailsOutput.budgetInfo.miscellaneousExpenses,
+      };
+    }
+
+    if (
+      this.taskDetailsOutput.paymentPlan &&
+      this.taskDetailsOutput.paymentPlan.ppCalculator &&
+      this.taskDetailsOutput.paymentPlan.ppCalculator.firstDraftDate
+    ) {
+      this.taskFormOutputLocal.paymentPlan = this.taskDetailsOutput.paymentPlan;
+    } else {
+      // this.taskFormOutputLocal.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
+    }
+
+    if (
+      this.taskDetailsOutput.bankInfo &&
+      this.taskDetailsOutput.bankInfo.accountNumber
+    ) {
+      this.taskFormOutputLocal.bankInfo = this.taskDetailsOutput.bankInfo;
+    }
+
+    if (this.taskDetailsOutput.fileDocumentList) {
+      this.taskFormOutputLocal.fileDocumentList =
+        this.taskDetailsOutput.fileDocumentList;
+    }
+    if (this.taskDetailsOutput.needVerification) {
+      this.taskFormOutputLocal.needVerification =
+        this.taskDetailsOutput.needVerification;
+    }
+    return this.taskFormOutputLocal;
+  }
+
+  set taskFormOutput(newValue) {
+    this.taskFormOutputLocal = newValue;
+  }
+
+  //Data
+
+  get currentStep() {
+    return this.$route.query.step;
+  }
+  get taskDetailsOutput() {
     return JSON.parse(this.taskDetails.taskOutput);
   }
 
@@ -52,19 +151,20 @@ export default class StepSummary extends Vue {
   }
   get creditorInfo() {
     return {
-      creditosCount: this.taskOutput.creditorInfo.creditorList.length,
-      totalDebtAmount: this.taskOutput.creditorInfo.totalDebtAmount || "NA",
+      creditosCount: this.taskFormOutput.creditorInfo?.creditorList.length,
+      totalDebtAmount:
+        this.taskFormOutput.creditorInfo?.totalDebtAmount || "NA",
     };
   }
 
   get bankInfo() {
-    return JSON.parse(this.taskDetails.taskOutput).bankInfo;
+    return this.taskFormOutput.bankInfo;
   }
 
-
   get budgetInfo() {
-    const budgetInfo =  JSON.parse(this.taskDetails.taskOutput).budgetInfo
-    budgetInfo.stdiPercentage = Math.round(budgetInfo.stdiPercentage)
+    const budgetInfo = this.taskFormOutput.budgetInfo;
+    console.log;
+    budgetInfo.stdiPercentage = Math.round(budgetInfo.stdiPercentage);
     return budgetInfo;
   }
 
@@ -79,8 +179,8 @@ export default class StepSummary extends Vue {
 
   get documentSummary() {
     return {
-      documentsCount: this.taskOutput.fileDocumentList.length,
-      documentTypeList: this.taskOutput.fileDocumentList
+      documentsCount: this.taskFormOutput.fileDocumentList.length,
+      documentTypeList: this.taskFormOutput.fileDocumentList
         .map((item: any) => {
           return item.documentType;
         })
@@ -107,10 +207,10 @@ export default class StepSummary extends Vue {
   get summaryData() {
     return {
       taskInput: this.taskInput,
-      taskOutput: this.taskOutput,
+      taskOutput: this.taskFormOutput,
       creditorInfo: this.creditorInfo,
       budgetInfo: this.budgetInfo,
-      paymentPlan: this.taskOutput.paymentPlan,
+      paymentPlan: this.taskFormOutput.paymentPlan,
       bankSummary: this.bankSummary,
       documentSummary: this.documentSummary,
     };
@@ -119,6 +219,5 @@ export default class StepSummary extends Vue {
   goToStep(step: Number) {
     this.$router.push({ query: { step: step.toString() } });
   }
-
 }
 </script>

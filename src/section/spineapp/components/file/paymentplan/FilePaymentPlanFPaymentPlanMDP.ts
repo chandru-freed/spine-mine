@@ -8,6 +8,7 @@ export default class FilePaymentPlanFPaymentPlanMDP extends FPaymentPlanMDP {
             parent: parent,
             myRefName: "filePaymentPlanRef",
             disabled: true,
+            readonly: true
         });
 
     }

@@ -196,7 +196,9 @@ export default class CollectClientInfoTask
   }
 
   setConfirmAccountNumber() {
+    if(this.taskDetailsOutput.bankInfo) {
     this.taskFormOutputLocal.bankInfo.confirmAccountNumber = this.taskDetailsOutput.bankInfo.accountNumber;
+    }
   }
 
 

@@ -9,13 +9,14 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent, disabled }: { taskRoot: any; parent: any, disabled: boolean }) {
+  constructor({ taskRoot, parent, disabled,readonly=false }: { taskRoot: any; parent: any, disabled: boolean;readonly?:boolean }) {
     super({
       myRefName: "paymentCalculatorFormRef",
       disabled: disabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
+    this.readonly = readonly;
 
     this.addField(
       new FSelectFieldMDP({

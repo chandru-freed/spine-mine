@@ -8,6 +8,7 @@ export default class ClientProfileFProfileFFormMDP extends FProfileFFormMDP {
       parent: parent,
       myRefName: "clientProfileFFormRef",
       disabled: true,
+      readonly: true
     });
 
   }

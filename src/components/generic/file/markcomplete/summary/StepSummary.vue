@@ -6,18 +6,20 @@
       v-for="(summaryMetaData, index) of summaryMetaDataList"
       :key="'summary' + index"
     >
-      <div class="d-flex align-center">
+      <div class="d-flex align-center mr-4">
         <v-card-title
           ><v-icon class="mr-3">mdi-check-circle</v-icon
           >{{ summaryMetaData.name }}</v-card-title
         >
         <v-spacer />
-        <v-btn rounded text @click="goToStep(summaryMetaData.stepIndex)">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
+        <f-btn
+          outlined
+          color="primary"
+          :onClick="() => goToStep(summaryMetaData.stepIndex)"
+          label="Edit"
+        />
       </div>
       <component
-        v-if="currentStep === '6'"
         :is="summaryMetaData.content.componentName"
         :value="summaryData"
         :ref="summaryMetaData.content.myRefName"
@@ -34,9 +36,11 @@ import ProfileSummary from "./ProfileSummary.vue";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import FBtn from "@/components/generic/FBtn.vue";
 @Component({
   components: {
     FForm,
+    "f-btn": FBtn,
   },
 })
 export default class StepSummary extends Vue {
@@ -44,100 +48,29 @@ export default class StepSummary extends Vue {
   summaryMetaDataList: any[];
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-
-  //Data
-  taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
+  taskFormOutputLocal: Data.Spine.CollectClientInfoTask =
+    new Data.Spine.CollectClientInfoTask();
   get taskFormOutput() {
-    if (
-      this.taskDetailsOutput.personalInfo &&
-      this.taskDetailsOutput.personalInfo.gender
-    ) {
-      this.taskFormOutputLocal.personalInfo =
-        this.taskDetailsOutput.personalInfo;
-    }
-
-    if (
-      this.taskDetailsOutput.creditorInfo &&
-      this.taskDetailsOutput.creditorInfo.creditorList
-    ) {
-      this.taskFormOutputLocal.creditorInfo =
-        this.taskDetailsOutput.creditorInfo;
-    }
-    if (this.taskDetailsOutput.budgetInfo) {
-      this.taskFormOutputLocal.budgetInfo.hardshipReason =
-        this.taskDetailsOutput.budgetInfo.hardshipReason;
-    }
-
-    if (
-      this.taskDetailsOutput.budgetInfo &&
-      this.taskDetailsOutput.budgetInfo.incomeSources
-    ) {
-      this.taskFormOutputLocal.budgetInfo.incomeSources = {
-        ...this.taskFormOutputLocal.budgetInfo.incomeSources,
-        ...this.taskDetailsOutput.budgetInfo.incomeSources,
-      };
-      this.taskFormOutputLocal.budgetInfo.debtRepayments = {
-        ...this.taskFormOutputLocal.budgetInfo.debtRepayments,
-        ...this.taskDetailsOutput.budgetInfo.debtRepayments,
-      };
-      this.taskFormOutputLocal.budgetInfo.livingExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.livingExpenses,
-        ...this.taskDetailsOutput.budgetInfo.livingExpenses,
-      };
-      this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses,
-        ...this.taskDetailsOutput.budgetInfo.lifeStyleExpenses,
-      };
-
-      this.taskFormOutputLocal.budgetInfo.dependentExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.dependentExpenses,
-        ...this.taskDetailsOutput.budgetInfo.dependentExpenses,
-      };
-
-      this.taskFormOutputLocal.budgetInfo.incidentalExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.incidentalExpenses,
-        ...this.taskDetailsOutput.budgetInfo.incidentalExpenses,
-      };
-
-      this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses,
-        ...this.taskDetailsOutput.budgetInfo.miscellaneousExpenses,
-      };
-    }
-
-    if (
-      this.taskDetailsOutput.paymentPlan &&
-      this.taskDetailsOutput.paymentPlan.ppCalculator &&
-      this.taskDetailsOutput.paymentPlan.ppCalculator.firstDraftDate
-    ) {
-      this.taskFormOutputLocal.paymentPlan = this.taskDetailsOutput.paymentPlan;
-    } else {
-      // this.taskFormOutputLocal.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
-    }
-
-    if (
-      this.taskDetailsOutput.bankInfo &&
-      this.taskDetailsOutput.bankInfo.accountNumber
-    ) {
-      this.taskFormOutputLocal.bankInfo = this.taskDetailsOutput.bankInfo;
-    }
-
-    if (this.taskDetailsOutput.fileDocumentList) {
-      this.taskFormOutputLocal.fileDocumentList =
-        this.taskDetailsOutput.fileDocumentList;
-    }
-    if (this.taskDetailsOutput.needVerification) {
-      this.taskFormOutputLocal.needVerification =
-        this.taskDetailsOutput.needVerification;
-    }
+    this.taskFormOutputLocal = {
+      ...this.taskDetailsOutput,
+      personalInfo:
+        this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
+      creditorInfo:
+        this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
+      budgetInfo:
+        this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
+      bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
+      paymentPlan:
+        this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
+      fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
+      needVerification: this.taskDetailsOutput.needVerification,
+    };
     return this.taskFormOutputLocal;
   }
 
-  set taskFormOutput(newValue) {
-    this.taskFormOutputLocal = newValue;
+  set taskFormOutput(newVal) {
+    this.taskFormOutputLocal = newVal;
   }
-
-  //Data
 
   get currentStep() {
     return this.$route.query.step;
@@ -152,8 +85,7 @@ export default class StepSummary extends Vue {
   get creditorInfo() {
     return {
       creditosCount: this.taskFormOutput.creditorInfo?.creditorList.length,
-      totalDebtAmount:
-        this.taskFormOutput.creditorInfo?.totalDebtAmount || "NA",
+      totalDebt: this.taskFormOutput.creditorInfo?.totalDebt || "NA",
     };
   }
 

@@ -17,7 +17,7 @@ export default class CreditorSummaryFFormMDP extends FFormMDP {
             readonly: true,
             boundaryClass: "col-4"
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "creditorInfo.totalDebtAmount",
+            dataSelectorKey: "creditorInfo.totalDebt",
             label: "Total Debt Amount",
             parentMDP: this.childMDP,
             readonly: true,

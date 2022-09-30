@@ -129,6 +129,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
+import * as Data from "@/../src-gen/data";
 @Component({
   components: {
     FForm,
@@ -169,6 +170,7 @@ export default class FBudget extends ModelVue {
   get totalIncomeAmount() {
     const totalIncome = this.sumMiniBudgetAmount(this.incomeSources);
     this.modelValue.totalIncome = totalIncome;
+    console.log(totalIncome)
     return totalIncome;
   }
 

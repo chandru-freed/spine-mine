@@ -76,7 +76,7 @@ export default class CollectClientInfoTask
   }
 
   taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
-
+  taskFormOutputLocal: Data.Spine.CollectClientInfoTask = new Data.Spine.CollectClientInfoTask();
   get taskFormData() {
     return {
       taskInput: this.taskDetailsInput,
@@ -87,97 +87,22 @@ export default class CollectClientInfoTask
   set taskFormData(value: any) {
     this.taskFormDataLocal = value;
   }
-
-  taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
-
   get taskFormOutput() {
-    if (
-      this.taskDetailsOutput.personalInfo &&
-      this.taskDetailsOutput.personalInfo.gender
-    ) {
-      this.taskFormOutputLocal.personalInfo =
-        this.taskDetailsOutput.personalInfo;
-    }
-
-    if (
-      this.taskDetailsOutput.creditorInfo &&
-      this.taskDetailsOutput.creditorInfo.creditorList
-    ) {
-      this.taskFormOutputLocal.creditorInfo =
-        this.taskDetailsOutput.creditorInfo;
-    }
-    if (this.taskDetailsOutput.budgetInfo) {
-      this.taskFormOutputLocal.budgetInfo.hardshipReason =
-        this.taskDetailsOutput.budgetInfo.hardshipReason;
-    }
-
-    if (
-      this.taskDetailsOutput.budgetInfo &&
-      this.taskDetailsOutput.budgetInfo.incomeSources
-    ) {
-      this.taskFormOutputLocal.budgetInfo.incomeSources = {
-        ...this.taskFormOutputLocal.budgetInfo.incomeSources,
-        ...this.taskDetailsOutput.budgetInfo.incomeSources,
-      };
-      this.taskFormOutputLocal.budgetInfo.debtRepayments = {
-        ...this.taskFormOutputLocal.budgetInfo.debtRepayments,
-        ...this.taskDetailsOutput.budgetInfo.debtRepayments,
-      };
-      this.taskFormOutputLocal.budgetInfo.livingExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.livingExpenses,
-        ...this.taskDetailsOutput.budgetInfo.livingExpenses,
-      };
-      this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.lifeStyleExpenses,
-        ...this.taskDetailsOutput.budgetInfo.lifeStyleExpenses,
-      };
-
-      this.taskFormOutputLocal.budgetInfo.dependentExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.dependentExpenses,
-        ...this.taskDetailsOutput.budgetInfo.dependentExpenses,
-      };
-
-      this.taskFormOutputLocal.budgetInfo.incidentalExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.incidentalExpenses,
-        ...this.taskDetailsOutput.budgetInfo.incidentalExpenses,
-      };
-
-      this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses = {
-        ...this.taskFormOutputLocal.budgetInfo.miscellaneousExpenses,
-        ...this.taskDetailsOutput.budgetInfo.miscellaneousExpenses,
-      };
-    }
-
-    if (
-      this.taskDetailsOutput.paymentPlan &&
-      this.taskDetailsOutput.paymentPlan.ppCalculator &&
-      this.taskDetailsOutput.paymentPlan.ppCalculator.firstDraftDate
-    ) {
-      this.taskFormOutputLocal.paymentPlan = this.taskDetailsOutput.paymentPlan;
-    } else {
-      // this.taskFormOutputLocal.paymentPlan.ppCalculator.firstDraftDate = moment().format("yyyy-MM-DD")
-    }
-
-    if (
-      this.taskDetailsOutput.bankInfo &&
-      this.taskDetailsOutput.bankInfo.accountNumber
-    ) {
-      this.taskFormOutputLocal.bankInfo = this.taskDetailsOutput.bankInfo;
-    }
-
-    if (this.taskDetailsOutput.fileDocumentList) {
-      this.taskFormOutputLocal.fileDocumentList =
-        this.taskDetailsOutput.fileDocumentList;
-    }
-    if (this.taskDetailsOutput.needVerification) {
-      this.taskFormOutputLocal.needVerification =
-        this.taskDetailsOutput.needVerification;
+    this.taskFormOutputLocal =  {
+      ...this.taskDetailsOutput,
+     personalInfo:  this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
+     creditorInfo: this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
+     budgetInfo: this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
+     bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
+     paymentPlan: this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
+     fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
+     needVerification: this.taskDetailsOutput.needVerification,
     }
     return this.taskFormOutputLocal;
   }
 
-  set taskFormOutput(newValue) {
-    this.taskFormOutputLocal = newValue;
+  set taskFormOutput(newVal) {
+   this.taskFormOutputLocal = newVal;
   }
 
   get stepperMetaData(): any {
@@ -197,7 +122,7 @@ export default class CollectClientInfoTask
 
   setConfirmAccountNumber() {
     if(this.taskDetailsOutput.bankInfo) {
-    this.taskFormOutputLocal.bankInfo.confirmAccountNumber = this.taskDetailsOutput.bankInfo.accountNumber;
+    this.taskFormOutput.bankInfo.confirmAccountNumber = this.taskDetailsOutput.bankInfo.accountNumber;
     }
   }
 
@@ -285,7 +210,7 @@ export default class CollectClientInfoTask
         accountNumber: "1111222233334444",
       },
     ];
-    this.taskFormData.taskOutput.creditorInfo.totalDebtAmount = 150000;
+    this.taskFormData.taskOutput.creditorInfo.totalDebt = 150000;
     this.taskFormData.taskOutput.budgetInfo.hardshipReason = "Business losses.";
     this.taskFormData.taskOutput.budgetInfo.incomeSources.salary = 50000;
     this.taskFormData.taskOutput.budgetInfo.debtRepayments.autoLoan = 10000;

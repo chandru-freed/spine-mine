@@ -53,8 +53,18 @@
               <v-toolbar-title>Creditors</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-chip label outlined color="primary"
-                >Total Debt - ₹{{ totalDebtAmount() }}</v-chip
+                >Total Debt - ₹{{ totalDebt }}</v-chip
               >
+
+              <v-chip
+                v-if="clientFileSummary?.wad"
+                label
+                outlined
+                color="primary"
+                class="mx-2"
+                >WAD - {{ clientFileSummary.wad }}</v-chip
+              >
+
               <v-spacer></v-spacer>
               <v-btn
                 :disabled="disabled"
@@ -116,6 +126,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
+import store, * as Store from "@/../src-gen/store";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
@@ -131,6 +142,8 @@ export default class FCreditor extends ModelVue {
   addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   selectedCreditorItem: Data.Spine.Creditor;
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  clientFileSummary: Data.ClientFile.FileSummary;
   headers = [
     {
       text: "Creditor Name",
@@ -199,26 +212,33 @@ export default class FCreditor extends ModelVue {
     return this.modelValue.creditorList;
   }
 
-  totalDebtAmount() {
-    const totalDebtAmount = this.modelValue.creditorList
-      .map((creditor: any) => creditor.creditorBalance)
-      .reduce((accumulator: number, objValue: any) => {
-        return accumulator + objValue;
-      }, 0);
-    this.modelValue.totalDebtAmount = totalDebtAmount;
-    return this.modelValue.totalDebtAmount;
+  get totalDebt() {
+    return this.modelValue.totalDebt;
   }
 
+  // totalDebtAmount() {
+  //   const totalDebtAmount = this.modelValue.creditorList
+  //     .map((creditor: any) => creditor.creditorBalance)
+  //     .reduce((accumulator: number, objValue: any) => {
+  //       return accumulator + objValue;
+  //     }, 0);
+  //   this.modelValue.totalDebtAmount = totalDebtAmount;
+  //   return this.modelValue.totalDebtAmount;
+  // }
 
   deleteCreditorData() {
     const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
-    Action.Spine.RemoveCreditor.execute2(this.taskId,fiCreditorId, (output) => {
-      this.closeDialogs();
-      Snackbar.show({
-        text: "Succesfully Removed",
-        pos: "bottom-center",
-      });
-    });
+    Action.Spine.RemoveCreditor.execute2(
+      this.taskId,
+      fiCreditorId,
+      (output) => {
+        this.closeDialogs();
+        Snackbar.show({
+          text: "Succesfully Removed",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 
   selectEditCreditor(item: any, index: any) {
@@ -248,5 +268,7 @@ export default class FCreditor extends ModelVue {
         actionMetaData.condition === true
     );
   }
+
+  
 }
 </script>

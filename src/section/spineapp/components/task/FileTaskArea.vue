@@ -15,17 +15,17 @@
         label="START"
         outlined
         color="primary"
-        :onClick="()=>startTask()"
+        :onClick="() => startTask()"
         v-if="taskDetails.taskState === 'ALLOCATED'"
-        ></f-btn>
+      ></f-btn>
 
       <f-btn
         label="PULL"
         outlined
         color="primary"
-        :onClick="()=>pullTask()"
+        :onClick="() => pullTask()"
         v-if="taskDetails.taskState === 'TO_BE_PULLED'"
-        ></f-btn>
+      ></f-btn>
     </v-card-actions>
     <v-card-text class="pa-0">
       <component v-if="!loading" :is="selectedComponent"></component>
@@ -86,7 +86,7 @@ import NsfSPADraftRescheduledTask from "@/section/spineapp/components/task/nsfSP
 import NsfSPACompletionTask from "@/section/spineapp/components/task/nsfSPA/nsfSPACompletion/NsfSPACompletionTask.vue";
 import NsfSPAClientDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPAClientDeferred/NsfSPAClientDeferredTask.vue";
 import NsfSPAReceiveManualPaymentTask from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/ReceiveManualPaymentTask.vue";
-import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
+import NsfSPASystemDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
 @Component({
@@ -136,7 +136,7 @@ import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
     NsfSPAClientDeferredTask,
     NsfSPAReceiveManualPaymentTask,
     NsfSPASystemDeferredTask,
-    "f-btn":FBtn,
+    "f-btn": FBtn,
     FollowUpCallTask,
   },
 })
@@ -146,6 +146,8 @@ export default class FileTaskArea extends Vue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
   loading = true;
 
   TASK_COMPONENT_MAP = new Map([
@@ -213,7 +215,7 @@ export default class FileTaskArea extends Vue {
     ["NsfSPA::NsfSPAClientDeferred", "NsfSPAClientDeferredTask"],
     ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
     ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
-    ["MFC::FollowUpCall", "FollowUpCallTask"]
+    ["MFC::FollowUpCall", "FollowUpCallTask"],
   ]);
 
   taskId = this.$route.params.taskId;
@@ -238,7 +240,9 @@ export default class FileTaskArea extends Vue {
 
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.StartAndMerge.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.StartAndMerge.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.interested(
@@ -249,12 +253,16 @@ export default class FileTaskArea extends Vue {
 
     //Commands
 
-    Action.Spine.AddCreditor.interested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.UpdateCreditor.interested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.RemoveCreditor.interested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.UpdateClPersonalInfo.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.AddCreditor.interested(this.getTaskDetailsAndFileSummaryWithDelay);
+    Action.Spine.UpdateCreditor.interested(this.getTaskDetailsAndFileSummaryWithDelay);
+    Action.Spine.RemoveCreditor.interested(this.getTaskDetailsAndFileSummaryWithDelay);
+    Action.Spine.UpdateClPersonalInfo.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.Spine.UpdateBankInfo.interested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.UpdateBudgetInfo.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdateBudgetInfo.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.Spine.AttachDocument.interested(this.getExecutiveTaskDetailsHandler);
     Action.Spine.DetachDocument.interested(this.getExecutiveTaskDetailsHandler);
 
@@ -263,6 +271,13 @@ export default class FileTaskArea extends Vue {
 
   getExecutiveTaskDetailsWithDelay() {
     setTimeout(this.getExecutiveTaskDetails, 1000);
+  }
+
+  getTaskDetailsAndFileSummaryWithDelay() {
+    setTimeout(() => {
+      this.getExecutiveTaskDetails();
+      this.findClientFileSummary();
+      }, 1000);
   }
 
   getExecutiveTaskDetails() {
@@ -313,7 +328,9 @@ export default class FileTaskArea extends Vue {
 
   public destroyed() {
     Action.TaskList.PullTask.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.StartAndMerge.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.StartAndMerge.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.notInterested(
@@ -321,6 +338,13 @@ export default class FileTaskArea extends Vue {
     );
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
+  }
+
+  findClientFileSummary() {
+    Action.ClientFile.FindClientFileSummary.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 }
 </script>

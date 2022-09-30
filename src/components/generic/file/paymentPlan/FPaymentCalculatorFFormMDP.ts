@@ -30,7 +30,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "creditorInfo.totalDebtAmount",
+        dataSelectorKey: "creditorInfo.totalDebt",
         label: "Outstanding Amount",
         mandatory: true,
         boundaryClass: "col-6",

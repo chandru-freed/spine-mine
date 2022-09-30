@@ -275,7 +275,7 @@ export default class ManageClientInfoTask
         accountNumber: "1111222233334444",
       },
     ];
-    this.taskFormData.taskOutput.creditorInfo.totalDebtAmount = 150000;
+    this.taskFormData.taskOutput.creditorInfo.totalDebt = 150000;
     this.taskFormData.taskOutput.budgetInfo.hardshipReason = "Business losses.";
     this.taskFormData.taskOutput.budgetInfo.incomeSources.salary = 50000;
     this.taskFormData.taskOutput.budgetInfo.debtRepayments.autoLoan = 10000;

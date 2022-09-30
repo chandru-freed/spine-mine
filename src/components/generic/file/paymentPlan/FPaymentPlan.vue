@@ -154,15 +154,15 @@ export default class FPaymentPlan extends ModelVue {
     return this.paymentPlan.ppCalculator
   }
 
-  get totalDebtAmount() {
-    return this.creditorInfo.totalDebtAmount
+  get totalDebt() {
+    return this.creditorInfo.totalDebt
   }
 
   calculatePaymentSchedule() {
     const input =
       new ServerData.PaymentPlanWebReader.CalculatePaymentSchedule$Input(
         this.ppCalculator.ppCode,
-        this.totalDebtAmount,
+        this.totalDebt,
         this.ppCalculator.tenor,
         this.ppCalculator.firstDraftDate,
         this.ppCalculator.approxSettlementPercentage,
@@ -180,7 +180,7 @@ export default class FPaymentPlan extends ModelVue {
       new ServerData.PaymentPlanWebReader.CalculateFeeSchedule$Input(
         this.ppCalculator.ppCode,
         this.ppCalculator.feeCode,
-        this.totalDebtAmount,
+        this.totalDebt,
         this.ppCalculator.tenor,
         this.ppCalculator.feeFirstDraftDate
       );

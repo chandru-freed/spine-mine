@@ -22,13 +22,15 @@ export default class FPaymentPlanMDP implements MDP {
     parent,
     myRefName,
     dataSelectorKey,
-    disabled
+    disabled,
+    readonly=false
   }: {
     taskRoot: any;
     parent: any;
     myRefName: string;
     dataSelectorKey?: string;
-    disabled: boolean
+    disabled: boolean;
+    readonly?: boolean;
   }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -36,7 +38,7 @@ export default class FPaymentPlanMDP implements MDP {
     this.dataSelectorKey = dataSelectorKey
     this.disabled = disabled
 
-    this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: this.disabled })
+    this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: this.disabled,readonly: readonly })
 
 
   }

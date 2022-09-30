@@ -121,7 +121,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.AddCreditor.execute(input, (output) => {
-      this.parent.getMyRef()[0].addCreditorData(output.fiCreditorId);
+      this.parent.getMyRef()[0].closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",
         pos: "bottom-center"

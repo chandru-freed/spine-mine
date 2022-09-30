@@ -18,7 +18,6 @@ export default class FMarkCompleteMDP implements MDP {
 
     addAction(newAction: FBtnMDP) {
         this.actionList.push(newAction);
-        console.log(this.actionList)
         return this;
     }
 

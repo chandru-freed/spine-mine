@@ -233,7 +233,7 @@ export default class FileTaskArea extends Vue {
     );
   }
 
-  public getExecutiveTaskDetailsHandler = (output: string) =>
+  public getExecutiveTaskDetailsHandler = (output: any) =>
     this.getExecutiveTaskDetailsWithDelay();
 
   public mounted() {
@@ -246,6 +246,17 @@ export default class FileTaskArea extends Vue {
     );
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
+
+    //Commands
+
+    Action.Spine.AddCreditor.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdateCreditor.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.RemoveCreditor.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdateClPersonalInfo.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdateBankInfo.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdateBudgetInfo.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.AttachDocument.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.DetachDocument.interested(this.getExecutiveTaskDetailsHandler);
 
     this.getExecutiveTaskDetailsWithDelay();
   }

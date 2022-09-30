@@ -7,7 +7,8 @@ export default class ClientBankInfoFBankFFormMDP extends FBankFFormMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "clientBankInfoFormRef",
-      disabled: true
+      disabled: true,
+      readonly: true,
     });
   }
 

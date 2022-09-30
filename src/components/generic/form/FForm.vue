@@ -3,6 +3,7 @@
     <ValidationObserver :ref="myRefName" v-slot="{}">
       <v-form
         :disabled="disabled"
+        :readonly="readonly"
         class="d-flex flex-row align-start flex-wrap justify-start py-2"
       >
         <div
@@ -112,6 +113,10 @@ export default class FForm extends ModelVue {
 
   @Prop({ default: false })
   disabled: boolean;
+
+  @Prop({ default: false })
+  readonly: boolean;
+  
 
   @Prop({ default: "" })
   boundaryClass: string;

@@ -1,7 +1,8 @@
 <template>
   <v-combobox
     :value="modelValue"
-    @input="(newValue) => (modelValue = newValue)"
+    @keyup="(event) => (modelValue = event.target.value)"
+    @change="(newVal) => (modelValue = newVal)"
     :items="fetchedItems"
     :loading="isLoading"
     :search-input.sync="searchValue"
@@ -63,6 +64,7 @@ export default class FRemoteComboBoxField extends VAutocomplete {
   }
 
   set modelValue(newModelValue: any) {
+    console.log(newModelValue)
     this.$emit("input", newModelValue);
   }
   // MODEL VALUE - END

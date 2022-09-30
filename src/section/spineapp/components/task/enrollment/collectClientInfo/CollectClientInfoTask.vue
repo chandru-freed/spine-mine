@@ -193,11 +193,12 @@ export default class CollectClientInfoTask
   }
   mounted() {
     this.getNupayBankMasterList();
-    this.setConfirmAccountNumber();
   }
 
   setConfirmAccountNumber() {
+    if(this.taskDetailsOutput.bankInfo) {
     this.taskFormOutputLocal.bankInfo.confirmAccountNumber = this.taskDetailsOutput.bankInfo.accountNumber;
+    }
   }
 
 

@@ -148,6 +148,7 @@ export default class FCreditor extends ModelVue {
   addCreditorDialog = false;
   editCreditorDialog = false;
   deleteCreditorDialog = false;
+  taskId = this.$route.params.taskId;
 
   @Prop()
   addCreditorFormMetaData: any;
@@ -208,31 +209,10 @@ export default class FCreditor extends ModelVue {
     return this.modelValue.totalDebtAmount;
   }
 
-  addCreditorData(fiCreditorId: string) {
-    this.addCreditorForm.fiCreditorId = fiCreditorId;
-    (this.creditorList as any).push(this.addCreditorForm);
-    this.closeAndClearAllForms();
-  }
-
-  editCreditorData() {
-    const selectedCreditorIndex = this.creditorList.findIndex(
-      (item: any) => item.fiCreditorId == this.selectedCreditorItem.fiCreditorId
-    );
-    Object.assign(
-      this.creditorList[selectedCreditorIndex],
-      this.editCreditorForm
-    );
-    this.closeAndClearAllForms();
-  }
 
   deleteCreditorData() {
     const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
-    Action.Spine.RemoveCreditor.execute1(fiCreditorId, (output) => {
-      const selectedCreditorIndex = this.creditorList.findIndex(
-        (item: any) =>
-          item.fiCreditorId == this.selectedCreditorItem.fiCreditorId
-      );
-      this.creditorList.splice(selectedCreditorIndex, 1);
+    Action.Spine.RemoveCreditor.execute2(this.taskId,fiCreditorId, (output) => {
       this.closeDialogs();
       Snackbar.show({
         text: "Succesfully Removed",

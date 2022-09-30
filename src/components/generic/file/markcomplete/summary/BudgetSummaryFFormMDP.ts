@@ -13,24 +13,31 @@ export default class BudgetSummaryFFormMDP extends FFormMDP {
         });
 
         this.addField(new FTextFieldMDP({
-            dataSelectorKey: "budgetSummary.totalIncome",
+            dataSelectorKey: "budgetInfo.totalIncome",
             label: "Total Income",
             parentMDP: this.childMDP,
             readonly: true,
             boundaryClass: "col-4"
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "budgetSummary.availableIncome",
+            dataSelectorKey: "budgetInfo.availableIncome",
             label: "Available Income",
             parentMDP: this.childMDP,
             readonly: true,
             boundaryClass: "col-4"
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "budgetSummary.proposedDSPayment",
+            dataSelectorKey: "budgetInfo.proposedDSPayment",
             label: "Proposed DSPayment",
             parentMDP: this.childMDP,
             readonly: true,
             boundaryClass: "col-4"
+        })).addField(new FTextFieldMDP({
+            dataSelectorKey: "budgetInfo.stdiPercentage",
+            label: "STDI Percentage",
+            parentMDP: this.childMDP,
+            readonly: true,
+            boundaryClass: "col-4"
         }))
+        
     }
 
 }

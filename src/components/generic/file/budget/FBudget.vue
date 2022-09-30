@@ -78,7 +78,9 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text class="font-weight-black" color="secondary"> ₹ {{ proposedDSPayment.toFixed(2) }} </v-btn>
+              <v-btn text class="font-weight-black" color="secondary">
+                ₹ {{ proposedDSPayment.toFixed(2) }}
+              </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -90,7 +92,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> {{sdtiRatio.toFixed(0)}}% </v-btn>
+              <v-btn text> {{ sdtiRatio.toFixed(0) }}% </v-btn>
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -99,7 +101,15 @@
 
     <div
       v-if="!disabled"
-      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
+      class="
+        d-flex
+        flex-row
+        align-start
+        flex-wrap
+        justify-space-around
+        pa-2
+        my-5
+      "
     >
       <div
         :class="actionMetaData.boundaryClass"
@@ -215,6 +225,8 @@ export default class FBudget extends ModelVue {
       this.totalDependentExpenses +
       this.totalIncidentalExpenses +
       this.totalMiscellaneousExpenses;
+
+    this.modelValue.totalMonthlyExpense = allExpenseList;
     return allExpenseList;
   }
 
@@ -225,23 +237,29 @@ export default class FBudget extends ModelVue {
   }
 
   get availableIncome() {
-    return (
+    const availableIncome =
       this.totalIncomeAmount -
       this.totalSecuredDebtAmount -
-      this.allExpensesAmount
-    );
+      this.allExpensesAmount;
+    this.modelValue.availableIncome = availableIncome;
+    return availableIncome;
   }
 
   get proposedDSPayment() {
-    return (this.availableIncome * this.affordabilityPercentage) / 100;
+    const proposedDSPayment =
+      (this.availableIncome * this.affordabilityPercentage) / 100;
+    this.modelValue.proposedDSPayment = proposedDSPayment;
+    return proposedDSPayment;
   }
 
   get sdtiRatio() {
-    return this.totalIncomeAmount!==0
-    ?(this.totalSecuredDebtAmount /this.totalIncomeAmount) * 100
-    :0;
+    const stdiPercentage =
+      this.totalIncomeAmount !== 0
+        ? (this.totalSecuredDebtAmount / this.totalIncomeAmount) * 100
+        : 0;
+    this.modelValue.stdiPercentage = stdiPercentage;
+    return stdiPercentage;
   }
-
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(

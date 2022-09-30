@@ -40,7 +40,6 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           label: "Creditor Balance",
           mandatory: true,
           boundaryClass: "col-4",
-          type: "number",
         })
       )
       .addField(

@@ -85,9 +85,6 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import * as Data from "@/../src-gen/data";
-import * as ServerData from "@/../src-gen/server-data";
-import * as Action from "@/../src-gen/action";
 
 
 import FForm from "@/components/generic/form/FForm.vue";
@@ -127,11 +124,6 @@ export default class FPaymentPlan extends ModelVue {
     { text: "Tax Amount", value: "taxAmount" },
     { text: "Total Amount", value: "totalAmount" },
   ];
-
-  mounted() {
-    
-  }
-
   
 
   get paymentPlan() {
@@ -142,55 +134,12 @@ export default class FPaymentPlan extends ModelVue {
     return this.paymentPlan.paymentSchedule
   }
 
-  get creditorInfo() {
-    return this.modelValue.creditorInfo
-  }
 
   get subscriptionFeeSchedule() {
     return this.paymentPlan.subscriptionFeeSchedule
   }
 
-  get ppCalculator() {
-    return this.paymentPlan.ppCalculator
-  }
 
-  get totalDebt() {
-    return this.creditorInfo.totalDebt
-  }
-
-  calculatePaymentSchedule() {
-    const input =
-      new ServerData.PaymentPlanWebReader.CalculatePaymentSchedule$Input(
-        this.ppCalculator.ppCode,
-        this.totalDebt,
-        this.ppCalculator.tenor,
-        this.ppCalculator.firstDraftDate,
-        this.ppCalculator.approxSettlementPercentage,
-      );
-    Action.Spine.CalculatePaymentSchedule.execute(
-      input,
-      (output) => {
-        this.paymentPlan.paymentSchedule = output;
-      }
-    );
-  }
-
-  calculateFeeSchedule() {
-    const input =
-      new ServerData.PaymentPlanWebReader.CalculateFeeSchedule$Input(
-        this.ppCalculator.ppCode,
-        this.ppCalculator.feeCode,
-        this.totalDebt,
-        this.ppCalculator.tenor,
-        this.ppCalculator.feeFirstDraftDate
-      );
-    Action.Spine.CalculateFeeSchedule.execute(
-      input,
-      (output) => {
-        this.paymentPlan.subscriptionFeeSchedule = output;
-      }
-    );
-  }
 
 
   get actionMetaDataListFiltered() {

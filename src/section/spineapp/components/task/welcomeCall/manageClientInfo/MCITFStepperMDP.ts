@@ -1,4 +1,5 @@
 
+import FFooStepperMDP from "@/components/generic/FFooStepperMDP";
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITProfileStepMDP from "./step1/MCITProfileStepMDP";
@@ -11,7 +12,7 @@ import MCITMarkCompleteStepFFormMDP from "./step7/MCITMarkCompleteStepFFormMDP";
 
 
 
-export default class MCITFStepperMDP extends FStepperMDP {
+export default class MCITFStepperMDP extends FFooStepperMDP {
     taskRoot: ManualTaskIntf;
     parent: any;
     constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {

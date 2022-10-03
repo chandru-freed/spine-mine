@@ -242,7 +242,7 @@ export default class FDocument extends ModelVue {
     input.taskId = this.taskRoot.taskId;
     Action.Spine.AttachDocument.execute(input, (output) => {
       Snackbar.show({
-        text: "Succesfully Removed",
+        text: "Succesfully Added",
         pos: "bottom-center",
       });
       this.closeAndClearAllForms();

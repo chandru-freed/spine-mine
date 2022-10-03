@@ -5,6 +5,7 @@ import FRegistrationDetailsMDP from "@/components/generic/file/FRegistrationDeta
 import MDP from "@/components/generic/MDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import * as Snackbar from 'node-snackbar';
 
 export default class MCITProfileStepMDP extends CLProfileMDP {
   profileFFormRef = "profileFFormRef";
@@ -37,6 +38,12 @@ export default class MCITProfileStepMDP extends CLProfileMDP {
 
     this.addAction(
       new FBtnMDP({
+          label: "Previous",
+          onClick: () => { },
+          disabled: true
+      })
+  ).addAction(
+      new FBtnMDP({
         label: "Save",
         onClick: this.validateAndSave(),
         condition: this.isStarted(),
@@ -46,6 +53,11 @@ export default class MCITProfileStepMDP extends CLProfileMDP {
         label: "Rescue",
         onClick: this.rescueTask(),
         condition: this.isException(),
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Save And Next",
+        onClick: this.validateSaveAndNext(),
       })
     );
   }
@@ -77,6 +89,14 @@ export default class MCITProfileStepMDP extends CLProfileMDP {
     return this.getMyRef()[0].$refs[this.profileFFormRef][0];
   }
 
+  validateSaveAndNext() {
+    return () => {
+      this.getProfileFormRef().submitForm(() => {
+        this.updateClPersonalInfo(true);
+      });
+    }
+  }
+
   validateAndSave() {
     return () => {
       this.getProfileFormRef().submitForm(() => {
@@ -87,15 +107,24 @@ export default class MCITProfileStepMDP extends CLProfileMDP {
     };
   }
 
-  updateClPersonalInfo() {
+  updateClPersonalInfo(goToNextStep: boolean = false) {
     const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(
       this.taskRoot.taskFormData.taskOutput.personalInfo
     );
     input.clientId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientBasicInfo.clientId;
+    input.taskId = this.taskRoot.taskId;
+
     Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
-      this.taskRoot.saveTask();
+      // this.taskRoot.saveTask();
+      Snackbar.show({
+        text: "Succesfully saved",
+        pos: "bottom-center"
+      })
+      if (goToNextStep) {
+        (this.taskRoot as any).goToStep(1);
+      }
     });
   }
 }

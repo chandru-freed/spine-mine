@@ -81,9 +81,9 @@ export default class EMandateTask extends ModelVue implements FlowTaskIntf {
   get taskFormOutput() {
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
-      eMandateStatus: this.taskDetailsOutput.eMandateStatus || "",
-      eMandateLink: this.taskDetailsOutput.eMandateLink || "",
-      eMandateId: this.taskFormOutputLocal.eMandateId || ""
+      // eMandateStatus: this.taskDetailsOutput.eMandateStatus || "",
+      // eMandateLink: this.taskDetailsOutput.eMandateLink || "",
+      // eMandateId: this.taskFormOutputLocal.eMandateId || ""
     }
     // if (this.taskDetailsOutput.eMandateStatus) {
     //   this.taskFormOutputLocal.eMandateStatus =

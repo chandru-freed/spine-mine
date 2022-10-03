@@ -79,17 +79,23 @@ export default class EMandateTask extends ModelVue implements FlowTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.EMandateTaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.eMandateStatus) {
-      this.taskFormOutputLocal.eMandateStatus =
-        this.taskDetailsOutput.eMandateStatus;
+    this.taskFormOutputLocal = {
+      ...this.taskDetailsOutput,
+      eMandateStatus: this.taskDetailsOutput.eMandateStatus || "",
+      eMandateLink: this.taskDetailsOutput.eMandateLink || "",
+      eMandateId: this.taskFormOutputLocal.eMandateId || ""
     }
-    if (this.taskDetailsOutput.eMandateLink) {
-      this.taskFormOutputLocal.eMandateLink =
-        this.taskDetailsOutput.eMandateLink;
-    }
-    if (this.taskDetailsOutput.eMandateId) {
-      this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
-    }
+    // if (this.taskDetailsOutput.eMandateStatus) {
+    //   this.taskFormOutputLocal.eMandateStatus =
+    //     this.taskDetailsOutput.eMandateStatus;
+    // }
+    // if (this.taskDetailsOutput.eMandateLink) {
+    //   this.taskFormOutputLocal.eMandateLink =
+    //     this.taskDetailsOutput.eMandateLink;
+    // }
+    // if (this.taskDetailsOutput.eMandateId) {
+    //   this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
+    // }
     return this.taskFormOutputLocal;
   }
 

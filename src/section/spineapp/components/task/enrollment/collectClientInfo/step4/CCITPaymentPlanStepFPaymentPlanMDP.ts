@@ -35,7 +35,7 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
     ).addAction(
       new FBtnMDP({
         label: "Save And Next",
-        onClick: this.goToNextStep(),
+        onClick: this.saveAndNext(),
       })
     );
   }
@@ -66,7 +66,13 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  schedulePaymentPlan() {
+  saveAndNext() {
+    return () => {
+        this.schedulePaymentPlan(true);
+    }
+  }
+
+  schedulePaymentPlan(goToNextStep: boolean = false) {
     console.log(this.taskRoot.taskFormData.taskOutput.paymentPlan)
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
@@ -76,17 +82,15 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
+      if (goToNextStep) {
+        (this.taskRoot as any).goToStep(4);
+      }
     })
   }
 
   goToPrevStep() {
     return () => {
       (this.taskRoot as any).goToStep(2);
-    }
-  }
-  goToNextStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(4);
     }
   }
 }

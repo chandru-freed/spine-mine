@@ -112,6 +112,9 @@ export default class FEMandate extends ModelVue {
       value: "accountHolderName",
     },
     { text: "Account Number", value: "accountNumber" },
+    { text: "IFSC Code", value: "ifscCode" },
+    { text: "Account Type", value: "accountType" },
+    { text: "City", value: "bankAddress.city" },
     { text: "Actions", value: "actions" },
   ];
 

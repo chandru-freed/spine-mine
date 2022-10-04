@@ -13,6 +13,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   taskRoot: any;
   parent: any;
   constructor({ taskRoot, parent, disabled,readonly=false }: { taskRoot: any; parent: any, disabled: boolean;readonly?:boolean }) {
+    console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
       myRefName: "paymentCalculatorFormRef",
       disabled: disabled,
@@ -79,6 +80,46 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-6",
       })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.msfDraftDay",
+        label: "MSF Draft Day",
+        boundaryClass: "col-6",
+        disabled: true,
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.msfDraftAmount",
+        label: "MSF Amount",
+        boundaryClass: "col-6",
+        disabled: true,
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.spaDraftDay",
+        label: "SPA Draft Day",
+        boundaryClass: "col-6",
+        disabled: true,
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.totalMonthlyObligation",
+        label: "SPA Draft Day",
+        boundaryClass: "col-6",
+        disabled: true,
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.repaymentAmount",
+        label: "Repayment Amount",
+        boundaryClass: "col-6",
+        disabled: true,
+      })
     ).addAction(
       new FBtnMDP({
         label: "Calculate Payment Schedule",
@@ -101,7 +142,6 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   schedulePaymentPlan() {
-    console.log(this.taskRoot.taskFormData.taskOutput.paymentPlan,"Payment  plan")
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
     input.ppCalculator.outstanding = this.taskRoot.taskFormData.taskOutput.creditorInfo.totalDebt;

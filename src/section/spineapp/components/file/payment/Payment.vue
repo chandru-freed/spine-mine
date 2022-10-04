@@ -4,7 +4,7 @@
       <v-card flat outlined>
         <v-data-table
           :headers="headers"
-          :items="paymentList"
+          :items="fiPaymentList"
           sort-by="draftDate"
           class="elevation-0"
         >
@@ -44,7 +44,8 @@ export default class Payment extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  paymentList: Data.ClientFile.FiPayment[] = [];
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
+  fiPaymentList: Data.ClientFile.FiPayment;
   headers = [
     { text: "File Number", value: "clientFileNumber" },
     { text: "Payment Provider", value: "paymentProvider.name" },
@@ -60,9 +61,7 @@ export default class Payment extends ModelVue {
   getFiPaymentList() {
     Action.ClientFile.GetFiPaymentList.execute1(
       this.clientFileBasicInfo.clientFileId,
-      (output) => {
-        this.paymentList = output;
-      }
+      (output) => {}
     );
   }
 

@@ -23,6 +23,7 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         label: "Payment Provider",
         boundaryClass: "col-4",
         mandatory: true,
+        returnObject: true,
         options: [
           { id: "NUPAY", name: "NUPAY" },
           { id: "ESCROWPAY", name: "ESCROWPAY" },
@@ -46,6 +47,7 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         label: "Payment Mode",
         boundaryClass: "col-4",
         mandatory: true,
+        returnObject: true,
         options: [
           { id: "UPI", name: "UPI" },
           { id: "NET_BANKING", name: "NET BANKING" },
@@ -105,6 +107,7 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
           label: "Payment Status",
           boundaryClass: "col-4",
           mandatory: true,
+          returnObject: true,
           options: [
             { id: "DRAFT", name: "DRAFT" },
             { id: "NOT_REACHABLE", name: "NOT REACHABLE" },

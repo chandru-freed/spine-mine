@@ -37,6 +37,10 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
   public fiDocumentList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiDocument[] {
     return state.fiDocumentList
   }
+
+  public fiPaymentList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPayment[] {
+    return state.fiPaymentList
+  }
 }
 
 

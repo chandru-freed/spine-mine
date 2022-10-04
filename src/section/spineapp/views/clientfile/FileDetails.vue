@@ -70,8 +70,8 @@ import Payment from "../../components/file/payment/Payment.vue";
     "file-budget": FileBudget,
     "file-creditor-list": FileCreditorList,
     "file-payment-plan": FilePaymentPlan,
-    "payment": Payment,
     "file-document-list": FileDocumentList,
+    payment: Payment,
   },
 })
 export default class FileDetails extends Vue {
@@ -103,16 +103,16 @@ export default class FileDetails extends Vue {
       component: "file-payment-plan",
     },
     {
-      tabName: "Payment",
-      component: "payment",
-    },
-    {
       tabName: "Bank",
       component: "file-bank",
     },
     {
       tabName: "Document",
       component: "file-document-list",
+    },
+    {
+      tabName: "Payment",
+      component: "payment",
     },
   ];
 

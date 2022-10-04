@@ -79,6 +79,11 @@
                 <v-list-item-title>Create Request</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="handleRecordPaymentClick()">
+              <v-list-item-content>
+                <v-list-item-title>Record Payment</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-menu>
       </div>
@@ -247,6 +252,10 @@ export default class ClientFileSummary extends Vue {
   }
   handleCreateRequestClick() {
     this.$router.push({ name: "Root.ClientFile.FileCreateRequest" });
+  }
+
+    handleRecordPaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.RecordPayment" });
   }
 }
 </script>

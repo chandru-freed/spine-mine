@@ -5,13 +5,13 @@ import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
 import FEMandateMDP from "@/components/generic/file/eMandate/FEMandateMDP";
 
-export default class CCITBankStepFBankFFormMDP extends FEMandateMDP {
+export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "bankInfoForm",
-      dataSelectorKey: "taskOutput.eMandateList",
+      dataSelectorKey: "taskOutput.bankInfo",
       disabled: taskRoot.taskDisabled,
     });
 

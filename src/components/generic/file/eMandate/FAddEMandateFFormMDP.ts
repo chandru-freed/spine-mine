@@ -64,7 +64,7 @@ export default class FAddEMandateFFormMDP extends FFormMDP {
                     mandatory: true,
                     boundaryClass: "col-4",
                     onSelect: (details) => {
-                        this.populateBankDetails(details);
+                        this.populateEMandateBankDetails(details);
                     },
                     disabled: this.disabled
                 })
@@ -101,16 +101,16 @@ export default class FAddEMandateFFormMDP extends FFormMDP {
                     mandatory: true,
                     boundaryClass: "col-6",
                 })
-            )      .addField(
+            ).addField(
                 new FSelectDateFieldMDP({
-                  parentMDP: this.childMDP,
-                  dataSelectorKey: "draftDate",
-                  label: "Draft Date",
-                  boundaryClass: "col-6",
-                  mandatory: true,
-                  futureDaysDisabled: true,
+                    parentMDP: this.childMDP,
+                    dataSelectorKey: "draftDate",
+                    label: "Draft Date",
+                    boundaryClass: "col-6",
+                    mandatory: true,
+                    futureDaysDisabled: true,
                 })
-              )
+            )
             .addField(
                 new AddressFMiniFormMDP({
                     taskRoot: this.taskRoot,
@@ -152,13 +152,11 @@ export default class FAddEMandateFFormMDP extends FFormMDP {
     }
 
     closeAddForm() {
-        // console.log("==========test=======",this.parent.getMyRef());
         this.parent.getMyRef().closeAndClearAllForms();
     }
 
-    populateBankDetails(details: any) {
-        console.log("==========test=======", this.taskRoot);
-        this.taskRoot.populateBankDetails(details);
+    populateEMandateBankDetails(details: any) {
+        this.parent.getMyRef().populateEMandateBankDetails(details);
     }
 
     addEMandate() {

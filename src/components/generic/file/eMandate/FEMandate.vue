@@ -1,26 +1,15 @@
 <template>
   <div ref="eMandateListRef">
-    <!-- {{addEMandateFormMetaData}} -->
     <component
-      v-if="addCreditorDialog"
+      v-if="addEMandateDialog"
       :is="addEMandateFormMetaData.componentName"
       :ref="addEMandateFormMetaData.myRefName"
       :value="selectModel(addEMandateForm, undefined)"
       @input="(newValue) => updateModel(addEMandateForm, newValue, undefined)"
       v-bind="addEMandateFormMetaData.props"
     ></component>
-  <!-- {{eMandateList}} -->
 
-    <!-- <component
-      v-if="editCreditorDialog"
-      :is="editCreditorFormMetaData.componentName"
-      :ref="editCreditorFormMetaData.myRefName"
-      :value="selectModel(editCreditorForm, undefined)"
-      @input="(newValue) => updateModel(editCreditorForm, newValue, undefined)"
-      v-bind="editCreditorFormMetaData.props"
-    ></component> -->
-
-    <v-alert text color="error" v-if="deleteCreditorDialog">
+    <v-alert text color="error" v-if="deleteEMandateDialog">
       <div class="text-center py-3">Are you sure want to delete?</div>
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
@@ -51,20 +40,6 @@
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Bank</v-toolbar-title>
-              <!-- <v-divider class="mx-4" inset vertical></v-divider>
-              <v-chip label outlined color="primary"
-                >Total Debt - ₹{{ totalDebt }}</v-chip
-              >
-
-              <v-chip
-                v-if="clientFileSummary?.wad"
-                label
-                outlined
-                color="primary"
-                class="mx-2"
-                >WAD - {{ clientFileSummary.wad }}</v-chip
-              > -->
-
               <v-spacer></v-spacer>
               <v-btn
                 :disabled="disabled"
@@ -78,18 +53,10 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.actions`]="{ item, index }">
-            <!-- <v-icon
-              :disabled="disabled"
-              small
-              class="mr-2"
-              @click="selectEditCreditor(item, index)"
-            >
-              mdi-pencil
-            </v-icon> -->
             <v-icon
               :disabled="disabled"
               small
-              @click="selectDeleteCreditor(item, index)"
+              @click="selectDeleteEMandate(item, index)"
             >
               mdi-delete
             </v-icon>
@@ -131,7 +98,8 @@ import * as Snackbar from "node-snackbar";
   },
 })
 export default class FEMandate extends ModelVue {
-  addEMandateForm: Data.Spine.EMandateAddForm = new Data.Spine.EMandateAddForm();
+  addEMandateForm: Data.Spine.EMandateAddForm =
+    new Data.Spine.EMandateAddForm();
 
   selectedEMandateItem: Data.Spine.EMandateDetails;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
@@ -147,16 +115,12 @@ export default class FEMandate extends ModelVue {
     { text: "Actions", value: "actions" },
   ];
 
-  addCreditorDialog = false;
-  // editCreditorDialog = false;
-  deleteCreditorDialog = false;
+  addEMandateDialog = false;
+  deleteEMandateDialog = false;
   taskId = this.$route.params.taskId;
 
   @Prop()
   addEMandateFormMetaData: any;
-
-  // @Prop()
-  // editCreditorFormMetaData: any;
 
   @Prop()
   actionMetaDataList: any[];
@@ -172,75 +136,44 @@ export default class FEMandate extends ModelVue {
 
   showAddForm() {
     this.closeDialogs();
-    this.addCreditorDialog = true;
+    this.addEMandateDialog = true;
   }
 
-  // showEditForm() {
-  //   this.closeDialogs();
-  //   this.editCreditorDialog = true;
-  // }
   showDeletePopup() {
     this.closeAndClearAllForms();
-    this.deleteCreditorDialog = true;
+    this.deleteEMandateDialog = true;
   }
   closeAndClearAllForms() {
     this.closeDialogs();
     this.resetForms();
   }
   closeDialogs() {
-    this.addCreditorDialog = false;
-    // this.editCreditorDialog = false;
-    this.deleteCreditorDialog = false;
+    this.addEMandateDialog = false;
+    this.deleteEMandateDialog = false;
   }
   resetForms() {
     this.addEMandateForm = new Data.Spine.EMandateAddForm();
-    // this.editCreditorForm = new Data.Spine.Creditor();
   }
 
   get eMandateList() {
     return this.modelValue;
   }
 
-  // get totalDebt() {
-  //   return this.modelValue.totalDebt;
-  // }
-
-  // totalDebtAmount() {
-  //   const totalDebtAmount = this.modelValue.creditorList
-  //     .map((creditor: any) => creditor.creditorBalance)
-  //     .reduce((accumulator: number, objValue: any) => {
-  //       return accumulator + objValue;
-  //     }, 0);
-  //   this.modelValue.totalDebtAmount = totalDebtAmount;
-  //   return this.modelValue.totalDebtAmount;
-  // }
-
   deleteEMandateData() {
     const eMandateId = this.selectedEMandateItem.eMandateId;
-    Action.Spine.RemoveEMandate.execute2(
-      this.taskId,
-      eMandateId,
-      (output) => {
-        this.closeDialogs();
-        Snackbar.show({
-          text: "Succesfully Removed",
-          pos: "bottom-center",
-        });
-      }
-    );
+    Action.Spine.RemoveEMandate.execute2(this.taskId, eMandateId, (output) => {
+      this.closeDialogs();
+      Snackbar.show({
+        text: "Succesfully Removed",
+        pos: "bottom-center",
+      });
+    });
   }
 
-  selectEditCreditor(item: any, index: any) {
-    this.selectedEMandateItem = item;
-    // this.editCreditorForm = {
-    //   ...item,
-    // };
-    // this.showEditForm();
-  }
-  selectDeleteCreditor(item: any, index: number) {
+  selectDeleteEMandate(item: any, index: number) {
     this.selectedEMandateItem = item;
     this.showDeletePopup();
-    console.log(this.deleteCreditorDialog);
+    console.log(this.deleteEMandateDialog);
   }
 
   get filteredHeaders() {
@@ -256,6 +189,13 @@ export default class FEMandate extends ModelVue {
         actionMetaData.condition === undefined ||
         actionMetaData.condition === true
     );
+  }
+
+  populateEMandateBankDetails(details: any) {
+    this.addEMandateForm.bankAddress.addressLine1 = details.ADDRESS;
+    this.addEMandateForm.bankAddress.city = details.CITY;
+    this.addEMandateForm.bankAddress.state = details.STATE;
+    this.addEMandateForm.bankAddress.country = "India";
   }
 }
 </script>

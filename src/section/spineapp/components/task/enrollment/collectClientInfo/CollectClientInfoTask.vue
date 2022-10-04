@@ -160,6 +160,7 @@ export default class CollectClientInfoTask
     });
   }
 
+  //deprecated
   populateBankDetails(details: any) {
     this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
       details.ADDRESS;
@@ -167,7 +168,6 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
   }
-
 
   setTestData() {
     console.log(

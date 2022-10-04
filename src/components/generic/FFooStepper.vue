@@ -54,6 +54,7 @@ import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue
 import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
 import CLProfile from "./clientProfile/CLProfile.vue";
 import FMarkComplete from "./file/markcomplete/FMarkComplete.vue";
+import FEMandate from "./file/eMandate/FEMandate.vue";
 
 @Component({
   components: {
@@ -63,7 +64,8 @@ import FMarkComplete from "./file/markcomplete/FMarkComplete.vue";
     FBudget,
     FPaymentPlan,
     FDocument,
-    FMarkComplete
+    FMarkComplete,
+    FEMandate
   },
 })
 export default class FFooStepper extends ModelVue {

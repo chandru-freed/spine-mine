@@ -73,15 +73,18 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.CHPPTaskOutput();
 
   get taskFormOutput() {
-    if(this.taskDetailsOutput.creditorInfo) {
-    this.taskFormOutputLocal.creditorInfo.creditorName = this.taskDetailsOutput.creditorInfo.creditorName;
-    this.taskFormOutputLocal.creditorInfo.creditorBalance = this.taskDetailsOutput.creditorInfo.creditorBalance;
-    this.taskFormOutputLocal.creditorInfo.creditorPhoneNumber = this.taskDetailsOutput.creditorInfo.creditorPhoneNumber;
-    this.taskFormOutputLocal.creditorInfo.creditorBank = this.taskDetailsOutput.creditorInfo.creditorBank;
-    this.taskFormOutputLocal.creditorInfo.description = this.taskDetailsOutput.creditorInfo.description;
-    this.taskFormOutputLocal.creditorInfo.creditor = this.taskDetailsOutput.creditorInfo.creditor;
-    this.taskFormOutputLocal.creditorInfo.harassmentDetails = this.taskDetailsOutput.creditorInfo.harassmentDetails;
-    }
+    this.taskFormOutputLocal = {
+      ...this.taskDetailsOutput,
+    };
+    // if(this.taskDetailsOutput.creditorInfo) {
+    // this.taskFormOutputLocal.creditorInfo.creditorName = this.taskDetailsOutput.creditorInfo.creditorName;
+    // this.taskFormOutputLocal.creditorInfo.creditorBalance = this.taskDetailsOutput.creditorInfo.creditorBalance;
+    // this.taskFormOutputLocal.creditorInfo.creditorPhoneNumber = this.taskDetailsOutput.creditorInfo.creditorPhoneNumber;
+    // this.taskFormOutputLocal.creditorInfo.creditorBank = this.taskDetailsOutput.creditorInfo.creditorBank;
+    // this.taskFormOutputLocal.creditorInfo.description = this.taskDetailsOutput.creditorInfo.description;
+    // this.taskFormOutputLocal.creditorInfo.creditor = this.taskDetailsOutput.creditorInfo.creditor;
+    // this.taskFormOutputLocal.creditorInfo.harassmentDetails = this.taskDetailsOutput.creditorInfo.harassmentDetails;
+    // }
     return this.taskFormOutputLocal;
   }
 
@@ -92,8 +95,7 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
 
   //DATA
 
-
-   //METADATA
+  //METADATA
   get stepperMetaData() {
     return new CHPPFStepperMDP({ taskRoot: this }).getMetaData();
   }
@@ -118,7 +120,6 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
     });
   }
 
-
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,
@@ -133,10 +134,10 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   }
 
   gotoFile() {
-      Helper.Router.gotoFile({
-        router: this.$router,
-        clientFileNumber: this.$route.params.clientFileNumber,
-      });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+    });
   }
 }
 </script>

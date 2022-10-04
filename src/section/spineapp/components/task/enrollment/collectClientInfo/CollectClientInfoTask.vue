@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h4>CollectClientProfileInfoTask</h4> -->
-    <!-- Root Data : {{ taskFormData }} -->
+    <!-- Root Data : {{ taskFormData.taskOutput }} -->
     <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
     <!-- <kbd> {{ testMetaData }}</kbd> -->
 
@@ -160,6 +160,7 @@ export default class CollectClientInfoTask
     });
   }
 
+  //deprecated
   populateBankDetails(details: any) {
     this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
       details.ADDRESS;
@@ -167,7 +168,6 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
   }
-
 
   setTestData() {
     console.log(

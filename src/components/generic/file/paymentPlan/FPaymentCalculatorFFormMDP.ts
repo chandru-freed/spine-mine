@@ -4,6 +4,9 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
+import * as Snackbar from "node-snackbar";
 
 export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -47,7 +50,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.approxSettlementPercentage",
+        dataSelectorKey: "paymentPlan.ppCalculator.settlementPercentage",
         label: "Settlement Percentage",
         boundaryClass: "col-6",
       })
@@ -92,10 +95,23 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   calculatePaymentSchedule() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.parent.getMyRef().calculatePaymentSchedule();
-        this.parent.getMyRef().calculateFeeSchedule();
+        this.schedulePaymentPlan();
       });
     }
+  }
+
+  schedulePaymentPlan() {
+    console.log(this.taskRoot.taskFormData.taskOutput.paymentPlan,"Payment  plan")
+    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
+    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+    input.ppCalculator.outstanding = this.taskRoot.taskFormData.taskOutput.creditorInfo.totalDebt;
+    input.taskId = this.taskRoot.taskId;
+    Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
+      Snackbar.show({
+        text: "Succesfully Saved",
+        pos: "bottom-center",
+      });
+    })
   }
 
 

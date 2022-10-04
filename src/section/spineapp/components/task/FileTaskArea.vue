@@ -265,6 +265,7 @@ export default class FileTaskArea extends Vue {
     Action.Spine.UpdateBudgetInfo.interested(
       this.getExecutiveTaskDetailsHandler
     );
+    Action.Spine.SchedulePaymentPlan.interested(this.getExecutiveTaskDetailsHandler);
     Action.Spine.AttachDocument.interested(this.getExecutiveTaskDetailsHandler);
     Action.Spine.DetachDocument.interested(this.getExecutiveTaskDetailsHandler);
 

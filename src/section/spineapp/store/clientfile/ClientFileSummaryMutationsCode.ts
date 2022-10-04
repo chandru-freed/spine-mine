@@ -38,5 +38,9 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.fiPaymentList = fiPaymentList;
   }
 
+  public updateFiPaymentTransactionList(state: Data.ClientFile.ClientFileSummary, fiPaymentTransactionList: Data.ClientFile.FiPaymentTransaction[]): void {
+    state.fiPaymentTransactionList = fiPaymentTransactionList;
+  }
+
 }
 

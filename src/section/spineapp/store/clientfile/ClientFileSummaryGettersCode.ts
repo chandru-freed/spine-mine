@@ -7,6 +7,7 @@ export class ClientFileSummaryInit {
 }
 
 export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
+  
 
    public fiCreditorInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditorInfo | undefined {
       return state.fiCreditorInfo
@@ -40,6 +41,10 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
 
   public fiPaymentList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPayment[] {
     return state.fiPaymentList
+  }
+
+  public fiPaymentTransactionList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPaymentTransaction[] {
+    return state.fiPaymentTransactionList
   }
 }
 

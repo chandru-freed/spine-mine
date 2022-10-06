@@ -3,6 +3,7 @@ import * as Data from '@/../src-gen/data';
 import { ClientFileSummaryMutations } from '@/../src-gen/store/clientfile-store-support';
 
 export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutations {
+  
 
   public updateFiCreditorInfo(state: Data.ClientFile.ClientFileSummary, fiCreditorInfo: Data.ClientFile.FiCreditorInfo | undefined): void {
     state.fiCreditorInfo = fiCreditorInfo
@@ -36,6 +37,10 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
 
   public updateFiPaymentList(state: Data.ClientFile.ClientFileSummary, fiPaymentList: Data.ClientFile.FiPayment[]): void {
     state.fiPaymentList = fiPaymentList;
+  }
+
+  public updateFiPaymentTransactionList(state: Data.ClientFile.ClientFileSummary, fiPaymentTransactionList: Data.ClientFile.FiPaymentTransaction[]): void {
+    state.fiPaymentTransactionList = fiPaymentTransactionList
   }
 
 }

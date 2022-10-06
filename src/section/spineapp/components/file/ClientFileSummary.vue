@@ -254,14 +254,14 @@ export default class ClientFileSummary extends Vue {
   public created() {}
 
   handleAssignRMClick() {
-    this.$router.push({ name: "Root.ClientFile.AssignRM" });
+    this.$router.push({ name: "Root.ClientFile.Request.AssignRM" });
   }
 
   handleAssignSalesRepClick() {
-    this.$router.push({ name: "Root.ClientFile.AssignSalesRep" });
+    this.$router.push({ name: "Root.ClientFile.Request.AssignSalesRep" });
   }
   handleCreateRequestClick() {
-    this.$router.push({ name: "Root.ClientFile.FileCreateRequest" });
+    this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
   }
 
   handleRecordPaymentClick() {

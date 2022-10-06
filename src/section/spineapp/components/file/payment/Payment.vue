@@ -8,14 +8,6 @@
           sort-by="draftDate"
           class="elevation-0"
         >
-          <template v-slot:item.clientFileNumber="{ item }">
-            <f-btn
-              :label="item.clientFileNumber"
-              text
-              color="secondary"
-              :onClick="() => gotoFile(item)"
-            ></f-btn>
-          </template>
           <template v-slot:[`item.presentedDate`]="{ item }">
             {{ item.presentedDate | date }}
           </template>
@@ -47,7 +39,8 @@ export default class Payment extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
   fiPaymentList: Data.ClientFile.FiPayment;
   headers = [
-    { text: "File Number", value: "clientFileNumber" },
+    { text: "Received By", value: "receivedBy" },
+    { text: "Total Amount", value: "totalAmount" },
     { text: "Payment Provider", value: "paymentProvider.name" },
     { text: "Payment Mode", value: "paymentMode.name" },
     { text: "Presented Date", value: "presentedDate" },
@@ -67,7 +60,7 @@ export default class Payment extends ModelVue {
 
   gotoFile(item: any) {
     this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
+      name: "Root.ClientFile.Workarea",
       params: { clientFileNumber: item.cid },
     });
   }

@@ -6,12 +6,12 @@ import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/fiel
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
-export default class RecordPaymentFFormMDP extends FFormMDP {
+export default class ReceivePaymentFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   constructor({ taskRoot }: { taskRoot: any; }) {
     super({
-      myRefName: "recordPaymentFFormRef",
+      myRefName: "receivePaymentFFormRef",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
@@ -21,7 +21,7 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentProvider",
         label: "Payment Provider",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         returnObject: true,
         options: [
@@ -33,19 +33,11 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         optionValue: "id",
       })
     ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "remoteTxnRefNumber",
-        label: "Remote Txn RefNumber",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentMode",
         label: "Payment Mode",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         returnObject: true,
         options: [
@@ -63,7 +55,7 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "presentedDate",
         label: "Presented Date",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         futureDaysDisabled: true,
       })
@@ -72,7 +64,7 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentStatus",
         label: "Payment Status",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         returnObject: true,
         options: [
@@ -82,15 +74,6 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         ],
         optionLabel: "name",
         optionValue: "id",
-      })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "totalAmount",
-        label: "Total Amount",
-        boundaryClass: "col-4",
-        mandatory: true,
-        disabled: true
       })
     ).addField(
       new FCurrencyFieldMDP({
@@ -116,6 +99,15 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         mandatory: true,
       })
+    ).addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "totalAmount",
+        label: "Total Amount",
+        boundaryClass: "col-12",
+        mandatory: true,
+        disabled: true
+      })
     ).addAction(
       new FBtnMDP({
         label: "Cancel",
@@ -124,7 +116,7 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
       })
     ).addAction(
       new FBtnMDP({
-        label: "Record Settled Payment",
+        label: "Receive Payment",
         onClick: this.validateAndSubmit(),
       })
     );
@@ -132,16 +124,16 @@ export default class RecordPaymentFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.recordSettledPayment());
+      this.getMyRef().submitForm(this.recordPaymentPresent());
     };
   }
 
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
-  recordSettledPayment() {
+  recordPaymentPresent() {
     return () => {
-      this.taskRoot.recordSettledPayment();
+      this.taskRoot.recordPaymentPresent();
     };
   }
 

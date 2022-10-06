@@ -84,6 +84,16 @@
                 <v-list-item-title>Record Payment</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="handleReceivePaymentClick()">
+              <v-list-item-content>
+                <v-list-item-title>Receive Payment</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="handleReceiveMSFPaymentClick()">
+              <v-list-item-content>
+                <v-list-item-title>Receive MSF Payment by Cashfree</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-menu>
       </div>
@@ -145,7 +155,7 @@
                 <v-list-item-subtitle
                   >Due on
                   {{
-                    fileSummary.spaDueDate | date-duration
+                    fileSummary.spaDueDate | date - duration
                   }}</v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -244,18 +254,26 @@ export default class ClientFileSummary extends Vue {
   public created() {}
 
   handleAssignRMClick() {
-    this.$router.push({ name: "Root.ClientFile.AssignRM" });
+    this.$router.push({ name: "Root.ClientFile.Request.AssignRM" });
   }
 
   handleAssignSalesRepClick() {
-    this.$router.push({ name: "Root.ClientFile.AssignSalesRep" });
+    this.$router.push({ name: "Root.ClientFile.Request.AssignSalesRep" });
   }
   handleCreateRequestClick() {
-    this.$router.push({ name: "Root.ClientFile.FileCreateRequest" });
+    this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
   }
 
-    handleRecordPaymentClick() {
+  handleRecordPaymentClick() {
     this.$router.push({ name: "Root.ClientFile.Request.RecordPayment" });
+  }
+
+  handleReceivePaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.ReceivePayment" });
+  }
+
+  handleReceiveMSFPaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.ReceiveMSFPayment" });
   }
 }
 </script>

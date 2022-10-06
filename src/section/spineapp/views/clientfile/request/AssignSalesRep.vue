@@ -20,13 +20,14 @@
           min-height="300px"
         >
           <component
-            :ref="assignRMMetaData.myRefName"
-            :is="assignRMMetaData.componentName"
-            :value="selectModel(assignRMInput, undefined)"
+            :ref="assignSalesRepMetaData.myRefName"
+            :is="assignSalesRepMetaData.componentName"
+            :value="selectModel(assignSalesRepInput, undefined)"
             @input="
-              (newValue) => updateModel(assignRMInput, newValue, undefined)
+              (newValue) =>
+                updateModel(assignSalesRepInput, newValue, undefined)
             "
-            v-bind="assignRMMetaData.props"
+            v-bind="assignSalesRepMetaData.props"
           ></component>
         </v-card>
       </div>
@@ -48,11 +49,10 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
-import AssignRMFFormMDP from "./AssignRMFFormMDP";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import * as Snackbar from "node-snackbar";
-import Helper from "../../util/Helper";
+import AssignSalesRepFFormMDP from "../request/AssignSalesRepFFormMDP";
+import Helper from "../../../util/Helper";
 
 @Component({
   components: {
@@ -60,25 +60,25 @@ import Helper from "../../util/Helper";
     FForm,
   },
 })
-export default class AssignRM extends ModelVue {
+export default class AssignSalesRep extends ModelVue {
   clientFileNumber = this.$route.params.clientFileNumber;
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  assignRMInput = new Data.ClientFile.AssignRMInput();
+  assignSalesRepInput = new Data.ClientFile.AssignSalesRepInput();
   leftFocused = false;
   rightFocused = true;
 
   //METADATA
-  get assignRMMetaData() {
-    return new AssignRMFFormMDP({ taskRoot: this }).getMetaData();
+  get assignSalesRepMetaData() {
+    return new AssignSalesRepFFormMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
-  assignRM() {
-    Action.ClientFile.AssignRM.execute2(
-      this.assignRMInput.assignedRM,
+  assignSalesRep() {
+    Action.ClientFile.AssignSalesRep.execute2(
+      this.assignSalesRepInput.assignedSalesRep,
       this.clientFileBasicInfo.clientFileId,
       (output) => {
         this.gotoClientFile();
@@ -87,6 +87,7 @@ export default class AssignRM extends ModelVue {
           text: "Succesfully assigned",
           pos: "bottom-center",
         });
+        
       }
     );
   }

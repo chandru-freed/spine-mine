@@ -89,6 +89,11 @@
                 <v-list-item-title>Receive Payment</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="handleReceiveMSFPaymentClick()">
+              <v-list-item-content>
+                <v-list-item-title>Receive MSF Payment by cashfree</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-menu>
       </div>
@@ -265,6 +270,10 @@ export default class ClientFileSummary extends Vue {
 
   handleReceivePaymentClick() {
     this.$router.push({ name: "Root.ClientFile.Request.ReceivePayment" });
+  }
+
+  handleReceiveMSFPaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.ReceiveMSFPayment" });
   }
 }
 </script>

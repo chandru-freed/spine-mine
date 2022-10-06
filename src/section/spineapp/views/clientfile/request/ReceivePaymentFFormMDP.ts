@@ -59,48 +59,71 @@ export default class ReceivePaymentFFormMDP extends FFormMDP {
         mandatory: true,
         futureDaysDisabled: true,
       })
-    )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "totalAmount",
-          label: "Total Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      ).addField(
-        new FSelectFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "paymentStatus",
-          label: "Payment Status",
-          boundaryClass: "col-4",
-          mandatory: true,
-          returnObject: true,
-          options: [
-            { id: "DRAFT", name: "DRAFT" },
-            { id: "NOT_REACHABLE", name: "NOT REACHABLE" },
-            { id: "FAILED", name: "FAILED" },
-            { id: "PRESENTED", name: "PRESENTED" },
-            { id: "REJECTED", name: "REJECTED" },
-            { id: "FUND_SPLIT_REQUESTED", name: "FUND SPLIT REQUESTED" },
-            { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
-            { id: "FUND_SPLIT_SETTLED", name: "FUND SPLIT SETTLED" },
-          ],
-          optionLabel: "name",
-          optionValue: "id",
-        })
-      ).addAction(
-        new FBtnMDP({
-          label: "Cancel",
-          onClick: this.gotoClientFile(),
-          btnType: BtnType.TEXT,
-        })
-      ).addAction(
-        new FBtnMDP({
-          label: "Receive Payment",
-          onClick: this.validateAndSubmit(),
-        })
-      );
+    ).addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "totalAmount",
+        label: "Total Amount",
+        boundaryClass: "col-4",
+        mandatory: true
+      })
+    ).addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "spaAmount",
+        label: "SPA Amount",
+        boundaryClass: "col-4",
+        mandatory: true,
+      })
+    ).addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "feeAmount",
+        label: "Fee Amount",
+        boundaryClass: "col-4",
+        mandatory: true,
+      })
+    ).addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "msfAmount",
+        label: "MSF Amount",
+        boundaryClass: "col-4",
+        mandatory: true,
+      })
+    ).addField(
+      new FSelectFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentStatus",
+        label: "Payment Status",
+        boundaryClass: "col-4",
+        mandatory: true,
+        returnObject: true,
+        options: [
+          { id: "DRAFT", name: "DRAFT" },
+          { id: "NOT_REACHABLE", name: "NOT REACHABLE" },
+          { id: "FAILED", name: "FAILED" },
+          { id: "PRESENTED", name: "PRESENTED" },
+          { id: "REJECTED", name: "REJECTED" },
+          { id: "FUND_SPLIT_REQUESTED", name: "FUND SPLIT REQUESTED" },
+          { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
+          { id: "FUND_SPLIT_SETTLED", name: "FUND SPLIT SETTLED" },
+        ],
+        optionLabel: "name",
+        optionValue: "id",
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Cancel",
+        onClick: this.gotoClientFile(),
+        btnType: BtnType.TEXT,
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Receive Payment",
+        onClick: this.validateAndSubmit(),
+      })
+    );
   }
 
   validateAndSubmit() {

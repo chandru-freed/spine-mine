@@ -3,6 +3,7 @@ import * as Data from '@/../src-gen/data';
 import { ClientFileSummaryMutations } from '@/../src-gen/store/clientfile-store-support';
 
 export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutations {
+  
 
   public updateFiCreditorInfo(state: Data.ClientFile.ClientFileSummary, fiCreditorInfo: Data.ClientFile.FiCreditorInfo | undefined): void {
     state.fiCreditorInfo = fiCreditorInfo

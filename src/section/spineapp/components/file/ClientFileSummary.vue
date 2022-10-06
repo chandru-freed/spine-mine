@@ -91,7 +91,7 @@
             </v-list-item>
             <v-list-item @click="handleReceiveMSFPaymentClick()">
               <v-list-item-content>
-                <v-list-item-title>Receive MSF Payment by cashfree</v-list-item-title>
+                <v-list-item-title>Receive MSF Payment by Cashfree</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>

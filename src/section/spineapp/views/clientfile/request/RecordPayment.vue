@@ -3,13 +3,15 @@
     <component
       :ref="recordPaymentMetaData.myRefName"
       :is="recordPaymentMetaData.componentName"
-      :value="selectModel(recordSettledPaymentInput, undefined)"
+      :value="selectModel(recordSettledPaymentInputForm, undefined)"
       @input="
         (newValue) =>
-          updateModel(recordSettledPaymentInput, newValue, undefined)
+          updateModel(recordSettledPaymentInputForm, newValue, undefined)
       "
       v-bind="recordPaymentMetaData.props"
     ></component>
+    <!-- {{ recordSettledPaymentInput }}
+    {{ totalAmount }} -->
   </div>
 </template>
 
@@ -42,6 +44,15 @@ export default class RecordPayment extends ModelVue {
     return new RecordPaymentFFormMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
+
+  get recordSettledPaymentInputForm() {
+    this.recordSettledPaymentInput.totalAmount =  this.recordSettledPaymentInput.spaAmount + this.recordSettledPaymentInput.feeAmount + this.recordSettledPaymentInput.msfAmount
+    return this.recordSettledPaymentInput
+  }
+
+  set recordSettledPaymentInputForm(value: Data.ClientFile.RecordSettledPaymentInput) {
+    this.recordSettledPaymentInput = value
+  }
 
   recordSettledPayment() {
     this.recordSettledPaymentInput.clientFileId =

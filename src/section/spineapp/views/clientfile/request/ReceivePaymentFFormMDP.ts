@@ -21,7 +21,7 @@ export default class ReceivePaymentFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentProvider",
         label: "Payment Provider",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         returnObject: true,
         options: [
@@ -37,7 +37,7 @@ export default class ReceivePaymentFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentMode",
         label: "Payment Mode",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         returnObject: true,
         options: [
@@ -55,17 +55,25 @@ export default class ReceivePaymentFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "presentedDate",
         label: "Presented Date",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         futureDaysDisabled: true,
       })
     ).addField(
-      new FCurrencyFieldMDP({
+      new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "totalAmount",
-        label: "Total Amount",
-        boundaryClass: "col-4",
-        mandatory: true
+        dataSelectorKey: "paymentStatus",
+        label: "Payment Status",
+        boundaryClass: "col-3",
+        mandatory: true,
+        returnObject: true,
+        options: [
+          { id: "PRESENTED", name: "PRESENTED" },
+          { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
+          { id: "FUND_SPLIT_SETTLED", name: "FUND SPLIT SETTLED" },
+        ],
+        optionLabel: "name",
+        optionValue: "id",
       })
     ).addField(
       new FCurrencyFieldMDP({
@@ -92,25 +100,13 @@ export default class ReceivePaymentFFormMDP extends FFormMDP {
         mandatory: true,
       })
     ).addField(
-      new FSelectFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentStatus",
-        label: "Payment Status",
-        boundaryClass: "col-4",
+        dataSelectorKey: "totalAmount",
+        label: "Total Amount",
+        boundaryClass: "col-12",
         mandatory: true,
-        returnObject: true,
-        options: [
-          { id: "DRAFT", name: "DRAFT" },
-          { id: "NOT_REACHABLE", name: "NOT REACHABLE" },
-          { id: "FAILED", name: "FAILED" },
-          { id: "PRESENTED", name: "PRESENTED" },
-          { id: "REJECTED", name: "REJECTED" },
-          { id: "FUND_SPLIT_REQUESTED", name: "FUND SPLIT REQUESTED" },
-          { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
-          { id: "FUND_SPLIT_SETTLED", name: "FUND SPLIT SETTLED" },
-        ],
-        optionLabel: "name",
-        optionValue: "id",
+        disabled: true
       })
     ).addAction(
       new FBtnMDP({

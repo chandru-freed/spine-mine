@@ -167,7 +167,7 @@ export default class TaskDeferred extends Vue {
 
   gotoFile(item: any) {
     this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
+      name: "Root.ClientFile.Workarea",
       params: { clientFileNumber: item.cid },
     });
   }

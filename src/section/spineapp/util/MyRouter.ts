@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 export default class MyRouter {
   static gotoFile({router, clientFileNumber}: {router: VueRouter, clientFileNumber: string}) {
     router.push({
-      name: "Root.ClientFile.ClientFileDetails",
+      name: "Root.ClientFile.Workarea",
       params: { clientFileNumber: clientFileNumber },
     });
   }

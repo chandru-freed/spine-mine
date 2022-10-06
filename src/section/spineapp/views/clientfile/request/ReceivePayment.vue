@@ -1,14 +1,14 @@
 <template>
-  <div class="recordPayment">
+  <div class="receivePayment">
     <component
-      :ref="recordPaymentMetaData.myRefName"
-      :is="recordPaymentMetaData.componentName"
-      :value="selectModel(recordSettledPaymentInput, undefined)"
+      :ref="receivePaymentMetaData.myRefName"
+      :is="receivePaymentMetaData.componentName"
+      :value="selectModel(recordPaymentPresentInput, undefined)"
       @input="
         (newValue) =>
-          updateModel(recordSettledPaymentInput, newValue, undefined)
+          updateModel(recordPaymentPresentInput, newValue, undefined)
       "
-      v-bind="recordPaymentMetaData.props"
+      v-bind="receivePaymentMetaData.props"
     ></component>
   </div>
 </template>
@@ -19,35 +19,35 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import RecordPaymentFFormMDP from "./RecordPaymentFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import Helper from "@/section/spineapp/util/Helper";
+import ReceivePaymentFFormMDP from "./ReceivePaymentFFormMDP";
 
 @Component({
   components: {
     FForm,
   },
 })
-export default class RecordPayment extends ModelVue {
+export default class ReceivePayment extends ModelVue {
   clientFileNumber = this.$route.params.clientFileNumber;
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  recordSettledPaymentInput = new Data.ClientFile.RecordSettledPaymentInput();
+  recordPaymentPresentInput = new Data.ClientFile.RecordPaymentPresentInput();
 
   //METADATA
-  get recordPaymentMetaData() {
-    return new RecordPaymentFFormMDP({ taskRoot: this }).getMetaData();
+  get receivePaymentMetaData() {
+    return new ReceivePaymentFFormMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
-  recordSettledPayment() {
-    this.recordSettledPaymentInput.clientFileId =
+  recordPaymentPresent() {
+    this.recordPaymentPresentInput.clientFileId =
       this.clientFileBasicInfo.clientFileId;
-    Action.ClientFile.RecordSettledPayment.execute(
-      this.recordSettledPaymentInput,
+    Action.ClientFile.RecordPaymentPresent.execute(
+      this.recordPaymentPresentInput,
       (output) => {
         this.gotoClientFile();
         Snackbar.show({

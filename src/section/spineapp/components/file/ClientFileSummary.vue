@@ -84,6 +84,11 @@
                 <v-list-item-title>Record Payment</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item @click="handleReceivePaymentClick()">
+              <v-list-item-content>
+                <v-list-item-title>Receive Payment</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-menu>
       </div>
@@ -145,7 +150,7 @@
                 <v-list-item-subtitle
                   >Due on
                   {{
-                    fileSummary.spaDueDate | date-duration
+                    fileSummary.spaDueDate | date - duration
                   }}</v-list-item-subtitle
                 >
               </v-list-item-content>
@@ -254,8 +259,12 @@ export default class ClientFileSummary extends Vue {
     this.$router.push({ name: "Root.ClientFile.FileCreateRequest" });
   }
 
-    handleRecordPaymentClick() {
+  handleRecordPaymentClick() {
     this.$router.push({ name: "Root.ClientFile.Request.RecordPayment" });
+  }
+
+  handleReceivePaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.ReceivePayment" });
   }
 }
 </script>

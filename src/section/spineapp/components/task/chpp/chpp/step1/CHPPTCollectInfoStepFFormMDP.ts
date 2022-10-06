@@ -56,10 +56,21 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-6",
         })
-      )
+      ).addAction(
+            new FBtnMDP({
+                label: "Previous",
+                onClick: () => { },
+                disabled: true
+            })
+        )
       .addAction(
         new FBtnMDP({
           label: "Save",
+          onClick: this.validateAndSubmit(),
+        })
+      ).addAction(
+        new FBtnMDP({
+          label: "Save & Next",
           onClick: this.validateAndSubmit(),
         })
       )

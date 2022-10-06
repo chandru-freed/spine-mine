@@ -24,11 +24,13 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import CHPPFStepperMDP from "./CHPPFStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import FFooStepper from "@/components/generic/FFooStepper.vue";
 
 @Component({
   components: {
     FStepper,
     FBtn,
+    FFooStepper
   },
 })
 export default class CHPPTask extends ModelVue implements ManualTaskIntf {
@@ -75,6 +77,8 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   get taskFormOutput() {
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
+      creditorInfo: this.taskDetailsOutput.creditorInfo || new Data.Spine.CHPPCreditorInfo(),
+      proof: this.taskDetailsOutput.proof || []
     };
     // if(this.taskDetailsOutput.creditorInfo) {
     // this.taskFormOutputLocal.creditorInfo.creditorName = this.taskDetailsOutput.creditorInfo.creditorName;

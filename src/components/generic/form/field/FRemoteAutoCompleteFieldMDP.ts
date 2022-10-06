@@ -18,6 +18,7 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
     clearable: boolean;
     hideNoData: boolean = true;
     hideSelected: boolean = true;
+    minSearchValueLength: number;
     constructor({
         parentMDP,
         label,
@@ -31,7 +32,8 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
         condition=true,
         queryUrl,
         returnObject,
-        clearable=true
+        clearable=true,
+        minSearchValueLength=0
 
     }: {
         parentMDP: FFormChildMDP;
@@ -47,6 +49,7 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
         condition?:boolean;
         returnObject?: boolean;
         clearable?:boolean;
+        minSearchValueLength?: number
     }) {
         this.parentMDP = parentMDP;
         this.label = label;
@@ -61,6 +64,7 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
         this.queryUrl = queryUrl;
         this.returnObject = returnObject;
         this.clearable = clearable;
+        this.minSearchValueLength = minSearchValueLength
     }
 
 
@@ -93,7 +97,8 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
                 returnObject: this.returnObject,
                 clearable: this.clearable,
                 hideNoData: this.hideNoData,
-                hideSelected: this.hideSelected
+                hideSelected: this.hideSelected,
+                minSearchValueLength: this.minSearchValueLength
             }
         }
     }

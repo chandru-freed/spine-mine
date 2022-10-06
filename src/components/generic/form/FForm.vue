@@ -75,6 +75,7 @@ import FTimeField from "./field/FTimeField.vue";
 import FGompaUserRemoteAutoCompleteField from "./field/FGompaUserRemoteAutoComplete.vue";
 import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
 import FNumberTextField from "./field/FNumberTextField.vue";
+import FRemoteAutoCompleteField from "./field/FRemoteAutoCompleteField.vue";
 
 @Component({
   components: {
@@ -99,6 +100,7 @@ import FNumberTextField from "./field/FNumberTextField.vue";
     FGompaUserRemoteAutoCompleteField,
     FRemoteComboBoxField,
     FNumberTextField,
+    FRemoteAutoCompleteField,
   },
 })
 export default class FForm extends ModelVue {

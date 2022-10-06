@@ -31,9 +31,13 @@ export default class FRemoteAutoCompleteField extends VAutocomplete {
   searchValue: string = "";
   isLoading: boolean = false;
   fetchedItems: any[] = [];
+@Prop({
+    default: 1,
+  })
+  minSearchValueLength: number;
 
   @Watch("searchValue") onSearchValueChanged(value: string) {
-    if (value?.length > 2) {
+    if (value?.length > this.minSearchValueLength) {
       this.fetchItems();
     } else {
       this.fetchedItems = [];

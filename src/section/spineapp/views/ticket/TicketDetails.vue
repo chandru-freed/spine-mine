@@ -1,45 +1,60 @@
 <template>
   <div>
+    <v-alert text class="ma-5" color="primary" v-if="closeTicketDialog">
+      <div class="text-center py-3">Are you sure want to close this ticket?</div>
+      <div
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+      >
+        <FBtn
+          label="Cancel"
+          :on-click="() => closeTicketDialog=false"
+          outlined
+          color="primary"
+        />
+        <FBtn
+          label="Close Ticket"
+          :on-click="() => closeTicket()"
+          outlined
+          color="primary"
+        />
+      </div>
+    </v-alert>
     <v-card flat outlined>
-      <v-card-text >
-        <v-card-title>Ticket Summary</v-card-title>
-         <component
+      <v-card flat class="ma-5" outlined v-if="reAssignTicketDialog">
+        <v-card-title>Re Assign Ticket<v-spacer /> </v-card-title>
+
+        <component
+          v-if="!!reAssignTicketFormMetaData"
+          :ref="reAssignTicketFormMetaData.myRefName"
+          :is="reAssignTicketFormMetaData.componentName"
+          v-model="reAssignTicketInput"
+          v-bind="reAssignTicketFormMetaData.props"
+        ></component>
+      </v-card>
+      <v-card-text>
+        <v-card-title
+          >Ticket Summary<v-spacer />
+          <v-btn class="mx-2" v-if="taskSummary.clientFileNumber" color="primary" @click="gotoFile" text>Go To File</v-btn>
+          <v-btn
+            color="primary"
+            class="mx-2"
+            @click="reAssignClicked()"
+            outlined
+            >Assign</v-btn
+          >
+          <v-btn color="primary" class="mx-2 " @click="closeTicketDialog=true">Close Ticket</v-btn>
+          
+        </v-card-title>
+        
+        <component
           v-if="!!ticketSummaryFormMetaData"
           :ref="ticketSummaryFormMetaData.myRefName"
           :is="ticketSummaryFormMetaData.componentName"
-          v-model="ticketTaskDetails.taskInput"
+          v-model="taskSummary"
           v-bind="ticketSummaryFormMetaData.props"
         ></component>
       </v-card-text>
-      <v-card-text >
-        <v-card-title>Comments</v-card-title>
-        <v-col class="col-12">
-      <v-toolbar flat class="mt-5" color="white">
-        <v-textarea
-          filled
-          auto-grow
-          label="Comment"
-          rows="2"
-          
-          placeholder="Add a comment ..."
-          outlined
-          v-model="addCommentInput.comment"
-        >
-          <template v-slot:append>
-            <f-btn
-              label="Comment"
-              :disabled="addCommentInput.comment.length < 2"
-              class="mx-0"
-              depressed
-              :onClick="() => addComment()"
-              color="secondary"
-            >
-            </f-btn>
-          </template>
-        </v-textarea>
-      </v-toolbar>
-    </v-col>
-      </v-card-text>
+      <ticket-comment />
     </v-card>
   </div>
 </template>
@@ -52,63 +67,108 @@ import * as Action from "@/../src-gen/action";
 import store, * as Store from "@/../src-gen/store";
 // import AddCommentFFormMDP from './AddCommentFFormMDP';
 import FForm from "@/components/generic/form/FForm.vue";
-import * as Snackbar from 'node-snackbar';
-import TicketSummaryFFormMDP from './TicketSummaryFFormMDP';
+import * as Snackbar from "node-snackbar";
+import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
 import FBtn from "@/components/generic/FBtn.vue";
+import TicketComment from "./TicketComment.vue";
+import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
 @Component({
   components: {
     FForm,
-    "f-btn": FBtn
-  }
+    FBtn,
+    "ticket-comment": TicketComment,
+  },
 })
 export default class TicketAssignedToMe extends Vue {
   @Store.Getter.Ticket.TicketSummary.ticketTaskDetails
-  ticketTaskDetails: Data.Ticket.MyTicketTaskDetails
-  addCommentInput: Data.Ticket.AddCommentOnTicketInput = new Data.Ticket.AddCommentOnTicketInput();
+  ticketTaskDetails: Data.Ticket.MyTicketTaskDetails;
+
+  @Store.Getter.Ticket.TicketSummary.ticketCommentsList
+  ticketCommentsList: Data.Ticket.MyTicketCommentDetails[];
+
+  reAssignTicketDialog: boolean = false;
+  closeTicketDialog: boolean = false;
+  reAssignTicketInput: Data.Ticket.ReAssignTicketInput =
+    new Data.Ticket.ReAssignTicketInput();
 
   get ticketSummaryFormMetaData() {
-    return new TicketSummaryFFormMDP({root: this}).getMetaData();
+    return new TicketSummaryFFormMDP({ root: this }).getMetaData();
+  }
+
+  get reAssignTicketFormMetaData() {
+    return new ReAssignTicketFFormMDP({ root: this }).getMetaData();
   }
 
   get taskId() {
     return this.$route.params.taskId;
   }
+
+  get taskSummary(): any {
+    return this.ticketTaskDetails.taskInput
+  }
   mounted() {
     this.getMyTicketTaskDetails();
-    this.getTicketCommentList();
-    Action.Ticket.AddCommentOnTicket.interested(this.getTicketCommentListWithDelay())
+    Action.Ticket.CloseTicket.interested(
+      this.getMyTicketTaskDetailsWithDelay()
+    );
   }
 
+  public destroyed() { 
+    Action.Ticket.CloseTicket.notInterested(
+      this.getMyTicketTaskDetailsWithDelay()
+    );
+  }
 
-  getTicketCommentListWithDelay() {
+  getMyTicketTaskDetails() {
+    Action.Ticket.GetMyTicketTaskDetails.execute1(this.taskId, (output) => {});
+  }
+
+  getMyTicketTaskDetailsWithDelay() {
     return () => {
       setTimeout(() => {
-        this.getTicketCommentList();
+        this.getMyTicketTaskDetails();
       }, 500);
     }
   }
-  getTicketCommentList() {
-    Action.Ticket.GetTicketCommentList.execute1(this.taskId, output => {
-      console.log(output)
-    });
-  }
-  getMyTicketTaskDetails() {
-    Action.Ticket.GetMyTicketTaskDetails.execute1(this.taskId, output => {
-    });
-  }
 
-  addComment() {
-    this.addCommentInput.taskId = this.taskId;
-    Action.Ticket.AddCommentOnTicket.execute(this.addCommentInput, (output) => {
+  reAssignTicket() {
+    this.reAssignTicketInput.taskId = this.taskId;
+    Action.Ticket.ReassignTicket.execute(this.reAssignTicketInput, (output) => {
       Snackbar.show({
-        text: "Succesfully added a comment",
-        pos: "bottom-center"
+        text: "Succesfully reassigned",
+        pos: "bottom-center",
       });
+      this.$router.back();
     });
   }
 
+  reAssignClicked() {
+    this.reAssignTicketInput = new Data.Ticket.ReAssignTicketInput();
+    this.reAssignTicketDialog = true;
+  }
   goBack() {
     this.$router.back();
   }
+  cancelReAssignTicket() {
+    this.reAssignTicketDialog = false;
+  }
+  closeTicket() {
+    Action.Ticket.CloseTicket.execute1(this.taskId, output => {
+      Snackbar.show({
+        text: "Succesfully closed the ticket",
+        pos: "bottom-center",
+      });
+      this.closeTicketDialog = false;
+    });
+  }
+
+
+  gotoFile() {
+    this.$router.push({
+      name: "Root.ClientFile.Workarea",
+      params: { clientFileNumber: this.taskSummary.clientFileNumber },
+    });
+  }
+
 }
 </script>

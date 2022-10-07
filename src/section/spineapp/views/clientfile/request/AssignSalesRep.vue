@@ -1,37 +1,14 @@
 <template>
   <div>
-    <v-navigation-drawer
-      absolute
-      permanent
-      right
-      :width="rightFocused ? '100%' : '49%'"
-      v-if="!leftFocused"
-    >
-      <div class="d-flex justify-end">
-        <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
-          <v-icon size="20">mdi-close</v-icon>
-        </v-btn>
-      </div>
-      <div class="d-flex justify-center">
-        <v-card
-          class="pa-0 ma-0 mt-5 col-6"
-          color="white"
-          outlined
-          min-height="300px"
-        >
-          <component
-            :ref="assignSalesRepMetaData.myRefName"
-            :is="assignSalesRepMetaData.componentName"
-            :value="selectModel(assignSalesRepInput, undefined)"
-            @input="
-              (newValue) =>
-                updateModel(assignSalesRepInput, newValue, undefined)
-            "
-            v-bind="assignSalesRepMetaData.props"
-          ></component>
-        </v-card>
-      </div>
-    </v-navigation-drawer>
+    <component
+      :ref="assignSalesRepMetaData.myRefName"
+      :is="assignSalesRepMetaData.componentName"
+      :value="selectModel(assignSalesRepInput, undefined)"
+      @input="
+        (newValue) => updateModel(assignSalesRepInput, newValue, undefined)
+      "
+      v-bind="assignSalesRepMetaData.props"
+    ></component>
   </div>
 </template>
 
@@ -87,7 +64,6 @@ export default class AssignSalesRep extends ModelVue {
           text: "Succesfully assigned",
           pos: "bottom-center",
         });
-        
       }
     );
   }

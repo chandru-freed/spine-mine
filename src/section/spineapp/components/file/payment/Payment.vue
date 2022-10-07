@@ -11,6 +11,14 @@
           <template v-slot:[`item.presentedDate`]="{ item }">
             {{ item.presentedDate | date }}
           </template>
+          <template v-slot:item.totalAmount="{ item }">
+            <f-btn
+              :label="item.totalAmount"
+              text
+              color="secondary"
+              :onClick="() => gotoTask(item)"
+            ></f-btn>
+          </template>
         </v-data-table>
       </v-card>
     </v-col>
@@ -39,11 +47,11 @@ export default class Payment extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
   fiPaymentList: Data.ClientFile.FiPayment;
   headers = [
-    { text: "Received By", value: "receivedBy" },
     { text: "Total Amount", value: "totalAmount" },
     { text: "Payment Provider", value: "paymentProvider.name" },
     { text: "Payment Mode", value: "paymentMode.name" },
     { text: "Presented Date", value: "presentedDate" },
+    { text: "Received By", value: "receivedBy" },
   ];
 
   mounted() {
@@ -58,10 +66,14 @@ export default class Payment extends ModelVue {
     );
   }
 
-  gotoFile(item: any) {
+  gotoTask(item: any) {
+    console.log(item.paymentId);
     this.$router.push({
-      name: "Root.ClientFile.Workarea",
-      params: { clientFileNumber: item.cid },
+      name: "Root.ClientFile.PaymentDetails",
+      params: {
+        clientFileNumber: item.clientFileNumber,
+        paymentId: item.paymentId,
+      },
     });
   }
 }

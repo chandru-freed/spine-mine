@@ -11,8 +11,9 @@
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
     </div>
-    {{ fiPaymentDetails }}
+    <!-- {{ fiPaymentDetails }} -->
     <component
+      v-if="fiPaymentDetails"
       :ref="paymentDetailsMetaData.myRefName"
       :is="paymentDetailsMetaData.componentName"
       :value="selectModel(fiPaymentDetails, undefined)"
@@ -21,9 +22,9 @@
     ></component>
     <div class="d-flex justify-end">
       <f-btn
-        label="Get Cashfree Payment Status"
+        label="Check Payment Status"
         class="mx-2"
-        :onClick="() => getCashfreePaymentStatus()"
+        :onClick="() => checkPaymentStatus()"
         outlined
         color="primary"
       ></f-btn>
@@ -83,11 +84,10 @@ export default class PaymentDetails extends ModelVue {
     });
   }
 
-  getCashfreePaymentStatus() {
-    Action.ClientFile.GetCashfreePaymentStatus.execute1(
-      this.paymentId,
-      (output) => {}
-    );
+  checkPaymentStatus() {
+    Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
+      this.getFiPaymentDetails();
+    });
   }
 }
 </script>

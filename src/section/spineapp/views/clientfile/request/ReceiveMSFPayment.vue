@@ -49,7 +49,7 @@ export default class ReceiveMSFPayment extends ModelVue {
     Action.ClientFile.ReceiveMSFPayment.execute(
       this.receiveMSFPaymentInput,
       (output) => {
-        this.gotoClientFile();
+        this.gotoTask(output.paymentId);
         Snackbar.show({
           text: "Succesfully assigned",
           pos: "bottom-center",
@@ -58,10 +58,13 @@ export default class ReceiveMSFPayment extends ModelVue {
     );
   }
 
-  gotoClientFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      clientFileNumber: this.clientFileNumber,
+  gotoTask(paymentId: string) {
+    this.$router.push({
+      name: "Root.ClientFile.PaymentDetails",
+      params: {
+        clientFileNumber: this.clientFileNumber,
+        paymentId: paymentId,
+      },
     });
   }
 }

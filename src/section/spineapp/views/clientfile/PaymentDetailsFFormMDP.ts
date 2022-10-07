@@ -162,7 +162,7 @@ export default class PaymentDetailsFFormMDP extends FFormMDP {
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "remoteTxnRefNumber",
-                label: "Remote Txn RefNumber",
+                label: "Remote Txn Ref Number",
                 boundaryClass: "col-3",
             })
         )
@@ -170,7 +170,7 @@ export default class PaymentDetailsFFormMDP extends FFormMDP {
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "remoteTxnRefDetails.paymentLink",
-                label: "Payment Link",
+                label: "Remote Payment Link",
                 boundaryClass: "col-6",
             })
         )

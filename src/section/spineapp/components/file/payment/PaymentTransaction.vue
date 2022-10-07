@@ -9,7 +9,9 @@
           class="elevation-0"
         >
           <template v-slot:[`item.txnDate`]="{ item }">
-            {{ item.txnDate | date }}
+            <span class="grey--text">
+              {{ item.txnDate | fromNow }}
+            </span>
           </template>
         </v-data-table>
       </v-card>
@@ -42,6 +44,8 @@ export default class PaymentTransaction extends ModelVue {
     { text: "Account Identifier", value: "accountIdentifier" },
     { text: "Intent", value: "intent" },
     { text: "Amount", value: "amount" },
+    { text: "Payment Ref Number", value: "paymentRefNumber" },
+    { text: "Remote Txn Ref Number", value: "remoteTxnRefNumber" },
     { text: "Txn Date", value: "txnDate" },
   ];
 

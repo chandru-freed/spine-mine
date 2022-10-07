@@ -9,7 +9,9 @@
           class="elevation-0"
         >
           <template v-slot:[`item.presentedDate`]="{ item }">
-            {{ item.presentedDate | date }}
+            <span class="grey--text">
+              {{ item.presentedDate | fromNow }}
+            </span>
           </template>
           <template v-slot:item.totalAmount="{ item }">
             <f-btn
@@ -18,6 +20,12 @@
               color="secondary"
               :onClick="() => gotoTask(item)"
             ></f-btn>
+          </template>
+          <template v-slot:item.receivedBy="{ item }">
+            <v-chip small class="" v-if="item.receivedBy" label>
+              <v-icon small left> mdi-account-circle-outline </v-icon>
+              {{ item.receivedBy }}
+            </v-chip>
           </template>
         </v-data-table>
       </v-card>

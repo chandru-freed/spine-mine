@@ -30,13 +30,13 @@ import AddTicketFFormMDP from './AddTicketFFormMDP';
   }
 })
 export default class AddTicket extends Vue {
-  addTicketInput: Data.TaskList.AddTicketInput = new Data.TaskList.AddTicketInput();
+  addTicketInput: Data.Ticket.RaiseTicketInput = new Data.Ticket.RaiseTicketInput();
   get addTicketFormMetaData() {
     return new AddTicketFFormMDP({root: this}).getMetaData();
   }
 
   addTicket() {
-    Action.TaskList.AddTicket.execute(this.addTicketInput, output => {
+    Action.Ticket.RaiseTicket.execute(this.addTicketInput, output => {
       Snackbar.show({
         text: "Succesfully added a ticket",
         pos: "bottom-center"

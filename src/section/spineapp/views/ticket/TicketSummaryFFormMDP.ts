@@ -8,50 +8,39 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import * as Data from "@/../src-gen/data";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
 
-export default class AddTicketFFormMDP extends FFormMDP {
+export default class TicketSummaryFFormMDP extends FFormMDP {
     root: any;
     constructor(prop: { root: any }) {
-        super({ myRefName: "addTicketFFormRef" });
+        super({ myRefName: "addTicketFFormRef", readonly: true, disabled: true });
         this.root = prop.root;
         this.addField(new FTextFieldMDP({
             dataSelectorKey: "ticketSubject",
             label: "Subject",
             parentMDP: new FFormChildMDP(),
             mandatory: true,
+            boundaryClass:"col-3",
+            readonly: true
         })).addField(new FTextFieldMDP({
             dataSelectorKey: "ticketType",
             label: "Category",
             parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-3",
+        })).addField(new FTextFieldMDP({
+            dataSelectorKey: "clientFileNumber",
+            label: "Client File Number",
+            boundaryClass:"col-3",
+            parentMDP: new FFormChildMDP(),
+        })).addField(new FTextFieldMDP({
+            dataSelectorKey: "ticketNumber",
+            label: "Ticket Number",
+            parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-3",
         })).addField(new FTextareaMDP({
             dataSelectorKey: "ticketDetails",
             label: "Description",
             parentMDP: new FFormChildMDP(),
-        })).addField(new FRemoteAutoCompleteFieldMDP({
-            dataSelectorKey: "clientFileNumber",
-            label: "Client File Number",
-            parentMDP: new FFormChildMDP(),
-            queryUrl: "/spineapi/clientfile/search-client-file?clientFileNumberContains=",
-            itemText: "clientFileNumber",
-            itemValue: "clientFileNumber",
-        })).addField(new FSelectFieldMDP({
-            dataSelectorKey: "priority",
-            label: "Priority",
-            parentMDP: new FFormChildMDP(),
-            options:[1,2,3,4,5]
-        }))
-        .addField(new FGompaUserRemoteAutoCompleteFieldMDP({
-            dataSelectorKey: "assignTo",
-            label: "Assign To",
-            parentMDP: new FFormChildMDP(),
-        }))
-        .addAction(new FBtnMDP({
-            label: "Cancel",
-            onClick: this.cancel(),
-            btnType: BtnType.TEXT
-        })).addAction(new FBtnMDP({
-            label: "Raise a Ticket",
-            onClick: this.validateAndAdd()
-        }))
+        }));
+        
 
     }
     validateAndAdd() {

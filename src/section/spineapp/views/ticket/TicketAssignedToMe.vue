@@ -60,7 +60,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 export default class TicketAssignedToMe extends Vue {
   tab: number = 3;
 
-  myTicketTaskList: Data.TaskList.MyTicketTaskDetails[] = [];
+  myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
 
   allocatedTicketTaskGridHeaderList = [
     // { text: "Task Id", value: "taskId" },
@@ -80,7 +80,7 @@ export default class TicketAssignedToMe extends Vue {
     this.getMyTicketTaskList();
   }
   getMyTicketTaskList() {
-    Action.TaskList.GetMyTicketTaskList.execute((output) => {
+    Action.Ticket.GetMyTicketTaskList.execute((output) => {
       this.myTicketTaskList = output;
     });
   }
@@ -90,7 +90,7 @@ export default class TicketAssignedToMe extends Vue {
   gotoTask(item: any) {
     this.$router.push({
       name: "Root.TaskList.Ticket.TicketDetails",
-      params: { taskId: item.taskId },
+      params: { taskId: item.taskId, ticketNumber: item.cid },
     });
   }
 }

@@ -74,6 +74,13 @@ export default class ReceiveMSFPayment extends ModelVue {
       },
     });
   }
+
+  gotoClientFile() {
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.clientFileNumber,
+    });
+  }
 }
 </script>
 

@@ -1,38 +1,46 @@
 <template>
   <!-- TASK TAB -->
   <div>
-    <v-card
-      class="pa-0 ma-0 mt-5 col-12"
-      color="white"
-      outlined
-      min-height="300px"
-    >
-      <v-card-text>
-        <v-autocomplete
-          v-model="selectedRequestType"
-          :items="requestTypeFlowMapList"
-          cache-items
-          flat
-          hide-no-data
-          hide-details
-          label="Select Request Type"
-          outlined
-          dense
-          item-value="contentMetaData"
-          item-text="key"
-        ></v-autocomplete>
-      </v-card-text>
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>File Create Request</h4>
+      <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-flex justify-center col-6 ma-auto">
+      <v-card
+        class="pa-0 ma-0 mt-5 col-12"
+        color="white"
+        outlined
+        min-height="300px"
+      >
+        <v-card-text>
+          <v-autocomplete
+            v-model="selectedRequestType"
+            :items="requestTypeFlowMapList"
+            cache-items
+            flat
+            hide-no-data
+            hide-details
+            label="Select Request Type"
+            outlined
+            dense
+            item-value="contentMetaData"
+            item-text="key"
+          ></v-autocomplete>
+        </v-card-text>
 
-      <v-card-text>
-        <component
-          v-if="!!selectedRequestType"
-          :ref="selectedRequestType.myRefName"
-          :is="selectedRequestType.componentName"
-          v-model="initDocumentData"
-          v-bind="selectedRequestType.props"
-        ></component>
-      </v-card-text>
-    </v-card>
+        <v-card-text>
+          <component
+            v-if="!!selectedRequestType"
+            :ref="selectedRequestType.myRefName"
+            :is="selectedRequestType.componentName"
+            v-model="initDocumentData"
+            v-bind="selectedRequestType.props"
+          ></component>
+        </v-card-text>
+      </v-card>
+    </div>
   </div>
   <!--  TASK TAB -->
 </template>

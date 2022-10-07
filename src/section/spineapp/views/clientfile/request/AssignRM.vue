@@ -1,12 +1,20 @@
 <template>
   <div>
-    <component
-      :ref="assignRMMetaData.myRefName"
-      :is="assignRMMetaData.componentName"
-      :value="selectModel(assignRMInput, undefined)"
-      @input="(newValue) => updateModel(assignRMInput, newValue, undefined)"
-      v-bind="assignRMMetaData.props"
-    ></component>
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>Assign RM</h4>
+      <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-flex justify-center col-6 ma-auto">
+      <component
+        :ref="assignRMMetaData.myRefName"
+        :is="assignRMMetaData.componentName"
+        :value="selectModel(assignRMInput, undefined)"
+        @input="(newValue) => updateModel(assignRMInput, newValue, undefined)"
+        v-bind="assignRMMetaData.props"
+      ></component>
+    </div>
   </div>
 </template>
 

@@ -1,5 +1,11 @@
 <template>
   <div class="recordPayment">
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>Record Payment</h4>
+      <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
     <component
       :ref="recordPaymentMetaData.myRefName"
       :is="recordPaymentMetaData.componentName"
@@ -46,12 +52,17 @@ export default class RecordPayment extends ModelVue {
   //METADATA
 
   get recordSettledPaymentInputForm() {
-    this.recordSettledPaymentInput.totalAmount =  this.recordSettledPaymentInput.spaAmount + this.recordSettledPaymentInput.feeAmount + this.recordSettledPaymentInput.msfAmount
-    return this.recordSettledPaymentInput
+    this.recordSettledPaymentInput.totalAmount =
+      this.recordSettledPaymentInput.spaAmount +
+      this.recordSettledPaymentInput.feeAmount +
+      this.recordSettledPaymentInput.msfAmount;
+    return this.recordSettledPaymentInput;
   }
 
-  set recordSettledPaymentInputForm(value: Data.ClientFile.RecordSettledPaymentInput) {
-    this.recordSettledPaymentInput = value
+  set recordSettledPaymentInputForm(
+    value: Data.ClientFile.RecordSettledPaymentInput
+  ) {
+    this.recordSettledPaymentInput = value;
   }
 
   recordSettledPayment() {

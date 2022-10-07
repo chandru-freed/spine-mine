@@ -1,15 +1,22 @@
 <template>
   <div class="receiveMSFPayment">
-    <component
-      :ref="receiveMSFPaymentMetaData.myRefName"
-      :is="receiveMSFPaymentMetaData.componentName"
-      :value="selectModel(receiveMSFPaymentInput, undefined)"
-      @input="
-        (newValue) =>
-          updateModel(receiveMSFPaymentInput, newValue, undefined)
-      "
-      v-bind="receiveMSFPaymentMetaData.props"
-    ></component>
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>Receive MSF Payment</h4>
+      <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-flex justify-center col-6 ma-auto">
+      <component
+        :ref="receiveMSFPaymentMetaData.myRefName"
+        :is="receiveMSFPaymentMetaData.componentName"
+        :value="selectModel(receiveMSFPaymentInput, undefined)"
+        @input="
+          (newValue) => updateModel(receiveMSFPaymentInput, newValue, undefined)
+        "
+        v-bind="receiveMSFPaymentMetaData.props"
+      ></component>
+    </div>
   </div>
 </template>
 

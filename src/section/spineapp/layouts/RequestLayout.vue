@@ -7,14 +7,14 @@
       :width="rightFocused ? '100%' : '49%'"
       v-if="!leftFocused"
     >
-      <div class="d-flex justify-end">
+      <!-- <div class="d-flex justify-end">
         <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
           <v-icon size="20">mdi-close</v-icon>
         </v-btn>
-      </div>
-      <div class="d-flex justify-center">
+      </div> -->
+      <!-- <div class="d-flex justify-center"> -->
         <router-view />
-      </div>
+      <!-- </div> -->
     </v-navigation-drawer>
   </div>
 </template>

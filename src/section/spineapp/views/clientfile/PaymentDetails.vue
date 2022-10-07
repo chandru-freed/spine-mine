@@ -6,7 +6,7 @@
     :width="rightFocused ? '100%' : '49%'"
     v-if="!leftFocused"
   >
-    <div class="d-flex justify-space-between align-center ma-5">
+    <div class="d-flex justify-space-between align-center mx-5">
       <h4>Payment Details</h4>
       <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>

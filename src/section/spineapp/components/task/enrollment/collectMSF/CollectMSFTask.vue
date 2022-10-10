@@ -126,12 +126,21 @@ export default class CollectMSFTask extends ModelVue {
   checkPaymentStatus() {
     let updatePaymentStatusInput = new Data.Spine.UpdatePaymentStatusInput();
     updatePaymentStatusInput.taskId = this.taskId;
-    updatePaymentStatusInput.clientFileId = this.clientFileBasicInfo.clientFileId;
-    updatePaymentStatusInput.paymentId = this. taskFormData.taskOutput.firstMSFPaymentDetails.paymentId;
+    updatePaymentStatusInput.clientFileId =
+      this.clientFileBasicInfo.clientFileId;
+    updatePaymentStatusInput.paymentId =
+      this.taskFormData.taskOutput.firstMSFPaymentDetails.paymentId;
     Action.Spine.UpdatePaymentStatus.execute(
       updatePaymentStatusInput,
       (output) => {}
     );
+  }
+
+  saveAndMarkCompleteTask() {
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
   }
 }
 </script>

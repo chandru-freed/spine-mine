@@ -19,7 +19,7 @@
           color="secondary"
         >
           <v-tab> Payment Schedule </v-tab>
-          <v-tab> Fee Schedule </v-tab>
+          <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab" class="col-12">
@@ -55,7 +55,7 @@
               >
                 <template v-slot:top>
                   <v-toolbar flat>
-                    <v-toolbar-title>Payment Schedule</v-toolbar-title>
+                    <v-toolbar-title>MSF Schedule</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
                   </v-toolbar>
@@ -161,5 +161,8 @@ export default class FPaymentPlan extends ModelVue {
 
   @Prop()
   actionMetaDataList: any[];
+
+  @Prop({default: false})
+  hideMSFTab: boolean
 }
 </script>

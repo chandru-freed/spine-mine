@@ -1,15 +1,19 @@
 <template>
   <div>
+    <!-- CLOSE TICKET -->
     <v-alert text class="ma-5" color="primary" v-if="closeTicketDialog">
-      <div class="text-center py-3">Are you sure want to close this ticket?</div>
+      <div class="text-center py-3">
+        Are you sure want to close this ticket?
+      </div>
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
         <FBtn
           label="Cancel"
-          :on-click="() => closeTicketDialog=false"
+          :on-click="() => (closeTicketDialog = false)"
           outlined
           color="primary"
+          Ò
         />
         <FBtn
           label="Close Ticket"
@@ -19,33 +23,49 @@
         />
       </div>
     </v-alert>
-    <v-card flat outlined>
-      <v-card flat class="ma-5" outlined v-if="reAssignTicketDialog">
-        <v-card-title>Re Assign Ticket<v-spacer /> </v-card-title>
+    <!-- CLOSE TICKET -->
+    <!-- ASSIGN TICKET -->
+    <v-card flat class="mx-5" outlined v-if="reAssignTicketDialog">
+      <v-card-title>Re Assign Ticket<v-spacer /> </v-card-title>
+      <component
+        v-if="!!reAssignTicketFormMetaData"
+        :ref="reAssignTicketFormMetaData.myRefName"
+        :is="reAssignTicketFormMetaData.componentName"
+        v-model="reAssignTicketInput"
+        v-bind="reAssignTicketFormMetaData.props"
+      ></component>
+    </v-card>
+    <!-- ASSIGN TICKET -->
 
-        <component
-          v-if="!!reAssignTicketFormMetaData"
-          :ref="reAssignTicketFormMetaData.myRefName"
-          :is="reAssignTicketFormMetaData.componentName"
-          v-model="reAssignTicketInput"
-          v-bind="reAssignTicketFormMetaData.props"
-        ></component>
-      </v-card>
+    <v-card flat outlined>
       <v-card-text>
         <v-card-title
           >Ticket Summary<v-spacer />
-          <v-btn class="mx-2" v-if="taskSummary.clientFileNumber" color="primary" @click="gotoFile" text>Go To File</v-btn>
+          <v-btn
+            class="mx-2"
+            v-if="taskSummary.clientFileNumber"
+            color="primary"
+            @click="gotoFile"
+            text
+            >Go To File</v-btn
+          >
           <v-btn
             color="primary"
             class="mx-2"
             @click="reAssignClicked()"
             outlined
+            :disabled="taskCompleted"
             >Assign</v-btn
           >
-          <v-btn color="primary" class="mx-2 " @click="closeTicketDialog=true">Close Ticket</v-btn>
-          
+          <v-btn
+            :disabled="taskCompleted"
+            color="primary"
+            class="mx-2"
+            @click="closeTicketDialog = true"
+            >Close Ticket</v-btn
+          >
         </v-card-title>
-        
+
         <component
           v-if="!!ticketSummaryFormMetaData"
           :ref="ticketSummaryFormMetaData.myRefName"
@@ -104,7 +124,11 @@ export default class TicketAssignedToMe extends Vue {
   }
 
   get taskSummary(): any {
-    return this.ticketTaskDetails.taskInput
+    return this.ticketTaskDetails.taskInput;
+  }
+
+  get taskCompleted() {
+    return this.ticketTaskDetails.taskState === "COMPLETED";
   }
   mounted() {
     this.getMyTicketTaskDetails();
@@ -113,7 +137,7 @@ export default class TicketAssignedToMe extends Vue {
     );
   }
 
-  public destroyed() { 
+  public destroyed() {
     Action.Ticket.CloseTicket.notInterested(
       this.getMyTicketTaskDetailsWithDelay()
     );
@@ -128,7 +152,7 @@ export default class TicketAssignedToMe extends Vue {
       setTimeout(() => {
         this.getMyTicketTaskDetails();
       }, 500);
-    }
+    };
   }
 
   reAssignTicket() {
@@ -153,7 +177,7 @@ export default class TicketAssignedToMe extends Vue {
     this.reAssignTicketDialog = false;
   }
   closeTicket() {
-    Action.Ticket.CloseTicket.execute1(this.taskId, output => {
+    Action.Ticket.CloseTicket.execute1(this.taskId, (output) => {
       Snackbar.show({
         text: "Succesfully closed the ticket",
         pos: "bottom-center",
@@ -162,13 +186,11 @@ export default class TicketAssignedToMe extends Vue {
     });
   }
 
-
   gotoFile() {
     this.$router.push({
       name: "Root.ClientFile.Workarea",
       params: { clientFileNumber: this.taskSummary.clientFileNumber },
     });
   }
-
 }
 </script>

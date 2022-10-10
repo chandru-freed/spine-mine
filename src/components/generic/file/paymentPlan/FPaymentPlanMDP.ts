@@ -16,6 +16,7 @@ export default class FPaymentPlanMDP implements MDP {
   actionList: FBtnMDP[] = [];
 
   disabled: boolean;
+  hideMSFTab: boolean;
 
   constructor({
     taskRoot,
@@ -23,7 +24,8 @@ export default class FPaymentPlanMDP implements MDP {
     myRefName,
     dataSelectorKey,
     disabled,
-    readonly=false
+    readonly=false,
+    hideMSFTab=false, 
   }: {
     taskRoot: any;
     parent: any;
@@ -31,12 +33,14 @@ export default class FPaymentPlanMDP implements MDP {
     dataSelectorKey?: string;
     disabled: boolean;
     readonly?: boolean;
+    hideMSFTab?: boolean;
   }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = myRefName
     this.dataSelectorKey = dataSelectorKey
     this.disabled = disabled
+    this.hideMSFTab = hideMSFTab
 
     this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: this.disabled,readonly: readonly })
 
@@ -59,7 +63,8 @@ export default class FPaymentPlanMDP implements MDP {
       props: {
         disabled: this.disabled,
         paymentCalculatorFormMetaData: this.paymentCalculatorForm.getMetaData(),
-        actionMetaDataList: this.actionList.map(action => action.getMetaData())
+        actionMetaDataList: this.actionList.map(action => action.getMetaData()),
+        hideMSFTab: this.hideMSFTab
       }
     }
   }

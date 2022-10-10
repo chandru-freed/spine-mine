@@ -7,6 +7,7 @@ import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
+import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
 
 export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -32,7 +33,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
       })
     ).addField(
-      new FNumberFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorInfo.totalDebt",
         label: "Outstanding Amount",
@@ -89,7 +90,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         disabled: true,
       })
     ).addField(
-      new FNumberFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.msfDraftAmount",
         label: "MSF Amount",
@@ -105,15 +106,15 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         disabled: true,
       })
     ).addField(
-      new FNumberFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.totalMonthlyObligation",
-        label: "SPA Draft Day",
+        label: "Monthly Obligation",
         boundaryClass: "col-6",
         disabled: true,
       })
     ).addField(
-      new FNumberFieldMDP({
+      new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.repaymentAmount",
         label: "Repayment Amount",

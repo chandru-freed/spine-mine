@@ -89,6 +89,8 @@ import NsfSPAReceiveManualPaymentTask from "@/section/spineapp/components/task/n
 import NsfSPASystemDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
+import CollectMSFTask from "./enrollment/collectMSF/CollectMSFTask.vue";
+
 @Component({
   components: {
     CollectClientInfoTask,
@@ -138,6 +140,7 @@ import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
     NsfSPASystemDeferredTask,
     "f-btn": FBtn,
     FollowUpCallTask,
+    CollectMSFTask
   },
 })
 export default class FileTaskArea extends Vue {
@@ -161,6 +164,7 @@ export default class FileTaskArea extends Vue {
     ["Enrollment::EMandate", "EMandateTask"],
     ["Enrollment::EMandateFailed", "EMandateFailedTask"],
     ["Enrollment::Underwritting", "UnderwrittingTask"],
+    ["Enrollment::CollectMSF", "CollectMSFTask"],
     ["Enrollment::EnrollmentCompletion", "EnrollmentCompletionTask"],
     ["EMandate::CreateEMandate", "CreateEMandateTask"],
     ["EMandate::SendEMandateLink", "SendEMandateLinkTask"],

@@ -273,6 +273,9 @@ export default class FileTaskArea extends Vue {
     Action.Spine.AttachDocument.interested(this.getExecutiveTaskDetailsHandler);
     Action.Spine.DetachDocument.interested(this.getExecutiveTaskDetailsHandler);
 
+    Action.Spine.ReceiveFirstMSFPayment.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdatePaymentStatus.interested(this.getExecutiveTaskDetailsHandler);
+
     this.getExecutiveTaskDetailsWithDelay();
   }
 
@@ -362,6 +365,9 @@ export default class FileTaskArea extends Vue {
     );
     Action.Spine.AttachDocument.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.Spine.DetachDocument.notInterested(this.getExecutiveTaskDetailsHandler);
+
+    Action.Spine.ReceiveFirstMSFPayment.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdatePaymentStatus.notInterested(this.getExecutiveTaskDetailsHandler);
   }
 
   findClientFileSummary() {

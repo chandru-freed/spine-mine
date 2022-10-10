@@ -23,21 +23,30 @@ import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import CollectMSFTaskFStepperMDP from "./CollectMSFTaskFStepperMDP";
+import PaymentDetailsFFormMDP from "@/section/spineapp/views/clientfile/PaymentDetailsFFormMDP";
+import FForm from "@/components/generic/form/FForm.vue";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
     FStepper,
-    FBtn,
+    FForm,
   },
 })
 export default class CollectMSFTask extends ModelVue {
-  @Store.Getter.TaskList.Summary.executiveTaskDetails
+  paymentIdTemp: string;
+  taskId: string = this.$route.params.taskId;
+
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-  receiveMSFPaymentInput = new Data.ClientFile.ReceiveMSFPaymentInput();
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentDetails
+  fiPaymentDetails: Data.ClientFile.FiPaymentDetails;
+
+  receiveMSFPaymentInput = new Data.Spine.ReceiveFirstMSFPaymentInput();
 
   //METADATA
   get stepperMetaData() {
@@ -56,6 +65,10 @@ export default class CollectMSFTask extends ModelVue {
     return !!this.taskDetails && !!this.taskDetails.taskInput
       ? JSON.parse(this.taskDetails.taskInput)
       : {};
+  }
+
+  get taskDisabled(): boolean {
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   //FORM
@@ -78,9 +91,12 @@ export default class CollectMSFTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.CollectMSFTaskOutput(); // Initialization
+  taskFormOutputLocal: any = new Data.Spine.FirstMSFPaymentDetailsOutput(); // Initialization
 
   get taskFormOutput() {
+    if (this.taskDetailsOutput.firstMSFPaymentDetails) {
+      this.taskFormOutputLocal = this.taskDetailsOutput;
+    }
     return this.taskFormOutputLocal;
   }
 
@@ -90,9 +106,13 @@ export default class CollectMSFTask extends ModelVue {
   //Task Output
 
   receiveMSFPayment() {
+    this.receiveMSFPaymentInput.taskId = this.taskId;
     this.receiveMSFPaymentInput.clientFileId =
       this.clientFileBasicInfo.clientFileId;
-    Action.ClientFile.ReceiveMSFPayment.execute(
+    console.log("clientFileBasicInfo : ", this.clientFileBasicInfo);
+    this.receiveMSFPaymentInput.msfAmount =
+      this.taskFormData.taskInput.paymentPlan.ppCalculator.msfDraftAmount;
+    Action.Spine.ReceiveFirstMSFPayment.execute(
       this.receiveMSFPaymentInput,
       (output) => {
         Snackbar.show({
@@ -103,10 +123,15 @@ export default class CollectMSFTask extends ModelVue {
     );
   }
 
-  // checkPaymentStatus() {
-  //   Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
-  //     // this.getFiPaymentDetails();
-  //   });
-  // }
+  checkPaymentStatus() {
+    let updatePaymentStatusInput = new Data.Spine.UpdatePaymentStatusInput();
+    updatePaymentStatusInput.taskId = this.taskId;
+    updatePaymentStatusInput.clientFileId = this.clientFileBasicInfo.clientFileId;
+    updatePaymentStatusInput.paymentId = this. taskFormData.taskOutput.firstMSFPaymentDetails.paymentId;
+    Action.Spine.UpdatePaymentStatus.execute(
+      updatePaymentStatusInput,
+      (output) => {}
+    );
+  }
 }
 </script>

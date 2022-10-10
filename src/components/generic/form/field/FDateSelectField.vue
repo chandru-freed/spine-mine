@@ -23,15 +23,10 @@
         :min="minDate"
         :max="maxDate"
         :value="modelValue"
-        @input="(newValue) => (modelValue = newValue)"
+        @input="(newValue) => $refs.menu.save(newValue)"
         no-title
         scrollable
       >
-        <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-        <v-btn text color="primary" @click="$refs.menu.save(modelValue)">
-          OK
-        </v-btn>
       </v-date-picker>
     </v-menu>
   </div>
@@ -50,6 +45,7 @@ import { VTextField } from "vuetify/lib/components";
 })
 export default class FDateSelectField extends VTextField {
   menu: boolean = false;
+  dateFormatForDatePicker: string = "YYYY-MM-DD";
 
   // MODEL VALUE - START
   @Prop()
@@ -67,14 +63,20 @@ export default class FDateSelectField extends VTextField {
   dateDisplayFormat: string;
 
   get minDate() {
-    return this.pastDaysDisabled ? moment().format("YYYY-MM-DD") : null;
+    return this.pastDaysDisabled
+      ? moment().format(this.dateFormatForDatePicker)
+      : null;
   }
 
   get maxDate() {
-    return this.futureDaysDisabled ? moment().format("YYYY-MM-DD") : null;
+    return this.futureDaysDisabled
+      ? moment().format(this.dateFormatForDatePicker)
+      : null;
   }
   get modelValue() {
-    return this.value ? moment(this.value).format("YYYY-MM-DD") : this.value;
+    return this.value
+      ? moment(this.value).format(this.dateFormatForDatePicker)
+      : this.value;
   }
 
   get dateInDisplayFormat() {

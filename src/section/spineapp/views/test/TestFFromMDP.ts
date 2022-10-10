@@ -8,6 +8,7 @@ import FTimeFieldMDP from "@/components/generic/form/field/FTimeFieldMDP";
 import TestIntf from "./TestIntf";
 // import FFooTextFieldMDP from "@/components/generic/form/field/FFooTextFieldMDP";
 import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFieldMDP";
+import FDateTimeSelectFieldMDP from "@/components/generic/form/field/FDateTimeSelectFieldMDP";
 
 export default class TestFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -38,6 +39,14 @@ export default class TestFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           mask: "### ###",
           unmask: "######",
+        })
+      )
+      .addField(
+        new FDateTimeSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "firstName",
+          label: "Name",
+          boundaryClass: "col-4",
         })
       )
       .addAction(

@@ -9,7 +9,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
-import * as Snackbar from 'node-snackbar';
+import * as Snackbar from "node-snackbar";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -49,6 +49,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           label: "Last Date of Payment",
           mandatory: true,
           boundaryClass: "col-4",
+          futureDaysDisabled: true,
         })
       )
 
@@ -123,7 +124,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
       this.parent.getMyRef()[0].closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",
-        pos: "bottom-center"
+        pos: "bottom-center",
       });
     });
   }

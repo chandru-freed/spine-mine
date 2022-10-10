@@ -72,8 +72,8 @@ import PaymentTransaction from "../../components/file/payment/PaymentTransaction
     "file-creditor-list": FileCreditorList,
     "file-payment-plan": FilePaymentPlan,
     "file-document-list": FileDocumentList,
-    "payment": Payment,
-    "ptayment-transaction": PaymentTransaction
+    payment: Payment,
+    "ptayment-transaction": PaymentTransaction,
   },
 })
 export default class FileDetails extends Vue {

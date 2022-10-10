@@ -10,15 +10,12 @@
         sort-by="calories"
         class="elevation-0"
         :search="search"
-        v-model="selected"
-        :single-select="false"
-        show-select
         item-key="taskId"
       >
         <template v-slot:top>
           <v-toolbar flat>
             <v-col class="col-2">
-              <v-select
+              <!-- <v-select
                 :disabled="selected.length === 0"
                 :items="['Delete', 'Edit', 'Send']"
                 label="Bulk Actions"
@@ -27,7 +24,7 @@
                 outlined
                 rounded
                 dense
-              ></v-select>
+              ></v-select> -->
             </v-col>
             <v-col class="col-7"></v-col>
             <v-col>

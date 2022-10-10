@@ -9,8 +9,6 @@
         class="elevation-0"
         :search="search"
         item-key="completedTaskId"
-        :single-select="false"
-        show-select
       >
         <template v-slot:top>
           <v-toolbar flat>

@@ -117,7 +117,7 @@ export default class FDocument extends ModelVue {
   headers = [
     { text: "DocumentType", value: "documentType" },
     { text: "Doc Path", value: "documentPath" },
-    { text: "Description", value: "documentDescription" },
+    { text: "Details", value: "documentDetails" },
     { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },
   ];
@@ -233,8 +233,8 @@ export default class FDocument extends ModelVue {
   attachAndSaveUploadedFile() {
     this.uploadedDocument.documentType = this.uploadDocumentForm.docType;
     this.uploadedDocument.uploadedOn = new Date();
-    this.uploadedDocument.documentDescription =
-      this.uploadDocumentForm.documentDescription;
+    this.uploadedDocument.documentDetails =
+      this.uploadDocumentForm.documentDetails;
     const input = Data.Spine.AttachDocumentInput.fromJson(
       this.uploadedDocument
     );

@@ -37,7 +37,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
     ).addField(
       new FTextareaMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "documentDescription",
+        dataSelectorKey: "documentDetails",
         label: "Description",
         mandatory: false,
         boundaryClass: "col-12"

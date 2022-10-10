@@ -13,7 +13,17 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent, disabled,readonly=false }: { taskRoot: any; parent: any, disabled: boolean;readonly?:boolean }) {
+  constructor({
+    taskRoot,
+    parent,
+    disabled,
+    readonly = false,
+  }: {
+    taskRoot: any;
+    parent: any;
+    disabled: boolean;
+    readonly?: boolean;
+  }) {
     console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
       myRefName: "paymentCalculatorFormRef",
@@ -126,12 +136,12 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         label: "Calculate Payment Schedule",
         onClick: this.calculatePaymentSchedule(),
       })
-    )
+    );
   }
 
   getMyRef() {
-    console.log(this.parent.getMyRef())
-    return this.parent.getMyRef().$refs[this.myRefName]
+    console.log(this.parent.getMyRef());
+    return this.parent.getMyRef().$refs[this.myRefName];
   }
 
   calculatePaymentSchedule() {
@@ -139,22 +149,24 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
       this.getMyRef().submitForm(() => {
         this.schedulePaymentPlan();
       });
-    }
+    };
   }
 
   schedulePaymentPlan() {
-    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
-    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
-    input.ppCalculator.outstanding = this.taskRoot.taskFormData.taskOutput.creditorInfo.totalDebt;
+    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
+      this.taskRoot.taskFormData.taskOutput.paymentPlan
+    );
+    input.clientFileId = (
+      this.taskRoot as any
+    ).clientFileBasicInfo.clientFileId;
+    input.ppCalculator.outstanding =
+      this.taskRoot.taskFormData.taskOutput.creditorInfo.totalDebt;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
-    })
+    });
   }
-
-
-
 }

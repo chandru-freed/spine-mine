@@ -4,35 +4,45 @@
       ref="menu"
       v-model="menu"
       :close-on-content-click="false"
-      :return-value.sync="modelValue"
+      :nudge-right="40"
+      lazy
       transition="scale-transition"
       offset-y
-      min-width="auto"
+      full-width
+      max-width="290px"
+      min-width="290px"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
-          :value="dateInDisplayFormat"
+          v-model="dateInDisplayFormat"
+          persistent-hint
           append-icon="mdi-calendar"
-          readonly
           v-bind="{ ...$props, ...attrs }"
           v-on="on"
           @click:append="menu = !menu"
         ></v-text-field>
       </template>
-      <v-date-picker
-        :min="minDate"
-        :max="maxDate"
-        :value="modelValue"
-        @input="(newValue) => $refs.menu.save(newValue)"
+      <v-time-picker
+        v-if="timeMenu"
+        v-model="time"
+        @change="onTimeChange"
         no-title
         scrollable
-      >
-      </v-date-picker>
+      ></v-time-picker>
+      <v-date-picker
+        v-else
+        v-model="date"
+        @change="() => (timeMenu = true)"
+        :min="minDate"
+        :max="maxDate"
+        no-title
+        scrollable
+      ></v-date-picker>
     </v-menu>
   </div>
 </template>
-
-<script lang="ts">
+  
+  <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import FTextField from "@/components/generic/form/field/FTextField.vue";
 import moment from "moment";
@@ -43,9 +53,12 @@ import { VTextField } from "vuetify/lib/components";
     FTextField,
   },
 })
-export default class FDateSelectField extends VTextField {
+export default class FDateTimeSelectField extends VTextField {
   menu: boolean = false;
-  dateFormatForDatePicker: string = "YYYY-MM-DD";
+  timeMenu: boolean = false;
+  date: any = null;
+  time: any = null;
+  dateFormatForDateTimePicker: string = "YYYY-MM-DD";
 
   // MODEL VALUE - START
   @Prop()
@@ -58,25 +71,23 @@ export default class FDateSelectField extends VTextField {
   futureDaysDisabled: boolean;
 
   @Prop({
-    default: "DD/MM/YYYY",
+    default: "DD/MM/YYYY hh:mm:ss A",
   })
   dateDisplayFormat: string;
 
   get minDate() {
     return this.pastDaysDisabled
-      ? moment().format(this.dateFormatForDatePicker)
+      ? moment().format(this.dateFormatForDateTimePicker)
       : null;
   }
 
   get maxDate() {
     return this.futureDaysDisabled
-      ? moment().format(this.dateFormatForDatePicker)
+      ? moment().format(this.dateFormatForDateTimePicker)
       : null;
   }
   get modelValue() {
-    return this.value
-      ? moment(this.value).format(this.dateFormatForDatePicker)
-      : this.value;
+    return this.value || "";
   }
 
   get dateInDisplayFormat() {
@@ -87,6 +98,17 @@ export default class FDateSelectField extends VTextField {
 
   set modelValue(newModelValue: string) {
     this.$emit("input", new Date(newModelValue).toISOString());
+  }
+
+  onTimeChange() {
+    this.menu = false;
+    this.timeMenu = false;
+    const date = new Date(this.date);
+    const hours = this.time.match(/^(\d+)/)[1];
+    const mins = this.time.match(/:(\d+)/)[1];
+    date.setHours(hours);
+    date.setMinutes(mins);
+    this.modelValue = date.toString();
   }
   // MODEL VALUE - END
 }

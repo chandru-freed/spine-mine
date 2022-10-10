@@ -1,17 +1,14 @@
 
 <template>
- <div>
-  FileTask Layout
-  <router-view/>
-  
- </div>
+  <div>
+    <router-view />
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class FileTaskLayout extends Vue {
-}
+export default class FileTaskLayout extends Vue {}
 </script>
 

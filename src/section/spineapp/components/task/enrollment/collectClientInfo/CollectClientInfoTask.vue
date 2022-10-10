@@ -7,7 +7,7 @@
 
     <div class="row my-5 mx-5">
       <v-spacer />
-      <f-btn label="FILL TEST DATA" :onClick="()=> setTestData()"></f-btn>
+      <f-btn label="FILL TEST DATA" :onClick="() => setTestData()"></f-btn>
     </div>
     <component
       :ref="stepperMetaData.myRefName"
@@ -40,8 +40,8 @@ import FFooStepper from "@/components/generic/FFooStepper.vue";
 @Component({
   components: {
     FStepper,
-    "f-btn":FBtn,
-    FFooStepper
+    "f-btn": FBtn,
+    FFooStepper,
   },
 })
 export default class CollectClientInfoTask
@@ -50,12 +50,12 @@ export default class CollectClientInfoTask
 {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-  
+
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
-  
+
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
 
   getNupayBankMasterList() {
@@ -76,7 +76,8 @@ export default class CollectClientInfoTask
   }
 
   taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
-  taskFormOutputLocal: Data.Spine.CollectClientInfoTask = new Data.Spine.CollectClientInfoTask();
+  taskFormOutputLocal: Data.Spine.CollectClientInfoTask =
+    new Data.Spine.CollectClientInfoTask();
   get taskFormData() {
     return {
       taskInput: this.taskDetailsInput,
@@ -88,21 +89,25 @@ export default class CollectClientInfoTask
     this.taskFormDataLocal = value;
   }
   get taskFormOutput() {
-    this.taskFormOutputLocal =  {
+    this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
-     personalInfo:  this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
-     creditorInfo: this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
-     budgetInfo: this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
-     bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
-     paymentPlan: this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
-     fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
-     needVerification: this.taskDetailsOutput.needVerification,
-    }
+      personalInfo:
+        this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
+      creditorInfo:
+        this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
+      budgetInfo:
+        this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
+      bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
+      paymentPlan:
+        this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
+      fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
+      needVerification: this.taskDetailsOutput.needVerification,
+    };
     return this.taskFormOutputLocal;
   }
 
   set taskFormOutput(newVal) {
-   this.taskFormOutputLocal = newVal;
+    this.taskFormOutputLocal = newVal;
   }
 
   get stepperMetaData(): any {
@@ -111,7 +116,10 @@ export default class CollectClientInfoTask
     }).getMetaData();
   }
   get btnMetaData(): any {
-     return new FBtnMDP({label:"FILL TEST DATA",onClick:this.setTestData}).getMetaData()
+    return new FBtnMDP({
+      label: "FILL TEST DATA",
+      onClick: this.setTestData,
+    }).getMetaData();
   }
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
@@ -121,13 +129,12 @@ export default class CollectClientInfoTask
   }
 
   setConfirmAccountNumber() {
-    if(this.taskDetailsOutput.bankInfo) {
-    this.taskFormOutput.bankInfo.confirmAccountNumber = this.taskDetailsOutput.bankInfo.accountNumber;
+    if (this.taskDetailsOutput.bankInfo) {
+      this.taskFormOutput.bankInfo.confirmAccountNumber =
+        this.taskDetailsOutput.bankInfo.accountNumber;
     }
   }
 
-
-  
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
@@ -183,7 +190,7 @@ export default class CollectClientInfoTask
     this.taskFormData.taskOutput.personalInfo.firstName = "John";
     this.taskFormData.taskOutput.personalInfo.lastName = "Doe";
     this.taskFormData.taskOutput.personalInfo.pan = "ABCDE1234F";
-    this.taskFormData.taskOutput.personalInfo.dob = "09-09-1981";
+    this.taskFormData.taskOutput.personalInfo.dob = new Date("09/09/1981");
     this.taskFormData.taskOutput.personalInfo.residentialAddress.addressLine1 =
       "1185, 5th Main Rd, Sector 7, HSR Layout";
     this.taskFormData.taskOutput.personalInfo.residentialAddress.city =
@@ -240,12 +247,12 @@ export default class CollectClientInfoTask
     Helper.Router.gotoStep({
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
-      step
+      step,
     });
   }
 
   get currentStep(): number {
-    return this.$route.query.step ? Number(this.$route.query.step) : 0
+    return this.$route.query.step ? Number(this.$route.query.step) : 0;
   }
 }
 </script>

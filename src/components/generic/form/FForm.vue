@@ -76,6 +76,7 @@ import FGompaUserRemoteAutoCompleteField from "./field/FGompaUserRemoteAutoCompl
 import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
 import FNumberTextField from "./field/FNumberTextField.vue";
 import FRemoteAutoCompleteField from "./field/FRemoteAutoCompleteField.vue";
+import FDateTimeSelectField from "./field/FDateTimeSelectField.vue";
 
 @Component({
   components: {
@@ -101,6 +102,7 @@ import FRemoteAutoCompleteField from "./field/FRemoteAutoCompleteField.vue";
     FRemoteComboBoxField,
     FNumberTextField,
     FRemoteAutoCompleteField,
+    FDateTimeSelectField,
   },
 })
 export default class FForm extends ModelVue {
@@ -118,7 +120,6 @@ export default class FForm extends ModelVue {
 
   @Prop({ default: false })
   readonly: boolean;
-  
 
   @Prop({ default: "" })
   boundaryClass: string;

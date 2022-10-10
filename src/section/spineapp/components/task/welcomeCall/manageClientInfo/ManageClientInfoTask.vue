@@ -31,7 +31,7 @@ import FFooStepper from "@/components/generic/FFooStepper.vue";
 @Component({
   components: {
     FStepper,
-    FFooStepper
+    FFooStepper,
   },
 })
 export default class ManageClientInfoTask
@@ -66,8 +66,9 @@ export default class ManageClientInfoTask
   }
 
   setConfirmAccountNumber() {
-    if(this.taskDetailsOutput.bankInfo) {
-    this.taskFormOutput.bankInfo.confirmAccountNumber = this.taskDetailsOutput.bankInfo.accountNumber;
+    if (this.taskDetailsOutput.bankInfo) {
+      this.taskFormOutput.bankInfo.confirmAccountNumber =
+        this.taskDetailsOutput.bankInfo.accountNumber;
     }
   }
 
@@ -117,16 +118,20 @@ export default class ManageClientInfoTask
   taskFormOutputLocal: any = new Data.Spine.WelcomeCallManageClientInfoTask();
 
   get taskFormOutput() {
-    this.taskFormOutputLocal =  {
+    this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
-     personalInfo:  this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
-     creditorInfo: this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
-     budgetInfo: this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
-     bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
-     paymentPlan: this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
-     fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
-     needVerification: this.taskDetailsOutput.needVerification,
-    }
+      personalInfo:
+        this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
+      creditorInfo:
+        this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
+      budgetInfo:
+        this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
+      bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
+      paymentPlan:
+        this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
+      fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
+      needVerification: this.taskDetailsOutput.needVerification,
+    };
     return this.taskFormOutputLocal;
   }
 
@@ -172,16 +177,15 @@ export default class ManageClientInfoTask
     });
   }
 
-   goToStep(step: number) {
+  goToStep(step: number) {
     Helper.Router.gotoStep({
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
-      step
+      step,
     });
   }
 
   //Action
-  
 
   setTestData() {
     console.log(
@@ -197,7 +201,7 @@ export default class ManageClientInfoTask
     this.taskFormData.taskOutput.personalInfo.firstName = "John";
     this.taskFormData.taskOutput.personalInfo.lastName = "Doe";
     this.taskFormData.taskOutput.personalInfo.pan = "ABCDE1234F";
-    this.taskFormData.taskOutput.personalInfo.dob = "09-09-1981";
+    this.taskFormData.taskOutput.personalInfo.dob = new Date("09/09/1981");
     this.taskFormData.taskOutput.personalInfo.residentialAddress.addressLine1 =
       "1185, 5th Main Rd, Sector 7, HSR Layout";
     this.taskFormData.taskOutput.personalInfo.residentialAddress.city =

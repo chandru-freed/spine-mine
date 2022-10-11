@@ -1,10 +1,11 @@
 <template>
   <div>
     <component
-      v-if="personalInfoForm.residentialAddress"
       :ref="profileFormMetaData.myRefName"
       :is="profileFormMetaData.componentName"
-      :value="selectModel(personalInfoForm, profileFormMetaData.dataSelectorKey)"
+      :value="
+        selectModel(personalInfoForm, profileFormMetaData.dataSelectorKey)
+      "
       @input="
         (newValue) =>
           updateModel(
@@ -54,8 +55,9 @@ export default class FileProfile extends ModelVue {
   personalInfoFormLocal: any = new Data.ClientFile.ClPersonalInfo();
 
   get personalInfoForm() {
-    
-    if (!!this.personalInfo ) {
+    this.personalInfoFormLocal.residentialAddress =
+      new Data.ClientFile.ClientAddress();
+    if (!!this.personalInfo) {
       this.personalInfoFormLocal = this.personalInfo;
       if (!this.personalInfo.residentialAddress) {
         this.personalInfoFormLocal.residentialAddress =
@@ -77,15 +79,15 @@ export default class FileProfile extends ModelVue {
 
   //ACTION
   findClientInfo() {
-    Action.ClientFile.FindPersonalInfo.execute1(
-      this.clientFileBasicInfo.clientBasicInfo.clientId,
-      (output) => {}
-    );
+    //TODO:  Needs to be discussed:
+    setTimeout(() => {
+      Action.ClientFile.FindPersonalInfo.execute1(
+        this.clientFileBasicInfo.clientBasicInfo.clientId,
+        (output) => {}
+      );
+    }, 1000);
   }
-
-  
 }
 </script>
 
-<style>
-</style>
+<style></style>

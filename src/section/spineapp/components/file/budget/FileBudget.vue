@@ -1,10 +1,9 @@
 <template>
   <div class="FileBudget">
     <component
-      v-if="budgetInfo"
       :ref="budgetInfoFormMetaData.myRefName"
       :is="budgetInfoFormMetaData.componentName"
-      :value="selectModel(budgetInfo, budgetInfoFormMetaData.dataSelectorKey)"
+      :value="selectModel(budgetInfoForm, budgetInfoFormMetaData.dataSelectorKey)"
       v-bind="budgetInfoFormMetaData.props"
     ></component>
   </div>
@@ -30,7 +29,20 @@ export default class FileBudget extends ModelVue {
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
-  budgetInfo: Data.ClientFile.BudgetInfo;
+  budgetInfoStore: Data.ClientFile.BudgetInfo;
+
+  budgetInfoFormLocal = new Data.ClientFile.BudgetInfo()
+
+  get budgetInfoForm() {
+    if (!!this.budgetInfoStore) {
+      this.budgetInfoFormLocal = this.budgetInfoStore;
+    }
+    return this.budgetInfoFormLocal;
+  }
+
+  set budgetInfoForm(value: any) {
+    this.budgetInfoFormLocal = value;
+  }
 
   get budgetInfoFormMetaData() {
     return new ClientBudgetInfoFBudgetMDP({
@@ -52,5 +64,4 @@ export default class FileBudget extends ModelVue {
 }
 </script>
 
-<style>
-</style>
+<style></style>

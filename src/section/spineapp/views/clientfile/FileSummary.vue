@@ -1,22 +1,23 @@
 <template>
   <div class="row">
     <div class="col-10">
-      <v-card class="mx-auto mb-2" outlined>
+      <v-card class="mx-auto pa-2" outlined>
         <client-file-summary :file-details="fileDetails"></client-file-summary>
+        <!-- <client-file-summary-card></client-file-summary-card> -->
       </v-card>
     </div>
     <div class="col-2">
-      <v-card class="mx-auto mb-2" outlined>
+      <v-card class="mx-auto py-1" outlined>
         <v-card-actions>
           <v-row dense>
             <v-col class="col-12">
-              <v-btn block outlined small primary @click="handleAssignRMClick()">Assign RM</v-btn>
+              <v-btn block outlined small color="primary" @click="handleAssignRMClick()">Assign RM</v-btn>
             </v-col>
             <v-col class="col-12">
-              <v-btn block outlined small secondary @click="handleCreateRequestClick()">Create Request</v-btn>
+              <v-btn block outlined small color="primary" @click="handleCreateRequestClick()">Create Request</v-btn>
             </v-col>
             <v-col class="col-12">
-              <v-menu
+              <v-menu 
                 offset-y
                 left
                 nudge-bottom="14"
@@ -27,8 +28,8 @@
                   <!-- <v-avatar size="40px" v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-avatar> -->
-                  <v-btn block outlined small secondary v-bind="attrs" v-on="on"
-                    >All Action</v-btn
+                  <v-btn block outlined small color="primary" v-bind="attrs" v-on="on"
+                    >More Action <v-icon>mdi-chevron-down</v-icon></v-btn
                   >
                 </template>
                 <v-list>
@@ -82,10 +83,12 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSummary.vue";
 import { SpineApi } from "@/remote-api-point";
+import ClientFileSummaryCard from "../../components/file/ClientFileSummaryCard.vue";
 
 @Component({
   components: {
     "client-file-summary": ClientFileSummary,
+    "client-file-summary-card": ClientFileSummaryCard
   },
 })
 export default class FileSummary extends Vue {

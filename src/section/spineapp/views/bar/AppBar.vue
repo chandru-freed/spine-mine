@@ -12,7 +12,7 @@
       ></v-text-field>
     </div> -->
     <div class="mt-6 py-2">
-      <FRemoteAutoCompleteField dense label="Search File" v-model="selectValue" placeholder="Type to search" outlined rounded queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains=" itemText="clientFileNumber" itemValue="clientFileNumber" @select="gotoFile"></FRemoteAutoCompleteField>
+      <FRemoteAutoCompleteField dense label="Search File" v-model="selectedClientFileNumber" placeholder="Type to search" outlined rounded queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains=" itemText="clientFileNumber" itemValue="clientFileNumber" :on-select="gotoFile"></FRemoteAutoCompleteField>
     </div>
     <!-- <v-btn icon @click="$router.push({name: 'Root.Request.CreateRequest'})"><v-icon>mdi-plus-box</v-icon></v-btn> -->
     <v-btn icon @click="$router.push({name: 'Root.CreateClient'})"><v-icon>mdi-account-plus</v-icon></v-btn>
@@ -27,6 +27,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
 import AppBarUserMenu from '@/components/AppBarUserMenu';
 import AppBarNotificationMenu from '@/components/AppBarNotificationMenu';
 import FRemoteAutoCompleteField from "@/components/generic/form/field/FRemoteAutoCompleteField"
+import Helper from '../../util/Helper';
 
 @Component({
   components: {
@@ -36,9 +37,13 @@ import FRemoteAutoCompleteField from "@/components/generic/form/field/FRemoteAut
   }
 })
 export default class AppBar extends Vue {
-  selectValue = {}
-  gotoFile() {
-    console.log("Hi There" , this.selectValue);
+  selectedClientFileNumber: string = ""
+  gotoFile(selectedVal: any) {
+    console.log("selectedClientFileNumber - ", this.selectedClientFileNumber)
+    Helper.Router.gotoFile({ router: this.$router,  clientFileNumber: this.selectedClientFileNumber})
+    
+    this.selectedClientFileNumber = ""
+
   }
 }
 </script>

@@ -28,10 +28,14 @@ export default class FRemoteAutoCompleteField extends VAutocomplete {
   })
   queryUrl: string;
 
+  @Prop()
+  onSelect: ((value: any) => void) | undefined;
+
   searchValue: string = "";
   isLoading: boolean = false;
   fetchedItems: any[] = [];
-@Prop({
+
+  @Prop({
     default: 1,
   })
   minSearchValueLength: number;
@@ -63,7 +67,9 @@ export default class FRemoteAutoCompleteField extends VAutocomplete {
 
   set modelValue(newModelValue: any) {
     this.$emit("input", newModelValue);
-    this.$emit("select", newModelValue);
+    if(this.onSelect) {
+      this.onSelect(newModelValue)
+    }
   }
   // MODEL VALUE - END
 }

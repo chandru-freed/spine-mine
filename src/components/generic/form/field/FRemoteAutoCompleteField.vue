@@ -63,6 +63,7 @@ export default class FRemoteAutoCompleteField extends VAutocomplete {
 
   set modelValue(newModelValue: any) {
     this.$emit("input", newModelValue);
+    this.$emit("select", newModelValue);
   }
   // MODEL VALUE - END
 }

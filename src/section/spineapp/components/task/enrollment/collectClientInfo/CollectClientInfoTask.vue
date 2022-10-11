@@ -60,6 +60,7 @@ export default class CollectClientInfoTask
 
   getNupayBankMasterList() {
     Action.ClientFile.GetNupayBankMasterList.execute((output) => {
+      console.log('===== bank nupay list =====')
       this.nupayBankMasterList = output.nupayBankMasterList;
     });
   }

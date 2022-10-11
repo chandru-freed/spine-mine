@@ -7,18 +7,18 @@
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
     </div>
-    <div class="d-flex justify-center col-6 ma-auto">
+    <div class="d-flex justify-center col-12 ma-auto">
       <v-card
         class="pa-0 ma-0 mt-5 col-12"
         color="white"
         outlined
         min-height="300px"
       >
+  
         <v-card-text>
           <v-autocomplete
             v-model="selectedRequestType"
             :items="requestTypeFlowMapList"
-            cache-items
             flat
             hide-no-data
             hide-details
@@ -35,7 +35,7 @@
             v-if="!!selectedRequestType"
             :ref="selectedRequestType.myRefName"
             :is="selectedRequestType.componentName"
-            v-model="initDocumentData"
+            v-model="createEMandateInput"
             v-bind="selectedRequestType.props"
           ></component>
         </v-card-text>
@@ -60,6 +60,7 @@ import NsfMSFFFormMDP from "@/section/spineapp/components/task/createRequestForm
 import WelcomeCallFFormMDP from "@/section/spineapp/components/task/createRequestForm/WelcomeCallFFormMDP";
 import MFCFFormMDP from "@/section/spineapp/components/task/createRequestForm/MFCFFormMDP";
 import NsfSPAFFormMDP from "@/section/spineapp/components/task/createRequestForm/NsfSPAFFormMDP";
+import EMandateFFormMDP from "@/section/spineapp/components/task/createRequestForm/EMandateFFormMDP";
 
 @Component({
   components: {
@@ -72,54 +73,67 @@ export default class FileCreateRequest extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  createEMandateInput = new Data.Spine.CreateEMandateInput();
+
+  nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+
   leftFocused = false;
   rightFocused = true;
 
   selectedRequestType: any = {};
-  requestTypeFlowMapList = [
-    {
-      key: "Enrollment",
-      contentMetaData: new EnrollmentFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-    },
-    {
-      key: "CHPP",
-      contentMetaData: new CHPPFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-    },
-    {
-      key: "NsfMSF",
-      contentMetaData: new NsfMSFFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-    },
-    {
-      key: "Welcome Call",
-      contentMetaData: new WelcomeCallFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-    },
-    {
-      key: "MFC",
-      contentMetaData: new MFCFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-    },
-    {
-      key: "NsfSPA",
-      contentMetaData: new NsfSPAFFormMDP({
-        taskRoot: this,
-        parent: this,
-      }).getMetaData(),
-    },
-  ];
+  get requestTypeFlowMapList() {
+    return [
+      {
+        key: "Enrollment",
+        contentMetaData: new EnrollmentFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "CHPP",
+        contentMetaData: new CHPPFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "NsfMSF",
+        contentMetaData: new NsfMSFFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "Welcome Call",
+        contentMetaData: new WelcomeCallFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "MFC",
+        contentMetaData: new MFCFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "NsfSPA",
+        contentMetaData: new NsfSPAFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "EMandate",
+        contentMetaData: new EMandateFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+    ];
+  }
 
   get initDocumentData() {
     return {
@@ -131,6 +145,10 @@ export default class FileCreateRequest extends Vue {
       ...this.selectedRequestType,
       initDocument: JSON.stringify(this.initDocumentData),
     };
+  }
+
+  mounted() {
+    this.getNupayBankMasterList();
   }
 
   createEnrollmentFlow() {
@@ -196,6 +214,29 @@ export default class FileCreateRequest extends Vue {
         }, 400);
       }
     );
+  }
+
+  createEMandate() {
+    this.createEMandateInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber
+    Action.Spine.CreateEMandate.execute(this.createEMandateInput, (output) => {
+      setTimeout(() => {
+        this.gotoClientFile();
+      }, 400);
+    });
+  }
+
+  populateBankDetails(details: any) {
+    // this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
+    //   details.ADDRESS;
+    // this.taskFormData.taskOutput.bankInfo.bankAddress.city = details.CITY;
+    // this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
+    // this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
+  }
+
+  getNupayBankMasterList() {
+    Action.ClientFile.GetNupayBankMasterList.execute((output) => {
+      this.nupayBankMasterList = output.nupayBankMasterList;
+    });
   }
 
   gotoFile(clientFileNumber: string) {

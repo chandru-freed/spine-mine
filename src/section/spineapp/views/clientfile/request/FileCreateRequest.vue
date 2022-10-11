@@ -2,7 +2,7 @@
   <!-- TASK TAB -->
   <div>
     <div class="d-flex justify-space-between align-center mx-5">
-      <h4>File Create Request</h4>
+      <h4>Create File Request</h4>
       <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
@@ -14,7 +14,6 @@
         outlined
         min-height="300px"
       >
-  
         <v-card-text>
           <v-autocomplete
             v-model="selectedRequestType"
@@ -35,7 +34,7 @@
             v-if="!!selectedRequestType"
             :ref="selectedRequestType.myRefName"
             :is="selectedRequestType.componentName"
-            v-model="createEMandateInput"
+            v-model="taskDetailsInput"
             v-bind="selectedRequestType.props"
           ></component>
         </v-card-text>
@@ -73,7 +72,7 @@ export default class FileCreateRequest extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  createEMandateInput = new Data.Spine.CreateEMandateInput();
+  createEMandateInput: any = new Data.Spine.CreateEMandateInput();
 
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
 
@@ -81,6 +80,14 @@ export default class FileCreateRequest extends Vue {
   rightFocused = true;
 
   selectedRequestType: any = {};
+
+  get taskDetailsInput() {
+    this.createEMandateInput.eMandateBankInfo = {
+      ...this.createEMandateInput.eMandateBankInfo,
+      accountHolderName: this.clientFileBasicInfo.clientBasicInfo.fullName,
+    };
+    return this.createEMandateInput;
+  }
   get requestTypeFlowMapList() {
     return [
       {
@@ -217,7 +224,8 @@ export default class FileCreateRequest extends Vue {
   }
 
   createEMandate() {
-    this.createEMandateInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber
+    this.createEMandateInput.clientFileNumber =
+      this.clientFileBasicInfo.clientFileNumber;
     Action.Spine.CreateEMandate.execute(this.createEMandateInput, (output) => {
       setTimeout(() => {
         this.gotoClientFile();
@@ -226,11 +234,10 @@ export default class FileCreateRequest extends Vue {
   }
 
   populateBankDetails(details: any) {
-    // this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
-    //   details.ADDRESS;
-    // this.taskFormData.taskOutput.bankInfo.bankAddress.city = details.CITY;
-    // this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
-    // this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
+    this.taskDetailsInput.bankAddress.addressLine1 = details.ADDRESS;
+    this.taskDetailsInput.bankAddress.city = details.CITY;
+    this.taskDetailsInput.bankAddress.state = details.STATE;
+    this.taskDetailsInput.bankAddress.country = "India";
   }
 
   getNupayBankMasterList() {

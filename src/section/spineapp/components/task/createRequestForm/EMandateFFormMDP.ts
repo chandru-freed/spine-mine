@@ -96,6 +96,14 @@ export default class EMandateFFormMDP extends FFormMDP {
         },
         disabled: this.disabled
       })
+    ).addField(
+      new AddressFMiniFormMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+        dataSelectorKey: "bankAddress",
+        disabled: taskRoot.taskDisabled,
+        label: "Bank Address",
+      })
     ).addAction(
       new FBtnMDP({
         label: "CREATE REQUEST",

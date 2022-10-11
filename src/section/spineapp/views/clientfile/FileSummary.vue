@@ -1,15 +1,85 @@
 <template>
-  <v-card class="mx-auto mb-2" outlined>
-    <client-file-summary :file-details="fileDetails"></client-file-summary>
-  </v-card>
+  <div class="row">
+    <div class="col-10">
+      <v-card class="mx-auto mb-2" outlined>
+        <client-file-summary :file-details="fileDetails"></client-file-summary>
+      </v-card>
+    </div>
+    <div class="col-2">
+      <v-card class="mx-auto mb-2" outlined>
+        <v-card-actions>
+          <v-row dense>
+            <v-col class="col-12">
+              <v-btn block outlined small primary @click="handleAssignRMClick()">Assign RM</v-btn>
+            </v-col>
+            <v-col class="col-12">
+              <v-btn block outlined small secondary @click="handleCreateRequestClick()">Create Request</v-btn>
+            </v-col>
+            <v-col class="col-12">
+              <v-menu
+                offset-y
+                left
+                nudge-bottom="14"
+                min-width="230"
+                content-class="user-profile-menu-content"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <!-- <v-avatar size="40px" v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-avatar> -->
+                  <v-btn block outlined small secondary v-bind="attrs" v-on="on"
+                    >All Action</v-btn
+                  >
+                </template>
+                <v-list>
+                  <v-list-item @click="handleAssignRMClick()">
+                    <v-list-item-content>
+                      <v-list-item-title>Assign RM</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item @click="handleAssignSalesRepClick()">
+                    <v-list-item-content>
+                      <v-list-item-title>Assign Sales Rep</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item @click="handleCreateRequestClick()">
+                    <v-list-item-content>
+                      <v-list-item-title>Create Request</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item @click="handleRecordPaymentClick()">
+                    <v-list-item-content>
+                      <v-list-item-title>Record Payment</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item @click="handleReceivePaymentClick()">
+                    <v-list-item-content>
+                      <v-list-item-title>Receive Payment</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item @click="handleReceiveMSFPaymentClick()">
+                    <v-list-item-content>
+                      <v-list-item-title
+                        >Receive MSF Payment by Cashfree</v-list-item-title
+                      >
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-import store, * as Store from '@/../src-gen/store';
-import * as Data from '@/../src-gen/data';
-import * as ServerData from '@/../src-gen/server-data';
-import * as Action from '@/../src-gen/action';
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
 import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSummary.vue";
 import { SpineApi } from "@/remote-api-point";
 
@@ -38,7 +108,29 @@ export default class FileSummary extends Vue {
       monthlyPlan: "13,000",
     },
   };
-  mounted() {
+  mounted() {}
+
+  handleAssignRMClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.AssignRM" });
+  }
+
+  handleAssignSalesRepClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.AssignSalesRep" });
+  }
+  handleCreateRequestClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
+  }
+
+  handleRecordPaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.RecordPayment" });
+  }
+
+  handleReceivePaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.ReceivePayment" });
+  }
+
+  handleReceiveMSFPaymentClick() {
+    this.$router.push({ name: "Root.ClientFile.Request.ReceiveMSFPayment" });
   }
 }
 </script>

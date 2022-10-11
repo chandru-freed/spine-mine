@@ -84,10 +84,10 @@ export default class FileDetails extends Vue {
 
   fileDetailsTab = 0;
   fileDetailsTabList = [
-    {
-      tabName: "Info",
-      component: "file-info",
-    },
+    // {
+    //   tabName: "Info",
+    //   component: "file-info",
+    // },
     {
       tabName: "Profile",
       component: "file-profile",

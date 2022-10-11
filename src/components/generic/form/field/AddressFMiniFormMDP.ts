@@ -15,14 +15,14 @@ export default class AddressFMiniFormMDP extends FMiniFormMDP {
     dataSelectorKey,
     disabled,
     label,
-    mandatory,
+    mandatory = false,
   }: {
     taskRoot: any;
     parent: any;
     dataSelectorKey: string;
     disabled: boolean;
     label: string;
-    mandatory: boolean;
+    mandatory?: boolean;
   }) {
     super({
       parentMDP: new FFormChildMDP(),

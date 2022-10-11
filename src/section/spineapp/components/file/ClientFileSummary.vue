@@ -46,7 +46,7 @@
           <strong>type</strong> of error
         </v-alert>
       </div> -->
-      <div class="text-right pt-0">
+      <!-- <div class="text-right pt-0">
         <v-menu
           offset-y
           left
@@ -60,20 +60,20 @@
             </v-avatar>
           </template>
           <v-list>
-            <!-- Assign RM -->
+            
             <v-list-item @click="handleAssignRMClick()">
               <v-list-item-content>
                 <v-list-item-title>Assign RM</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
-            <!-- Assign Sales Rep -->
+            
             <v-list-item @click="handleAssignSalesRepClick()">
               <v-list-item-content>
                 <v-list-item-title>Assign Sales Rep</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <!-- Create File Request  -->
+            
             <v-list-item @click="handleCreateRequestClick()">
               <v-list-item-content>
                 <v-list-item-title>Create Request</v-list-item-title>
@@ -96,7 +96,7 @@
             </v-list-item>
           </v-list>
         </v-menu>
-      </div>
+      </div> -->
       <div class="text-right pt-0">
         <v-btn
           icon
@@ -253,28 +253,28 @@ export default class ClientFileSummary extends Vue {
 
   public created() {}
 
-  handleAssignRMClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.AssignRM" });
-  }
+  // handleAssignRMClick() {
+  //   this.$router.push({ name: "Root.ClientFile.Request.AssignRM" });
+  // }
 
-  handleAssignSalesRepClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.AssignSalesRep" });
-  }
-  handleCreateRequestClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
-  }
+  // handleAssignSalesRepClick() {
+  //   this.$router.push({ name: "Root.ClientFile.Request.AssignSalesRep" });
+  // }
+  // handleCreateRequestClick() {
+  //   this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
+  // }
 
-  handleRecordPaymentClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.RecordPayment" });
-  }
+  // handleRecordPaymentClick() {
+  //   this.$router.push({ name: "Root.ClientFile.Request.RecordPayment" });
+  // }
 
-  handleReceivePaymentClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.ReceivePayment" });
-  }
+  // handleReceivePaymentClick() {
+  //   this.$router.push({ name: "Root.ClientFile.Request.ReceivePayment" });
+  // }
 
-  handleReceiveMSFPaymentClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.ReceiveMSFPayment" });
-  }
+  // handleReceiveMSFPaymentClick() {
+  //   this.$router.push({ name: "Root.ClientFile.Request.ReceiveMSFPayment" });
+  // }
 }
 </script>
 

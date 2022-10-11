@@ -82,10 +82,10 @@ export default class Workarea extends Vue {
       tabName: "Highlights",
       component: "file-highlights",
     },
-    {
-      tabName: "Logs",
-      component: "file-logs",
-    },
+    // {
+    //   tabName: "Logs",
+    //   component: "file-logs",
+    // },
   ];
 
   focusRight() {

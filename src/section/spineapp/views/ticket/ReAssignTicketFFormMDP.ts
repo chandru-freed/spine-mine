@@ -24,7 +24,6 @@ export default class ReAssignTicketFFormMDP extends FFormMDP {
             dataSelectorKey: "comment",
             label: "Comment",
             parentMDP: new FFormChildMDP(),
-            mandatory: true,
             boundaryClass: "col-12"
         }))
         .addAction(new FBtnMDP({

@@ -8,7 +8,7 @@
         <div class="row px-2 pt-2 pb-4 align-center justify-between">
           <div class="col-4  pb-0">
             <v-list-item>
-              <v-list-item-avatar tile size="80" color="primary">
+              <v-list-item-avatar tile size="80" >
                 <v-icon size="40" color="secondary">mdi-account-circle</v-icon>
               </v-list-item-avatar>
               <v-list-item-content>

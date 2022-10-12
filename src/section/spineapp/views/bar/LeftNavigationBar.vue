@@ -1,4 +1,3 @@
-
 <template>
   <v-navigation-drawer
     app
@@ -7,12 +6,11 @@
     dark
     :mini-variant.sync="mini"
   >
-  
     <v-list>
       <v-list-item class="px-2">
         <v-list-item-avatar @click="mini = !mini">
           <!-- <v-icon class="grey lighten-1 secondary--text"> mdi-folder </v-icon> -->
-          <v-img src="@/assets/logo.png"/>
+          <v-img src="@/assets/freed-small-logo.svg" />
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -23,7 +21,6 @@
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
-
       </v-list-item>
     </v-list>
 
@@ -36,12 +33,12 @@
         </v-list-item-icon>
         <v-list-item-title>Home</v-list-item-title>
       </v-list-item>
-      <v-list-item link @click="$router.push({ name: 'Root.Dashboard' })">
+      <!-- <v-list-item link @click="$router.push({ name: 'Root.Dashboard' })">
         <v-list-item-icon>
           <v-icon>mdi-chart-box</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Dashboard</v-list-item-title>
-      </v-list-item>
+      </v-list-item> -->
 
       <v-list-item link @click="$router.push({ name: 'Root.MyClientFiles' })">
         <v-list-item-icon>
@@ -50,14 +47,15 @@
         <v-list-item-title>My Client Files</v-list-item-title>
       </v-list-item>
 
-
-      <v-list-item  @click="$router.push({ name: 'Root.Search.ClientSearch' })">
+      <v-list-item @click="$router.push({ name: 'Root.Search.ClientSearch' })">
         <v-list-item-icon>
           <v-icon>mdi-magnify</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Search</v-list-item-title>
       </v-list-item>
-      <v-list-item  @click="$router.push({ name: 'Root.TaskList.TaskAssignedToMe' })">
+      <v-list-item
+        @click="$router.push({ name: 'Root.TaskList.TaskAssignedToMe' })"
+      >
         <v-list-item-icon>
           <v-icon>mdi-marker-check</v-icon>
         </v-list-item-icon>
@@ -181,17 +179,14 @@
     </v-list>
     <v-spacer vertical></v-spacer>
   </v-navigation-drawer>
-
-
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Vue, Component, Watch } from "vue-property-decorator";
 
-@Component({
-})
+@Component({})
 export default class LeftNavigationBar extends Vue {
-    public drawer = true
-    public mini = true
+  public drawer = true;
+  public mini = true;
 }
 </script>
 <style scoped>

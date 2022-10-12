@@ -9,20 +9,47 @@
         sort-by="calories"
         class="elevation-0"
         item-key="taskId"
-
       >
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-col class="col-2"> </v-col>
+            <v-col class="col-7"></v-col>
+            <v-col>
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search Item"
+                single-line
+                hide-details
+                outlined
+                rounded
+                dense
+                class="shrink"
+              ></v-text-field>
+            </v-col>
+          </v-toolbar>
+        </template>
 
-
-      <template v-slot:[`item.priority`]="{ item }">
-        <v-chip  small outlined>
-          {{ item.priority }}
-        </v-chip>
-      </template>
+        <template v-slot:[`item.priority`]="{ item }">
+          <v-chip small outlined>
+            {{ item.priority }}
+          </v-chip>
+        </template>
         <template v-slot:[`item.taskName`]="{ item }">
-          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
+          <f-btn
+            :label="item.taskName"
+            text
+            color="primary"
+            :onClick="() => gotoTask(item)"
+          ></f-btn>
         </template>
         <template v-slot:[`item.cid`]="{ item }">
-          <f-btn :label="item.cid" text color="secondary" :onClick="()=>gotoTask(item)"></f-btn>
+          <f-btn
+            :label="item.cid"
+            text
+            color="secondary"
+            :onClick="() => gotoTask(item)"
+          ></f-btn>
         </template>
         <template v-slot:[`item.displayId`]="{ item }">
           <span class="overline">
@@ -32,7 +59,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | date-time }} ({{
+            {{ item.allocatedTime | (date - time) }} ({{
               item.allocatedTime | fromNow
             }})
           </span>
@@ -54,7 +81,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 @Component({
   components: {
     "task-tab": TaskTab,
-    "f-btn": FBtn
+    "f-btn": FBtn,
   },
 })
 export default class TicketAssignedToMe extends Vue {
@@ -84,8 +111,6 @@ export default class TicketAssignedToMe extends Vue {
       this.myTicketTaskList = output;
     });
   }
-
-
 
   gotoTask(item: any) {
     this.$router.push({

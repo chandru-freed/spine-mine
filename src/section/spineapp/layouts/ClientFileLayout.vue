@@ -7,8 +7,8 @@
       </div>
       <div class="col-12">
         <v-card tile height="1200px" class="" flat color="transparent">
-          <router-view name="fileDetails"></router-view>
-          <router-view></router-view>
+          <router-view name="fileDetails" ></router-view>
+          <router-view ></router-view>
         </v-card>
       </div>
     </div>

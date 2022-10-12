@@ -2,11 +2,11 @@
   <div>
     <!-- {{ fileSummary }} -->
     <div class="row" v-if="fileSummary">
-      <div class="col-2 pb-0">
+      <div class="col-4 pb-0">
         <v-list-item>
-          <!-- <v-list-item-avatar tile size="80" color="primary">
-            <v-icon size="40" color="secondary">mdi-file</v-icon>
-          </v-list-item-avatar> -->
+          <v-list-item-avatar icon>
+            <v-icon size="30" color="secondary">mdi-file</v-icon>
+          </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-overline">{{
               clientFileBasicInfo.clientFileNumber
@@ -24,14 +24,14 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <div class="col-3">
+      <div class="col-2">
         <v-sheet color="secondary" outlined rounded>
           <v-card flat :min-height="minHeight">
-            <v-list-item three-line>
-              <v-list-item-content class="pa-2">
-                <div class="text-overline mb-0 secondary--text">MSF</div>
+            <v-list-item two-line class="pa-1">
+              <v-list-item-content class="pa-0 px-1">
+                <div class="text-caption mb-0 secondary--text">MSF</div>
                 <v-list-item-title
-                  class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
+                  class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   ₹ {{ fileSummary.msfAmount }}
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
@@ -48,14 +48,14 @@
           </v-card>
         </v-sheet>
       </div>
-      <div class="col-3">
+      <div class="col-2">
         <v-sheet color="secondary" outlined rounded>
           <v-card flat :min-height="minHeight">
-            <v-list-item three-line>
-              <v-list-item-content class="pa-2">
-                <div class="text-overline mb-0 secondary--text">SPA</div>
+            <v-list-item two-line class="pa-1">
+              <v-list-item-content class="pa-0 px-1">
+                <div class="text-caption mb-0 secondary--text">SPA</div>
                 <v-list-item-title
-                  class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
+                  class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   ₹ {{ fileSummary.spaAmount }}
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
@@ -71,14 +71,14 @@
           </v-card>
         </v-sheet>
       </div>
-      <div class="col-3">
+      <div class="col-2">
         <v-sheet color="primary" outlined rounded>
           <v-card flat color="primary" :min-height="minHeight">
-            <v-list-item three-line>
-              <v-list-item-content class="pa-2">
-                <div class="text-overline mb-0 white--text">Total Savings</div>
+            <v-list-item two-line class="pa-1">
+              <v-list-item-content class="pa-0 px-1">
+                <div class="text-caption mb-0 white--text">Total Savings</div>
                 <v-list-item-title
-                  class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
+                  class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   ₹ {{ fileSummary.totalSaving }}
                 </v-list-item-title>
@@ -93,16 +93,16 @@
           </v-card>
         </v-sheet>
       </div>
-      <div class="col-3">
+      <div class="col-2">
         <v-sheet color="primary" outlined rounded>
           <v-card flat color="primary" :min-height="minHeight">
-            <v-list-item three-line>
-              <v-list-item-content class="pa-2">
-                <div class="text-overline mb-0 white--text">
+            <v-list-item two-line class="pa-1">
+              <v-list-item-content class="pa-0 px-1">
+                <div class="text-caption mb-0 white--text">
                   Total Outstanding
                 </div>
                 <v-list-item-title
-                  class="text-h5 mb-1 text-h5 font-weight-semibold secondary--text"
+                  class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   ₹ {{ fileSummary.totalOutstanding }}
                   <span class="text-subtitle-1 pl-1 pt-2"
@@ -111,8 +111,7 @@
                 </v-list-item-title>
                 <v-list-item-subtitle
                   ><v-btn block x-small outlined dark
-                    >{{ fileSummary.numberOfCredirotrsSettled }} Settled out of
-                    {{ fileSummary.numberOfCreditorsTotal }} Total
+                    >settled {{ fileSummary.numberOfCredirotrsSettled }} / {{ fileSummary.numberOfCreditorsTotal }}
                     Creditors</v-btn
                   ></v-list-item-subtitle
                 >
@@ -154,7 +153,7 @@ export default class ClientFileSummaryCard extends Vue {
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
 
-  minHeight = 106;
+  minHeight = 80;
 }
 </script>
 

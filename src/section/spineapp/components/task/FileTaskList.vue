@@ -126,12 +126,12 @@
           {{ item.allocatedTo }}
         </v-chip>
         <f-btn
-          label="PULL"
+          label="START"
           outlined
           small
           color="primary"
           v-if="!item.allocatedTo && item.taskType === 'MANUAL'"
-          :onClick="() => pullTask(item)"
+          :onClick="() => pullStartAndMerge(item)"
         ></f-btn>
       </template>
 
@@ -254,8 +254,8 @@ export default class FileTaskList extends Vue {
     return item.lastUserActivityTime || item.allocatedTime || item.readyTime;
   }
 
-  pullTask(item: Data.TaskList.ToBePulledTaskGrid) {
-    Action.TaskList.PullTask.execute2(item.taskId, this.userName, (output) => {
+  pullStartAndMerge(item: Data.TaskList.ToBePulledTaskGrid) {
+    Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
       this.gotoTask(item);
     });
   }

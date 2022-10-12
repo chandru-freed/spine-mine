@@ -177,7 +177,7 @@ export default class TicketAssignedToMe extends Vue {
     this.reAssignTicketDialog = false;
   }
   closeTicket() {
-    Action.Ticket.CloseTicket.execute1(this.taskId, (output) => {
+    Action.Ticket.CloseTicket.execute2(this.taskId, undefined, (output) => {
       Snackbar.show({
         text: "Succesfully closed the ticket",
         pos: "bottom-center",

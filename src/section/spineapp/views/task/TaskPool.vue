@@ -63,7 +63,7 @@
         </template>
 
         <template v-slot:item.action="{ item }">
-          <f-btn label="Pull" outlined small color="primary" :onClick="()=>pullTask('',item)"></f-btn>
+          <f-btn label="START" outlined small color="primary" :onClick="()=>pullStartAndMerge('',item)"></f-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -123,15 +123,13 @@ export default class TaskAssignedToMe extends Vue {
     );
   }
 
-  pullTask(value: any, item: Data.TaskList.ToBePulledTaskGrid) {
-    Action.TaskList.PullTask.execute2(
-      item.taskId,
-      this.userName,
-      (output) => {
-        this.gotoTask(item)
-      }
-    );
+  pullStartAndMerge(value: any, item: Data.TaskList.ToBePulledTaskGrid) {
+    Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
+      this.gotoTask(item);
+    });
   }
+
+  
 
   gotoFile(item: any) {
     this.$router.push({

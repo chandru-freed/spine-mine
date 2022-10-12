@@ -4,7 +4,8 @@
     v-model="drawer"
     color="primary"
     dark
-    :mini-variant.sync="mini"
+    :mini-variant="mini"
+    
   >
     <v-list>
       <v-list-item class="px-2">
@@ -27,7 +28,7 @@
     <v-divider></v-divider>
 
     <v-list nav dense dark>
-      <v-list-item link @click="$router.push({ name: 'Root.Home' })">
+      <v-list-item link @click="goto('Root.Home')">
         <v-list-item-icon>
           <v-icon>mdi-home-analytics</v-icon>
         </v-list-item-icon>
@@ -40,142 +41,36 @@
         <v-list-item-title>Dashboard</v-list-item-title>
       </v-list-item> -->
 
-      <v-list-item link @click="$router.push({ name: 'Root.MyClientFiles' })">
+      <v-list-item link @click="goto('Root.MyClientFiles')">
         <v-list-item-icon>
           <v-icon>mdi-file</v-icon>
         </v-list-item-icon>
         <v-list-item-title>My Client Files</v-list-item-title>
       </v-list-item>
 
-      <v-list-item @click="$router.push({ name: 'Root.Search.ClientSearch' })">
-        <v-list-item-icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Search</v-list-item-title>
-      </v-list-item>
       <v-list-item
-        @click="$router.push({ name: 'Root.TaskList.TaskAssignedToMe' })"
+        @click="goto('Root.TaskList.TaskAssignedToMe')"
       >
         <v-list-item-icon>
           <v-icon>mdi-marker-check</v-icon>
         </v-list-item-icon>
         <v-list-item-title>My Tasks</v-list-item-title>
       </v-list-item>
-      <!-- <v-list-group prepend-icon="mdi-inbox" id="form">
-        <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title>Form</v-list-item-title>
-          </v-list-item-content>
-        </template>
 
-        <v-list-item link @click="$router.push({ name: 'Root.Form.Simple' })">
-          <v-list-item-content>
-            <v-list-item-title>Simple</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Form.SimpleConfig' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Simple Config</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-      <v-list-group prepend-icon="mdi-file" id="invoice">
-        <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title>Invoice</v-list-item-title>
-          </v-list-item-content>
-        </template>
 
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Invoice.InvoiceList' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>List</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Invoice.InvoiceAdd' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Add</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Invoice.InvoiceEdit' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Edit</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Invoice.InvoiceDetails' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Details</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-      <v-list-group prepend-icon="mdi-box-shadow" id="Sample">
-        <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title>Sample</v-list-item-title>
-          </v-list-item-content>
-        </template>
-
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Sample.SampleList' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>List</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Sample.SampleListConfig' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>List Config</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Sample.SampleAdd' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Add</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Sample.SampleEdit' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Edit</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'Root.Sample.SampleDetails' })"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Details</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group> -->
-      <v-list-item link @click="$router.push({ name: 'Root.Notification' })">
+      <v-list-item @click="goto('Root.Search.ClientSearch')">
+        <v-list-item-icon>
+          <v-icon>mdi-magnify</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Search</v-list-item-title>
+      </v-list-item>
+      
+      <!-- <v-list-item link @click="$router.push({ name: 'Root.Notification' })">
         <v-list-item-icon>
           <v-icon>mdi-bell</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Notification</v-list-item-title>
-      </v-list-item>
+      </v-list-item> -->
     </v-list>
     <v-spacer vertical></v-spacer>
   </v-navigation-drawer>
@@ -187,6 +82,10 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 export default class LeftNavigationBar extends Vue {
   public drawer = true;
   public mini = true;
+
+  goto(routerName: string) {
+    this.$router.push({ name: routerName })
+  }
 }
 </script>
 <style scoped>

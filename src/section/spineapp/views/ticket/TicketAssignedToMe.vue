@@ -6,9 +6,9 @@
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
         :items="myTicketTaskList"
-        sort-by="calories"
         class="elevation-0"
         item-key="taskId"
+        :search="search"
       >
         <template v-slot:top>
           <v-toolbar flat>

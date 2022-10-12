@@ -65,6 +65,13 @@
                       >
                     </v-list-item-content>
                   </v-list-item>
+                  <v-list-item @click="handleSendEmailNotificationClick()">
+                    <v-list-item-content>
+                      <v-list-item-title
+                        >Send Email</v-list-item-title
+                      >
+                    </v-list-item-content>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </v-col>
@@ -134,6 +141,10 @@ export default class FileSummary extends Vue {
 
   handleReceiveMSFPaymentClick() {
     this.$router.push({ name: "Root.ClientFile.Request.ReceiveMSFPayment" });
+  }
+
+  handleSendEmailNotificationClick(){
+     this.$router.push({ name: "Root.ClientFile.Request.SendEmail" });
   }
 }
 </script>

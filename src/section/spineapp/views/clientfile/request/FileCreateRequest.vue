@@ -64,6 +64,11 @@ import EMandateFFormMDP from "@/section/spineapp/components/task/createRequestFo
 @Component({
   components: {
     EnrollmentFFormMDP,
+    CHPPFFormMDP,
+    NsfMSFFFormMDP,
+    WelcomeCallFFormMDP,
+    MFCFFormMDP,
+    EMandateFFormMDP,
     FForm,
   },
 })

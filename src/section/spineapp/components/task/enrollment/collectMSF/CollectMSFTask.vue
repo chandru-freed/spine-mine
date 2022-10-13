@@ -43,8 +43,6 @@ export default class CollectMSFTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentDetails
-  fiPaymentDetails: Data.ClientFile.FiPaymentDetails;
 
   receiveMSFPaymentInput = new Data.Spine.ReceiveFirstMSFPaymentInput();
 

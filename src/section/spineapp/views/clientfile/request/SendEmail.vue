@@ -73,10 +73,10 @@ export default class SendEmail extends Vue {
   sendEmailInputLocal: Data.ClientFile.SendEmailInput =
     new Data.ClientFile.SendEmailInput();
 
-  genericEmailPayloadInput: any =
-    new Data.ClientFile.GenericEmailPayloadInput();
-  firstMSFCollectionEmailPayloadInput: any =
-    new Data.ClientFile.FirstMSFCollectionEmailPayloadInput();
+  // genericEmailPayloadInput: any =
+  //   new Data.ClientFile.GenericEmailPayloadInput();
+  // firstMSFCollectionEmailPayloadInput: any =
+  //   new Data.ClientFile.FirstMSFCollectionEmailPayloadInput();
 
   emailPayloadLocal: any = {};
 

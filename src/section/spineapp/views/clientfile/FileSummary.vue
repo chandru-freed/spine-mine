@@ -11,13 +11,20 @@
         <v-card-actions>
           <v-row dense>
             <v-col class="col-12">
-              <v-btn block outlined small color="primary"  @click="handleCreateRequestClick()">Create Flow</v-btn>
+              <v-btn
+                block
+                outlined
+                small
+                color="primary"
+                @click="handleCreateRequestClick()"
+                >Create Flow</v-btn
+              >
             </v-col>
             <!-- <v-col class="col-12">
               <v-btn block outlined small color="primary" @click="handleAssignRMClick()">Assign RM</v-btn>
             </v-col> -->
             <v-col class="col-12">
-              <v-menu 
+              <v-menu
                 offset-y
                 left
                 nudge-bottom="14"
@@ -25,53 +32,59 @@
                 content-class="user-profile-menu-content"
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <!-- <v-avatar size="40px" v-bind="attrs" v-on="on">
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-avatar> -->
-                  <v-btn block outlined small color="primary" v-bind="attrs" v-on="on"
+                  <v-btn
+                    block
+                    outlined
+                    small
+                    color="primary"
+                    v-bind="attrs"
+                    v-on="on"
                     >More Action <v-icon small>mdi-chevron-down</v-icon></v-btn
                   >
                 </template>
+
                 <v-list>
-                  <v-list-item @click="handleAssignRMClick()">
-                    <v-list-item-content>
-                      <v-list-item-title>Assign RM</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item @click="handleAssignSalesRepClick()">
-                    <v-list-item-content>
-                      <v-list-item-title>Assign Sales Rep</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item @click="handleCreateRequestClick()">
-                    <v-list-item-content>
-                      <v-list-item-title>Create Request</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item @click="handleRecordPaymentClick()">
-                    <v-list-item-content>
-                      <v-list-item-title>Record Payment</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item @click="handleReceivePaymentClick()">
-                    <v-list-item-content>
-                      <v-list-item-title>Receive Payment</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item @click="handleReceiveMSFPaymentClick()">
-                    <v-list-item-content>
+                  <template v-for="(mainItem, index) in main">
+                    <v-subheader
+                      v-if="mainItem.children"
+                      :key="mainItem.name"
+                      >{{ mainItem.name }}</v-subheader
+                    >
+                    <v-list-item
+                      @click="gotoRouter(mainItem.routerName)"
+                      dense
+                      :key="mainItem.name"
+                      link
+                      v-if="!mainItem.children"
+                    >
                       <v-list-item-title
-                        >Receive MSF Payment by Cashfree</v-list-item-title
-                      >
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item @click="handleSendEmailNotificationClick()">
-                    <v-list-item-content>
-                      <v-list-item-title
-                        >Send Email</v-list-item-title
-                      >
-                    </v-list-item-content>
-                  </v-list-item>
+                        v-text="mainItem.name"
+                      ></v-list-item-title>
+
+                      <v-list-item-icon>
+                        <v-icon v-text="mainItem.icon"></v-icon>
+                      </v-list-item-icon>
+                    </v-list-item>
+                    <div :key="index">
+                      <template v-for="(childItem, i) in mainItem.children">
+                        <v-list-item
+                          dense
+                          :key="i"
+                          link
+                          @click="gotoRouter(childItem.routerName)"
+                        >
+                          <v-list-item-title
+                            v-text="childItem.name"
+                          ></v-list-item-title>
+
+                          <v-list-item-icon>
+                            <v-icon v-text="childItem.icon"></v-icon>
+                          </v-list-item-icon>
+                        </v-list-item>
+                      </template>
+                      <v-divider v-if="main.length - 1 > index"></v-divider>
+                    </div>
+                  </template>
                 </v-list>
               </v-menu>
             </v-col>
@@ -95,7 +108,7 @@ import ClientFileSummaryCard from "../../components/file/ClientFileSummaryCard.v
 @Component({
   components: {
     "client-file-summary": ClientFileSummary,
-    "client-file-summary-card": ClientFileSummaryCard
+    "client-file-summary-card": ClientFileSummaryCard,
   },
 })
 export default class FileSummary extends Vue {
@@ -118,33 +131,51 @@ export default class FileSummary extends Vue {
       monthlyPlan: "13,000",
     },
   };
+
+  main = [
+    {
+      name: "Create Flow",
+      routerName: "Root.ClientFile.Request.FileCreateRequest",
+    },
+    {
+      name: "Notify",
+      children: [
+        { name: "Send Email", routerName: "Root.ClientFile.Request.SendEmail" },
+        { name: "Send SMS", routerName: "Root.ClientFile.Request.SendSMS" },
+      ],
+    },
+    {
+      name: "Assign",
+      children: [
+        { name: "Assign RM", routerName: "Root.ClientFile.Request.AssignRM" },
+        {
+          name: "Assign Sales Rep",
+          routerName: "Root.ClientFile.Request.AssignSalesRep",
+        },
+      ],
+    },
+    {
+      name: "PAYMENT",
+      children: [
+        {
+          name: "Record Payment",
+          routerName: "Root.ClientFile.Request.RecordPayment",
+        },
+        {
+          name: "Receive Payment",
+          routerName: "Root.ClientFile.Request.RecordPayment",
+        },
+        {
+          name: "Receive MSF Payment",
+          routerName: "Root.ClientFile.Request.ReceiveMSFPayment",
+        },
+      ],
+    },
+  ];
   mounted() {}
 
-  handleAssignRMClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.AssignRM" });
-  }
-
-  handleAssignSalesRepClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.AssignSalesRep" });
-  }
-  handleCreateRequestClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
-  }
-
-  handleRecordPaymentClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.RecordPayment" });
-  }
-
-  handleReceivePaymentClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.ReceivePayment" });
-  }
-
-  handleReceiveMSFPaymentClick() {
-    this.$router.push({ name: "Root.ClientFile.Request.ReceiveMSFPayment" });
-  }
-
-  handleSendEmailNotificationClick(){
-     this.$router.push({ name: "Root.ClientFile.Request.SendEmail" });
+  gotoRouter(routerName: string) {
+    this.$router.push({ name: routerName });
   }
 }
 </script>

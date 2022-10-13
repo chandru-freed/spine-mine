@@ -55,8 +55,8 @@ export default class PaymentDetails extends ModelVue {
   paymentId = this.$route.params.paymentId;
   clientFileNumber = this.$route.params.clientFileNumber;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentDetails
-  fiPaymentDetails: Data.ClientFile.FiPaymentDetails;
+  
+  fiPaymentDetails = new Data.ClientFile.FiPaymentDetails;
 
   leftFocused = false;
   rightFocused = true;
@@ -74,7 +74,9 @@ export default class PaymentDetails extends ModelVue {
   getFiPaymentDetails() {
     Action.ClientFile.GetFiPaymentDetails.execute1(
       this.paymentId,
-      (output) => {}
+      (output) => {
+        this.fiPaymentDetails = output
+      }
     );
   }
 

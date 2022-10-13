@@ -2,7 +2,7 @@
   <div>
     <!-- {{ fileSummary }} -->
     <div class="row" v-if="fileSummary">
-      <div class="col-4 pb-0">
+      <div class="col pb-0">
         <v-list-item>
           <v-list-item-avatar icon>
             <v-icon size="30" color="secondary">mdi-file</v-icon>
@@ -24,7 +24,7 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <div class="col-2">
+      <div class="col">
         <v-sheet color="secondary" outlined rounded>
           <v-card flat :min-height="minHeight">
             <v-list-item two-line class="pa-1">
@@ -48,7 +48,7 @@
           </v-card>
         </v-sheet>
       </div>
-      <div class="col-2">
+      <div class="col">
         <v-sheet color="secondary" outlined rounded>
           <v-card flat :min-height="minHeight">
             <v-list-item two-line class="pa-1">
@@ -71,7 +71,7 @@
           </v-card>
         </v-sheet>
       </div>
-      <div class="col-2">
+      <div class="col">
         <v-sheet color="primary" outlined rounded>
           <v-card flat color="primary" :min-height="minHeight">
             <v-list-item two-line class="pa-1">
@@ -93,7 +93,7 @@
           </v-card>
         </v-sheet>
       </div>
-      <div class="col-2">
+      <div class="col">
         <v-sheet color="primary" outlined rounded>
           <v-card flat color="primary" :min-height="minHeight">
             <v-list-item two-line class="pa-1">

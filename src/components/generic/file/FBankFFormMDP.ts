@@ -35,7 +35,6 @@ export default class FBankFFormMDP extends FFormMDP {
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
-console.log(this.taskRoot,'----- Bank info -------')
     this.addField(
       new FAccountFieldMDP({
         parentMDP: this.childMDP,

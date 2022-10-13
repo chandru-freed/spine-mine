@@ -57,7 +57,7 @@ export default class Payment extends ModelVue {
   headers = [
     { text: "Total Amount", value: "totalAmount" },
     { text: "Payment Provider", value: "paymentProvider.name" },
-    { text: "Payment Mode", value: "paymentMode.name" },
+    { text: "Status", value: "status.name" },
     { text: "Presented Date", value: "presentedDate" },
     { text: "Received By", value: "receivedBy" },
   ];

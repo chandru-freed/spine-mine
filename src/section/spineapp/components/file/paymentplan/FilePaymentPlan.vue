@@ -56,6 +56,7 @@ export default class FilePaymentPlan extends ModelVue {
 
   mounted() {
     this.getFiPaymentPlanInfo();
+    this.getFiCreditorInfo();
   }
 
   get paymentPlanWithTotalDebt() {
@@ -68,6 +69,13 @@ export default class FilePaymentPlan extends ModelVue {
   getFiPaymentPlanInfo() {
     Action.ClientFile.GetPaymentPlanInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+     this.clientFileBasicInfo.clientFileId,
       (output) => {}
     );
   }

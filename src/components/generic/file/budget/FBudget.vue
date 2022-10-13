@@ -170,7 +170,6 @@ export default class FBudget extends ModelVue {
   get totalIncomeAmount() {
     const totalIncome = this.sumMiniBudgetAmount(this.incomeSources);
     this.modelValue.totalIncome = totalIncome;
-    console.log(totalIncome)
     return totalIncome;
   }
 

@@ -46,10 +46,7 @@ import axios, { AxiosError, AxiosInstance } from "axios";
   },
 })
 export default class Login extends Vue {
-  loginForm: Data.Login.LoginForm = new Data.Login.LoginForm(
-    "johndoe",
-    "Welcome@123"
-  );
+  loginForm: Data.Login.LoginForm = new Data.Login.LoginForm();
 
   roleList = [];
 

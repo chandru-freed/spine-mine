@@ -54,10 +54,10 @@
         </div>
       </div>
 
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider> -->
 
       <!-- Profile -->
-      <v-list-item link>
+      <!-- <v-list-item link>
         <v-list-item-icon class="me-2">
           <v-icon size="22">
              mdi-account-outline 
@@ -66,10 +66,10 @@
         <v-list-item-content>
           <v-list-item-title>Profile</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <!-- Email -->
-      <v-list-item link>
+      <!-- <v-list-item link>
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             mdi-email-outline
@@ -78,10 +78,10 @@
         <v-list-item-content>
           <v-list-item-title>Inbox</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <!-- Chat -->
-      <v-list-item link>
+      <!-- <v-list-item link>
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             mdi-email-outline
@@ -99,12 +99,12 @@
           >
           </v-badge>
         </v-list-item-action>
-      </v-list-item>
+      </v-list-item> -->
 
-      <v-divider class="my-2"></v-divider>
+      <!-- <v-divider class="my-2"></v-divider> -->
 
       <!-- Settings -->
-      <v-list-item link>
+      <!-- <v-list-item link>
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             mdi-cog-outline
@@ -113,10 +113,10 @@
         <v-list-item-content>
           <v-list-item-title>Settings</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <!-- Pricing -->
-      <v-list-item link>
+      <!-- <v-list-item link>
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             mdi-currency-usd
@@ -125,10 +125,10 @@
         <v-list-item-content>
           <v-list-item-title>Pricing</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <!-- FAQ -->
-      <v-list-item link>
+      <!-- <v-list-item link>
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             mdi-help-circle-outline 
@@ -137,7 +137,7 @@
         <v-list-item-content>
           <v-list-item-title>FAQ</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <v-divider class="my-2"></v-divider>
 

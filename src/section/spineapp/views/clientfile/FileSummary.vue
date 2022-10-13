@@ -178,6 +178,10 @@ export default class FileSummary extends Vue {
   gotoRouter(routerName: string) {
     this.$router.push({ name: routerName });
   }
+
+  handleCreateRequestClick(){
+    this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
+  }
 }
 </script>
 

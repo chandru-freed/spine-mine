@@ -142,6 +142,7 @@ export default class FileSummary extends Vue {
       children: [
         { name: "Send Email", routerName: "Root.ClientFile.Request.SendEmail" },
         { name: "Send SMS", routerName: "Root.ClientFile.Request.SendSMS" },
+        { name: "Send Whatsapp", routerName: "Root.ClientFile.Request.SendWhatsapp" },
       ],
     },
     {

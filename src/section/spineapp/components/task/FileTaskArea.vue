@@ -1,15 +1,16 @@
 <template>
   <v-card flat>
-    <!-- <div class="row">
-      <div class="col-12">
-        {{selectedComponent}}
-      </div>
-    </div> -->
-    <v-card-actions class="pb-0">
-      <v-btn text @click="gotoFile">
-        <v-icon>mdi-chevron-left</v-icon> All Tasks</v-btn
-      >
+    <v-card-actions class="pa-0 ma-0">
+      <v-breadcrumbs :items="items" divider="/" class="py-2">
+        <template v-slot:item="{ item }">
+          <v-btn text class="pa-1" small @click="goto(item.routerName)" :disabled="!item.routerName" >
+            {{ item.text }}
+          </v-btn>
+         
+        </template>
+      </v-breadcrumbs>
       <v-spacer></v-spacer>
+
       <f-btn
         label="START"
         outlined
@@ -139,7 +140,7 @@ import CollectMSFTask from "./enrollment/collectMSF/CollectMSFTask.vue";
     NsfSPASystemDeferredTask,
     "f-btn": FBtn,
     FollowUpCallTask,
-    CollectMSFTask
+    CollectMSFTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -151,6 +152,20 @@ export default class FileTaskArea extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
   loading = true;
+
+  get items() {
+    return [
+      {
+        text: "Tasks",
+        disabled: false,
+        routerName: "Root.ClientFile.Workarea",
+      },
+      {
+        text: this.taskDetails.taskName,
+        disabled: false,
+      },
+    ];
+  }
 
   TASK_COMPONENT_MAP = new Map([
     ["Enrollment::CollectClientInfo", "CollectClientInfoTask"],
@@ -256,24 +271,40 @@ export default class FileTaskArea extends Vue {
 
     //Commands
 
-    Action.Spine.AddCreditor.interested(this.getTaskDetailsAndFileSummaryWithDelay);
-    Action.Spine.UpdateCreditor.interested(this.getTaskDetailsAndFileSummaryWithDelay);
-    Action.Spine.RemoveCreditor.interested(this.getTaskDetailsAndFileSummaryWithDelay);
+    Action.Spine.AddCreditor.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateCreditor.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveCreditor.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
     Action.Spine.UpdateClPersonalInfo.interested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.Spine.AddEMandate.interested(this.getTaskDetailsAndFileSummaryWithDelay);
-    Action.Spine.RemoveEMandate.interested(this.getTaskDetailsAndFileSummaryWithDelay);
+    Action.Spine.AddEMandate.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveEMandate.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
     Action.Spine.UpdateBankInfo.interested(this.getExecutiveTaskDetailsHandler);
     Action.Spine.UpdateBudgetInfo.interested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.Spine.SchedulePaymentPlan.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.SchedulePaymentPlan.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.Spine.AttachDocument.interested(this.getExecutiveTaskDetailsHandler);
     Action.Spine.DetachDocument.interested(this.getExecutiveTaskDetailsHandler);
 
-    Action.Spine.ReceiveFirstMSFPayment.interested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.UpdatePaymentStatus.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.ReceiveFirstMSFPayment.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.UpdatePaymentStatus.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
 
     this.getExecutiveTaskDetailsWithDelay();
   }
@@ -286,7 +317,7 @@ export default class FileTaskArea extends Vue {
     setTimeout(() => {
       this.getExecutiveTaskDetails();
       this.findClientFileSummary();
-      }, 1000);
+    }, 1000);
   }
 
   getExecutiveTaskDetails() {
@@ -325,6 +356,10 @@ export default class FileTaskArea extends Vue {
     });
   }
 
+  goto(routerName: string){
+    this.$router.push({name: routerName})
+  }
+
   gotoTask(item: any) {
     const params = { ...this.$route.params, taskId: item.taskId };
     // console.log(" gotoTask ------------------ ");
@@ -350,23 +385,43 @@ export default class FileTaskArea extends Vue {
 
     //Commands
 
-    Action.Spine.AddCreditor.notInterested(this.getTaskDetailsAndFileSummaryWithDelay);
-    Action.Spine.UpdateCreditor.notInterested(this.getTaskDetailsAndFileSummaryWithDelay);
-    Action.Spine.RemoveCreditor.notInterested(this.getTaskDetailsAndFileSummaryWithDelay);
+    Action.Spine.AddCreditor.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateCreditor.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveCreditor.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
     Action.Spine.UpdateClPersonalInfo.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.Spine.AddEMandate.notInterested(this.getTaskDetailsAndFileSummaryWithDelay);
-    Action.Spine.RemoveEMandate.notInterested(this.getTaskDetailsAndFileSummaryWithDelay);
-    Action.Spine.UpdateBankInfo.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.AddEMandate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveEMandate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateBankInfo.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.Spine.UpdateBudgetInfo.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.Spine.AttachDocument.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.DetachDocument.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.AttachDocument.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.DetachDocument.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
 
-    Action.Spine.ReceiveFirstMSFPayment.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.UpdatePaymentStatus.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.ReceiveFirstMSFPayment.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.UpdatePaymentStatus.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
   }
 
   findClientFileSummary() {

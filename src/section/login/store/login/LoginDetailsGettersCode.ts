@@ -14,7 +14,7 @@ export class LoginDetailsGettersCode implements LoginDetailsGetters {
   public userName(state: Data.Login.LoginDetails): string {
     return state.userName;
   }
-  public rolList(state: Data.Login.LoginDetails): string[] {
+  public roleList(state: Data.Login.LoginDetails): string[] {
     return state.roleList;
   }
 

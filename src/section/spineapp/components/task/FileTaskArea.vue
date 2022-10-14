@@ -12,6 +12,14 @@
       <v-spacer></v-spacer>
 
       <f-btn
+        label="PULL & START"
+        outlined
+        color="primary"
+        :onClick="() => pullAndStartTask()"
+        v-if="taskDetails.taskState === 'ALLOCATED' || taskDetails.taskState === 'TO_BE_PULLED'"
+      ></f-btn>
+
+       <f-btn
         label="START"
         outlined
         color="primary"
@@ -330,7 +338,7 @@ export default class FileTaskArea extends Vue {
     );
   }
 
-  startTask() {
+  pullAndStartTask() {
     Action.TaskList.PullStartAndMerge.execute1(
       this.$route.params.taskId,
       (output) => {

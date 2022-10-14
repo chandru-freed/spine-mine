@@ -57,13 +57,22 @@
         <v-list-item-title>My Tasks</v-list-item-title>
       </v-list-item>
 
+      <v-list-item
+        @click="goto('Root.MyTicket.ActiveTicketList')"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-ticket-confirmation</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>My Ticket</v-list-item-title>
+      </v-list-item>
 
-      <v-list-item @click="goto('Root.Search.ClientSearch')">
+
+      <!-- <v-list-item @click="goto('Root.Search.ClientSearch')">
         <v-list-item-icon>
           <v-icon>mdi-magnify</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Search</v-list-item-title>
-      </v-list-item>
+      </v-list-item> -->
       
       <!-- <v-list-item link @click="$router.push({ name: 'Root.Notification' })">
         <v-list-item-icon>

@@ -50,7 +50,7 @@
             {{loggedInUser.userName}}
             <!-- John Doe -->
           </span>
-          <small class="text--disabled text-capitalize">Admin</small>
+          <small class="text--disabled text-capitalize"> {{loggedInUser.fullName}}</small>
         </div>
       </div>
 
@@ -142,7 +142,7 @@
       <v-divider class="my-2"></v-divider>
 
       <!-- Logout -->
-      <v-list-item @click="logout">
+      <v-list-item @click="logout" dense>
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             mdi-logout-variant
@@ -164,6 +164,9 @@ import * as Action from "@/../src-gen/action";
 export default class AppBarUserMenu extends Vue { 
   @Store.Getter.Login.LoginDetails.loggedInUser
   loggedInUser: Data.Login.LoginDetails;
+
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
 
   logout() {
     window.localStorage.removeItem("userName");

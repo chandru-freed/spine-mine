@@ -41,7 +41,7 @@ export default class AddTicket extends Vue {
         text: "Succesfully added a ticket",
         pos: "bottom-center"
       });
-      this.$router.push({name:"Root.TaskList.TicketAssignedToMe"})
+      this.$router.push({name:"Root.MyTicket.MyTicketDetails.MyTicketTaskDetails"})
     })
   }
   goBack() {

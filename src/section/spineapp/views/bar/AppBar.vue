@@ -11,9 +11,12 @@
         append-icon="mdi-magnify"
       ></v-text-field>
     </div> -->
-    <div class="mt-6 py-2">
-      <FRemoteAutoCompleteField dense label="Search File" v-model="selectedClientFileNumber" placeholder="Type to search" outlined rounded queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains=" itemText="clientFileNumber" itemValue="clientFileNumber" :on-select="gotoFile"></FRemoteAutoCompleteField>
-    </div>
+    <template v-if="!hideSearch">
+      <div class="mt-6 py-2">
+        <FRemoteAutoCompleteField dense label="Search File" v-model="selectedClientFileNumber" placeholder="Type to search" outlined rounded queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains=" itemText="clientFileNumber" itemValue="clientFileNumber" :on-select="gotoFile"></FRemoteAutoCompleteField>
+      </div>
+      <v-btn icon @click="$router.push({name: 'Root.Search.ClientSearch'})"><v-icon>mdi-magnify</v-icon></v-btn>
+    </template>
     <!-- <v-btn icon @click="$router.push({name: 'Root.Request.CreateRequest'})"><v-icon>mdi-plus-box</v-icon></v-btn> -->
     <v-btn icon @click="$router.push({name: 'Root.CreateClient'})"><v-icon>mdi-account-plus</v-icon></v-btn>
     <v-btn icon @click="$router.push({name: 'Root.TaskList.AddTicket'})"><v-icon>mdi-ticket-confirmation</v-icon></v-btn>
@@ -28,6 +31,7 @@ import AppBarUserMenu from '@/components/AppBarUserMenu';
 import AppBarNotificationMenu from '@/components/AppBarNotificationMenu';
 import FRemoteAutoCompleteField from "@/components/generic/form/field/FRemoteAutoCompleteField"
 import Helper from '../../util/Helper';
+import store, * as Store from "@/../src-gen/store";
 
 @Component({
   components: {
@@ -37,6 +41,10 @@ import Helper from '../../util/Helper';
   }
 })
 export default class AppBar extends Vue {
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[]; 
+
+
   selectedClientFileNumber: string = ""
   gotoFile(selectedVal: any) {
     console.log("selectedClientFileNumber - ", this.selectedClientFileNumber)
@@ -44,6 +52,10 @@ export default class AppBar extends Vue {
     
     this.selectedClientFileNumber = ""
 
+  }
+
+  get showSearch() {
+    return !(this.roleList.includes("SalesRep"))
   }
 }
 </script>

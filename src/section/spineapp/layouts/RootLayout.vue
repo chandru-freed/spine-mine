@@ -34,6 +34,8 @@ import AppBar from "@/section/spineapp/views/bar/AppBar.vue";
 import LeftNavigationBar from "@/section/spineapp/views/bar/LeftNavigationBar.vue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import store, * as Store from "@/../src-gen/store";
+
 @Component({
   components: {
     LeftNavigationBar,
@@ -41,14 +43,22 @@ import * as Action from "@/../src-gen/action";
   },
 })
 export default class RootLayout extends Vue {
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: [];
   mounted() {
     this.getLoggedInUser()
   }
   getLoggedInUser() {
     const userName: any = localStorage.getItem("userName");
     Action.Login.GetUserDetails.execute1(userName, (output) => {
-      
+      this.getRoleListForUser();
     });
   }
+  getRoleListForUser() {
+    Action.Login.GetRoleListForUser.execute(new Data.Login.MyAppId(), (output: any) => {
+          
+    })
+  }
+  
 }
 </script>

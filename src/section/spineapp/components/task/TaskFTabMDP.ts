@@ -28,10 +28,11 @@ export default class TaskFTabMDP extends FTabMDP {
     .addTab({
       tabName: "Completed",
       routerName: "Root.TaskList.TaskCompleted",
-    }).addTab({
-      tabName: "My Ticket",
-      routerName: "Root.TaskList.TicketAssignedToMe",
-    });
+    })
+    // .addTab({
+    //   tabName: "My Ticket",
+    //   routerName: "Root.TaskList.TicketAssignedToMe",
+    // });
   }
 
   getMyRef(): any {

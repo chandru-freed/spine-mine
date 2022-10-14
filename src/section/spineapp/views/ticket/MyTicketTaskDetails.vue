@@ -99,7 +99,7 @@ import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
     "ticket-comment": TicketComment,
   },
 })
-export default class TicketDetails extends Vue {
+export default class MyTicketTaskDetails extends Vue {
   @Store.Getter.Ticket.TicketSummary.ticketTaskDetails
   ticketTaskDetails: Data.Ticket.MyTicketTaskDetails;
 

@@ -12,7 +12,6 @@
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
     </div>
-    <!-- {{ fiPaymentDetails }} -->
     <component
       v-if="fiPaymentDetails"
       :ref="paymentDetailsMetaData.myRefName"
@@ -21,13 +20,41 @@
       @input="(newValue) => updateModel(fiPaymentDetails, newValue, undefined)"
       v-bind="paymentDetailsMetaData.props"
     ></component>
+
     <div class="d-flex justify-end">
       <f-btn
-        label="Check Payment Status"
+        label="Nupay Payment Status"
+        class="mx-2"
+        :onClick="() => updatePaymentPresentedStatus()"
+        outlined
+        color="primary"
+        v-if="fiPaymentDetails.paymentProvider.name == 'NUPAY'"
+        :disabled="fiPaymentDetails.status.name == 'SETTLED'"
+      ></f-btn>
+      <f-btn
+        label="Cashfree Payment Status"
         class="mx-2"
         :onClick="() => checkPaymentStatus()"
         outlined
         color="primary"
+        v-if="fiPaymentDetails.paymentProvider.name == 'CASHFREE'"
+        :disabled="fiPaymentDetails.status.name == 'SETTLED'"
+      ></f-btn>
+      <f-btn
+        label="Request Split"
+        class="mx-2"
+        :onClick="() => requestFundSplit()"
+        outlined
+        color="primary"
+        :disabled="fiPaymentDetails.status.name == 'SETTLED'"
+      ></f-btn>
+      <f-btn
+        label="Split Status"
+        class="mx-2"
+        :onClick="() => updateFundSplitStatus()"
+        outlined
+        color="primary"
+        :disabled="fiPaymentDetails.status.name == 'SETTLED'"
       ></f-btn>
     </div>
   </v-navigation-drawer>
@@ -55,8 +82,7 @@ export default class PaymentDetails extends ModelVue {
   paymentId = this.$route.params.paymentId;
   clientFileNumber = this.$route.params.clientFileNumber;
 
-  
-  fiPaymentDetails = new Data.ClientFile.FiPaymentDetails;
+  fiPaymentDetails = new Data.ClientFile.FiPaymentDetails();
 
   leftFocused = false;
   rightFocused = true;
@@ -72,12 +98,9 @@ export default class PaymentDetails extends ModelVue {
   }
 
   getFiPaymentDetails() {
-    Action.ClientFile.GetFiPaymentDetails.execute1(
-      this.paymentId,
-      (output) => {
-        this.fiPaymentDetails = output
-      }
-    );
+    Action.ClientFile.GetFiPaymentDetails.execute1(this.paymentId, (output) => {
+      this.fiPaymentDetails = output;
+    });
   }
 
   gotoClientFile() {
@@ -90,7 +113,47 @@ export default class PaymentDetails extends ModelVue {
   checkPaymentStatus() {
     Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
       this.getFiPaymentDetails();
+      Snackbar.show({
+        text: "Succesfully Check Payment Status.",
+        pos: "bottom-center",
+      });
     });
+  }
+
+  updatePaymentPresentedStatus() {
+    Action.Spine.UpdatePaymentPresentedStatus.execute1(
+      this.paymentId,
+      (output) => {
+        this.getFiPaymentDetails();
+        Snackbar.show({
+          text: "Succesfully Update Payment Presented Status.",
+          pos: "bottom-center",
+        });
+      }
+    );
+  }
+
+  requestFundSplit() {
+    Action.Spine.RequestFundSplit.execute1(this.paymentId, (output) => {
+      this.getFiPaymentDetails();
+      Snackbar.show({
+        text: "Succesfully Request Fund Split.",
+        pos: "bottom-center",
+      });
+    });
+  }
+  updateFundSplitStatus() {
+    Action.Spine.UpdateFundSplitStatus.execute2(
+      this.paymentId,
+      undefined,
+      (output) => {
+        this.getFiPaymentDetails();
+        Snackbar.show({
+          text: "Succesfully Update Fund Split Status.",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 }
 </script>

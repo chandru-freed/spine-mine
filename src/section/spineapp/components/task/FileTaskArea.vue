@@ -3,7 +3,7 @@
     <v-card-actions class="pa-0 ma-0">
       <v-breadcrumbs :items="items" divider="/" class="py-2">
         <template v-slot:item="{ item }">
-          <v-btn text class="pa-1" small @click="goto(item.routerName)" :disabled="!item.routerName" >
+          <v-btn text class="pa-1" small @click="goto(item.routerName)" color="primary" :disabled="!item.routerName" >
             {{ item.text }}
           </v-btn>
          

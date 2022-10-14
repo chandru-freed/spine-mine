@@ -1,5 +1,5 @@
 <template>
-  <div class="TaskAssignedToMe">
+  <div class="TaskCompleted">
     <v-card class="pa-0 ma-0" color="transparent">
       <task-tab v-model="tab"></task-tab>
       <!--  COMPLETED TASK -->
@@ -9,6 +9,7 @@
         class="elevation-0"
         :search="search"
         item-key="completedTaskId"
+        style="height: calc(100vh);"
       >
         <template v-slot:top>
           <v-toolbar flat>

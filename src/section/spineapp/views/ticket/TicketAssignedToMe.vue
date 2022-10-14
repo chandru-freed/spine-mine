@@ -9,6 +9,7 @@
         class="elevation-0"
         item-key="taskId"
         :search="search"
+        style="height: calc(100vh);"
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -86,12 +87,13 @@ import FBtn from "@/components/generic/FBtn.vue";
 })
 export default class TicketAssignedToMe extends Vue {
   tab: number = 3;
+  search = "";
 
   myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
 
   allocatedTicketTaskGridHeaderList = [
     // { text: "Task Id", value: "taskId" },
-    { text: "Ticket Number", value: "cid", align: "start" },
+    { text: "Ticket Number jkjkjk", value: "cid", align: "start" },
     { text: "Subject", value: "displayId", align: "start" },
     // { text: "Task", value: "taskName", align: "start" },
     { text: "Priority", value: "priority" },

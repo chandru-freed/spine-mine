@@ -5,7 +5,7 @@
       <my-ticket-tab v-model="tab"></my-ticket-tab>
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
-        :items="completedTicketList"
+        :items="myTicketTaskList"
         class="elevation-0"
         item-key="taskId"
         :search="search"
@@ -59,7 +59,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | (date - time) }} ({{
+            {{ item.allocatedTime }} ({{
               item.allocatedTime | fromNow
             }})
           </span>
@@ -85,7 +85,9 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class CompletedTicketList extends Vue {
-  tab: number = 3;
+  tab: number = 1;
+
+  search: string = ""
 
   myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
 
@@ -103,17 +105,11 @@ export default class CompletedTicketList extends Vue {
     // { text: "", value: "action", sortable: false },
   ];
 
-
-  get completedTicketList() {
-    return this.myTicketTaskList.filter((ticket: Data.Ticket.MyTicketTaskDetails) => {
-      ticket.taskState === "COMPLETED"
-    })
-  }
   mounted() {
     this.getMyTicketTaskList();
   }
   getMyTicketTaskList() {
-    Action.Ticket.GetMyTicketTaskList.execute((output) => {
+    Action.Ticket.GetMyTicketCompletedList.execute((output) => {
       this.myTicketTaskList = output;
     });
   }

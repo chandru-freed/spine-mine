@@ -13,6 +13,7 @@ export default class CustomFilters {
     this.parseJson();
     this.emptyObject();
     this.withBase();
+    this.toDateAndTime();
   }
 
   private static toUSD() {
@@ -41,6 +42,11 @@ export default class CustomFilters {
 
   private static toDateTime() {
     Vue.filter("date-time", (value: any) => {
+      return Moment(new Date(value)).format("MMM Do, h:mm a");
+    });
+  }
+  private static toDateAndTime() {
+    Vue.filter("datetime", (value: any) => {
       return Moment(new Date(value)).format("MMM Do, h:mm a");
     });
   }

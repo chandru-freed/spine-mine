@@ -59,7 +59,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | (date - time) }} ({{
+            {{ item.allocatedTime }} ({{
               item.allocatedTime | fromNow
             }})
           </span>
@@ -85,7 +85,8 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class ActiveTicketList extends Vue {
-  tab: number = 3;
+  tab: number = 0;
+  search: string = ""
 
   myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
 
@@ -107,7 +108,7 @@ export default class ActiveTicketList extends Vue {
     this.getMyTicketTaskList();
   }
   getMyTicketTaskList() {
-    Action.Ticket.GetMyTicketTaskList.execute((output) => {
+    Action.Ticket.GetMyTicketActiveList.execute((output) => {
       this.myTicketTaskList = output;
     });
   }

@@ -50,12 +50,11 @@ export default class EMandateFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         mandatory: true,
         options: [
-          { id: "SAVINGS", name: "SAVINGS" },
-          { id: "CURRENT", name: "CURRENT" },
+          { id: "SAVINGS", name: "Savings" },
+          { id: "CURRENT", name: "Current" },
         ],
         optionLabel: "name",
         optionValue: "id",
-        returnObject: true
       })
     ).addField(
       new FCurrencyFieldMDP({
@@ -71,7 +70,8 @@ export default class EMandateFFormMDP extends FFormMDP {
         dataSelectorKey: "firstCollectionDate",
         label: "First Collection Date",
         boundaryClass: "col-4",
-        futureDaysDisabled: true,
+        pastDaysDisabled: true,
+        futureDaysDisabled: false,
       })
     ).addField(
       new FSelectFieldMDP({
@@ -100,7 +100,7 @@ export default class EMandateFFormMDP extends FFormMDP {
       new AddressFMiniFormMDP({
         taskRoot: this.taskRoot,
         parent: this,
-        dataSelectorKey: "bankAddress",
+        dataSelectorKey: "eMandateBankInfo.bankAddress",
         disabled: taskRoot.taskDisabled,
         label: "Bank Address",
       })

@@ -53,6 +53,7 @@
                   small
                   color="primary"
                   :onClick="() => presentPSEntry(item.psEntryId)"
+                  :disabled="item.status != 'SCHEDULED'"
                 ></f-btn>
               </template>
             </v-data-table>

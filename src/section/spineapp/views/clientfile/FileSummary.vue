@@ -7,7 +7,7 @@
       </v-card>
     </div>
     <div class="col-2">
-      <v-card class="mx-auto py-1" outlined min-height="101">
+      <v-card class="mx-auto py-1 d-flex" outlined min-height="101">
         <v-card-actions>
           <v-row dense>
             <v-col class="col-12">
@@ -164,7 +164,7 @@ export default class FileSummary extends Vue {
         },
         {
           name: "Receive Payment",
-          routerName: "Root.ClientFile.Request.RecordPayment",
+          routerName: "Root.ClientFile.Request.ReceivePayment",
         },
         {
           name: "Receive MSF Payment",

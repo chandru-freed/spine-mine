@@ -34,7 +34,7 @@
             v-if="!!selectedRequestType"
             :ref="selectedRequestType.myRefName"
             :is="selectedRequestType.componentName"
-            v-model="taskDetailsInput"
+            v-model="fileCreateRequestInput"
             v-bind="selectedRequestType.props"
           ></component>
         </v-card-text>
@@ -86,11 +86,8 @@ export default class FileCreateRequest extends Vue {
 
   selectedRequestType: any = {};
 
-  get taskDetailsInput() {
-    this.createEMandateInput.eMandateBankInfo = {
-      ...this.createEMandateInput.eMandateBankInfo,
-      accountHolderName: this.clientFileBasicInfo.clientBasicInfo.fullName,
-    };
+  get fileCreateRequestInput() {
+    this.createEMandateInput.eMandateBankInfo.accountHolderName = this.clientFileBasicInfo.clientBasicInfo.fullName;
     return this.createEMandateInput;
   }
   get requestTypeFlowMapList() {
@@ -229,6 +226,7 @@ export default class FileCreateRequest extends Vue {
   }
 
   createEMandate() {
+    console.log("createEMandate--- ", this.createEMandateInput);
     this.createEMandateInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
     Action.Spine.CreateEMandate.execute(this.createEMandateInput, (output) => {
@@ -239,10 +237,10 @@ export default class FileCreateRequest extends Vue {
   }
 
   populateBankDetails(details: any) {
-    this.taskDetailsInput.bankAddress.addressLine1 = details.ADDRESS;
-    this.taskDetailsInput.bankAddress.city = details.CITY;
-    this.taskDetailsInput.bankAddress.state = details.STATE;
-    this.taskDetailsInput.bankAddress.country = "India";
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.addressLine1 = details.ADDRESS;
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.city = details.CITY;
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.state = details.STATE;
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.country = "India";
   }
 
   getNupayBankMasterList() {

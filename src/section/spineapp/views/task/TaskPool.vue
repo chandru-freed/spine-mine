@@ -1,5 +1,5 @@
 <template>
-  <div class="TaskAssignedToMe">
+  <div class="TaskPool">
     <!-- TASK TAB -->
     <v-card class="pa-0 ma-0" color="transparent">
       <task-tab v-model="tab"></task-tab>
@@ -11,6 +11,7 @@
         class="elevation-0"
         :search="search"
         item-key="taskId"
+        style="height: calc(100vh);"
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -88,7 +89,7 @@ import FBtn from "@/components/generic/FBtn.vue";
     "f-btn":FBtn
   },
 })
-export default class TaskAssignedToMe extends Vue {
+export default class TaskPool extends Vue {
   tab = 0;
 
   selected = [];

@@ -57,7 +57,8 @@ export default class ReceivePaymentFFormMDP extends FFormMDP {
         label: "Presented Date",
         boundaryClass: "col-3",
         mandatory: true,
-        futureDaysDisabled: true,
+        pastDaysDisabled: true,
+        futureDaysDisabled: false,
       })
     ).addField(
       new FSelectFieldMDP({

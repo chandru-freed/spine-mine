@@ -11,6 +11,7 @@
         class="elevation-0"
         :search="search"
         item-key="taskId"
+        style="height: calc(100vh);"
       >
         <template v-slot:top>
           <v-toolbar flat>

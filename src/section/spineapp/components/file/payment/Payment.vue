@@ -10,7 +10,7 @@
         >
           <template v-slot:[`item.presentedDate`]="{ item }">
             <span class="grey--text">
-              {{ item.presentedDate | fromNow }}
+              {{ item.presentedDate | date }}
             </span>
           </template>
           <template v-slot:item.totalAmount="{ item }">

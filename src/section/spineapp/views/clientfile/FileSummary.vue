@@ -164,7 +164,7 @@ export default class FileSummary extends Vue {
         },
         {
           name: "Receive Payment",
-          routerName: "Root.ClientFile.Request.RecordPayment",
+          routerName: "Root.ClientFile.Request.ReceivePayment",
         },
         {
           name: "Receive MSF Payment",

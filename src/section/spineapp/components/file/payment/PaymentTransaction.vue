@@ -10,7 +10,7 @@
         >
           <template v-slot:[`item.txnDate`]="{ item }">
             <span class="grey--text">
-              {{ item.txnDate | fromNow }}
+              {{ item.txnDate | date }}
             </span>
           </template>
         </v-data-table>

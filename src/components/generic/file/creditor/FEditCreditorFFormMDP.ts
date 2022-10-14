@@ -10,6 +10,7 @@ import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
 import * as Snackbar from "node-snackbar";
 import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
+import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
 
 export default class FEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -34,7 +35,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
       })
     )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "creditorBalance",
           label: "Creditor Balance",

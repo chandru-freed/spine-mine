@@ -8,11 +8,12 @@
     >
       <div class="d-flex align-center mr-4">
         <v-card-title
-          ><v-icon class="mr-3">mdi-check-circle</v-icon
+          ><v-icon class="mr-3" color="success">mdi-check-circle</v-icon
           >{{ summaryMetaData.name }}</v-card-title
         >
         <v-spacer />
         <f-btn
+          :disabled="taskDisabled"
           outlined
           color="primary"
           :onClick="() => goToStep(summaryMetaData.stepIndex)"
@@ -37,6 +38,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
+import Task from "@/section/spineapp/util/Task";
 @Component({
   components: {
     FForm,
@@ -87,6 +89,10 @@ export default class StepSummary extends Vue {
       creditosCount: this.taskFormOutput.creditorInfo?.creditorList.length,
       totalDebt: this.taskFormOutput.creditorInfo?.totalDebt || "NA",
     };
+  }
+
+  get taskDisabled(): boolean {
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
   get bankInfo() {

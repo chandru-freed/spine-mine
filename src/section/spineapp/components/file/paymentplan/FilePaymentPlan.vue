@@ -73,6 +73,7 @@ export default class FilePaymentPlan extends ModelVue {
     setTimeout(() => {
       this.getFiPaymentPlanInfo();
       this.getFiCreditorInfo();
+      this.getFiPaymentList();
     }, 1000);
   }
 
@@ -94,6 +95,14 @@ export default class FilePaymentPlan extends ModelVue {
   getFiCreditorInfo() {
     console.log("getFiCreditorInfo");
     Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
+  }
+
+  //ACTION
+  getFiPaymentList() {
+    Action.ClientFile.GetFiPaymentList.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {}
     );

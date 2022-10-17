@@ -40,7 +40,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         label: "Program Code",
         mandatory: true,
         options: ["PM", "AF"],
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
       })
     ).addField(
       new FCurrencyFieldMDP({
@@ -48,23 +48,23 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         dataSelectorKey: "creditorInfo.totalDebt",
         label: "Outstanding Amount",
         mandatory: true,
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
         disabled: true
       })
-    ).addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.tenor",
-        label: "Tenor",
-        mandatory: true,
-        boundaryClass: "col-6",
-      })
-    ).addField(
+    ) .addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.settlementPercentage",
         label: "Settlement Percentage",
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
+      })
+    ).addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.repaymentAmount",
+        label: "Repayment Amount",
+        boundaryClass: "col-3",
+        disabled: true,
       })
     ).addField(
       new FSelectDateFieldMDP({
@@ -72,17 +72,16 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         dataSelectorKey: "paymentPlan.ppCalculator.firstDraftDate",
         label: "First Draft Date",
         mandatory: true,
-        boundaryClass: "col-6",
-        pastDaysDisabled: true
+        boundaryClass: "col-3",
+        pastDaysDisabled: true,
       })
     ).addField(
-      new FSelectFieldMDP({
+      new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.feeCode",
-        label: "Fee Code",
-        mandatory: true,
-        boundaryClass: "col-6",
-        options: ["MSFFee"]
+        dataSelectorKey: "paymentPlan.ppCalculator.spaDraftDay",
+        label: "SPA Draft Day",
+        boundaryClass: "col-3",
+        disabled: true,
       })
     ).addField(
       new FSelectDateFieldMDP({
@@ -90,7 +89,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         dataSelectorKey: "paymentPlan.ppCalculator.feeFirstDraftDate",
         label: "Fee First Draft Date",
         mandatory: true,
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
         pastDaysDisabled: true
       })
     ).addField(
@@ -98,23 +97,23 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.msfDraftDay",
         label: "MSF Draft Day",
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
         disabled: true,
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.tenor",
+        label: "Tenor",
+        mandatory: true,
+        boundaryClass: "col-3",
       })
     ).addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.msfDraftAmount",
         label: "MSF Amount",
-        boundaryClass: "col-6",
-        disabled: true,
-      })
-    ).addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.spaDraftDay",
-        label: "SPA Draft Day",
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
         disabled: true,
       })
     ).addField(
@@ -122,15 +121,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.totalMonthlyObligation",
         label: "Monthly Obligation",
-        boundaryClass: "col-6",
-        disabled: true,
-      })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.repaymentAmount",
-        label: "Repayment Amount",
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
         disabled: true,
       })
     ).addField(
@@ -138,8 +129,17 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "budgetInfo.proposedDSPayment",
         label: "Affordability",
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
         disabled: true,
+      })
+    ).addField(
+      new FSelectFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.feeCode",
+        label: "Fee Code",
+        mandatory: true,
+        boundaryClass: "col-3",
+        options: ["MSFFee"]
       })
     ).addAction(
       new FBtnMDP({

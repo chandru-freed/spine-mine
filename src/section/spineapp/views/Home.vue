@@ -62,7 +62,7 @@
         <v-card class="mx-auto" max-width="344" outlined  @click="gotoRouter('Root.MyTicket.ActiveTicketList')">
           <v-list-item three-line>
             <v-list-item-content>
-              <div class="text-overline mb-4">My Tasks</div>
+              <div class="text-overline mb-4">My Tickets</div>
               <v-list-item-title class="text-h4 mb-1">
                 {{myDashboardSummary.ticketActiveCount}}  /  {{myDashboardSummary.ticketCompletedToday}}
               </v-list-item-title>

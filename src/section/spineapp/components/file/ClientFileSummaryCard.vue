@@ -1,8 +1,44 @@
 <template>
   <div>
     <!-- {{ fileSummary }} -->
+    <div class="row pa-3 pb-0">
+      <v-toolbar
+        class="elevation-0"
+        rounded
+        outlined
+      >
+        <v-toolbar-title> 
+          <v-btn icon>
+            <v-icon size="30" color="secondary">mdi-file</v-icon>
+          </v-btn>
+          <span class="text-uppercase subtitle-1 font-weight-light px-2">{{ clientFileBasicInfo.clientFileNumber}}</span>
+          <span class="body-1 px-2">{{ clientFileBasicInfo.clientBasicInfo.fullName }} </span>
+          <!-- <v-btn color="grey" outlined class="subtitle-1 pa-2">{{ clientFileBasicInfo.clientBasicInfo.mobile }} </v-btn> -->
+          <v-chip color="grey" outlined class="subtitle-1 pa-2">{{ clientFileBasicInfo.clientBasicInfo.mobile  }} </v-chip>
+          <span class="caption px-4">{{ clientFileBasicInfo.clientBasicInfo.emailId }} </span>
+          <!-- <v-spacer></v-spacer> -->
+          <v-chip
+            outlined
+            small
+            color="secondary"
+            v-if="clientFileBasicInfo.assignedRM"
+            class="ml-2"
+            >{{ "RM : " + clientFileBasicInfo.assignedRM }}</v-chip
+          >
+          <v-chip
+            outlined
+            small
+            color="secondary"
+            v-if="clientFileBasicInfo.assignedSalesRep"
+            class="ml-2"
+            >{{ "Sales Rep : " + clientFileBasicInfo.assignedSalesRep }}</v-chip
+          >
+          
+        </v-toolbar-title>
+      </v-toolbar>
+    </div>
     <div class="row" v-if="fileSummary">
-      <div class="col pb-0">
+      <!-- <div class="col pb-0">
         <v-list-item>
           <v-list-item-avatar icon>
             <v-icon size="30" color="secondary">mdi-file</v-icon>
@@ -23,7 +59,7 @@
             ></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-      </div>
+      </div> -->
       <div class="col">
         <v-sheet color="secondary" outlined rounded>
           <v-card flat :min-height="minHeight">
@@ -139,10 +175,13 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
-
+import AboutView from "@/views/AboutView.vue";
+import FTextField from "@/components/generic/form/field/FTextField.vue"
 @Component({
   components: {
     "f-btn": FBtn,
+    "f-text-field": FTextField,
+    AboutView,
   },
 })
 export default class ClientFileSummaryCard extends Vue {

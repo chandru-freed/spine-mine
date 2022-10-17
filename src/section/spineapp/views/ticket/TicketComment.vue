@@ -74,7 +74,7 @@ export default class TicketComment extends Vue {
     new Data.Ticket.AddCommentOnTicketInput();
 
   get taskId() {
-    return this.$route.params.taskId;
+    return this.$route.params.myTicketId;
   }
 
   get isTicketActive() {

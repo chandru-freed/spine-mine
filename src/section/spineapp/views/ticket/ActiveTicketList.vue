@@ -116,7 +116,7 @@ export default class ActiveTicketList extends Vue {
   gotoTask(item: any) {
     this.$router.push({
       name: "Root.TaskList.Ticket.TicketDetails",
-      params: { taskId: item.taskId, ticketNumber: item.cid },
+      params: { myTicketId: item.taskId, ticketNumber: item.cid },
     });
   }
 }

@@ -14,6 +14,7 @@ export default class CustomFilters {
     this.emptyObject();
     this.withBase();
     this.toDateAndTime();
+    this.maskPhone();
   }
 
   private static toUSD() {
@@ -100,5 +101,56 @@ export default class CustomFilters {
       // console.log(process.env.BASE_URL);
       return process.env.BASE_URL + value;
     });
+  }
+
+  private static maskPhone() {
+    Vue.filter("phone", (value: string) => {
+      // console.log('I am in custom filter: withBase : ');
+      // console.log(process.env.BASE_URL);
+      return this.formatDefault(value, "##### #####");
+    });
+  }
+
+
+  private static formatDefault(value: string, mask: string) {
+    value = this.clearValue(value);
+    let result = "";
+    let count = 0;
+    if (value) {
+      let arrayValue = value.toString().split("");
+      let arrayMask = mask.toString().split("");
+      for (var i = 0; i < arrayMask.length; i++) {
+        if (i < arrayValue.length + count) {
+          if (arrayMask[i] === "#") {
+            result = result + arrayValue[i - count];
+          } else {
+            result = result + arrayMask[i];
+            count++;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  private static clearValue(value: string) {
+    let result = "";
+    if (value) {
+      let arrayValue = value.toString().split("");
+      for (var i = 0; i < arrayValue.length; i++) {
+        if (this.isInteger(arrayValue[i])) {
+          result = result + arrayValue[i];
+        }
+      }
+    }
+    return result;
+  }
+
+  public static isInteger(value: string) {
+    let result = false;
+    if (Number.isInteger(parseInt(value))) {
+      result = true;
+    }
+    return result;
   }
 }

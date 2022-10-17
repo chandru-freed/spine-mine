@@ -45,6 +45,9 @@ export default class FilePaymentPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
+    @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
+  budgetInfoStore: Data.ClientFile.BudgetInfo;
+
   //METADATA
   get paymentPlanInfoMetaData() {
     return new FilePaymentPlanFPaymentPlanMDP({
@@ -74,13 +77,15 @@ export default class FilePaymentPlan extends ModelVue {
       this.getFiPaymentPlanInfo();
       this.getFiCreditorInfo();
       this.getFiPaymentList();
+      this.getBudgetInfo();
     }, 1000);
   }
 
   get paymentPlanWithTotalDebt() {
     return new Data.ClientFile.FiPaymentPlanWithCreditor(
       this.fiPaymentPlanInfo,
-      this.fiCreditorInfo
+      this.fiCreditorInfo,
+      this.budgetInfoStore
     );
   }
 
@@ -103,6 +108,13 @@ export default class FilePaymentPlan extends ModelVue {
   //ACTION
   getFiPaymentList() {
     Action.ClientFile.GetFiPaymentList.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getBudgetInfo() {
+    Action.ClientFile.GetBudgetInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {}
     );

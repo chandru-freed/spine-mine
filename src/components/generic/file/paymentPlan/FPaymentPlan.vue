@@ -56,6 +56,11 @@
               <template v-slot:[`item.feeAmount`]="{ item }">
                 {{ item.feeAmount | toINR }}
               </template>
+
+              <template v-slot:[`item.status`]="{ item }">
+                <v-chip small outlined>{{ item.status }}</v-chip>
+              </template>
+
               <template v-slot:item.action="{ item }">
                 <div class="d-flex">
                   <f-btn
@@ -87,8 +92,7 @@
               sort-by="draftDate"
               class="elevation-0"
             >
-
-            <template v-slot:top>
+              <template v-slot:top>
                 <v-toolbar flat>
                   <v-toolbar-title>Payment Presented</v-toolbar-title>
                   <v-divider class="mx-4" inset vertical></v-divider>
@@ -108,7 +112,11 @@
               <template v-slot:[`item.feeAmount`]="{ item }">
                 {{ item.feeAmount | toINR }}
               </template>
-              
+              <template v-slot:[`item.status`]="{ item }">
+                <v-chip small color="green" text-color="green" outlined>{{
+                  item.status
+                }}</v-chip>
+              </template>
             </v-data-table>
           </v-card>
         </v-tab-item>

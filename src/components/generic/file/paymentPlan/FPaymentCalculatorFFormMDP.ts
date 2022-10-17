@@ -133,6 +133,14 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
         disabled: true,
       })
+    ).addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "budgetInfo.proposedDSPayment",
+        label: "Affordability",
+        boundaryClass: "col-6",
+        disabled: true,
+      })
     ).addAction(
       new FBtnMDP({
         label: "Calculate Payment Schedule",

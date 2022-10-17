@@ -9,42 +9,79 @@
           rounded
         ></v-text-field>
       </div> -->
-      <div class="col-4" v-for="item in items" :key="item.title">
-        <v-card class="mx-auto" max-width="344" outlined>
+      <div class="col-4" >
+        <v-card class="mx-auto" max-width="344" outlined  @click="gotoRouter('Root.MyClientFiles')">
           <v-list-item three-line>
             <v-list-item-content>
-              <div class="text-overline mb-4">{{ item.title }}</div>
-              <v-list-item-title class="text-h6 mb-1">
-                {{ item.heading + " (" + item.count + ")" }}
+              <div class="text-overline mb-4">My Clients</div>
+              <v-list-item-title class="text-h4 mb-1">
+                {{myDashboardSummary.myClientFileCount}}
               </v-list-item-title>
-              <!-- <v-list-item-subtitle
-                >Greyhound divisely hello coldly
-                fonwderfully</v-list-item-subtitle
-              > -->
-              <v-list-item-title class="text-h6 mb-1" v-if="item.subHeading">
+              <v-list-item-subtitle
+                >Files Owned</v-list-item-subtitle
+              >
+              <!-- <v-list-item-title class="text-h6 mb-1" v-if="item.subHeading">
                 {{ item.subHeading + " (" + item.subCount + ")" }}
-              </v-list-item-title>
+              </v-list-item-title> -->
             </v-list-item-content>
 
             <v-list-item-avatar
               tile
-              size="80"
-              color="primary"
-            ></v-list-item-avatar>
-          </v-list-item>
-
-          <v-card-actions>
-            <f-btn
-              :onClick="() =>gotoRouter(item.routerName)"
-              :label="item.btnName"
-              outlined
-              rounded
-              text
+              size="60"
             >
-            </f-btn>
-          </v-card-actions>
+            <v-icon size="60">mdi-file</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
         </v-card>
       </div>
+
+      <div class="col-4" >
+        <v-card class="mx-auto" max-width="344" outlined  @click="gotoRouter('Root.TaskList.TaskAssignedToMe')">
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">My Tasks</div>
+              <v-list-item-title class="text-h4 mb-1">
+                {{myDashboardSummary.taskAssignedCount}} / {{myDashboardSummary.taskCompletedToday}}
+              </v-list-item-title>
+              <v-list-item-subtitle
+                >Assigned / Completed Today</v-list-item-subtitle
+              >
+            </v-list-item-content>
+
+            <v-list-item-avatar
+              tile
+              size="60"
+            >
+            <v-icon size="60">mdi-marker-check</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+
+      <div class="col-4" >
+        <v-card class="mx-auto" max-width="344" outlined  @click="gotoRouter('Root.MyTicket.ActiveTicketList')">
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">My Tasks</div>
+              <v-list-item-title class="text-h4 mb-1">
+                {{myDashboardSummary.ticketActiveCount}}  /  {{myDashboardSummary.ticketCompletedToday}}
+              </v-list-item-title>
+              <v-list-item-subtitle
+                >Assigned  / Completed Today</v-list-item-subtitle
+              >
+            </v-list-item-content>
+
+            <v-list-item-avatar
+              tile
+              size="60"
+            >
+            <v-icon size="60">mdi-ticket-confirmation</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+     
+      
     </div>
   </div>
 </template>

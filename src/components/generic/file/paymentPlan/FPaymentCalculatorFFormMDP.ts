@@ -73,6 +73,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         label: "First Draft Date",
         mandatory: true,
         boundaryClass: "col-6",
+        pastDaysDisabled: true
       })
     ).addField(
       new FSelectFieldMDP({
@@ -89,7 +90,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         dataSelectorKey: "paymentPlan.ppCalculator.feeFirstDraftDate",
         label: "Fee First Draft Date",
         mandatory: true,
-        boundaryClass: "col-6",
+        boundaryClass: "col-6"
       })
     ).addField(
       new FNumberFieldMDP({

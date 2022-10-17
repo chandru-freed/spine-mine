@@ -1,6 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
@@ -33,7 +34,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
       })
     )
       .addField(
-        new FTextFieldMDP({
+        new FPhoneFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "creditorInfo.creditorPhoneNumber",
           label: "Creditor Phone Number",

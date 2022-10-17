@@ -4,6 +4,7 @@ import Moment from "moment";
 export default class CustomFilters {
   public static setup() {
     this.toUSD();
+    this.toINR();
     this.toDate();
     this.fromNow();
     this.duration();
@@ -20,6 +21,13 @@ export default class CustomFilters {
   private static toUSD() {
     Vue.filter("toUSD", (value: any) => {
       return `$${value}`;
+    });
+  }
+
+
+  private static toINR() {
+    Vue.filter("toINR", (value: any) => {
+      return `₹ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
     });
   }
 

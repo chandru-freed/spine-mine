@@ -46,9 +46,19 @@
               <template v-slot:[`item.draftDate`]="{ item }">
                 {{ item.draftDate | date }}
               </template>
+
+              <template v-slot:[`item.totalAmount`]="{ item }">
+                {{ item.totalAmount | toINR }}
+              </template>
+              <template v-slot:[`item.settlementReserve`]="{ item }">
+                {{ item.settlementReserve | toINR }}
+              </template>
+              <template v-slot:[`item.feeAmount`]="{ item }">
+                {{ item.feeAmount | toINR }}
+              </template>
               <template v-slot:item.action="{ item }">
                 <f-btn
-                  label="Present PS Entry"
+                  label="Present"
                   outlined
                   small
                   color="primary"
@@ -130,7 +140,8 @@ export default class FPaymentPlan extends ModelVue {
     },
     { text: "Total Amount", value: "totalAmount" },
     { text: "Settlement Amount", value: "settlementReserve" },
-    { text: "Fee", value: "fee" },
+    { text: "Fee Amount", value: "feeAmount" },
+    { text: "Status", value: "status" },
     { text: "Action ", value: "action" },
   ];
 

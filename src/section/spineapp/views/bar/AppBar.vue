@@ -12,12 +12,12 @@
       ></v-text-field>
     </div> -->
     <template v-if="showSearch">
-      <div class="mt-6 py-2">
-        <FRemoteAutoCompleteField dense label="Search File" v-model="selectedClientFileNumber" placeholder="Type to search" outlined rounded queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains=" itemText="clientFileNumber" itemValue="clientFileNumber" :on-select="gotoFile"></FRemoteAutoCompleteField>
+      <div class=" mt-6 py-2">
+        <FClientFileAutoCompleteField  dense  v-model="selectedClientFileNumber" placeholder="Type to Search File"  queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains=" itemText="clientFileNumber" itemValue="clientFileNumber" :on-select="gotoFile"></FClientFileAutoCompleteField>
       </div>
       <v-btn icon @click="$router.push({name: 'Root.Search.ClientSearch'})"><v-icon>mdi-magnify</v-icon></v-btn>
     </template>
-    <v-spacer></v-spacer>
+    <!-- <v-spacer></v-spacer> -->
     <!-- <v-btn icon @click="$router.push({name: 'Root.Request.CreateRequest'})"><v-icon>mdi-plus-box</v-icon></v-btn> -->
     <v-btn icon @click="$router.push({name: 'Root.CreateClient'})"><v-icon>mdi-account-plus</v-icon></v-btn>
     <v-btn icon @click="$router.push({name: 'Root.MyTicket.AddTicket'})"><v-icon>mdi-ticket-confirmation</v-icon></v-btn>
@@ -30,7 +30,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import AppBarUserMenu from '@/components/AppBarUserMenu';
 import AppBarNotificationMenu from '@/components/AppBarNotificationMenu';
-import FRemoteAutoCompleteField from "@/components/generic/form/field/FRemoteAutoCompleteField"
+import FClientFileAutoCompleteField from "@/components/generic/form/field/FClientFileAutoCompleteField"
 import Helper from '../../util/Helper';
 import store, * as Store from "@/../src-gen/store";
 
@@ -38,7 +38,7 @@ import store, * as Store from "@/../src-gen/store";
   components: {
     AppBarUserMenu,
     AppBarNotificationMenu,
-    FRemoteAutoCompleteField
+    FClientFileAutoCompleteField
   }
 })
 export default class AppBar extends Vue {

@@ -120,7 +120,7 @@ export default class MyTicketTaskDetails extends Vue {
   }
 
   get taskId() {
-    return this.$route.params.taskId;
+    return this.$route.params.myTicketId;
   }
 
   get taskSummary(): any {

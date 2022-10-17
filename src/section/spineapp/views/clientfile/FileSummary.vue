@@ -1,13 +1,12 @@
 <template>
-  <div class="row">
+  <div class="row ">
     <div class="col-10">
-      <v-card class="mx-auto pa-2" outlined>
-        <!-- <client-file-summary :file-details="fileDetails"></client-file-summary> -->
+      <!-- <v-card class="mx-auto pa-2" outlined> -->
         <client-file-summary-card></client-file-summary-card>
-      </v-card>
+      <!-- </v-card> -->
     </div>
     <div class="col-2">
-      <v-card class="mx-auto py-1 d-flex" outlined min-height="101">
+      <v-card class=" py-1 " outlined min-height="155">
         <v-card-actions>
           <v-row dense>
             <v-col class="col-12">

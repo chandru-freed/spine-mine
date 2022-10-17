@@ -65,7 +65,7 @@
                     small
                     color="primary"
                     :onClick="() => presentPSEntry(item.psEntryId)"
-                    :disabled="item.status != 'SCHEDULED'"
+                    :disabled="disabledActionBtn == true"
                   ></f-btn>
                   <f-btn
                     label="Skip"
@@ -73,7 +73,7 @@
                     small
                     color="primary"
                     :onClick="() => skip(item.psEntryId)"
-                    :disabled="item.status != 'SCHEDULED'"
+                    :disabled="disabledActionBtn == true"
                   ></f-btn>
                 </div>
               </template>
@@ -275,5 +275,8 @@ export default class FPaymentPlan extends ModelVue {
 
   @Prop({ default: false })
   hideMSFTab: boolean;
+
+  @Prop({ default: false })
+  disabledActionBtn: boolean;
 }
 </script>

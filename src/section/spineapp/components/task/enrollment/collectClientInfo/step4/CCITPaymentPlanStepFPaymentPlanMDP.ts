@@ -12,7 +12,8 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
       myRefName: "paymentPlanRef",
       disabled: taskRoot.taskDisabled,
       dataSelectorKey: "taskOutput",
-      hideMSFTab: true
+      hideMSFTab: true,
+      disabledActionBtn: true
     });
 
     this.addAction(

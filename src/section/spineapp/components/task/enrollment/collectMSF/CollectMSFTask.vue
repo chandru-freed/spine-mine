@@ -26,6 +26,7 @@ import CollectMSFTaskFStepperMDP from "./CollectMSFTaskFStepperMDP";
 import PaymentDetailsFFormMDP from "@/section/spineapp/views/clientfile/PaymentDetailsFFormMDP";
 import FForm from "@/components/generic/form/FForm.vue";
 import Task from "@/section/spineapp/util/Task";
+import * as Snackbar from "node-snackbar";
 
 @Component({
   components: {

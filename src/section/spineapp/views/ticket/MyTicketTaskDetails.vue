@@ -151,18 +151,18 @@ export default class MyTicketTaskDetails extends Vue {
     return () => {
       setTimeout(() => {
         this.getMyTicketTaskDetails();
-      }, 500);
+      }, 1000);
     };
   }
 
   reAssignTicket() {
     this.reAssignTicketInput.taskId = this.taskId;
     Action.Ticket.ReassignTicket.execute(this.reAssignTicketInput, (output) => {
+      this.reAssignTicketDialog = false;
       Snackbar.show({
         text: "Succesfully reassigned",
         pos: "bottom-center",
       });
-      this.$router.back();
     });
   }
 

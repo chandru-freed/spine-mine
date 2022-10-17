@@ -20,20 +20,11 @@ export default class SEMLTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.clientFileNumber",
-                label: "File Number",
-                mandatory: true,
-                boundaryClass: "col-4",
-                disabled: true
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
                 dataSelectorKey: "taskInput.eMandateId",
                 label: "EMandate Id",
                 mandatory: true,
-                boundaryClass: "col-4",
-                disabled: true
+                boundaryClass: "col-6",
+                readonly: true
             })
         ).addField(
             new FTextFieldMDP({
@@ -41,8 +32,8 @@ export default class SEMLTStepFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskInput.eMandateLink",
                 label: "EMandateLink Id",
                 mandatory: true,
-                boundaryClass: "col-4",
-                disabled: true
+                boundaryClass: "col-6",
+                readonly: true
             })
         ).addAction(
             new FBtnMDP({

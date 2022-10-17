@@ -49,7 +49,7 @@ export default class ClientFileLayout extends Vue {
   }
 
   findClientFileSummary() {
-    Action.ClientFile.FindClientFileSummary.execute1(
+    Action.ClientFile.GetClientFileSummary.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {}
     );

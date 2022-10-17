@@ -17,15 +17,7 @@ export default class ECTStepFFormMDP extends FFormMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
-        this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.clientFileId",
-                label: "File Number",
-                mandatory: true,
-                disabled: true
-            })
-        ).addAction(
+        this.addAction(
             new FBtnMDP({
                 label: "Mark Complete",
                 onClick: this.validateAndMarkComplete(),

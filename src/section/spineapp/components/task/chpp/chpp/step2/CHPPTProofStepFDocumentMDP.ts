@@ -19,6 +19,11 @@ export default class CHPPTProofStepFDocumentMDP extends FDocumentMDP {
     );
   }
 
+  goBack() {
+    return () => {
+      this.taskRoot.goToStep(0)
+    }
+  }
 
   saveTask() {
     return () => {

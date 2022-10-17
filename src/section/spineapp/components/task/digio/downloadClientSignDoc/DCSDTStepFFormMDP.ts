@@ -18,20 +18,11 @@ export default class DCSDTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.clientFileNumber", 
-                label: "File Number",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
                 dataSelectorKey: "taskInput.templateCode", 
                 label: "Template Code",
                 mandatory: true,
                 boundaryClass: "col-6",
-                disabled: true
+                readonly: true
             })
         ).addField(
             new FTextFieldMDP({
@@ -40,7 +31,7 @@ export default class DCSDTStepFFormMDP extends FFormMDP {
                 label: "Doc Id",
                 mandatory: true,
                 boundaryClass: "col-6",
-                disabled: true
+                readonly: true
             })
         ).addField(
             new FTextFieldMDP({
@@ -48,7 +39,8 @@ export default class DCSDTStepFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskOutput.clientSignedFilePath",
                 label: "Client Signed Filepath",
                 mandatory: true,
-                boundaryClass: "col-6"
+                boundaryClass: "col-6",
+                readonly: true
             })
         ).addAction(
             new FBtnMDP({

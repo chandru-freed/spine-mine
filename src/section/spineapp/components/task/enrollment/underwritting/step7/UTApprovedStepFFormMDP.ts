@@ -20,14 +20,6 @@ export default class UTApprovedStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.clientFileId",
-        label: "File Number",
-        mandatory: true,
-        disabled: true
-      })
-    ).addField(
       new FSwitchMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.underwrittingApproved",

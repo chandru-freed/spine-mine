@@ -5,7 +5,7 @@ import CHPPTCollectInfoStepFFormMDP from "./step1/CHPPTCollectInfoStepFFormMDP";
 import CHPPTProofStepFDocumentMDP from "./step2/CHPPTProofStepFDocumentMDP";
 import CHPPTFinalStepFFormMDP from "./step3/CHPPFinalStepFFormMDP";
 
-export default class CHPPFStepperMDP extends FFooStepperMDP {
+export default class CHPPFStepperMDP extends FStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
 

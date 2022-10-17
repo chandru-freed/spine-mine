@@ -124,6 +124,16 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
     });
   }
 
+  saveAndNext() {
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+      callback: () => {
+        this.goToStep(this.currentStep + 1)
+      }
+    });
+  }
+
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,
@@ -142,6 +152,17 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
     });
+  }
+  goToStep(step: number) {
+    Helper.Router.gotoStep({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+      step,
+    });
+  }
+
+  get currentStep(): number {
+    return this.$route.query.step ? Number(this.$route.query.step) : 0;
   }
 }
 </script>

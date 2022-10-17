@@ -7,11 +7,12 @@
         rounded
         outlined
       >
-        <v-toolbar-title> 
+        <!-- <v-toolbar-title>  -->
           <v-btn icon>
             <v-icon size="30" color="secondary">mdi-file</v-icon>
           </v-btn>
-          <span class="text-uppercase subtitle-1 font-weight-light px-2">{{ clientFileBasicInfo.clientFileNumber}}</span>
+          <div class="text-uppercase subtitle-1 font-weight-light px-2">
+            {{ clientFileBasicInfo.clientFileNumber}}, {{ fileSummary.stage}}</div>
           <span class="body-1 px-2">{{ clientFileBasicInfo.clientBasicInfo.fullName }} </span>
           <!-- <v-btn color="grey" outlined class="subtitle-1 pa-2">{{ clientFileBasicInfo.clientBasicInfo.mobile }} </v-btn> -->
           <v-chip color="grey" outlined class="subtitle-1 pa-2">{{ clientFileBasicInfo.clientBasicInfo.mobile  }} </v-chip>
@@ -34,7 +35,7 @@
             >{{ "Sales Rep : " + clientFileBasicInfo.assignedSalesRep }}</v-chip
           >
           
-        </v-toolbar-title>
+        <!-- </v-toolbar-title> -->
       </v-toolbar>
     </div>
     <div class="row" v-if="fileSummary">
@@ -73,6 +74,7 @@
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
+                v-if="fileSummary.msfDueDate"
                   >Due on
                   {{
                     fileSummary.msfDueDate | date
@@ -97,6 +99,7 @@
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
+                v-if="fileSummary.spaDueDate"
                   >Due on
                   {{
                     fileSummary.spaDueDate | date
@@ -119,6 +122,7 @@
                   ₹ {{ fileSummary.totalSaving }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="white--text"
+                v-if="fileSummary.lastPaidDate"
                   >Last paid
                   {{
                     fileSummary.lastPaidDate | date
@@ -141,13 +145,13 @@
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   ₹ {{ fileSummary.totalOutstanding }}
-                  <span class="text-subtitle-1 pl-1 pt-2"
+                  <span class="text-subtitle-1 pl-1 pt-2" v-if="fileSummary.remainingTenure "
                     >/ {{ fileSummary.remainingTenure }} months</span
                   >
                 </v-list-item-title>
                 <v-list-item-subtitle
                   ><v-btn block x-small outlined dark
-                    >settled {{ fileSummary.numberOfCredirotrsSettled }} / {{ fileSummary.numberOfCreditorsTotal }}
+                    >settled {{ fileSummary.settledCreditorsCount }} / {{ fileSummary.creditorsCount }}
                     Creditors</v-btn
                   ></v-list-item-subtitle
                 >

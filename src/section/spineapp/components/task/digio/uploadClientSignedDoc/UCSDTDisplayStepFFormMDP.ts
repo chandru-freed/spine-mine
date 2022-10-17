@@ -23,15 +23,6 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.clientFileNumber",
-        label: "FileId",
-        disabled: true,
-        boundaryClass: "col-6",
-      })
-    )
-      .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskInput.docId",

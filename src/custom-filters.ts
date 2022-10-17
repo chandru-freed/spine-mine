@@ -115,7 +115,7 @@ export default class CustomFilters {
     Vue.filter("phone", (value: string) => {
       // console.log('I am in custom filter: withBase : ');
       // console.log(process.env.BASE_URL);
-      return this.formatDefault(value, "##### #####");
+      return this.formatDefault(value, "(+91) ##### #####");
     });
   }
 

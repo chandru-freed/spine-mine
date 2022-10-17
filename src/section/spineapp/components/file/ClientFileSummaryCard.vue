@@ -3,27 +3,36 @@
     <!-- {{ fileSummary }} -->
     <div class="row pa-3 pb-0">
       <v-toolbar
-        class="elevation-0"
+        class="elevation-0 mx-0"
         rounded
         outlined
       >
         <!-- <v-toolbar-title>  -->
-          <v-btn icon>
+          <!-- <v-btn icon>
             <v-icon size="30" color="secondary">mdi-file</v-icon>
           </v-btn>
-          <div class="text-uppercase subtitle-1 font-weight-light px-2">
-            {{ clientFileBasicInfo.clientFileNumber}}, {{ fileSummary.stage}}</div>
-          <span class="body-1 px-2">{{ clientFileBasicInfo.clientBasicInfo.fullName }} </span>
+          <div class="text-uppercase subtitle-1 font-weight-light mx-2">
+            {{ clientFileBasicInfo.clientFileNumber}}
+          </div> -->
+          <v-btn large text class="px-1 mr-2">
+            <v-icon size="30" color="secondary" class="mr-1">mdi-file</v-icon>
+            {{ clientFileBasicInfo.clientFileNumber}}
+            <v-chip x-small class="mx-2">{{ fileSummary.stage}}</v-chip>
+          </v-btn>
+          
+          <v-divider vertical class="mr-4"></v-divider>
+
+          <span class="body-1 mr-2">{{ clientFileBasicInfo.clientBasicInfo.fullName }} </span>
           <!-- <v-btn color="grey" outlined class="subtitle-1 pa-2">{{ clientFileBasicInfo.clientBasicInfo.mobile }} </v-btn> -->
-          <v-chip color="grey" outlined class="subtitle-1 pa-2">{{ clientFileBasicInfo.clientBasicInfo.mobile  }} </v-chip>
-          <span class="caption px-4">{{ clientFileBasicInfo.clientBasicInfo.emailId }} </span>
-          <!-- <v-spacer></v-spacer> -->
+          <v-chip color="green lighten-3 mr-2" label>{{ clientFileBasicInfo.clientBasicInfo.mobile | phone }} </v-chip>
+          <span class="caption mr-2">{{ clientFileBasicInfo.clientBasicInfo.emailId }} </span>
+          <v-spacer></v-spacer>
           <v-chip
             outlined
             small
             color="secondary"
             v-if="clientFileBasicInfo.assignedRM"
-            class="ml-2"
+            class="mr-2"
             >{{ "RM : " + clientFileBasicInfo.assignedRM }}</v-chip
           >
           <v-chip
@@ -31,7 +40,7 @@
             small
             color="secondary"
             v-if="clientFileBasicInfo.assignedSalesRep"
-            class="ml-2"
+            class="mr-2"
             >{{ "Sales Rep : " + clientFileBasicInfo.assignedSalesRep }}</v-chip
           >
           

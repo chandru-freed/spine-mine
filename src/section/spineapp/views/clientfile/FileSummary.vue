@@ -45,6 +45,7 @@
                 <v-list>
                   <template v-for="(mainItem, index) in main">
                     <v-subheader
+                      dense
                       v-if="mainItem.children"
                       :key="mainItem.name"
                       >{{ mainItem.name }}</v-subheader
@@ -137,36 +138,36 @@ export default class FileSummary extends Vue {
       routerName: "Root.ClientFile.Request.FileCreateRequest",
     },
     {
-      name: "Notify",
+      name: "Send",
       children: [
-        { name: "Send Email", routerName: "Root.ClientFile.Request.SendEmail" },
-        { name: "Send SMS", routerName: "Root.ClientFile.Request.SendSMS" },
-        { name: "Send Whatsapp", routerName: "Root.ClientFile.Request.SendWhatsapp" },
+        { name: "Email", routerName: "Root.ClientFile.Request.SendEmail" },
+        { name: "SMS", routerName: "Root.ClientFile.Request.SendSMS" },
+        { name: "Whatsapp", routerName: "Root.ClientFile.Request.SendWhatsapp" },
       ],
     },
     {
       name: "Assign",
       children: [
-        { name: "Assign RM", routerName: "Root.ClientFile.Request.AssignRM" },
+        { name: "Relationship Manager (RM)", routerName: "Root.ClientFile.Request.AssignRM" },
         {
-          name: "Assign Sales Rep",
+          name: "Sales Rep",
           routerName: "Root.ClientFile.Request.AssignSalesRep",
         },
       ],
     },
     {
-      name: "PAYMENT",
+      name: "Payment",
       children: [
         {
-          name: "Record Payment",
+          name: "Record",
           routerName: "Root.ClientFile.Request.RecordPayment",
         },
         {
-          name: "Receive Payment",
+          name: "Receive",
           routerName: "Root.ClientFile.Request.ReceivePayment",
         },
         {
-          name: "Receive MSF Payment",
+          name: "Receive MSF",
           routerName: "Root.ClientFile.Request.ReceiveMSFPayment",
         },
       ],

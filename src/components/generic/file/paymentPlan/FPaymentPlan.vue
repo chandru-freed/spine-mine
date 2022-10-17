@@ -30,8 +30,8 @@
         <v-tab-item>
           <v-card flat>
             <v-data-table
-              :headers="headers"
-              :items="paymentSchedule"
+              :headers="psEntrySchelduledHeaders"
+              :items="psEntrySchelduledList"
               sort-by="draftDate"
               class="elevation-0"
             >
@@ -57,15 +57,58 @@
                 {{ item.feeAmount | toINR }}
               </template>
               <template v-slot:item.action="{ item }">
-                <f-btn
-                  label="Present"
-                  outlined
-                  small
-                  color="primary"
-                  :onClick="() => presentPSEntry(item.psEntryId)"
-                  :disabled="item.status != 'SCHEDULED'"
-                ></f-btn>
+                <div class="d-flex">
+                  <f-btn
+                    class="mr-2"
+                    label="Present"
+                    outlined
+                    small
+                    color="primary"
+                    :onClick="() => presentPSEntry(item.psEntryId)"
+                    :disabled="item.status != 'SCHEDULED'"
+                  ></f-btn>
+                  <f-btn
+                    label="Skip"
+                    outlined
+                    small
+                    color="primary"
+                    :onClick="() => skip(item.psEntryId)"
+                    :disabled="item.status != 'SCHEDULED'"
+                  ></f-btn>
+                </div>
               </template>
+            </v-data-table>
+          </v-card>
+          <v-divider></v-divider>
+          <v-card flat class="mt-5">
+            <v-data-table
+              :headers="psEntryPresentedHeaders"
+              :items="psEntryPresentedList"
+              sort-by="draftDate"
+              class="elevation-0"
+            >
+
+            <template v-slot:top>
+                <v-toolbar flat>
+                  <v-toolbar-title>Payment Presented</v-toolbar-title>
+                  <v-divider class="mx-4" inset vertical></v-divider>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+              </template>
+              <template v-slot:[`item.draftDate`]="{ item }">
+                {{ item.draftDate | date }}
+              </template>
+
+              <template v-slot:[`item.totalAmount`]="{ item }">
+                {{ item.totalAmount | toINR }}
+              </template>
+              <template v-slot:[`item.settlementReserve`]="{ item }">
+                {{ item.settlementReserve | toINR }}
+              </template>
+              <template v-slot:[`item.feeAmount`]="{ item }">
+                {{ item.feeAmount | toINR }}
+              </template>
+              
             </v-data-table>
           </v-card>
         </v-tab-item>
@@ -117,7 +160,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-
+import * as Snackbar from "node-snackbar";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
@@ -131,7 +174,20 @@ import * as Action from "@/../src-gen/action";
 })
 export default class FPaymentPlan extends ModelVue {
   tab = 0;
-  headers = [
+  psEntryPresentedHeaders = [
+    {
+      text: "Draft Date",
+      align: "start",
+      sortable: false,
+      value: "draftDate",
+    },
+    { text: "Total Amount", value: "totalAmount" },
+    { text: "Settlement Amount", value: "settlementReserve" },
+    { text: "Fee Amount", value: "feeAmount" },
+    { text: "Status", value: "status" },
+  ];
+
+  psEntrySchelduledHeaders = [
     {
       text: "Draft Date",
       align: "start",
@@ -163,8 +219,16 @@ export default class FPaymentPlan extends ModelVue {
     return this.modelValue.paymentPlan;
   }
 
-  get paymentSchedule() {
-    return this.paymentPlan.paymentSchedule;
+  get psEntrySchelduledList() {
+    return this.paymentPlan.paymentSchedule.filter(
+      (psEntry: any) => psEntry.status === "SCHEDULED"
+    );
+  }
+
+  get psEntryPresentedList() {
+    return this.paymentPlan.paymentSchedule.filter(
+      (psEntry: any) => psEntry.status === "PRESENTED"
+    );
   }
 
   get subscriptionFeeSchedule() {
@@ -180,7 +244,21 @@ export default class FPaymentPlan extends ModelVue {
   }
 
   presentPSEntry(psEntryId: string) {
-    Action.Spine.PresentPSEntry.execute1(psEntryId, (output) => {});
+    Action.Spine.PresentPSEntry.execute1(psEntryId, (output) => {
+      Snackbar.show({
+        text: "Succesfully update.",
+        pos: "bottom-center",
+      });
+    });
+  }
+
+  skip(psEntryId: string) {
+    Action.Spine.Skip.execute1(psEntryId, (output) => {
+      Snackbar.show({
+        text: "Succesfully update.",
+        pos: "bottom-center",
+      });
+    });
   }
 
   @Prop()

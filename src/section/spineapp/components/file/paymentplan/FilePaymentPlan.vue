@@ -54,9 +54,26 @@ export default class FilePaymentPlan extends ModelVue {
   }
   //METADATA
 
-  mounted() {
-    this.getFiPaymentPlanInfo();
-    this.getFiCreditorInfo();
+  public getPaymentHandler = (output: any) => this.getFiPaymentWithDelay();
+
+  public mounted() {
+    this.getFiPaymentWithDelay();
+
+    Action.Spine.PresentPSEntry.interested(this.getPaymentHandler);
+    Action.Spine.Skip.interested(this.getPaymentHandler);
+  }
+
+  public destroyed() {
+    Action.Spine.PresentPSEntry.notInterested(this.getPaymentHandler);
+    Action.Spine.Skip.notInterested(this.getPaymentHandler);
+  }
+
+  getFiPaymentWithDelay() {
+    console.log("getFiPaymentWithDelay");
+    setTimeout(() => {
+      this.getFiPaymentPlanInfo();
+      this.getFiCreditorInfo();
+    }, 1000);
   }
 
   get paymentPlanWithTotalDebt() {
@@ -67,6 +84,7 @@ export default class FilePaymentPlan extends ModelVue {
   }
 
   getFiPaymentPlanInfo() {
+    console.log("getFiPaymentPlanInfo");
     Action.ClientFile.GetPaymentPlanInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {}
@@ -74,8 +92,9 @@ export default class FilePaymentPlan extends ModelVue {
   }
 
   getFiCreditorInfo() {
+    console.log("getFiCreditorInfo");
     Action.ClientFile.GetCreditorInfo.execute1(
-     this.clientFileBasicInfo.clientFileId,
+      this.clientFileBasicInfo.clientFileId,
       (output) => {}
     );
   }

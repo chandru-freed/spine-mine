@@ -86,10 +86,17 @@ export default class TicketComment extends Vue {
     Action.Ticket.AddCommentOnTicket.interested(
       this.getTicketCommentListWithDelay()
     );
+
+    Action.Ticket.ReassignTicket.interested(
+      this.getTicketCommentListWithDelay()
+    );
   }
 
   destroyed() {
     Action.Ticket.AddCommentOnTicket.notInterested(
+      this.getTicketCommentListWithDelay()
+    );
+    Action.Ticket.ReassignTicket.notInterested(
       this.getTicketCommentListWithDelay()
     );
   }
@@ -104,6 +111,7 @@ export default class TicketComment extends Vue {
     Action.Ticket.GetTicketCommentList.execute1(this.taskId, (output) => {
       console.log(output);
     });
+    
   }
   addComment() {
     this.addCommentInput.taskId = this.taskId;

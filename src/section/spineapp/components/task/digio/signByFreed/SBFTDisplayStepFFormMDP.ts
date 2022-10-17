@@ -22,20 +22,11 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.clientFileNumber",
-        label: "FileId",
-        disabled: true,
-        boundaryClass: "col-6",
-      })
-    )
-      .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskInput.docId",
           label: "DocId",
-          disabled: true,
+          readonly: true,
           boundaryClass: "col-6",
         })
       )
@@ -44,7 +35,7 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskInput.templateCode",
           label: "Template Code",
-          disabled: true,
+          readonly: true,
           boundaryClass: "col-6",
         })
       )
@@ -53,7 +44,7 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskInput.clientSignedFilePath",
           label: "Client Signed File Path",
-          disabled: true,
+          readonly: true,
           boundaryClass: "col-6",
         })
       )
@@ -62,7 +53,7 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.digioSignStatus",
           label: "Digio Sign Status",
-          disabled: true,
+          readonly: true,
           boundaryClass: "col-6",
         })
       )
@@ -72,7 +63,7 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.freedSignedFilePath",
           label: "Freed Signed File Path",
-          disabled: true,
+          readonly: true,
           boundaryClass: "col-6",
         })
       )

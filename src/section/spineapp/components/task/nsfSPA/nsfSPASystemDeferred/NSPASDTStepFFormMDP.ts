@@ -16,15 +16,6 @@ export default class NSPASDTStepFFormMDP extends FFormMDP {
         this.parent = parent;
 
         this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.clientFileNumber",
-                label: "File Number",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        ).addField(
             new FNumberFieldMDP({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "taskInput.systemDeferredTime",

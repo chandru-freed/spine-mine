@@ -10,25 +10,19 @@ export default class SSATStepFFormMDP extends FFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: FlowTaskIntf; parent: any }) {
     super({
       myRefName: "sSATDigiSignStatusFFormRef",
-      disabled: taskRoot.taskDisabled,
+      readonly: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.clientFileNumber",
-        label: "File Number",
-        mandatory: true,
-        disabled: true
-      })
-    ).addField(
+    this
+    .addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.digioSignStatus",
         label: "Digio Sign Status",
         mandatory: true,
+        readonly: true
       })
     ).addAction(
       new FBtnMDP({

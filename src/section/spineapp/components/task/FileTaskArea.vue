@@ -264,6 +264,9 @@ export default class FileTaskArea extends Vue {
   public getExecutiveTaskDetailsHandler = (output: any) =>
     this.getExecutiveTaskDetailsWithDelay();
 
+  public handleSaveAndComplete = () => {
+    this.gotoFile();
+  }
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.PullStartAndMerge.interested(
@@ -271,9 +274,9 @@ export default class FileTaskArea extends Vue {
     );
     Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.SaveAndComplete.interested(
-      this.getExecutiveTaskDetailsHandler
-    );
+    // Action.TaskList.SaveAndComplete.interested(
+    //   this.getExecutiveTaskDetailsHandler
+    // );
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
 
@@ -313,6 +316,7 @@ export default class FileTaskArea extends Vue {
     Action.Spine.UpdatePaymentStatus.interested(
       this.getExecutiveTaskDetailsHandler
     );
+    Action.TaskList.SaveAndComplete.interested(this.handleSaveAndComplete)
 
     this.getExecutiveTaskDetailsWithDelay();
   }
@@ -385,9 +389,9 @@ export default class FileTaskArea extends Vue {
     );
     Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.SaveAndComplete.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
+    // Action.TaskList.SaveAndComplete.notInterested(
+    //   this.getExecutiveTaskDetailsHandler
+    // );
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
 
@@ -430,10 +434,11 @@ export default class FileTaskArea extends Vue {
     Action.Spine.UpdatePaymentStatus.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
+    Action.TaskList.SaveAndComplete.notInterested(this.handleSaveAndComplete)
   }
 
   findClientFileSummary() {
-    Action.ClientFile.FindClientFileSummary.execute1(
+    Action.ClientFile.GetClientFileSummary.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {}
     );

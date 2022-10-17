@@ -22,7 +22,7 @@ export default class TaskAction  {
       );
     }
   
-    static saveTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+    static saveTask({taskId, taskOutput, callback}:{taskId: string, taskOutput: any, callback?: () => void}) {
       const input = JSON.stringify(taskOutput);
       console.log("Save take is being called");
       Action.TaskList.Save.execute2(
@@ -33,6 +33,9 @@ export default class TaskAction  {
             text: "Succesfully saved",
             pos:"bottom-center"
           })
+          if(callback) {
+            callback();
+          }
           // console.log(output);
         }
       );

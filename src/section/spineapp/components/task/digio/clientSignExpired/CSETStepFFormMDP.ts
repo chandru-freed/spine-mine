@@ -20,15 +20,6 @@ export default class CSETFFormMDP extends FFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.clientFileNumber",
-        label: "File Number",
-        mandatory: true,
-        boundaryClass: "col-4",
-        disabled: true
-      })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
         dataSelectorKey: "taskInput.templateCode",
         label: "Template Code",
         mandatory: true,

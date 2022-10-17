@@ -20,16 +20,9 @@ export default class EMFTRetryStepFFormMDP extends FFormMDP {
 
         this.addField(new FTextFieldMDP({
             parentMDP: this.childMDP,
-            dataSelectorKey: "taskInput.clientFileNumber",
-            label: "File Number",
-            disabled: true,
-            boundaryClass: "col-6"
-        }))
-        .addField(new FTextFieldMDP({
-            parentMDP: this.childMDP,
             dataSelectorKey: "taskInput.eMandateStatus",
             label: "Emandate Status",
-            disabled: true,
+            readonly: true,
             boundaryClass: "col-6"
         }))
         .addField(

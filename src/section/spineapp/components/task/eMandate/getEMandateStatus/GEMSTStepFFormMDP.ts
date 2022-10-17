@@ -19,20 +19,11 @@ export default class GEMSTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.clientFileNumber",
-                label: "File Number",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
                 dataSelectorKey: "taskInput.eMandateId",
                 label: "EMandate Id",
                 mandatory: true,
                 boundaryClass: "col-6",
-                disabled: true
+                readonly: true
             })
         ).addField(
             new FTextFieldMDP({
@@ -41,7 +32,7 @@ export default class GEMSTStepFFormMDP extends FFormMDP {
                 label: "EMandate Link",
                 mandatory: true,
                 boundaryClass: "col-6",
-                disabled: true
+                readonly: true
             })
         ).addField(
             new FTextFieldMDP({
@@ -50,6 +41,7 @@ export default class GEMSTStepFFormMDP extends FFormMDP {
                 label: "EMandate Status",
                 mandatory: true,
                 boundaryClass: "col-6",
+                readonly: true
             })
         ).addAction(
             new FBtnMDP({

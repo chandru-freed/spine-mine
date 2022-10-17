@@ -22,22 +22,14 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.clientFileNumber",
-        label: "FileId",
-        disabled: true,
-        boundaryClass: "col-4",
-      })
-    )
+    this
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.docId",
           label: "DocId",
           disabled: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
         })
       )
       .addField(
@@ -46,7 +38,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
           dataSelectorKey: "taskOutput.templateCode",
           label: "Template Code",
           disabled: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
         })
       )
       .addAction(
@@ -55,7 +47,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
           onClick: this.rescueTask(),
         })
       )
-      
+
   }
 
   getMyRef(): any {

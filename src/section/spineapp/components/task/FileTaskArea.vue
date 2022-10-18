@@ -19,7 +19,7 @@
         v-if="taskDetails.taskState === 'ALLOCATED' || taskDetails.taskState === 'TO_BE_PULLED'"
       ></f-btn>
 
-       <f-btn
+       <!-- <f-btn
         label="START"
         outlined
         color="primary"
@@ -33,7 +33,7 @@
         color="primary"
         :onClick="() => pullTask()"
         v-if="taskDetails.taskState === 'TO_BE_PULLED'"
-      ></f-btn>
+      ></f-btn> -->
     </v-card-actions>
     <v-card-text class="pa-0">
       <component v-if="!loading" :is="selectedComponent"></component>

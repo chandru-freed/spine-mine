@@ -19,6 +19,8 @@ const options = {
   },
 };
 
+
+// client-file : file-account / file-account-outline
 export default new Vuetify({
     ...options
 })

@@ -70,7 +70,7 @@ export default class CreateClientFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Create",
+          label: "Register Client",
           onClick: this.validateAndSubmit(),
         })
       );

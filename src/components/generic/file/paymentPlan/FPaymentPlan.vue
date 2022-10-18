@@ -20,8 +20,21 @@
 
     <div class="d-flex justify-space-around"></div>
 
-    <v-alert dense type="warning" outlined class="col-5 ma-auto mb-5" v-if="paymentPlan.ppCalculator.totalMonthlyObligation > this.modelValue.budgetInfo.proposedDSPayment">
-      Monthly Obligation ({{paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)}}) greater than Affordability ({{this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)}}).
+    <v-alert
+      dense
+      type="warning"
+      outlined
+      class="col-5 ma-auto mb-5"
+      v-if="
+        paymentPlan.ppCalculator.totalMonthlyObligation >
+        this.modelValue.budgetInfo.proposedDSPayment
+      "
+    >
+      Monthly Obligation ({{
+        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)
+      }}) greater than Affordability ({{
+        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)
+      }}).
     </v-alert>
 
     <v-card flat outlined class="row ma-2">
@@ -48,7 +61,9 @@
               </template>
 
               <template v-slot:[`item.draftDate`]="{ item }">
-                {{ item.draftDate | date }}
+                <span class="grey--text">
+                  {{ item.draftDate | date }}
+                </span>
               </template>
 
               <template v-slot:[`item.totalAmount`]="{ item }">
@@ -104,7 +119,9 @@
                 </v-toolbar>
               </template>
               <template v-slot:[`item.draftDate`]="{ item }">
-                {{ item.draftDate | date }}
+                <span class="grey--text">
+                  {{ item.draftDate | date }}
+                </span>
               </template>
 
               <template v-slot:[`item.totalAmount`]="{ item }">

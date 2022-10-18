@@ -15,7 +15,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-card-title>Pool In Task</v-card-title>
+            <v-card-title>Task To Be Pulled</v-card-title>
             <v-col class="col-7"></v-col>
             <v-col>
               <v-text-field

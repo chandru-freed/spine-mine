@@ -13,6 +13,9 @@
               {{ item.txnDate | date }}
             </span>
           </template>
+           <template v-slot:[`item.amount`]="{ item }">
+            {{ item.amount | toINR }}
+          </template>
         </v-data-table>
       </v-card>
     </v-col>

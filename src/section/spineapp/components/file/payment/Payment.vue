@@ -13,9 +13,12 @@
               {{ item.presentedDate | date }}
             </span>
           </template>
+          <template v-slot:[`item.status`]="{ item }">
+            <v-chip small outlined>{{ item.status.name }}</v-chip>
+          </template>
           <template v-slot:item.totalAmount="{ item }">
             <f-btn
-              :label="item.totalAmount"
+              :label="item.totalAmount | toINR"
               text
               color="secondary"
               :onClick="() => gotoTask(item)"
@@ -57,7 +60,7 @@ export default class Payment extends ModelVue {
   headers = [
     { text: "Total Amount", value: "totalAmount" },
     { text: "Payment Provider", value: "paymentProvider.name" },
-    { text: "Status", value: "status.name" },
+    { text: "Status", value: "status" },
     { text: "Presented Date", value: "presentedDate" },
     { text: "Received By", value: "receivedBy" },
   ];

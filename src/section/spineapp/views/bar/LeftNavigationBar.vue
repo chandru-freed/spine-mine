@@ -43,7 +43,7 @@
 
       <v-list-item link @click="goto('Root.MyClientFiles')">
         <v-list-item-icon>
-          <v-icon>mdi-file</v-icon>
+          <v-icon>mdi-file-account</v-icon>
         </v-list-item-icon>
         <v-list-item-title>My Client Files</v-list-item-title>
       </v-list-item>
@@ -52,7 +52,7 @@
         @click="goto('Root.TaskList.TaskAssignedToMe')"
       >
         <v-list-item-icon>
-          <v-icon>mdi-marker-check</v-icon>
+          <v-icon>mdi-checkbox-marked-circle-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-title>My Tasks</v-list-item-title>
       </v-list-item>

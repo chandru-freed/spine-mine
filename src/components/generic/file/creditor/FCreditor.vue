@@ -22,8 +22,8 @@
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
-      <div class="my-1">Are you sure want to delete?</div>
-      <v-spacer />
+        <div class="my-1">Are you sure want to delete?</div>
+        <v-spacer />
         <FBtn
           label="Cancel"
           :on-click="closeAndClearAllForms"
@@ -50,6 +50,11 @@
           sort-by="lastDateOfPayment"
           class="elevation-0"
         >
+          <template v-slot:[`item.lastDateOfPayment`]="{ item }">
+            <span class="grey--text">
+              {{ item.lastDateOfPayment | date }}
+            </span>
+          </template>
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Creditors</v-toolbar-title>
@@ -57,7 +62,6 @@
               <v-chip label outlined color="primary"
                 >Total Debt - ₹{{ totalDebt }}</v-chip
               >
-
               <v-chip
                 v-if="clientFileSummary?.wad"
                 label
@@ -78,6 +82,9 @@
                 <v-icon>mdi-plus-circle-outline</v-icon>
               </v-btn>
             </v-toolbar>
+          </template>
+          <template v-slot:[`item.creditorBalance`]="{ item }">
+            {{ item.creditorBalance | toINR }}
           </template>
           <template v-slot:[`item.actions`]="{ item, index }">
             <v-icon

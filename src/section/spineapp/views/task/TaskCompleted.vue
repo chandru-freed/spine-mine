@@ -13,7 +13,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-col class="col-2"> </v-col>
+            <v-card-title>My Completed Task</v-card-title>
             <v-col class="col-7"></v-col>
             <v-col>
               <v-text-field

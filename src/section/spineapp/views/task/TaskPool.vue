@@ -15,18 +15,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-col class="col-2">
-              <!-- <v-select
-                :disabled="selected.length === 0"
-                :items="['Delete', 'Edit', 'Send']"
-                label="Bulk Actions"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-              ></v-select> -->
-            </v-col>
+            <v-card-title>Pool In Task</v-card-title>
             <v-col class="col-7"></v-col>
             <v-col>
               <v-text-field

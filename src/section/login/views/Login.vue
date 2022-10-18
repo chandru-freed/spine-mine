@@ -6,9 +6,12 @@
           <v-col xs="12" sm="8" md="4">
             <v-card flat outlined>
               <v-toolbar color="primary" flat dark>
-                <v-toolbar-title>Sign In</v-toolbar-title>
+                <v-list-item-avatar>
+                  <v-img src="@/assets/freed-small-logo.svg" />
+                </v-list-item-avatar>
+
                 <v-spacer></v-spacer>
-                <v-icon>mdi-account-circle-outline</v-icon>
+                <v-toolbar-title>Sign In</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <component
@@ -63,9 +66,7 @@ export default class Login extends Vue {
   }
 
   getLoggedInUser(userName: string) {
-    Action.Login.GetUserDetails.execute1(userName, (output) => {
-      
-    });
+    Action.Login.GetUserDetails.execute1(userName, (output) => {});
   }
 
   getRoleListForUser(userName: string) {

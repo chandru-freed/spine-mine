@@ -72,7 +72,6 @@ export default class FilePaymentPlan extends ModelVue {
   }
 
   getFiPaymentWithDelay() {
-    console.log("getFiPaymentWithDelay");
     setTimeout(() => {
       this.getFiPaymentPlanInfo();
       this.getFiCreditorInfo();

@@ -18,23 +18,25 @@
       @input="(newValue) => updateModel(editCreditorForm, newValue, undefined)"
       v-bind="editCreditorFormMetaData.props"
     ></component>
-
-    <v-alert text color="error" v-if="deleteCreditorDialog">
-      <div class="text-center py-3">Are you sure want to delete?</div>
+    <v-alert dense outlined text color="error" v-if="deleteCreditorDialog">
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
+      <div class="my-1">Are you sure want to delete?</div>
+      <v-spacer />
         <FBtn
           label="Cancel"
           :on-click="closeAndClearAllForms"
           outlined
           color="red"
+          class="mx-2"
         />
         <FBtn
           label="Delete"
           :on-click="deleteCreditorData"
           outlined
           color="red"
+          class="mx-2"
         />
       </div>
     </v-alert>
@@ -268,7 +270,5 @@ export default class FCreditor extends ModelVue {
         actionMetaData.condition === true
     );
   }
-
-  
 }
 </script>

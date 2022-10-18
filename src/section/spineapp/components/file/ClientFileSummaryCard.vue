@@ -79,7 +79,7 @@
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileSummary.msfAmount }}
+                  {{ fileSummary.msfAmount | toINR }}
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
@@ -104,7 +104,7 @@
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileSummary.spaAmount }}
+                  {{ fileSummary.spaAmount  | toINR }}
                   <span class="text-caption pl-1 pt-2">/ MONTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
@@ -128,7 +128,7 @@
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileSummary.totalSaving }}
+                  {{ fileSummary.totalSaving | toINR }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="white--text"
                 v-if="fileSummary.lastPaidDate"
@@ -153,7 +153,7 @@
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
-                  ₹ {{ fileSummary.totalOutstanding }}
+                  {{ fileSummary.totalOutstanding | toINR }}
                   <span class="text-subtitle-1 pl-1 pt-2" v-if="fileSummary.remainingTenure "
                     >/ {{ fileSummary.remainingTenure }} months</span
                   >

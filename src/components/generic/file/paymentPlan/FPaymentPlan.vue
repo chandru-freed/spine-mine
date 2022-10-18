@@ -20,8 +20,13 @@
 
     <div class="d-flex justify-space-around"></div>
 
+<<<<<<< HEAD
     <v-alert dense type="warning" outlined class="col-5 ma-auto mb-5" v-if="paymentPlan.ppCalculator.totalMonthlyObligation > this.modelValue.budgetInfo.proposedDSPayment">
       Monthly Obligation ({{paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)}}) greater than Affordability ({{this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)}}).
+=======
+    <v-alert dense text outlined type="warning" class="col-5 ma-auto mb-5" v-if="paymentPlan.ppCalculator.totalMonthlyObligation">
+      Monthly Obligation ({{paymentPlan.ppCalculator.totalMonthlyObligation | toINR}}) greater than Affordability ({{this.modelValue.budgetInfo.proposedDSPayment | toINR}}).
+>>>>>>> 6727b516ee126bc744e1e2b6c9adaaaf483c58ef
     </v-alert>
 
     <v-card flat outlined class="row ma-2">

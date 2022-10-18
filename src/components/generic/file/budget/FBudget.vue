@@ -26,7 +26,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ totalIncomeAmount }} </v-btn>
+              <v-btn text> {{ totalIncomeAmount | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -39,7 +39,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ totalSecuredDebtAmount }} </v-btn>
+              <v-btn text> {{ totalSecuredDebtAmount  | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -50,7 +50,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ allExpensesAmount }} </v-btn>
+              <v-btn text>{{ allExpensesAmount | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -63,7 +63,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ availableIncome }} </v-btn>
+              <v-btn text> {{ availableIncome | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -79,7 +79,7 @@
 
             <v-list-item-action>
               <v-btn text class="font-weight-black" color="secondary">
-                ₹ {{ proposedDSPayment.toFixed(2) }}
+                {{ proposedDSPayment | toINR }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>

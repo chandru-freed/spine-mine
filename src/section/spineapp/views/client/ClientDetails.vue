@@ -9,7 +9,7 @@
           <div class="col-4  pb-0">
             <v-list-item>
               <v-list-item-avatar tile size="80" >
-                <v-icon size="40" color="secondary">mdi-account-plus</v-icon>
+                <v-icon size="40" color="secondary">mdi-account</v-icon>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-overline">{{
@@ -23,8 +23,7 @@
 
                 <v-list-item-subtitle
                   class="text-h6"
-                  v-text="clientBasicInfo.mobile"
-                ></v-list-item-subtitle>
+                >{{clientBasicInfo.mobile | phone}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </div>

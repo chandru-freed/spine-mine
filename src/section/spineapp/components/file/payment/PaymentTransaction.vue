@@ -14,7 +14,7 @@
             </span>
           </template>
            <template v-slot:[`item.amount`]="{ item }">
-            {{ item.amount | toINR }}
+            {{item.debit ? '- ' : '+ '}}{{ item.amount | toINR }}
           </template>
         </v-data-table>
       </v-card>

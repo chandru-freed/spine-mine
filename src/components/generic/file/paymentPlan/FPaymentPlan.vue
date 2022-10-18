@@ -138,6 +138,18 @@
                   item.status
                 }}</v-chip>
               </template>
+
+              <template v-slot:[`item.paymentStatus`]="{ item }">
+                <v-btn
+                  @click="openPaymentDetails(item)"
+                  rounded
+                  small
+                  color="grey"
+                  text-color="grey"
+                  outlined
+                  >{{ item.paymentStatus }}</v-btn
+                >
+              </template>
             </v-data-table>
           </v-card>
         </v-tab-item>
@@ -214,6 +226,7 @@ export default class FPaymentPlan extends ModelVue {
     { text: "Settlement Amount", value: "settlementReserve" },
     { text: "Fee Amount", value: "feeAmount" },
     { text: "Status", value: "status" },
+    { text: "Payment Status", value: "paymentStatus" },
   ];
 
   psEntrySchelduledHeaders = [
@@ -288,6 +301,18 @@ export default class FPaymentPlan extends ModelVue {
         pos: "bottom-center",
       });
     });
+  }
+  openPaymentDetails(item: any) {
+    console.log(item);
+    if (item.paymentId) {
+      this.$router.push({
+        name: "Root.ClientFile.PaymentDetails",
+        params: {
+          clientFileNumber: this.$route.params.clientFileNumber,
+          paymentId: item.paymentId,
+        },
+      });
+    }
   }
 
   @Prop()

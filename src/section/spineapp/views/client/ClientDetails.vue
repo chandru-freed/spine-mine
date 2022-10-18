@@ -9,7 +9,7 @@
           <div class="col-4  pb-0">
             <v-list-item>
               <v-list-item-avatar tile size="80" >
-                <v-icon size="40" color="secondary">mdi-account-circle</v-icon>
+                <v-icon size="40" color="secondary">mdi-account-plus</v-icon>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-overline">{{

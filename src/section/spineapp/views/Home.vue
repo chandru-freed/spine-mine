@@ -29,7 +29,7 @@
               tile
               size="60"
             >
-            <v-icon size="60">mdi-file</v-icon>
+            <v-icon size="60">mdi-file-account</v-icon>
             </v-list-item-avatar>
           </v-list-item>
         </v-card>
@@ -52,7 +52,7 @@
               tile
               size="60"
             >
-            <v-icon size="60">mdi-marker-check</v-icon>
+            <v-icon size="60">mdi-checkbox-marked-circle-outline</v-icon>
             </v-list-item-avatar>
           </v-list-item>
         </v-card>

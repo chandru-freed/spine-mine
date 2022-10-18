@@ -15,7 +15,7 @@
             {{ clientFileBasicInfo.clientFileNumber}}
           </div> -->
           <v-btn large text class="px-1 mr-2">
-            <v-icon size="30" color="secondary" class="mr-1">mdi-file</v-icon>
+            <v-icon size="30" color="secondary" class="mr-1">mdi-file-account</v-icon>
             {{ clientFileBasicInfo.clientFileNumber}}
             <v-chip x-small class="mx-2">{{ fileSummary.stage}}</v-chip>
           </v-btn>

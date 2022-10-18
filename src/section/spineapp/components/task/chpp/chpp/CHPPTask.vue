@@ -78,7 +78,7 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
       creditorInfo: this.taskDetailsOutput.creditorInfo || new Data.Spine.CHPPCreditorInfo(),
-      proof: this.taskDetailsOutput.proof || []
+      fileDocumentList: this.taskDetailsOutput.fileDocumentList || []
     };
     // if(this.taskDetailsOutput.creditorInfo) {
     // this.taskFormOutputLocal.creditorInfo.creditorName = this.taskDetailsOutput.creditorInfo.creditorName;

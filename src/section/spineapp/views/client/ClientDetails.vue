@@ -1,41 +1,53 @@
 <template>
   <div>
-    
-    
-
     <v-card flat outlined>
-      
-        <div class="row px-2 pt-2 pb-4 align-center justify-between">
-          <div class="col-4  pb-0">
-            <v-list-item>
-              <v-list-item-avatar tile size="80" >
-                <v-icon size="40" color="secondary">mdi-account</v-icon>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title class="text-overline">{{
-                  clientBasicInfo.emailId
-                }}</v-list-item-title>
-                <v-list-item-title class="text-h5">{{
-                  clientBasicInfo.firstName
-                }} {{
-                  clientBasicInfo.lastName
-                }}</v-list-item-title>
+      <div class="row px-2 pt-2 pb-4 align-center justify-between">
+        <div class="col-4 pb-0">
+          <v-list-item>
+            <v-list-item-avatar tile size="80">
+              <v-icon size="40" color="secondary">mdi-account</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title class="text-overline">{{
+                clientBasicInfo.emailId
+              }}</v-list-item-title>
+              <v-list-item-title class="text-h5"
+                >{{ clientBasicInfo.firstName }}
+                {{ clientBasicInfo.lastName }}</v-list-item-title
+              >
 
-                <v-list-item-subtitle
-                  class="text-h6"
-                >{{clientBasicInfo.mobile | phone}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </div>
+              <v-list-item-subtitle class="text-h6">{{
+                clientBasicInfo.mobile | phone
+              }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         </div>
+      </div>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn class="mx-3" color="secondary" outlined x-large @click="gotoFile(clientFileBasicInfo.clientFileNumber)" v-for="clientFileBasicInfo in clientFileBasicInfoList" :key="clientFileBasicInfo.clientFileId">
-          <v-icon class="pr-4">mdi-file-account</v-icon>
-          {{clientFileBasicInfo.clientFileNumber}}
+        <v-btn
+          class="mx-3"
+          color="secondary"
+          outlined
+          large
+          @click="gotoFile(clientFileBasicInfo.clientFileNumber)"
+          v-for="clientFileBasicInfo in clientFileBasicInfoList"
+          :key="clientFileBasicInfo.clientFileId"
+        >
+          <v-icon size="30" class="pr-4">mdi-file-account</v-icon>
+          {{ clientFileBasicInfo.clientFileNumber }}
+          <v-chip x-small class="mx-2">{{
+            clientFileBasicInfo.cilentFileStatus.name
+          }}</v-chip>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn class="mx-3" color="primary" outlined large @click="addClientFile()">
+        <v-btn
+          class="mx-3"
+          color="primary"
+          outlined
+          large
+          @click="addClientFile()"
+        >
           <v-icon class="pr-4">mdi-file-document-plus-outline</v-icon>
           Add File to Client
         </v-btn>
@@ -66,7 +78,8 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
 
   clientId = this.$route.params.clientId;
 
-  clientBasicInfo: Data.Client.ClientBasicInfo = new Data.Client.ClientBasicInfo();
+  clientBasicInfo: Data.Client.ClientBasicInfo =
+    new Data.Client.ClientBasicInfo();
   clientFileBasicInfoList: Data.Client.ClientFileBasicInfo[] = [];
 
   get clientBasicInfoFormMetaData(): any {
@@ -79,12 +92,9 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
   }
 
   getClientBasicInfo() {
-    Action.Client.GetClientBasicInfo.execute1(
-      this.clientId,
-      (output) => {
-        this.clientBasicInfo = output;
-      }
-    );
+    Action.Client.GetClientBasicInfo.execute1(this.clientId, (output) => {
+      this.clientBasicInfo = output;
+    });
   }
 
   getClientFileBasicInfoList() {
@@ -97,24 +107,27 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
   }
 
   addClientFile() {
-    Action.ClientFile.AddClientFile.execute1(this.clientId, output => {
+    Action.ClientFile.AddClientFile.execute1(this.clientId, (output) => {
       setTimeout(() => {
-        this.gotoFile(output.clientFileNumber)
-      }, 1000)
-    })
+        this.gotoFile(output.clientFileNumber);
+      }, 1000);
+    });
   }
 
   getClientFileBasicInfo(clientFileId: string) {
     Action.ClientFile.GetClientFileBasicInfo.execute1(
       clientFileId,
       (output) => {
-        this.gotoFile(output.clientFileNumber)
+        this.gotoFile(output.clientFileNumber);
       }
-    )
+    );
   }
 
   gotoFile(clientFileNumber: string) {
-    Helper.Router.gotoFile({router: this.$router, clientFileNumber: clientFileNumber})
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: clientFileNumber,
+    });
   }
 }
 </script>

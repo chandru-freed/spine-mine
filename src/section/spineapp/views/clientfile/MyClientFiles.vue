@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-0 ma-0" color="transparent">
+  <v-card class="pa-0 ma-0" flat height="calc(100vh - 48px)">
       <v-data-table
         :headers="myClientFileListGridHeaderList"
         :items="myClientFileList"

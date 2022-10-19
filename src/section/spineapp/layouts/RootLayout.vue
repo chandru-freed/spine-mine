@@ -12,7 +12,7 @@
     </v-app-bar> -->
     <app-bar></app-bar>
 
-    <v-main class="grey lighten-4">
+    <v-main class="grey lighten-4" style="height: calc(100vh - 48px);">
       <!-- Provides the application the proper gutter -->
       <v-container fluid class="pa-0">
         <!-- If using vue-router -->

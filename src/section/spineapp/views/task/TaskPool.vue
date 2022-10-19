@@ -1,9 +1,9 @@
 <template>
   <div class="TaskPool">
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" color="transparent">
-      <task-tab v-model="tab"></task-tab>
-
+    <task-tab v-model="tab"></task-tab>
+    <!-- TASK TAB -->
+    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="toBePulledTaskGridHeaderList"
         :items="toBePulledTaskList"
@@ -11,7 +11,6 @@
         class="elevation-0"
         :search="search"
         item-key="taskId"
-        style="height: calc(100vh);"
       >
         <template v-slot:top>
           <v-toolbar flat>

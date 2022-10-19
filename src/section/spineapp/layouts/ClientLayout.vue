@@ -3,7 +3,7 @@
     <!-- <router-view/> -->
     <div clas="row pa-0 ma-0">
       <div class="col-12">
-        <v-card tile height="1200px" class="" flat color="transparent">
+        <v-card tile class="" flat color="transparent">
           <router-view ></router-view>
         </v-card>
       </div>

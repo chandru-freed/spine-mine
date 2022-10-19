@@ -248,6 +248,7 @@ export default class CollectClientInfoTask
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
       step,
+      route: this.$route
     });
   }
 

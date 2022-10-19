@@ -369,7 +369,9 @@ export default class FileTaskArea extends Vue {
   }
 
   goto(routerName: string){
-    this.$router.push({name: routerName})
+    this.$router.push({name: routerName,query: {
+        ...this.$route.query
+      }})
   }
 
   gotoTask(item: any) {
@@ -379,6 +381,9 @@ export default class FileTaskArea extends Vue {
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,
+      query: {
+        ...this.$route.query
+      }
     });
   }
 

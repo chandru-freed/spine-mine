@@ -8,12 +8,7 @@
   >
     <template v-slot:prepend>
       <v-toolbar flat dense color="grey lighten-2">
-        <v-btn icon v-if="!rightFocused" @click="focusRight">
-          <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
-        </v-btn>
-        <v-btn icon v-if="rightFocused" @click="resumeNormal">
-          <v-icon>mdi-circle-slice-8</v-icon>
-        </v-btn>
+        
         <v-tabs
           v-model="taskSummaryTab"
           background-color="grey lighten-2"
@@ -64,9 +59,6 @@ import FileLogs from "@/section/spineapp/components/file/FileLogs.vue";
   },
 })
 export default class FileTaskDetails extends Vue {
-  leftFocused = false;
-  rightFocused = true;
-
   taskSummaryTab = 0;
 
   taskSummaryTabList = [
@@ -88,19 +80,19 @@ export default class FileTaskDetails extends Vue {
     // },
   ];
 
-  focusLeft() {
-    this.leftFocused = true;
-    this.rightFocused = !this.leftFocused;
+
+    get leftFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      panelVal.toString().includes("lp") && !panelVal.toString().includes("rp")
+    );
   }
 
-  focusRight() {
-    this.leftFocused = false;
-    this.rightFocused = !this.leftFocused;
-  }
-
-  resumeNormal() {
-    this.leftFocused = false;
-    this.rightFocused = false;
+  get rightFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      !panelVal.toString().includes("lp") && panelVal.toString().includes("rp")
+    );
   }
 }
 </script>

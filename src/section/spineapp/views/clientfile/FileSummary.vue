@@ -1,12 +1,12 @@
 <template>
-  <div class="row ">
+  <div class="row">
     <div class="col-10">
       <!-- <v-card class="mx-auto pa-2" outlined> -->
-        <client-file-summary-card></client-file-summary-card>
+      <client-file-summary-card></client-file-summary-card>
       <!-- </v-card> -->
     </div>
     <div class="col-2">
-      <v-card class=" py-1 " outlined min-height="155">
+      <v-card class="py-1" outlined min-height="155">
         <v-card-actions>
           <v-row dense>
             <v-col class="col-12">
@@ -88,6 +88,20 @@
                 </v-list>
               </v-menu>
             </v-col>
+            <v-col class="mt-5" cols="6">
+              <v-btn-toggle
+                :value="selectedPanels"
+                @change="panelChanged"
+                multiple
+              >
+                <v-btn block small value="lp">
+                  Left
+                </v-btn>
+                <v-btn block small value="rp">
+                  Right
+                </v-btn>
+              </v-btn-toggle>
+            </v-col>
           </v-row>
         </v-card-actions>
       </v-card>
@@ -113,6 +127,7 @@ import ClientFileSummaryCard from "../../components/file/ClientFileSummaryCard.v
 })
 export default class FileSummary extends Vue {
   clientFileNumber: string = this.$route.params.clientFileNumber;
+  // toggle_exclusive: any = [];
   fileDetails = {
     clientName: "John Doe",
     clientFileNumber: "KFS-123-123-1234",
@@ -132,6 +147,22 @@ export default class FileSummary extends Vue {
     },
   };
 
+  panelChanged(value: string[]) {
+    this.$router.push({
+      query: {
+        ...this.$route.query,
+        panel: value.length > 0 ? value.toString() : undefined,
+      },
+    });
+  }
+
+  get selectedPanels() {
+    if (this.$route.query.panel) {
+      return (this.$route.query.panel as string).split(",");
+    }
+    return [];
+  }
+
   main = [
     {
       name: "Create Flow",
@@ -142,13 +173,19 @@ export default class FileSummary extends Vue {
       children: [
         { name: "Email", routerName: "Root.ClientFile.Request.SendEmail" },
         { name: "SMS", routerName: "Root.ClientFile.Request.SendSMS" },
-        { name: "Whatsapp", routerName: "Root.ClientFile.Request.SendWhatsapp" },
+        {
+          name: "Whatsapp",
+          routerName: "Root.ClientFile.Request.SendWhatsapp",
+        },
       ],
     },
     {
       name: "Assign",
       children: [
-        { name: "Relationship Manager (RM)", routerName: "Root.ClientFile.Request.AssignRM" },
+        {
+          name: "Relationship Manager (RM)",
+          routerName: "Root.ClientFile.Request.AssignRM",
+        },
         {
           name: "Sales Rep",
           routerName: "Root.ClientFile.Request.AssignSalesRep",
@@ -173,16 +210,21 @@ export default class FileSummary extends Vue {
       ],
     },
   ];
-  mounted() {}
+  mounted() {
+  }
 
   gotoRouter(routerName: string) {
     this.$router.push({ name: routerName });
   }
 
-  handleCreateRequestClick(){
+  handleCreateRequestClick() {
     this.$router.push({ name: "Root.ClientFile.Request.FileCreateRequest" });
   }
 }
 </script>
 
-<style></style>
+<style>
+.w-100 {
+  width: 100%;
+}
+</style>

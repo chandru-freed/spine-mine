@@ -9,7 +9,7 @@
   
     <v-stepper-header flat>
       <v-stepper-step
-        :editable="linearProgress"
+        :editable="!linearProgress"
         :complete="selectedStep > stepIndx"
         :step="stepIndx"
         v-for="(step, stepIndx) in stepMetaDataList"
@@ -32,23 +32,35 @@
             <div class="d-flex justify-space-around pa-3">
               <v-btn
                 :disabled="selectedStep == 0"
-                dense
+                small
                 outlined
                 color="primary"
                 @click="gotoPreviousStep()"
                 >Previous</v-btn
               >
+              
+              <v-spacer></v-spacer>
               <v-btn
-                v-if="step.submitFunc"
+                class="mr-2"
+                small
+                v-if="actionable && step.submitFunc"
                 outlined
                 color="primary"
                 @click="saveStep(step)"
                 >Save</v-btn
               >
               <v-btn
-                desne
+                v-if="!(actionable && step.submitFunc)"
+                small
                 :disabled="selectedStep === stepMetaDataList.length-1"
                 outlined color="primary" @click="gotoNextStep(step)">{{"Next"}}</v-btn>
+
+                <v-btn
+                small
+                v-if="actionable && step.submitFunc"
+                :disabled="selectedStep === stepMetaDataList.length-1"
+                outlined color="primary" @click="submitAndGotoNextStep(step)">{{"Save & Next"}}</v-btn>
+
             </div>
 
             <component
@@ -116,6 +128,9 @@ export default class FTaskStepper extends ModelVue {
   })
   linearProgress: boolean;
 
+  @Prop()
+  actionable: boolean;
+
   changeStepQuery(val: any) {
     console.log(val);
     this.$router.push({
@@ -132,14 +147,14 @@ export default class FTaskStepper extends ModelVue {
     step.submitFunc()
   }
 
-  gotoNextStep(step: any) {
-    if (step.submitFunc) {
+  submitAndGotoNextStep(step: any) {
       step.submitFunc(() => {
         this.changeStepQuery(this.selectedStep + 1);
       });
-    } else {
+  }
+
+  gotoNextStep(step: any) {
       this.changeStepQuery(this.selectedStep + 1);
-    }
   }
 }
 </script>

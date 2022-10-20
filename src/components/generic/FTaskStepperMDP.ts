@@ -6,10 +6,12 @@ export default class FTaskStepperMDP implements MDP {
   stepList: FTaskStepMDP[] = [];
   myRefName: string;
   linearProgress: boolean;
+  actionable: boolean;
 
-  constructor({ myRefName, linearProgress=false }: { myRefName: string;linearProgress?: boolean}) {
+  constructor({ myRefName, linearProgress=false, actionable}: { myRefName: string;linearProgress?: boolean, actionable: boolean}) {
     this.myRefName = myRefName;
     this.linearProgress = linearProgress;
+    this.actionable = actionable
   }
 
   addStep({name, stepContent,submitFunc}:{name: string, stepContent: MDP,submitFunc?: (onSuccess: any) => void}) {
@@ -24,6 +26,7 @@ export default class FTaskStepperMDP implements MDP {
       props: {
         myRefName: this.myRefName,
         linearProgress: this.linearProgress,
+        actionable: this.actionable,
         stepMetaDataList: this.stepList.map((step) => step.getMetaData()),
       },
     };

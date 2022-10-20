@@ -9,7 +9,7 @@ export default class CHPPFStepperMDP extends FTaskStepperMDP {
   parent: any;
 
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-    super({ myRefName: "chppStepperRef", linearProgress : taskRoot.taskDisabled });
+    super({ myRefName: "chppStepperRef", linearProgress : !taskRoot.taskDisabled, actionable:  !taskRoot.taskDisabled});
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 

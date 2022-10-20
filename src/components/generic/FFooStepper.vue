@@ -1,9 +1,13 @@
 <template>
-  <v-stepper :value="selectModel(selectedStep, undefined)"
-  @change="newVal => changeStepQuery(newVal)"
-  flat non-linear>
+  <v-stepper
+    :value="selectModel(selectedStep, undefined)"
+    @change="(newVal) => changeStepQuery(newVal)"
+    flat
+    non-linear
+  >
     <v-stepper-header flat>
       <!-- :editable="stepIndx<selectedStep" -->
+
       <v-stepper-step
         :editable="stepsEditable"
         :complete="selectedStep > stepIndx"
@@ -24,6 +28,28 @@
       >
         <v-card color="grey lighten-4" flat min-height="600">
           <v-card-text class="pa-0">
+            <div class="d-flex justify-space-around pa-3">
+              <v-btn
+                :disabled="selectedStep == 0"
+                outlined
+                color="primary"
+                @click="goToPreviousStep()"
+                >Previous</v-btn
+              >
+              <v-btn
+                v-if="step.submitFunc"
+                outlined
+                color="primary"
+                @click="saveStep(step)"
+                >Save</v-btn
+              >
+              <v-btn
+              :disabled="nextButtonDisabled"
+              outlined color="primary" @click="gotoNextStep(step)">{{
+                step.submitFunc ? "Save & Next" : "Next"
+              }}</v-btn>
+            </div>
+
             <component
               :ref="step.stepContent.myRefName"
               :is="step.stepContent.componentName"
@@ -65,7 +91,7 @@ import FEMandate from "./file/eMandate/FEMandate.vue";
     FPaymentPlan,
     FDocument,
     FMarkComplete,
-    FEMandate
+    FEMandate,
   },
 })
 export default class FFooStepper extends ModelVue {
@@ -81,15 +107,50 @@ export default class FFooStepper extends ModelVue {
 
   @Prop()
   stepMetaDataList: any[];
-  
+
   @Prop({
-    default: false
+    default: false,
   })
   stepsEditable: boolean;
 
   changeStepQuery(val: any) {
-    console.log(val)
-    this.$router.push({ query: { step: val.toString()  }});
+    console.log(val);
+    this.$router.push({
+      query: { ...this.$route.query, step: val.toString() },
+    });
+  }
+  handleNextClick(step: any) {
+    if (step.stepInstance.saveCallBack) {
+      step.stepInstance.saveCallBack(() => {
+        this.changeStepQuery(this.selectedStep + 1);
+      });
+    } else {
+      this.changeStepQuery(this.selectedStep + 1);
+    }
+  }
+
+  get nextButtonDisabled() {
+    return this.selectedStep === this.stepMetaDataList.length-1
+  }
+
+  goToPreviousStep() {
+    this.changeStepQuery(this.selectedStep - 1);
+  }
+
+  saveStep(step: any) {
+    step.submitFunc(() => {
+      
+    })
+  }
+
+  gotoNextStep(step: any) {
+    if (step.submitFunc) {
+      step.submitFunc(() => {
+        this.changeStepQuery(this.selectedStep + 1);
+      });
+    } else {
+      this.changeStepQuery(this.selectedStep + 1);
+    }
   }
 }
 </script>

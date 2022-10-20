@@ -117,10 +117,11 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
     });
   }
 
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack
     });
   }
 
@@ -158,6 +159,7 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
       step,
+      route: this.$route
     });
   }
 

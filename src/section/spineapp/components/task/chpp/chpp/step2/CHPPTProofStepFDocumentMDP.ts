@@ -11,25 +11,25 @@ export default class CHPPTProofStepFDocumentMDP extends FDocumentMDP {
       disabled: taskRoot.taskDisabled,
     });
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-      })
-    );
+    // this.addAction(
+    //   new FBtnMDP({
+    //     label: "Save",
+    //     onClick: this.saveTask(),
+    //   })
+    // );
   }
 
-  goBack() {
-    return () => {
-      this.taskRoot.goToStep(0)
-    }
-  }
+  // goBack() {
+  //   return () => {
+  //     this.taskRoot.goToStep(0)
+  //   }
+  // }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
+  // saveTask() {
+  //   return () => {
+  //     this.taskRoot.saveTask();
+  //   };
+  // }
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName][0];

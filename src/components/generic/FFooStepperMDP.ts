@@ -12,8 +12,8 @@ export default class FFooStepperMDP implements MDP {
     this.disabled = disabled;
   }
 
-  addStep({name, stepContent}:{name: string, stepContent: MDP}) {
-    this.stepList.push(new FStepMDP({ name: name, stepContent: stepContent }));
+  addStep({name, stepContent,submitFunc}:{name: string, stepContent: MDP,submitFunc?: (onSuccess: any) => void}) {
+    this.stepList.push(new FStepMDP({ name: name, stepContent: stepContent, submitFunc }));
     return this;
   }
 
@@ -37,15 +37,19 @@ export default class FFooStepperMDP implements MDP {
 export class FStepMDP implements MDP {
   name: string;
   stepContent: MDP;
-  constructor({ name, stepContent }: { name: string; stepContent: MDP }) {
+  submitFunc: ((onSuccess: any) => void) | undefined;
+  constructor({ name, stepContent,submitFunc }: { name: string; stepContent: MDP, submitFunc?: ((onSuccess: any) => void) | undefined }) {
     this.name = name;
     this.stepContent = stepContent;
+    this.submitFunc = submitFunc;
   }
 
   getMetaData(): object {
     return {
       stepName: this.name,
       stepContent: this.stepContent.getMetaData(),
+      stepInstance: this.stepContent,
+      submitFunc: this.submitFunc
     };
   }
 }

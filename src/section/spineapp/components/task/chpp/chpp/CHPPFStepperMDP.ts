@@ -5,7 +5,7 @@ import CHPPTCollectInfoStepFFormMDP from "./step1/CHPPTCollectInfoStepFFormMDP";
 import CHPPTProofStepFDocumentMDP from "./step2/CHPPTProofStepFDocumentMDP";
 import CHPPTFinalStepFFormMDP from "./step3/CHPPFinalStepFFormMDP";
 
-export default class CHPPFStepperMDP extends FStepperMDP {
+export default class CHPPFStepperMDP extends FFooStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
 
@@ -13,12 +13,15 @@ export default class CHPPFStepperMDP extends FStepperMDP {
     super({ myRefName: "chppStepperRef" });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
+
+    const chppCollectInfoStep = new CHPPTCollectInfoStepFFormMDP({
+      taskRoot: taskRoot,
+      parent: this,
+    })
     this.addStep({
       name: "Collect Info",
-      stepContent: new CHPPTCollectInfoStepFFormMDP({
-        taskRoot: taskRoot,
-        parent: this,
-      }),
+      stepContent:chppCollectInfoStep,
+      submitFunc: chppCollectInfoStep.validateAndSubmit()
     }).addStep({
       name: "Collect Proof Documents",
       stepContent: new CHPPTProofStepFDocumentMDP({

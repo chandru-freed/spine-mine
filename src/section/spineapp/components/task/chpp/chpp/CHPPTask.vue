@@ -16,7 +16,6 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import FStepper from "@/components/generic/FStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -24,13 +23,12 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import CHPPFStepperMDP from "./CHPPFStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
-import FFooStepper from "@/components/generic/FFooStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 @Component({
   components: {
-    FStepper,
     FBtn,
-    FFooStepper
+    FTaskStepper
   },
 })
 export default class CHPPTask extends ModelVue implements ManualTaskIntf {

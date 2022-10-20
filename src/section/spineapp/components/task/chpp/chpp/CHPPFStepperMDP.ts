@@ -1,16 +1,15 @@
-import FFooStepperMDP from "@/components/generic/FFooStepperMDP";
-import FStepperMDP from "@/components/generic/FStepperMDP";
+import FTaskStepperMDP from "@/components/generic/FTaskStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import CHPPTCollectInfoStepFFormMDP from "./step1/CHPPTCollectInfoStepFFormMDP";
 import CHPPTProofStepFDocumentMDP from "./step2/CHPPTProofStepFDocumentMDP";
 import CHPPTFinalStepFFormMDP from "./step3/CHPPFinalStepFFormMDP";
 
-export default class CHPPFStepperMDP extends FFooStepperMDP {
+export default class CHPPFStepperMDP extends FTaskStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
 
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-    super({ myRefName: "chppStepperRef" });
+    super({ myRefName: "chppStepperRef", linearProgress : taskRoot.taskDisabled });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 

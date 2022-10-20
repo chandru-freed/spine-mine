@@ -6,12 +6,17 @@
           <v-col xs="12" sm="8" md="4">
             <v-card flat outlined>
               <v-toolbar color="primary" flat dark>
+                <v-avatar size="40px">
+                  <v-icon>mdi-account-circle-outline</v-icon>
+                </v-avatar>
+                <v-toolbar-title>Sign In</v-toolbar-title>
+                
+
+                <v-spacer></v-spacer>
                 <v-list-item-avatar>
                   <v-img src="@/assets/freed-small-logo.svg" />
                 </v-list-item-avatar>
-
-                <v-spacer></v-spacer>
-                <v-toolbar-title>Sign In</v-toolbar-title>
+                
               </v-toolbar>
               <v-card-text>
                 <component

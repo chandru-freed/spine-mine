@@ -7,11 +7,11 @@
     :mini-variant="mini"
     
   >
-    <v-list>
-      <v-list-item class="px-2">
-        <v-list-item-avatar @click="mini = !mini">
+    <v-list class="py-0">
+      <v-list-item class="px-2" dense>
+        <v-list-item-avatar @click="mini = !mini" size="30" class="ma-2">
           <!-- <v-icon class="grey lighten-1 secondary--text"> mdi-folder </v-icon> -->
-          <v-img src="@/assets/freed-small-logo.svg" />
+          <v-img src="@/assets/freed-small-logo.svg" size="30"/>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -30,7 +30,7 @@
     <v-list nav dense dark>
       <v-list-item link @click="goto('Root.Home')">
         <v-list-item-icon>
-          <v-icon>mdi-home-analytics</v-icon>
+          <v-icon>mdi-view-dashboard</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Home</v-list-item-title>
       </v-list-item>

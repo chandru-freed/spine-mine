@@ -5,20 +5,14 @@
       permanent
       :width="leftFocused ? '100%' : '49%'"
       v-if="!rightFocused"
-      :temporary="leftFocused"
       overlay-color="transparent"
       overlay-opacity="0"
     >
       <template v-slot:prepend>
         <v-toolbar flat dense color="grey lighten-2">
-          <v-btn icon v-if="!leftFocused" @click="focusLeft">
-            <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
-          </v-btn>
-          <v-btn icon v-if="leftFocused" @click="resumeNormal">
-            <v-icon>mdi-circle-slice-8</v-icon>
-          </v-btn>
           <v-tabs
-            v-model="fileDetailsTab"
+            :value="selectedTab"
+            @change="changeSelectedTab"
             background-color="grey lighten-2"
             color="secondary"
             grow
@@ -36,7 +30,7 @@
 
       <v-divider></v-divider>
 
-      <v-tabs-items v-model="fileDetailsTab" flat>
+      <v-tabs-items :value="selectedTab" flat>
         <v-tab-item v-for="item in fileDetailsTabList" :key="item.tabName">
           <v-card flat min-height="700">
             <component :is="item.component"></component>
@@ -78,11 +72,6 @@ import PaymentTransaction from "../../components/file/payment/PaymentTransaction
 })
 export default class FileDetails extends Vue {
   clientfileNumber = this.$route.params.clientFileNumber;
-
-  leftFocused = false;
-  rightFocused = false;
-
-  fileDetailsTab = 0;
   fileDetailsTabList = [
     // {
     //   tabName: "Info",
@@ -122,14 +111,31 @@ export default class FileDetails extends Vue {
     },
   ];
 
-  focusLeft() {
-    this.leftFocused = true;
-    this.rightFocused = !this.leftFocused;
+changeSelectedTab(value: number) {
+ this.$router.push({
+      query: {
+        ...this.$route.query,
+        lt: value.toString(),
+      },
+    });
+}
+
+  get selectedTab() {
+    return this.$route.query.lt?Number(this.$route.query.lt):0
+  }
+ 
+  get leftFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      panelVal.toString().includes("lp") && !panelVal.toString().includes("rp")
+    );
   }
 
-  resumeNormal() {
-    this.leftFocused = false;
-    this.rightFocused = false;
+  get rightFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      !panelVal.toString().includes("lp") && panelVal.toString().includes("rp")
+    );
   }
 }
 </script>

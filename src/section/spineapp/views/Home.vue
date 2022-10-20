@@ -1,5 +1,5 @@
 <template>
-  <div class="Home container">
+  <v-container>
     <div class="row">
       <!-- <div class="col-12 px-6">
         <v-text-field
@@ -9,81 +9,82 @@
           rounded
         ></v-text-field>
       </div> -->
-      <div class="col-4" >
-        <v-card class="mx-auto" max-width="344" outlined  @click="gotoRouter('Root.MyClientFiles')">
+      <div class="col-4">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="gotoRouter('Root.MyClientFiles')"
+        >
           <v-list-item three-line>
             <v-list-item-content>
               <div class="text-overline mb-4">My Clients</div>
               <v-list-item-title class="text-h4 mb-1">
-                {{myDashboardSummary.myClientFileCount}}
+                {{ myDashboardSummary.myClientFileCount }}
               </v-list-item-title>
-              <v-list-item-subtitle
-                >Files Owned</v-list-item-subtitle
-              >
+              <v-list-item-subtitle>Files Owned</v-list-item-subtitle>
               <!-- <v-list-item-title class="text-h6 mb-1" v-if="item.subHeading">
                 {{ item.subHeading + " (" + item.subCount + ")" }}
               </v-list-item-title> -->
             </v-list-item-content>
 
-            <v-list-item-avatar
-              tile
-              size="60"
-            >
-            <v-icon size="60">mdi-file-account</v-icon>
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-file-account</v-icon>
             </v-list-item-avatar>
           </v-list-item>
         </v-card>
       </div>
 
-      <div class="col-4" >
-        <v-card class="mx-auto" max-width="344" outlined  @click="gotoRouter('Root.TaskList.TaskAssignedToMe')">
+      <div class="col-4">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="gotoRouter('Root.TaskList.TaskAssignedToMe')"
+        >
           <v-list-item three-line>
             <v-list-item-content>
               <div class="text-overline mb-4">My Tasks</div>
               <v-list-item-title class="text-h4 mb-1">
-                {{myDashboardSummary.taskAssignedCount}} / {{myDashboardSummary.taskCompletedToday}}
+                {{ myDashboardSummary.taskAssignedCount }} /
+                {{ myDashboardSummary.taskCompletedToday }}
               </v-list-item-title>
               <v-list-item-subtitle
                 >Assigned / Completed Today</v-list-item-subtitle
               >
             </v-list-item-content>
 
-            <v-list-item-avatar
-              tile
-              size="60"
-            >
-            <v-icon size="60">mdi-checkbox-marked-circle-outline</v-icon>
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-checkbox-marked-circle-outline</v-icon>
             </v-list-item-avatar>
           </v-list-item>
         </v-card>
       </div>
 
-      <div class="col-4" >
-        <v-card class="mx-auto" max-width="344" outlined  @click="gotoRouter('Root.MyTicket.ActiveTicketList')">
+      <div class="col-4">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="gotoRouter('Root.MyTicket.ActiveTicketList')"
+        >
           <v-list-item three-line>
             <v-list-item-content>
               <div class="text-overline mb-4">My Tickets</div>
               <v-list-item-title class="text-h4 mb-1">
-                {{myDashboardSummary.ticketActiveCount}}  /  {{myDashboardSummary.ticketCompletedToday}}
+                {{ myDashboardSummary.ticketActiveCount }} /
+                {{ myDashboardSummary.ticketCompletedToday }}
               </v-list-item-title>
               <v-list-item-subtitle
-                >Assigned  / Completed Today</v-list-item-subtitle
+                >Assigned / Completed Today</v-list-item-subtitle
               >
             </v-list-item-content>
 
-            <v-list-item-avatar
-              tile
-              size="60"
-            >
-            <v-icon size="60">mdi-ticket-confirmation</v-icon>
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-ticket-confirmation</v-icon>
             </v-list-item-avatar>
           </v-list-item>
         </v-card>
       </div>
-     
-      
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">

@@ -1,8 +1,9 @@
 <template>
   <div class="CompletedTicket">
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" color="transparent">
-      <my-ticket-tab v-model="tab"></my-ticket-tab>
+    <my-ticket-tab v-model="tab"></my-ticket-tab>
+    <!-- TASK TAB -->
+    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
         :items="myTicketTaskList"

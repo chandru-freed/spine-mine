@@ -1,7 +1,9 @@
 <template>
   <div class="TaskCompleted">
-    <v-card class="pa-0 ma-0" color="transparent">
-      <task-tab v-model="tab"></task-tab>
+    <!-- TASK TAB -->
+    <task-tab v-model="tab"></task-tab>
+    <!-- TASK TAB -->
+    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <!--  COMPLETED TASK -->
       <v-data-table
         :headers="completedTaskheaders"
@@ -9,7 +11,6 @@
         class="elevation-0"
         :search="search"
         item-key="completedTaskId"
-        style="height: calc(100vh);"
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -31,10 +32,20 @@
           </v-toolbar>
         </template>
         <template v-slot:item.cid="{ item }">
-          <f-btn :label="item.cid" text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
+          <f-btn
+            :label="item.cid"
+            text
+            color="secondary"
+            :onClick="() => gotoFile(item)"
+          ></f-btn>
         </template>
         <template v-slot:item.taskName="{ item }">
-          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
+          <f-btn
+            :label="item.taskName"
+            text
+            color="primary"
+            :onClick="() => gotoTask(item)"
+          ></f-btn>
         </template>
         <template v-slot:item.displayId="{ item }">
           <span class="overline">
@@ -43,7 +54,7 @@
         </template>
         <template v-slot:item.startedTime="{ item }">
           <span class="grey--text">
-            {{ item.startedTime | date-time }} ({{
+            {{ item.startedTime | (date - time) }} ({{
               item.startedTime | fromNow
             }})
           </span>
@@ -51,7 +62,7 @@
 
         <template v-slot:item.completedTime="{ item }">
           <span class="grey--text">
-            {{ item.completedTime | date-time }} ({{
+            {{ item.completedTime | (date - time) }} ({{
               item.completedTime | fromNow
             }})
           </span>
@@ -75,7 +86,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 @Component({
   components: {
     "task-tab": TaskTab,
-    "f-btn":FBtn
+    "f-btn": FBtn,
   },
 })
 export default class TaskCompleted extends Vue {
@@ -83,10 +94,12 @@ export default class TaskCompleted extends Vue {
   tab = 0;
   selected = [];
   search = "";
-  searchDurationInDays = 7
+  searchDurationInDays = 7;
 
   toDate = moment().format(Helper.DATE_FORMAT);
-  fromDate = moment().subtract(this.searchDurationInDays, "d").format(Helper.DATE_FORMAT);
+  fromDate = moment()
+    .subtract(this.searchDurationInDays, "d")
+    .format(Helper.DATE_FORMAT);
 
   completedTaskheaders = [
     { text: "File Number", value: "cid" },

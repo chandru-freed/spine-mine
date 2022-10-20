@@ -247,6 +247,9 @@ export default class FileTaskList extends Vue {
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,
+      query: {
+        ...this.$route.query
+      }
     });
   }
 

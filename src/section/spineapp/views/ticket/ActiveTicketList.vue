@@ -1,8 +1,9 @@
 <template>
   <div class="ActiveTicket">
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" color="transparent">
-      <my-ticket-tab v-model="tab"></my-ticket-tab>
+    <my-ticket-tab v-model="tab"></my-ticket-tab>
+    <!-- TASK TAB -->
+    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
         :items="myTicketTaskList"
@@ -59,7 +60,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | date-time }} ({{
+            {{ item.allocatedTime | (date - time) }} ({{
               item.allocatedTime | fromNow
             }})
           </span>
@@ -86,7 +87,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 })
 export default class ActiveTicketList extends Vue {
   tab: number = 0;
-  search: string = ""
+  search: string = "";
 
   myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
 
@@ -114,7 +115,7 @@ export default class ActiveTicketList extends Vue {
   }
 
   gotoTask(item: any) {
-    console.log(item)
+    console.log(item);
     this.$router.push({
       name: "Root.MyTicket.MyTicketDetails.MyTicketTaskDetails",
       params: { myTicketId: item.taskId, ticketNumber: item.cid },

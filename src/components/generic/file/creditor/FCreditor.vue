@@ -60,7 +60,7 @@
               <v-toolbar-title>Creditors</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-chip label outlined color="primary"
-                >Total Debt - ₹{{ totalDebt }}</v-chip
+                >Total Debt - {{ totalDebt | toINR }}</v-chip
               >
               <v-chip
                 v-if="clientFileSummary?.wad"

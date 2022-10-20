@@ -1,4 +1,4 @@
-import VueRouter from "vue-router";
+import VueRouter, { Route } from "vue-router";
 
 export default class MyRouter {
   static gotoFile({router, clientFileNumber}: {router: VueRouter, clientFileNumber: string}) {
@@ -15,11 +15,11 @@ export default class MyRouter {
     });
   }
 
-  static gotoStep({router, clientFileNumber,step}: {router: VueRouter, clientFileNumber: string, step: any}) {
+  static gotoStep({router, clientFileNumber,step,route}: {router: VueRouter, clientFileNumber: string, step: any,route: Route}) {
     router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: { clientFileNumber: clientFileNumber },
-      query:{ step },
+      query:{ ...route.query,step },
     });
   }
 }

@@ -1,4 +1,3 @@
-import FStepperMDP from "@/components/generic/FStepperMDP";
 import FTaskStepperMDP from "@/components/generic/FTaskStepperMDP";
 import MDP from "@/components/generic/MDP";
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";

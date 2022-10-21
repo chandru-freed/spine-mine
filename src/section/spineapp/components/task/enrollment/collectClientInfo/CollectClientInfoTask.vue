@@ -28,7 +28,6 @@ import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBtn from "@/components/generic/FBtn.vue";
-import FFooStepper from "@/components/generic/FFooStepper.vue";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 @Component({

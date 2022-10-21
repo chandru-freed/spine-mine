@@ -22,8 +22,6 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITFStepperMDP from "./MCITFStepperMDP";
-import FStepper from "@/components/generic/FStepper.vue";
-import FFooStepper from "@/components/generic/FFooStepper.vue";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 @Component({
   components: {

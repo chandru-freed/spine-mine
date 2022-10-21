@@ -125,13 +125,14 @@ export default class NMSFTFFormMDP extends FFormMDP {
           }),
         ]
       }))
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Save",
+      //     onClick: this.validateAndSubmit(),
+      //     condition: this.isStarted()
+      //   })
+      // )
       .addAction(
-        new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
-          condition: this.isStarted()
-        })
-      ).addAction(
         new FBtnMDP({
           label: "Rescue",
           onClick: this.rescueTask(),
@@ -151,18 +152,31 @@ export default class NMSFTFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
+  // validateAndSubmit() {
+  //   return () => {
+  //     this.getMyRef().submitForm(this.saveTask());
+  //   };
+  // }
+
+
+
+  // saveTask() {
+  //   return () => {
+  //     this.taskRoot.saveTask();
+  //   };
+  // }
+
   validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.saveTask());
+    return (successCallBack: any) => {
+      this.getMyRef().submitForm(() => {
+        this.saveTask(() => successCallBack())
+      }
+      );
     };
   }
 
-
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
+  saveTask(successCallBack: any) {
+    this.taskRoot.saveTask(() => successCallBack());
   }
 
 

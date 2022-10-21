@@ -15,7 +15,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -27,7 +27,7 @@ import { NsfMSFOptions } from "./step1/NMSFTFFormMDP";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
@@ -110,7 +110,19 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
     });
   }
 
-  saveTask() {
+  // saveTask() {
+  //   this.taskFormOutput.manualPayment =
+  //     this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
+  //   this.taskFormOutput.answered = !(
+  //     this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
+  //   );
+  //   Task.Action.saveTask({
+  //     taskId: this.taskId,
+  //     taskOutput: this.taskFormData.taskOutput,
+  //   });
+  // }
+
+  saveTask(successCallBack = () => {}) {
     this.taskFormOutput.manualPayment =
       this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
     this.taskFormOutput.answered = !(
@@ -119,6 +131,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
 
@@ -140,6 +153,29 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
     });
+  }
+
+  saveAndNext() {
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+      callback: () => {
+        this.goToStep(this.currentStep + 1);
+      },
+    });
+  }
+
+  goToStep(step: number) {
+    Helper.Router.gotoStep({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+      step,
+      route: this.$route,
+    });
+  }
+
+  get currentStep(): number {
+    return this.$route.query.step ? Number(this.$route.query.step) : 0;
   }
 }
 </script>

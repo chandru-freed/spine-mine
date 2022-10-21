@@ -109,10 +109,11 @@ export default class SignServiceAgreementFailedTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
   rescueTask() {

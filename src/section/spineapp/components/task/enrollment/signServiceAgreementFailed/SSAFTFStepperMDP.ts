@@ -14,12 +14,15 @@ export default class SSAFTFStepperMDP extends FTaskStepperMDP {
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
+    const ssaftRetryStepFFormMDP = new SSAFTRetryStepFFormMDP({
+      taskRoot: taskRoot,
+      parent: this,
+    })
+
     this.addStep({
       name: "Retry Sign Agreement",
-      stepContent: new SSAFTRetryStepFFormMDP({
-        taskRoot: taskRoot,
-        parent: this,
-      }),
+      stepContent: ssaftRetryStepFFormMDP,
+      submitFunc: ssaftRetryStepFFormMDP.validateAndSubmit()
     });
   }
 

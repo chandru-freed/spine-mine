@@ -1,5 +1,5 @@
 
-import FFooStepperMDP from "@/components/generic/FFooStepperMDP";
+import FTaskStepperMDP from "@/components/generic/FTaskStepperMDP";
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITProfileStepMDP from "./step1/MCITProfileStepMDP";
@@ -12,19 +12,43 @@ import MCITMarkCompleteStepFFormMDP from "./step7/MCITMarkCompleteStepFFormMDP";
 
 
 
-export default class MCITFStepperMDP extends FFooStepperMDP {
+export default class MCITFStepperMDP extends FTaskStepperMDP {
     taskRoot: ManualTaskIntf;
     parent: any;
     constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-        super({ myRefName: "manageClientInfoStepperRef" });
+        super({ myRefName: "manageClientInfoStepperRef", linearProgress: !taskRoot.taskDisabled, actionable: !taskRoot.taskDisabled  });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;
+
+        const mcitProfileStepMDP = new MCITProfileStepMDP({
+            taskRoot: taskRoot,
+            parent: this,
+        })
+
+        const mcitBudgetStepFBudgetMDP = new MCITBudgetStepFBudgetMDP({
+            taskRoot: taskRoot,
+            parent: this,
+        })
+
+        const mcitPaymentPlanStepFPaymentPlanMDP = new MCITPaymentPlanStepFPaymentPlanMDP({
+            taskRoot: taskRoot,
+            parent: this,
+        })
+        
+        const mcitBankStepFBankFFormMDP = new MCITBankStepFBankFFormMDP({
+            taskRoot: taskRoot,
+            parent: this,
+        })
+
+        const mcitMarkCompleteStepFFormMDP = new MCITMarkCompleteStepFFormMDP({
+            taskRoot: taskRoot,
+            parent: this,
+        })
+
         this.addStep({
             name: "Profile",
-            stepContent: new MCITProfileStepMDP({
-                taskRoot: taskRoot,
-                parent: this,
-            })
+            stepContent: mcitProfileStepMDP,
+            submitFunc: mcitProfileStepMDP.validateAndSubmit()
         }).addStep({
             name: "Creditor",
             stepContent: new MCITCreditorStepFCreditorMDP({
@@ -33,22 +57,16 @@ export default class MCITFStepperMDP extends FFooStepperMDP {
             })
         }).addStep({
             name: "Budget",
-            stepContent: new MCITBudgetStepFBudgetMDP({
-                taskRoot: taskRoot,
-                parent: this,
-            })
+            stepContent: mcitBudgetStepFBudgetMDP,
+            submitFunc: mcitBudgetStepFBudgetMDP.validateAndSubmit()
         }).addStep({
             name: "Payment Plan",
-            stepContent: new MCITPaymentPlanStepFPaymentPlanMDP({
-                taskRoot: taskRoot,
-                parent: this,
-            })
+            stepContent: mcitPaymentPlanStepFPaymentPlanMDP,
+            submitFunc: mcitPaymentPlanStepFPaymentPlanMDP.submit()
         }).addStep({
             name: "Bank",
-            stepContent: new MCITBankStepFBankFFormMDP({
-                taskRoot: taskRoot,
-                parent: this,
-            })
+            stepContent: mcitBankStepFBankFFormMDP,
+            submitFunc: mcitBankStepFBankFFormMDP.validateAndSubmit()
         }).addStep({
             name: "Document",
             stepContent: new MCITUploadStepFDocumentMDP({
@@ -57,10 +75,8 @@ export default class MCITFStepperMDP extends FFooStepperMDP {
             })
         }).addStep({
             name: "Verify",
-            stepContent: new MCITMarkCompleteStepFFormMDP({
-                taskRoot: taskRoot,
-                parent: this,
-            })
+            stepContent: mcitMarkCompleteStepFFormMDP,
+            submitFunc: mcitMarkCompleteStepFFormMDP.submit()
         })
         
     }

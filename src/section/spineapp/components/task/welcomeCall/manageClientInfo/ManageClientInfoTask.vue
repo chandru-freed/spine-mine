@@ -2,10 +2,10 @@
   <div>
     <!-- <h4>Manage client info task</h4> -->
     <!-- Root Data : {{ taskFormData }} -->
-    <div class="row my-5 mx-5">
+    <!-- <div class="row my-5 mx-5">
       <v-spacer />
       <V-btn @click="setTestData">FILL TEST DATA</V-btn>
-    </div>
+    </div> -->
 
     <component
       :ref="stepperMetaData.myRefName"
@@ -28,10 +28,10 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITFStepperMDP from "./MCITFStepperMDP";
 import FStepper from "@/components/generic/FStepper.vue";
 import FFooStepper from "@/components/generic/FFooStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 @Component({
   components: {
-    FStepper,
-    FFooStepper,
+    FTaskStepper,
   },
 })
 export default class ManageClientInfoTask
@@ -151,10 +151,11 @@ export default class ManageClientInfoTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
   rescueTask() {
@@ -182,6 +183,7 @@ export default class ManageClientInfoTask
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
       step,
+      route: this.$route,
     });
   }
 

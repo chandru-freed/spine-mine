@@ -21,40 +21,41 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-        new FSwitchMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.signServiceAgreementNeeded",
-          label: "Sign Service Agreement Needed",
-          boundaryClass: "col-4",
-        })
-      ).addField(
-        new FSwitchMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.amendmentNeeded",
-          label: "Amendment Needed",
-          boundaryClass: "col-4"
-        })
-      ).addField(
-        new FSwitchMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.eMandateNeeded",
-          label: "EMandate Needed",
-          boundaryClass: "col-4"
-        })
-      ).addField(new FSelectFieldMDP({
+      new FSwitchMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.amendmentType",
-        label:"Amendment Type",
-        boundaryClass:"col-12",
-        condition: this.taskRoot.isAmendmentNeeded(),
-        options: ["Amendment1","Amendment2"]
-      }))
+        dataSelectorKey: "taskOutput.signServiceAgreementNeeded",
+        label: "Sign Service Agreement Needed",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FSwitchMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.amendmentNeeded",
+        label: "Amendment Needed",
+        boundaryClass: "col-4"
+      })
+    ).addField(
+      new FSwitchMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.eMandateNeeded",
+        label: "EMandate Needed",
+        boundaryClass: "col-4"
+      })
+    ).addField(new FSelectFieldMDP({
+      parentMDP: this.childMDP,
+      dataSelectorKey: "taskOutput.amendmentType",
+      label: "Amendment Type",
+      boundaryClass: "col-12",
+      condition: this.taskRoot.isAmendmentNeeded(),
+      options: ["Amendment1", "Amendment2"]
+    }))
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Save",
+      //     onClick: this.validateAndSubmit(),
+      //   })
+      // )
       .addAction(
-        new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
-        })
-      ).addAction(
         new FBtnMDP({
           label: "Mark Complete",
           onClick: this.validateAndMarkComplete(),
@@ -67,11 +68,17 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.saveTask());
-    };
-  }
+  // validateAndSubmit() {
+  //   return () => {
+  //     this.getMyRef().submitForm(this.saveTask());
+  //   };
+  // }
+  
+    // saveTask() {
+    //   return () => {
+    //     this.taskRoot.saveTask();
+    //   };
+    // }
 
   validateAndMarkComplete() {
     return () => {
@@ -79,17 +86,22 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
     };
   }
 
-  
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
 
   saveAndMarkCompleteTask() {
     return () => {
       this.taskRoot.saveAndMarkCompleteTask();
     };
+  }
+
+  // new implement
+  submit() {
+    return (successCallBack: any) => {
+      this.saveTask(() => successCallBack())
+    };
+  }
+
+  saveTask(successCallBack: any) {
+    this.taskRoot.saveTask(() => successCallBack());
   }
 }

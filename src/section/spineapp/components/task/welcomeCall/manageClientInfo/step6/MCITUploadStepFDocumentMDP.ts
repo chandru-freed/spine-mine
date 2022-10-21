@@ -11,42 +11,42 @@ export default class MCITUploadStepFDocumentMDP extends FDocumentMDP {
       disabled: taskRoot.taskDisabled,
     });
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Previous",
-        onClick: this.goToPrevStep(),
-      })
-    )
+    // this.addAction(
+    //   new FBtnMDP({
+    //     label: "Previous",
+    //     onClick: this.goToPrevStep(),
+    //   })
+    // )
     // .addAction(
     //   new FBtnMDP({
     //     label: "Save",
     //     onClick: this.saveTask(),
     //   })
     // )
-    .addAction(
-      new FBtnMDP({
-        label: "Save And Next",
-        onClick: this.goToNextStep(),
-      })
-    );;
+    // .addAction(
+    //   new FBtnMDP({
+    //     label: "Save And Next",
+    //     onClick: this.goToNextStep(),
+    //   })
+    // );;
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
+  // saveTask() {
+  //   return () => {
+  //     this.taskRoot.saveTask();
+  //   };
+  // }
 
-  goToPrevStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(4);
-    }
-  }
-  goToNextStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(6);
-    }
-  }
+  // goToPrevStep() {
+  //   return () => {
+  //     (this.taskRoot as any).goToStep(4);
+  //   }
+  // }
+  // goToNextStep() {
+  //   return () => {
+  //     (this.taskRoot as any).goToStep(6);
+  //   }
+  // }
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName][0];

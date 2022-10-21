@@ -12,28 +12,28 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
-        this
-            // .addAction(
-            //     new FBtnMDP({
-            //         label: "Previous",
-            //         onClick: this.goToPrevStep(),
-            //         condition: this.isStarted()
-            //     })
-            // ).addAction(
-            //     new FBtnMDP({
-            //         label: "Save",
-            //         onClick: this.saveTask(),
-            //         condition: this.isStarted()
-            //     })
-            // )
-            .addAction(
-                new FBtnMDP({
-                    label: "Mark Complete",
-                    onClick: this.saveAndMarkCompleteTask(),
-                    btnType: BtnType.FILLED,
-                    condition: this.isStarted()
-                })
-            ).addForm(new CCITMarkCompleteStepFFormMDP({ taskRoot, parent }))
+
+        // this.addAction(
+        //     new FBtnMDP({
+        //         label: "Previous",
+        //         onClick: this.goToPrevStep(),
+        //         condition: this.isStarted()
+        //     })
+        // ).addAction(
+        //     new FBtnMDP({
+        //         label: "Save",
+        //         onClick: this.saveTask(),
+        //         condition: this.isStarted()
+        //     })
+        // )
+        this.addAction(
+            new FBtnMDP({
+                label: "Mark Complete",
+                onClick: this.saveAndMarkCompleteTask(),
+                btnType: BtnType.FILLED,
+                condition: this.isStarted()
+            })
+        ).addForm(new CCITMarkCompleteStepFFormMDP({ taskRoot, parent }))
     }
     isStarted() {
         return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
@@ -59,6 +59,7 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
     //     }
     // }
 
+    // new implement
     submit() {
         return (successCallBack: any) => {
             this.saveTask(() => successCallBack())

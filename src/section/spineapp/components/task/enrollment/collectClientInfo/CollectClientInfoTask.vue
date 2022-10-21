@@ -40,7 +40,6 @@ import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 @Component({
   components: {
-    FStepper,
     "f-btn": FBtn,
     FTaskStepper,
   },

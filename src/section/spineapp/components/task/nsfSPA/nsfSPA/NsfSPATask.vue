@@ -15,7 +15,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -26,7 +26,7 @@ import NSPAFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPA/NS
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
@@ -109,7 +109,7 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
     });
   }
 
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     this.taskFormOutput.manualPayment =
       this.taskFormOutput.selectedNSPATaskOption === "Receive Payment";
     this.taskFormOutput.answered = !(
@@ -118,6 +118,7 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
 

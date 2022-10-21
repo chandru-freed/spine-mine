@@ -1,6 +1,8 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
-import DispositionFMiniFormMDP, { DispositionType } from "@/components/generic/form/field/DispositionFMiniFormMDP";
+import DispositionFMiniFormMDP, {
+  DispositionType,
+} from "@/components/generic/form/field/DispositionFMiniFormMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
@@ -8,24 +10,16 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
-
-
 export default class NMSFTFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
   selectedOption: string;
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: ManualTaskIntf;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
     super({
       myRefName: "nMSFTFormRef",
       disabled: taskRoot.taskDisabled,
-      colWidth: 12
+      colWidth: 12,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -35,7 +29,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
         dataSelectorKey: "taskOutput.selectedNMSFTaskOption",
         label: "Select Option",
         options: Object.values(NsfMSFOptions),
-        mandatory: true
+        mandatory: true,
       })
     )
       .addField(
@@ -44,7 +38,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
           dataSelectorKey: "taskOutput.clientDeferredTime",
           label: "Client Deferred Time",
           condition: this.isClientDeffered(),
-          mandatory: true
+          mandatory: true,
         })
       )
       .addField(
@@ -52,7 +46,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.systemDeferredTime",
           label: "System Deferred Time",
-          condition: this.isSystemDeffered()
+          condition: this.isSystemDeffered(),
         })
       )
       // .addField(
@@ -63,14 +57,14 @@ export default class NMSFTFFormMDP extends FFormMDP {
       //     boundaryClass: "col-4",
       //     disabled: this.isDisabled(NsfMSFOptions.ReceivePayment)
       //   })
-      // ) 
+      // )
 
       .addField(
         new FNumberFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.amountToBeReceived",
           label: "Amount To Be Received",
-          condition: this.isReceivePayment()
+          condition: this.isReceivePayment(),
         })
       )
       .addField(
@@ -78,7 +72,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.upiId",
           label: "UPI Id",
-          condition: this.isReceivePayment()
+          condition: this.isReceivePayment(),
         })
       )
       .addField(
@@ -86,45 +80,51 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.intent",
           label: "Intent",
-          condition: this.isReceivePayment()
+          condition: this.isReceivePayment(),
         })
-      ).addField(
+      )
+      .addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.msfScheduledDraftDate",
           label: "Msf Scheduled Draft Date",
           mandatory: true,
           futureDaysDisabled: true,
-          condition: this.isDraftRescheduled()
+          condition: this.isDraftRescheduled(),
         })
-      ).addField(new DispositionFMiniFormMDP({
-        taskRoot,
-        parent,
-        dataSelectorKey: "taskOutput.disposition",
-        condition: this.isSystemDeffered(),
-        dispositionTypeList: [
-          new DispositionType({
-            label: "Not Answered",
-            value: "NotAnswered"
-          }),
-        ]
-      }))
-      .addField(new DispositionFMiniFormMDP({
-        taskRoot,
-        parent,
-        dataSelectorKey: "taskOutput.disposition",
-        condition: this.isClientDeffered(),
-        dispositionTypeList: [
-          new DispositionType({
-            label: "Client Busy",
-            value: "ClientBusy"
-          }),
-          new DispositionType({
-            label: "No Enough Funds",
-            value: "NoEnoughFunds"
-          }),
-        ]
-      }))
+      )
+      .addField(
+        new DispositionFMiniFormMDP({
+          taskRoot,
+          parent,
+          dataSelectorKey: "taskOutput.disposition",
+          condition: this.isSystemDeffered(),
+          dispositionTypeList: [
+            new DispositionType({
+              label: "Not Answered",
+              value: "NotAnswered",
+            }),
+          ],
+        })
+      )
+      .addField(
+        new DispositionFMiniFormMDP({
+          taskRoot,
+          parent,
+          dataSelectorKey: "taskOutput.disposition",
+          condition: this.isClientDeffered(),
+          dispositionTypeList: [
+            new DispositionType({
+              label: "Client Busy",
+              value: "ClientBusy",
+            }),
+            new DispositionType({
+              label: "No Enough Funds",
+              value: "NoEnoughFunds",
+            }),
+          ],
+        })
+      )
       // .addAction(
       //   new FBtnMDP({
       //     label: "Save",
@@ -136,16 +136,16 @@ export default class NMSFTFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Rescue",
           onClick: this.rescueTask(),
-          condition: this.isException()
+          condition: this.isException(),
         })
-      )
+      );
   }
 
   getSelectedOption() {
     return () => {
-      this.selectedOption = this.taskRoot.taskFormData.taskOutput.selectedNMSFTaskOption;
-    }
-
+      this.selectedOption =
+        this.taskRoot.taskFormData.taskOutput.selectedNMSFTaskOption;
+    };
   }
 
   getMyRef(): any {
@@ -158,20 +158,18 @@ export default class NMSFTFFormMDP extends FFormMDP {
   //   };
   // }
 
-
-
   // saveTask() {
   //   return () => {
   //     this.taskRoot.saveTask();
   //   };
   // }
-
+  
+  // new implement
   validateAndSubmit() {
     return (successCallBack: any) => {
       this.getMyRef().submitForm(() => {
-        this.saveTask(() => successCallBack())
-      }
-      );
+        this.saveTask(() => successCallBack());
+      });
     };
   }
 
@@ -179,35 +177,47 @@ export default class NMSFTFFormMDP extends FFormMDP {
     this.taskRoot.saveTask(() => successCallBack());
   }
 
-
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
     };
   }
 
-
   isClientDeffered(): boolean {
-    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ClientDeferred
+    return (
+      this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ClientDeferred
+    );
   }
 
   isSystemDeffered(): boolean {
-    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.SystemDeferred
+    return (
+      this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.SystemDeferred
+    );
   }
 
   isReceivePayment(): boolean {
-    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ReceivePayment
+    return (
+      this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ReceivePayment
+    );
   }
   isDraftRescheduled(): boolean {
-    return this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.DraftRescheduled
+    return (
+      this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.DraftRescheduled
+    );
   }
 
   isStarted() {
-    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+    return (
+      this.taskRoot.taskDetails.taskState === "STARTED" ||
+      this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED"
+    );
   }
 
   isException() {
-    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
+    return (
+      this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" ||
+      this.taskRoot.taskDetails.taskState === "EXIT_Q"
+    );
   }
 }
 

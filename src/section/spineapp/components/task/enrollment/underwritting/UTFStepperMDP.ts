@@ -1,4 +1,5 @@
 import FStepperMDP from "@/components/generic/FStepperMDP";
+import FTaskStepperMDP from "@/components/generic/FTaskStepperMDP";
 
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import UTProfileStepFProfileFFormMDP from "./step1/UTProfileStepFProfileFFormMDP";
@@ -9,18 +10,51 @@ import UTBankStepFBankFFormMDP from "./step5/UTBankStepFBankFFormMDP";
 import UTUploadStepFDocumentMDP from "./step6/UTUploadStepFDocumentMDP";
 import UTApprovedStepFFormMDP from "./step7/UTApprovedStepFFormMDP";
 
-export default class UTFStepperMDP extends FStepperMDP {
+export default class UTFStepperMDP extends FTaskStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-    super({ myRefName: "underwrittingStepperRef" });
+    super({
+      myRefName: "underwrittingStepperRef",
+      actionable: !taskRoot.taskDisabled,
+    });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
-    this.addStep({ name: "Profile", stepContent: new UTProfileStepFProfileFFormMDP({ taskRoot: taskRoot, parent: this }) })
-      .addStep({ name: "Creditor", stepContent: new UTCreditorStepFCreditorFFormMDP({ taskRoot: taskRoot, parent: this }) })
-      .addStep({ name: "Budget", stepContent: new UTBudgetStepFBudgetMDP({ taskRoot: taskRoot, parent: this }) })
-      .addStep({ name: "Payment", stepContent: new UTPaymentPlanStepFPaymentPlanMDP({ taskRoot: taskRoot, parent: this }) })
+
+    const utApprovedStepFFormMDP = new UTApprovedStepFFormMDP({
+      taskRoot: taskRoot,
+      parent: this,
+    })
+
+    this.addStep({
+      name: "Profile",
+      stepContent: new UTProfileStepFProfileFFormMDP({
+        taskRoot: taskRoot,
+        parent: this,
+      }),
+    })
+      .addStep({
+        name: "Creditor",
+        stepContent: new UTCreditorStepFCreditorFFormMDP({
+          taskRoot: taskRoot,
+          parent: this,
+        }),
+      })
+      .addStep({
+        name: "Budget",
+        stepContent: new UTBudgetStepFBudgetMDP({
+          taskRoot: taskRoot,
+          parent: this,
+        }),
+      })
+      .addStep({
+        name: "Payment",
+        stepContent: new UTPaymentPlanStepFPaymentPlanMDP({
+          taskRoot: taskRoot,
+          parent: this,
+        }),
+      })
       .addStep({
         name: "Bank",
         stepContent: new UTBankStepFBankFFormMDP({
@@ -32,11 +66,14 @@ export default class UTFStepperMDP extends FStepperMDP {
         name: "Document",
         stepContent: new UTUploadStepFDocumentMDP({
           taskRoot: this.taskRoot,
-          parent: this
+          parent: this,
         }),
       })
-      .addStep({ name: "Approve", stepContent: new UTApprovedStepFFormMDP({ taskRoot: taskRoot, parent: this }) })
-
+      .addStep({
+        name: "Approve",
+        stepContent: utApprovedStepFFormMDP,
+        submitFunc: utApprovedStepFFormMDP.validateAndSubmit()
+      });
   }
   getMyRef() {
     return this.taskRoot.$refs[this.myRefName];

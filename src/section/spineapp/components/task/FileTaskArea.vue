@@ -12,6 +12,7 @@
       <v-spacer></v-spacer>
 
       <f-btn
+      class="mx-2"
         label="PULL & START"
         outlined
         color="primary"
@@ -346,7 +347,7 @@ export default class FileTaskArea extends Vue {
     Action.TaskList.PullStartAndMerge.execute1(
       this.$route.params.taskId,
       (output) => {
-        console.log("");
+        // console.log("");
       }
     );
   }

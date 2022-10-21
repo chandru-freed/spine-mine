@@ -12,37 +12,39 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
-        this.addAction(
-            new FBtnMDP({
-                label: "Previous",
-                onClick: this.goToPrevStep(),
-                condition: this.isStarted()
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Save",
-                onClick: this.saveTask(),
-                condition: this.isStarted()
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Mark Complete",
-                onClick: this.saveAndMarkCompleteTask(),
-                btnType: BtnType.FILLED,
-                condition: this.isStarted()
-            })
-        ).addForm(new CCITMarkCompleteStepFFormMDP({taskRoot, parent}))
+        this
+            // .addAction(
+            //     new FBtnMDP({
+            //         label: "Previous",
+            //         onClick: this.goToPrevStep(),
+            //         condition: this.isStarted()
+            //     })
+            // ).addAction(
+            //     new FBtnMDP({
+            //         label: "Save",
+            //         onClick: this.saveTask(),
+            //         condition: this.isStarted()
+            //     })
+            // )
+            .addAction(
+                new FBtnMDP({
+                    label: "Mark Complete",
+                    onClick: this.saveAndMarkCompleteTask(),
+                    btnType: BtnType.FILLED,
+                    condition: this.isStarted()
+                })
+            ).addForm(new CCITMarkCompleteStepFFormMDP({ taskRoot, parent }))
     }
     isStarted() {
         return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
     }
 
 
-    saveTask() {
-        return () => {
-            this.taskRoot.saveTask();
-        };
-    }
+    // saveTask() {
+    //     return () => {
+    //         this.taskRoot.saveTask();
+    //     };
+    // }
 
     saveAndMarkCompleteTask() {
         return () => {
@@ -51,10 +53,20 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
     }
 
 
-    goToPrevStep() {
-        return () => {
-            (this.taskRoot as any).goToStep(5);
-        }
+    // goToPrevStep() {
+    //     return () => {
+    //         (this.taskRoot as any).goToStep(5);
+    //     }
+    // }
+
+    submit() {
+        return (successCallBack: any) => {
+            this.saveTask(() => successCallBack())
+        };
+    }
+
+    saveTask(successCallBack: any) {
+        this.taskRoot.saveTask(() => successCallBack());
     }
 
 }

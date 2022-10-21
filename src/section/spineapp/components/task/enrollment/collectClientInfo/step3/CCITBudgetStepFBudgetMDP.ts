@@ -15,46 +15,46 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
       disabled: taskRoot.taskDisabled
     });
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Previous",
-        onClick: this.goToPrevStep(),
-      })
-    )
-      .addAction(
-        new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSave(),
-          condition: this.isStarted()
-        })
-      ).addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-          condition: this.isException()
-        })
-      ).addAction(
-        new FBtnMDP({
-          label: "Save And Next",
-          onClick: this.validateAndSaveAndNext(),
-        })
-      );
+    // this.addAction(
+    //   new FBtnMDP({
+    //     label: "Previous",
+    //     onClick: this.goToPrevStep(),
+    //   })
+    // )
+    //   .addAction(
+    //     new FBtnMDP({
+    //       label: "Save",
+    //       onClick: this.validateAndSave(),
+    //       condition: this.isStarted()
+    //     })
+    //   ).addAction(
+    //     new FBtnMDP({
+    //       label: "Rescue",
+    //       onClick: this.rescueTask(),
+    //       condition: this.isException()
+    //     })
+    //   ).addAction(
+    //     new FBtnMDP({
+    //       label: "Save And Next",
+    //       onClick: this.validateAndSaveAndNext(),
+    //     })
+    //   );
   }
 
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
-    };
-  }
+  // rescueTask() {
+  //   return () => {
+  //     this.taskRoot.rescueTask();
+  //   };
+  // }
 
-  isStarted() {
-    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
-  }
+  // isStarted() {
+  //   return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+  // }
 
-  isException() {
-    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
-  }
+  // isException() {
+  //   return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
+  // }
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName];
@@ -64,25 +64,64 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
     return this.getMyRef()[0].$refs[this.budgetFormRef]
   }
 
-  validateAndSave() {
-    return () => {
+  // validateAndSave() {
+  //   return () => {
+  //     this.getBudgetFormRef().submitForm(() => {
+  //       console.log("Budget profile");
+  //       console.log("task rook", this.taskRoot);
+  //       this.updateBudgetInfo();
+  //     });
+  //   }
+  // }
+
+  // validateAndSaveAndNext() {
+  //   return () => {
+  //     this.getBudgetFormRef().submitForm(() => {
+  //       this.updateBudgetInfo(true);
+  //     });
+  //   }
+  // }
+
+  // updateBudgetInfo(goToNextStep: boolean = false) {
+  //   const input = Data.Spine.UpdateBudgetInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.budgetInfo)
+  //   input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+  //   input.taskId = this.taskRoot.taskId;
+  //   Action.Spine.UpdateBudgetInfo.execute(input, (output: any) => {
+  //     Snackbar.show({
+  //       text: "Succesfully Saved",
+  //       pos: "bottom-center",
+  //     });
+  //     if (goToNextStep) {
+  //       (this.taskRoot as any).goToStep(3);
+  //     }
+  //   })
+  // }
+
+
+
+  // goToPrevStep() {
+  //   return () => {
+  //     (this.taskRoot as any).goToStep(1);
+  //   }
+  // }
+
+
+
+  // new implement
+  validateAndSubmit() {
+    return (successCallBack: any) => {
       this.getBudgetFormRef().submitForm(() => {
-        console.log("Budget profile");
-        console.log("task rook", this.taskRoot);
-        this.updateBudgetInfo();
-      });
-    }
+        this.saveTask(() => successCallBack())
+      }
+      );
+    };
   }
 
-  validateAndSaveAndNext() {
-    return () => {
-      this.getBudgetFormRef().submitForm(() => {
-        this.updateBudgetInfo(true);
-      });
-    }
+  saveTask(successCallBack: any) {
+    this.updateBudgetInfo(() => successCallBack());
   }
 
-  updateBudgetInfo(goToNextStep: boolean = false) {
+  updateBudgetInfo(callback?: () => void) {
     const input = Data.Spine.UpdateBudgetInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.budgetInfo)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
@@ -91,17 +130,9 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
-      if (goToNextStep) {
-        (this.taskRoot as any).goToStep(3);
+      if (callback) {
+        callback();
       }
     })
-  }
-
-  
-
-  goToPrevStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(1);
-    }
   }
 }

@@ -36,12 +36,13 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBtn from "@/components/generic/FBtn.vue";
 import FFooStepper from "@/components/generic/FFooStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 @Component({
   components: {
     FStepper,
     "f-btn": FBtn,
-    FFooStepper,
+    FTaskStepper,
   },
 })
 export default class CollectClientInfoTask
@@ -141,10 +142,11 @@ export default class CollectClientInfoTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
   rescueTask() {

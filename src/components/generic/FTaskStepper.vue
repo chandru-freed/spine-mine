@@ -132,7 +132,6 @@ export default class FTaskStepper extends ModelVue {
   actionable: boolean;
 
   changeStepQuery(val: any) {
-    console.log(val);
     this.$router.push({
       query: { ...this.$route.query, step: val.toString() },
     });

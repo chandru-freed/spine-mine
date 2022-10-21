@@ -32,39 +32,39 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
             disabled: taskRoot.taskDisabled
         }))
 
-        this.addAction(
-            new FBtnMDP({
-                label: "Previous",
-                onClick: () => { },
-                disabled: true
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Save",
-                onClick: this.validateAndSave(),
-                condition: this.isStarted()
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Rescue",
-                onClick: this.rescueTask(),
-                condition: this.isException()
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Save And Next",
-                onClick: this.validateSaveAndNext(),
-            })
-        );
+        // this.addAction(
+        //     new FBtnMDP({
+        //         label: "Previous",
+        //         onClick: () => { },
+        //         disabled: true
+        //     })
+        // ).addAction(
+        //     new FBtnMDP({
+        //         label: "Save",
+        //         onClick: this.validateAndSave(),
+        //         condition: this.isStarted()
+        //     })
+        // ).addAction(
+        //     new FBtnMDP({
+        //         label: "Rescue",
+        //         onClick: this.rescueTask(),
+        //         condition: this.isException()
+        //     })
+        // ).addAction(
+        //     new FBtnMDP({
+        //         label: "Save And Next",
+        //         onClick: this.validateSaveAndNext(),
+        //     })
+        // );
     }
 
-    validateSaveAndNext() {
-        return () => {
-            this.getProfileFormRef().submitForm(() => {
-                this.updateClPersonalInfo(true);
-            });
-        }
-    }
+    // validateSaveAndNext() {
+    //     return () => {
+    //         this.getProfileFormRef().submitForm(() => {
+    //             this.updateClPersonalInfo(true);
+    //         });
+    //     }
+    // }
 
 
     rescueTask() {
@@ -73,13 +73,13 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
         };
     }
 
-    isStarted() {
-        return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
-    }
+    // isStarted() {
+    //     return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+    // }
 
-    isException() {
-        return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
-    }
+    // isException() {
+    //     return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
+    // }
     getMyRef() {
         return this.parent.getMyRef().$refs[this.myRefName];
     }
@@ -88,26 +88,56 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
         return this.getMyRef()[0].$refs[this.profileFFormRef][0]
     }
 
-    validateAndSave() {
-        return () => {
+    // validateAndSave() {
+    //     return () => {
+    //         this.getProfileFormRef().submitForm(() => {
+    //             this.updateClPersonalInfo();
+    //         });
+    //     }
+    // }
+
+    // handleSaveAndNext() {
+    //     return async () => {
+    //         try {
+    //             await this.validateAndSave();
+    //             (this.taskRoot as any).goToStep(1);
+    //         } catch (e) {
+    //         }
+    //     }
+    // }
+
+
+    // updateClPersonalInfo(goToNextStep: boolean = false) {
+    //     const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.personalInfo)
+    //     input.clientId = (this.taskRoot as any).clientFileBasicInfo.clientBasicInfo.clientId
+    //     input.taskId = this.taskRoot.taskId;
+    //     console.log(this.taskRoot.taskId)
+    //     Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
+    //         Snackbar.show({
+    //             text: "Succesfully saved",
+    //             pos: "bottom-center"
+    //         })
+    //         if (goToNextStep) {
+    //             (this.taskRoot as any).goToStep(1);
+    //         }
+    //     });
+    // }
+
+    // new implement
+    validateAndSubmit() {
+        return (successCallBack: any) => {
             this.getProfileFormRef().submitForm(() => {
-                this.updateClPersonalInfo();
-            });
-        }
-    }
-
-    handleSaveAndNext() {
-        return async () => {
-            try {
-                await this.validateAndSave();
-                (this.taskRoot as any).goToStep(1);
-            } catch (e) {
+                this.saveTask(() => successCallBack())
             }
-        }
+            );
+        };
     }
 
+    saveTask(successCallBack: any) {
+        this.updateClPersonalInfo(() => successCallBack());
+    }
 
-    updateClPersonalInfo(goToNextStep: boolean = false) {
+    updateClPersonalInfo(callback?: () => void) {
         const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.personalInfo)
         input.clientId = (this.taskRoot as any).clientFileBasicInfo.clientBasicInfo.clientId
         input.taskId = this.taskRoot.taskId;
@@ -115,12 +145,13 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
         Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
             Snackbar.show({
                 text: "Succesfully saved",
-                pos:"bottom-center"
+                pos: "bottom-center"
             })
-            if (goToNextStep) {
-                (this.taskRoot as any).goToStep(1);
+            if (callback) {
+                callback();
             }
         });
     }
+
 
 }

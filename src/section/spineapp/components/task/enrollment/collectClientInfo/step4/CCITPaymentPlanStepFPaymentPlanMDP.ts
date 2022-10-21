@@ -16,65 +16,99 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
       disabledActionBtn: true
     });
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Previous",
-        onClick: this.goToPrevStep(),
-      })
-    )
-    .addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-        condition: this.isStarted()
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.rescueTask(),
-        condition: this.isException()
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Save And Next",
-        onClick: this.saveAndNext(),
-      })
-    );
+    // this.addAction(
+    //   new FBtnMDP({
+    //     label: "Previous",
+    //     onClick: this.goToPrevStep(),
+    //   })
+    // )
+    //   .addAction(
+    //     new FBtnMDP({
+    //       label: "Save",
+    //       onClick: this.saveTask(),
+    //       condition: this.isStarted()
+    //     })
+    //   ).addAction(
+    //     new FBtnMDP({
+    //       label: "Rescue",
+    //       onClick: this.rescueTask(),
+    //       condition: this.isException()
+    //     })
+    //   ).addAction(
+    //     new FBtnMDP({
+    //       label: "Save And Next",
+    //       onClick: this.saveAndNext(),
+    //     })
+    //   );
   }
 
-  saveTask() {
-    return () => {
-      this.schedulePaymentPlan();
-    };
-  }
+  // saveTask() {
+  //   return () => {
+  //     this.schedulePaymentPlan();
+  //   };
+  // }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
-    };
-  }
+  // rescueTask() {
+  //   return () => {
+  //     this.taskRoot.rescueTask();
+  //   };
+  // }
 
-  isStarted() {
-    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
-  }
+  // isStarted() {
+  //   return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+  // }
 
-  isException() {
-    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
-  }
+  // isException() {
+  //   return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
+  // }
 
 
   getMyRef() {
-    console.log("CCITPaymentPlanStepFPaymentPlanMDP", this.parent.getMyRef().$refs[this.myRefName][0]);
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  saveAndNext() {
-    return () => {
-        this.schedulePaymentPlan(true);
-    }
+  // saveAndNext() {
+  //   return () => {
+  //     this.schedulePaymentPlan(true);
+  //   }
+  // }
+
+  // schedulePaymentPlan(goToNextStep: boolean = false) {
+  //   console.log(this.taskRoot.taskFormData.taskOutput.paymentPlan)
+  //   const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
+  //   input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+  //   input.taskId = this.taskRoot.taskId;
+  //   Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
+  //     Snackbar.show({
+  //       text: "Succesfully Saved",
+  //       pos: "bottom-center",
+  //     });
+  //     if (goToNextStep) {
+  //       (this.taskRoot as any).goToStep(4);
+  //     }
+  //   })
+  // }
+
+  // goToPrevStep() {
+  //   return () => {
+  //     (this.taskRoot as any).goToStep(2);
+  //   }
+  // }
+
+
+
+  // new implement
+  submit() {
+    return (successCallBack: any) => {
+      this.saveTask(() => successCallBack())
+    };
   }
 
-  schedulePaymentPlan(goToNextStep: boolean = false) {
+  saveTask(successCallBack: any) {
+    this.schedulePaymentPlan(() => successCallBack());
+  }
+
+  schedulePaymentPlan(callback?: () => void) {
     console.log(this.taskRoot.taskFormData.taskOutput.paymentPlan)
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(this.taskRoot.taskFormData.taskOutput.paymentPlan)
     input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
@@ -84,15 +118,9 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
-      if (goToNextStep) {
-        (this.taskRoot as any).goToStep(4);
+      if (callback) {
+        callback();
       }
     })
-  }
-
-  goToPrevStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(2);
-    }
   }
 }

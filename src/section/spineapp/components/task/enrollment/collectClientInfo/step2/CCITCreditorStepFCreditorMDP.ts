@@ -11,12 +11,12 @@ export default class CCITCreditorStepFCreditorMDP extends FCreditorMDP {
       disabled: taskRoot.taskDisabled,
     });
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Previous",
-        onClick: this.goToPrevStep(),
-      })
-    )
+    // this.addAction(
+    //   new FBtnMDP({
+    //     label: "Previous",
+    //     onClick: this.goToPrevStep(),
+    //   })
+    // )
       // .addAction(
       //   new FBtnMDP({
       //     label: "Save",
@@ -24,51 +24,51 @@ export default class CCITCreditorStepFCreditorMDP extends FCreditorMDP {
       //     condition: this.isStarted()
       //   })
       // )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-          condition: this.isException()
-        })
-      ).addAction(
-        new FBtnMDP({
-          label: "Save And Next",
-          onClick: this.goToNextStep(),
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Rescue",
+      //     onClick: this.rescueTask(),
+      //     condition: this.isException()
+      //   })
+      // ).addAction(
+      //   new FBtnMDP({
+      //     label: "Save And Next",
+      //     onClick: this.goToNextStep(),
 
-        })
-      );
-  }
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
+      //   })
+      // );
   }
 
-  goToPrevStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(0);
-    }
-  }
-  goToNextStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(2);
-    }
-  }
+  // saveTask() {
+  //   return () => {
+  //     this.taskRoot.saveTask();
+  //   };
+  // }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
-    };
-  }
+  // goToPrevStep() {
+  //   return () => {
+  //     (this.taskRoot as any).goToStep(0);
+  //   }
+  // }
+  // goToNextStep() {
+  //   return () => {
+  //     (this.taskRoot as any).goToStep(2);
+  //   }
+  // }
 
-  isStarted() {
-    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
-  }
+  // rescueTask() {
+  //   return () => {
+  //     this.taskRoot.rescueTask();
+  //   };
+  // }
 
-  isException() {
-    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
-  }
+  // isStarted() {
+  //   return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+  // }
+
+  // isException() {
+  //   return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
+  // }
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName];

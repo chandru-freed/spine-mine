@@ -102,7 +102,7 @@ export default class PaymentReceivedConfirmationTask
   //DATA
 
   //ACTION
-    rescueTask() {
+  rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
@@ -114,7 +114,6 @@ export default class PaymentReceivedConfirmationTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
 
   gotoFile() {
     Helper.Router.gotoFile({

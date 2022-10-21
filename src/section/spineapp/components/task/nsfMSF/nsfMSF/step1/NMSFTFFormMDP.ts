@@ -4,7 +4,6 @@ import DispositionFMiniFormMDP, {
   DispositionType,
 } from "@/components/generic/form/field/DispositionFMiniFormMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
-import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -125,13 +124,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
           ],
         })
       )
-      // .addAction(
-      //   new FBtnMDP({
-      //     label: "Save",
-      //     onClick: this.validateAndSubmit(),
-      //     condition: this.isStarted()
-      //   })
-      // )
       .addAction(
         new FBtnMDP({
           label: "Rescue",
@@ -152,18 +144,6 @@ export default class NMSFTFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  // validateAndSubmit() {
-  //   return () => {
-  //     this.getMyRef().submitForm(this.saveTask());
-  //   };
-  // }
-
-  // saveTask() {
-  //   return () => {
-  //     this.taskRoot.saveTask();
-  //   };
-  // }
-  
   // new implement
   validateAndSubmit() {
     return (successCallBack: any) => {

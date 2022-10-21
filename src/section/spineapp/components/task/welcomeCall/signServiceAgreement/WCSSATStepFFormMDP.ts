@@ -27,7 +27,7 @@ export default class WCSSATStepFFormMDP extends FFormMDP {
         label: "Rescue",
         onClick: this.validateAndSubmit(),
       })
-    )
+    );
   }
 
   getMyRef(): any {
@@ -40,13 +40,9 @@ export default class WCSSATStepFFormMDP extends FFormMDP {
     };
   }
 
-
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
     };
   }
-
-
-
 }

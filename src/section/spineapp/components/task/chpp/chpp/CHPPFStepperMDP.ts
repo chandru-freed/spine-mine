@@ -9,31 +9,33 @@ export default class CHPPFStepperMDP extends FTaskStepperMDP {
   parent: any;
 
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-    super({ myRefName: "chppStepperRef", actionable:  !taskRoot.taskDisabled});
+    super({ myRefName: "chppStepperRef", actionable: !taskRoot.taskDisabled });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
     const chppCollectInfoStep = new CHPPTCollectInfoStepFFormMDP({
       taskRoot: taskRoot,
       parent: this,
-    })
+    });
     this.addStep({
       name: "Collect Info",
-      stepContent:chppCollectInfoStep,
-      submitFunc: chppCollectInfoStep.validateAndSubmit()
-    }).addStep({
-      name: "Collect Proof Documents",
-      stepContent: new CHPPTProofStepFDocumentMDP({
-        taskRoot: taskRoot,
-        parent: this
-      }),
-    }).addStep({
+      stepContent: chppCollectInfoStep,
+      submitFunc: chppCollectInfoStep.validateAndSubmit(),
+    })
+      .addStep({
+        name: "Collect Proof Documents",
+        stepContent: new CHPPTProofStepFDocumentMDP({
+          taskRoot: taskRoot,
+          parent: this,
+        }),
+      })
+      .addStep({
         name: "Mark Complete",
         stepContent: new CHPPTFinalStepFFormMDP({
-            taskRoot: taskRoot,
-            parent: this 
-        })
-    });
+          taskRoot: taskRoot,
+          parent: this,
+        }),
+      });
   }
 
   getMyRef() {

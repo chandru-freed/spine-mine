@@ -23,14 +23,16 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import FollowUpCallFStepperMDP from "./FollowUpCallFStepperMDP";
 
-
 @Component({
   components: {
     FStepper,
     FBtn,
   },
 })
-export default class FollowUpCallTask extends ModelVue implements ManualTaskIntf {
+export default class FollowUpCallTask
+  extends ModelVue
+  implements ManualTaskIntf
+{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 

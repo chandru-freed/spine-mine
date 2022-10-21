@@ -107,7 +107,6 @@ export default class SendLinkTask extends ModelVue implements SelfTaskIntf {
     });
   }
 
-
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,

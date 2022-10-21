@@ -54,10 +54,10 @@ export default class WelcomeCallSSATask
 
   //METADATA
   get stepperMetaData() {
-    return new WCSSATFStepperMDP({ taskRoot:this}).getMetaData();
+    return new WCSSATFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
-  
+
   //FORM
 
   taskFormDataLocal: any = {
@@ -99,8 +99,8 @@ export default class WelcomeCallSSATask
   }
 
   //DATA
-//ACTION
-  
+  //ACTION
+
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,

@@ -3,18 +3,11 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
-
 export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: SelfTaskIntf;
   parent: any;
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: SelfTaskIntf;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
     super({
       myRefName: "generateSSADocFormRef",
       disabled: taskRoot.taskDisabled,
@@ -22,16 +15,15 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.docId",
-          label: "DocId",
-          disabled: true,
-          boundaryClass: "col-6",
-        })
-      )
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.docId",
+        label: "DocId",
+        disabled: true,
+        boundaryClass: "col-6",
+      })
+    )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
@@ -46,8 +38,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
           label: "Rescue",
           onClick: this.rescueTask(),
         })
-      )
-
+      );
   }
 
   getMyRef(): any {
@@ -57,6 +48,6 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
-    }
+    };
   }
 }

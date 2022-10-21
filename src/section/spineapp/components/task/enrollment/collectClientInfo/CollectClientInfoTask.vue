@@ -2,13 +2,6 @@
   <div>
     <!-- <h4>CollectClientProfileInfoTask</h4> -->
     <!-- Root Data : {{ taskFormData.taskOutput }} -->
-    <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
-    <!-- <kbd> {{ testMetaData }}</kbd> -->
-
-    <!-- <div class="row my-5 mx-5">
-      <v-spacer />
-      <f-btn label="FILL TEST DATA" :onClick="() => setTestData()"></f-btn>
-    </div> -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -249,7 +242,7 @@ export default class CollectClientInfoTask
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
       step,
-      route: this.$route
+      route: this.$route,
     });
   }
 

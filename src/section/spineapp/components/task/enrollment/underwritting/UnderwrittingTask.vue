@@ -131,10 +131,10 @@ export default class UnderwrittingTask
   }
 
   gotoFile() {
-      Helper.Router.gotoFile({
-        router: this.$router,
-        clientFileNumber: this.$route.params.clientFileNumber,
-      });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+    });
   }
   isUnderwrittingApproved() {
     if (this.taskFormData.taskOutput.underwrittingApproved) {

@@ -125,10 +125,10 @@ export default class NsfSPACompletionTask
   }
 
   gotoFile() {
-      Helper.Router.gotoFile({
-        router: this.$router,
-        clientFileNumber: this.$route.params.clientFileNumber,
-      });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+    });
   }
 }
 </script>

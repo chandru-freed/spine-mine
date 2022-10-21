@@ -113,7 +113,6 @@ export default class GeneratePaymentTask
     });
   }
 
-
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,

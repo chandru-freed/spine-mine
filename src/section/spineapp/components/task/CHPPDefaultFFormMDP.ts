@@ -20,14 +20,12 @@ export default class CHPPDefaultFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this
-      
-      .addAction(
-        new FBtnMDP({
-          label: "Create",
-          onClick: this.validateAndSubmit(),
-        })
-      );
+    this.addAction(
+      new FBtnMDP({
+        label: "Create",
+        onClick: this.validateAndSubmit(),
+      })
+    );
   }
 
   getMyRef(): any {

@@ -1,4 +1,3 @@
-import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import DispositionFMiniFormMDP, {
   DispositionType,
@@ -114,13 +113,13 @@ export default class NSPATFFormMDP extends FFormMDP {
             }),
           ],
         })
-      )
-      // .addAction(
-      //   new FBtnMDP({
-      //     label: "Save",
-      //     onClick: this.validateAndSubmit(),
-      //   })
-      // );
+      );
+    // .addAction(
+    //   new FBtnMDP({
+    //     label: "Save",
+    //     onClick: this.validateAndSubmit(),
+    //   })
+    // );
   }
 
   getSelectedOption() {
@@ -140,7 +139,6 @@ export default class NSPATFFormMDP extends FFormMDP {
   //   };
   // }
 
-
   // saveTask() {
   //   return () => {
   //     this.taskRoot.saveTask();
@@ -152,9 +150,8 @@ export default class NSPATFFormMDP extends FFormMDP {
   validateAndSubmit() {
     return (successCallBack: any) => {
       this.getMyRef().submitForm(() => {
-        this.saveTask(() => successCallBack())
-      }
-      );
+        this.saveTask(() => successCallBack());
+      });
     };
   }
 

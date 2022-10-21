@@ -7,7 +7,7 @@ export default class EMTFStepperMDP extends FTaskStepperMDP {
   taskRoot: FlowTaskIntf;
   parent: any;
   constructor({ taskRoot }: { taskRoot: FlowTaskIntf }) {
-    super({ myRefName: "eMandateStepperRef",actionable: false });
+    super({ myRefName: "eMandateStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
     this.addStep({

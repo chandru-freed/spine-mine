@@ -26,14 +26,16 @@ export default class GenericEmailPayloadFFormMDP extends FFormMDP {
         label: "Subject",
         mandatory: true,
       })
-    ).addField(
-      new FTextareaMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "messageBody",
-        label: "Message",
-        mandatory: true,
-      })
-    ).addAction(
+    )
+      .addField(
+        new FTextareaMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "messageBody",
+          label: "Message",
+          mandatory: true,
+        })
+      )
+      .addAction(
         new FBtnMDP({
           label: "Send Email",
           onClick: this.validateAndSubmit(),

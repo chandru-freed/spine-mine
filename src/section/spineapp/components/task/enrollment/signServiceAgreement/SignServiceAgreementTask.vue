@@ -54,7 +54,7 @@ export default class SignServiceAgreementTask
 
   //METADATA
   get stepperMetaData() {
-    return new SSATFStepperMDP({ taskRoot:this}).getMetaData();
+    return new SSATFStepperMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
   //FORM
@@ -98,8 +98,8 @@ export default class SignServiceAgreementTask
   }
 
   //DATA
-//ACTION
-  
+  //ACTION
+
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,

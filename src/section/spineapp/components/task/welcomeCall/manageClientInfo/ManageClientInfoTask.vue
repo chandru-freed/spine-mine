@@ -2,10 +2,6 @@
   <div>
     <!-- <h4>Manage client info task</h4> -->
     <!-- Root Data : {{ taskFormData }} -->
-    <!-- <div class="row my-5 mx-5">
-      <v-spacer />
-      <V-btn @click="setTestData">FILL TEST DATA</V-btn>
-    </div> -->
 
     <component
       :ref="stepperMetaData.myRefName"

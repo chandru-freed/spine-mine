@@ -9,14 +9,13 @@ export default class MyTicketFTabMDP extends FTabMDP {
     });
     this.taskRoot = taskRoot;
 
-
     this.addTab({
       tabName: "Active",
       routerName: "Root.MyTicket.ActiveTicketList",
     }).addTab({
       tabName: "Completed",
       routerName: "Root.MyTicket.CompletedTicketList",
-    })
+    });
   }
 
   getMyRef(): any {

@@ -110,18 +110,6 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
     });
   }
 
-  // saveTask() {
-  //   this.taskFormOutput.manualPayment =
-  //     this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
-  //   this.taskFormOutput.answered = !(
-  //     this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
-  //   );
-  //   Task.Action.saveTask({
-  //     taskId: this.taskId,
-  //     taskOutput: this.taskFormData.taskOutput,
-  //   });
-  // }
-
   saveTask(successCallBack = () => {}) {
     this.taskFormOutput.manualPayment =
       this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";

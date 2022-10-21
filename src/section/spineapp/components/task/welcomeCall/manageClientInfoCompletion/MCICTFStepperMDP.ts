@@ -7,7 +7,10 @@ export default class MCICTFFStepperMDP extends FTaskStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-    super({ myRefName: "manageClientInfoCompletionStepperRef", actionable: false });
+    super({
+      myRefName: "manageClientInfoCompletionStepperRef",
+      actionable: false,
+    });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 

@@ -109,7 +109,6 @@ export default class NsfMSFDraftRescheduledTask
     });
   }
 
-
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,

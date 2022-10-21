@@ -21,11 +21,10 @@ export default class UTFStepperMDP extends FTaskStepperMDP {
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
-
     const utApprovedStepFFormMDP = new UTApprovedStepFFormMDP({
       taskRoot: taskRoot,
       parent: this,
-    })
+    });
 
     this.addStep({
       name: "Profile",
@@ -72,7 +71,7 @@ export default class UTFStepperMDP extends FTaskStepperMDP {
       .addStep({
         name: "Approve",
         stepContent: utApprovedStepFFormMDP,
-        submitFunc: utApprovedStepFFormMDP.validateAndSubmit()
+        submitFunc: utApprovedStepFFormMDP.validateAndSubmit(),
       });
   }
   getMyRef() {

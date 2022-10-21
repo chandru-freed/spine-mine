@@ -28,15 +28,17 @@ export default class FirstMSFCollectionEmailPayloadFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-6",
       })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentLink",
-        label: "Payment Link",
-        mandatory: true,
-        boundaryClass: "col-6",
-      })
-    ).addAction(
+    )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "paymentLink",
+          label: "Payment Link",
+          mandatory: true,
+          boundaryClass: "col-6",
+        })
+      )
+      .addAction(
         new FBtnMDP({
           label: "Send Email",
           onClick: this.validateAndSubmit(),

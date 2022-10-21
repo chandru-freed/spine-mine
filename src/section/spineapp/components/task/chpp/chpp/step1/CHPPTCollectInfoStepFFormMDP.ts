@@ -11,13 +11,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: ManualTaskIntf;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
     super({
       myRefName: "chppFormRef",
       disabled: taskRoot.taskDisabled,
@@ -60,13 +54,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-6",
         })
-      )
-    // .addAction(
-    //   new FBtnMDP({
-    //     label: "Save",
-    //     onClick: this.validateAndSubmit(),
-    //   })
-    // )
+      );
   }
 
   getMyRef(): any {
@@ -76,9 +64,8 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
   validateAndSubmit() {
     return (successCallBack: any) => {
       this.getMyRef().submitForm(() => {
-        this.saveTask(() => successCallBack())
-      }
-      );
+        this.saveTask(() => successCallBack());
+      });
     };
   }
 

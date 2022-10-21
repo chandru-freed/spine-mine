@@ -248,8 +248,8 @@ export default class FileTaskList extends Vue {
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,
       query: {
-        ...this.$route.query
-      }
+        ...this.$route.query,
+      },
     });
   }
 

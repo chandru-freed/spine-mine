@@ -34,13 +34,6 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
           mandatory: true,
         })
       )
-    //   .addAction(
-    //     new FBtnMDP({
-    //       label: "Save",
-    //       onClick: this.validateAndSubmit(),
-    //       condition: this.isStarted(),
-    //     })
-    //   )
       .addAction(
         new FBtnMDP({
           label: "Mark Completed",
@@ -62,12 +55,6 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-//   validateAndSubmit() {
-//     return () => {
-//       this.getMyRef().submitForm(this.saveTask());
-//     };
-//   }
-
   validateAndMarkComplete() {
     return () => {
       this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
@@ -79,12 +66,6 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
       this.taskRoot.saveAndMarkCompleteTask();
     };
   }
-
-//   saveTask() {
-//     return () => {
-//       this.taskRoot.saveTask();
-//     };
-//   }
 
   rescueTask() {
     return () => {
@@ -107,7 +88,6 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
   }
 
   // new implement
-
   validateAndSubmit() {
     return (successCallBack: any) => {
       this.getMyRef().submitForm(() => {

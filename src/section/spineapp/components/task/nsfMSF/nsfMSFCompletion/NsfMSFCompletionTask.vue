@@ -127,7 +127,7 @@ export default class NsfMSFCompletionTask
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      clientFileNumber: this.$route.params.clientFileNumber
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
 }

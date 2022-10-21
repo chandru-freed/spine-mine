@@ -103,8 +103,8 @@ export default class EMandateTask extends ModelVue implements FlowTaskIntf {
 
   //DATA
 
- //ACTION
-  
+  //ACTION
+
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,

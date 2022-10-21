@@ -98,7 +98,7 @@ export default class GetEMandateStatusTask
   //DATA
 
   //ACTION
-  
+
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,
@@ -111,7 +111,6 @@ export default class GetEMandateStatusTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
 
   gotoFile() {
     Helper.Router.gotoFile({

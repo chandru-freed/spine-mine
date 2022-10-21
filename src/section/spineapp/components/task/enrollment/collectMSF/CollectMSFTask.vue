@@ -19,11 +19,8 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
-import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import moment from "moment";
 import CollectMSFTaskFStepperMDP from "./CollectMSFTaskFStepperMDP";
-import PaymentDetailsFFormMDP from "@/section/spineapp/views/clientfile/PaymentDetailsFFormMDP";
 import FForm from "@/components/generic/form/FForm.vue";
 import Task from "@/section/spineapp/util/Task";
 import * as Snackbar from "node-snackbar";
@@ -43,7 +40,6 @@ export default class CollectMSFTask extends ModelVue {
 
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-
 
   receiveMSFPaymentInput = new Data.Spine.ReceiveFirstMSFPaymentInput();
 

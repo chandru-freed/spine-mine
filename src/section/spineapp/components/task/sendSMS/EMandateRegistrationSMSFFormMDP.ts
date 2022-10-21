@@ -28,15 +28,17 @@ export default class EMandateRegistrationSMSFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-6",
       })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "eMandateAmount",
-        label: "EMandate Amount",
-        mandatory: true,
-        boundaryClass: "col-6",
-      })
-    ).addAction(
+    )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "eMandateAmount",
+          label: "EMandate Amount",
+          mandatory: true,
+          boundaryClass: "col-6",
+        })
+      )
+      .addAction(
         new FBtnMDP({
           label: "Send SMS",
           onClick: this.validateAndSubmit(),

@@ -21,10 +21,10 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import SATFStepperMDP from "./SATFStepperMDP"
 import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 @Component({
   components: {
-    FStepper
+    FTaskStepper
   },
 })
 export default class SignAmendmentTask extends ModelVue implements FlowTaskIntf {

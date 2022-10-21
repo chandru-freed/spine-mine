@@ -15,12 +15,13 @@ export default class MCICTCompletionStepFFormMDP extends FFormMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
+        // this.addAction(
+        //     new FBtnMDP({
+        //         label: "Save",
+        //         onClick: this.validateAndSubmit()
+        //     })
+        // )
         this.addAction(
-            new FBtnMDP({
-                label: "Save",
-                onClick: this.validateAndSubmit()
-            })
-        ).addAction(
             new FBtnMDP({
                 label: "Mark Completed",
                 onClick: this.validateAndMarkComplete(),

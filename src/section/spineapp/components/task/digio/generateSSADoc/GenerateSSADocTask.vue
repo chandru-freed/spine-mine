@@ -16,7 +16,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 
@@ -27,7 +27,7 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })

@@ -16,7 +16,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 
@@ -28,7 +28,7 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })

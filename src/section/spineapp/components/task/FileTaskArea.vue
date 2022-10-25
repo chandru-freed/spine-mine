@@ -19,7 +19,8 @@
 
       <f-btn
         class="mx-2"
-        label="PULL & START"
+        label="START"
+        small
         outlined
         color="primary"
         :onClick="() => pullAndStartTask()"

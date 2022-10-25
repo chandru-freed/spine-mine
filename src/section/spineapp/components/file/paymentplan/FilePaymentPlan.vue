@@ -89,7 +89,6 @@ export default class FilePaymentPlan extends ModelVue {
   }
 
   getFiPaymentPlanInfo() {
-    console.log("getFiPaymentPlanInfo");
     Action.ClientFile.GetPaymentPlanInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {}
@@ -97,7 +96,6 @@ export default class FilePaymentPlan extends ModelVue {
   }
 
   getFiCreditorInfo() {
-    console.log("getFiCreditorInfo");
     Action.ClientFile.GetCreditorInfo.execute1(
       this.clientFileBasicInfo.clientFileId,
       (output) => {}

@@ -1,7 +1,8 @@
 <template>
   <div>
     <!-- <h4>CollectClientProfileInfoTask</h4> -->
-    <!-- Root Data : {{ taskFormData.taskOutput }} -->
+    <!-- Root Data : {{ taskFormData.taskOutput.paymentPlan }} -->
+    <!-- {{bankInfoStore}} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -45,6 +46,25 @@ export default class CollectClientInfoTask
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
+  // new store Add
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfoStore: Data.ClientFile.ClPersonalInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorStore: Data.ClientFile.FiCreditor;
+
+  @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
+  budgetInfoStore: Data.ClientFile.BudgetInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
+  fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiBankInfo
+  bankInfoStore: Data.ClientFile.FiBankInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
+  fiDocumentListStore: Data.ClientFile.FiDocument;
+
   taskId = this.$route.params.taskId;
 
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
@@ -82,16 +102,12 @@ export default class CollectClientInfoTask
   get taskFormOutput() {
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
-      personalInfo:
-        this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
-      creditorInfo:
-        this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
-      budgetInfo:
-        this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
-      bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
-      paymentPlan:
-        this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
-      fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
+      personalInfo: this.personalInfoStore || new Data.Spine.PersonalInfo(),
+      creditorInfo: this.fiCreditorStore || new Data.Spine.CreditorInfo(),
+      budgetInfo: this.budgetInfoStore || new Data.Spine.BudgetInfo(),
+      bankInfo: this.bankInfoStore || new Data.Spine.BankInfo(),
+      paymentPlan: this.fiPaymentPlanInfoStore || new Data.Spine.PaymentPlan(),
+      fileDocumentList: this.fiDocumentListStore || [],
       needVerification: this.taskDetailsOutput.needVerification,
     };
     return this.taskFormOutputLocal;
@@ -117,6 +133,12 @@ export default class CollectClientInfoTask
   }
   mounted() {
     this.getNupayBankMasterList();
+    this.findClientInfo();
+    this.getFiCreditorInfo();
+    this.getBudgetInfo();
+    this.getFiPaymentPlanInfo();
+    this.getFiBankInfo();
+    this.getFiDocumentList();
   }
 
   setConfirmAccountNumber() {
@@ -246,6 +268,52 @@ export default class CollectClientInfoTask
 
   get currentStep(): number {
     return this.$route.query.step ? Number(this.$route.query.step) : 0;
+  }
+
+  //New Get API Add
+  findClientInfo() {
+    //TODO:  Needs to be discussed:
+    setTimeout(() => {
+      Action.ClientFile.FindPersonalInfo.execute1(
+        this.clientFileBasicInfo.clientBasicInfo.clientId,
+        (output) => {}
+      );
+    }, 1000);
+  }
+
+  getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getBudgetInfo() {
+    Action.ClientFile.GetBudgetInfo.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getFiPaymentPlanInfo() {
+    Action.ClientFile.GetPaymentPlanInfo.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getFiBankInfo() {
+    Action.ClientFile.GetFiBankInfo.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getFiDocumentList() {
+    Action.ClientFile.GetDocumentList.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 }
 </script>

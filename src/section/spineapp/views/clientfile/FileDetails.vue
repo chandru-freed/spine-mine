@@ -64,7 +64,7 @@ import PaymentTransaction from "../../components/file/payment/PaymentTransaction
     "file-creditor-list": FileCreditorList,
     "file-payment-plan": FilePaymentPlan,
     "file-document-list": FileDocumentList,
-    payment: Payment,
+    "payment": Payment,
     "ptayment-transaction": PaymentTransaction,
   },
 })

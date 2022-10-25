@@ -15,17 +15,110 @@ import { VTextField } from "vuetify/lib/components";
   },
 })
 export default class FTextField extends VTextField {
-  // MODEL VALUE - START
   @Prop()
   value: string;
 
+  @Prop()
+  mask: string;
+
+  @Prop()
+  unmask: string;
+
+  /**
+   * ***************DO NOT DELETE*************************
+   * maxlength is not available in a VTextField props.
+   * thats why we have added as a prop.
+   * but it is passed to the built in html props.
+   * ****************************************************
+   */
+  @Prop()
+  maxlength: string;
+
+  mounted() {}
+
   get modelValue() {
-    return this.value;
+    return this.mask ? this.getMaskedValued(this.value) : this.value;
   }
 
   set modelValue(newModelValue: string) {
-    this.$emit("input", newModelValue);
+    const value = this.mask
+      ? this.getUnMaskedValue(newModelValue)
+      : newModelValue;
+    this.$emit("input", value);
+  }
+
+  getMaskedValued(value: string): string {
+    if (!value) {
+      return "";
+    }
+    return this.formatDefault(value, this.mask);
+  }
+
+  getUnMaskedValue(value: string) {
+    if (!value) {
+      return "";
+    }
+    return this.formatDefault(value, this.unmask);
+  }
+
+  formatDefault(value: string, mask: string) {
+    value = this.clearValue(value);
+    let result = "";
+    let count = 0;
+    if (value) {
+      let arrayValue = value.toString().split("");
+      let arrayMask = mask.toString().split("");
+      for (var i = 0; i < arrayMask.length; i++) {
+        if (i < arrayValue.length + count) {
+          if (arrayMask[i] === "#") {
+            result = result + arrayValue[i - count];
+          } else {
+            result = result + arrayMask[i];
+            count++;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  clearValue(value: string) {
+    let result = "";
+    if (value) {
+      let arrayValue = value.toString().split("");
+      for (var i = 0; i < arrayValue.length; i++) {
+        if (this.isValid(arrayValue[i])) {
+          result = result + arrayValue[i];
+        }
+      }
+    }
+    return result;
+  }
+
+  isValid(value: string) {
+    return this.isInteger(value);
+  }
+
+  isInteger(value: string) {
+    let result = false;
+    if (Number.isInteger(parseInt(value))) {
+      result = true;
+    }
+    return result;
   }
   // MODEL VALUE - END
 }
 </script>
+<style>
+.v-input--is-readonly input,
+.v-input--is-readonly .v-select__selection,
+.v-input--is-readonly textarea  {
+  color: #000 !important;
+  cursor: default !important;
+}
+
+
+
+
+
+</style>

@@ -14,14 +14,16 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import Task from "@/section/spineapp/util/Task";
 import UTFStepperMDP from "./UTFStepperMDP";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -31,7 +33,7 @@ import UTFStepperMDP from "./UTFStepperMDP";
 })
 export default class UnderwrittingTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements ManualTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -76,15 +78,16 @@ export default class UnderwrittingTask
 
   //Task Output
 
-  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput(); 
+  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput();
 
   get taskFormOutput() {
-    if(this.taskDetailsOutput.underwrittingApproved)
-    {
-      this.taskFormOutputLocal.underwrittingApproved = this.taskDetailsOutput.underwrittingApproved
+    if (this.taskDetailsOutput.underwrittingApproved) {
+      this.taskFormOutputLocal.underwrittingApproved =
+        this.taskDetailsOutput.underwrittingApproved;
     }
-    if(this.taskDetailsOutput.reasonForUnderwrittingDecline){
-      this.taskFormOutputLocal.reasonForUnderwrittingDecline = this.taskDetailsOutput.reasonForUnderwrittingDecline
+    if (this.taskDetailsOutput.reasonForUnderwrittingDecline) {
+      this.taskFormOutputLocal.reasonForUnderwrittingDecline =
+        this.taskDetailsOutput.reasonForUnderwrittingDecline;
     }
     return this.taskFormOutputLocal;
   }
@@ -102,30 +105,39 @@ export default class UnderwrittingTask
 
   //ACTION
   saveAndMarkCompleteTask() {
-    this.isUnderwrittingApproved()
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
   saveTask() {
-    this.isUnderwrittingApproved()
     Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
-    });
+      Helper.Router.gotoFile({
+        router: this.$router,
+        clientFileNumber: this.$route.params.clientFileNumber,
+      });
   }
-  isUnderwrittingApproved(){
-     if(this.taskFormData.taskOutput.underwrittingApproved) {
-      this.taskFormData.taskOutput.reasonForUnderwrittingDecline = undefined
+  isUnderwrittingApproved() {
+    if (this.taskFormData.taskOutput.underwrittingApproved) {
+      this.taskFormData.taskOutput.reasonForUnderwrittingDecline = undefined;
     }
   }
 }

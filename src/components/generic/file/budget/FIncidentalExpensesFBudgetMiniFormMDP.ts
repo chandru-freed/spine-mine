@@ -14,6 +14,7 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
       label: "Incidental Expenses",
       mandatory: true,
       boundaryClass: "col-4",
+      minHeight: "645"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

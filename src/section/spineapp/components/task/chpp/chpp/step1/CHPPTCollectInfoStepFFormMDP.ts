@@ -1,6 +1,8 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
+import FRemoteComboBoxFieldMDP from "@/components/generic/form/field/FRemoteComboBoxFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
@@ -28,12 +30,12 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorInfo.creditorName",
-        label: "Creditor Name",
+        label: "Collector Name",
         boundaryClass: "col-6",
       })
     )
       .addField(
-        new FTextFieldMDP({
+        new FPhoneFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "creditorInfo.creditorPhoneNumber",
           label: "Creditor Phone Number",
@@ -41,11 +43,13 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FRemoteComboBoxFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "creditorInfo.creditor",
           label: "Creditor",
+          mandatory: true,
           boundaryClass: "col-6",
+          queryUrl: "/spineapi/master/search-creditor?creditorName=",
         })
       )
       .addField(
@@ -56,8 +60,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-6",
         })
-      )
-      .addAction(
+      ).addAction(
         new FBtnMDP({
           label: "Save",
           onClick: this.validateAndSubmit(),

@@ -19,10 +19,10 @@ import * as Data from "@/../src-gen/data";
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import SBFTFStepperMDP from "./SBFTFStepperMDP";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 @Component({
   components: {
@@ -32,7 +32,7 @@ import SBFTFStepperMDP from "./SBFTFStepperMDP";
 })
 export default class SignByFreedTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements SelfTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -96,24 +96,24 @@ export default class SignByFreedTask
   }
 
   //ACTION
-  saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+  rescueTask() {
+    Task.Action.rescueTask({
+    taskId: this.taskId,
+     taskOutput: this.taskFormData.taskOutput,
     });
   }
-
-  saveTask() {
-    Task.Action.saveTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+  forceCompleteTask() {
+  Task.Action.forceCompleteTask({
+  taskId: this.taskId,
+  taskOutput: this.taskFormData.taskOutput,
+  });
   }
+  
 
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      fileId: this.$route.params.fileId,
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
 }

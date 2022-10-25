@@ -1,0 +1,272 @@
+<template>
+  <!-- TASK TAB -->
+  <div>
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>Create File Request</h4>
+      <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-flex justify-center col-12 ma-auto">
+      <v-card
+        class="pa-0 ma-0 mt-5 col-12"
+        color="white"
+        outlined
+        min-height="300px"
+      >
+        <v-card-text>
+          <v-autocomplete
+            v-model="selectedRequestType"
+            :items="requestTypeFlowMapList"
+            flat
+            hide-no-data
+            hide-details
+            label="Select Request Type"
+            outlined
+            dense
+            item-value="contentMetaData"
+            item-text="key"
+          ></v-autocomplete>
+        </v-card-text>
+
+        <v-card-text>
+          <component
+            v-if="!!selectedRequestType"
+            :ref="selectedRequestType.myRefName"
+            :is="selectedRequestType.componentName"
+            v-model="fileCreateRequestInput"
+            v-bind="selectedRequestType.props"
+          ></component>
+        </v-card-text>
+      </v-card>
+    </div>
+  </div>
+  <!--  TASK TAB -->
+</template>
+
+<script lang="ts">
+import { Vue, Component, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
+
+import FForm from "@/components/generic/form/FForm.vue";
+import EnrollmentFFormMDP from "@/section/spineapp/components/task/createRequestForm/EnrollmentFFormMDP";
+import Helper from "../../../util/Helper";
+import CHPPFFormMDP from "@/section/spineapp/components/task/createRequestForm/CHPPFFormMDP";
+import NsfMSFFFormMDP from "@/section/spineapp/components/task/createRequestForm/NsfMSFFFormMDP";
+import WelcomeCallFFormMDP from "@/section/spineapp/components/task/createRequestForm/WelcomeCallFFormMDP";
+import MFCFFormMDP from "@/section/spineapp/components/task/createRequestForm/MFCFFormMDP";
+import NsfSPAFFormMDP from "@/section/spineapp/components/task/createRequestForm/NsfSPAFFormMDP";
+import EMandateFFormMDP from "@/section/spineapp/components/task/createRequestForm/EMandateFFormMDP";
+
+@Component({
+  components: {
+    EnrollmentFFormMDP,
+    CHPPFFormMDP,
+    NsfMSFFFormMDP,
+    WelcomeCallFFormMDP,
+    MFCFFormMDP,
+    EMandateFFormMDP,
+    FForm,
+  },
+})
+export default class FileCreateRequest extends Vue {
+  clientFileNumber = this.$route.params.clientFileNumber;
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  createEMandateInput: any = new Data.Spine.CreateEMandateInput();
+
+  nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+
+  leftFocused = false;
+  rightFocused = true;
+
+  selectedRequestType: any = {};
+
+  get fileCreateRequestInput() {
+    this.createEMandateInput.eMandateBankInfo.accountHolderName = this.clientFileBasicInfo.clientBasicInfo.fullName;
+    return this.createEMandateInput;
+  }
+  get requestTypeFlowMapList() {
+    return [
+      {
+        key: "Enrollment",
+        contentMetaData: new EnrollmentFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "CHPP",
+        contentMetaData: new CHPPFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "NsfMSF",
+        contentMetaData: new NsfMSFFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "Welcome Call",
+        contentMetaData: new WelcomeCallFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "MFC",
+        contentMetaData: new MFCFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "NsfSPA",
+        contentMetaData: new NsfSPAFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "EMandate",
+        contentMetaData: new EMandateFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+    ];
+  }
+
+  get initDocumentData() {
+    return {
+      clientFileNumber: this.clientFileBasicInfo.clientFileNumber,
+    };
+  }
+  get createRequestFormData() {
+    return {
+      ...this.selectedRequestType,
+      initDocument: JSON.stringify(this.initDocumentData),
+    };
+  }
+
+  mounted() {
+    this.getNupayBankMasterList();
+  }
+
+  createEnrollmentFlow() {
+    Action.Spine.CreateEnrollment.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoClientFile();
+        }, 400);
+      }
+    );
+  }
+
+  createCHPPFlow() {
+    Action.Spine.CreateCHPP.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoClientFile();
+        }, 400);
+      }
+    );
+  }
+
+  createNsfMSFFlow() {
+    Action.Spine.CreateNsfMSF.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoClientFile();
+        }, 400);
+      }
+    );
+  }
+
+  createWelcomeCall() {
+    Action.Spine.CreateWelcomeCall.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoClientFile();
+        }, 400);
+      }
+    );
+  }
+
+  createMFC() {
+    Action.Spine.CreateMFC.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoClientFile();
+        }, 400);
+      }
+    );
+  }
+  createNsfSPA() {
+    Action.Spine.CreateNsfSPA.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
+      }
+    );
+  }
+
+  createEMandate() {
+    console.log("createEMandate--- ", this.createEMandateInput);
+    this.createEMandateInput.clientFileNumber =
+      this.clientFileBasicInfo.clientFileNumber;
+    Action.Spine.CreateEMandate.execute(this.createEMandateInput, (output) => {
+      setTimeout(() => {
+        this.gotoClientFile();
+      }, 400);
+    });
+  }
+
+  populateBankDetails(details: any) {
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.addressLine1 = details.ADDRESS;
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.city = details.CITY;
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.state = details.STATE;
+    this.fileCreateRequestInput.eMandateBankInfo.bankAddress.country = "India";
+  }
+
+  getNupayBankMasterList() {
+    Action.ClientFile.GetNupayBankMasterList.execute((output) => {
+      this.nupayBankMasterList = output.nupayBankMasterList;
+    });
+  }
+
+  gotoFile(clientFileNumber: string) {
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: clientFileNumber,
+    });
+  }
+
+  gotoClientFile() {
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.clientFileNumber,
+    });
+  }
+}
+</script>
+
+<style>
+.v-btn {
+  text-transform: unset !important;
+}
+</style>

@@ -1,8 +1,6 @@
 <template>
   <!-- TASK TAB -->
-  <v-card class="pa-0 ma-0" color="white" outlined min-height="700px">
-    <!-- <task-tab></task-tab> -->
-    <!-- {{taskListFiltered}} -->
+  <v-card class="pa-0 ma-0 my-3" color="white" outlined min-height="100px">
     <v-data-table
       dense
       min-height="600px"
@@ -18,13 +16,9 @@
       <template v-slot:top>
         <v-toolbar flat dense>
           <v-col class="col-2">
-            <v-btn-toggle x-small v-model="showOnlyActive">
-              <v-btn x-small>
-                <v-icon small>mdi-checkbox-intermediate-variant</v-icon>
-              </v-btn>
-              <v-btn x-small>
-                <v-icon small>mdi-checkbox-intermediate</v-icon>
-              </v-btn>
+            <v-btn-toggle small v-model="showOnlyActive">
+              <v-btn small> Active Tasks </v-btn>
+              <v-btn small> All Tasks </v-btn>
             </v-btn-toggle>
             <!-- <v-btn
               outlined
@@ -43,7 +37,7 @@
               >Show All</v-btn
             > -->
           </v-col>
-          <v-col class="col-5"></v-col>
+          <v-col class="col-5"> </v-col>
           <v-col>
             <v-text-field
               v-model="search"
@@ -57,6 +51,14 @@
               class="shrink"
             ></v-text-field>
           </v-col>
+          <v-btn
+            icon
+            class="mr-3"
+            small
+            text
+            @click="getTaskListForClientFile()"
+            ><v-icon>mdi-refresh</v-icon></v-btn
+          >
         </v-toolbar>
       </template>
       <template v-slot:item.taskState="{ item }">
@@ -85,17 +87,28 @@
         <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
           >mdi-cancel</v-icon
         >
+        <v-icon
+          color="red"
+          v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
+          >mdi-alert-circle</v-icon
+        >
         <!-- </v-btn> -->
       </template>
       <template v-slot:item.taskName="{ item }">
-        <v-btn text color="primary" @click="gotoTask(item)">
-          {{ item.taskName }}
-        </v-btn>
+        <f-btn
+          :label="item.taskName"
+          text
+          color="primary"
+          :onClick="() => gotoTask(item)"
+        ></f-btn>
       </template>
       <template v-slot:item.displayId="{ item }">
-        <v-btn text color="secondary" @click="gotoFile(item)">
-          {{ item.displayId }}
-        </v-btn>
+        <f-btn
+          :label="item.displayId"
+          text
+          color="secondary"
+          :onClick="() => gotoFile(item)"
+        ></f-btn>
       </template>
       <template v-slot:item.priority="{ item }">
         <v-chip small outlined>
@@ -103,7 +116,7 @@
         </v-chip>
       </template>
 
-      <template v-slot:item.allocatedTo="{ item }" >
+      <template v-slot:item.allocatedTo="{ item }">
         <!-- <v-chip outlined small v-if="item.assignedTo">
           <v-icon left small color="grey"> mdi-account-circle-outline </v-icon>
           {{ item.assignedTo }}
@@ -112,63 +125,21 @@
           <v-icon small left> mdi-account-circle-outline </v-icon>
           {{ item.allocatedTo }}
         </v-chip>
-        <v-btn
+        <f-btn
+          label="START"
           outlined
           small
           color="primary"
           v-if="!item.allocatedTo && item.taskType === 'MANUAL'"
-          @click="pullTask(item)"
-          >PULL</v-btn
-        >
+          :onClick="() => pullStartAndMerge(item)"
+        ></f-btn>
       </template>
 
       <template v-slot:item.lastUserActivityTime="{ item }">
         <span class="grey--text">
           {{ getLastUpdatedTime(item) | fromNow }}
         </span>
-        <!-- <span class="grey--text" v-if="!item.lastUserActivityTime">
-          {{ item.allocatedTime | fromNow }}
-        </span> -->
       </template>
-
-      <!-- <template v-slot:item.taskState="{ item }">
-          <v-btn rounded outlined small color="secondary" @click="pullTask(item)">{{ item.taskState }}</v-btn>
-        </template> -->
-
-      <template v-slot:item.actions="{ item }">
-        <!-- <v-icon small class="mr-2" @click="editItem(item)">
-            mdi-pencil
-          </v-icon>
-          <v-icon small class="mr-2" @click="deleteItem(item)">
-            mdi-delete
-          </v-icon> -->
-        <v-menu
-          offset-y
-          left
-          nudge-bottom="14"
-          min-width="230"
-          content-class="user-profile-menu-content"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon small v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-          </template>
-          <v-list dense>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-download</v-icon> Download
-            </v-list-item>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-eye</v-icon> Preview
-            </v-list-item>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-pencil</v-icon> Edit
-            </v-list-item>
-            <v-list-item link>
-              <v-icon small class="mr-2">mdi-delete</v-icon> Delete
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </template>
-
       <template v-slot:no-data> No Tasks Available </template>
     </v-data-table>
   </v-card>
@@ -184,11 +155,15 @@ import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
-import * as RemoteApiPoint from "@/remote-api-point";
+
+import Helper from "../../util/Helper";
+
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
-    // "task-tab": TaskTab,
+    // "task-tab": TaskTab
+    "f-btn": FBtn,
   },
 })
 export default class FileTaskList extends Vue {
@@ -212,26 +187,26 @@ export default class FileTaskList extends Vue {
     { text: "", value: "actions" },
   ];
 
+  selectedRequestType: any = {};
+
   taskList: Data.TaskList.GetTaskListByCidGrid[] = [];
 
   showOnlyActive = 0;
 
-  get fileId(): string {
-    return this.$route.params.fileId;
+  get clientFileNumber(): string {
+    return this.$route.params.clientFileNumber;
   }
 
   mounted() {
-    this.getToBePulledTaskList();
+    this.getTaskListForClientFile();
   }
 
-  getToBePulledTaskList() {
+  getTaskListForClientFile() {
     Action.TaskList.GetTaskListByCid.execute1(
-      this.fileId,
+      this.clientFileNumber,
       (output) => {
         this.taskList = output;
-      },
-      (err) => {},
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
@@ -243,7 +218,9 @@ export default class FileTaskList extends Vue {
           task.taskState === "TO_BE_PULLED" ||
           task.taskState === "ALLOCATED" ||
           task.taskState === "STARTED" ||
-          task.taskState === "PARTIALLY_COMPLETED"
+          task.taskState === "PARTIALLY_COMPLETED" ||
+          task.taskState === "EXCEPTION_Q" ||
+          task.taskState === "EXIT_Q"
         );
       });
 
@@ -254,9 +231,13 @@ export default class FileTaskList extends Vue {
   }
 
   gotoFile(item: any) {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: item.fileId },
+    // this.$router.push({
+    //   name: "Root.ClientFile.Workarea",
+    //   params: { clientFileNumber: item.clientFileNumber },
+    // });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: item.displayId,
     });
   }
 
@@ -266,6 +247,9 @@ export default class FileTaskList extends Vue {
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,
+      query: {
+        ...this.$route.query
+      }
     });
   }
 
@@ -273,16 +257,10 @@ export default class FileTaskList extends Vue {
     return item.lastUserActivityTime || item.allocatedTime || item.readyTime;
   }
 
-  pullTask(item: Data.TaskList.ToBePulledTaskGrid) {
-    Action.TaskList.PullTask.execute2(
-      item.taskId,
-      this.userName,
-      (output) => {
-        this.gotoTask(item);
-      },
-      (err) => {},
-      RemoteApiPoint.BenchApi
-    );
+  pullStartAndMerge(item: Data.TaskList.ToBePulledTaskGrid) {
+    Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
+      this.gotoTask(item);
+    });
   }
 }
 </script>

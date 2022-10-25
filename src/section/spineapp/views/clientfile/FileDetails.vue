@@ -1,47 +1,44 @@
 <template>
-  <v-navigation-drawer
-    absolute
-    permanent
-    outlined
-    left
-    :width="leftFocused ? '100%' : '49%'"
-    v-if="!rightFocused"
-  >
-    <template v-slot:prepend>
-      <v-toolbar flat dense color="grey lighten-2">
-        <v-btn icon v-if="!leftFocused" @click="focusLeft">
-          <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
-        </v-btn>
-        <v-btn icon v-if="leftFocused" @click="resumeNormal">
-          <v-icon>mdi-circle-slice-8</v-icon>
-        </v-btn>
-        <v-tabs
-          v-model="fileDetailsTab"
-          background-color="grey lighten-2"
-          color="secondary"
-          grow
-        >
-          <v-tab
-            v-for="item in fileDetailsTabList"
-            :key="item.tabName"
-            class="text-caption"
+  <div class="navigation-drawer-left">
+    <v-navigation-drawer
+      absolute
+      permanent
+      :width="leftFocused ? '100%' : '49%'"
+      v-if="!rightFocused"
+      overlay-color="transparent"
+      overlay-opacity="0"
+    >
+      <template v-slot:prepend>
+        <v-toolbar flat dense color="grey lighten-2">
+          <v-tabs
+            :value="selectedTab"
+            @change="changeSelectedTab"
+            background-color="grey lighten-2"
+            color="secondary"
+            grow
           >
-            {{ item.tabName }}
-          </v-tab>
-        </v-tabs>
-      </v-toolbar>
-    </template>
+            <v-tab
+              v-for="item in fileDetailsTabList"
+              :key="item.tabName"
+              class="text-caption"
+            >
+              {{ item.tabName }}
+            </v-tab>
+          </v-tabs>
+        </v-toolbar>
+      </template>
 
-    <v-divider></v-divider>
+      <v-divider></v-divider>
 
-    <v-tabs-items v-model="fileDetailsTab" flat>
-      <v-tab-item v-for="item in fileDetailsTabList" :key="item.tabName">
-        <v-card flat min-height="700">
-          <component :is="item.component"></component>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-navigation-drawer>
+      <v-tabs-items :value="selectedTab" flat>
+        <v-tab-item v-for="item in fileDetailsTabList" :key="item.tabName">
+          <v-card flat min-height="700">
+            <component :is="item.component"></component>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 <script lang="ts">
@@ -52,10 +49,13 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 // import * as Action from '@/../src-gen/action';
 import FileInfo from "@/section/spineapp/components/file/FileInfo.vue";
 import FileProfile from "@/section/spineapp/components/file/profile/FileProfile.vue";
-import FileBank from "@/section/spineapp/components/file/FileBank.vue";
-import FileBudget from "@/section/spineapp/components/file/FileBudget.vue";
-import FileCreditorList from "@/section/spineapp/components/file/FileCreditorList.vue";
-import FilePaymentPlan from "@/section/spineapp/components/file/FilePaymentPlan.vue";
+import FileBank from "@/section/spineapp/components/file/bank/FileBank.vue";
+import FileBudget from "@/section/spineapp/components/file/budget/FileBudget.vue";
+import FileCreditorList from "@/section/spineapp/components/file/creditor/FileCreditorList.vue";
+import FileDocumentList from "../../components/file/document/FileDocumentList.vue";
+import FilePaymentPlan from "../../components/file/paymentplan/FilePaymentPlan.vue";
+import Payment from "../../components/file/payment/Payment.vue";
+import PaymentTransaction from "../../components/file/payment/PaymentTransaction.vue";
 
 @Component({
   components: {
@@ -64,55 +64,87 @@ import FilePaymentPlan from "@/section/spineapp/components/file/FilePaymentPlan.
     "file-bank": FileBank,
     "file-budget": FileBudget,
     "file-creditor-list": FileCreditorList,
-    "file-payment-plan": FilePaymentPlan
+    "file-payment-plan": FilePaymentPlan,
+    "file-document-list": FileDocumentList,
+    payment: Payment,
+    "ptayment-transaction": PaymentTransaction,
   },
 })
 export default class FileDetails extends Vue {
-  fileId = this.$route.params.fileId;
-  
-  leftFocused = false;
-  rightFocused = false;
-
-  fileDetailsTab = 0;
+  clientfileNumber = this.$route.params.clientFileNumber;
   fileDetailsTabList = [
-    {
-      tabName: "Info",
-      component: "file-info",
-    },
+    // {
+    //   tabName: "Info",
+    //   component: "file-info",
+    // },
     {
       tabName: "Profile",
       component: "file-profile",
     },
     {
-      tabName: "Bank",
-      component: "file-bank",
+      tabName: "Creditor",
+      component: "file-creditor-list",
     },
     {
       tabName: "Budget",
       component: "file-budget",
     },
     {
-      tabName: "Cred",
-      component: "file-creditor-list",
+      tabName: "Payment Plan",
+      component: "file-payment-plan",
     },
     {
-      tabName: "Pay Plan",
-      component: "file-payment-plan",
+      tabName: "Bank",
+      component: "file-bank",
+    },
+    {
+      tabName: "Document",
+      component: "file-document-list",
+    },
+    {
+      tabName: "Payment",
+      component: "payment",
+    },
+    {
+      tabName: "transaction",
+      component: "ptayment-transaction",
     },
   ];
 
+changeSelectedTab(value: number) {
+ this.$router.push({
+      query: {
+        ...this.$route.query,
+        lt: value.toString(),
+      },
+    });
+}
 
-  focusLeft() {
-    this.leftFocused = true;
-    this.rightFocused = !this.leftFocused;
+  get selectedTab() {
+    return this.$route.query.lt?Number(this.$route.query.lt):0
+  }
+ 
+  get leftFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      panelVal.toString().includes("lp") && !panelVal.toString().includes("rp")
+    );
   }
 
-  resumeNormal() {
-    this.leftFocused = false;
-    this.rightFocused = false;
+  get rightFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      !panelVal.toString().includes("lp") && panelVal.toString().includes("rp")
+    );
   }
-
 }
 </script>
 
-<style></style>
+<style scoped>
+.navigation-drawer-left
+  .v-navigation-drawer--is-mobile:not(.v-navigation-drawer--close),
+.navigation-drawer-left
+  .v-navigation-drawer--temporary:not(.v-navigation-drawer--close) {
+  box-shadow: none;
+}
+</style>

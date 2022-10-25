@@ -1,34 +1,20 @@
 <template>
-  <div class="TaskAssignedToMe">
+  <div class="TaskPool">
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" color="transparent">
-      <task-tab v-model="tab"></task-tab>
-
+    <task-tab v-model="tab"></task-tab>
+    <!-- TASK TAB -->
+    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="toBePulledTaskGridHeaderList"
         :items="toBePulledTaskList"
         sort-by="calories"
         class="elevation-0"
         :search="search"
-        v-model="selected"
-        :single-select="false"
-        show-select
         item-key="taskId"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-col class="col-2">
-              <v-select
-                :disabled="selected.length === 0"
-                :items="['Delete', 'Edit', 'Send']"
-                label="Bulk Actions"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-              ></v-select>
-            </v-col>
+            <v-card-title>Task To Be Pulled</v-card-title>
             <v-col class="col-7"></v-col>
             <v-col>
               <v-text-field
@@ -46,14 +32,10 @@
           </v-toolbar>
         </template>
         <template v-slot:item.taskName="{ item }">
-          <v-btn text color="primary" @click="gotoTask(item)">
-            {{ item.taskName }}
-          </v-btn>
+          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
         </template>
         <template v-slot:item.cid="{ item }">
-          <v-btn text color="secondary" @click="gotoFile(item)">
-            {{ item.cid }}
-          </v-btn>
+          <f-btn :label="item.cid " text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
         </template>
         <template v-slot:item.displayId="{ item }">
           <span class="overline">
@@ -70,9 +52,7 @@
         </template>
 
         <template v-slot:item.action="{ item }">
-          <v-btn outlined small color="primary" @click="pullTask('',item)">
-            Pull
-          </v-btn>
+          <f-btn label="START" outlined small color="primary" :onClick="()=>pullStartAndMerge('',item)"></f-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -87,15 +67,17 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import moment from "moment";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     "task-tab": TaskTab,
+    "f-btn":FBtn
   },
 })
-export default class TaskAssignedToMe extends Vue {
+export default class TaskPool extends Vue {
   tab = 0;
 
   selected = [];
@@ -107,8 +89,8 @@ export default class TaskAssignedToMe extends Vue {
 
   toBePulledTaskGridHeaderList = [
     // { text: "Task Id", value: "taskId" },
-    { text: "File Id", value: "cid", align: "start" },
-    { text: "Display Id", value: "displayId", align: "start" },
+    { text: "File Number", value: "cid", align: "start" },
+    { text: "Client", value: "displayId", align: "start" },
     { text: "Task", value: "taskName", align: "start" },
     { text: "Priority", value: "priority" },
     // { text: "Status", value: "taskStatus" },
@@ -126,39 +108,29 @@ export default class TaskAssignedToMe extends Vue {
     Action.TaskList.GetToBePulledTaskList.execute(
       (output) => {
         this.toBePulledTaskList = output;
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
-  pullTask(value: any, item: Data.TaskList.ToBePulledTaskGrid) {
-    Action.TaskList.PullTask.execute2(
-      item.taskId,
-      this.userName,
-      (output) => {
-        this.gotoTask(item)
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
-    );
+  pullStartAndMerge(value: any, item: Data.TaskList.ToBePulledTaskGrid) {
+    Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
+      this.gotoTask(item);
+    });
   }
+
+  
 
   gotoFile(item: any) {
     this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: item.cid },
+      name: "Root.ClientFile.Workarea",
+      params: { clientFileNumber: item.cid },
     });
   }
 
   gotoTask(item: any) {
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
-      params: { fileId: item.cid, taskId: item.taskId },
+      params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
   }
 }

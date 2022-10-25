@@ -18,19 +18,11 @@ export default class EMTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
-                label: "File Id",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
                 dataSelectorKey: "taskOutput.eMandateStatus",
                 label: "EMandate Status",
                 mandatory: true,
                 boundaryClass: "col-6",
+                readonly: true
             })
         ).addField(
             new FTextFieldMDP({
@@ -39,6 +31,7 @@ export default class EMTStepFFormMDP extends FFormMDP {
                 label: "EMandate Link",
                 mandatory: true,
                 boundaryClass: "col-6",
+                readonly: true
             })
         ).addField(
             new FTextFieldMDP({
@@ -47,13 +40,15 @@ export default class EMTStepFFormMDP extends FFormMDP {
                 label: "EMandate Id",
                 mandatory: true,
                 boundaryClass: "col-6",
+                readonly: true
             })
         ).addAction(
             new FBtnMDP({
-              label: "Rescue",
-              onClick: this.validateAndSubmit(),
+                label: "Rescue",
+                onClick: this.validateAndSubmit(),
+                condition: this.isException()
             })
-          );
+        );
     }
 
     getMyRef(): any {
@@ -64,6 +59,10 @@ export default class EMTStepFFormMDP extends FFormMDP {
         return () => {
             this.getMyRef().submitForm(this.rescueTask());
         };
+    }
+
+    isException() {
+        return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
     }
 
     rescueTask() {

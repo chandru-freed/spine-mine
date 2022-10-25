@@ -1,10 +1,11 @@
 <template>
   <div>
     <component
-      v-if="personalInfoForm.clientId && personalInfoForm.clientInfo"
       :ref="profileFormMetaData.myRefName"
       :is="profileFormMetaData.componentName"
-      :value="selectModel(personalInfoForm, profileFormMetaData.dataSelectorKey)"
+      :value="
+        selectModel(personalInfoForm, profileFormMetaData.dataSelectorKey)
+      "
       @input="
         (newValue) =>
           updateModel(
@@ -26,9 +27,8 @@ import * as ServerData from "@/../src-gen/server-data";
 import ClientProfileFProfileFFormMDP from "@/section/spineapp/components/file/profile/ClientProfileFProfileFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 @Component({
   components: {
     FForm,
@@ -41,7 +41,6 @@ export default class FileProfile extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfo: Data.ClientFile.ClPersonalInfo;
 
-  fileId = this.$route.params.fileId;
   //METADATA
   get profileFormMetaData() {
     return new ClientProfileFProfileFFormMDP({
@@ -56,8 +55,9 @@ export default class FileProfile extends ModelVue {
   personalInfoFormLocal: any = new Data.ClientFile.ClPersonalInfo();
 
   get personalInfoForm() {
-    
-    if (!!this.personalInfo ) {
+    this.personalInfoFormLocal.residentialAddress =
+      new Data.ClientFile.ClientAddress();
+    if (!!this.personalInfo) {
       this.personalInfoFormLocal = this.personalInfo;
       if (!this.personalInfo.residentialAddress) {
         this.personalInfoFormLocal.residentialAddress =
@@ -79,17 +79,15 @@ export default class FileProfile extends ModelVue {
 
   //ACTION
   findClientInfo() {
-    Action.ClientFile.FindPersonalInfo.execute1(
-      this.clientFileBasicInfo.clientBasicInfo.clientId,
-      (output) => {},
-      (error) => {},
-      RemoteApiPoint.SpineApi
-    );
+    //TODO:  Needs to be discussed:
+    setTimeout(() => {
+      Action.ClientFile.FindPersonalInfo.execute1(
+        this.clientFileBasicInfo.clientBasicInfo.clientId,
+        (output) => {}
+      );
+    }, 1000);
   }
-
-  
 }
 </script>
 
-<style>
-</style>
+<style></style>

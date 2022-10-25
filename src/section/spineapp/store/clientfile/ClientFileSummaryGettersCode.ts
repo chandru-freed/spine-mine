@@ -7,13 +7,53 @@ export class ClientFileSummaryInit {
 }
 
 export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
-   personalInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.ClPersonalInfo | undefined {
+  
+
+   public fiCreditorInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditorInfo | undefined {
+      return state.fiCreditorInfo
+   }
+   
+   public fiBankInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiBankInfo | undefined {
+    return state.fiBankInfo
+   }
+   public personalInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.ClPersonalInfo | undefined {
      return state.personalInfo
    }
    
-
    public clientFileBasicInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.ClientFileBasicInfo {
      return state.clientFileBasicInfo
    }
 
+   public fileSummary(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FileSummary | undefined {
+    return state.fileSummary
+  }
+  public fiPaymentPlanInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPaymentPlanInfo | undefined {
+    return state.fiPaymentPlanInfo
+  }
+
+  public budgetInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.BudgetInfo | undefined {
+    return state.budgetInfo
+  }
+
+  public fiDocumentList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiDocument[] {
+    return state.fiDocumentList
+  }
+
+  public fiPaymentList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPayment[] {
+    return state.fiPaymentList
+  }
+
+  public fiPaymentTransactionList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPaymentTransaction[] {
+    return state.fiPaymentTransactionList
+  }
+
+  // public fiPaymentDetails(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPaymentDetails {
+  //   return state.fiPaymentDetails
+  // }
+
+  public fiEnrollmentDetails(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiEnrollmentDetails {
+    return new Data.ClientFile.FiEnrollmentDetails(state.personalInfo, state.fiBankInfo, state.fiCreditorInfo, state.fiDocumentList, state.fiPaymentPlanInfo, state.budgetInfo)
+  }
 }
+
+

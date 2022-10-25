@@ -1,53 +1,46 @@
 <template>
   <v-navigation-drawer
-          absolute
-          permanent
-          right
-          :width="rightFocused ? '100%' : '49%'"
-          v-if="!leftFocused"
+    absolute
+    permanent
+    right
+    :width="rightFocused ? '100%' : '49%'"
+    v-if="!leftFocused"
+  >
+    <template v-slot:prepend>
+      <v-toolbar flat dense color="grey lighten-2">
+        
+        <v-tabs
+          v-model="taskSummaryTab"
+          background-color="grey lighten-2"
+          color="secondary"
+          grow
         >
-          <template v-slot:prepend>
-            <v-toolbar flat dense color="grey lighten-2">
-              <v-btn icon v-if="!rightFocused" @click="focusRight">
-                <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
-              </v-btn>
-              <v-btn icon v-if="rightFocused" @click="resumeNormal">
-                <v-icon>mdi-circle-slice-8</v-icon>
-              </v-btn>
-              <v-tabs
-                v-model="taskSummaryTab"
-                background-color="grey lighten-2"
-                color="secondary"
-                grow
-              >
-                <v-tab
-                  v-for="taskSummaryTab in taskSummaryTabList"
-                  :key="taskSummaryTab.tabName"
-                >
-                  {{ taskSummaryTab.tabName }}
-                </v-tab>
-              </v-tabs>
-            </v-toolbar>
-          </template>
+          <v-tab
+            v-for="taskSummaryTab in taskSummaryTabList"
+            :key="taskSummaryTab.tabName"
+          >
+            {{ taskSummaryTab.tabName }}
+          </v-tab>
+        </v-tabs>
+      </v-toolbar>
+    </template>
 
-          <v-divider></v-divider>
-          <v-tabs-items v-model="taskSummaryTab">
-            <v-tab-item
-              v-for="taskSummaryTab in taskSummaryTabList"
-              :key="'tabName' + taskSummaryTab.tabName"
-            >
-              <v-card flat min-height="600">
-                  <component :is="taskSummaryTab.component"></component>
-              </v-card>
-            </v-tab-item>
-          </v-tabs-items>
-        </v-navigation-drawer>
-
+    <v-divider></v-divider>
+    <v-tabs-items v-model="taskSummaryTab">
+      <v-tab-item
+        v-for="taskSummaryTab in taskSummaryTabList"
+        :key="'tabName' + taskSummaryTab.tabName"
+      >
+        <v-card flat min-height="600">
+          <component :is="taskSummaryTab.component"></component>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-navigation-drawer>
 </template>
 
 <script lang="ts">
-
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 // import store, * as Store from '@/../src-gen/store';
 // import * as Data from '@/../src-gen/data';
 // import * as ServerData from '@/../src-gen/server-data';
@@ -59,17 +52,13 @@ import FileLogs from "@/section/spineapp/components/file/FileLogs.vue";
 
 @Component({
   components: {
-    
     FileTaskArea,
     FileNotes,
     FileHighlights,
-    FileLogs
+    FileLogs,
   },
 })
 export default class FileTaskDetails extends Vue {
-  leftFocused = false;
-  rightFocused = true;
-  
   taskSummaryTab = 0;
 
   taskSummaryTabList = [
@@ -92,23 +81,20 @@ export default class FileTaskDetails extends Vue {
   ];
 
 
-  focusLeft() {
-    this.leftFocused = true;
-    this.rightFocused = !this.leftFocused;
+    get leftFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      panelVal.toString().includes("lp") && !panelVal.toString().includes("rp")
+    );
   }
 
-  focusRight() {
-    this.leftFocused = false;
-    this.rightFocused = !this.leftFocused;
+  get rightFocused() {
+    const panelVal = this.$route.query.panel || "";
+    return (
+      !panelVal.toString().includes("lp") && panelVal.toString().includes("rp")
+    );
   }
-
-  resumeNormal() {
-    this.leftFocused = false;
-    this.rightFocused = false;
-  }
-
 }
-
 </script>
 
 <style>

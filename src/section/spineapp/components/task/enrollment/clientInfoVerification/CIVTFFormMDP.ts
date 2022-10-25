@@ -2,15 +2,15 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 
 
 export default class CIVTFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: GenericTaskIntf;
+    taskRoot: ManualTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
         super({
             myRefName: "clientInfoVerificationFormRef",
             // dataSelectorKey: "taskOutput.clientInfo",
@@ -19,13 +19,7 @@ export default class CIVTFFormMDP extends FFormMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
-        this.addField(new FTextFieldMDP({
-            parentMDP: this.childMDP,
-            dataSelectorKey: "taskInput.fileId",
-            label: "File Id",
-            disabled: true
-        }))
-        .addField(
+        this.addField(
             new FSwitchMDP({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "taskOutput.verified",

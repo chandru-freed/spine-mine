@@ -16,16 +16,15 @@ export default class CreateClientFFormMDP extends FFormMDP {
     this.root = root;
     // this.parent = parent;
 
-    this
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "firstName",
-          label: "First Name",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "firstName",
+        label: "First Name",
+        boundaryClass: "col-4",
+        mandatory: true,
+      })
+    )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
@@ -66,11 +65,12 @@ export default class CreateClientFFormMDP extends FFormMDP {
           dataSelectorKey: "leadSource",
           label: "Lead Source",
           boundaryClass: "col-4",
+          disabled: true,
         })
       )
       .addAction(
         new FBtnMDP({
-          label: "Create",
+          label: "Register Client",
           onClick: this.validateAndSubmit(),
         })
       );

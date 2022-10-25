@@ -17,15 +17,16 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import ECTFStepperMDP from "./ECTFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
 import Helper from "@/section/spineapp/util/Helper";
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 @Component({
   components: {
     FStepper,
@@ -34,9 +35,8 @@ import Helper from "@/section/spineapp/util/Helper";
 })
 export default class EnrollmentCompletionTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements ManualTaskIntf
 {
-  saveTask: () => void;
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -107,11 +107,29 @@ export default class EnrollmentCompletionTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
+  saveTask() {
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  rescueTask() {
+    Task.Action.rescueTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
 
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      fileId: this.$route.params.fileId,
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
 }

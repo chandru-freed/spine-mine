@@ -1,9 +1,6 @@
 import FAutoCompleteFieldMDP from "./FAutoCompleteFieldMDP";
 import FMiniFormMDP, { FFormChildMDP } from "./FMiniFormMDP"
-import FSelectFieldMDP from "./FSelectFieldMDP";
-import FSelectFooFieldMDP from "./FSelectFooFieldMDP";
 import FTextareaMDP from "./FTextareaMDP";
-import FTextFieldMDP from "./FTextFieldMDP";
 
 export default class DispositionFMiniFormMDP extends FMiniFormMDP {
     childMDP = new FFormChildMDP();

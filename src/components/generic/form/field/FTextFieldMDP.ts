@@ -1,5 +1,6 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import { readonly } from "vue";
 
 export default class FTextFieldMDP implements FFieldMDP {
   componentName = "FTextField";
@@ -12,6 +13,12 @@ export default class FTextFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
+  mask: string;
+  unmask: string;
+  prefix: string;
+  hint: string;
+  placeholder: string;
+  readonly: boolean;
   // defaultValue?: string;
 
   constructor({
@@ -23,9 +30,15 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    condition = true
-    // defaultValue
-  }: {
+    condition = true,
+    mask = "",
+    unmask = "",
+    prefix = "",
+    placeholder = "",
+    hint = "",
+    readonly = false,
+  }: // defaultValue
+  {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
     label: string;
@@ -34,7 +47,13 @@ export default class FTextFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean
+    condition?: boolean;
+    mask?: string;
+    unmask?: string;
+    prefix?: string;
+    placeholder?: string;
+    hint?: string;
+    readonly?: boolean;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -45,7 +64,14 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
-    this.condition = condition
+    this.condition = condition;
+    this.mask = mask;
+    this.unmask = unmask;
+    this.prefix = prefix;
+    this.hint = hint;
+    this.placeholder = placeholder;
+    this.condition = condition;
+    this.readonly = readonly;
     // this.defaultValue = defaultValue;
   }
 
@@ -56,6 +82,13 @@ export default class FTextFieldMDP implements FFieldMDP {
 
   getBoundaryClass() {
     return `${this.boundaryClass} py-0 px-2`;
+  }
+
+  getMaxLength() {
+    return this.mask ? this.mask.length : undefined;
+  }
+  isDisabled() {
+    return this.disabled || this.readonly;
   }
 
   getMetaData(): object {
@@ -71,7 +104,14 @@ export default class FTextFieldMDP implements FFieldMDP {
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        disabled: this.disabled,
+        unmask: this.unmask,
+        mask: this.mask,
+        maxlength: this.getMaxLength(),
+        prefix: this.prefix,
+        placeholder: this.placeholder,
+        hint: this.hint,
+        disabled: this.isDisabled(),
+        readonly: this.readonly,
         // defaultValue: this.defaultValue
       },
     };

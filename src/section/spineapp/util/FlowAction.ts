@@ -5,18 +5,18 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import VueRouter from "vue-router";
 import Helper from "./Helper";
 
 export default class FlowAction {
   static createFlow({
     createRequestFormData,
-    fileId,
+    clientFileNumber,
     router,
   }: {
     createRequestFormData: any;
-    fileId: string;
+    clientFileNumber: string;
     router: VueRouter;
   }) {
     console.log("createFlow is being called");
@@ -28,13 +28,9 @@ export default class FlowAction {
       (output) => {
         Helper.Router.gotoFile({
           router,
-          fileId,
+          clientFileNumber,
         });
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.ValeyApi
+      }
     );
   }
 }

@@ -7,14 +7,33 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "documentListRef",
-      dataSelectorKey: "taskOutput.documentList",
+      dataSelectorKey: "taskOutput.fileDocumentList",
       disabled: taskRoot.taskDisabled,
     });
 
     this.addAction(
       new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
+        label: "Previous",
+        onClick: this.goToPrevStep(),
+      })
+    )
+    // .addAction(
+    //   new FBtnMDP({
+    //     label: "Save",
+    //     onClick: this.saveTask(),
+    //     condition: this.isStarted()
+    //   })
+    // )
+    .addAction(
+      new FBtnMDP({
+        label: "Rescue",
+        onClick: this.rescueTask(),
+        condition: this.isException()
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Save And Next",
+        onClick: this.goToNextStep(),
       })
     );
   }
@@ -23,6 +42,31 @@ export default class CCITUploadStepFDocumentMDP extends FDocumentMDP {
     return () => {
       this.taskRoot.saveTask();
     };
+  }
+
+  rescueTask() {
+    return () => {
+      this.taskRoot.rescueTask();
+    };
+  }
+
+  goToPrevStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(4);
+    }
+  }
+  goToNextStep() {
+    return () => {
+      (this.taskRoot as any).goToStep(6);
+    }
+  }
+
+  isStarted() {
+    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+  }
+
+  isException() {
+    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
   }
 
   getMyRef() {

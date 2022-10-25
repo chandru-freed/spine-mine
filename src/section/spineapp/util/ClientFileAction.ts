@@ -5,7 +5,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import VueRouter from "vue-router";
 import Helper from "./Helper";
 
@@ -21,11 +21,7 @@ export default class ClientFileAction {
       (output) => {
         console.log("document uploaded successfully")
         callback()
-      },
-      (err: any) => {
-        console.error(err);
-      },
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 }

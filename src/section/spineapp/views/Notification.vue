@@ -8,7 +8,7 @@
           <v-toolbar-title >Notifications</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-chip small color="secondary" >8 NEW</v-chip>
-           <v-btn class="mx-3" small outlined > Mark All Read </v-btn>
+           <f-btn class="mx-3" label="Mark All Read" small outlined ></f-btn>
           <!-- <v-spacer></v-spacer> -->
 
           <!-- <v-btn x-small rounded outlined>
@@ -68,9 +68,14 @@
 </template>
 <script>
 
+import FBtn from '@/components/generic/FBtn.vue';
 import { Vue, Component } from 'vue-property-decorator';
 
-@Component
+@Component({
+  components:{
+    "f-btn":FBtn
+  }
+})
 export default class Notification extends Vue {
   selected = [0,1,2,3];
   items = [

@@ -18,14 +18,6 @@ export default class WCSSATStepFFormMDP extends FFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.fileId",
-        label: "File Id",
-        mandatory: true,
-        disabled: true
-      })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.digioSignStatus",
         label: "Underwritting Approved",
         mandatory: true,

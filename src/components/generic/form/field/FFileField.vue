@@ -2,11 +2,16 @@
   <v-file-input
     v-bind="$props"
     :value="modelValue"
-    @input="(newValue) => (modelValue = newValue)"
+    @change="(newValue) => (modelValue = newValue)"
+    :id="id"
+    :label="label"
+    :disabled="disabled"
+    :outlined="outlined"
+    :dense="dense"
   ></v-file-input>
 </template>
 <script lang="ts">
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { VFileInput } from "vuetify/lib/components";
 
 @Component({
@@ -14,18 +19,40 @@ import { VFileInput } from "vuetify/lib/components";
     VFileInput,
   },
 })
-export default class FFileField extends VFileInput {
+export default class FFileField extends Vue {
   // MODEL VALUE - START
   @Prop()
-  value: string;
+  value: File;
+
+  @Prop()
+  id: string;
+
+  @Prop()
+  label: string;
+
+  @Prop()
+  disabled: File;
+
+  @Prop()
+  outlined: boolean;
+
+  @Prop()
+  dense: boolean;
 
   get modelValue() {
     return this.value;
   }
 
-  set modelValue(newModelValue: string) {
+  set modelValue(newModelValue: File) {
+    console.log(newModelValue);
     this.$emit("input", newModelValue);
   }
   // MODEL VALUE - END
 }
 </script>
+
+<style>
+.v-text-field--outlined > .v-input__control > .v-input__slot {
+  min-height: 42px !important;
+}
+</style>

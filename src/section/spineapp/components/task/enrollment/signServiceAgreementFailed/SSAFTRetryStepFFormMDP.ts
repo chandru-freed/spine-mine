@@ -2,14 +2,15 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+
+import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 
 export default class SSAFTRetryStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
-    taskRoot: GenericTaskIntf;
+    taskRoot: ManualTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: GenericTaskIntf; parent: any }) {
+    constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
         super({
             myRefName: "signServiceAgreementFailedFormRef",
             disabled: taskRoot.taskDisabled,
@@ -18,15 +19,6 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
         this.parent = parent;
 
         this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
-                label: "File ID",
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        )
-        .addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "taskInput.digioSignStatus",
@@ -45,14 +37,23 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
         ).addAction(
             new FBtnMDP({
                 label: "Save",
-                onClick: this.validateAndSubmit()
+                onClick: this.validateAndSubmit(),
+                condition: this.isStarted()
             })
         )
         .addAction(
             new FBtnMDP({
                 label: "Mark Completed",
                 onClick: this.validateAndMarkComplete(),
-                btnType: BtnType.FILLED
+                btnType: BtnType.FILLED,
+                condition: this.isStarted()
+            })
+        )
+        .addAction(
+            new FBtnMDP({
+                label: "Rescue",
+                onClick: this.rescueTask(),
+                condition: this.isException()
             })
         )
     }
@@ -83,5 +84,19 @@ export default class SSAFTRetryStepFFormMDP extends FFormMDP {
         return () => {
             this.taskRoot.saveTask();
         };
+    }
+
+    rescueTask() {
+        return () => {
+            this.taskRoot.rescueTask();
+        };
+    }
+
+    isStarted() {
+        return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+    }
+
+    isException() {
+        return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
     }
 }

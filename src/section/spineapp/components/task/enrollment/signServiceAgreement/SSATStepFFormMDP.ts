@@ -10,30 +10,25 @@ export default class SSATStepFFormMDP extends FFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: FlowTaskIntf; parent: any }) {
     super({
       myRefName: "sSATDigiSignStatusFFormRef",
-      disabled: taskRoot.taskDisabled,
+      readonly: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.fileId",
-        label: "File Id",
-        mandatory: true,
-        disabled: true
-      })
-    ).addField(
+    this
+    .addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.digioSignStatus",
-        label: "Underwritting Approved",
+        label: "Digio Sign Status",
         mandatory: true,
+        readonly: true
       })
     ).addAction(
       new FBtnMDP({
         label: "Rescue",
         onClick: this.validateAndSubmit(),
+        condition: this.isException()
       })
     )
   }
@@ -53,6 +48,14 @@ export default class SSATStepFFormMDP extends FFormMDP {
     return () => {
       this.taskRoot.rescueTask();
     };
+  }
+
+  isStarted() {
+    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+  }
+
+  isException() {
+    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
   }
 
 

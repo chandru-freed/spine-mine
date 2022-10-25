@@ -1,18 +1,18 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 
 export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: GenericTaskIntf;
+  taskRoot: SelfTaskIntf;
   parent: any;
   constructor({
     taskRoot,
     parent,
   }: {
-    taskRoot: GenericTaskIntf;
+    taskRoot: SelfTaskIntf;
     parent: any;
   }) {
     super({
@@ -22,22 +22,14 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.fileId",
-        label: "FileId",
-        disabled: true,
-        boundaryClass: "col-4",
-      })
-    )
+    this
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.docId",
           label: "DocId",
           disabled: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
         })
       )
       .addField(
@@ -46,49 +38,25 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
           dataSelectorKey: "taskOutput.templateCode",
           label: "Template Code",
           disabled: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
         })
       )
       .addAction(
         new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
+          label: "Rescue",
+          onClick: this.rescueTask(),
         })
       )
-      .addAction(
-        new FBtnMDP({
-          label: "Mark Completed",
-          onClick: this.validateAndMarkComplete(),
-          btnType: BtnType.FILLED,
-        })
-      );
+
   }
 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  validateAndSubmit() {
+  rescueTask() {
     return () => {
-      this.getMyRef().submitForm(this.saveTask());
-    };
-  }
-
-  validateAndMarkComplete() {
-    return () => {
-      this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
-    };
-  }
-
-  saveAndMarkCompleteTask() {
-    return () => {
-      this.taskRoot.saveAndMarkCompleteTask();
-    };
-  }
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
+      this.taskRoot.rescueTask();
+    }
   }
 }

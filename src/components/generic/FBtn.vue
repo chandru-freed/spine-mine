@@ -1,5 +1,7 @@
 <template>
-  <v-btn v-bind="$props" @click="onClick">{{ label }}</v-btn>
+  <v-btn v-bind="$props" @click="buttonClicked()" :loading="buttonLoading">{{
+    label
+  }}</v-btn>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
@@ -16,5 +18,15 @@ export default class FBtn extends VBtn {
 
   @Prop()
   onClick: () => void;
+
+  buttonLoading: boolean = false;
+
+  buttonClicked() {
+    this.buttonLoading = true;
+    this.onClick();
+    setTimeout(() => {
+      this.buttonLoading = false;
+    }, 500);
+  }
 }
 </script>

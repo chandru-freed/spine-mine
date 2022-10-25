@@ -1,31 +1,39 @@
 <template>
   <v-card flat>
-    <!-- <div class="row">
-      <div class="col-12">
-        {{selectedComponent}}
-      </div>
-    </div> -->
-    <v-card-actions class="pb-0">
-      <v-btn text @click="gotoFile">
-        <v-icon>mdi-chevron-left</v-icon> All Tasks</v-btn
-      >
-
+    <v-card-actions class="pa-0 ma-0">
+      <v-breadcrumbs :items="items" divider="/" class="py-2">
+        <template v-slot:item="{ item }">
+          <v-btn text class="pa-1" small @click="goto(item.routerName)" color="primary" :disabled="!item.routerName" >
+            {{ item.text }}
+          </v-btn>
+         
+        </template>
+      </v-breadcrumbs>
       <v-spacer></v-spacer>
-      <v-btn
-        outlined
-        color="primary"
-        @click="startTask"
-        v-if="taskDetails.taskState === 'ALLOCATED'"
-        >START</v-btn
-      >
 
-      <v-btn
+      <f-btn
+        label="PULL & START"
         outlined
         color="primary"
-        @click="pullTask"
+        :onClick="() => pullAndStartTask()"
+        v-if="taskDetails.taskState === 'ALLOCATED' || taskDetails.taskState === 'TO_BE_PULLED'"
+      ></f-btn>
+
+       <!-- <f-btn
+        label="START"
+        outlined
+        color="primary"
+        :onClick="() => startTask()"
+        v-if="taskDetails.taskState === 'ALLOCATED'"
+      ></f-btn>
+
+      <f-btn
+        label="PULL"
+        outlined
+        color="primary"
+        :onClick="() => pullTask()"
         v-if="taskDetails.taskState === 'TO_BE_PULLED'"
-        >PULL</v-btn
-      >
+      ></f-btn> -->
     </v-card-actions>
     <v-card-text class="pa-0">
       <component v-if="!loading" :is="selectedComponent"></component>
@@ -49,7 +57,7 @@ import DownloadUnSignedDocTask from "@/section/spineapp/components/task/digio/do
 import GenerateSSADocTask from "@/section/spineapp/components/task/digio/generateSSADoc/GenerateSSADocTask.vue";
 import UpdateClientSignStatusTask from "@/section/spineapp/components/task/digio/updateClientSignStatus/UpdateClientSignStatusTask.vue";
 import UploadUnSignedDocTask from "@/section/spineapp/components/task/digio/uploadUnSignedDoc/UploadUnSignedDocTask.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import WaitForClientSignTask from "@/section/spineapp/components/task/digio/waitForClientSign/WaitForClientSignTask.vue";
 import UploadClientSignedDocTask from "@/section/spineapp/components/task/digio/uploadClientSignedDoc/UploadClientSignedDocTask.vue";
 import SignByFreedTask from "@/section/spineapp/components/task/digio/signByFreed/SignByFreedTask.vue";
@@ -86,7 +94,11 @@ import NsfSPADraftRescheduledTask from "@/section/spineapp/components/task/nsfSP
 import NsfSPACompletionTask from "@/section/spineapp/components/task/nsfSPA/nsfSPACompletion/NsfSPACompletionTask.vue";
 import NsfSPAClientDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPAClientDeferred/NsfSPAClientDeferredTask.vue";
 import NsfSPAReceiveManualPaymentTask from "@/section/spineapp/components/task/nsfSPA/receiveManualPayment/ReceiveManualPaymentTask.vue";
-import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
+import NsfSPASystemDeferredTask from "@/section/spineapp/components/task/nsfSPA/nsfSPASystemDeferred/NsfSPASystemDeferredTask.vue";
+import FBtn from "@/components/generic/FBtn.vue";
+import FollowUpCallTask from "./mfc/FollowUpCallTask.vue";
+import CollectMSFTask from "./enrollment/collectMSF/CollectMSFTask.vue";
+
 @Component({
   components: {
     CollectClientInfoTask,
@@ -133,7 +145,10 @@ import NsfSPASystemDeferredTask  from "@/section/spineapp/components/task/nsfSPA
     NsfSPACompletionTask,
     NsfSPAClientDeferredTask,
     NsfSPAReceiveManualPaymentTask,
-    NsfSPASystemDeferredTask
+    NsfSPASystemDeferredTask,
+    "f-btn": FBtn,
+    FollowUpCallTask,
+    CollectMSFTask,
   },
 })
 export default class FileTaskArea extends Vue {
@@ -142,7 +157,23 @@ export default class FileTaskArea extends Vue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
   loading = true;
+
+  get items() {
+    return [
+      {
+        text: "Tasks",
+        disabled: false,
+        routerName: "Root.ClientFile.Workarea",
+      },
+      {
+        text: this.taskDetails.taskName,
+        disabled: false,
+      },
+    ];
+  }
 
   TASK_COMPONENT_MAP = new Map([
     ["Enrollment::CollectClientInfo", "CollectClientInfoTask"],
@@ -155,6 +186,7 @@ export default class FileTaskArea extends Vue {
     ["Enrollment::EMandate", "EMandateTask"],
     ["Enrollment::EMandateFailed", "EMandateFailedTask"],
     ["Enrollment::Underwritting", "UnderwrittingTask"],
+    ["Enrollment::CollectMSF", "CollectMSFTask"],
     ["Enrollment::EnrollmentCompletion", "EnrollmentCompletionTask"],
     ["EMandate::CreateEMandate", "CreateEMandateTask"],
     ["EMandate::SendEMandateLink", "SendEMandateLinkTask"],
@@ -209,7 +241,7 @@ export default class FileTaskArea extends Vue {
     ["NsfSPA::NsfSPAClientDeferred", "NsfSPAClientDeferredTask"],
     ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
     ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
-    
+    ["MFC::FollowUpCall", "FollowUpCallTask"],
   ]);
 
   taskId = this.$route.params.taskId;
@@ -229,19 +261,62 @@ export default class FileTaskArea extends Vue {
     );
   }
 
-  public getExecutiveTaskDetailsHandler = (output: string) =>
+  public getExecutiveTaskDetailsHandler = (output: any) =>
     this.getExecutiveTaskDetailsWithDelay();
 
+  public handleSaveAndComplete = () => {
+    this.gotoFile();
+  }
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Start.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.SaveAndComplete.interested(
+    Action.TaskList.PullStartAndMerge.interested(
       this.getExecutiveTaskDetailsHandler
     );
+    Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
+    // Action.TaskList.SaveAndComplete.interested(
+    //   this.getExecutiveTaskDetailsHandler
+    // );
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
+
+    //Commands
+
+    Action.Spine.AddCreditor.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateCreditor.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveCreditor.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateClPersonalInfo.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.AddEMandate.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveEMandate.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateBankInfo.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.UpdateBudgetInfo.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.SchedulePaymentPlan.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.AttachDocument.interested(this.getExecutiveTaskDetailsHandler);
+    Action.Spine.DetachDocument.interested(this.getExecutiveTaskDetailsHandler);
+
+    Action.Spine.ReceiveFirstMSFPayment.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.UpdatePaymentStatus.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.TaskList.SaveAndComplete.interested(this.handleSaveAndComplete)
 
     this.getExecutiveTaskDetailsWithDelay();
   }
@@ -250,30 +325,29 @@ export default class FileTaskArea extends Vue {
     setTimeout(this.getExecutiveTaskDetails, 1000);
   }
 
+  getTaskDetailsAndFileSummaryWithDelay() {
+    setTimeout(() => {
+      this.getExecutiveTaskDetails();
+      this.findClientFileSummary();
+    }, 1000);
+  }
+
   getExecutiveTaskDetails() {
     Action.TaskList.GetExecutiveTaskDetails.execute1(
       this.$route.params.taskId,
       (output) => {
         // console.log(output);
         this.loading = false;
-      },
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
-  startTask() {
-    Action.TaskList.Start.execute1(
+  pullAndStartTask() {
+    Action.TaskList.PullStartAndMerge.execute1(
       this.$route.params.taskId,
       (output) => {
         console.log("");
-      },
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
@@ -283,19 +357,21 @@ export default class FileTaskArea extends Vue {
       this.userName,
       (output) => {
         // this.gotoTask(item);
-      },
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      fileId: this.$route.params.fileId,
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
+  }
+
+  goto(routerName: string){
+    this.$router.push({name: routerName,query: {
+        ...this.$route.query
+      }})
   }
 
   gotoTask(item: any) {
@@ -305,19 +381,72 @@ export default class FileTaskArea extends Vue {
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,
+      query: {
+        ...this.$route.query
+      }
     });
   }
 
   public destroyed() {
     Action.TaskList.PullTask.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Start.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.SaveAndComplete.notInterested(
+    Action.TaskList.PullStartAndMerge.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
+    Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
+    // Action.TaskList.SaveAndComplete.notInterested(
+    //   this.getExecutiveTaskDetailsHandler
+    // );
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
+
+    //Commands
+
+    Action.Spine.AddCreditor.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateCreditor.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveCreditor.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateClPersonalInfo.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.AddEMandate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.RemoveEMandate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.Spine.UpdateBankInfo.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.UpdateBudgetInfo.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.AttachDocument.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.DetachDocument.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.Spine.ReceiveFirstMSFPayment.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.UpdatePaymentStatus.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.TaskList.SaveAndComplete.notInterested(this.handleSaveAndComplete)
+  }
+
+  findClientFileSummary() {
+    Action.ClientFile.GetClientFileSummary.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 }
 </script>

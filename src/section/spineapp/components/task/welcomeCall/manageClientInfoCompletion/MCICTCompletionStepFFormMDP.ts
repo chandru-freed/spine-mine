@@ -15,16 +15,7 @@ export default class MCICTCompletionStepFFormMDP extends FFormMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
 
-        this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
-                label: "File Id",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        ).addAction(
+        this.addAction(
             new FBtnMDP({
                 label: "Save",
                 onClick: this.validateAndSubmit()

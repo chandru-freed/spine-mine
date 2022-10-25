@@ -16,33 +16,7 @@ export default class NsfMSFFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "fileId",
-          label: "File Id",
-          mandatory: true,
-          boundaryClass: "col-4",
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "clientName",
-          label: "Client Name",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "clientMobile",
-          label: "Client Mobile",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
+      
       .addAction(
         new FBtnMDP({
           label: "Create",

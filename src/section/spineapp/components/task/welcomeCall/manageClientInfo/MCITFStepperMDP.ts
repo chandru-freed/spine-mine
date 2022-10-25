@@ -1,7 +1,8 @@
 
+import FFooStepperMDP from "@/components/generic/FFooStepperMDP";
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
-import MCITProfileStepFProfileFFormMDP from "./step1/MCITProfileStepFProfileFFormMDP";
+import MCITProfileStepMDP from "./step1/MCITProfileStepMDP";
 import MCITCreditorStepFCreditorMDP from "./step2/MCITCreditorStepFCreditorMDP";
 import MCITBudgetStepFBudgetMDP from "./step3/MCITBudgetStepFBudgetMDP";
 import MCITPaymentPlanStepFPaymentPlanMDP from "./step4/MCITPaymentPlanStepFPaymentPlanMDP";
@@ -11,7 +12,7 @@ import MCITMarkCompleteStepFFormMDP from "./step7/MCITMarkCompleteStepFFormMDP";
 
 
 
-export default class MCITFStepperMDP extends FStepperMDP {
+export default class MCITFStepperMDP extends FFooStepperMDP {
     taskRoot: ManualTaskIntf;
     parent: any;
     constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
@@ -20,7 +21,7 @@ export default class MCITFStepperMDP extends FStepperMDP {
         this.parent = taskRoot;
         this.addStep({
             name: "Profile",
-            stepContent: new MCITProfileStepFProfileFFormMDP({
+            stepContent: new MCITProfileStepMDP({
                 taskRoot: taskRoot,
                 parent: this,
             })

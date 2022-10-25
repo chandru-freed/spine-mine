@@ -1,3 +1,4 @@
+import FFooStepperMDP from "@/components/generic/FFooStepperMDP";
 import FStepperMDP from "@/components/generic/FStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import CHPPTCollectInfoStepFFormMDP from "./step1/CHPPTCollectInfoStepFFormMDP";

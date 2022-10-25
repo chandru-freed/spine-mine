@@ -1,5 +1,5 @@
 <template>
-  <div ref="creditorListRef">
+  <div ref="documentListRef">
     <component
       v-if="uploadDocumentDialog"
       :is="uploadDocumentFormMetaData.componentName"
@@ -8,18 +8,20 @@
       v-bind="uploadDocumentFormMetaData.props"
     ></component>
 
-    <v-alert text color="error" v-if="deleteDocumentDialog">
-      <div class="text-center py-3">Are you sure want to delete?</div>
+    <v-alert dense outlined text color="error"  v-if="deleteDocumentDialog">
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
+      <div class="my-1">Are you sure want to delete?</div>
+      <v-spacer />
         <FBtn
           label="Cancel"
           :on-click="closeAndClearAllForms"
           outlined
           color="red"
+          class="mx-2"
         />
-        <FBtn label="Delete" :on-click="deleteDocument" outlined color="red" />
+        <FBtn label="Delete" class="mx-2" :on-click="deleteDocument" outlined color="red" />
       </div>
     </v-alert>
 
@@ -31,6 +33,16 @@
           :items="modelValue"
           class="elevation-0"
         >
+          <template v-slot:[`item.documentPath`]="{ item }">
+            <a @click="openUnsignedFileURL(item.documentPath)">
+              <v-icon small>mdi-file</v-icon>
+              {{ getFileNameFromDocPath(item.documentPath) }}
+            </a>
+          </template>
+
+          <template v-slot:[`item.uploadedOn`]="{ item }">
+            {{ item.uploadedOn | date }}
+          </template>
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Document(s)</v-toolbar-title>
@@ -61,11 +73,19 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+        class="
+          d-flex
+          flex-row
+          align-start
+          flex-wrap
+          justify-space-around
+          pa-2
+          my-5
+        "
         v-if="!disabled"
       >
         <component
-          v-for="(actionMetaData, index) of actionMetaDataList"
+          v-for="(actionMetaData, index) of actionMetaDataListFiltered"
           :key="'action' + index"
           :is="actionMetaData.componentName"
           :ref="actionMetaData.myRefName"
@@ -78,16 +98,14 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
-import ClientFile from "@/section/spineapp/util/ClientFile";
+import * as Snackbar from "node-snackbar";
+import axios from "axios";
 
-import * as RemoteApiPoint from "@/remote-api-point";
 @Component({
   components: {
     FForm,
@@ -96,17 +114,20 @@ import * as RemoteApiPoint from "@/remote-api-point";
 })
 export default class FDocument extends ModelVue {
   uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
-
+  uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
   selectedCreditorIndex: number;
   headers = [
-    { text: "Doc Path", value: "documentPath" },
     { text: "DocumentType", value: "documentType" },
-    { text: "Uploaded On", value: "uploadedTime" },
+    { text: "Doc Path", value: "documentPath" },
+    { text: "Details", value: "documentDetails" },
+    { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },
   ];
 
   uploadDocumentDialog = false;
   deleteDocumentDialog = false;
+
+  presignedUrl: string;
 
   @Prop()
   uploadDocumentFormMetaData: any;
@@ -116,6 +137,13 @@ export default class FDocument extends ModelVue {
 
   @Prop()
   disabled: boolean;
+
+  @Prop()
+  taskRoot: any;
+
+  get clientFileNumber(): string {
+    return this.$route.params.clientFileNumber;
+  }
 
   showAddForm() {
     this.closeDialogs();
@@ -136,36 +164,105 @@ export default class FDocument extends ModelVue {
   }
   resetForms() {
     this.uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
+    this.uploadedDocument = new Data.Spine.FileDocument();
   }
 
-  uploadDocumentData() {
-    (this.modelValue as any).push(this.uploadDocumentForm);
-    this.closeAndClearAllForms();
-  }
-
-  uploadFileDocument() {
-    Action.ClientFile.UploadDocument.execute(
-      this.uploadDocumentForm,
-      (output) => {
-        console.log("document uploaded successfully");
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.SpineApi
-    );
+  mounted() {
+    console.log(this.$refs);
   }
 
   deleteDocument() {
-    this.modelValue.splice(this.selectedCreditorIndex, 1);
-    this.closeDialogs();
+    const fiDocumentId =
+      this.modelValue[this.selectedCreditorIndex].fiDocumentId;
+    Action.Spine.DetachDocument.execute2(
+      this.taskRoot.taskId,
+      fiDocumentId,
+      (output) => {
+        this.closeDialogs();
+        Snackbar.show({
+          text: "Succesfully Removed",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 
   selectDeleteDocument(item: any, index: number) {
     this.selectedCreditorIndex = index;
     this.showDeletePopup();
-    console.log(this.deleteDocumentDialog);
   }
 
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(
+      (actionMetaData) =>
+        actionMetaData.condition === undefined ||
+        actionMetaData.condition === true
+    );
+  }
+
+  getFileNameFromDocPath(key: string) {
+    return key.split("/").pop();
+  }
+
+  getPresignedURLAndUpload() {
+    const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
+    Action.Spine.GetFiPresignedURLForUpload.execute2(
+      this.clientFileNumber,
+      fileName,
+      (output) => {
+        this.presignedUrl = output.url;
+        this.uploadedDocument.documentPath = output.docUploadedPath;
+        this.uploadFile();
+      }
+    );
+  }
+
+  async uploadFile() {
+    const options: any = {
+      headers: {
+        "Content-Type": this.uploadDocumentForm.fileDoc?.type,
+      },
+    };
+    const axiosResponse = await axios.put(
+      this.presignedUrl,
+      this.uploadDocumentForm.fileDoc,
+      options
+    );
+    this.attachAndSaveUploadedFile();
+    console.log(axiosResponse);
+  }
+
+  attachAndSaveUploadedFile() {
+    this.uploadedDocument.documentType = this.uploadDocumentForm.docType;
+    this.uploadedDocument.uploadedOn = new Date();
+    this.uploadedDocument.documentDetails =
+      this.uploadDocumentForm.documentDetails;
+    const input = Data.Spine.AttachDocumentInput.fromJson(
+      this.uploadedDocument
+    );
+    input.clientFileId = this.taskRoot.clientFileBasicInfo.clientFileId;
+    input.taskId = this.taskRoot.taskId;
+    Action.Spine.AttachDocument.execute(input, (output) => {
+      Snackbar.show({
+        text: "Succesfully Added",
+        pos: "bottom-center",
+      });
+      this.closeAndClearAllForms();
+    });
+  }
+
+  generateRandomUrl(file: File | null) {
+    if (file) {
+      const dateValue = new Date().valueOf();
+      return dateValue + file.name;
+    }
+    return "";
+  }
+
+  openUnsignedFileURL(key: string) {
+    Action.Spine.GetFileUrl.execute1(key, (output) => {
+      window.open(output.url);
+    });
+  }
 }
 </script>

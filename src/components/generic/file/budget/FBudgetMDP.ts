@@ -1,7 +1,7 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
-import CCITBudgetFFormMDP from "./FBudgetFFormMDP";
+import FBudgetFFormMDP from "./FBudgetFFormMDP";
 
 
 export default class FBudgetMDP implements MDP {
@@ -17,7 +17,7 @@ export default class FBudgetMDP implements MDP {
 
   disabled: boolean;
 
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey: string; disabled: boolean }) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string; disabled: boolean }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = myRefName
@@ -25,7 +25,7 @@ export default class FBudgetMDP implements MDP {
 
     this.disabled = disabled
 
-    this.budgetForm = new CCITBudgetFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: disabled })
+    this.budgetForm = new FBudgetFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: disabled })
 
   }
 

@@ -19,6 +19,11 @@ const options = {
   },
 };
 
+
+// client-file : mdi-file-account / mdi-file-account-outline
+// task : mdi-checkbox-marked-circle-outline
+// ticket:  mdi-ticket-confirmation
+//logged
 export default new Vuetify({
     ...options
 })

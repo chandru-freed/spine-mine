@@ -15,15 +15,14 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import moment from "moment";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import SEMLTFStepperMDP from "./SEMLTFStepperMDP";
 import Helper from "@/section/spineapp/util/Helper";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 @Component({
   components: {
@@ -33,7 +32,7 @@ import Helper from "@/section/spineapp/util/Helper";
 })
 export default class SendEMandateLinkTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements SelfTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -97,15 +96,14 @@ export default class SendEMandateLinkTask
   //DATA
 
   //ACTION
-  saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
+  rescueTask() {
+    Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
-  saveTask() {
-    Task.Action.saveTask({
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
@@ -114,7 +112,7 @@ export default class SendEMandateLinkTask
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      fileId: this.$route.params.fileId,
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
 }

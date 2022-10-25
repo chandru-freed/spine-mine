@@ -54,14 +54,16 @@ import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
 import FBudget from "@/components/generic/file/budget/FBudget.vue";
 import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue";
 import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
+import CLProfile from "./clientProfile/CLProfile.vue";
 
 @Component({
   components: {
     FForm,
+    CLProfile,
     FCreditor,
     FBudget,
     FPaymentPlan,
-    FDocument,
+    FDocument
   },
 })
 export default class FStepper extends ModelVue {

@@ -9,7 +9,6 @@
       @input="(newValue) => updateModel(addCreditorForm, newValue, undefined)"
       v-bind="addCreditorFormMetaData.props"
     ></component>
-    
 
     <component
       v-if="editCreditorDialog"
@@ -19,23 +18,25 @@
       @input="(newValue) => updateModel(editCreditorForm, newValue, undefined)"
       v-bind="editCreditorFormMetaData.props"
     ></component>
-
-    <v-alert text color="error" v-if="deleteCreditorDialog">
-      <div class="text-center py-3">Are you sure want to delete?</div>
+    <v-alert dense outlined text color="error" v-if="deleteCreditorDialog">
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
+        <div class="my-1">Are you sure want to delete?</div>
+        <v-spacer />
         <FBtn
           label="Cancel"
           :on-click="closeAndClearAllForms"
           outlined
           color="red"
+          class="mx-2"
         />
         <FBtn
           label="Delete"
           :on-click="deleteCreditorData"
           outlined
           color="red"
+          class="mx-2"
         />
       </div>
     </v-alert>
@@ -44,16 +45,32 @@
       <!--GRID START-->
       <v-card flat outlined>
         <v-data-table
-          :headers="headers"
+          :headers="filteredHeaders"
           :items="creditorList"
           sort-by="lastDateOfPayment"
           class="elevation-0"
         >
+          <template v-slot:[`item.lastDateOfPayment`]="{ item }">
+            <span class="grey--text">
+              {{ item.lastDateOfPayment | date }}
+            </span>
+          </template>
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title>Creditors</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
-              <v-chip label outlined color="primary">Total Debt - ₹{{totalDebtAmount()}}</v-chip>
+              <v-chip label outlined color="primary"
+                >Total Debt - {{ totalDebt | toINR }}</v-chip
+              >
+              <v-chip
+                v-if="clientFileSummary?.wad"
+                label
+                outlined
+                color="primary"
+                class="mx-2"
+                >WAD - {{ clientFileSummary.wad }}</v-chip
+              >
+
               <v-spacer></v-spacer>
               <v-btn
                 :disabled="disabled"
@@ -65,6 +82,9 @@
                 <v-icon>mdi-plus-circle-outline</v-icon>
               </v-btn>
             </v-toolbar>
+          </template>
+          <template v-slot:[`item.creditorBalance`]="{ item }">
+            {{ item.creditorBalance | toINR }}
           </template>
           <template v-slot:[`item.actions`]="{ item, index }">
             <v-icon
@@ -88,11 +108,19 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+        class="
+          d-flex
+          flex-row
+          align-start
+          flex-wrap
+          justify-space-around
+          pa-2
+          my-5
+        "
         v-if="!disabled"
       >
         <component
-          v-for="(actionMetaData, index) of actionMetaDataList"
+          v-for="(actionMetaData, index) of actionMetaDataListFiltered"
           :key="'action' + index"
           :is="actionMetaData.componentName"
           :ref="actionMetaData.myRefName"
@@ -107,7 +135,12 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
+import store, * as Store from "@/../src-gen/store";
 import FBtn from "@/components/generic/FBtn.vue";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
+import * as Snackbar from "node-snackbar";
+
 @Component({
   components: {
     FForm,
@@ -115,22 +148,17 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class FCreditor extends ModelVue {
-  addCreditorForm = {};
-  editCreditorForm: any = {
-    creditor: "ABC",
-    creditorBalance: 12,
-    lastDateOfPayment: "22-01-2022",
-    debtType: "Credi card",
-    accountNumber: "123456",
-    id: 0,
-  };
-  selectedCreditorIndex: number;
+  addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
+  editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
+  selectedCreditorItem: Data.Spine.Creditor;
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  clientFileSummary: Data.ClientFile.FileSummary;
   headers = [
     {
-      text: "Creditor",
+      text: "Creditor Name",
       align: "start",
       sortable: false,
-      value: "creditor",
+      value: "creditorName",
     },
     { text: "Creditor Balance", value: "creditorBalance" },
     { text: "Last Date Of Payment", value: "lastDateOfPayment" },
@@ -142,6 +170,7 @@ export default class FCreditor extends ModelVue {
   addCreditorDialog = false;
   editCreditorDialog = false;
   deleteCreditorDialog = false;
+  taskId = this.$route.params.taskId;
 
   @Prop()
   addCreditorFormMetaData: any;
@@ -154,6 +183,12 @@ export default class FCreditor extends ModelVue {
 
   @Prop()
   disabled: boolean;
+
+  @Prop()
+  readonly: boolean;
+
+  @Prop()
+  taskRoot: any;
 
   showAddForm() {
     this.closeDialogs();
@@ -178,51 +213,69 @@ export default class FCreditor extends ModelVue {
     this.deleteCreditorDialog = false;
   }
   resetForms() {
-    this.addCreditorForm = {};
-    this.editCreditorForm = {};
+    this.addCreditorForm = new Data.Spine.Creditor();
+    this.editCreditorForm = new Data.Spine.Creditor();
   }
 
   get creditorList() {
     return this.modelValue.creditorList;
   }
 
-  totalDebtAmount() {
-    const totalDebtAmount = this.modelValue.creditorList.map((creditor:any) => creditor.creditorBalance).reduce((accumulator: number, objValue: any) => {
-        return accumulator + objValue;
-      }, 0);
-      this.modelValue.totalDebtAmount = totalDebtAmount
-      return this.modelValue.totalDebtAmount;
+  get totalDebt() {
+    return this.modelValue.totalDebt;
   }
 
-  addCreditorData() {
-    (this.creditorList as any).push(this.addCreditorForm);
-    this.closeAndClearAllForms();
-  }
-
-  editCreditorData() {
-    Object.assign(
-      this.creditorList[this.selectedCreditorIndex],
-      this.editCreditorForm
-    );
-    this.closeAndClearAllForms();
-  }
+  // totalDebtAmount() {
+  //   const totalDebtAmount = this.modelValue.creditorList
+  //     .map((creditor: any) => creditor.creditorBalance)
+  //     .reduce((accumulator: number, objValue: any) => {
+  //       return accumulator + objValue;
+  //     }, 0);
+  //   this.modelValue.totalDebtAmount = totalDebtAmount;
+  //   return this.modelValue.totalDebtAmount;
+  // }
 
   deleteCreditorData() {
-    this.creditorList.splice(this.selectedCreditorIndex, 1);
-    this.closeDialogs();
+    const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
+    Action.Spine.RemoveCreditor.execute2(
+      this.taskId,
+      fiCreditorId,
+      (output) => {
+        this.closeDialogs();
+        Snackbar.show({
+          text: "Succesfully Removed",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 
   selectEditCreditor(item: any, index: any) {
-    this.selectedCreditorIndex = index;
+    this.selectedCreditorItem = item;
     this.editCreditorForm = {
       ...item,
     };
     this.showEditForm();
   }
   selectDeleteCreditor(item: any, index: number) {
-    this.selectedCreditorIndex = index;
+    this.selectedCreditorItem = item;
     this.showDeletePopup();
     console.log(this.deleteCreditorDialog);
+  }
+
+  get filteredHeaders() {
+    if (this.readonly === true) {
+      return this.headers.filter((item) => item.value !== "actions");
+    }
+    return this.headers;
+  }
+
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(
+      (actionMetaData) =>
+        actionMetaData.condition === undefined ||
+        actionMetaData.condition === true
+    );
   }
 }
 </script>

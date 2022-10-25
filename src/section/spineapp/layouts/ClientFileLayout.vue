@@ -7,8 +7,8 @@
       </div>
       <div class="col-12">
         <v-card tile height="1200px" class="" flat color="transparent">
-          <router-view name="fileDetails"></router-view>
-          <router-view></router-view>
+          <router-view name="fileDetails" ></router-view>
+          <router-view ></router-view>
         </v-card>
       </div>
     </div>
@@ -22,7 +22,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import ClientFileSummary from "@/section/spineapp/components/file/ClientFileSummary.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import { GetClientFileBasicInfo } from "src-gen/action/clientfile-action";
 
 @Component({
@@ -31,21 +31,27 @@ import { GetClientFileBasicInfo } from "src-gen/action/clientfile-action";
   },
 })
 export default class ClientFileLayout extends Vue {
-  
-  clientFileId = this.$route.params.fileId;
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  clientFileNumber = this.$route.params.clientFileNumber;
   mounted() {
     this.getClientFileBasicInfo();
   }
 
   getClientFileBasicInfo() {
     Action.ClientFile.GetClientFileBasicInfo.execute1(
-      this.clientFileId,
-      (output) => {},
-      (err) => {
-        // console.error(err);
-      },
-      RemoteApiPoint.SpineApi
+      this.clientFileNumber,
+      (output) => {
+        this.findClientFileSummary();
+      }
+    );
+  }
+
+  findClientFileSummary() {
+    Action.ClientFile.GetClientFileSummary.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
     );
   }
 }

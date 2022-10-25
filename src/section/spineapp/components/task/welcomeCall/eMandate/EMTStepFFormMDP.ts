@@ -17,15 +17,6 @@ export default class EMTStepFFormMDP extends FFormMDP {
         this.addField(
             new FTextFieldMDP({
                 parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
-                label: "File Id",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
                 dataSelectorKey: "taskOutput.eMandateStatus",
                 label: "EMandate Status",
                 mandatory: true,

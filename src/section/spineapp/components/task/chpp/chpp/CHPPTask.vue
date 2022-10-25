@@ -24,11 +24,13 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import CHPPFStepperMDP from "./CHPPFStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
+import FFooStepper from "@/components/generic/FFooStepper.vue";
 
 @Component({
   components: {
     FStepper,
     FBtn,
+    FFooStepper
   },
 })
 export default class CHPPTask extends ModelVue implements ManualTaskIntf {
@@ -73,14 +75,20 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.CHPPTaskOutput();
 
   get taskFormOutput() {
-    if(this.taskDetailsOutput.creditorInfo) {
-    this.taskFormOutputLocal.creditorInfo.creditorName = this.taskDetailsOutput.creditorInfo.creditorName;
-    this.taskFormOutputLocal.creditorInfo.creditorBalance = this.taskDetailsOutput.creditorInfo.creditorBalance;
-    this.taskFormOutputLocal.creditorInfo.creditorPhoneNumber = this.taskDetailsOutput.creditorInfo.creditorPhoneNumber;
-    this.taskFormOutputLocal.creditorInfo.creditorBank = this.taskDetailsOutput.creditorInfo.creditorBank;
-    this.taskFormOutputLocal.creditorInfo.description = this.taskDetailsOutput.creditorInfo.description;
-    
-    }
+    this.taskFormOutputLocal = {
+      ...this.taskDetailsOutput,
+      creditorInfo: this.taskDetailsOutput.creditorInfo || new Data.Spine.CHPPCreditorInfo(),
+      fileDocumentList: this.taskDetailsOutput.fileDocumentList || []
+    };
+    // if(this.taskDetailsOutput.creditorInfo) {
+    // this.taskFormOutputLocal.creditorInfo.creditorName = this.taskDetailsOutput.creditorInfo.creditorName;
+    // this.taskFormOutputLocal.creditorInfo.creditorBalance = this.taskDetailsOutput.creditorInfo.creditorBalance;
+    // this.taskFormOutputLocal.creditorInfo.creditorPhoneNumber = this.taskDetailsOutput.creditorInfo.creditorPhoneNumber;
+    // this.taskFormOutputLocal.creditorInfo.creditorBank = this.taskDetailsOutput.creditorInfo.creditorBank;
+    // this.taskFormOutputLocal.creditorInfo.description = this.taskDetailsOutput.creditorInfo.description;
+    // this.taskFormOutputLocal.creditorInfo.creditor = this.taskDetailsOutput.creditorInfo.creditor;
+    // this.taskFormOutputLocal.creditorInfo.harassmentDetails = this.taskDetailsOutput.creditorInfo.harassmentDetails;
+    // }
     return this.taskFormOutputLocal;
   }
 
@@ -91,8 +99,7 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
 
   //DATA
 
-
-   //METADATA
+  //METADATA
   get stepperMetaData() {
     return new CHPPFStepperMDP({ taskRoot: this }).getMetaData();
   }
@@ -117,6 +124,15 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
     });
   }
 
+  saveAndNext() {
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+      callback: () => {
+        this.goToStep(this.currentStep + 1)
+      }
+    });
+  }
 
   rescueTask() {
     Task.Action.rescueTask({
@@ -134,8 +150,19 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      fileId: this.$route.params.fileId,
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
+  }
+  goToStep(step: number) {
+    Helper.Router.gotoStep({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+      step,
+    });
+  }
+
+  get currentStep(): number {
+    return this.$route.query.step ? Number(this.$route.query.step) : 0;
   }
 }
 </script>

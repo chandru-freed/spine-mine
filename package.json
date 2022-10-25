@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode ${MODE:-playdev}",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue-cli-service serve --mode ${MODE:-playdev} --ignore client",
+    "build": "vue-cli-service build --mode ${MODE:-playdev}",
+    "lint": "vue-cli-service lint",
+    "build-prod": "vue-cli-service build --mode ${MODE:-playprod} --dest ../spine/public/spine/modules/spine/spineapp"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "moment": "^2.29.3",
     "node-snackbar": "^0.1.16",
-    "v-mask": "^2.3.0",
     "vee-validate": "^3.4.14",
     "vue": "^2.7.5",
     "vue-class-component": "^7.2.6",

@@ -99,17 +99,20 @@
       </v-list-item-group>
     </v-list>
     <v-card-text>
-      <v-btn block outlined color="grey">
-          Mark All Read
-      </v-btn>
+      <f-btn label="Mark All Read" block outlined color="grey"></f-btn>
     </v-card-text>
   </v-card>
   </v-menu>
 </template>
 <script >
 import { Vue, Component } from 'vue-property-decorator'
+import FBtn from './generic/FBtn.vue'
 
-@Component
+@Component({
+  components:{
+    "f-btn":FBtn
+  }
+})
 export default class AppBarNotificationMenu extends Vue { 
 
     selected = [2]

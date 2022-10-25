@@ -12,11 +12,11 @@
     </v-app-bar> -->
     <app-bar></app-bar>
 
-    <v-main class="grey lighten-4">
+    <v-main class="grey lighten-4" style="height: calc(100vh - 48px);">
       <!-- Provides the application the proper gutter -->
       <v-container fluid class="pa-0">
         <!-- If using vue-router -->
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </v-container>
     </v-main>
 
@@ -32,6 +32,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import AppBar from "@/section/spineapp/views/bar/AppBar.vue";
 import LeftNavigationBar from "@/section/spineapp/views/bar/LeftNavigationBar.vue";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
+import store, * as Store from "@/../src-gen/store";
 
 @Component({
   components: {
@@ -39,5 +42,23 @@ import LeftNavigationBar from "@/section/spineapp/views/bar/LeftNavigationBar.vu
     AppBar,
   },
 })
-export default class RootLayout extends Vue {}
+export default class RootLayout extends Vue {
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: [];
+  mounted() {
+    this.getLoggedInUser()
+  }
+  getLoggedInUser() {
+    const userName: any = localStorage.getItem("userName");
+    Action.Login.GetUserDetails.execute1(userName, (output) => {
+      this.getRoleListForUser();
+    });
+  }
+  getRoleListForUser() {
+    Action.Login.GetRoleListForUser.execute(new Data.Login.MyAppId(), (output: any) => {
+          
+    })
+  }
+  
+}
 </script>

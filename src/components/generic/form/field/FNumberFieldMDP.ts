@@ -5,7 +5,7 @@ export default class FNumberFieldMDP implements FFieldMDP {
   componentName = "FNumberField";
   dataSelectorKey: string;
   label: string;
-  type: string;
+  type: string = "text";
   rules: string;
   mandatory: boolean;
   parentMDP: FFormChildMDP;
@@ -18,34 +18,31 @@ export default class FNumberFieldMDP implements FFieldMDP {
     parentMDP,
     dataSelectorKey,
     label,
-    type = "text",
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    condition = true
-    // defaultValue
-  }: {
+    condition = true,
+  }: // defaultValue
+  {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
     label: string;
-    type?: string;
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean
+    condition?: boolean;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
     this.label = label;
-    this.type = type;
     this.rules = rules;
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
-    this.condition = condition
+    this.condition = condition;
     // this.defaultValue = defaultValue;
   }
 

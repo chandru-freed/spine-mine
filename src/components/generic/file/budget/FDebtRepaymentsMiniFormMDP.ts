@@ -14,6 +14,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
       label: "Debt Repayments",
       mandatory: true,
       boundaryClass: "col-4",
+      minHeight: "575"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;

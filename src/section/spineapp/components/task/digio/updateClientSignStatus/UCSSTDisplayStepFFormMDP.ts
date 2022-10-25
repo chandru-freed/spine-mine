@@ -1,18 +1,18 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
+import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 
 export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: GenericTaskIntf;
+  taskRoot: SelfTaskIntf;
   parent: any;
   constructor({
     taskRoot,
     parent,
   }: {
-    taskRoot: GenericTaskIntf;
+    taskRoot: SelfTaskIntf;
     parent: any;
   }) {
     super({
@@ -23,15 +23,6 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.fileId",
-        label: "FileId",
-        mandatory: true,
-        boundaryClass: "col-6",
-      })
-    )
-      .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskInput.docId",
@@ -60,15 +51,8 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Mark Completed",
-          onClick: this.validateAndMarkComplete(),
-          btnType: BtnType.FILLED,
+          label: "Rescue",
+          onClick: this.rescueTask(),
         })
       );
   }
@@ -77,27 +61,9 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  validateAndSubmit() {
+  rescueTask() {
     return () => {
-      this.getMyRef().submitForm(this.saveTask());
-    };
-  }
-
-  validateAndMarkComplete() {
-    return () => {
-      this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
-    };
-  }
-
-  saveAndMarkCompleteTask() {
-    return () => {
-      this.taskRoot.saveAndMarkCompleteTask();
-    };
-  }
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
+      this.taskRoot.rescueTask();
+    }
   }
 }

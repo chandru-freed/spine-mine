@@ -14,7 +14,7 @@ export default class FDocumentMDP implements MDP {
   actionList: FBtnMDP[] = [];
   disabled: boolean;
 
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey: string; disabled: boolean }) {
+  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string; disabled: boolean }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = myRefName;
@@ -44,6 +44,7 @@ export default class FDocumentMDP implements MDP {
           action.getMetaData()
         ),
         disabled: this.disabled,
+        taskRoot: this.taskRoot
       },
     };
   }

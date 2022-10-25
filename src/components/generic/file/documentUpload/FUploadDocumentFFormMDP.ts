@@ -4,6 +4,7 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FFileFieldMDP from "@/components/generic/form/field/FFileFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FTextareaMDP from "../../form/field/FTextareaMDP";
 
 export default class FUploadDocumentFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -20,7 +21,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
     this.addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "documentType",
+        dataSelectorKey: "docType",
         label: "Type of Document",
         mandatory: true,
         boundaryClass: "col-4",
@@ -28,10 +29,18 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
       })).addField(
       new FFileFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "document",
+        dataSelectorKey: "fileDoc",
         label: "Document",
-        mandatory: false,
+        mandatory: true,
         boundaryClass: "col-8"
+      })
+    ).addField(
+      new FTextareaMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "documentDetails",
+        label: "Details",
+        mandatory: false,
+        boundaryClass: "col-12"
       })
     ).addAction(new FBtnMDP({
         label: "Cancel",
@@ -50,7 +59,7 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
   uploadDocument() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.parent.getMyRef().uploadFileDocument();
+        this.parent.getMyRef().getPresignedURLAndUpload();
       });
     }
   }

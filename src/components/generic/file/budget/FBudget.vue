@@ -2,6 +2,7 @@
   <div>
     <component
       style="height: 100%"
+      :ref="budgetFormMetaData.myRefName"
       :is="budgetFormMetaData.componentName"
       v-bind="budgetFormMetaData.props"
       :value="selectModel(modelValue, budgetFormMetaData.dataSelectorKey)"
@@ -25,7 +26,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ totalIncomeAmount }} </v-btn>
+              <v-btn text> {{ totalIncomeAmount | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -38,7 +39,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ totalSecuredDebtAmount }} </v-btn>
+              <v-btn text> {{ totalSecuredDebtAmount  | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -49,7 +50,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ allExpensesAmount }} </v-btn>
+              <v-btn text>{{ allExpensesAmount | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -62,7 +63,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ availableIncome }} </v-btn>
+              <v-btn text> {{ availableIncome | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -77,7 +78,9 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> ₹ {{ proposedDSPayment }} </v-btn>
+              <v-btn text class="font-weight-black" color="secondary">
+                {{ proposedDSPayment | toINR }}
+              </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -89,7 +92,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> {{sdtiRatio}}% </v-btn>
+              <v-btn text> {{ sdtiRatio.toFixed(0) }}% </v-btn>
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -98,11 +101,19 @@
 
     <div
       v-if="!disabled"
-      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+      class="
+        d-flex
+        flex-row
+        align-start
+        flex-wrap
+        justify-space-around
+        pa-2
+        my-5
+      "
     >
       <div
         :class="actionMetaData.boundaryClass"
-        v-for="(actionMetaData, indx) in actionMetaDataList"
+        v-for="(actionMetaData, indx) in actionMetaDataListFiltered"
         :key="indx"
       >
         <component
@@ -118,6 +129,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
+import * as Data from "@/../src-gen/data";
 @Component({
   components: {
     FForm,
@@ -125,7 +137,7 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class FBudget extends ModelVue {
-  affordabilityPercentage = 80;
+  affordabilityPercentage = 85;
 
   get incomeSources() {
     return this.modelValue.incomeSources;
@@ -214,6 +226,8 @@ export default class FBudget extends ModelVue {
       this.totalDependentExpenses +
       this.totalIncidentalExpenses +
       this.totalMiscellaneousExpenses;
+
+    this.modelValue.totalMonthlyExpense = allExpenseList;
     return allExpenseList;
   }
 
@@ -224,21 +238,36 @@ export default class FBudget extends ModelVue {
   }
 
   get availableIncome() {
-    return (
+    const availableIncome =
       this.totalIncomeAmount -
       this.totalSecuredDebtAmount -
-      this.allExpensesAmount
-    );
+      this.allExpensesAmount;
+    this.modelValue.availableIncome = availableIncome;
+    return availableIncome;
   }
 
   get proposedDSPayment() {
-    return (this.availableIncome * this.affordabilityPercentage) / 100;
+    const proposedDSPayment =
+      (this.availableIncome * this.affordabilityPercentage) / 100;
+    this.modelValue.proposedDSPayment = proposedDSPayment;
+    return proposedDSPayment;
   }
 
   get sdtiRatio() {
-    return this.totalIncomeAmount!==0
-    ?(this.totalSecuredDebtAmount /this.totalIncomeAmount) * 100
-    :0;
+    const stdiPercentage =
+      this.totalIncomeAmount !== 0
+        ? (this.totalSecuredDebtAmount / this.totalIncomeAmount) * 100
+        : 0;
+    this.modelValue.stdiPercentage = stdiPercentage;
+    return stdiPercentage;
+  }
+
+  get actionMetaDataListFiltered() {
+    return this.actionMetaDataList.filter(
+      (actionMetaData) =>
+        actionMetaData.condition === undefined ||
+        actionMetaData.condition === true
+    );
   }
 
   @Prop()

@@ -1,3 +1,4 @@
+import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -16,15 +17,6 @@ export default class NMSFCDTStepFFormMDP extends FFormMDP {
         this.parent = parent;
 
         this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.fileId",
-                label: "File Id",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        ).addField(
             new FNumberFieldMDP({
                 parentMDP: this.childMDP,
                 dataSelectorKey: "taskInput.clientDeferredTime",
@@ -32,6 +24,6 @@ export default class NMSFCDTStepFFormMDP extends FFormMDP {
                 boundaryClass: "col-6",
                 disabled: true
             })
-        );
+        )
     }
 }

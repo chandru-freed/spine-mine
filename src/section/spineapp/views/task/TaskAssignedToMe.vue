@@ -1,34 +1,20 @@
 <template>
   <div class="TaskAssignedToMe">
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" color="transparent">
-      <task-tab v-model="tab"></task-tab>
-
+    <task-tab v-model="tab"></task-tab>
+    <!-- TASK TAB -->
+    <v-card flat class="pa-0 ma-0" height="calc(100vh - 96px)">
       <v-data-table
         :headers="allocatedTaskGridHeaderList"
         :items="allocatedTaskList"
         sort-by="calories"
         class="elevation-0"
         :search="search"
-        v-model="selected"
-        :single-select="false"
-        show-select
         item-key="taskId"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-col class="col-2">
-              <v-select
-                :disabled="selected.length === 0"
-                :items="['Delete', 'Edit', 'Send']"
-                label="Bulk Actions"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-              ></v-select>
-            </v-col>
+            <v-card-title>My Assigned Task</v-card-title>
             <v-col class="col-7"></v-col>
             <v-col>
               <v-text-field
@@ -46,7 +32,6 @@
           </v-toolbar>
         </template>
         <template v-slot:item.taskState="{ item }">
-        <!-- <v-btn icon small> -->
 
         <v-icon color="grey" v-if="item.taskState === 'CREATED'"
           >mdi-plus-circle-outline</v-icon
@@ -68,7 +53,9 @@
         <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
           >mdi-cancel</v-icon
         >
-        <!-- </v-btn> -->
+        <v-icon color="red" v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
+          >mdi-alert-circle</v-icon
+        >
       </template>
       <template v-slot:item.priority="{ item }">
         <v-chip  small outlined>
@@ -76,14 +63,10 @@
         </v-chip>
       </template>
         <template v-slot:item.taskName="{ item }">
-          <v-btn text color="primary" @click="gotoTask(item)">
-            {{ item.taskName }}
-          </v-btn>
+          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
         </template>
         <template v-slot:item.cid="{ item }">
-          <v-btn text color="secondary" @click="gotoFile(item)">
-            {{ item.cid }}
-          </v-btn>
+          <f-btn :label="item.cid" text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
         </template>
         <template v-slot:item.displayId="{ item }">
           <span class="overline">
@@ -100,9 +83,8 @@
         </template>
 
         <template v-slot:item.action="{ item }" >
-          <v-btn v-if="item.taskState === 'ALLOCATED'" outlined small color="primary" @click="startTask('', item)">
-            START
-          </v-btn>
+          <f-btn label="START" v-if="item.taskState === 'ALLOCATED'" outlined small color="primary" :onClick="()=>startTask('', item)">   
+          </f-btn>
         </template>
       </v-data-table>
     </v-card>
@@ -117,12 +99,14 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import moment from "moment";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     "task-tab": TaskTab,
+    "f-btn":FBtn
   },
 })
 export default class TaskAssignedToMe extends Vue {
@@ -135,8 +119,8 @@ export default class TaskAssignedToMe extends Vue {
 
   allocatedTaskGridHeaderList = [
     // { text: "Task Id", value: "taskId" },
-    { text: "File Id", value: "cid", align: "start" },
-    { text: "Display Id", value: "displayId", align: "start" },
+    { text: "File Number", value: "cid", align: "start" },
+    { text: "Client", value: "displayId", align: "start" },
     { text: "Task", value: "taskName", align: "start" },
     { text: "", value: "priority" },
     { text: "Status", value: "taskState" },
@@ -150,27 +134,13 @@ export default class TaskAssignedToMe extends Vue {
     // this.getAllocatedTaskList();
     this.getActiveTaskListAllocatedGrid();
   }
-  // getAllocatedTaskList() {
-  //   Action.TaskList.GetAllocatedTaskList.execute(
-  //     (output) => {
-  //       this.allocatedTaskList = output;
-  //     },
-  //     (err) => {
-  //       console.error(err);
-  //     },
-  //     RemoteApiPoint.BenchApi
-  //   );
-  // }
+
 
   getActiveTaskListAllocatedGrid() {
     Action.TaskList.GetActiveTaskListAllocated.execute(
       (output) => {
         this.allocatedTaskList = output;
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.SpineApi
+      }
     );
   }
 
@@ -179,25 +149,21 @@ export default class TaskAssignedToMe extends Vue {
       item.taskId,
       (output) => {
         this.gotoTask(item);
-      },
-      (err) => {
-        console.error(err);
-      },
-      RemoteApiPoint.BenchApi
+      }
     );
   }
 
   gotoFile(item: any) {
     this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: item.cid },
+      name: "Root.ClientFile.Workarea",
+      params: { clientFileNumber: item.cid },
     });
   }
 
   gotoTask(item: any) {
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
-      params: { fileId: item.cid, taskId: item.taskId },
+      params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
   }
 }

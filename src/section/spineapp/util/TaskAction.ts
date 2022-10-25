@@ -3,8 +3,8 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
 
+import * as Snackbar from 'node-snackbar';
 export default class TaskAction  {
     
     static saveAndMarkCompleteTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
@@ -13,39 +13,46 @@ export default class TaskAction  {
       Action.TaskList.SaveAndComplete.execute2(
         taskId,
         input,
-        (output) => {},
-        (err) => {
-          console.error(err);
-        },
-        RemoteApiPoint.BenchApi
+        (output) => {
+          Snackbar.show({
+            text: "Succesfully completed the task",
+            pos:"bottom-center"
+          })
+        }
       );
     }
   
-    static saveTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+    static saveTask({taskId, taskOutput, callback}:{taskId: string, taskOutput: any, callback?: () => void}) {
       const input = JSON.stringify(taskOutput);
       console.log("Save take is being called");
       Action.TaskList.Save.execute2(
         taskId,
         input,
         (output) => {
+          Snackbar.show({
+            text: "Succesfully saved",
+            pos:"bottom-center"
+          })
+          if(callback) {
+            callback();
+          }
           // console.log(output);
-        },
-        (err) => {
-          console.error(err);
-        },
-        RemoteApiPoint.BenchApi
+        }
       );
     }
 
     static rescueTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      console.log("Rescue task call");
       //TODO: add rescue task to TaskList ads and implement
     }
 
     static forceCompleteTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      console.log("Force complete task call");
       //TODO: add force complete task to TaskList ads and implement
     }
   
     static proceedTask({taskId, taskOutput}:{taskId: string, taskOutput: any}) {
+      console.log("Proceed task call");
       //TODO: add proceed task to TaskList ads and implement
     }
   

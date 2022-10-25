@@ -14,15 +14,14 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import moment from "moment";
-import { GenericTaskIntf } from "@/section/spineapp/util/GenericTaskIntf";
 import Helper from "@/section/spineapp/util/Helper";
 import Task from "@/section/spineapp/util/Task";
 import WFEMTFStepperMDP from "./WFEMTFStepperMDP";
+import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 
 @Component({
   components: {
@@ -32,7 +31,7 @@ import WFEMTFStepperMDP from "./WFEMTFStepperMDP";
 })
 export default class WaitForEMandateTask
   extends ModelVue
-  implements GenericTaskIntf
+  implements DeferredTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -96,15 +95,20 @@ export default class WaitForEMandateTask
   //DATA
 
   //ACTION
-  saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
+  rescueTask() {
+    Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
-  saveTask() {
-    Task.Action.saveTask({
+  forceCompleteTask() {
+    Task.Action.forceCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+    });
+  }
+  proceedTask() {
+    Task.Action.proceedTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
@@ -113,7 +117,7 @@ export default class WaitForEMandateTask
   gotoFile() {
     Helper.Router.gotoFile({
       router: this.$router,
-      fileId: this.$route.params.fileId,
+      clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
 }

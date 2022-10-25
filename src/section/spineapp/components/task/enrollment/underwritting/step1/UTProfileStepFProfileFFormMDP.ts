@@ -7,7 +7,7 @@ export default class UTProfileStepFProfileFFormMDP extends FProfileFFormMDP {
             taskRoot: taskRoot,
             parent: parent,
             myRefName: "underwrittingProfileClientInfoFormRef",
-            dataSelectorKey: "taskInput.clientInfo",
+            dataSelectorKey: "taskInput.personalInfo",
             disabled: true,
         });
     }

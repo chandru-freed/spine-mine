@@ -14,7 +14,7 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import * as RemoteApiPoint from "@/remote-api-point";
+
 import FStepper from "@/components/generic/FStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -22,6 +22,7 @@ import moment from "moment";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import NSPACTFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPACompletion/NSPACTFStepperMDP";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -124,10 +125,10 @@ export default class NsfSPACompletionTask
   }
 
   gotoFile() {
-    this.$router.push({
-      name: "Root.ClientFile.ClientFileDetails",
-      params: { fileId: this.$route.params.fileId },
-    });
+      Helper.Router.gotoFile({
+        router: this.$router,
+        clientFileNumber: this.$route.params.clientFileNumber,
+      });
   }
 }
 </script>

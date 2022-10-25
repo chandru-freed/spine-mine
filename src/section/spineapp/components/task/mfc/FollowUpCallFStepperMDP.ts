@@ -1,13 +1,13 @@
-import FStepperMDP from "@/components/generic/FStepperMDP";
+import FTaskStepperMDP from "@/components/generic/FTaskStepperMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import FUCTFFormMDP from "./step1/FUCTFFormMDP";
 import FUCTFinalFFormMDP from "./step2/FUCTFinalFFormMDP";
 
-export default class FollowUpCallFStepperMDP extends FStepperMDP {
+export default class FollowUpCallFStepperMDP extends FTaskStepperMDP {
   taskRoot: ManualTaskIntf;
   parent: any;
   constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
-    super({ myRefName: "followUpCallFStepperRef" });
+    super({ myRefName: "followUpCallFStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 

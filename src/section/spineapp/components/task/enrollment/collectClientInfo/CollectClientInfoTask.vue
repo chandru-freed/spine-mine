@@ -18,7 +18,6 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
 import CCITFStepperMDP from "./CCITFStepperMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";

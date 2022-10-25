@@ -2,13 +2,6 @@
   <div>
     <!-- <h4>CollectClientProfileInfoTask</h4> -->
     <!-- Root Data : {{ taskFormData.taskOutput }} -->
-    <!-- <f-text-field v-model="testLocal" label="First Name" ></f-text-field> -->
-    <!-- <kbd> {{ testMetaData }}</kbd> -->
-
-    <!-- <div class="row my-5 mx-5">
-      <v-spacer />
-      <f-btn label="FILL TEST DATA" :onClick="() => setTestData()"></f-btn>
-    </div> -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -25,7 +18,6 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
 import CCITFStepperMDP from "./CCITFStepperMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -35,13 +27,12 @@ import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FBtn from "@/components/generic/FBtn.vue";
-import FFooStepper from "@/components/generic/FFooStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 @Component({
   components: {
-    FStepper,
     "f-btn": FBtn,
-    FFooStepper,
+    FTaskStepper,
   },
 })
 export default class CollectClientInfoTask
@@ -141,10 +132,11 @@ export default class CollectClientInfoTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
   rescueTask() {
@@ -248,7 +240,7 @@ export default class CollectClientInfoTask
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
       step,
-      route: this.$route
+      route: this.$route,
     });
   }
 

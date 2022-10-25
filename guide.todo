@@ -23,8 +23,8 @@
         import * as Data from "@/../src-gen/data";
         import * as Action from "@/../src-gen/action";
         
-        import FStepper from "@/components/generic/FStepper.vue";
-        import CCITFStepperMDP from "./CCITFStepperMDP";
+        import FTaskStepper from "@/components/generic/FTaskStepper.vue";
+        import CCITFTaskStepperMDP from "./CCITFTaskStepperMDP";
         import FBtn from "@/components/generic/FBtn.vue";
         import ModelVue from "@/components/generic/ModelVue";
         import moment from "moment";
@@ -32,7 +32,7 @@
 
         @Component({
           components: {
-            FStepper,
+            FTaskStepper,
             FBtn,
           },
         })
@@ -65,11 +65,11 @@
         }
      
    addStepper:
-     ☐ <abbrTaskName>FStepperMDP.ts extends FStepperMDP.ts
-     import FStepperMDP from "@/components/generic/FStepperMDP";
+     ☐ <abbrTaskName>FTaskStepperMDP.ts extends FTaskStepperMDP.ts
+     import FTaskStepperMDP from "@/components/generic/FTaskStepperMDP";
       import <taskName>TaskIntf from "./<taskName>TaskIntf";
 
-      export default class <abbrTaskName>FStepperMDP extends FStepperMDP {
+      export default class <abbrTaskName>FTaskStepperMDP extends FTaskStepperMDP {
           taskRoot: <taskName>TaskIntf;
           parent: any;
           constructor({ taskRoot }: { taskRoot: <taskName>TaskIntf }) {
@@ -81,7 +81,7 @@
       + Add in task root
       //METADATA
       get stepperMetaData() {
-        return new <abbrTaskName>FStepperMDP({taskRoot: this}).getMetaData()
+        return new <abbrTaskName>FTaskStepperMDP({taskRoot: this}).getMetaData()
       }
       //METADATA
 

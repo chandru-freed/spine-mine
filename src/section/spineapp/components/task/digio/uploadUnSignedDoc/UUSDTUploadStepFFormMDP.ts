@@ -22,22 +22,24 @@ export default class UUSDTFFormMDP extends FFormMDP {
         dataSelectorKey: "taskInput.templateCode",
         label: "Template Code",
         boundaryClass: "col-6",
-        readonly: true
-      })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.unsignedFilePath",
-        label: "Unsigned File Path",
-        boundaryClass: "col-6",
-        readonly: true
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.rescueTask()
+        readonly: true,
       })
     )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.unsignedFilePath",
+          label: "Unsigned File Path",
+          boundaryClass: "col-6",
+          readonly: true,
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.rescueTask(),
+        })
+      );
   }
 
   getMyRef(): any {
@@ -47,6 +49,6 @@ export default class UUSDTFFormMDP extends FFormMDP {
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
-    }
+    };
   }
 }

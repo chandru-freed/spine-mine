@@ -15,7 +15,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -26,7 +26,7 @@ import GEMSTFStepperMDP from "./GEMSTFStepperMDP";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
@@ -98,7 +98,7 @@ export default class GetEMandateStatusTask
   //DATA
 
   //ACTION
-  
+
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,
@@ -111,7 +111,6 @@ export default class GetEMandateStatusTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-
 
   gotoFile() {
     Helper.Router.gotoFile({

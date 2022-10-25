@@ -15,13 +15,11 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
-// import CCITFStepperMDP from "./CCITFStepperMDP";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
 import EMFTFStepperMDP from "./EMFTFStepperMDP";
-// import { CollectClientInfoTaskIntf } from "./CollectClientInfoTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 
 import Helper from "@/section/spineapp/util/Helper";
@@ -29,7 +27,7 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })

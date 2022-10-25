@@ -1,11 +1,15 @@
 <template>
-  <v-stepper :value="selectModel(selectedStep, undefined)"
-  @change="newVal => changeStepQuery(newVal)"
-  flat non-linear>
+  <v-stepper
+    :value="selectModel(selectedStep, undefined)"
+    @change="(newVal) => changeStepQuery(newVal)"
+    flat
+    non-linear
+  >
+
+  
     <v-stepper-header flat>
-      <!-- :editable="stepIndx<selectedStep" -->
       <v-stepper-step
-        :editable="stepsEditable"
+        :editable="!linearProgress"
         :complete="selectedStep > stepIndx"
         :step="stepIndx"
         v-for="(step, stepIndx) in stepMetaDataList"
@@ -16,6 +20,7 @@
     </v-stepper-header>
 
     <v-stepper-items>
+      
       <v-stepper-content
         class="pa-4"
         :step="stepIndx"
@@ -24,6 +29,40 @@
       >
         <v-card color="grey lighten-4" flat min-height="600">
           <v-card-text class="pa-0">
+            <div class="d-flex justify-space-around pa-3">
+              <v-btn
+                :disabled="selectedStep == 0"
+                small
+                outlined
+                color="primary"
+                @click="gotoPreviousStep()"
+                >Previous</v-btn
+              >
+              
+              <v-spacer></v-spacer>
+              <v-btn
+                class="mr-2"
+                small
+                v-if="actionable && step.submitFunc"
+                outlined
+                color="primary"
+                @click="saveStep(step)"
+                >Save</v-btn
+              >
+              <v-btn
+                v-if="!(actionable && step.submitFunc)"
+                small
+                :disabled="selectedStep === stepMetaDataList.length-1"
+                outlined color="primary" @click="gotoNextStep(step)">{{"Next"}}</v-btn>
+
+                <v-btn
+                small
+                v-if="actionable && step.submitFunc"
+                :disabled="selectedStep === stepMetaDataList.length-1"
+                outlined color="primary" @click="submitAndGotoNextStep(step)">{{"Save & Next"}}</v-btn>
+
+            </div>
+
             <component
               :ref="step.stepContent.myRefName"
               :is="step.stepContent.componentName"
@@ -65,15 +104,17 @@ import FEMandate from "./file/eMandate/FEMandate.vue";
     FPaymentPlan,
     FDocument,
     FMarkComplete,
-    FEMandate
+    FEMandate,
   },
 })
-export default class FFooStepper extends ModelVue {
-  // selectedStep = 0;
+export default class FTaskStepper extends ModelVue {
+  
 
   get selectedStep(): number {
-    const step = this.$route.query.step ? Number(this.$route.query.step) : 0;
-    return step;
+    if(this.$route.query.step) {
+      return  Number(this.$route.query.step)
+    }
+    return 0
   }
 
   @Prop()
@@ -81,15 +122,38 @@ export default class FFooStepper extends ModelVue {
 
   @Prop()
   stepMetaDataList: any[];
-  
+
   @Prop({
-    default: false
+    default: false,
   })
-  stepsEditable: boolean;
+  linearProgress: boolean;
+
+  @Prop()
+  actionable: boolean;
 
   changeStepQuery(val: any) {
-    console.log(val)
-    this.$router.push({ query: { step: val.toString()  }});
+    this.$router.push({
+      query: { ...this.$route.query, step: val.toString() },
+    });
+  }
+  
+
+  gotoPreviousStep() {
+    this.changeStepQuery(this.selectedStep - 1);
+  }
+
+  saveStep(step: any) {
+    step.submitFunc()
+  }
+
+  submitAndGotoNextStep(step: any) {
+      step.submitFunc(() => {
+        this.changeStepQuery(this.selectedStep + 1);
+      });
+  }
+
+  gotoNextStep(step: any) {
+      this.changeStepQuery(this.selectedStep + 1);
   }
 }
 </script>

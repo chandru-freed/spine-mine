@@ -14,7 +14,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -23,14 +23,16 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import FollowUpCallFStepperMDP from "./FollowUpCallFStepperMDP";
 
-
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
-export default class FollowUpCallTask extends ModelVue implements ManualTaskIntf {
+export default class FollowUpCallTask
+  extends ModelVue
+  implements ManualTaskIntf
+{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 

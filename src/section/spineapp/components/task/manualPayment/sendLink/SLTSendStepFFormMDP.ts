@@ -23,20 +23,22 @@ export default class SLTFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-4",
       })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.upiLink", // that needs to be updated the data Selector Key
-        label: "UPI Link",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.validateAndSubmit(),
-      })
     )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.upiLink", // that needs to be updated the data Selector Key
+          label: "UPI Link",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.validateAndSubmit(),
+        })
+      );
   }
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
@@ -47,7 +49,6 @@ export default class SLTFFormMDP extends FFormMDP {
       this.getMyRef().submitForm(this.rescueTask());
     };
   }
-
 
   rescueTask() {
     return () => {

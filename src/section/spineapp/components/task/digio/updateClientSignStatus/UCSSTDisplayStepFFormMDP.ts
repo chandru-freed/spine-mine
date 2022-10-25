@@ -3,18 +3,11 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
-
 export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: SelfTaskIntf;
   parent: any;
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: SelfTaskIntf;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
     super({
       myRefName: "updateClientSignStatusFormRef",
       disabled: taskRoot.taskDisabled,
@@ -23,14 +16,14 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskInput.docId",
-          label: "DocId",
-          mandatory: true,
-          boundaryClass: "col-6",
-        })
-      )
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskInput.docId",
+        label: "DocId",
+        mandatory: true,
+        boundaryClass: "col-6",
+      })
+    )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
@@ -64,6 +57,6 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
-    }
+    };
   }
 }

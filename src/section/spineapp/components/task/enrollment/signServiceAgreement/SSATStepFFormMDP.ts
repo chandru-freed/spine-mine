@@ -15,22 +15,21 @@ export default class SSATStepFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this
-    .addField(
+    this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.digioSignStatus",
         label: "Digio Sign Status",
         mandatory: true,
-        readonly: true
+        readonly: true,
       })
     ).addAction(
       new FBtnMDP({
         label: "Rescue",
         onClick: this.validateAndSubmit(),
-        condition: this.isException()
+        condition: this.isException(),
       })
-    )
+    );
   }
 
   getMyRef(): any {
@@ -43,7 +42,6 @@ export default class SSATStepFFormMDP extends FFormMDP {
     };
   }
 
-
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
@@ -51,13 +49,16 @@ export default class SSATStepFFormMDP extends FFormMDP {
   }
 
   isStarted() {
-    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+    return (
+      this.taskRoot.taskDetails.taskState === "STARTED" ||
+      this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED"
+    );
   }
 
   isException() {
-    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
+    return (
+      this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" ||
+      this.taskRoot.taskDetails.taskState === "EXIT_Q"
+    );
   }
-
-
-
 }

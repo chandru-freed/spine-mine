@@ -19,7 +19,7 @@ import FTextField from "./FTextField.vue";
 export default class FNumberTextField extends FTextField {
   // Constraining only number if mask is provided
   keyPress(event: any) {
-    console.log("calling");
+    // console.log("calling");
     // console.log($event.keyCode); //keyCodes value
     if (this.mask) {
       let keyCode = event.keyCode ? event.keyCode : event.which;

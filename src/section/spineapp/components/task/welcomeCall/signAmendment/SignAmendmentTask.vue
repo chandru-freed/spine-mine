@@ -1,16 +1,15 @@
 
 <template>
-<div>
-
-<!-- Root Data : {{ taskFormData }}  -->
-<component 
-  :ref="stepperMetaData.myRefName"
-  :is="stepperMetaData.componentName"
-  :value="selectModel(taskFormData, undefined)"
-  @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
-  v-bind="stepperMetaData.props"
-></component>
-</div>
+  <div>
+    <!-- Root Data : {{ taskFormData }}  -->
+    <component
+      :ref="stepperMetaData.myRefName"
+      :is="stepperMetaData.componentName"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+      v-bind="stepperMetaData.props"
+    ></component>
+  </div>
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
@@ -19,23 +18,24 @@ import * as Data from "@/../src-gen/data";
 import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
-import SATFStepperMDP from "./SATFStepperMDP"
+import SATFStepperMDP from "./SATFStepperMDP";
 import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 @Component({
   components: {
-    FStepper
+    FTaskStepper,
   },
 })
-export default class SignAmendmentTask extends ModelVue implements FlowTaskIntf {
+export default class SignAmendmentTask
+  extends ModelVue
+  implements FlowTaskIntf
+{
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
   taskId = this.$route.params.taskId;
 
-
-
   get stepperMetaData(): any {
-    return new SATFStepperMDP({taskRoot: this}).getMetaData();
+    return new SATFStepperMDP({ taskRoot: this }).getMetaData();
   }
   // DATA
   get taskDetailsOutput() {

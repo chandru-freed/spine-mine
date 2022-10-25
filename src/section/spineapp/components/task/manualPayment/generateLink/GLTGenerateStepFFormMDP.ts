@@ -23,36 +23,40 @@ export default class GLTFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-4",
       })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.amountToBeReceived",
-        label: "Amount",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.upiId",
-        label: "UPI ID",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.upiLink",
-        label: "UPI Link",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.validateAndSubmit(),
-      })
     )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.amountToBeReceived",
+          label: "Amount",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.upiId",
+          label: "UPI ID",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.upiLink",
+          label: "UPI Link",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.validateAndSubmit(),
+        })
+      );
   }
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
@@ -63,7 +67,6 @@ export default class GLTFFormMDP extends FFormMDP {
       this.getMyRef().submitForm(this.rescueTask());
     };
   }
-
 
   rescueTask() {
     return () => {

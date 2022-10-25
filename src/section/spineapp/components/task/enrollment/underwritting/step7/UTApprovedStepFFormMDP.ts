@@ -6,12 +6,11 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
-
 export default class UTApprovedStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: ManualTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "underwrittingApprovedFFormRef",
       disabled: taskRoot.taskDisabled,
@@ -25,46 +24,37 @@ export default class UTApprovedStepFFormMDP extends FFormMDP {
         dataSelectorKey: "taskOutput.underwrittingApproved",
         label: "Underwritting Approved",
         mandatory: true,
-        disabled: false
-      })
-    ).addField(
-      new FTextareaMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.reasonForUnderwrittingDecline",
-        label: "Reason for Rejection",
-        mandatory: false,
-        disabled: this.taskRoot.taskFormData.taskOutput.underwrittingApproved
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.validateAndSubmit(),
-        condition: this.isStarted()
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Mark Completed",
-        onClick: this.validateAndMarkComplete(),
-        btnType: BtnType.FILLED,
-        condition: this.isStarted()
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.rescueTask(),
-        condition: this.isException()
+        disabled: false,
       })
     )
+      .addField(
+        new FTextareaMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.reasonForUnderwrittingDecline",
+          label: "Reason for Rejection",
+          mandatory: false,
+          disabled: this.taskRoot.taskFormData.taskOutput.underwrittingApproved,
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Mark Completed",
+          onClick: this.validateAndMarkComplete(),
+          btnType: BtnType.FILLED,
+          condition: this.isStarted(),
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.rescueTask(),
+          condition: this.isException(),
+        })
+      );
   }
 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
-  }
-
-  validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.saveTask());
-    };
   }
 
   validateAndMarkComplete() {
@@ -79,12 +69,6 @@ export default class UTApprovedStepFFormMDP extends FFormMDP {
     };
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
-  }
-
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
@@ -92,10 +76,29 @@ export default class UTApprovedStepFFormMDP extends FFormMDP {
   }
 
   isStarted() {
-    return this.taskRoot.taskDetails.taskState === "STARTED" || this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED";
+    return (
+      this.taskRoot.taskDetails.taskState === "STARTED" ||
+      this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED"
+    );
   }
 
   isException() {
-    return this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" || this.taskRoot.taskDetails.taskState === "EXIT_Q";
+    return (
+      this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" ||
+      this.taskRoot.taskDetails.taskState === "EXIT_Q"
+    );
+  }
+
+  // new implement
+  validateAndSubmit() {
+    return (successCallBack: any) => {
+      this.getMyRef().submitForm(() => {
+        this.saveTask(() => successCallBack());
+      });
+    };
+  }
+
+  saveTask(successCallBack: any) {
+    this.taskRoot.saveTask(() => successCallBack());
   }
 }

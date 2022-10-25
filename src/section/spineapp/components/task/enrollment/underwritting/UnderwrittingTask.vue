@@ -15,7 +15,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -27,7 +27,7 @@ import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
@@ -110,10 +110,11 @@ export default class UnderwrittingTask
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
   rescueTask() {
@@ -130,10 +131,10 @@ export default class UnderwrittingTask
   }
 
   gotoFile() {
-      Helper.Router.gotoFile({
-        router: this.$router,
-        clientFileNumber: this.$route.params.clientFileNumber,
-      });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+    });
   }
   isUnderwrittingApproved() {
     if (this.taskFormData.taskOutput.underwrittingApproved) {

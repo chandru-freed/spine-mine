@@ -4,50 +4,52 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 export default class CEMTStepFFormMDP extends FFormMDP {
-    childMDP = new FFormChildMDP();
-    taskRoot: SelfTaskIntf;
-    parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
-        super({
-            myRefName: "createEMandateFormRef",
-            disabled: taskRoot.taskDisabled,
-        });
-        this.taskRoot = taskRoot;
-        this.parent = parent;
+  childMDP = new FFormChildMDP();
+  taskRoot: SelfTaskIntf;
+  parent: any;
+  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
+    super({
+      myRefName: "createEMandateFormRef",
+      disabled: taskRoot.taskDisabled,
+    });
+    this.taskRoot = taskRoot;
+    this.parent = parent;
 
-        this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.eMandateLink",
-                label: "EMandate Link",
-                mandatory: true,
-                boundaryClass: "col-6",
-                readonly: true,
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.eMandateId",
-                label: "EMandate Id",
-                mandatory: true,
-                boundaryClass: "col-6",
-                readonly: true,
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Rescue",
-                onClick: this.rescueTask(),
-            })
-        )
-    }
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.eMandateLink",
+        label: "EMandate Link",
+        mandatory: true,
+        boundaryClass: "col-6",
+        readonly: true,
+      })
+    )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.eMandateId",
+          label: "EMandate Id",
+          mandatory: true,
+          boundaryClass: "col-6",
+          readonly: true,
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.rescueTask(),
+        })
+      );
+  }
 
-    getMyRef(): any {
-        return this.parent.getMyRef().$refs[this.myRefName][0];
-    }
+  getMyRef(): any {
+    return this.parent.getMyRef().$refs[this.myRefName][0];
+  }
 
-    rescueTask() {
-        return () => {
-            this.taskRoot.rescueTask();
-        };
-    }
+  rescueTask() {
+    return () => {
+      this.taskRoot.rescueTask();
+    };
+  }
 }

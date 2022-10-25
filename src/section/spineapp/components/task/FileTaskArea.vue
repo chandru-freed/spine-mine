@@ -3,23 +3,33 @@
     <v-card-actions class="pa-0 ma-0">
       <v-breadcrumbs :items="items" divider="/" class="py-2">
         <template v-slot:item="{ item }">
-          <v-btn text class="pa-1" small @click="goto(item.routerName)" color="primary" :disabled="!item.routerName" >
+          <v-btn
+            text
+            class="pa-1"
+            small
+            @click="goto(item.routerName)"
+            color="primary"
+            :disabled="!item.routerName"
+          >
             {{ item.text }}
           </v-btn>
-         
         </template>
       </v-breadcrumbs>
       <v-spacer></v-spacer>
 
       <f-btn
+        class="mx-2"
         label="PULL & START"
         outlined
         color="primary"
         :onClick="() => pullAndStartTask()"
-        v-if="taskDetails.taskState === 'ALLOCATED' || taskDetails.taskState === 'TO_BE_PULLED'"
+        v-if="
+          taskDetails.taskState === 'ALLOCATED' ||
+          taskDetails.taskState === 'TO_BE_PULLED'
+        "
       ></f-btn>
 
-       <!-- <f-btn
+      <!-- <f-btn
         label="START"
         outlined
         color="primary"
@@ -266,7 +276,7 @@ export default class FileTaskArea extends Vue {
 
   public handleSaveAndComplete = () => {
     this.gotoFile();
-  }
+  };
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.PullStartAndMerge.interested(
@@ -316,7 +326,7 @@ export default class FileTaskArea extends Vue {
     Action.Spine.UpdatePaymentStatus.interested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.TaskList.SaveAndComplete.interested(this.handleSaveAndComplete)
+    Action.TaskList.SaveAndComplete.interested(this.handleSaveAndComplete);
 
     this.getExecutiveTaskDetailsWithDelay();
   }
@@ -346,7 +356,7 @@ export default class FileTaskArea extends Vue {
     Action.TaskList.PullStartAndMerge.execute1(
       this.$route.params.taskId,
       (output) => {
-        console.log("");
+        // console.log("");
       }
     );
   }
@@ -368,10 +378,13 @@ export default class FileTaskArea extends Vue {
     });
   }
 
-  goto(routerName: string){
-    this.$router.push({name: routerName,query: {
-        ...this.$route.query
-      }})
+  goto(routerName: string) {
+    this.$router.push({
+      name: routerName,
+      query: {
+        ...this.$route.query,
+      },
+    });
   }
 
   gotoTask(item: any) {
@@ -382,8 +395,8 @@ export default class FileTaskArea extends Vue {
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,
       query: {
-        ...this.$route.query
-      }
+        ...this.$route.query,
+      },
     });
   }
 
@@ -439,7 +452,7 @@ export default class FileTaskArea extends Vue {
     Action.Spine.UpdatePaymentStatus.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.TaskList.SaveAndComplete.notInterested(this.handleSaveAndComplete)
+    Action.TaskList.SaveAndComplete.notInterested(this.handleSaveAndComplete);
   }
 
   findClientFileSummary() {

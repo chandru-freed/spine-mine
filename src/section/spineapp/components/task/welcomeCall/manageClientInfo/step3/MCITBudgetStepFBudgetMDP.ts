@@ -12,31 +12,8 @@ export default class MCITBudgetStepFBudgetMDP extends FBudgetMDP {
       parent: parent,
       myRefName: "wecomeCallBudgetStepRef",
       dataSelectorKey: "taskOutput.budgetInfo",
-      disabled: taskRoot.taskDisabled
+      disabled: taskRoot.taskDisabled,
     });
-
-    this.addAction(
-      new FBtnMDP({
-        label: "Previous",
-        onClick: this.goToPrevStep(),
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.validateAndSave(),
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Save And Next",
-        onClick: this.validateAndSaveAndNext(),
-      })
-    );;
-  }
-
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
   }
 
   getMyRef() {
@@ -44,47 +21,38 @@ export default class MCITBudgetStepFBudgetMDP extends FBudgetMDP {
   }
 
   getBudgetFormRef() {
-    return this.getMyRef()[0].$refs[this.budgetFormRef]
+    return this.getMyRef()[0].$refs[this.budgetFormRef];
   }
 
-  validateAndSaveAndNext() {
-    return () => {
+  // new implement
+  validateAndSubmit() {
+    return (successCallBack: any) => {
       this.getBudgetFormRef().submitForm(() => {
-        this.updateBudgetInfo(true);
+        this.saveTask(() => successCallBack());
       });
-    }
+    };
   }
 
-  validateAndSave() {
-    return () => {
-      this.getBudgetFormRef().submitForm(() => {
-        console.log("Budget profile");
-        console.log("task rook", this.taskRoot);
-        this.updateBudgetInfo();
-      });
-    }
+  saveTask(successCallBack: any) {
+    this.updateBudgetInfo(() => successCallBack());
   }
 
-  updateBudgetInfo(goToNextStep: boolean = false) {
-    const input = Data.Spine.UpdateBudgetInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.budgetInfo)
-    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+  updateBudgetInfo(callback?: () => void) {
+    const input = Data.Spine.UpdateBudgetInfoInput.fromJson(
+      this.taskRoot.taskFormData.taskOutput.budgetInfo
+    );
+    input.clientFileId = (
+      this.taskRoot as any
+    ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateBudgetInfo.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
-      if (goToNextStep) {
-        (this.taskRoot as any).goToStep(3);
+      if (callback) {
+        callback();
       }
-    })
-  }
-
-
-
-  goToPrevStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(1);
-    }
+    });
   }
 }

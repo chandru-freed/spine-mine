@@ -13,66 +13,42 @@ export default class MCITBankStepFBankFFormMDP extends FBankFFormMDP {
       dataSelectorKey: "taskOutput.bankInfo",
       disabled: taskRoot.taskDisabled,
     });
-
-    this.addAction(
-      new FBtnMDP({
-        label: "Previous",
-        onClick: this.goToPrevStep(),
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Save",
-        onClick: this.saveTask(),
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Save And Next",
-        onClick: this.validateAndSaveAndNext(),
-      })
-    );
     this.taskRoot.setConfirmAccountNumber();
   }
 
-  validateAndSaveAndNext() {
-    return () => {
-      this.getMyRef().submitForm(() => {
-        this.updateBankInfo(true);
-      });
-    }
+  getMyRef() {
+    return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  saveTask() {
-    return () => {
+  // new implement
+  validateAndSubmit() {
+    return (successCallBack: any) => {
       this.getMyRef().submitForm(() => {
-      this.updateBankInfo();
-      })
+        this.saveTask(() => successCallBack());
+      });
     };
   }
 
-  updateBankInfo(goToNextStep: boolean = false) {
-    const input = Data.Spine.UpdateBankInfoInput.fromJson(this.taskRoot.taskFormData.taskOutput.bankInfo)
-    input.clientFileId = (this.taskRoot as any).clientFileBasicInfo.clientFileId;
+  saveTask(successCallBack: any) {
+    this.updateBankInfo(() => successCallBack());
+  }
+
+  updateBankInfo(callback?: () => void) {
+    const input = Data.Spine.UpdateBankInfoInput.fromJson(
+      this.taskRoot.taskFormData.taskOutput.bankInfo
+    );
+    input.clientFileId = (
+      this.taskRoot as any
+    ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateBankInfo.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
-      if (goToNextStep) {
-        (this.taskRoot as any).goToStep(5)
+      if (callback) {
+        callback();
       }
     });
-  }
-
-
-  getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName][0];
-  }
-
-
-  goToPrevStep() {
-    return () => {
-      (this.taskRoot as any).goToStep(3);
-    }
   }
 }

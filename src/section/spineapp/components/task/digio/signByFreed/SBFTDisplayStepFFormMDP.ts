@@ -7,13 +7,7 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: SelfTaskIntf;
   parent: any;
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: SelfTaskIntf;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
     super({
       myRefName: "signByFreedFormRef",
       disabled: taskRoot.taskDisabled,
@@ -22,14 +16,14 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskInput.docId",
-          label: "DocId",
-          readonly: true,
-          boundaryClass: "col-6",
-        })
-      )
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskInput.docId",
+        label: "DocId",
+        readonly: true,
+        boundaryClass: "col-6",
+      })
+    )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
@@ -82,6 +76,6 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
   rescueTask() {
     return () => {
       this.taskRoot.rescueTask();
-    }
+    };
   }
 }

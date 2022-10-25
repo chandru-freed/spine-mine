@@ -9,15 +9,9 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: ManualTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: ManualTaskIntf;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
     super({
       myRefName: "chppFormRef",
       disabled: taskRoot.taskDisabled,
@@ -60,12 +54,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-6",
         })
-      ).addAction(
-        new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
-        })
-      )
+      );
   }
 
   getMyRef(): any {
@@ -73,9 +62,10 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
   }
 
   validateAndSubmit() {
-    
-    return () => {
-      this.getMyRef().submitForm(this.saveTask());
+    return (successCallBack: any) => {
+      this.getMyRef().submitForm(() => {
+        this.saveTask(() => successCallBack());
+      });
     };
   }
 
@@ -91,9 +81,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
     };
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
+  saveTask(successCallBack: any) {
+    this.taskRoot.saveTask(() => successCallBack());
   }
 }

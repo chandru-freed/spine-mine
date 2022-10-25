@@ -4,7 +4,6 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
-
 export default class CSETFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: SelfTaskIntf;
@@ -24,23 +23,25 @@ export default class CSETFFormMDP extends FFormMDP {
         label: "Template Code",
         mandatory: true,
         boundaryClass: "col-4",
-        disabled: true
-      })
-    ).addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.docId",
-        label: "Doc Id",
-        mandatory: true,
-        boundaryClass: "col-4",
-        disabled: true
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "Rescue",
-        onClick: this.rescueTask(),
+        disabled: true,
       })
     )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.docId",
+          label: "Doc Id",
+          mandatory: true,
+          boundaryClass: "col-4",
+          disabled: true,
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Rescue",
+          onClick: this.rescueTask(),
+        })
+      );
   }
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
@@ -48,7 +49,7 @@ export default class CSETFFormMDP extends FFormMDP {
 
   rescueTask() {
     return () => {
-    this.taskRoot.rescueTask();
-    }
+      this.taskRoot.rescueTask();
+    };
   }
 }

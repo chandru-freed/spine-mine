@@ -1,6 +1,12 @@
 <template>
   <v-container fluid>
-    <!-- <router-view/> -->
+    <router-view name="fileSummary"></router-view>
+    <div class="row" >
+      <router-view name="fileDetails"></router-view>
+      <router-view ></router-view>
+    </div>
+  </v-container>
+  <!-- <v-container fluid>
     <div clas="row pa-0 ma-0">
       <div class="col-12">
         <router-view name="fileSummary"></router-view>
@@ -12,7 +18,7 @@
         </v-card>
       </div>
     </div>
-  </v-container>
+  </v-container> -->
 </template>
 
 <script lang="ts">

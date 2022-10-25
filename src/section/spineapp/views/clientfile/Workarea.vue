@@ -1,20 +1,16 @@
 <template>
   <!-- WORK AREA-->
 
-  <v-navigation-drawer
-    absolute
-    permanent
-    right
-    :width="rightFocused ? '100%' : '49%'"
-    v-if="!leftFocused"
-  >
-    <template v-slot:prepend>
+  <div v-if="showRightPanel" :class="showBothPanel ? 'col-6' : 'col-12'" >
+    <v-card outlined>
+    <template>
       <v-toolbar flat dense color="grey lighten-2">
         <v-tabs
           v-model="taskSummaryTab"
           background-color="grey lighten-2"
           color="secondary"
           grow
+          show-arrows
         >
           <v-tab
             v-for="taskSummaryTab in taskSummaryTabList"
@@ -37,10 +33,12 @@
         </v-card>
       </v-tab-item>
     </v-tabs-items>
-  </v-navigation-drawer>
+    </v-card>
+  </div>
+  
+
   <!-- WORK AREA-->
 </template>
-
 <script>
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import FileTaskList from "@/section/spineapp/components/task/FileTaskList.vue";
@@ -79,20 +77,26 @@ export default class Workarea extends Vue {
     //   component: "file-logs",
     // },
   ];
+    panelQSr = this.$route.query.panel || ""
+    panelQList = this.panelQSr.split(",")
+    get showRightPanel() {
+      if(!this.panelQList.includes("rp") &&  !this.panelQList.includes("lp")){ 
+        return true
+      }
+      return this.panelQList.includes("rp")
+    }
 
-  get leftFocused() {
-    const panelVal = this.$route.query.panel || "";
-    return (
-      panelVal.toString().includes("lp") && !panelVal.toString().includes("rp")
-    );
-  }
+    get showBothPanel() {
+      if(!this.panelQList.includes("rp") &&  !this.panelQList.includes("lp")) {
+        return true
+      }
 
-  get rightFocused() {
-    const panelVal = this.$route.query.panel || "";
-    return (
-      !panelVal.toString().includes("lp") && panelVal.toString().includes("rp")
-    );
-  }
+      if(this.panelQList.includes("rp") &&  this.panelQList.includes("lp")) {
+        return true
+      }
+
+      return false
+    }
 }
 </script>
 

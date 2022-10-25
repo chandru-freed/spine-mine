@@ -1,14 +1,8 @@
 <template>
-  <v-navigation-drawer
-    absolute
-    permanent
-    right
-    :width="rightFocused ? '100%' : '49%'"
-    v-if="!leftFocused"
-  >
-    <template v-slot:prepend>
+  <div>
+    <template>
+      <!-- v-slot:prepend -->
       <v-toolbar flat dense color="grey lighten-2">
-        
         <v-tabs
           v-model="taskSummaryTab"
           background-color="grey lighten-2"
@@ -31,12 +25,20 @@
         v-for="taskSummaryTab in taskSummaryTabList"
         :key="'tabName' + taskSummaryTab.tabName"
       >
-        <v-card flat min-height="600">
+        <v-card flat>
           <component :is="taskSummaryTab.component"></component>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
-  </v-navigation-drawer>
+  </div>
+  <!-- <v-navigation-drawer
+    absolute
+    permanent
+    right
+    :width="rightFocused ? '100%' : '49%'"
+    v-if="!leftFocused"
+  >
+  </v-navigation-drawer> -->
 </template>
 
 <script lang="ts">
@@ -80,8 +82,7 @@ export default class FileTaskDetails extends Vue {
     // },
   ];
 
-
-    get leftFocused() {
+  get leftFocused() {
     const panelVal = this.$route.query.panel || "";
     return (
       panelVal.toString().includes("lp") && !panelVal.toString().includes("rp")

@@ -1,44 +1,42 @@
 <template>
-  <div class="navigation-drawer-left">
-    <v-navigation-drawer
-      absolute
-      permanent
-      :width="leftFocused ? '100%' : '49%'"
-      v-if="!rightFocused"
-      overlay-color="transparent"
-      overlay-opacity="0"
-    >
-      <template v-slot:prepend>
-        <v-toolbar flat dense color="grey lighten-2">
-          <v-tabs
-            :value="selectedTab"
-            @change="changeSelectedTab"
-            background-color="grey lighten-2"
-            color="secondary"
-            grow
+  <div v-if="showLeftPanel"  :class="showBothPanel ? 'col-6' : 'col-12'"  >
+    <v-card outlined>
+    <template>
+      <v-toolbar flat dense color="grey lighten-2">
+        <v-tabs
+          :value="selectedTab"
+          @change="changeSelectedTab" 
+          background-color="grey lighten-2"
+          color="secondary"
+          grow
+          show-arrows
+        >
+          <v-tab
+            v-for="item in fileDetailsTabList"
+            :key="item.tabName"
+            class="text-caption"
           >
-            <v-tab
-              v-for="item in fileDetailsTabList"
-              :key="item.tabName"
-              class="text-caption"
-            >
-              {{ item.tabName }}
-            </v-tab>
-          </v-tabs>
-        </v-toolbar>
-      </template>
+            {{ item.tabName }}
+          </v-tab>
+        </v-tabs>
+      </v-toolbar>
+    </template>
 
-      <v-divider></v-divider>
+    <v-divider></v-divider>
 
-      <v-tabs-items :value="selectedTab" flat>
-        <v-tab-item v-for="item in fileDetailsTabList" :key="item.tabName">
-          <v-card flat min-height="700">
-            <component :is="item.component"></component>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-navigation-drawer>
+    <v-tabs-items :value="selectedTab" flat>
+      <v-tab-item v-for="item in fileDetailsTabList" :key="item.tabName">
+        <v-card flat min-height="600">
+          <component :is="item.component"></component>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+    </v-card>
+    
+   
   </div>
+  
+
 </template>
 
 <script lang="ts">
@@ -111,31 +109,39 @@ export default class FileDetails extends Vue {
     },
   ];
 
-changeSelectedTab(value: number) {
- this.$router.push({
+  changeSelectedTab(value: number) {
+    this.$router.push({
       query: {
         ...this.$route.query,
         lt: value.toString(),
       },
     });
-}
+  }
 
   get selectedTab() {
-    return this.$route.query.lt?Number(this.$route.query.lt):0
-  }
- 
-  get leftFocused() {
-    const panelVal = this.$route.query.panel || "";
-    return (
-      panelVal.toString().includes("lp") && !panelVal.toString().includes("rp")
-    );
+    return this.$route.query.lt ? Number(this.$route.query.lt) : 0;
   }
 
-  get rightFocused() {
-    const panelVal = this.$route.query.panel || "";
-    return (
-      !panelVal.toString().includes("lp") && panelVal.toString().includes("rp")
-    );
+
+  panelQSr = this.$route.query.panel || ""
+  panelQList = this.panelQSr.split(",")
+  get showLeftPanel() {
+    if(!this.panelQList.includes("rp") &&  !this.panelQList.includes("lp")){ 
+      return true
+    }
+     return this.panelQList.includes("lp")
+  }
+
+  get showBothPanel() {
+    if(!this.panelQList.includes("rp") &&  !this.panelQList.includes("lp")) {
+      return true
+    }
+
+    if(this.panelQList.includes("rp") &&  this.panelQList.includes("lp")) {
+      return true
+    }
+
+    return false
   }
 }
 </script>

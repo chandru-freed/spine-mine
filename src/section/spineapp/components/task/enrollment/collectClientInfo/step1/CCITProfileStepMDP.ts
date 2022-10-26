@@ -71,6 +71,7 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
     ).clientFileBasicInfo.clientBasicInfo.clientId;
     input.taskId = this.taskRoot.taskId;
     console.log(this.taskRoot.taskId);
+    console.log(callback);
     Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully saved",
@@ -79,6 +80,6 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
       if (callback) {
         callback();
       }
-    });
+    }, (err) => { console.error(err)});
   }
 }

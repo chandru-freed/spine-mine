@@ -237,8 +237,8 @@ export default class FCreditor extends ModelVue {
 
   deleteCreditorData() {
     const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
-    Action.Spine.RemoveCreditor.execute2(
-      this.taskId,
+    console.log(fiCreditorId);
+    Action.Spine.RemoveCreditor.execute1(
       fiCreditorId,
       (output) => {
         this.closeDialogs();

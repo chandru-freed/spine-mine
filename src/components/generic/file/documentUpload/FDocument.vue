@@ -8,12 +8,12 @@
       v-bind="uploadDocumentFormMetaData.props"
     ></component>
 
-    <v-alert dense outlined text color="error"  v-if="deleteDocumentDialog">
+    <v-alert dense outlined text color="error" v-if="deleteDocumentDialog">
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
-      <div class="my-1">Are you sure want to delete?</div>
-      <v-spacer />
+        <div class="my-1">Are you sure want to delete?</div>
+        <v-spacer />
         <FBtn
           label="Cancel"
           :on-click="closeAndClearAllForms"
@@ -21,7 +21,13 @@
           color="red"
           class="mx-2"
         />
-        <FBtn label="Delete" class="mx-2" :on-click="deleteDocument" outlined color="red" />
+        <FBtn
+          label="Delete"
+          class="mx-2"
+          :on-click="deleteDocument"
+          outlined
+          color="red"
+        />
       </div>
     </v-alert>
 
@@ -174,17 +180,13 @@ export default class FDocument extends ModelVue {
   deleteDocument() {
     const fiDocumentId =
       this.modelValue[this.selectedCreditorIndex].fiDocumentId;
-    Action.Spine.DetachDocument.execute2(
-      this.taskRoot.taskId,
-      fiDocumentId,
-      (output) => {
-        this.closeDialogs();
-        Snackbar.show({
-          text: "Succesfully Removed",
-          pos: "bottom-center",
-        });
-      }
-    );
+    Action.Spine.DetachDocument.execute1(fiDocumentId, (output) => {
+      this.closeDialogs();
+      Snackbar.show({
+        text: "Succesfully Removed",
+        pos: "bottom-center",
+      });
+    });
   }
 
   selectDeleteDocument(item: any, index: number) {

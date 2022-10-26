@@ -51,15 +51,12 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
 
   // new implement
   validateAndSubmit() {
-    return (successCallBack: any) => {
+    return (nextCallback?: () => void) => {
+      console.log("nextCallback : ", nextCallback);
       this.getProfileFormRef().submitForm(() => {
-        this.saveTask(() => successCallBack());
+        this.updateClPersonalInfo(nextCallback);
       });
     };
-  }
-
-  saveTask(successCallBack: any) {
-    this.updateClPersonalInfo(() => successCallBack());
   }
 
   updateClPersonalInfo(callback?: () => void) {
@@ -69,9 +66,6 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
     input.clientId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientBasicInfo.clientId;
-    input.taskId = this.taskRoot.taskId;
-    console.log(this.taskRoot.taskId);
-    console.log(callback);
     Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully saved",
@@ -80,6 +74,6 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
       if (callback) {
         callback();
       }
-    }, (err) => { console.error(err)});
+    });
   }
 }

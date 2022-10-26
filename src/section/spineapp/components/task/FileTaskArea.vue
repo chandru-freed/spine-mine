@@ -293,34 +293,7 @@ export default class FileTaskArea extends Vue {
 
     //Commands
 
-    Action.Spine.AddCreditor.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.UpdateCreditor.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.RemoveCreditor.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.UpdateClPersonalInfo.interested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.AddEMandate.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.RemoveEMandate.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.UpdateBankInfo.interested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.UpdateBudgetInfo.interested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.SchedulePaymentPlan.interested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.AttachDocument.interested(this.getExecutiveTaskDetailsHandler);
-    Action.Spine.DetachDocument.interested(this.getExecutiveTaskDetailsHandler);
-
+    
     Action.Spine.ReceiveFirstMSFPayment.interested(
       this.getExecutiveTaskDetailsHandler
     );
@@ -415,38 +388,6 @@ export default class FileTaskArea extends Vue {
     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
 
     //Commands
-
-    Action.Spine.AddCreditor.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.UpdateCreditor.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.RemoveCreditor.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.UpdateClPersonalInfo.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.AddEMandate.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.RemoveEMandate.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.Spine.UpdateBankInfo.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.UpdateBudgetInfo.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.AttachDocument.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.DetachDocument.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-
     Action.Spine.ReceiveFirstMSFPayment.notInterested(
       this.getExecutiveTaskDetailsHandler
     );

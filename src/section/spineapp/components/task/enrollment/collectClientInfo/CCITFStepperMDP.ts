@@ -30,12 +30,6 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
       parent: this,
     });
 
-    const ccitPaymentPlanStepFPaymentPlanMDP =
-      new CCITPaymentPlanStepFPaymentPlanMDP({
-        taskRoot: this.taskRoot,
-        parent: this,
-      });
-
     const ccitBankStepFBankFFormMDP = new CCITBankStepFBankFFormMDP({
       taskRoot: this.taskRoot,
       parent: this,
@@ -65,8 +59,10 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Payment Plan",
-        stepContent: ccitPaymentPlanStepFPaymentPlanMDP,
-        submitFunc: ccitPaymentPlanStepFPaymentPlanMDP.submit(),
+        stepContent: new CCITPaymentPlanStepFPaymentPlanMDP({
+          taskRoot: this.taskRoot,
+          parent: this,
+        }),
       })
       .addStep({
         name: "Bank",

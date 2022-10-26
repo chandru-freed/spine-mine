@@ -22,15 +22,11 @@ export default class CCITBankStepFBankFFormMDP extends FBankFFormMDP {
 
   // new implement
   validateAndSubmit() {
-    return (successCallBack: any) => {
+    return (nextCallback?: () => void) => {
       this.getMyRef().submitForm(() => {
-        this.saveTask(() => successCallBack());
+        this.updateBankInfo(nextCallback);
       });
     };
-  }
-
-  saveTask(successCallBack: any) {
-    this.updateBankInfo(() => successCallBack());
   }
 
   updateBankInfo(callback?: () => void) {

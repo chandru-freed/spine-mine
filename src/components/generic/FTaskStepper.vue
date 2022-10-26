@@ -53,13 +53,13 @@
                 v-if="!(actionable && step.submitFunc)"
                 small
                 :disabled="selectedStep === stepMetaDataList.length-1"
-                outlined color="primary" @click="gotoNextStep(step)">{{"Next"}}</v-btn>
+                outlined color="primary" @click="gotoNextStep(step)">Next</v-btn>
 
                 <v-btn
                 small
                 v-if="actionable && step.submitFunc"
                 :disabled="selectedStep === stepMetaDataList.length-1"
-                outlined color="primary" @click="submitAndGotoNextStep(step)">{{"Save & Next"}}</v-btn>
+                outlined color="primary" @click="submitAndGotoNextStep(step)">Save & Next</v-btn>
 
             </div>
 

@@ -35,11 +35,6 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
       parent: this,
     });
 
-    const ccitMarkCompleteMDP = new CCITFMarkCompleteMDP({
-      taskRoot: this.taskRoot,
-      parent: this,
-    });
-
     this.addStep({
       name: "Profile",
       stepContent: ccitProfileStepMDP,
@@ -78,8 +73,10 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Verify",
-        stepContent: ccitMarkCompleteMDP,
-        submitFunc: ccitMarkCompleteMDP.submit(),
+        stepContent: new CCITFMarkCompleteMDP({
+          taskRoot: this.taskRoot,
+          parent: this,
+        }),
       });
   }
 

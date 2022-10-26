@@ -102,16 +102,21 @@ export default class CollectClientInfoTask
   get taskFormOutput() {
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
-      personalInfo:
-        { ...this.personalInfoStore } || new Data.ClientFile.ClPersonalInfo(),
-      creditorInfo:
-        { ...this.fiCreditorStore } || new Data.ClientFile.FiCreditor(),
-      budgetInfo:
-        { ...this.budgetInfoStore } || new Data.ClientFile.BudgetInfo(),
-      bankInfo: { ...this.bankInfoStore } || new Data.ClientFile.FiBankInfo(),
-      paymentPlan:
-        { ...this.fiPaymentPlanInfoStore, ppCalculator: {...this.fiPaymentPlanInfoStore.ppCalculator} } ||
-        new Data.ClientFile.FiPaymentPlanInfo(),
+      personalInfo: this.personalInfoStore
+        ? Data.Spine.PersonalInfo.fromJson(this.personalInfoStore)
+        : new Data.Spine.PersonalInfo(),
+      creditorInfo: this.fiCreditorStore
+        ? Data.Spine.CreditorInfo.fromJson(this.fiCreditorStore)
+        : new Data.Spine.CreditorInfo(),
+      budgetInfo: this.budgetInfoStore
+        ? Data.Spine.BudgetInfo.fromJson(this.budgetInfoStore)
+        : new Data.Spine.BudgetInfo(),
+      bankInfo: this.bankInfoStore
+        ? Data.Spine.BankInfo.fromJson(this.bankInfoStore)
+        : new Data.Spine.BankInfo(),
+      paymentPlan: this.fiPaymentPlanInfoStore
+        ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
+        : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
       needVerification: this.taskDetailsOutput.needVerification,
     };
@@ -231,9 +236,7 @@ export default class CollectClientInfoTask
     });
 
     Action.Spine.UpdateBankInfo.notInterested((output) => {
-      setTimeout(() => {
         this.getFiBankInfo();
-      }, 1000);
     });
 
     Action.Spine.AttachDocument.notInterested((output) => {

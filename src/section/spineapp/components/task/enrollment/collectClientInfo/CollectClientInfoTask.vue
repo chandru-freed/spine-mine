@@ -1,15 +1,24 @@
 <template>
   <div>
-    <!-- <h4>CollectClientProfileInfoTask</h4> -->
-    <!-- Root Data : {{ taskFormData.taskOutput.paymentPlan }} -->
-    <!-- {{bankInfoStore}} -->
-    <component
-      :ref="stepperMetaData.myRefName"
-      :is="stepperMetaData.componentName"
-      :value="selectModel(taskFormData, undefined)"
-      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
-      v-bind="stepperMetaData.props"
-    ></component>
+    <template v-if="!taskStateTerminated">
+      <component
+        :ref="stepperMetaData.myRefName"
+        :is="stepperMetaData.componentName"
+        :value="selectModel(taskFormData, undefined)"
+        @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+        v-bind="stepperMetaData.props"
+      ></component>
+    </template>
+     <template v-if="taskStateTerminated">
+        <component
+        :ref="stepperMetaData.myRefName"
+        :is="stepperMetaData.componentName"
+        :value="selectModel(taskDetailsData, undefined)"
+        v-bind="stepperMetaData.props"
+      ></component> 
+     </template>
+
+    
   </div>
 </template>
 
@@ -86,6 +95,10 @@ export default class CollectClientInfoTask
       : {};
   }
 
+  get taskStateTerminated() {
+    return (this.taskDetails.taskState === 'COMPLETED' || this.taskDetails.taskState === 'FORCE_COMPLETED' || this.taskDetails.taskState === 'CANCELLED' || this.taskDetails.taskState === 'RESET')
+  }
+
   taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
   taskFormOutputLocal: Data.Spine.CollectClientInfoTask =
     new Data.Spine.CollectClientInfoTask();
@@ -93,6 +106,14 @@ export default class CollectClientInfoTask
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskFormOutput,
+    };
+  }
+
+
+get taskDetailsData() {
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskDetailsOutput,
     };
   }
 

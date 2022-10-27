@@ -1,0 +1,19 @@
+
+<template>
+ <div>
+  CFInfo Layout
+  <router-view/>
+   <router-view name="leftNav"/> 
+ <router-view name="summary"/> 
+ <router-view name="actionNav"/> 
+ </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class CFInfoLayout extends Vue {
+}
+</script>
+

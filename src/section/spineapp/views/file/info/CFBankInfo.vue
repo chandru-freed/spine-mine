@@ -1,6 +1,6 @@
 <template>
   <div class="CFBankInfo">
-    <h1>This is the Counter page</h1>
+    <h1>CFBankInfo</h1>
     <h2>Counter: {{counter}}</h2>
     <button @click="increment">Increment</button>
     <button @click="decrement">Decrement</button>

@@ -1,6 +1,6 @@
 <template>
-  <div class="CFPersonalInfo">
-    <h1>CFPersonalInfo</h1>
+  <div class="CFAddTickets">
+    <h1>This is the CFAddTickets page</h1>
     <h2>Counter: {{counter}}</h2>
     <button @click="increment">Increment</button>
     <button @click="decrement">Decrement</button>
@@ -20,7 +20,7 @@ import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
 // import * as Action from '@/../src-gen/action';
 
 @Component
-export default class CFPersonalInfo extends Vue {
+export default class CFAddTickets extends Vue {
 
   public counter: number = 0 ;
 

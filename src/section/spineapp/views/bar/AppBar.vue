@@ -1,5 +1,20 @@
 <template>
   <v-app-bar  flat dense  class="grey lighten-2"  >
+    <v-avatar @click="$router.push({name: 'Root.Home'})" size="30" class="ma-2" >
+      <v-img src="@/assets/freed-small-logo.svg" size="30"/>
+    </v-avatar>
+    <v-btn text  @click="$router.push({name: 'Root.MyClientFiles'})">
+      <v-icon small class="pr-1">mdi-file-account</v-icon>
+      My Files
+    </v-btn>
+    <v-btn text @click="$router.push({name: 'Root.TaskList.TaskAssignedToMe'})">
+      <v-icon small class="pr-1">mdi-checkbox-marked-circle-outline</v-icon>
+      My Tasks
+    </v-btn>
+    <v-btn text @click="$router.push({name: 'Root.MyTicket.ActiveTicketList'})">
+      <v-icon small class="pr-1">mdi-ticket-confirmation</v-icon>
+      My Tickets
+    </v-btn>  
     <v-spacer></v-spacer>
     <!-- <div class="mt-6 py-2">
       <v-text-field

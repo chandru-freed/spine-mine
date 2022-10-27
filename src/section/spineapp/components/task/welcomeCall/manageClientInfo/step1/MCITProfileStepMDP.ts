@@ -47,15 +47,11 @@ export default class MCITProfileStepMDP extends CLProfileMDP {
 
   // new implement
   validateAndSubmit() {
-    return (successCallBack: any) => {
+    return (nextCallback?: () => void) => {
       this.getProfileFormRef().submitForm(() => {
-        this.saveTask(() => successCallBack());
+        this.updateClPersonalInfo(nextCallback);
       });
     };
-  }
-
-  saveTask(successCallBack: any) {
-    this.updateClPersonalInfo(() => successCallBack());
   }
 
   updateClPersonalInfo(callback?: () => void) {

@@ -48,28 +48,6 @@
       </v-toolbar>
     </div>
     <div class="row" v-if="fileSummary">
-      <!-- <div class="col pb-0">
-        <v-list-item>
-          <v-list-item-avatar icon>
-            <v-icon size="30" color="secondary">mdi-file</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title class="text-overline">{{
-              clientFileBasicInfo.clientFileNumber
-            }}</v-list-item-title>
-            <v-list-item-title class="text-h5">
-              {{ clientFileBasicInfo.clientBasicInfo.firstName }}
-              {{ clientFileBasicInfo.clientBasicInfo.middleName }}
-              {{ clientFileBasicInfo.clientBasicInfo.lastName }}
-            </v-list-item-title>
-
-            <v-list-item-subtitle
-              class="text-h6"
-              v-text="clientFileBasicInfo.clientBasicInfo.mobile"
-            ></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </div> -->
       <div class="col">
         <v-sheet color="secondary" outlined rounded>
           <v-card flat :min-height="minHeight">

@@ -30,18 +30,7 @@ export default class MCITFStepperMDP extends FTaskStepperMDP {
       parent: this,
     });
 
-    const mcitPaymentPlanStepFPaymentPlanMDP =
-      new MCITPaymentPlanStepFPaymentPlanMDP({
-        taskRoot: taskRoot,
-        parent: this,
-      });
-
     const mcitBankStepFBankFFormMDP = new MCITBankStepFBankFFormMDP({
-      taskRoot: taskRoot,
-      parent: this,
-    });
-
-    const mcitMarkCompleteStepFFormMDP = new MCITMarkCompleteStepFFormMDP({
       taskRoot: taskRoot,
       parent: this,
     });
@@ -65,8 +54,10 @@ export default class MCITFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Payment Plan",
-        stepContent: mcitPaymentPlanStepFPaymentPlanMDP,
-        submitFunc: mcitPaymentPlanStepFPaymentPlanMDP.submit(),
+        stepContent: new MCITPaymentPlanStepFPaymentPlanMDP({
+          taskRoot: taskRoot,
+          parent: this,
+        }),
       })
       .addStep({
         name: "Bank",
@@ -82,8 +73,10 @@ export default class MCITFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Verify",
-        stepContent: mcitMarkCompleteStepFFormMDP,
-        submitFunc: mcitMarkCompleteStepFFormMDP.submit(),
+        stepContent: new MCITMarkCompleteStepFFormMDP({
+          taskRoot: taskRoot,
+          parent: this,
+        }),
       });
   }
   getMyRef() {

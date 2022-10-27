@@ -31,11 +31,4 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
       this.taskRoot.saveAndMarkCompleteTask();
     };
   }
-
-  // new implement
-  submit() {
-    return (nextCallback?: () => void) => {
-      this.taskRoot.saveTask(nextCallback);
-    };
-  }
 }

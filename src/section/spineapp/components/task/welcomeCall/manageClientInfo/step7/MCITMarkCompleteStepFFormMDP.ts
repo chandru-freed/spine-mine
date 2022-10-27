@@ -77,15 +77,4 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
       this.taskRoot.saveAndMarkCompleteTask();
     };
   }
-
-  // new implement
-  submit() {
-    return (successCallBack: any) => {
-      this.saveTask(() => successCallBack());
-    };
-  }
-
-  saveTask(successCallBack: any) {
-    this.taskRoot.saveTask(() => successCallBack());
-  }
 }

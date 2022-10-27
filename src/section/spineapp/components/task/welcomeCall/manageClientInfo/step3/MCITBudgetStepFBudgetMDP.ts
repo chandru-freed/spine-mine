@@ -26,15 +26,11 @@ export default class MCITBudgetStepFBudgetMDP extends FBudgetMDP {
 
   // new implement
   validateAndSubmit() {
-    return (successCallBack: any) => {
+    return (nextCallback?: () => void) => {
       this.getBudgetFormRef().submitForm(() => {
-        this.saveTask(() => successCallBack());
+        this.updateBudgetInfo(nextCallback);
       });
     };
-  }
-
-  saveTask(successCallBack: any) {
-    this.updateBudgetInfo(() => successCallBack());
   }
 
   updateBudgetInfo(callback?: () => void) {

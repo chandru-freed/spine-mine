@@ -17,8 +17,6 @@
         v-bind="stepperMetaData.props"
       ></component> 
      </template>
-
-    
   </div>
 </template>
 

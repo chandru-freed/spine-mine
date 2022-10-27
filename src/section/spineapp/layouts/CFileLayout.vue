@@ -3,22 +3,20 @@
  <v-container fluid>
   <router-view name="leftNav"/>
   <div class="ml-15">
-  <div class="row ">
+  <div class="row no-gutters">
     <div class="col-12">
-      <v-card  height="100px">
-        <v-card-text>
-          <router-view name="summary"/>
-        </v-card-text>
-      </v-card>
+      <router-view name="summary"/>
     </div>
     
   </div>
-  <div class="row">
-    <div class="col grow">
+  <div class="row mt-0">
+    <div class="col grow pt-1">
         <router-view ></router-view>
     </div>
-    <div class="col-3">
-      <v-card outlined height="1000px"></v-card>
+    <div class="col-3 pt-9">
+      
+      <router-view name="quickNav"/>
+      <!-- <v-card outlined height="1000px"></v-card> -->
     </div>
   </div>
   </div>

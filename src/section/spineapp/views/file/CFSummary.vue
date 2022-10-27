@@ -1,65 +1,63 @@
 <template>
   <div class="row">
-    <div class="col-6 pa-3 pb-0">
-      <v-toolbar
-        class="elevation-0 mx-0"
-        rounded
-        outlined
-      >
-          <v-btn large text class="px-1 mr-2">
-            <v-icon size="30" color="secondary" class="mr-1">mdi-file-account</v-icon>
-            {{ clientFileBasicInfo.clientFileNumber}}
-            <v-chip x-small class="mx-2">{{ fileSummary.stage}}</v-chip>
-          </v-btn>
-          
-          <v-divider vertical class="mr-4"></v-divider>
+    <div class="col-4">
+      <v-card outlined color="primary" >
+        <v-list class="py-0" >
+          <v-list-item  dense>
+              <v-list-item-icon class="mr-2">
+                <v-icon color="secondary">
+                  mdi-file-account
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                
+                <v-list-item-title class="font-weight-bold secondary--text text-body-1">{{clientFileBasicInfo.clientFileNumber}} </v-list-item-title>
 
-          <span class="body-1 mr-2">{{ clientFileBasicInfo.clientBasicInfo.fullName }} </span>
-          <!-- <v-btn color="grey" outlined class="subtitle-1 pa-2">{{ clientFileBasicInfo.clientBasicInfo.mobile }} </v-btn> -->
-          <v-chip color="green lighten-3 mr-2" label>{{ clientFileBasicInfo.clientBasicInfo.mobile | phone }} </v-chip>
-          <span class="caption mr-2">{{ clientFileBasicInfo.clientBasicInfo.emailId }} </span>
-          <v-spacer></v-spacer>
-          <v-chip
-            outlined
-            small
-            color="secondary"
-            v-if="clientFileBasicInfo.assignedRM"
-            class="mr-2"
-            >{{ "RM : " + clientFileBasicInfo.assignedRM }}</v-chip
-          >
-          <v-chip
-            outlined
-            small
-            color="secondary"
-            v-if="clientFileBasicInfo.assignedSalesRep"
-            class="mr-2"
-            >{{ "Sales Rep : " + clientFileBasicInfo.assignedSalesRep }}</v-chip
-          >
-          
-        <!-- </v-toolbar-title> -->
-      </v-toolbar>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <!-- <v-list-item-action-text >{{fileSummary.stage}} </v-list-item-action-text> -->
+                <v-chip x-small class="mx-2">{{ fileSummary.stage}}</v-chip>
+              </v-list-item-action>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item two-line >
+              <v-list-item-icon class="mr-2" >
+                <v-icon color="primary">
+                  mdi-account
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title class="primary--text text-body-1 ">{{clientFileBasicInfo.clientBasicInfo.fullName}}</v-list-item-title>
+                <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
+                <v-list-item-subtitle class="text-body-1">{{clientFileBasicInfo.clientBasicInfo.mobile | phone}}</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-chip x-small class="mx-2" color="green lighten-3">active</v-chip>
+                <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
+                <!-- <v-list-item-subtitle class="text-body-1">{{clientFileBasicInfo.clientBasicInfo.mobile | phone}}</v-list-item-subtitle> -->
+                <span class="caption mr-2">{{ clientFileBasicInfo.clientBasicInfo.emailId }} </span>
+
+              </v-list-item-action>
+          </v-list-item>
+          </v-list>
+      </v-card>
     </div>
-    <div class="col-6 row   " v-if="fileSummary">
+     <template v-if="fileSummary">
       <div class="col">
         <v-sheet color="secondary" outlined rounded>
-          <v-card flat :min-height="minHeight">
-            <v-list-item two-line class="pa-1">
+          <v-card flat >
+            <v-list-item class="pa-1" dense>
               <v-list-item-content class="pa-0 px-1">
                 <div class="text-caption mb-0 secondary--text">MSF</div>
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   {{ fileSummary.msfAmount | toINR }}
-                  <span class="text-caption pl-1 pt-2">/ MONTH</span>
+                  <span class="text-caption pl-1 pt-2">/ MTH</span>
                 </v-list-item-title>
-                <v-list-item-subtitle
-                v-if="fileSummary.msfDueDate"
-                  >Due on
-                  {{
-                    fileSummary.msfDueDate | date
-                  }}</v-list-item-subtitle
-                >
-                <!-- >Due on 3rd July (5 days to go)</v-list-item-subtitle> -->
+                <v-list-item-subtitle v-if="fileSummary.msfDueDate" >Due on {{fileSummary.msfDueDate | date}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -75,7 +73,7 @@
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   {{ fileSummary.spaAmount  | toINR }}
-                  <span class="text-caption pl-1 pt-2">/ MONTH</span>
+                  <span class="text-caption pl-1 pt-2">/ MTH</span>
                 </v-list-item-title>
                 <v-list-item-subtitle
                 v-if="fileSummary.spaDueDate"
@@ -125,7 +123,7 @@
                 >
                   {{ fileSummary.totalOutstanding | toINR }}
                   <span class="text-subtitle-1 pl-1 pt-2" v-if="fileSummary.remainingTenure "
-                    >/ {{ fileSummary.remainingTenure }} months</span
+                    >/ {{ fileSummary.remainingTenure }} mths</span
                   >
                 </v-list-item-title>
                 <v-list-item-subtitle
@@ -139,7 +137,7 @@
           </v-card>
         </v-sheet>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 

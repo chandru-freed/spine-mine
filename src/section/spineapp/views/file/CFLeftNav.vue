@@ -88,7 +88,8 @@ export default class CFLeftNav extends Vue {
           title: 'Ticket',
         },
         {
-          action: 'mdi-human-male-female-child',
+          action: 'mdi-comment-text',
+          routerName: "Root.CFile.CFNotes",
           items: [
             { title: 'List' },
             { title: 'Add' },
@@ -96,14 +97,10 @@ export default class CFLeftNav extends Vue {
           title: 'Notes',
         },
         {
-          action: 'mdi-bottle-tonic-plus',
+          action: 'mdi-star',
+          routerName: "Root.CFile.CFHighlights",
           items: [{ title: 'List Item' }],
           title: 'Highlights',
-        },
-        {
-          action: 'mdi-briefcase',
-          items: [{ title: 'List Item' }],
-          title: 'Actions',
         }
       ]
 

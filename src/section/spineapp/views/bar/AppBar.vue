@@ -15,6 +15,31 @@
       <v-icon small class="pr-1">mdi-ticket-confirmation</v-icon>
       My Tickets
     </v-btn>  
+    <!-- <v-btn outlined small class="ml-3"  @click="$router.push({name: 'Root.MyTicket.ActiveTicketList'})">
+      <v-icon small class="pr-1">mdi-plus-circle</v-icon>
+      Create
+    </v-btn>   -->
+    <v-menu
+      bottom
+      close-on-click
+      offset-y
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="primary" small class="elevation-0 ml-3"  v-bind="attrs" v-on="on">
+          <v-icon small class="pr-1">mdi-plus-circle</v-icon>
+          Create
+        </v-btn>
+      </template>
+
+      <v-list dense>
+        <v-list-item @click="goto('Root.CreateClient')">
+          <v-list-item-title>Client</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="goto('Root.MyTicket.AddTicket')">
+          <v-list-item-title>Ticket</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <v-spacer></v-spacer>
     <!-- <div class="mt-6 py-2">
       <v-text-field
@@ -72,6 +97,10 @@ export default class AppBar extends Vue {
 
   get showSearch() {
     return !(this.roleList.includes("SalesRep"))
+  }
+
+  goto(routerName: string) {
+    this.$router.push({name: routerName})
   }
 }
 </script>

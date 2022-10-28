@@ -8,6 +8,13 @@ export default class MyRouter {
     });
   }
 
+  static gotoClientFile({router, clientFileId}: {router: VueRouter, clientFileId: string}) {
+    router.push({
+      name: "Root.CFile.CFInfo.CFPersonalInfo",
+      params: { clientFileId: clientFileId },
+    });
+  }
+
   static gotoClient({router, clientId}: {router: VueRouter, clientId: string}) {
     router.push({
       name: "Root.Client.ClientDetails",

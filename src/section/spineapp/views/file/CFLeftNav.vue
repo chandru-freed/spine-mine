@@ -101,6 +101,12 @@ export default class CFLeftNav extends Vue {
           routerName: "Root.CFile.CFHighlights",
           items: [{ title: 'List Item' }],
           title: 'Highlights',
+        },
+        {
+          action: 'mdi-star',
+          routerName: "Root.CFile.CFAction.CFActionList",
+          items: [{ title: 'List Item' }],
+          title: 'Actions',
         }
       ]
 

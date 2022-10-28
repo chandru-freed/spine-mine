@@ -28,11 +28,12 @@ import CFDocumentInfoFDocumentMDP from "./CFDocumentInfoFDocumentMDP";
   },
 })
 export default class CFDocumentInfo extends ModelVue {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
   fiDocumentList: Data.ClientFile.FiDocument;
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
 
   //METADATA
   get documentListMetaData() {
@@ -50,7 +51,7 @@ export default class CFDocumentInfo extends ModelVue {
   //ACTION
   getFiDocumentList() {
     Action.ClientFile.GetDocumentList.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

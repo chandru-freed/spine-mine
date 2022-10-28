@@ -52,11 +52,13 @@ import * as Action from "@/../src-gen/action";
   },
 })
 export default class CFPaymentInfo extends ModelVue {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
   fiPaymentList: Data.ClientFile.FiPayment;
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+
   headers = [
     { text: "Total Amount", value: "totalAmount" },
     { text: "Payment Provider", value: "paymentProvider.name" },
@@ -72,7 +74,7 @@ export default class CFPaymentInfo extends ModelVue {
   //ACTION
   getFiPaymentList() {
     Action.ClientFile.GetFiPaymentList.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

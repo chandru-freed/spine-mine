@@ -24,7 +24,6 @@ import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from "@/../src-gen/action";
 
-
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue";
@@ -37,17 +36,18 @@ import CFPaymentPlanInfoFPaymentPlanMDP from "./CFPaymentPlanInfoFPaymentPlanMDP
   },
 })
 export default class CFPaymentPlanInfo extends ModelVue {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
   fiPaymentPlanInfo: Data.ClientFile.FiPaymentPlanInfo;
 
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
-    @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
+  @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfoStore: Data.ClientFile.BudgetInfo;
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
 
   //METADATA
   get paymentPlanInfoMetaData() {
@@ -91,14 +91,14 @@ export default class CFPaymentPlanInfo extends ModelVue {
 
   getFiPaymentPlanInfo() {
     Action.ClientFile.GetPaymentPlanInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
@@ -106,14 +106,14 @@ export default class CFPaymentPlanInfo extends ModelVue {
   //ACTION
   getFiPaymentList() {
     Action.ClientFile.GetFiPaymentList.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getBudgetInfo() {
     Action.ClientFile.GetBudgetInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

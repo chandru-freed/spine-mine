@@ -1,62 +1,115 @@
 <template>
   <div class="CFCompletedTickets">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
-  </div>
+    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
+      <v-data-table
+        :headers="allocatedTicketTaskGridHeaderList"
+        :items="myTicketTaskList"
+        class="elevation-0"
+        item-key="taskId"
+        :search="search"
+      >
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-card-title>My Completed Ticket</v-card-title>
+            <v-col class="col-7"></v-col>
+            <v-col>
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search Item"
+                single-line
+                hide-details
+                outlined
+                rounded
+                dense
+                class="shrink"
+              ></v-text-field>
+            </v-col>
+          </v-toolbar>
+        </template>
 
+        <template v-slot:[`item.priority`]="{ item }">
+          <v-chip small outlined>
+            {{ item.priority }}
+          </v-chip>
+        </template>
+        <template v-slot:[`item.taskName`]="{ item }">
+          <f-btn
+            :label="item.taskName"
+            text
+            color="primary"
+            :onClick="() => gotoTask(item)"
+          ></f-btn>
+        </template>
+        <template v-slot:[`item.cid`]="{ item }">
+          <f-btn
+            :label="item.cid"
+            text
+            color="secondary"
+            :onClick="() => gotoTask(item)"
+          ></f-btn>
+        </template>
+        <template v-slot:[`item.displayId`]="{ item }">
+          <span class="overline">
+            {{ item.displayId }}
+          </span>
+        </template>
+
+        <template v-slot:[`item.allocatedTime`]="{ item }">
+          <span class="grey--text">
+            {{ item.allocatedTime | (date - time) }} ({{
+              item.allocatedTime | fromNow
+            }})
+          </span>
+        </template>
+      </v-data-table>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
+import Vue from "vue";
+import { Prop, Component } from "vue-property-decorator";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
-
-@Component
+import FBtn from "@/components/generic/FBtn.vue";
+@Component({
+  components: {
+    "f-btn": FBtn,
+  },
+})
 export default class CFCompletedTickets extends Vue {
+  tab: number = 1;
 
-  public counter: number = 0 ;
+  search: string = "";
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
+  myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
 
+  allocatedTicketTaskGridHeaderList = [
+    { text: "Ticket Number", value: "cid", align: "start" },
+    { text: "Subject", value: "displayId", align: "start" },
+    { text: "Priority", value: "priority" },
+    { text: "Raised By", value: "raisedBy" },
+    { text: "Allocated To", value: "allocatedTo" },
+    { text: "Allocated On", value: "allocatedTime" },
+  ];
 
-  public mounted() {
-
+  mounted() {
+    this.getMyTicketTaskList();
+  }
+  getMyTicketTaskList() {
+    Action.Ticket.GetMyTicketCompletedList.execute((output) => {
+      this.myTicketTaskList = output;
+    });
   }
 
-  public created() {
-
+  gotoTask(item: any) {
+    this.$router.push({
+      name: "Root.MyTicket.MyTicketDetails.MyTicketTaskDetails",
+      params: { myTicketId: item.taskId, ticketNumber: item.cid },
+    });
   }
-
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
-  }
-
-  private increment() {
-    this.counter += 1;
-  }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
-
-<style>
-</style>

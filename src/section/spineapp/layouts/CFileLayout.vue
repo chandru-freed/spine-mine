@@ -37,24 +37,25 @@ export default class CFileLayout extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  clientFileNumber = this.$route.params.clientFileNumber;
+  clientFileId = this.$route.params.clientFileId;
 
   mounted() {
-    this.getClientFileBasicInfo();
+    this.getCFBasicInfo();
+    this.findClientFileSummary();
   }
 
-  getClientFileBasicInfo() {
-    Action.ClientFile.GetClientFileBasicInfo.execute1(
-      this.clientFileNumber,
+  getCFBasicInfo() {
+    Action.ClientFile.GetCFBasicInfo.execute1(
+      this.clientFileId,
       (output) => {
-        this.findClientFileSummary();
+       
       }
     );
   }
 
   findClientFileSummary() {
     Action.ClientFile.GetClientFileSummary.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

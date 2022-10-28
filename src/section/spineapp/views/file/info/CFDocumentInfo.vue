@@ -1,62 +1,58 @@
 <template>
   <div class="CFDocumentInfo">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <component
+      v-if="!!fiDocumentList"
+      :ref="documentListMetaData.myRefName"
+      :is="documentListMetaData.componentName"
+      :value="selectModel(fiDocumentList, undefined)"
+      v-bind="documentListMetaData.props"
+    ></component>
   </div>
-
 </template>
 
 <script lang="ts">
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import * as Data from "@/../src-gen/data";
+import store, * as Store from "@/../src-gen/store";
+import * as Action from "@/../src-gen/action";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
+import CFDocumentInfoFDocumentMDP from "./CFDocumentInfoFDocumentMDP";
 
-@Component
-export default class CFDocumentInfo extends Vue {
+@Component({
+  components: {
+    FForm,
+    FDocument,
+  },
+})
+export default class CFDocumentInfo extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  public counter: number = 0 ;
+  @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
+  fiDocumentList: Data.ClientFile.FiDocument;
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
+  //METADATA
+  get documentListMetaData() {
+    return new CFDocumentInfoFDocumentMDP({
+      taskRoot: this,
+      parent: this,
+    }).getMetaData();
+  }
+  //METADATA
 
-
-  public mounted() {
-
+  mounted() {
+    this.getFiDocumentList();
   }
 
-  public created() {
-
+  //ACTION
+  getFiDocumentList() {
+    Action.ClientFile.GetDocumentList.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
-
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
-  }
-
-  private increment() {
-    this.counter += 1;
-  }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
-
-<style>
-</style>

@@ -1,62 +1,66 @@
 <template>
   <div class="CFBudgetInfo">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <component
+      :ref="budgetInfoFormMetaData.myRefName"
+      :is="budgetInfoFormMetaData.componentName"
+      :value="selectModel(budgetInfoForm, budgetInfoFormMetaData.dataSelectorKey)"
+      v-bind="budgetInfoFormMetaData.props"
+    ></component>
   </div>
-
 </template>
 
 <script lang="ts">
-
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import * as Action from "@/../src-gen/action";
+import FBudget from "@/components/generic/file/budget/FBudget.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import CFBudgetInfoFBudgetMDP from "./CFBudgetInfoFBudgetMDP";
+@Component({
+  components: {
+    FBudget,
+  },
+})
+export default class CFBudgetInfo extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-@Component
-export default class CFBudgetInfo extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
+  budgetInfoStore: Data.ClientFile.BudgetInfo;
 
-  public counter: number = 0 ;
+  budgetInfoFormLocal = new Data.ClientFile.BudgetInfo()
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
+  get budgetInfoForm() {
+    if (!!this.budgetInfoStore) {
+      this.budgetInfoFormLocal = this.budgetInfoStore;
+    }
+    return this.budgetInfoFormLocal;
+  }
 
+  set budgetInfoForm(value: any) {
+    this.budgetInfoFormLocal = value;
+  }
+
+  get budgetInfoFormMetaData() {
+    return new CFBudgetInfoFBudgetMDP({
+      taskRoot: this,
+      parent: this,
+    }).getMetaData();
+  }
 
   public mounted() {
-
+    this.getBudgetInfo();
   }
 
-  public created() {
-
+  getBudgetInfo() {
+    Action.ClientFile.GetBudgetInfo.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
-
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
-  }
-
-  private increment() {
-    this.counter += 1;
-  }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,62 +1,91 @@
 <template>
   <div class="CFPaymentInfo">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <v-col class="col-12">
+      <v-card flat outlined>
+        <v-data-table
+          :headers="headers"
+          :items="fiPaymentList"
+          sort-by="draftDate"
+          class="elevation-0"
+        >
+          <template v-slot:[`item.presentedDate`]="{ item }">
+            <span class="grey--text">
+              {{ item.presentedDate | date }}
+            </span>
+          </template>
+          <template v-slot:[`item.status`]="{ item }">
+            <v-chip small outlined>{{ item.status.name }}</v-chip>
+          </template>
+          <template v-slot:item.totalAmount="{ item }">
+            <f-btn
+              :label="item.totalAmount | toINR"
+              text
+              color="secondary"
+              :onClick="() => gotoTask(item)"
+            ></f-btn>
+          </template>
+          <template v-slot:item.receivedBy="{ item }">
+            <v-chip small class="" v-if="item.receivedBy" label>
+              <v-icon small left> mdi-account-circle-outline </v-icon>
+              {{ item.receivedBy }}
+            </v-chip>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-col>
   </div>
-
 </template>
-
 <script lang="ts">
+import { Vue, Component, Prop } from "vue-property-decorator";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import FBtn from "@/components/generic/FBtn.vue";
+import * as Data from "@/../src-gen/data";
+import store, * as Store from "@/../src-gen/store";
+import * as Action from "@/../src-gen/action";
 
-@Component
-export default class CFPaymentInfo extends Vue {
+@Component({
+  components: {
+    FForm,
+    FBtn,
+  },
+})
+export default class CFPaymentInfo extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  public counter: number = 0 ;
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
+  fiPaymentList: Data.ClientFile.FiPayment;
+  headers = [
+    { text: "Total Amount", value: "totalAmount" },
+    { text: "Payment Provider", value: "paymentProvider.name" },
+    { text: "Status", value: "status" },
+    { text: "Presented Date", value: "presentedDate" },
+    { text: "Received By", value: "receivedBy" },
+  ];
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
-
-
-  public mounted() {
-
+  mounted() {
+    this.getFiPaymentList();
   }
 
-  public created() {
-
+  //ACTION
+  getFiPaymentList() {
+    Action.ClientFile.GetFiPaymentList.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  gotoTask(item: any) {
+    console.log(item.paymentId);
+    this.$router.push({
+      name: "Root.ClientFile.PaymentDetails",
+      params: {
+        clientFileNumber: item.clientFileNumber,
+        paymentId: item.paymentId,
+      },
+    });
   }
-
-  private increment() {
-    this.counter += 1;
-  }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
-
-<style>
-</style>

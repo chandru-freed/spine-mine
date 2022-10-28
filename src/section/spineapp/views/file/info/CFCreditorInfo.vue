@@ -1,57 +1,84 @@
 <template>
   <div class="CFCreditorInfo">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <component
+      v-if="!!creditorInfo.creditorList"
+      :ref="creditorInfoMetaData.myRefName"
+      :is="creditorInfoMetaData.componentName"
+      :value="selectModel(creditorInfo, creditorInfoMetaData.dataSelectorKey)"
+      @input="
+        (newValue) =>
+          updateModel(
+            creditorInfo,
+            newValue,
+            creditorInfoMetaData.dataSelectorKey
+          )
+      "
+      v-bind="creditorInfoMetaData.props"
+    ></component>
   </div>
 
 </template>
 
 <script lang="ts">
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import ModelVue from "@/components/generic/ModelVue";
+import FForm from "@/components/generic/form/FForm.vue";
+import * as Action from "@/../src-gen/action";
+import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
+import CFCreditorInfoFCreditorMDP from "./CFCreditorInfoFCreditorMDP";
+@Component({
+  components: {
+    FForm,
+    FCreditor
+  },
+})
+export default class CFCreditorInfo extends ModelVue  {
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-@Component
-export default class CFCreditorInfo extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditor;
 
-  public counter: number = 0 ;
+  //METADATA
+  get creditorInfoMetaData() {
+    return new CFCreditorInfoFCreditorMDP({
+      taskRoot: this,
+      parent: this,
+    }).getMetaData();
+  }
+  //METADATA
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
+  //FORM
 
+  creditorInfoLocal: any = new Data.ClientFile.FiCreditor();
 
-  public mounted() {
-
+  get creditorInfo() { 
+    if (!!this.fiCreditorInfo ) {
+      this.creditorInfoLocal = this.fiCreditorInfo;
+    }
+    return this.creditorInfoLocal;
   }
 
-  public created() {
-
+  set creditorInfo(value: any) {
+    this.creditorInfoLocal = value;
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
+  //FORM
 
+  mounted() {
+    this.getFiCreditorInfo();
   }
 
-  private increment() {
-    this.counter += 1;
-  }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
+  //ACTION
+  getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+     this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 
 }

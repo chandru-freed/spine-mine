@@ -1,62 +1,74 @@
 <template>
   <div class="CFTransactionInfo">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <v-col class="col-12">
+      <v-card flat outlined>
+        <v-data-table
+          :headers="headers"
+          :items="fiPaymentTransactionList"
+          sort-by="draftDate"
+          class="elevation-0"
+        >
+          <template v-slot:[`item.txnDate`]="{ item }">
+            <span class="grey--text">
+              {{ item.txnDate | date }}
+            </span>
+          </template>
+           <template v-slot:[`item.amount`]="{ item }">
+            {{item.debit ? '- ' : '+ '}}{{ item.amount | toINR }}
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-col>
   </div>
-
 </template>
-
 <script lang="ts">
+import { Vue, Component, Prop } from "vue-property-decorator";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import FBtn from "@/components/generic/FBtn.vue";
+import * as Data from "@/../src-gen/data";
+import store, * as Store from "@/../src-gen/store";
+import * as Action from "@/../src-gen/action";
 
-@Component
-export default class CFTransactionInfo extends Vue {
+@Component({
+  components: {
+    FForm,
+    FBtn,
+  },
+})
+export default class CFTransactionInfo extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  public counter: number = 0 ;
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentTransactionList
+  fiPaymentTransactionList: Data.ClientFile.FiPaymentTransaction;
+  headers = [
+    { text: "Account Identifier", value: "accountIdentifier" },
+    { text: "Intent", value: "intent" },
+    { text: "Amount", value: "amount" },
+    { text: "Payment Ref Number", value: "paymentRefNumber" },
+    { text: "Remote Txn Ref Number", value: "remoteTxnRefNumber" },
+    { text: "Txn Date", value: "txnDate" },
+  ];
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
-
-
-  public mounted() {
-
+  mounted() {
+    this.getFiPaymentTransactionList();
   }
 
-  public created() {
-
+  //ACTION
+  getFiPaymentTransactionList() {
+    Action.ClientFile.GetFiPaymentTransactionList.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  gotoFile(item: any) {
+    this.$router.push({
+      name: "Root.ClientFile.Workarea",
+      params: { clientFileNumber: item.cid },
+    });
   }
-
-  private increment() {
-    this.counter += 1;
-  }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
-
-<style>
-</style>

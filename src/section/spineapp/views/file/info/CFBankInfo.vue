@@ -1,12 +1,20 @@
 <template>
   <div class="CFBankInfo">
-    <h1>CFBankInfo</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <component
+      v-if="bankInfoForm.bankAddress"
+      :ref="bankInfoFormMetaData.myRefName"
+      :is="bankInfoFormMetaData.componentName"
+      :value="selectModel(bankInfoForm, bankInfoFormMetaData.dataSelectorKey)"
+      @input="
+        (newValue) =>
+          updateModel(
+            bankInfoForm,
+            newValue,
+            bankInfoFormMetaData.dataSelectorKey
+          )
+      "
+      v-bind="bankInfoFormMetaData.props"
+    ></component>
   </div>
 
 </template>
@@ -14,44 +22,74 @@
 <script lang="ts">
 
 import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import store, * as Store from '@/../src-gen/store';
+import * as Data from '@/../src-gen/data';
+import ModelVue from "@/components/generic/ModelVue";
+import FForm from "@/components/generic/form/FForm.vue";
+import * as Action from "@/../src-gen/action";
+import CFBankInfoFBankFFormMDP from './CFBankInfoFBankFFormMDP';
 
-@Component
-export default class CFBankInfo extends Vue {
+@Component({
+  components: {
+    FForm,
+  },
+})
+export default class CFBankInfo extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  public counter: number = 0 ;
+  @Store.Getter.ClientFile.ClientFileSummary.fiBankInfo
+  bankInfo: Data.ClientFile.FiBankInfo;
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
+  nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+  //METADATA
+  get bankInfoFormMetaData() {
+    return new CFBankInfoFBankFFormMDP({
+      taskRoot: this,
+      parent: this,
+    }).getMetaData();
+  }
+  //METADATA
 
+  //FORM
 
-  public mounted() {
+  bankInfoFormLocal: any = new Data.ClientFile.FiBankInfo();
 
+  get bankInfoForm() {
+    
+    if (!!this.bankInfo ) {
+      this.bankInfoFormLocal = this.bankInfo;
+      if (!this.bankInfo.bankAddress) {
+        this.bankInfoFormLocal.bankAddress =
+          new Data.ClientFile.FiBankAddress();
+      }
+    }
+    return this.bankInfoFormLocal;
   }
 
-  public created() {
-
+  set bankInfoForm(value: any) {
+    this.bankInfoFormLocal = value;
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  getNupayBankMasterList() {
+    Action.ClientFile.GetNupayBankMasterList.execute((output) => {
+      this.nupayBankMasterList = output.nupayBankMasterList;
+    });
   }
 
-  private increment() {
-    this.counter += 1;
+  //FORM
+
+  mounted() {
+    this.getNupayBankMasterList();
+    this.getFiBankInfo();
   }
 
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
+  //ACTION
+  getFiBankInfo() {
+    Action.ClientFile.GetFiBankInfo.execute1(
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {}
+    );
   }
 
 }

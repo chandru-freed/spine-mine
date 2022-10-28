@@ -1,62 +1,93 @@
 <template>
   <div class="CFPersonalInfo">
-    <h1>CFPersonalInfo</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <component
+      :ref="profileFormMetaData.myRefName"
+      :is="profileFormMetaData.componentName"
+      :value="
+        selectModel(personalInfoForm, profileFormMetaData.dataSelectorKey)
+      "
+      @input="
+        (newValue) =>
+          updateModel(
+            personalInfoForm,
+            newValue,
+            profileFormMetaData.dataSelectorKey
+          )
+      "
+      v-bind="profileFormMetaData.props"
+    ></component>
   </div>
-
 </template>
 
 <script lang="ts">
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import ModelVue from "@/components/generic/ModelVue";
+import FForm from "@/components/generic/form/FForm.vue";
+import * as Action from "@/../src-gen/action";
+import CFPersonalInfoFProfileFFormMDP from "./CFPersonalInfoFProfileFFormMDP";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+@Component({
+  components: {
+    FForm,
+  },
+})
+export default class CFPersonalInfo extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-@Component
-export default class CFPersonalInfo extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfo: Data.ClientFile.ClPersonalInfo;
 
-  public counter: number = 0 ;
+  //METADATA
+  get profileFormMetaData() {
+    return new CFPersonalInfoFProfileFFormMDP({
+      taskRoot: this,
+      parent: this,
+    }).getMetaData();
+  }
+  //METADATA
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
+  //FORM
 
+  personalInfoFormLocal: any = new Data.ClientFile.ClPersonalInfo();
 
-  public mounted() {
-
+  get personalInfoForm() {
+    this.personalInfoFormLocal.residentialAddress =
+      new Data.ClientFile.ClientAddress();
+    if (!!this.personalInfo) {
+      this.personalInfoFormLocal = this.personalInfo;
+      if (!this.personalInfo.residentialAddress) {
+        this.personalInfoFormLocal.residentialAddress =
+          new Data.ClientFile.ClientAddress();
+      }
+    }
+    return this.personalInfoFormLocal;
   }
 
-  public created() {
-
+  set personalInfoForm(value: any) {
+    this.personalInfoFormLocal = value;
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
+  //FORM
 
+  mounted() {
+    this.findClientInfo();
   }
 
-  private increment() {
-    this.counter += 1;
+  //ACTION
+  findClientInfo() {
+    //TODO:  Needs to be discussed:
+    setTimeout(() => {
+      Action.ClientFile.FindPersonalInfo.execute1(
+        this.clientFileBasicInfo.clientBasicInfo.clientId,
+        (output) => {}
+      );
+    }, 1000);
   }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
 
-<style>
-</style>
+<style></style>

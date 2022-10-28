@@ -41,6 +41,10 @@ export default class CFPersonalInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfo: Data.ClientFile.ClPersonalInfo;
 
+  get clientFileId (){
+   return this.$route.params.clientFileId;
+  }
+
   //METADATA
   get profileFormMetaData() {
     return new CFPersonalInfoFProfileFFormMDP({
@@ -74,18 +78,25 @@ export default class CFPersonalInfo extends ModelVue {
   //FORM
 
   mounted() {
-    this.findClientInfo();
+    this.findClPersonalInfo();
   }
 
   //ACTION
-  findClientInfo() {
-    //TODO:  Needs to be discussed:
-    setTimeout(() => {
-      Action.ClientFile.FindPersonalInfo.execute1(
-        this.clientFileBasicInfo.clientBasicInfo.clientId,
+  // findClientInfo() {
+  //   //TODO:  Needs to be discussed:
+  //   setTimeout(() => {
+  //     Action.ClientFile.FindPersonalInfo.execute1(
+  //       this.clientFileBasicInfo.clientBasicInfo.clientId,
+  //       (output) => {}
+  //     );
+  //   }, 1000);
+  // }
+
+  findClPersonalInfo() {
+      Action.ClientFile.FindClPersonalInfo.execute1(
+        this.clientFileId,
         (output) => {}
       );
-    }, 1000);
   }
 }
 </script>

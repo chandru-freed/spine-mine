@@ -3,7 +3,9 @@
     <component
       :ref="budgetInfoFormMetaData.myRefName"
       :is="budgetInfoFormMetaData.componentName"
-      :value="selectModel(budgetInfoForm, budgetInfoFormMetaData.dataSelectorKey)"
+      :value="
+        selectModel(budgetInfoForm, budgetInfoFormMetaData.dataSelectorKey)
+      "
       v-bind="budgetInfoFormMetaData.props"
     ></component>
   </div>
@@ -24,13 +26,14 @@ import CFBudgetInfoFBudgetMDP from "./CFBudgetInfoFBudgetMDP";
   },
 })
 export default class CFBudgetInfo extends ModelVue {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfoStore: Data.ClientFile.BudgetInfo;
 
-  budgetInfoFormLocal = new Data.ClientFile.BudgetInfo()
+  budgetInfoFormLocal = new Data.ClientFile.BudgetInfo();
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
 
   get budgetInfoForm() {
     if (!!this.budgetInfoStore) {
@@ -56,7 +59,7 @@ export default class CFBudgetInfo extends ModelVue {
 
   getBudgetInfo() {
     Action.ClientFile.GetBudgetInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

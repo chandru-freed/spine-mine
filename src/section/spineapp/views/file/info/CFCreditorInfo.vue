@@ -16,7 +16,6 @@
       v-bind="creditorInfoMetaData.props"
     ></component>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -32,17 +31,16 @@ import CFCreditorInfoFCreditorMDP from "./CFCreditorInfoFCreditorMDP";
 @Component({
   components: {
     FForm,
-    FCreditor
+    FCreditor,
   },
 })
-export default class CFCreditorInfo extends ModelVue  {
-
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
+export default class CFCreditorInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditor;
 
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
   //METADATA
   get creditorInfoMetaData() {
     return new CFCreditorInfoFCreditorMDP({
@@ -56,8 +54,8 @@ export default class CFCreditorInfo extends ModelVue  {
 
   creditorInfoLocal: any = new Data.ClientFile.FiCreditor();
 
-  get creditorInfo() { 
-    if (!!this.fiCreditorInfo ) {
+  get creditorInfo() {
+    if (!!this.fiCreditorInfo) {
       this.creditorInfoLocal = this.fiCreditorInfo;
     }
     return this.creditorInfoLocal;
@@ -76,13 +74,11 @@ export default class CFCreditorInfo extends ModelVue  {
   //ACTION
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
-     this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
-
 }
-
 </script>
 
 <style>

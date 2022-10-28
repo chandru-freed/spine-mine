@@ -1,7 +1,7 @@
 <template>
+<!--  @change="(newVal) => changeStepQuery(newVal)" -->
   <v-stepper
     :value="selectModel(selectedStep, undefined)"
-    @change="(newVal) => changeStepQuery(newVal)"
     flat
     non-linear
   >
@@ -156,11 +156,11 @@ export default class FTaskStepper extends ModelVue {
   @Prop()
   actionable: boolean;
 
-  changeStepQuery(val: any) {
-    this.$router.push({
-      query: { ...this.$route.query, step: val.toString() },
-    });
-  }
+  // changeStepQuery(val: any) {
+  //   this.$router.push({
+  //     query: { ...this.$route.query, step: val.toString() },
+  //   });
+  // }
 
   gotoPreviousStep() {
     // this.changeStepQuery(this.selectedStep - 1);

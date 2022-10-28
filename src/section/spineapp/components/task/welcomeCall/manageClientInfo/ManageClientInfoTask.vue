@@ -42,9 +42,6 @@ export default class ManageClientInfoTask
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   // new store Add
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfoStore: Data.ClientFile.ClPersonalInfo;
@@ -81,9 +78,13 @@ export default class ManageClientInfoTask
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
   }
 
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+
   mounted() {
     this.getNupayBankMasterList();
-    this.findClientInfo();
+    this.findClPersonalInfo();
     this.getFiCreditorInfo();
     this.getBudgetInfo();
     this.getFiPaymentPlanInfo();
@@ -92,7 +93,7 @@ export default class ManageClientInfoTask
 
     Action.Spine.UpdateClPersonalInfo.interested((output) => {
       setTimeout(() => {
-        this.findClientInfo();
+        this.findClPersonalInfo();
       }, 1000);
     });
 
@@ -142,7 +143,7 @@ export default class ManageClientInfoTask
   public destroyed() {
     Action.Spine.UpdateClPersonalInfo.notInterested((output) => {
       setTimeout(() => {
-        this.findClientInfo();
+        this.findClPersonalInfo();
       }, 1000);
     });
 
@@ -329,47 +330,45 @@ export default class ManageClientInfoTask
   }
 
   //New Get API Add
-  findClientInfo() {
-    //TODO:  Needs to be discussed:
-    setTimeout(() => {
-      Action.ClientFile.FindPersonalInfo.execute1(
-        this.clientFileBasicInfo.clientBasicInfo.clientId,
-        (output) => {}
-      );
-    }, 1000);
+  findClPersonalInfo() {
+    Action.ClientFile.FindClPersonalInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
+
 
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getBudgetInfo() {
     Action.ClientFile.GetBudgetInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getFiPaymentPlanInfo() {
     Action.ClientFile.GetPaymentPlanInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getFiBankInfo() {
     Action.ClientFile.GetFiBankInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getFiDocumentList() {
     Action.ClientFile.GetDocumentList.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

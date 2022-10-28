@@ -35,13 +35,16 @@ import CFBankInfoFBankFFormMDP from './CFBankInfoFBankFFormMDP';
   },
 })
 export default class CFBankInfo extends ModelVue {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   @Store.Getter.ClientFile.ClientFileSummary.fiBankInfo
   bankInfo: Data.ClientFile.FiBankInfo;
 
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+
   //METADATA
   get bankInfoFormMetaData() {
     return new CFBankInfoFBankFFormMDP({
@@ -87,7 +90,7 @@ export default class CFBankInfo extends ModelVue {
   //ACTION
   getFiBankInfo() {
     Action.ClientFile.GetFiBankInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

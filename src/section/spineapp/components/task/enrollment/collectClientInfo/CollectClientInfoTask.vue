@@ -9,14 +9,14 @@
         v-bind="stepperMetaData.props"
       ></component>
     </template>
-     <template v-if="taskStateTerminated">
-        <component
+    <template v-if="taskStateTerminated">
+      <component
         :ref="stepperMetaData.myRefName"
         :is="stepperMetaData.componentName"
         :value="selectModel(taskDetailsData, undefined)"
         v-bind="stepperMetaData.props"
-      ></component> 
-     </template>
+      ></component>
+    </template>
   </div>
 </template>
 
@@ -47,9 +47,6 @@ export default class CollectClientInfoTask
   extends ModelVue
   implements ManualTaskIntf
 {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -94,7 +91,12 @@ export default class CollectClientInfoTask
   }
 
   get taskStateTerminated() {
-    return (this.taskDetails.taskState === 'COMPLETED' || this.taskDetails.taskState === 'FORCE_COMPLETED' || this.taskDetails.taskState === 'CANCELLED' || this.taskDetails.taskState === 'RESET')
+    return (
+      this.taskDetails.taskState === "COMPLETED" ||
+      this.taskDetails.taskState === "FORCE_COMPLETED" ||
+      this.taskDetails.taskState === "CANCELLED" ||
+      this.taskDetails.taskState === "RESET"
+    );
   }
 
   taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
@@ -107,8 +109,7 @@ export default class CollectClientInfoTask
     };
   }
 
-
-get taskDetailsData() {
+  get taskDetailsData() {
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskDetailsOutput,
@@ -160,9 +161,13 @@ get taskDetailsData() {
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
   mounted() {
     this.getNupayBankMasterList();
-    this.findClientInfo();
+    this.findClPersonalInfo();
     this.getFiCreditorInfo();
     this.getBudgetInfo();
     this.getFiPaymentPlanInfo();
@@ -170,103 +175,69 @@ get taskDetailsData() {
     this.getFiDocumentList();
 
     Action.Spine.UpdateClPersonalInfo.interested((output) => {
-      setTimeout(() => {
-        this.findClientInfo();
-      }, 1000);
+      this.findClPersonalInfo();
     });
 
     Action.Spine.AddCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfo();
-      }, 1000);
+      this.getFiCreditorInfo();
     });
     Action.Spine.UpdateCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfo();
-      }, 1000);
+      this.getFiCreditorInfo();
     });
     Action.Spine.RemoveCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfo();
-      }, 1000);
+      this.getFiCreditorInfo();
     });
 
     Action.Spine.UpdateBudgetInfo.interested((output) => {
-      setTimeout(() => {
-        this.getBudgetInfo();
-      }, 1000);
+      this.getBudgetInfo();
     });
     Action.Spine.SchedulePaymentPlan.interested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
+      this.getFiPaymentPlanInfo();
     });
     Action.Spine.UpdateBankInfo.interested((output) => {
-      setTimeout(() => {
-        this.getFiBankInfo();
-      }, 1000);
+      this.getFiBankInfo();
     });
     Action.Spine.AttachDocument.interested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
+      this.getFiDocumentList();
     });
     Action.Spine.DetachDocument.interested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
+      this.getFiDocumentList();
     });
   }
 
   public destroyed() {
     Action.Spine.UpdateClPersonalInfo.notInterested((output) => {
-      setTimeout(() => {
-        this.findClientInfo();
-      }, 1000);
+      this.findClPersonalInfo();
     });
 
     Action.Spine.AddCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfo();
-      }, 1000);
+      this.getFiCreditorInfo();
     });
 
     Action.Spine.UpdateCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfo();
-      }, 1000);
+      this.getFiCreditorInfo();
     });
     Action.Spine.RemoveCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfo();
-      }, 1000);
+      this.getFiCreditorInfo();
     });
 
     Action.Spine.UpdateBudgetInfo.notInterested((output) => {
-      setTimeout(() => {
-        this.getBudgetInfo();
-      }, 1000);
+      this.getBudgetInfo();
     });
 
     Action.Spine.SchedulePaymentPlan.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
+      this.getFiPaymentPlanInfo();
     });
 
     Action.Spine.UpdateBankInfo.notInterested((output) => {
-        this.getFiBankInfo();
+      this.getFiBankInfo();
     });
 
     Action.Spine.AttachDocument.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
+      this.getFiDocumentList();
     });
     Action.Spine.DetachDocument.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
+      this.getFiDocumentList();
     });
   }
 
@@ -400,47 +371,39 @@ get taskDetailsData() {
   }
 
   //New Get API Add
-  findClientInfo() {
-    //TODO:  Needs to be discussed:
-    setTimeout(() => {
-      Action.ClientFile.FindPersonalInfo.execute1(
-        this.clientFileBasicInfo.clientBasicInfo.clientId,
-        (output) => {}
-      );
-    }, 1000);
+
+  findClPersonalInfo() {
+    Action.ClientFile.FindClPersonalInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getBudgetInfo() {
-    Action.ClientFile.GetBudgetInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
   }
 
   getFiPaymentPlanInfo() {
     Action.ClientFile.GetPaymentPlanInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }
 
   getFiBankInfo() {
-    Action.ClientFile.GetFiBankInfo.execute1(
-      this.clientFileBasicInfo.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetFiBankInfo.execute1(this.clientFileId, (output) => {});
   }
 
   getFiDocumentList() {
     Action.ClientFile.GetDocumentList.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

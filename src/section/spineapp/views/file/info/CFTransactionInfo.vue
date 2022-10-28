@@ -13,8 +13,8 @@
               {{ item.txnDate | date }}
             </span>
           </template>
-           <template v-slot:[`item.amount`]="{ item }">
-            {{item.debit ? '- ' : '+ '}}{{ item.amount | toINR }}
+          <template v-slot:[`item.amount`]="{ item }">
+            {{ item.debit ? "- " : "+ " }}{{ item.amount | toINR }}
           </template>
         </v-data-table>
       </v-card>
@@ -38,11 +38,13 @@ import * as Action from "@/../src-gen/action";
   },
 })
 export default class CFTransactionInfo extends ModelVue {
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentTransactionList
   fiPaymentTransactionList: Data.ClientFile.FiPaymentTransaction;
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+
   headers = [
     { text: "Account Identifier", value: "accountIdentifier" },
     { text: "Intent", value: "intent" },
@@ -59,7 +61,7 @@ export default class CFTransactionInfo extends ModelVue {
   //ACTION
   getFiPaymentTransactionList() {
     Action.ClientFile.GetFiPaymentTransactionList.execute1(
-      this.clientFileBasicInfo.clientFileId,
+      this.clientFileId,
       (output) => {}
     );
   }

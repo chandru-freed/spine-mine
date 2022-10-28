@@ -5,8 +5,6 @@
     flat
     non-linear
   >
-
-  
     <v-stepper-header flat>
       <v-stepper-step
         :editable="!linearProgress"
@@ -20,7 +18,6 @@
     </v-stepper-header>
 
     <v-stepper-items>
-      
       <v-stepper-content
         class="pa-4"
         :step="stepIndx"
@@ -38,7 +35,15 @@
                 @click="gotoPreviousStep()"
                 >Previous</v-btn
               >
-              
+              <v-spacer></v-spacer>
+              <v-btn
+                class="mr-2 elevation-0"
+                v-if="taskStateNotStarted"
+                color="primary"
+                @click="pullAndStartTask"
+                small
+                >Start</v-btn
+              >
               <v-spacer></v-spacer>
               <v-btn
                 class="mr-2"
@@ -52,15 +57,22 @@
               <v-btn
                 v-if="!(actionable && step.submitFunc)"
                 small
-                :disabled="selectedStep === stepMetaDataList.length-1"
-                outlined color="primary" @click="gotoNextStep(step)">Next</v-btn>
+                :disabled="selectedStep === stepMetaDataList.length - 1"
+                outlined
+                color="primary"
+                @click="gotoNextStep(step)"
+                >Next</v-btn
+              >
 
-                <v-btn
+              <v-btn
                 small
                 v-if="actionable && step.submitFunc"
-                :disabled="selectedStep === stepMetaDataList.length-1"
-                outlined color="primary" @click="submitAndGotoNextStep(step)">Save & Next</v-btn>
-
+                :disabled="selectedStep === stepMetaDataList.length - 1"
+                outlined
+                color="primary"
+                @click="submitAndGotoNextStep(step)"
+                >Save & Next</v-btn
+              >
             </div>
 
             <component
@@ -85,6 +97,9 @@
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 import ModelVue from "./ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
@@ -108,14 +123,24 @@ import FEMandate from "./file/eMandate/FEMandate.vue";
   },
 })
 export default class FTaskStepper extends ModelVue {
-  
+  @Store.Getter.TaskList.Summary.executiveTaskDetails
+  taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  get selectedStep(): number {
-    if(this.$route.query.step) {
-      return  Number(this.$route.query.step)
-    }
-    return 0
+  get taskStateNotStarted() {
+    return (
+      this.taskDetails.taskState === "ALLOCATED" ||
+      this.taskDetails.taskState === "TO_BE_PULLED"
+    );
   }
+
+  selectedStep = 0
+
+  // get selectedStep(): number {
+  //   if (this.$route.query.step) {
+  //     return Number(this.$route.query.step);
+  //   }
+  //   return 0;
+  // }
 
   @Prop()
   myRefName: string;
@@ -136,24 +161,34 @@ export default class FTaskStepper extends ModelVue {
       query: { ...this.$route.query, step: val.toString() },
     });
   }
-  
 
   gotoPreviousStep() {
-    this.changeStepQuery(this.selectedStep - 1);
+    // this.changeStepQuery(this.selectedStep - 1);
+    this.selectedStep = this.selectedStep - 1
   }
 
   saveStep(step: any) {
-    step.submitFunc()
+    step.submitFunc();
   }
 
   submitAndGotoNextStep(step: any) {
-      step.submitFunc(() => {
-        this.changeStepQuery(this.selectedStep + 1);
-      });
+    step.submitFunc(() => {
+      this.gotoNextStep(this.selectedStep);
+    });
   }
 
   gotoNextStep(step: any) {
-      this.changeStepQuery(this.selectedStep + 1);
+    // this.changeStepQuery(this.selectedStep + 1);
+    this.selectedStep = this.selectedStep + 1
+  }
+
+  pullAndStartTask() {
+    Action.TaskList.PullStartAndMerge.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log("");
+      }
+    );
   }
 }
 </script>

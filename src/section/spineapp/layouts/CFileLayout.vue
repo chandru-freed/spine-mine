@@ -11,7 +11,7 @@
   </div>
   <div class="row mt-0">
     <div class="col grow pt-1">
-        <router-view ></router-view>
+        <router-view :key="$route.fullPath"></router-view>
     </div>
     <div class="col-3 pt-9">
       

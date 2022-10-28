@@ -26,7 +26,7 @@
             placeholder="Add a note ..."
             outlined
             v-model="addNoteInput.noteMessage"
-            append-icon="mdi-send"
+            append-icon="mdi-comment-text"
             @keypress.ctrl.enter="addNote"
           >
           </v-textarea>

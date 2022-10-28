@@ -102,6 +102,7 @@ import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
 
 import moment from "moment";
 import FBtn from "@/components/generic/FBtn.vue";
+import Helper from "../../util/Helper";
 
 @Component({
   components: {
@@ -154,10 +155,7 @@ export default class TaskAssignedToMe extends Vue {
   }
 
   gotoFile(item: any) {
-    this.$router.push({
-      name: "Root.ClientFile.Workarea",
-      params: { clientFileNumber: item.cid },
-    });
+    Helper.Router.gotoFile({router: this.$router, clientFileNumber: item.cid});
   }
 
   gotoTask(item: any) {

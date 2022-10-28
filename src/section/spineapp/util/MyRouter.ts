@@ -3,7 +3,7 @@ import VueRouter, { Route } from "vue-router";
 export default class MyRouter {
   static gotoFile({router, clientFileNumber}: {router: VueRouter, clientFileNumber: string}) {
     router.push({
-      name: "Root.ClientFile.Workarea",
+      name: "Root.CFFileRedirect",
       params: { clientFileNumber: clientFileNumber },
     });
   }
@@ -12,6 +12,13 @@ export default class MyRouter {
     router.push({
       name: "Root.CFile.CFInfo.CFPersonalInfo",
       params: { clientFileId: clientFileId },
+    });
+  }
+
+  static gotoCFTask({router, clientFileId, taskId}: {router: VueRouter, clientFileId: string, taskId: string}) {
+    router.push({
+      name: "Root.CFile.CFInfo.CFPersonalInfo",
+      params: { clientFileId: clientFileId, taskId: taskId},
     });
   }
 

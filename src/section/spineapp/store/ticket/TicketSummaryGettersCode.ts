@@ -8,12 +8,18 @@ export class TicketTaskSummaryInit {
 
 export class TicketSummaryGettersCode implements TicketSummaryGetters {
 
-
   public ticketTaskDetails(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketTaskDetails {
     return state.ticketTaskDetails
   }
 
   public ticketCommentsList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketCommentDetails[] {
     return state.ticketCommentsList
+  }
+
+  public fiCFTicketActiveList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketTaskDetailsGet[] {
+    return state.fiCFTicketActiveList
+  }
+  public fiMyCFTicketCompletedList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketTaskDetailsGet[] {
+    return state.fiMyCFTicketCompletedList
   }
 }

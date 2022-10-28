@@ -3,7 +3,7 @@
     <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
-        :items="myTicketTaskList"
+        :items="myTicketTaskDetailsGet"
         class="elevation-0"
         item-key="taskId"
         :search="search"
@@ -57,7 +57,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | date-time }} ({{
+            {{ item.allocatedTime | datetime }} ({{
               item.allocatedTime | fromNow
             }})
           </span>
@@ -72,6 +72,7 @@ import Vue from "vue";
 import { Prop, Component } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
+import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
 
 import FBtn from "@/components/generic/FBtn.vue";
@@ -81,13 +82,16 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class CFActiveTickets extends Vue {
-  tab: number = 0;
+  @Store.Getter.Ticket.TicketSummary.fiCFTicketActiveList
+  myTicketTaskDetailsGet: Data.Ticket.MyTicketTaskDetailsGet;
+
   search: string = "";
 
-  myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
 
   allocatedTicketTaskGridHeaderList = [
-    // { text: "Task Id", value: "taskId" },
     { text: "Ticket Number", value: "cid", align: "start" },
     { text: "Subject", value: "displayId", align: "start" },
     { text: "Priority", value: "priority" },
@@ -97,18 +101,20 @@ export default class CFActiveTickets extends Vue {
   ];
 
   mounted() {
-    this.getMyTicketTaskList();
+    this.getMyCFTicketActiveList();
   }
-  getMyTicketTaskList() {
-    Action.Ticket.GetMyTicketActiveList.execute((output) => {
-      this.myTicketTaskList = output;
-    });
+
+  getMyCFTicketActiveList() {
+    Action.Ticket.GetMyCFTicketActiveList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   gotoTask(item: any) {
     this.$router.push({
-      name: "Root.MyTicket.MyTicketDetails.MyTicketTaskDetails",
-      params: { myTicketId: item.taskId, ticketNumber: item.cid },
+      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails",
+      params: { myTicketId: item.taskId },
     });
   }
 }

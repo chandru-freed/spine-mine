@@ -3,7 +3,7 @@
     <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
-        :items="myTicketTaskList"
+        :items="myTicketTaskDetailsGet"
         class="elevation-0"
         item-key="taskId"
         :search="search"
@@ -57,7 +57,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | date-time) }} ({{
+            {{ item.allocatedTime | datetime }} ({{
               item.allocatedTime | fromNow
             }})
           </span>
@@ -73,6 +73,7 @@ import { Prop, Component } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
+import store, * as Store from "@/../src-gen/store";
 
 import FBtn from "@/components/generic/FBtn.vue";
 @Component({
@@ -81,11 +82,15 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class CFCompletedTickets extends Vue {
-  tab: number = 1;
+  @Store.Getter.Ticket.TicketSummary.fiMyCFTicketCompletedList
+  myTicketTaskDetailsGet: Data.Ticket.MyTicketTaskDetailsGet;
 
   search: string = "";
 
-  myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
 
   allocatedTicketTaskGridHeaderList = [
     { text: "Ticket Number", value: "cid", align: "start" },
@@ -97,18 +102,20 @@ export default class CFCompletedTickets extends Vue {
   ];
 
   mounted() {
-    this.getMyTicketTaskList();
+    this.getMyCFTicketCompletedList();
   }
-  getMyTicketTaskList() {
-    Action.Ticket.GetMyTicketCompletedList.execute((output) => {
-      this.myTicketTaskList = output;
-    });
+
+  getMyCFTicketCompletedList() {
+    Action.Ticket.GetMyCFTicketCompletedList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   gotoTask(item: any) {
     this.$router.push({
-      name: "Root.MyTicket.MyTicketDetails.MyTicketTaskDetails",
-      params: { myTicketId: item.taskId, ticketNumber: item.cid },
+      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails",
+      params: { myTicketId: item.taskId},
     });
   }
 }

@@ -45,7 +45,7 @@
 
         <template v-slot:item.readyTime="{ item }">
           <span class="grey--text">
-            {{ item.readyTime | date-time }} ({{
+            {{ item.readyTime | datetime }} ({{
               item.readyTime | fromNow
             }})
           </span>

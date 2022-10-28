@@ -1,62 +1,102 @@
 <template>
   <div class="CFReceivePayment">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
-  </div>
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>Receive Payment</h4>
+      <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
 
+    <component
+      :ref="receivePaymentMetaData.myRefName"
+      :is="receivePaymentMetaData.componentName"
+      :value="selectModel(recordPaymentPresentInputForm, undefined)"
+      @input="
+        (newValue) =>
+          updateModel(recordPaymentPresentInputForm, newValue, undefined)
+      "
+      v-bind="receivePaymentMetaData.props"
+    ></component>
+  </div>
 </template>
 
 <script lang="ts">
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
+import ModelVue from "@/components/generic/ModelVue";
+import FForm from "@/components/generic/form/FForm.vue";
+import Helper from "@/section/spineapp/util/Helper";
+import CFReceivePaymentFFormMDP from "./CFReceivePaymentFFormMDP";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+@Component({
+  components: {
+    FForm,
+  },
+})
+export default class ReceivePayment extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-@Component
-export default class CFReceivePayment extends Vue {
+  recordPaymentPresentInput = new Data.ClientFile.RecordPaymentPresentInput();
 
-  public counter: number = 0 ;
-
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
-
-
-  public mounted() {
-
+  get clientFileId() {
+    return this.$route.params.clientFileId;
   }
 
-  public created() {
+  //METADATA
+  get receivePaymentMetaData() {
+    return new CFReceivePaymentFFormMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
+  get recordPaymentPresentInputForm() {
+    this.recordPaymentPresentInput.totalAmount =
+      this.recordPaymentPresentInput.spaAmount +
+      this.recordPaymentPresentInput.feeAmount +
+      this.recordPaymentPresentInput.msfAmount;
+    return this.recordPaymentPresentInput;
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  set recordPaymentPresentInputForm(
+    value: Data.ClientFile.RecordPaymentPresentInput
+  ) {
+    this.recordPaymentPresentInput = value;
   }
 
-  private increment() {
-    this.counter += 1;
+  recordPaymentPresent() {
+    this.recordPaymentPresentInput.clientFileId =
+      this.clientFileBasicInfo.clientFileId;
+    Action.ClientFile.RecordPaymentPresent.execute(
+      this.recordPaymentPresentInput,
+      (output) => {
+        this.gotoClientFile();
+        Snackbar.show({
+          text: "Succesfully assigned",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 
-  private decrement() {
-    this.counter -= 1;
+  gotoClientFile() {
+    Helper.Router.gotoClientFile({
+      router: this.$router,
+      clientFileId: this.clientFileId,
+    });
   }
 
-  private get computedCounter(): number {
-    return this.counter * 2;
+  gotoAction(paymentId: string) {
+    this.$router.push({
+      name: "Root.CFile.CFAction.CFActionList",
+      params: {
+        clientFileId: this.clientFileId,
+      },
+    });
   }
-
 }
-
 </script>
 
-<style>
-</style>
+<style></style>

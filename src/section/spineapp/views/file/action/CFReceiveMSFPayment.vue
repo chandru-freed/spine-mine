@@ -1,62 +1,96 @@
 <template>
   <div class="CFReceiveMSFPayment">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>Receive MSF Payment</h4>
+      <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-flex justify-center col-6 ma-auto">
+      <component
+        :ref="receiveMSFPaymentMetaData.myRefName"
+        :is="receiveMSFPaymentMetaData.componentName"
+        :value="selectModel(receiveMSFPaymentInput, undefined)"
+        @input="
+          (newValue) => updateModel(receiveMSFPaymentInput, newValue, undefined)
+        "
+        v-bind="receiveMSFPaymentMetaData.props"
+      ></component>
+    </div>
   </div>
-
 </template>
 
 <script lang="ts">
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
+import ModelVue from "@/components/generic/ModelVue";
+import FForm from "@/components/generic/form/FForm.vue";
+import Helper from "@/section/spineapp/util/Helper";
+import CFReceiveMSFPaymentFFormMDP from "./CFReceiveMSFPaymentFFormMDP";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+@Component({
+  components: {
+    FForm,
+  },
+})
+export default class CFReceiveMSFPayment extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-@Component
-export default class CFReceiveMSFPayment extends Vue {
+  receiveMSFPaymentInput = new Data.ClientFile.ReceiveMSFPaymentInput();
 
-  public counter: number = 0 ;
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+  //METADATA
+  get receiveMSFPaymentMetaData() {
+    return new CFReceiveMSFPaymentFFormMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
-
-
-  public mounted() {
-
+  receiveMSFPayment() {
+    this.receiveMSFPaymentInput.clientFileId =
+      this.clientFileBasicInfo.clientFileId;
+    Action.ClientFile.ReceiveMSFPayment.execute(
+      this.receiveMSFPaymentInput,
+      (output) => {
+        this.gotoPaymentDetail(output.paymentId);
+        Snackbar.show({
+          text: "Succesfully assigned",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 
-  public created() {
-
+  gotoPaymentDetail(paymentId: string) {
+    this.$router.push({
+      name: "Root.CFile.CFInfo.CFPayment.CFPaymentDetails",
+      params: {
+        clientFileId: this.clientFileId,
+        paymentId: paymentId,
+      },
+    });
+  }
+  gotoClientFile() {
+    Helper.Router.gotoClientFile({
+      router: this.$router,
+      clientFileId: this.clientFileId,
+    });
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  gotoAction(paymentId: string) {
+    this.$router.push({
+      name: "Root.CFile.CFAction.CFActionList",
+      params: {
+        clientFileId: this.clientFileId,
+      },
+    });
   }
-
-  private increment() {
-    this.counter += 1;
-  }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
 
-<style>
-</style>
+<style></style>

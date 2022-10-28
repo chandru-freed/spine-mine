@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="CFAssignRM">
     <div class="d-flex justify-space-between align-center mx-5">
       <h4>Assign RM</h4>
-      <v-btn @click="gotoClientFile" text icon color="lighten-2" class="ma-2">
+      <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
     </div>
@@ -32,12 +32,11 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
-// import AssignRMFFormMDP from "@/section/../request/AssignRMFFormMDP";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import * as Snackbar from "node-snackbar";
 import Helper from "../../../util/Helper";
-import AssignRMFFormMDP from "../../clientfile/request/AssignRMFFormMDP";
+import CFAssignRMFFormMDP from "./CFAssignRMFFormMDP";
 
 @Component({
   components: {
@@ -46,8 +45,6 @@ import AssignRMFFormMDP from "../../clientfile/request/AssignRMFFormMDP";
   },
 })
 export default class CFAssignRM extends ModelVue {
-  clientFileId = this.$route.params.clientFileId;
-
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
@@ -55,9 +52,13 @@ export default class CFAssignRM extends ModelVue {
   leftFocused = false;
   rightFocused = true;
 
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+
   //METADATA
   get assignRMMetaData() {
-    return new AssignRMFFormMDP({ taskRoot: this }).getMetaData();
+    return new CFAssignRMFFormMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
@@ -80,6 +81,15 @@ export default class CFAssignRM extends ModelVue {
     Helper.Router.gotoClientFile({
       router: this.$router,
       clientFileId: this.clientFileId,
+    });
+  }
+
+  gotoAction(paymentId: string) {
+    this.$router.push({
+      name: "Root.CFile.CFAction.CFActionList",
+      params: {
+        clientFileId: this.clientFileId,
+      },
     });
   }
 }

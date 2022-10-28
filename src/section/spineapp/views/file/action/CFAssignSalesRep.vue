@@ -1,62 +1,98 @@
 <template>
   <div class="CFAssignSalesRep">
-    <h1>This is the Counter page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <div class="d-flex justify-space-between align-center mx-5">
+      <h4>Assign Sales Rep</h4>
+      <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
+        <v-icon size="20">mdi-close</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-flex justify-center col-6 ma-auto">
+      <component
+        :ref="assignSalesRepMetaData.myRefName"
+        :is="assignSalesRepMetaData.componentName"
+        :value="selectModel(assignSalesRepInput, undefined)"
+        @input="
+          (newValue) => updateModel(assignSalesRepInput, newValue, undefined)
+        "
+        v-bind="assignSalesRepMetaData.props"
+      ></component>
+    </div>
   </div>
-
 </template>
 
 <script lang="ts">
+import {
+  Vue,
+  Component,
+  Prop,
+  Emit,
+  Watch,
+  Model,
+} from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
+import FBtn from "@/components/generic/FBtn.vue";
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import Helper from "../../../util/Helper";
+import CFAssignSalesRepFFormMDP from "./CFAssignSalesRepFFormMDP";
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+@Component({
+  components: {
+    "f-btn": FBtn,
+    FForm,
+  },
+})
+export default class CFAssignSalesRep extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-@Component
-export default class CFAssignSalesRep extends Vue {
+  assignSalesRepInput = new Data.ClientFile.AssignSalesRepInput();
+  leftFocused = false;
+  rightFocused = true;
 
-  public counter: number = 0 ;
-
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
-
-
-  public mounted() {
-
+  get clientFileId() {
+    return this.$route.params.clientFileId;
   }
 
-  public created() {
+  //METADATA
+  get assignSalesRepMetaData() {
+    return new CFAssignSalesRepFFormMDP({ taskRoot: this }).getMetaData();
+  }
+  //METADATA
 
+  assignSalesRep() {
+    Action.ClientFile.AssignSalesRep.execute2(
+      this.assignSalesRepInput.assignedSalesRep,
+      this.clientFileBasicInfo.clientFileId,
+      (output) => {
+        this.gotoClientFile();
+        Snackbar.show({
+          text: "Succesfully assigned",
+          pos: "bottom-center",
+        });
+      }
+    );
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  gotoClientFile() {
+    Helper.Router.gotoClientFile({
+      router: this.$router,
+      clientFileId: this.clientFileId,
+    });
   }
 
-  private increment() {
-    this.counter += 1;
+  gotoAction(paymentId: string) {
+    this.$router.push({
+      name: "Root.CFile.CFAction.CFActionList",
+      params: {
+        clientFileId: this.clientFileId,
+      },
+    });
   }
-
-  private decrement() {
-    this.counter -= 1;
-  }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
 
-<style>
-</style>
+<style></style>

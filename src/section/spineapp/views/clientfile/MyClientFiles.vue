@@ -77,12 +77,9 @@ export default class MyClientFiles extends Vue {
       this.myClientFileList = output;
     })
   }
-  
+
   gotoFile(clientFileNumber: string) {
-      Helper.Router.gotoFile({
-        router: this.$router,
-        clientFileNumber: clientFileNumber,
-      });
+    Helper.Router.gotoFile({router: this.$router, clientFileNumber: clientFileNumber});
   }
 
 

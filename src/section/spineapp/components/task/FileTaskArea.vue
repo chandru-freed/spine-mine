@@ -363,8 +363,6 @@ export default class FileTaskArea extends Vue {
 
   gotoTask(item: any) {
     const params = { ...this.$route.params, taskId: item.taskId };
-    // console.log(" gotoTask ------------------ ");
-    // console.log(params);
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,

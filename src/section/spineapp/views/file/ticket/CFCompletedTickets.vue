@@ -57,7 +57,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | date-time }} ({{
+            {{ item.allocatedTime | datetime }} ({{
               item.allocatedTime | fromNow
             }})
           </span>

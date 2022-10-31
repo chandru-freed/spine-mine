@@ -109,17 +109,19 @@ export default class CFQuickNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-
+  clientFileId = this.$route.params.clientFileId
 
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
   addNote() {
-    this.addNoteInput.clientFileId = this.clientFileBasicInfo.clientFileId;
+    this.addNoteInput.clientFileId = this.clientFileId;
     Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
       this.addNoteInput = new Data.FiNote.AddNoteInput();
       //this.getFiNoteList();
     });
+  }
+
+  get fiHighlightedNoteListQuick() {
+    return this.fiHighlightedNoteList.splice(5)
   }
   mounted() {
     this.getFiNoteList();
@@ -128,7 +130,7 @@ export default class CFQuickNav extends Vue {
   getFiNoteList() {
     setTimeout(() => {
       Action.FiNote.GetFiNoteList.execute1(
-        this.clientFileBasicInfo.clientFileId,
+        this.clientFileId,
         (output) => {
           console.log(output);
         }

@@ -3,13 +3,12 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
-import CreateClientIntf from "./CreateClientIntf";
 
-export default class CreateClientFFormMDP extends FFormMDP {
+export default class RegisterClientFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  root: CreateClientIntf;
+  root: any;
   // parent: any;
-  constructor({ root }: { root: CreateClientIntf }) {
+  constructor({ root }: { root: any }) {
     super({
       myRefName: "createClientFFormRef",
     });
@@ -82,13 +81,13 @@ export default class CreateClientFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.createClient());
+      this.getMyRef().submitForm(this.registerClient());
     };
   }
 
-  createClient() {
+  registerClient() {
     return () => {
-      this.root.createClient();
+      this.root.registerClient();
     };
   }
 }

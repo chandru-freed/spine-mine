@@ -164,13 +164,13 @@ export default class FEMandate extends ModelVue {
 
   deleteEMandateData() {
     const eMandateId = this.selectedEMandateItem.eMandateId;
-    Action.Spine.RemoveEMandate.execute2(this.taskId, eMandateId, (output) => {
-      this.closeDialogs();
-      Snackbar.show({
-        text: "Succesfully Removed",
-        pos: "bottom-center",
-      });
-    });
+    // Action.Spine.RemoveEMandate.execute2(this.taskId, eMandateId, (output) => {
+    //   this.closeDialogs();
+    //   Snackbar.show({
+    //     text: "Succesfully Removed",
+    //     pos: "bottom-center",
+    //   });
+    // });
   }
 
   selectDeleteEMandate(item: any, index: number) {

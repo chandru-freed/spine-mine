@@ -77,7 +77,7 @@
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
+import TaskTab from "@/section/spineapp/components/tab/TaskTab.vue";
 
 import moment from "moment";
 import Helper from "../../util/Helper";

@@ -1,15 +1,15 @@
 <template>
   <component
-    :ref="taskTabMetaData.myRefName"
-    :is="taskTabMetaData.componentName"
-    v-bind="taskTabMetaData.props"
+    :ref="myTicketTabMetaData.myRefName"
+    :is="myTicketTabMetaData.componentName"
+    v-bind="myTicketTabMetaData.props"
   ></component>
 </template>
 
 <script lang="ts">
 import FTab from "@/components/generic/FTab.vue";
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-import TaskFTabMDP from "./MyTicketFTabMDP";
+import MyTicketFTab from "./MyTicketFTabMDP";
 
 @Component({
   components: {
@@ -17,8 +17,8 @@ import TaskFTabMDP from "./MyTicketFTabMDP";
   },
 })
 export default class MyTicketTab extends Vue {
-  get taskTabMetaData(): any {
-    return new TaskFTabMDP({ taskRoot: this }).getMetaData();
+  get myTicketTabMetaData(): any {
+    return new MyTicketFTab({ taskRoot: this }).getMetaData();
   }
 }
 </script>

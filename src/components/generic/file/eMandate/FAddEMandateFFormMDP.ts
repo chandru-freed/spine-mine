@@ -167,12 +167,12 @@ export default class FAddEMandateFFormMDP extends FFormMDP {
             this.taskRoot as any
         ).clientFileBasicInfo.clientFileId;
         input.taskId = this.taskRoot.taskId;
-        Action.Spine.AddEMandate.execute(input, (output) => {
-            this.parent.getMyRef().closeAndClearAllForms();
-            Snackbar.show({
-                text: "Succesfully saved",
-                pos: "bottom-center"
-            });
-        });
+        // Action.Spine.AddEMandate.execute(input, (output) => {
+        //     this.parent.getMyRef().closeAndClearAllForms();
+        //     Snackbar.show({
+        //         text: "Succesfully saved",
+        //         pos: "bottom-center"
+        //     });
+        // });
     }
 }

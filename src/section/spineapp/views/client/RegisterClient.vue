@@ -4,11 +4,11 @@
       <v-card-title>Register Client</v-card-title>
       <v-card-text >
         <component
-          v-if="!!createClientFormMetaData"
-          :ref="createClientFormMetaData.myRefName"
-          :is="createClientFormMetaData.componentName"
+          v-if="!!registerClientFormMetaData"
+          :ref="registerClientFormMetaData.myRefName"
+          :is="registerClientFormMetaData.componentName"
           v-model="registerClientFormData"
-          v-bind="createClientFormMetaData.props"
+          v-bind="registerClientFormMetaData.props"
         ></component>
       </v-card-text>
     </v-card>
@@ -22,9 +22,7 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import CreateClientFFormMDP from "./CreateClientFFormMDP";
-import Flow from "@/section/spineapp/util/Flow"
-import CreateClientIntf from "./CreateClientIntf";
+import RegisterClientFFormMDP from "./RegisterClientFFormMDP";
 import Helper from "../../util/Helper";
 
 @Component({
@@ -32,22 +30,19 @@ import Helper from "../../util/Helper";
     FForm,
   },
 })
-export default class CreateClient extends Vue implements CreateClientIntf{
+export default class RegisterClient extends Vue {
 
   selectedRequestType: any = {};
   
   registerClientFormData: any = new Data.Client.RegisterClientForm()
   
 
-  get createClientFormMetaData(): any {
-    return new CreateClientFFormMDP({root: this}).getMetaData()
+  get registerClientFormMetaData(): any {
+    return new RegisterClientFFormMDP({root: this}).getMetaData()
   }
 
 
-createClient () {
-    // Action.Client.CreateClient.execute(this.createClientFormData, output => {
-    //     Helper.Router.gotoClient({router: this.$router, clientId: this.createClientFormData.clientId})
-    // } )
+registerClient () {
     Action.Client.RegisterClient.execute(this.registerClientFormData, (output: any) => {
       console.log("RegisterClient : ",output)
         const clientId = output.clientId

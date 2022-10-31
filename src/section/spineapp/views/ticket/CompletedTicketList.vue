@@ -77,7 +77,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
-import MyTicketTab from "../../components/task/MyTicketTab.vue";
+import MyTicketTab from "../../components/tab/MyTicketTab.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 @Component({
   components: {

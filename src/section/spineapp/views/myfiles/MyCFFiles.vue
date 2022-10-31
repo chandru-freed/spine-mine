@@ -56,7 +56,7 @@ import Helper from "../../util/Helper";
   components: {
   },
 })
-export default class MyClientFiles extends Vue {
+export default class MyCFFiles extends Vue {
   myClientFileListGridHeaderList = [
     { text: "Client File Number", value: "clientFileNumber", align: "start" },
     { text: "Client Name", value: "fullName" },

@@ -63,3 +63,8 @@ export default class RootLayout extends Vue {
   
 }
 </script>
+<style scoped>
+.v-application {
+    font-family: "Inter", sans-serif !important;
+}
+</style>

@@ -63,7 +63,7 @@ export default class CFActionLayout extends Vue {
       routerName: "Root.CFile.CFAction.CFSendWhatsapp",
     },
     {
-      actionName: "Record",
+      actionName: "Record Payment",
       routerName: "Root.CFile.CFAction.CFRecordPayment",
     },
     {
@@ -71,7 +71,7 @@ export default class CFActionLayout extends Vue {
       routerName: "Root.CFile.CFAction.CFReceivePayment",
     },
     {
-      actionName: "Receive MSF",
+      actionName: "Receive MSF Payment",
       routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
     },
   ];

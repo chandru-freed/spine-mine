@@ -9,9 +9,11 @@
       flat  
       @click="mini = !mini"
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-icon color="secondary">
+        mdi-file-account
+      </v-icon>
 
-      <v-toolbar-title>File Number</v-toolbar-title>
+      <v-btn small text class="font-weight-bold secondary--text text-body-1">{{clientFileBasicInfo.clientFileNumber}} </v-btn>
 
       <v-spacer></v-spacer>
 
@@ -49,9 +51,19 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
-
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as ServerData from "@/../src-gen/server-data";
+import * as Action from "@/../src-gen/action";
 @Component({})
 export default class CFLeftNav extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
+
+
   items= [
         {
           action: 'mdi-file-account',
@@ -103,7 +115,7 @@ export default class CFLeftNav extends Vue {
           title: 'Highlights',
         },
         {
-          action: 'mdi-star',
+          action: 'mdi-gesture-double-tap',
           routerName: "Root.CFile.CFAction.CFActionList",
           items: [{ title: 'List Item' }],
           title: 'Actions',

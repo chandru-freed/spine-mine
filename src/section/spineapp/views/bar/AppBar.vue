@@ -74,7 +74,7 @@
         <FClientFileAutoCompleteField
           dense
           v-model="selectedClientFileNumber"
-          placeholder="Type to Search File"
+          placeholder="Quick File Search"
           queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains="
           itemText="clientFileNumber"
           itemValue="clientFileNumber"

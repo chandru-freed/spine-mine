@@ -44,10 +44,11 @@
           </v-list>
       </v-card>
     </div>
-     <template v-if="fileSummary">
+    <div class="col" v-if="fileSummary">
+     <div class="row" >
       <div class="col">
         <v-sheet color="secondary" outlined rounded>
-          <v-card flat >
+          <v-card flat min-height="75px">
             <v-list-item class="pa-1" dense>
               <v-list-item-content class="pa-0 px-1">
                 <div class="text-caption mb-0 secondary--text">MSF</div>
@@ -55,39 +56,84 @@
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
                   {{ fileSummary.msfAmount | toINR }}
-                  <span class="text-caption pl-1 pt-2">/ MTH</span>
+                  <span class="text-caption pl-1 pt-2">/ mth</span>
                 </v-list-item-title>
-                <v-list-item-subtitle v-if="fileSummary.msfDueDate" >Due on {{fileSummary.msfDueDate | date}}</v-list-item-subtitle>
+                <v-list-item-subtitle  class="caption"  >Due on {{fileSummary.msfDueDate | date}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>
         </v-sheet>
       </div>
       <div class="col">
-        <v-sheet color="secondary" outlined rounded>
-          <v-card flat :min-height="minHeight">
-            <v-list-item two-line class="pa-1">
+        <v-sheet color="secondary" outlined rounded >
+          <v-card flat min-height="75px">
+            <v-list-item class="pa-1" dense>
               <v-list-item-content class="pa-0 px-1">
                 <div class="text-caption mb-0 secondary--text">SPA</div>
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
-                  {{ fileSummary.spaAmount  | toINR }}
-                  <span class="text-caption pl-1 pt-2">/ MTH</span>
+                  {{ fileSummary.spaAmount | toINR }}
+                  <span class="text-caption pl-1 pt-2">/ mth</span>
                 </v-list-item-title>
-                <v-list-item-subtitle
-                v-if="fileSummary.spaDueDate"
-                  >Due on
-                  {{
-                    fileSummary.spaDueDate | date
-                  }}</v-list-item-subtitle
-                >
+                <v-list-item-subtitle class="caption" >Due on {{fileSummary.spaDueDate | date}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>
         </v-sheet>
       </div>
+
+
       <div class="col">
+        <v-sheet color="primary" outlined rounded>
+          <v-card flat min-height="75px">
+            <v-list-item class="pa-1" dense>
+              <v-list-item-content class="pa-0 px-1">
+                <div class="text-caption mb-0 primary--text">Total Savings</div>
+                <v-list-item-title
+                  class="text-h6 mb-1 font-weight-semibold primary--text"
+                >
+                  {{ fileSummary.totalSaving | toINR }}
+                  <span class="text-caption pl-1 pt-2"></span>
+                </v-list-item-title>
+                <v-list-item-subtitle v-if="fileSummary.lastPaidDate">Last paid
+                  {{
+                    fileSummary.lastPaidDate | date
+                  }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </v-sheet>
+      </div>
+
+
+      <div class="col">
+        <v-sheet color="primary" outlined rounded >
+          <v-card flat min-height="75px">
+            <v-list-item class="pa-1" dense>
+              <v-list-item-content class="pa-0 px-1">
+                <div class="text-caption mb-0 primary--text">Total Outstanding</div>
+                <v-list-item-title
+                  class="text-h6 mb-1 font-weight-semibold primary--text"
+                >
+                  {{ fileSummary.totalOutstanding | toINR }}
+                  <span class="text-caption pl-1 pt-2"></span>
+                </v-list-item-title>
+                 <v-list-item-subtitle ><v-btn block x-small outlined
+                    >settled {{ fileSummary.settledCreditorsCount }} / {{ fileSummary.creditorsCount }}
+                    Creditors</v-btn
+                  ></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </v-sheet>
+      </div>
+     </div>
+    </div>
+  </div>
+      
+      <!-- <div class="col">
         <v-sheet color="primary" outlined rounded>
           <v-card flat color="primary" :min-height="minHeight">
             <v-list-item two-line class="pa-1">
@@ -109,36 +155,32 @@
             </v-list-item>
           </v-card>
         </v-sheet>
-      </div>
-      <div class="col">
+      </div> -->
+      <!-- <div class="col">
         <v-sheet color="primary" outlined rounded>
-          <v-card flat color="primary" :min-height="minHeight">
+          <v-card flat >
             <v-list-item two-line class="pa-1">
               <v-list-item-content class="pa-0 px-1">
-                <div class="text-caption mb-0 white--text">
+                <div class="text-caption mb-0 primary--text">
                   Total Outstanding
                 </div>
                 <v-list-item-title
-                  class="text-h6 mb-1 font-weight-semibold secondary--text"
+                  class="text-h6 mb-1 font-weight-semibold primary--text"
                 >
                   {{ fileSummary.totalOutstanding | toINR }}
                   <span class="text-subtitle-1 pl-1 pt-2" v-if="fileSummary.remainingTenure "
                     >/ {{ fileSummary.remainingTenure }} mths</span
                   >
                 </v-list-item-title>
-                <v-list-item-subtitle
-                  ><v-btn block x-small outlined dark
+                <v-list-item-subtitle ><v-btn block x-small outlined
                     >settled {{ fileSummary.settledCreditorsCount }} / {{ fileSummary.creditorsCount }}
                     Creditors</v-btn
-                  ></v-list-item-subtitle
-                >
+                  ></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>
         </v-sheet>
-      </div>
-    </template>
-  </div>
+      </div> -->
 </template>
 
 <script lang="ts">

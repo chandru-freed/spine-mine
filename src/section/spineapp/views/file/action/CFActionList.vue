@@ -45,23 +45,23 @@ export default class CFActionList extends Vue {
   actionGroupList = [
     {
       groupName: "Communication",
-      actionList : [
-        {
-          actionName: "Send Email",
-          icon: "mdi-email-outline",
-          routerName: "Root.CFile.CFAction.CFSendEmail",
-        },
-        {
-          actionName: "Send SMS",
-          icon: "mdi-message-outline",
-          routerName: "Root.CFile.CFAction.CFSendSMS",
-        },
-        {
-          actionName: "Send Whatsapp",
-          icon: "mdi-whatsapp",
-          routerName: "Root.CFile.CFAction.CFSendWhatsapp",
-        },
-      ]
+        actionList : [
+          {
+            actionName: "Send Email",
+            icon: "mdi-email-outline",
+            routerName: "Root.CFile.CFAction.CFSendEmail",
+          },
+          {
+            actionName: "Send SMS",
+            icon: "mdi-message-outline",
+            routerName: "Root.CFile.CFAction.CFSendSMS",
+          },
+          {
+            actionName: "Send Whatsapp",
+            icon: "mdi-whatsapp",
+            routerName: "Root.CFile.CFAction.CFSendWhatsapp",
+          },
+        ]
     },
     {
       groupName: "Assign",

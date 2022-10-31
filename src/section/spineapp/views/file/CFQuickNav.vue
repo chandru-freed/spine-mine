@@ -13,9 +13,28 @@
   <div class="row">
     <div class="col-12 ">
       <v-card outlined height="200px" >
-        <v-card-text class="pt-1">
+        <v-card-text class="pt-1 pb-0">
         <div>Quick Actions</div>
         </v-card-text>
+        <v-list dense class="py-0">
+            <v-list-item
+              v-for="(actionItem, j) in actionList"
+              :key="j"
+              @click="takeAction(actionItem)"
+            >
+              <!-- <v-list-item-icon >
+                <v-icon v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
+              </v-list-item-icon> -->
+
+              <v-list-item-content class="pa-0">
+                <v-list-item-title >{{actionItem.actionName}}</v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-icon small v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
+              </v-list-item-action>
+            </v-list-item>
+            
+        </v-list>
       </v-card>
     </div>
 
@@ -138,6 +157,38 @@ export default class CFQuickNav extends Vue {
     }, 700);
   }
 
+  actionList = [
+        {
+          actionName: "Send Email",
+          icon: "mdi-email-outline",
+          routerName: "Root.CFile.CFAction.CFSendEmail",
+        },
+        {
+          actionName: "Receive MSF",
+          routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
+        },
+        {
+          actionName: "Record Payment",
+          routerName: "Root.CFile.CFAction.CFRecordPayment",
+        },
+        {
+          actionName: "Create Flow",
+          routerName: "Root.CFile.CFAction.CFCreateRequest",
+        },
+      ]
+  takeAction(actionItem: any) {
+    if(actionItem.routerName) {
+      this.goto(actionItem.routerName, actionItem.query)
+    }
+
+     if(actionItem.command) {
+      actionItem.command()
+    }
+  }
+
+  goto(routerName: string, query: any) {
+    this.$router.push({ name: routerName , query: query});
+  }
 
 }
 

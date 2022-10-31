@@ -1,13 +1,26 @@
 <template>
   <v-autocomplete
+    outlined
     :value="modelValue"
     @input="(newValue) => (modelValue = newValue)"
     :items="fetchedItems"
     :loading="isLoading"
     :search-input.sync="searchValue"
+    clearable
     v-bind="this.$props"
-    solo-inverted
-  ></v-autocomplete>
+  >
+    
+    <template v-slot:item="data">
+        <v-list-item-avatar small>
+          <v-icon color="secondary">mdi-file-account</v-icon>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title class=" font-weight-bold secondary--text text-overline">{{data.item.clientFileNumber}}</v-list-item-title>
+          <!-- <v-list-item-subtitle v-html="data.item.clientBasicInfo.fullName"></v-list-item-subtitle> -->
+        </v-list-item-content>
+    </template>
+  </v-autocomplete>
+
 </template>
 <script lang="ts">
 import axios from "axios";
@@ -68,7 +81,7 @@ export default class FClientFileAutoCompleteField extends VAutocomplete {
 
   set modelValue(newModelValue: any) {
     this.$emit("input", newModelValue);
-    if(this.onSelect) {
+    if(this.onSelect && !!newModelValue) {
       this.onSelect(newModelValue)
     }
   }

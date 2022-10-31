@@ -106,6 +106,7 @@ export default class CollectClientInfoTask
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskFormOutput,
+      taskState: this.taskDetails.taskState
     };
   }
 

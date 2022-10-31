@@ -77,6 +77,7 @@ import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
 import FNumberTextField from "./field/FNumberTextField.vue";
 import FRemoteAutoCompleteField from "./field/FRemoteAutoCompleteField.vue";
 import FDateTimeSelectField from "./field/FDateTimeSelectField.vue";
+import FNupayBankSelectField from "./field/FNupayBankSelectField.vue";
 
 @Component({
   components: {
@@ -103,6 +104,7 @@ import FDateTimeSelectField from "./field/FDateTimeSelectField.vue";
     FNumberTextField,
     FRemoteAutoCompleteField,
     FDateTimeSelectField,
+    FNupayBankSelectField
   },
 })
 export default class FForm extends ModelVue {

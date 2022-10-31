@@ -11,6 +11,7 @@ import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FIFSCCodeFieldMDP from "@/components/generic/form/field/FIFSCCodeFieldMDP";
+import FNupayBankSelectFieldMDP from "@/components/generic/form/field/FNupayBankSelectFieldMDP";
 
 export default class EMandateFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -24,8 +25,6 @@ export default class EMandateFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-
-
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
@@ -34,82 +33,87 @@ export default class EMandateFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-4",
       })
-    ).addField(
-      new FAccountFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "eMandateBankInfo.accountNumber",
-        label: "Account Number",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "eMandateBankInfo.accountType",
-        label: "Account Type",
-        boundaryClass: "col-4",
-        mandatory: true,
-        options: [
-          { id: "SAVINGS", name: "Savings" },
-          { id: "CURRENT", name: "Current" },
-        ],
-        optionLabel: "name",
-        optionValue: "id",
-      })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "collectionAmount",
-        label: "Collection Amount",
-        boundaryClass: "col-4",
-        mandatory: true,
-      })
-    ).addField(
-      new FSelectDateFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "firstCollectionDate",
-        label: "First Collection Date",
-        boundaryClass: "col-4",
-        pastDaysDisabled: true,
-        futureDaysDisabled: false,
-      })
-    ).addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "eMandateBankInfo.nupayBankMasterId",
-        label: "Bank Name",
-        boundaryClass: "col-4",
-        mandatory: true,
-        options: this.taskRoot.nupayBankMasterList,
-        optionLabel: "nupayBnkName",
-        optionValue: "nupayBankMasterId",
-      })
-    ).addField(
-      new FIFSCCodeFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "eMandateBankInfo.ifscCode",
-        label: "IFSC Code",
-        mandatory: true,
-        boundaryClass: "col-4",
-        onSelect: (details) => {
-          this.populateBankDetails(details);
-        },
-        disabled: this.disabled
-      })
-    ).addField(
-      new AddressFMiniFormMDP({
-        taskRoot: this.taskRoot,
-        parent: this,
-        dataSelectorKey: "eMandateBankInfo.bankAddress",
-        disabled: taskRoot.taskDisabled,
-        label: "Bank Address",
-      })
-    ).addAction(
-      new FBtnMDP({
-        label: "CREATE REQUEST",
-        onClick: this.validateAndSubmit(),
-      })
-    );
+    )
+      .addField(
+        new FAccountFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "eMandateBankInfo.accountNumber",
+          label: "Account Number",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      .addField(
+        new FSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "eMandateBankInfo.accountType",
+          label: "Account Type",
+          boundaryClass: "col-4",
+          mandatory: true,
+          options: [
+            { id: "SAVINGS", name: "Savings" },
+            { id: "CURRENT", name: "Current" },
+          ],
+          optionLabel: "name",
+          optionValue: "id",
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "collectionAmount",
+          label: "Collection Amount",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FSelectDateFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "firstCollectionDate",
+          label: "First Collection Date",
+          boundaryClass: "col-4",
+          pastDaysDisabled: true,
+          futureDaysDisabled: false,
+        })
+      )
+      .addField(
+        new FNupayBankSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "eMandateBankInfo.nupayBankMasterId",
+          label: "Bank Name",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FIFSCCodeFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "eMandateBankInfo.ifscCode",
+          label: "IFSC Code",
+          mandatory: true,
+          boundaryClass: "col-4",
+          onSelect: (details) => {
+            this.populateBankDetails(details);
+          },
+          disabled: this.disabled,
+        })
+      )
+      .addField(
+        new AddressFMiniFormMDP({
+          taskRoot: this.taskRoot,
+          parent: this,
+          dataSelectorKey: "eMandateBankInfo.bankAddress",
+          disabled: taskRoot.taskDisabled,
+          label: "Bank Address",
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "CREATE REQUEST",
+          onClick: this.validateAndSubmit(),
+        })
+      );
   }
 
   getMyRef(): any {
@@ -128,9 +132,7 @@ export default class EMandateFFormMDP extends FFormMDP {
     };
   }
 
-
   populateBankDetails(details: any) {
     this.taskRoot.populateBankDetails(details);
   }
-
 }

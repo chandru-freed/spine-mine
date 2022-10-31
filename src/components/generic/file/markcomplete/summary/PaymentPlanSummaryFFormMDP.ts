@@ -12,7 +12,7 @@ export default class PaymentPlanSummaryFFormMDP extends FFormMDP {
 
     this.addField(
       new FTextFieldMDP({
-        dataSelectorKey: "paymentPlan.ppCalculator.tenor",
+        dataSelectorKey: "taskOutput.paymentPlan.ppCalculator.tenor",
         label: "Tenure",
         parentMDP: this.childMDP,
         readonly: true,
@@ -21,7 +21,7 @@ export default class PaymentPlanSummaryFFormMDP extends FFormMDP {
     )
       .addField(
         new FSelectDateFieldMDP({
-          dataSelectorKey: "paymentPlan.ppCalculator.firstDraftDate",
+          dataSelectorKey: "taskOutput.paymentPlan.ppCalculator.firstDraftDate",
           label: "First Draft Date",
           parentMDP: this.childMDP,
           readonly: true,
@@ -31,7 +31,7 @@ export default class PaymentPlanSummaryFFormMDP extends FFormMDP {
       )
       .addField(
         new FSelectDateFieldMDP({
-          dataSelectorKey: "paymentPlan.ppCalculator.feeFirstDraftDate",
+          dataSelectorKey: "taskOutput.paymentPlan.ppCalculator.feeFirstDraftDate",
           label: "Fee First Draft Date",
           parentMDP: this.childMDP,
           readonly: true,

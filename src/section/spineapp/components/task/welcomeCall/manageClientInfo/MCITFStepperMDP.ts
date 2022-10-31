@@ -6,6 +6,7 @@ import MCITBudgetStepFBudgetMDP from "./step3/MCITBudgetStepFBudgetMDP";
 import MCITPaymentPlanStepFPaymentPlanMDP from "./step4/MCITPaymentPlanStepFPaymentPlanMDP";
 import MCITBankStepFBankFFormMDP from "./step5/MCITBankStepFBankFFormMDP";
 import MCITUploadStepFDocumentMDP from "./step6/MCITUploadStepFDocumentMDP";
+import MCITFMarkCompleteMDP from "./step7/MCITFMarkCompleteMDP";
 import MCITMarkCompleteStepFFormMDP from "./step7/MCITMarkCompleteStepFFormMDP";
 
 export default class MCITFStepperMDP extends FTaskStepperMDP {
@@ -73,7 +74,7 @@ export default class MCITFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Verify",
-        stepContent: new MCITMarkCompleteStepFFormMDP({
+        stepContent: new MCITFMarkCompleteMDP({
           taskRoot: taskRoot,
           parent: this,
         }),

@@ -58,6 +58,7 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
           label: "Mark Complete",
           onClick: this.validateAndMarkComplete(),
           btnType: BtnType.FILLED,
+          condition: this.isStarted(),
         })
       );
   }
@@ -76,5 +77,12 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
     return () => {
       this.taskRoot.saveAndMarkCompleteTask();
     };
+  }
+
+  isStarted() {
+    return (
+      this.taskRoot.taskDetails.taskState === "STARTED" ||
+      this.taskRoot.taskDetails.taskState === "PARTIALLY_COMPLETED"
+    );
   }
 }

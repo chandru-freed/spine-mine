@@ -41,7 +41,7 @@
           ></v-textarea>
           <div>
           <v-list >
-              <template v-for="(note, index) in fiHighlightedNoteList" >
+              <template v-for="(note, index) in fiHighlightedNoteListQuick" >
                 <v-list-item :key="'note' + index" dense>
                   <template v-slot:default="{ active }">
                     <v-list-item-content disabled>
@@ -72,7 +72,7 @@
                 </v-list-item>
 
                 <v-divider
-                  v-if="index < fiHighlightedNoteList.length - 1"
+                  v-if="index < fiHighlightedNoteListQuick.length - 1"
                   :key="index"
                 ></v-divider>
               </template>
@@ -121,7 +121,7 @@ export default class CFQuickNav extends Vue {
   }
 
   get fiHighlightedNoteListQuick() {
-    return this.fiHighlightedNoteList.splice(5)
+    return this.fiHighlightedNoteList.slice(0, 5)
   }
   mounted() {
     this.getFiNoteList();

@@ -62,7 +62,16 @@
                     <!-- <v-list-item-action-text ></v-list-item-action-text> -->
 
                     <v-icon
-                      :color="isHighlighted(note.noteId) ? 'secondary' : 'grey' "
+                      v-if="isHighlighted(note.noteId)"
+                      color="secondary"
+                      @click="unTagHighlightNote(note.noteId)"
+                    >
+                      mdi-star-outline
+                    </v-icon>
+
+                    <v-icon
+                      v-if="!isHighlighted(note.noteId)"
+                      color="grey"
                       @click="highlightNote(note.noteId)"
                     >
                       mdi-star-outline
@@ -126,6 +135,10 @@ export default class CFNotes extends ModelVue {
     this.tagNoteInput.tagValue = "true";
     this.tagNoteInput.noteId = noteId;
     this.tagNote();
+  }
+
+  unTagHighlightNote(noteId: string) {
+    this.unTagNote(noteId, new Data.FiNote.NoteTag('highlight', 'true'))
   }
 
   isHighlighted(noteId: string) {

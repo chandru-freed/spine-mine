@@ -1,20 +1,13 @@
 <template>
-  <!-- <div>
-    <div class="ma-2" :key="action.actionName" v-for="action in actionList">
-      <v-btn outlined @click="goto(action.routerName)">{{
-        action.actionName
-      }}</v-btn>
-    </div>
-  </div> -->
     <div class="row ma-4">
       <div class="col-md-4" v-for="(actionGroup,i) in actionGroupList" :key="i">
-        <v-card outlined>
-          <v-card-subtitle class="px-2 pt-1 pb-0">{{actionGroup.groupName}}</v-card-subtitle>
-          <v-list dense class="py-1">
+        <v-card outlined color="grey lighten-3">
+          <v-card-subtitle class="px-2 py-1 overline ">{{actionGroup.groupName}}</v-card-subtitle>
+          <v-list dense class="py-0">
               <v-list-item
                 v-for="(actionItem, j) in actionGroup.actionList"
                 :key="j"
-                @click="goto(actionItem.routerName)"
+                @click="takeAction(actionItem)"
               >
                 <!-- <v-list-item-icon >
                   <v-icon v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
@@ -24,9 +17,10 @@
                   <v-list-item-title >{{actionItem.actionName}}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-icon v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
+                  <v-icon small v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
                 </v-list-item-action>
               </v-list-item>
+              
           </v-list>
         </v-card>
       </div>
@@ -35,25 +29,31 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
+import store, * as Store from '@/../src-gen/store';
+ import * as Data from '@/../src-gen/data';
 // import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+ import * as Action from '@/../src-gen/action';
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component
 export default class CFActionList extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  clientFileId = this.$route.params.clientFileId
+
   actionGroupList = [
     {
       groupName: "Communication",
       actionList : [
         {
           actionName: "Send Email",
-          icon: "mdi-email",
+          icon: "mdi-email-outline",
           routerName: "Root.CFile.CFAction.CFSendEmail",
         },
         {
           actionName: "Send SMS",
-          icon: "mdi-message",
+          icon: "mdi-message-outline",
           routerName: "Root.CFile.CFAction.CFSendSMS",
         },
         {
@@ -64,19 +64,10 @@ export default class CFActionList extends Vue {
       ]
     },
     {
-      groupName: "Flow",
-      actionList : [
-        {
-          actionName: "Create Flow",
-          routerName: "Root.CFile.CFAction.CFCreateRequest",
-        }
-      ]
-    },
-    {
       groupName: "Assign",
       actionList : [
         {
-          actionName: "Assign RM",
+          actionName: "Assign RM (Relationship Manager)",
           routerName: "Root.CFile.CFAction.CFAssignRM",
         },
         {
@@ -89,11 +80,11 @@ export default class CFActionList extends Vue {
       groupName: "Payment",
       actionList : [
         {
-          actionName: "Record",
+          actionName: "Record Payment",
           routerName: "Root.CFile.CFAction.CFRecordPayment",
         },
         {
-          actionName: "Receive",
+          actionName: "Receive Payment",
           routerName: "Root.CFile.CFAction.CFReceivePayment",
         },
         {
@@ -102,10 +93,137 @@ export default class CFActionList extends Vue {
         }
       ]
     },
+    {
+      groupName: "Flow",
+      actionList : [
+        {
+          actionName: "Create Flow",
+          routerName: "Root.CFile.CFAction.CFCreateRequest",
+        },
+        {
+          actionName: "Enrollment",
+          command: this.createEnrollmentFlow,
+        },
+        {
+          actionName: "Welcome Call",
+          command: this.createWelcomeCall,
+        },
+        {
+          actionName: "CHPP",
+          command: this.createCHPPFlow,
+        },
+        {
+          actionName: "Nsf MSF",
+          command: this.createNsfMSFFlow,
+        },
+        {
+          actionName: "Monthly Followup Call",
+          command: this.createMFC,
+        },
+        {
+          actionName: "Nsf SPA",
+          command: this.createNsfSPA,
+        },
+        {
+          actionName: "EMandate",
+          routerName: "Root.CFile.CFAction.CFCreateRequest",
+          query: {flowName: "EMandate"}
+        }
+      ]
+    },
   ];
 
-  goto(routerName: string) {
-    this.$router.push({ name: routerName });
+  get getActionList() {
+    let flattenedList: any[] = this.actionGroupList.map(actionGroup => {
+      return actionGroup.actionList.map(action => {
+        return {...action, groupName: actionGroup.groupName}
+      })
+    })
+    return [].concat(...flattenedList)
+  }
+
+  takeAction(actionItem: any) {
+    if(actionItem.routerName) {
+      this.goto(actionItem.routerName, actionItem.query)
+    }
+
+     if(actionItem.command) {
+      actionItem.command()
+    }
+  }
+
+  goto(routerName: string, query: any) {
+    this.$router.push({ name: routerName , query: query});
+  }
+
+
+  createEnrollmentFlow() {
+    Action.Spine.CreateEnrollment.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+  createCHPPFlow() {
+    Action.Spine.CreateCHPP.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+  createNsfMSFFlow() {
+    Action.Spine.CreateNsfMSF.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+  createWelcomeCall() {
+    Action.Spine.CreateWelcomeCall.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+  createMFC() {
+    Action.Spine.CreateMFC.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+  createNsfSPA() {
+    Action.Spine.CreateNsfSPA.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+        }, 400);
+      }
+    );
+  }
+
+  gotoCFActiveTaskList() {
+    Helper.Router.gotoCFActiveTaskList({router: this.$router,clientFileId: this.clientFileId})
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="CFCreateRequest">
     <div class="d-flex justify-space-between align-center mx-5">
-      <h4>Create File Request</h4>
+      <h4>Create Flow</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
@@ -84,6 +84,8 @@ export default class CFCreateRequest extends Vue {
 
   selectedRequestType: any = {};
 
+  queryFlowName = this.$route.query.flowName
+
   get fileCreateRequestInput() {
     this.createEMandateInput.eMandateBankInfo.accountHolderName =
       this.clientFileBasicInfo.clientBasicInfo.fullName;
@@ -160,7 +162,10 @@ export default class CFCreateRequest extends Vue {
   }
 
   mounted() {
-    this.getNupayBankMasterList();
+    // this.getNupayBankMasterList();
+    if(this.queryFlowName) {
+      this.selectedRequestType = this.requestTypeFlowMapList.find(x=> x.key === this.queryFlowName)?.contentMetaData
+    }
   }
 
   createEnrollmentFlow() {
@@ -249,11 +254,11 @@ export default class CFCreateRequest extends Vue {
     this.fileCreateRequestInput.eMandateBankInfo.bankAddress.country = "India";
   }
 
-  getNupayBankMasterList() {
-    Action.ClientFile.GetNupayBankMasterList.execute((output) => {
-      this.nupayBankMasterList = output.nupayBankMasterList;
-    });
-  }
+  // getNupayBankMasterList() {
+  //   Action.ClientFile.GetNupayBankMasterList.execute((output) => {
+  //     this.nupayBankMasterList = output.nupayBankMasterList;
+  //   });
+  // }
 
   gotoFile(clientFileNumber: string) {
     Helper.Router.gotoFile({

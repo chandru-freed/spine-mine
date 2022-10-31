@@ -15,6 +15,13 @@ export default class MyRouter {
     });
   }
 
+  static gotoCFActiveTaskList({router, clientFileId}: {router: VueRouter, clientFileId: string}) {
+    router.push({
+      name: "Root.CFile.CFTask.CFActiveTasks",
+      params: { clientFileId: clientFileId},
+    });
+  }
+
   static gotoCFTask({router, clientFileId, taskId}: {router: VueRouter, clientFileId: string, taskId: string}) {
     router.push({
       name: "Root.CFile.CFInfo.CFPersonalInfo",

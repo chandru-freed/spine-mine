@@ -106,7 +106,7 @@ export default class CollectClientInfoTask
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskFormOutput,
-      taskState: this.taskDetails.taskState
+      taskState: this.taskDetails.taskState,
     };
   }
 
@@ -176,69 +176,105 @@ export default class CollectClientInfoTask
     this.getFiDocumentList();
 
     Action.Spine.UpdateClPersonalInfo.interested((output) => {
-      this.findClPersonalInfo();
+      setTimeout(() => {
+        this.findClPersonalInfo();
+      }, 1000);
     });
 
     Action.Spine.AddCreditor.interested((output) => {
-      this.getFiCreditorInfo();
+      setTimeout(() => {
+        this.getFiCreditorInfo();
+      }, 1000);
     });
     Action.Spine.UpdateCreditor.interested((output) => {
-      this.getFiCreditorInfo();
+      setTimeout(() => {
+        this.getFiCreditorInfo();
+      }, 1000);
     });
     Action.Spine.RemoveCreditor.interested((output) => {
-      this.getFiCreditorInfo();
+      setTimeout(() => {
+        this.getFiCreditorInfo();
+      }, 1000);
     });
 
     Action.Spine.UpdateBudgetInfo.interested((output) => {
-      this.getBudgetInfo();
+      setTimeout(() => {
+        this.getBudgetInfo();
+      }, 1000);
     });
     Action.Spine.SchedulePaymentPlan.interested((output) => {
-      this.getFiPaymentPlanInfo();
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
     });
     Action.Spine.UpdateBankInfo.interested((output) => {
-      this.getFiBankInfo();
+      setTimeout(() => {
+        this.getFiBankInfo();
+      }, 1000);
     });
     Action.Spine.AttachDocument.interested((output) => {
-      this.getFiDocumentList();
+      setTimeout(() => {
+        this.getFiDocumentList();
+      }, 1000);
     });
     Action.Spine.DetachDocument.interested((output) => {
-      this.getFiDocumentList();
+      setTimeout(() => {
+        this.getFiDocumentList();
+      }, 1000);
     });
   }
 
   public destroyed() {
     Action.Spine.UpdateClPersonalInfo.notInterested((output) => {
-      this.findClPersonalInfo();
+      setTimeout(() => {
+        this.findClPersonalInfo();
+      }, 1000);
     });
 
     Action.Spine.AddCreditor.notInterested((output) => {
-      this.getFiCreditorInfo();
+      setTimeout(() => {
+        this.getFiCreditorInfo();
+      }, 1000);
     });
 
     Action.Spine.UpdateCreditor.notInterested((output) => {
-      this.getFiCreditorInfo();
+      setTimeout(() => {
+        this.getFiCreditorInfo();
+      }, 1000);
     });
     Action.Spine.RemoveCreditor.notInterested((output) => {
-      this.getFiCreditorInfo();
+      setTimeout(() => {
+        this.getFiCreditorInfo();
+      }, 1000);
     });
 
     Action.Spine.UpdateBudgetInfo.notInterested((output) => {
-      this.getBudgetInfo();
+      setTimeout(() => {
+        this.getBudgetInfo();
+      }, 1000);
     });
 
     Action.Spine.SchedulePaymentPlan.notInterested((output) => {
-      this.getFiPaymentPlanInfo();
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
     });
 
     Action.Spine.UpdateBankInfo.notInterested((output) => {
-      this.getFiBankInfo();
+      setTimeout(() => {
+        this.getFiBankInfo();
+      }, 1000);
     });
 
     Action.Spine.AttachDocument.notInterested((output) => {
-      this.getFiDocumentList();
+      setTimeout(() => {
+        this.getFiDocumentList();
+      }, 1000);
     });
     Action.Spine.DetachDocument.notInterested((output) => {
-      this.getFiDocumentList();
+      setTimeout(() => {
+        this.getFiDocumentList();
+      }, 1000);
     });
   }
 

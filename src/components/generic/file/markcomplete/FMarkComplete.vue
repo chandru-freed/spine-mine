@@ -1,37 +1,27 @@
 <template>
   <div class="col-12">
     <component
-        :is="clientInfoSummaryMetaData.componentName"
-        :ref="clientInfoSummaryMetaData.myRefName"
-        v-bind="clientInfoSummaryMetaData.props"
-      ></component>
-    <!-- <ProfileSummary />
-    <CreditorSummary />
-    <BudgetSummary />
-    <PaymentPlanSummary />
-    <BankInfoSummary /> -->
-    <!--ACTION START-->
+      :is="clientInfoSummaryMetaData.componentName"
+      :ref="clientInfoSummaryMetaData.myRefName"
+      :value="selectModel(modelValue)"
+      v-bind="clientInfoSummaryMetaData.props"
+    ></component>
 
     <div v-for="formMetaData in formMetaDataList" :key="formMetaData.myRefName">
-        <component
-          :ref="formMetaData.myRefName"
-          :is="formMetaData.componentName"
-          :value="selectModel(modelValue, formMetaData.dataSelectorKey)"
-          @input="(newValue) => updateModel(modelValue, newValue, formMetaData.dataSelectorKey)"
-          v-bind="formMetaData.props"
-        ></component>
-      </div>
+      <component
+        :ref="formMetaData.myRefName"
+        :is="formMetaData.componentName"
+        :value="selectModel(modelValue, formMetaData.dataSelectorKey)"
+        @input="
+          (newValue) =>
+            updateModel(modelValue, newValue, formMetaData.dataSelectorKey)
+        "
+        v-bind="formMetaData.props"
+      ></component>
+    </div>
 
     <div
-      class="
-        d-flex
-        flex-row
-        align-start
-        flex-wrap
-        justify-space-around
-        pa-2
-        my-5
-      "
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
       v-if="!disabled"
     >
       <component
@@ -55,7 +45,7 @@ import StepSummary from "./summary/StepSummary.vue";
   components: {
     FBtn,
     StepSummary,
-    FForm
+    FForm,
   },
 })
 export default class FMarkComplete extends ModelVue {
@@ -64,7 +54,7 @@ export default class FMarkComplete extends ModelVue {
   })
   actionMetaDataList: any[];
 
-  @Prop() 
+  @Prop()
   clientInfoSummaryMetaData: any;
 
   @Prop()

@@ -1,5 +1,6 @@
 <template>
   <div class="col-12">
+    <!-- {{taskDetails}} -->
     <v-card
       class="my-3"
       outlined
@@ -22,7 +23,7 @@
       </div>
       <component
         :is="summaryMetaData.content.componentName"
-        :value="summaryData"
+        :value="selectModel(summaryData)"
         :ref="summaryMetaData.content.myRefName"
         v-bind="summaryMetaData.content.props"
       ></component>
@@ -39,76 +40,42 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
 import Task from "@/section/spineapp/util/Task";
+import ModelVue from "@/components/generic/ModelVue";
 @Component({
   components: {
     FForm,
     "f-btn": FBtn,
   },
 })
-export default class StepSummary extends Vue {
+export default class StepSummary extends ModelVue {
   @Prop()
   summaryMetaDataList: any[];
-  @Store.Getter.TaskList.Summary.executiveTaskDetails
-  taskDetails: Data.TaskList.ExecutiveTaskDetails;
-  taskFormOutputLocal: Data.Spine.CollectClientInfoTask =
-    new Data.Spine.CollectClientInfoTask();
-  get taskFormOutput() {
-    this.taskFormOutputLocal = {
-      ...this.taskDetailsOutput,
-      personalInfo:
-        this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
-      creditorInfo:
-        this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
-      budgetInfo:
-        this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
-      bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
-      paymentPlan:
-        this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
-      fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
-      needVerification: this.taskDetailsOutput.needVerification,
-    };
-    return this.taskFormOutputLocal;
-  }
 
-  set taskFormOutput(newVal) {
-    this.taskFormOutputLocal = newVal;
-  }
-
-  get currentStep() {
-    return this.$route.query.step;
-  }
-  get taskDetailsOutput() {
-    return JSON.parse(this.taskDetails.taskOutput);
-  }
-
-  get taskInput() {
-    return JSON.parse(this.taskDetails.taskInput);
-  }
   get creditorInfo() {
     return {
-      creditosCount: this.taskFormOutput.creditorInfo?.creditorList.length,
-      totalDebt: this.taskFormOutput.creditorInfo?.totalDebt || "NA",
+      creditosCount:
+        this.modelValue.taskOutput.creditorInfo?.creditorList.length,
+      totalDebt: this.modelValue.taskOutput.creditorInfo?.totalDebt || "NA",
     };
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.modelValue.taskState);
   }
 
   get bankInfo() {
-    return this.taskFormOutput.bankInfo;
+    return this.modelValue.taskOutput.bankInfo;
   }
 
   get budgetInfo() {
-    const budgetInfo = this.taskFormOutput.budgetInfo;
-    console.log;
+    const budgetInfo = this.modelValue.taskOutput.budgetInfo;
     budgetInfo.stdiPercentage = Math.round(budgetInfo.stdiPercentage);
     return budgetInfo;
   }
 
   get bankSummary() {
     return {
-      accountNumber: this.bankInfo.accountNumber,
+      accountNumber: this.bankInfo?.accountNumber,
       bankName: this.bankName,
     };
   }
@@ -117,8 +84,8 @@ export default class StepSummary extends Vue {
 
   get documentSummary() {
     return {
-      documentsCount: this.taskFormOutput.fileDocumentList.length,
-      documentTypeList: this.taskFormOutput.fileDocumentList
+      documentsCount: this.modelValue.taskOutput.fileDocumentList.length,
+      documentTypeList: this.modelValue.taskOutput.fileDocumentList
         .map((item: any) => {
           return item.documentType;
         })
@@ -126,30 +93,12 @@ export default class StepSummary extends Vue {
     };
   }
 
-  mounted() {
-    this.getNupayBankMasterList();
-  }
-
-  getNupayBankMasterList() {
-    Action.ClientFile.GetNupayBankMasterList.execute((output) => {
-      output.nupayBankMasterList[0].nupayBnkName;
-      const bankSelected = output.nupayBankMasterList.filter(
-        (item) => item.nupayBankId === this.bankInfo.nupayBankMasterId
-      );
-
-      this.bankName =
-        bankSelected.length > 0 ? bankSelected[0].nupayBnkName : "NA";
-    });
-  }
-
   get summaryData() {
     return {
-      taskInput: this.taskInput,
-      taskOutput: this.taskFormOutput,
+      taskInput: this.modelValue.taskInput,
+      taskOutput: this.modelValue.taskOutput,
       creditorInfo: this.creditorInfo,
       budgetInfo: this.budgetInfo,
-      paymentPlan: this.taskFormOutput.paymentPlan,
-      bankSummary: this.bankSummary,
       documentSummary: this.documentSummary,
     };
   }

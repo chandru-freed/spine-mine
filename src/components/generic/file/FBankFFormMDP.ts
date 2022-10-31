@@ -7,6 +7,7 @@ import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFor
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FIFSCCodeFieldMDP from "../form/field/FIFSCCodeFieldMDP";
 import FAccountFieldMDP from "../form/field/FAccountFieldMDP";
+import FNupayBankSelectFieldMDP from "../form/field/FNupayBankSelectFieldMDP";
 
 export default class FBankFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -18,7 +19,7 @@ export default class FBankFFormMDP extends FFormMDP {
     myRefName,
     dataSelectorKey,
     disabled,
-    readonly=false
+    readonly = false,
   }: {
     taskRoot: any;
     parent: any;
@@ -31,7 +32,7 @@ export default class FBankFFormMDP extends FFormMDP {
       myRefName: myRefName,
       dataSelectorKey: dataSelectorKey,
       disabled: disabled,
-      readonly: readonly
+      readonly: readonly,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -52,19 +53,16 @@ export default class FBankFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-4",
           rules: "confirmed:accountNumber",
-          condition: !disabled
+          condition: !disabled,
         })
       )
       .addField(
-        new FSelectFieldMDP({
+        new FNupayBankSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "nupayBankMasterId",
           label: "Bank Name",
           boundaryClass: "col-4",
           mandatory: true,
-          options: this.taskRoot.nupayBankMasterList,
-          optionLabel: "nupayBnkName",
-          optionValue: "nupayBankMasterId",
         })
       )
       .addField(
@@ -77,7 +75,7 @@ export default class FBankFFormMDP extends FFormMDP {
           onSelect: (details) => {
             this.populateBankDetails(details);
           },
-          disabled: this.disabled
+          disabled: this.disabled,
         })
       )
       .addField(

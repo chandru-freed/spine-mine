@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="waitForClientSignTask">
+    <!-- Root Data : {{ taskFormData }} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -83,6 +84,8 @@ export default class WaitForClientSignTask
   taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
+    // this.taskFormOutputLocal.templateCode = this.taskDetailsInput.templateCode;
+    // this.taskFormOutputLocal.docId = this.taskDetailsInput.docId;
     return this.taskFormOutputLocal;
   }
 

@@ -8,7 +8,8 @@ export default class Task  {
       return (
         (taskState === "STARTED" ||
         taskState === "PARTIALLY_COMPLETED"||
-        taskState === "EXCEPTION_Q") 
+        taskState === "EXCEPTION_Q" ||
+        taskState === "EXIT_Q") 
         //TODO : also check for allowed taskType (Manual / Self) - deferred is not allowed
       );
     }

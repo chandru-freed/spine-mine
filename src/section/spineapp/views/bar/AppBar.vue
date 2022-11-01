@@ -93,11 +93,11 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
-import AppBarUserMenu from "@/components/AppBarUserMenu";
-import AppBarNotificationMenu from "@/components/AppBarNotificationMenu";
-import FClientFileAutoCompleteField from "@/components/generic/form/field/FClientFileAutoCompleteField";
 import Helper from "../../util/Helper";
 import store, * as Store from "@/../src-gen/store";
+import AppBarUserMenu from "@/components/AppBarUserMenu.vue";
+import AppBarNotificationMenu from "@/components/AppBarNotificationMenu.vue";
+import FClientFileAutoCompleteField from "@/components/generic/form/field/FClientFileAutoCompleteField.vue";
 
 @Component({
   components: {

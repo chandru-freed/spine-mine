@@ -33,7 +33,6 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 })
 export default class GenerateSSADocTask
   extends ModelVue
-  implements SelfTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -94,16 +93,13 @@ export default class GenerateSSADocTask
 
   //DATA
 
-  get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
-  }
-
   rescueTask() {
     Task.Action.rescueTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
+
   forceCompleteTask() {
     Task.Action.forceCompleteTask({
       taskId: this.taskId,
@@ -117,6 +113,7 @@ export default class GenerateSSADocTask
       clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
+
 }
 </script>
 

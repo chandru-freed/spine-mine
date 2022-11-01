@@ -3,9 +3,10 @@
     v-model="drawer"
     :mini-variant="mini"
     absolute
+    expand-on-hover
   >
     
-    <v-toolbar
+    <!-- <v-toolbar
       flat  
       @click="mini = !mini"
     >
@@ -17,7 +18,7 @@
 
       <v-spacer></v-spacer>
 
-    </v-toolbar>
+    </v-toolbar> -->
 
     <v-list>
      <template  v-for="item in items">

@@ -2,7 +2,6 @@
   <div>
     <!-- <h4>GenerateSSADocTask</h4>
     Root Data : {{ taskFormData }} -->
-
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -16,6 +15,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -31,9 +31,7 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
     FBtn,
   },
 })
-export default class GenerateSSADocTask
-  extends ModelVue
-{
+export default class GenerateSSADocTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
   taskId = this.$route.params.taskId;
@@ -91,6 +89,31 @@ export default class GenerateSSADocTask
   }
   //Task Output
 
+  mounted() {
+    Action.TaskList.Rescue.interested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
+  }
+
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
+  }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
+  }
+
   //DATA
 
   rescueTask() {
@@ -114,6 +137,9 @@ export default class GenerateSSADocTask
     });
   }
 
+  get taskDisabled(): boolean {
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
+  }
 }
 </script>
 

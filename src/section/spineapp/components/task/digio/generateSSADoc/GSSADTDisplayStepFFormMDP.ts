@@ -11,7 +11,7 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "generateSSADocFormRef",
-      disabled: !Task.isTaskActionable(taskRoot.taskDetails.taskState),
+      disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -23,39 +23,33 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
         label: "DocId",
         disabled: this.disabled,
         boundaryClass: "col-6",
-        mandatory: true
+        mandatory: true,
       })
-    )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.templateCode",
-          label: "Template Code",
-          disabled: this.disabled,
-          boundaryClass: "col-6",
-          mandatory: true
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.validateAndSubmit(),
-        })
-      );
+    ).addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.templateCode",
+        label: "Template Code",
+        disabled: this.disabled,
+        boundaryClass: "col-6",
+        mandatory: true,
+      })
+    );
   }
 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-
   // new implement
   validateAndSubmit() {
-    return () => {
+    return (nextCallback?: (output: any) => void) => {
       this.getMyRef().submitForm(() => {
-        this.taskRoot.rescueTask();
+        if (nextCallback) {
+          console.log("I am in MDP validateAndSubmit");
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
       });
     };
   }
-
 }

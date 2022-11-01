@@ -10,12 +10,15 @@ export default class GSSADTFStepperMDP extends FTaskStepperMDP {
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
+    const gSSADTDisplayStepFFormMDP = new GSSADTDisplayStepFFormMDP({
+      taskRoot: taskRoot,
+      parent: this,
+    })
+
     this.addStep({
       name: "Document",
-      stepContent: new GSSADTDisplayStepFFormMDP({
-        taskRoot: taskRoot,
-        parent: this,
-      }),
+      stepContent: gSSADTDisplayStepFFormMDP,
+      rescueFunc: gSSADTDisplayStepFFormMDP.validateAndSubmit()
     });
   }
   getMyRef() {

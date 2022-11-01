@@ -1,10 +1,6 @@
 <template>
-<!--  @change="(newVal) => changeStepQuery(newVal)" -->
-  <v-stepper
-    :value="selectModel(selectedStep, undefined)"
-    flat
-    non-linear
-  >
+  <!--  @change="(newVal) => changeStepQuery(newVal)" -->
+  <v-stepper :value="selectModel(selectedStep, undefined)" flat non-linear>
     <v-stepper-header flat>
       <v-stepper-step
         :editable="!linearProgress"
@@ -43,6 +39,14 @@
                 @click="pullAndStartTask"
                 small
                 >Start</v-btn
+              >
+              <v-btn
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                v-if="taskRescue"
+                @click="rescueTask(step)"
+                >Rescue</v-btn
               >
               <v-spacer></v-spacer>
               <v-btn
@@ -109,6 +113,7 @@ import FDocument from "@/components/generic/file/documentUpload/FDocument.vue";
 import CLProfile from "./clientProfile/CLProfile.vue";
 import FMarkComplete from "./file/markcomplete/FMarkComplete.vue";
 import FEMandate from "./file/eMandate/FEMandate.vue";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
@@ -125,6 +130,7 @@ import FEMandate from "./file/eMandate/FEMandate.vue";
 export default class FTaskStepper extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+  taskId = this.$route.params.taskId;
 
   get taskStateNotStarted() {
     return (
@@ -133,7 +139,14 @@ export default class FTaskStepper extends ModelVue {
     );
   }
 
-  selectedStep = 0
+  get taskRescue(): boolean {
+    return (
+      this.taskDetails.taskState === "EXCEPTION_Q" ||
+      this.taskDetails.taskState === "EXIT_Q"
+    );
+  }
+
+  selectedStep = 0;
 
   // get selectedStep(): number {
   //   if (this.$route.query.step) {
@@ -164,7 +177,7 @@ export default class FTaskStepper extends ModelVue {
 
   gotoPreviousStep() {
     // this.changeStepQuery(this.selectedStep - 1);
-    this.selectedStep = this.selectedStep - 1
+    this.selectedStep = this.selectedStep - 1;
   }
 
   saveStep(step: any) {
@@ -179,16 +192,22 @@ export default class FTaskStepper extends ModelVue {
 
   gotoNextStep(step: any) {
     // this.changeStepQuery(this.selectedStep + 1);
-    this.selectedStep = this.selectedStep + 1
+    this.selectedStep = this.selectedStep + 1;
   }
 
   pullAndStartTask() {
-    Action.TaskList.PullStartAndMerge.execute1(
-      this.$route.params.taskId,
-      (output) => {
-        // console.log("");
-      }
-    );
+    Action.TaskList.PullStartAndMerge.execute1(this.taskId, (output) => {
+      // console.log("");
+    });
+  }
+
+  rescueTask(step: any) {
+    step.rescueFunc((taskOutput: any) => {
+      Task.Action.rescueTask({
+        taskId: this.taskId,
+        taskOutput: taskOutput,
+      });
+    });
   }
 }
 </script>

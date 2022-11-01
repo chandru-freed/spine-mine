@@ -8,14 +8,39 @@ export default class FTaskStepperMDP implements MDP {
   linearProgress: boolean;
   actionable: boolean;
 
-  constructor({ myRefName, linearProgress=false, actionable}: { myRefName: string;linearProgress?: boolean, actionable: boolean}) {
+  constructor({
+    myRefName,
+    linearProgress = false,
+    actionable,
+  }: {
+    myRefName: string;
+    linearProgress?: boolean;
+    actionable: boolean;
+  }) {
     this.myRefName = myRefName;
     this.linearProgress = linearProgress;
-    this.actionable = actionable
+    this.actionable = actionable;
   }
 
-  addStep({name, stepContent,submitFunc}:{name: string, stepContent: MDP,submitFunc?: (onSuccess: any) => void}) {
-    this.stepList.push(new FTaskStepMDP({ name: name, stepContent: stepContent, submitFunc }));
+  addStep({
+    name,
+    stepContent,
+    submitFunc,
+    rescueFunc,
+  }: {
+    name: string;
+    stepContent: MDP;
+    submitFunc?: (onSuccess: any) => void;
+    rescueFunc?: (onSuccess: any) => void;
+  }) {
+    this.stepList.push(
+      new FTaskStepMDP({
+        name: name,
+        stepContent: stepContent,
+        submitFunc,
+        rescueFunc,
+      })
+    );
     return this;
   }
 
@@ -37,10 +62,22 @@ export class FTaskStepMDP implements MDP {
   name: string;
   stepContent: MDP;
   submitFunc: ((onSuccess: any) => void) | undefined;
-  constructor({ name, stepContent,submitFunc }: { name: string; stepContent: MDP, submitFunc?: ((onSuccess: any) => void) | undefined }) {
+  rescueFunc: ((onSuccess: any) => void) | undefined;
+  constructor({
+    name,
+    stepContent,
+    submitFunc,
+    rescueFunc,
+  }: {
+    name: string;
+    stepContent: MDP;
+    submitFunc?: ((onSuccess: any) => void) | undefined;
+    rescueFunc?: ((onSuccess: any) => void) | undefined;
+  }) {
     this.name = name;
     this.stepContent = stepContent;
     this.submitFunc = submitFunc;
+    this.rescueFunc = rescueFunc;
   }
 
   getMetaData(): object {
@@ -48,7 +85,8 @@ export class FTaskStepMDP implements MDP {
       stepName: this.name,
       stepContent: this.stepContent.getMetaData(),
       stepInstance: this.stepContent,
-      submitFunc: this.submitFunc
+      submitFunc: this.submitFunc,
+      rescueFunc: this.rescueFunc,
     };
   }
 }

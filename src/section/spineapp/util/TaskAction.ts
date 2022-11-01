@@ -49,19 +49,22 @@ export default class TaskAction {
   static rescueTask({
     taskId,
     taskOutput,
+    callback,
   }: {
     taskId: string;
     taskOutput: any;
+    callback?: (taskOutput: any) => void;
   }) {
     console.log("Rescue task call");
-    //TODO: add rescue task to TaskList ads and implement
-    const input = JSON.stringify(taskOutput);
-    Action.TaskList.Rescue.execute2(taskId, input, (output) => {
-      console.log("Rescue : ", output);
+    const rescueInput = JSON.stringify(taskOutput);
+    Action.TaskList.Rescue.execute2(taskId, rescueInput, (output) => {
       Snackbar.show({
         text: "Succesfully Rescue",
         pos: "bottom-center",
       });
+      if (callback) {
+        callback(taskOutput);
+      }
     });
   }
 

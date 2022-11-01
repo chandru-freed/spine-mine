@@ -6,9 +6,9 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "uploadClientSignedDocFormRef",
       disabled: taskRoot.taskDisabled,
@@ -42,12 +42,6 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
           disabled: true,
           boundaryClass: "col-6",
         })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-        })
       );
   }
 
@@ -55,9 +49,14 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
+  // new implement
+  validateAndSubmit() {
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
     };
   }
 }

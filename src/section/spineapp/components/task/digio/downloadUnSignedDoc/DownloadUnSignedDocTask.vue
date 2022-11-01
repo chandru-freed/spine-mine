@@ -32,7 +32,6 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 })
 export default class DownloadUnSignedDocTask
   extends ModelVue
-  implements SelfTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;

@@ -4,16 +4,17 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import UFSDTStepFFormMDP from "./UFSDTStepFFormMDP";
 
 export default class UFSDTFStepperMDP extends FTaskStepperMDP {
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: SelfTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: "uploadFreedSignedDocStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
-
+    const uFSDTStepFFormMDP = new UFSDTStepFFormMDP({ taskRoot: taskRoot, parent: this })
     this.addStep({
       name: "Upload Freed Signed Doc",
-      stepContent: new UFSDTStepFFormMDP({ taskRoot: taskRoot, parent: this }),
+      stepContent: uFSDTStepFFormMDP,
+      rescueFunc: uFSDTStepFFormMDP.validateAndSubmit()
     });
   }
   getMyRef() {

@@ -46,7 +46,6 @@ export default class GSSADTDisplayStepFFormMDP extends FFormMDP {
     return (nextCallback?: (output: any) => void) => {
       this.getMyRef().submitForm(() => {
         if (nextCallback) {
-          console.log("I am in MDP validateAndSubmit");
           nextCallback(this.taskRoot.taskFormData.taskOutput);
         }
       });

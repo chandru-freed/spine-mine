@@ -30,10 +30,7 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
     FBtn,
   },
 })
-export default class CreateEMandateTask
-  extends ModelVue
-  implements SelfTaskIntf
-{
+export default class CreateEMandateTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -104,19 +101,32 @@ export default class CreateEMandateTask
 
   //DATA
 
+  mounted() {
+    Action.TaskList.Rescue.interested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
+  }
+
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
+  }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
+  }
+
   //ACTION
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
-  forceCompleteTask() {
-    Task.Action.forceCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
 
   gotoFile() {
     Helper.Router.gotoFile({

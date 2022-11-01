@@ -115,14 +115,6 @@ export default class GenerateSSADocTask extends ModelVue {
   }
 
   //DATA
-
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
-
   forceCompleteTask() {
     Task.Action.forceCompleteTask({
       taskId: this.taskId,

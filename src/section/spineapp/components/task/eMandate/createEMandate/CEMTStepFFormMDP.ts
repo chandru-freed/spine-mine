@@ -5,9 +5,9 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 export default class CEMTStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "createEMandateFormRef",
       disabled: taskRoot.taskDisabled,
@@ -24,32 +24,30 @@ export default class CEMTStepFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
         readonly: true,
       })
-    )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.eMandateId",
-          label: "EMandate Id",
-          mandatory: true,
-          boundaryClass: "col-6",
-          readonly: true,
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-        })
-      );
+    ).addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.eMandateId",
+        label: "EMandate Id",
+        mandatory: true,
+        boundaryClass: "col-6",
+        readonly: true,
+      })
+    );
   }
 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
+  // new implement
+  validateAndSubmit() {
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
     };
   }
 }

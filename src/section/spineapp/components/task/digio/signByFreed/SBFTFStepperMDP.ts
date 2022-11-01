@@ -3,19 +3,20 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import SBFTDisplayStepFFormMDP from "./SBFTDisplayStepFFormMDP";
 
 export default class GSSADTFStepperMDP extends FTaskStepperMDP {
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: SelfTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: " signByFreedStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
-
+    const sBFTDisplayStepFFormMDP = new SBFTDisplayStepFFormMDP({
+      taskRoot: taskRoot,
+      parent: this,
+    })
     this.addStep({
       name: "Document",
-      stepContent: new SBFTDisplayStepFFormMDP({
-        taskRoot: taskRoot,
-        parent: this,
-      }),
+      stepContent: sBFTDisplayStepFFormMDP,
+      rescueFunc: sBFTDisplayStepFFormMDP.validateAndSubmit()
     });
   }
   getMyRef() {

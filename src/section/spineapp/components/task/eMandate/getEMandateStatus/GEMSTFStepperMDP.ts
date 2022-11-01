@@ -4,16 +4,19 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import GEMSTStepFFormMDP from "./GEMSTStepFFormMDP";
 
 export default class GEMSTFStepperMDP extends FTaskStepperMDP {
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: SelfTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: "getEMandateStatusStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = this;
 
+    const gEMSTStepFFormMDP =  new GEMSTStepFFormMDP({ taskRoot: taskRoot, parent: this })
+
     this.addStep({
       name: "Get Emandate Status",
-      stepContent: new GEMSTStepFFormMDP({ taskRoot: taskRoot, parent: this }),
+      stepContent: gEMSTStepFFormMDP,
+      rescueFunc: gEMSTStepFFormMDP.validateAndSubmit()
     });
   }
 

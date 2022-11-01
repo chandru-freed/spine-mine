@@ -9,7 +9,7 @@
     ></component>
   </div>
 </template>
-       <script lang="ts">
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -30,10 +30,7 @@ import GEMSTFStepperMDP from "./GEMSTFStepperMDP";
     FBtn,
   },
 })
-export default class GetEMandateStatusTask
-  extends ModelVue
-  implements SelfTaskIntf
-{
+export default class GetEMandateStatusTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -98,18 +95,29 @@ export default class GetEMandateStatusTask
   //DATA
 
   //ACTION
-
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+  mounted() {
+    Action.TaskList.Rescue.interested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
     });
   }
-  forceCompleteTask() {
-    Task.Action.forceCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
     });
+  }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
   }
 
   gotoFile() {

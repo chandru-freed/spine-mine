@@ -4,10 +4,10 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 export default class GEMSTStepFFormMDP extends FFormMDP {
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
   childMDP = new FFormChildMDP();
-  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "getEMandateStatusFormRef",
       disabled: taskRoot.taskDisabled,
@@ -44,27 +44,20 @@ export default class GEMSTStepFFormMDP extends FFormMDP {
           boundaryClass: "col-6",
           readonly: true,
         })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.validateAndSubmit(),
-        })
       );
   }
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
+  // new implement
   validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.rescueTask());
-    };
-  }
-
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
     };
   }
 }

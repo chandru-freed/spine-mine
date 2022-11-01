@@ -6,9 +6,9 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 export default class CSETFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "clientSignExpiredFormRef",
       disabled: taskRoot.taskDisabled,
@@ -25,31 +25,29 @@ export default class CSETFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         disabled: true,
       })
-    )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskInput.docId",
-          label: "Doc Id",
-          mandatory: true,
-          boundaryClass: "col-4",
-          disabled: true,
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-        })
-      );
+    ).addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskInput.docId",
+        label: "Doc Id",
+        mandatory: true,
+        boundaryClass: "col-4",
+        disabled: true,
+      })
+    );
   }
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
+  // new implement
+  validateAndSubmit() {
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
     };
   }
 }

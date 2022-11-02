@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{taskFormData}} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -9,7 +10,7 @@
     ></component>
   </div>
 </template>
- <script lang="ts">
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -31,7 +32,6 @@ import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf
 })
 export default class WaitForEMandateTask
   extends ModelVue
-  implements DeferredTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -95,23 +95,29 @@ export default class WaitForEMandateTask
   //DATA
 
   //ACTION
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+  mounted() {
+    Action.TaskList.Rescue.interested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
     });
   }
-  forceCompleteTask() {
-    Task.Action.forceCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
     });
   }
-  proceedTask() {
-    Task.Action.proceedTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
   }
 
   gotoFile() {
@@ -123,4 +129,4 @@ export default class WaitForEMandateTask
 }
 </script>
 
- <style></style>
+<style></style>

@@ -56,7 +56,7 @@ export default class TaskAction {
     callback?: (taskOutput: any) => void;
   }) {
     console.log("Rescue task call");
-    const rescueInput = JSON.stringify(taskOutput);
+    const rescueInput = JSON.stringify(taskOutput ?? {});
     Action.TaskList.Rescue.execute2(taskId, rescueInput, (output) => {
       Snackbar.show({
         text: "Succesfully Rescue",

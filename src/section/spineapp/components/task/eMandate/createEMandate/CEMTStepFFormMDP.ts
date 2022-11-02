@@ -22,7 +22,7 @@ export default class CEMTStepFFormMDP extends FFormMDP {
         label: "EMandate Link",
         mandatory: true,
         boundaryClass: "col-6",
-        readonly: true,
+        disabled: this.disabled,
       })
     ).addField(
       new FTextFieldMDP({
@@ -31,7 +31,7 @@ export default class CEMTStepFFormMDP extends FFormMDP {
         label: "EMandate Id",
         mandatory: true,
         boundaryClass: "col-6",
-        readonly: true,
+        disabled: this.disabled,
       })
     );
   }

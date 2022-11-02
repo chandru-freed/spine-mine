@@ -4,15 +4,17 @@ import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf
 import WFEMTStepFFormMDP from "./WFEMTStepFFormMDP";
 
 export default class WFEMTFStepperMDP extends FTaskStepperMDP {
-  taskRoot: DeferredTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: DeferredTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: "waitForEMandateStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
+    const wFEMTStepFFormMDP = new WFEMTStepFFormMDP({ taskRoot: taskRoot, parent: this })
     this.addStep({
       name: "Wait For Emandate",
-      stepContent: new WFEMTStepFFormMDP({ taskRoot: taskRoot, parent: this }),
+      stepContent: wFEMTStepFFormMDP,
+      rescueFunc: wFEMTStepFFormMDP.validateAndSubmit()
     });
   }
   getMyRef() {

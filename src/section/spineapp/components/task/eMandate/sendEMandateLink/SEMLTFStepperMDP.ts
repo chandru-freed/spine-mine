@@ -3,16 +3,17 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 import SEMLTStepFFormMDP from "./SEMLTStepFFormMDP";
 
 export default class SEMLTFStepperMDP extends FTaskStepperMDP {
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: SelfTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: "sendEMandateLinkStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
-
+    const sEMLTStepFFormMDP = new SEMLTStepFFormMDP({ taskRoot: taskRoot, parent: this })
     this.addStep({
       name: "Send EMandate Link",
-      stepContent: new SEMLTStepFFormMDP({ taskRoot: taskRoot, parent: this }),
+      stepContent: sEMLTStepFFormMDP,
+      rescueFunc: sEMLTStepFFormMDP.validateAndSubmit()
     });
   }
 

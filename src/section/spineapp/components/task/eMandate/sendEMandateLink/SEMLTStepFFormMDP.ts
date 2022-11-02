@@ -5,16 +5,16 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 export default class SEMLTStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: SelfTaskIntf;
+  taskRoot: any;
   parent: any;
 
-  constructor({ taskRoot, parent }: { taskRoot: SelfTaskIntf; parent: any }) {
+  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "sendEMandateLinkFormRef",
       disabled: taskRoot.taskDisabled,
     });
 
-    this.taskRoot = this.taskRoot;
+    this.taskRoot = taskRoot;
     this.parent = parent;
 
     this.addField(
@@ -24,34 +24,32 @@ export default class SEMLTStepFFormMDP extends FFormMDP {
         label: "EMandate Id",
         mandatory: true,
         boundaryClass: "col-6",
-        readonly: true,
+        disabled: true,
       })
-    )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskInput.eMandateLink",
-          label: "EMandateLink Id",
-          mandatory: true,
-          boundaryClass: "col-6",
-          readonly: true,
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-        })
-      );
+    ).addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskInput.eMandateLink",
+        label: "EMandateLink Id",
+        mandatory: true,
+        boundaryClass: "col-6",
+        disabled: true,
+      })
+    );
   }
 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
+  // new implement
+  validateAndSubmit() {
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
     };
   }
 }

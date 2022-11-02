@@ -6,15 +6,9 @@ import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf
 
 export default class WFEMTStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: DeferredTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({
-    taskRoot,
-    parent,
-  }: {
-    taskRoot: DeferredTaskIntf;
-    parent: any;
-  }) {
+  constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       myRefName: "waitForEMandateFormRef",
       disabled: taskRoot.taskDisabled,
@@ -31,31 +25,29 @@ export default class WFEMTStepFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
         readonly: true,
       })
-    )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskInput.eMandateId",
-          label: "EMandate Id",
-          mandatory: true,
-          boundaryClass: "col-6",
-          readonly: true,
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-        })
-      );
+    ).addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskInput.eMandateId",
+        label: "EMandate Id",
+        mandatory: true,
+        boundaryClass: "col-6",
+        readonly: true,
+      })
+    );
   }
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
+  // new implement
+  validateAndSubmit() {
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
     };
   }
 }

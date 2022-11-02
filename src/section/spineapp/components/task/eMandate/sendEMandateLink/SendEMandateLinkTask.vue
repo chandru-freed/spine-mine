@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{ taskFormData }} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -30,10 +31,7 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
     FBtn,
   },
 })
-export default class SendEMandateLinkTask
-  extends ModelVue
-  implements SelfTaskIntf
-{
+export default class SendEMandateLinkTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -78,9 +76,19 @@ export default class SendEMandateLinkTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {}; // Initialization
+  taskFormOutputLocal: any = new Data.Spine.SendEMandateLinkTaskOutput(); // Initialization
 
   get taskFormOutput() {
+    // this.taskFormOutputLocal = {
+    //   ...this.taskDetailsOutput,
+    //   eMandateLink: this.taskDetailsOutput.eMandateLink
+    //     ? this.taskDetailsOutput.eMandateLink
+    //     : this.taskDetailsInput.eMandateLink,
+    //   eMandateId: this.taskDetailsOutput.eMandateId
+    //     ? this.taskDetailsOutput.eMandateId
+    //     : this.taskDetailsInput.eMandateId,
+    // };
+
     return this.taskFormOutputLocal;
   }
 
@@ -96,17 +104,30 @@ export default class SendEMandateLinkTask
   //DATA
 
   //ACTION
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+
+  mounted() {
+    Action.TaskList.Rescue.interested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
     });
   }
-  forceCompleteTask() {
-    Task.Action.forceCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
     });
+  }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
   }
 
   gotoFile() {

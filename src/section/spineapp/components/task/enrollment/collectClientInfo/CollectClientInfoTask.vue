@@ -78,16 +78,25 @@ export default class CollectClientInfoTask
       this.nupayBankMasterList = output.nupayBankMasterList;
     });
   }
+
+  // Parse JSON String => As taskOutput and taskInput comes as Json String
   get taskDetailsOutput() {
     return !!this.taskDetails && !!this.taskDetails.taskOutput
       ? JSON.parse(this.taskDetails.taskOutput)
       : {};
   }
-
   get taskDetailsInput() {
     return !!this.taskDetails && !!this.taskDetails.taskInput
       ? JSON.parse(this.taskDetails.taskInput)
       : {};
+  }
+
+  // ModelValue =>  Used in Terminated State
+  get taskDetailsData() {
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskDetailsOutput,
+    };
   }
 
   get taskStateTerminated() {
@@ -99,9 +108,8 @@ export default class CollectClientInfoTask
     );
   }
 
+  // ModelValue =>  Used in Active State
   taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
-  taskFormOutputLocal: Data.Spine.CollectClientInfoTask =
-    new Data.Spine.CollectClientInfoTask();
   get taskFormData() {
     return {
       taskInput: this.taskDetailsInput,
@@ -109,17 +117,12 @@ export default class CollectClientInfoTask
       taskState: this.taskDetails.taskState,
     };
   }
-
-  get taskDetailsData() {
-    return {
-      taskInput: this.taskDetailsInput,
-      taskOutput: this.taskDetailsOutput,
-    };
-  }
-
   set taskFormData(value: any) {
     this.taskFormDataLocal = value;
   }
+
+  taskFormOutputLocal: Data.Spine.CollectClientInfoTask =
+    new Data.Spine.CollectClientInfoTask();
   get taskFormOutput() {
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
@@ -159,13 +162,16 @@ export default class CollectClientInfoTask
       onClick: this.setTestData,
     }).getMetaData();
   }
+
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
+  // Chnage it to data
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
+  
   mounted() {
     this.getNupayBankMasterList();
     this.findClPersonalInfo();

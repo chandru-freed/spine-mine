@@ -76,19 +76,9 @@ export default class SendEMandateLinkTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.SendEMandateLinkTaskOutput(); // Initialization
+  taskFormOutputLocal: any = {}; // Initialization
 
   get taskFormOutput() {
-    // this.taskFormOutputLocal = {
-    //   ...this.taskDetailsOutput,
-    //   eMandateLink: this.taskDetailsOutput.eMandateLink
-    //     ? this.taskDetailsOutput.eMandateLink
-    //     : this.taskDetailsInput.eMandateLink,
-    //   eMandateId: this.taskDetailsOutput.eMandateId
-    //     ? this.taskDetailsOutput.eMandateId
-    //     : this.taskDetailsInput.eMandateId,
-    // };
-
     return this.taskFormOutputLocal;
   }
 

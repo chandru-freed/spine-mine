@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="createEMandateTask">
     <!-- Root Data : {{ taskFormData }}  -->
     <component
       :ref="stepperMetaData.myRefName"
@@ -12,52 +12,48 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
-import store, * as Store from "@/../src-gen/store";
+import { Component } from "vue-property-decorator";
+import * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FTaskStepper from "@/components/generic/FTaskStepper.vue";
-import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
+
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import CEMTFStepperMDP from "./CEMTFStepperMDP";
-import Helper from "@/section/spineapp/util/Helper";
-import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 @Component({
   components: {
     FTaskStepper,
-    FBtn,
   },
 })
 export default class CreateEMandateTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
-  taskDetails: Data.TaskList.ExecutiveTaskDetails;
+  taskDetailsStore: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
-  //METADATA
+  // METADATA
   get stepperMetaData() {
     return new CEMTFStepperMDP({ taskRoot: this }).getMetaData();
   }
-  //METADATA
+  // METADATA
 
-  // DATA
+  // Parse JSON String => As taskOutput and taskInput comes as Json String
   get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
+    return !!this.taskDetailsStore && !!this.taskDetailsStore.taskOutput
+      ? JSON.parse(this.taskDetailsStore.taskOutput)
       : {};
   }
 
   get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
+    return !!this.taskDetailsStore && !!this.taskDetailsStore.taskInput
+      ? JSON.parse(this.taskDetailsStore.taskInput)
       : {};
   }
 
-  //FORM
-
+  // ModelValue
   taskFormDataLocal: any = {
     taskInput: {},
     taskOutput: {},
@@ -73,11 +69,8 @@ export default class CreateEMandateTask extends ModelVue {
   set taskFormData(value: any) {
     this.taskFormDataLocal = value;
   }
-  //FORM
 
-  //Task Output
   taskFormOutputLocal: any = new Data.Spine.CreateEMandateTaskOutput();
-
   get taskFormOutput() {
     if (
       this.taskDetailsOutput.eMandateLink &&
@@ -94,13 +87,10 @@ export default class CreateEMandateTask extends ModelVue {
   set taskFormOutput(newValue) {
     this.taskFormOutputLocal = newValue;
   }
-  //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetailsStore.taskState);
   }
-
-  //DATA
 
   mounted() {
     Action.TaskList.Rescue.interested((output) => {
@@ -121,19 +111,8 @@ export default class CreateEMandateTask extends ModelVue {
   getExecutiveTaskDetails() {
     Action.TaskList.GetExecutiveTaskDetails.execute1(
       this.$route.params.taskId,
-      (output) => {
-        // console.log(output);
-      }
+      (output) => {}
     );
-  }
-
-  //ACTION
-
-  gotoFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      clientFileNumber: this.$route.params.clientFileNumber,
-    });
   }
 }
 </script>

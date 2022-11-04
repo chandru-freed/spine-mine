@@ -1,82 +1,64 @@
 <template>
-  <!-- <v-card flat color="transparent" height="800px" >
-     <v-card outlined height="200px" >
-     </v-card>
-     <v-card outlined height="200px" >
-     </v-card>
-     <v-card outlined height="200px" >
-     </v-card>
-     <v-card outlined height="200px" >
-     </v-card>
-    
-  </v-card> -->
   <div class="row">
-    <div class="col-12 ">
-      <v-card outlined height="200px" >
+    <div class="col-12">
+      <v-card outlined height="200px">
         <v-card-text class="pt-1 pb-0">
-        <div>Quick Actions</div>
+          <div>Quick Actions</div>
         </v-card-text>
         <v-list dense class="py-0">
-            <v-list-item
-              v-for="(actionItem, j) in actionList"
-              :key="j"
-              @click="takeAction(actionItem)"
-            >
-              <!-- <v-list-item-icon >
-                <v-icon v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
-              </v-list-item-icon> -->
-
-              <v-list-item-content class="pa-0">
-                <v-list-item-title >{{actionItem.actionName}}</v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-icon small v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
-              </v-list-item-action>
-            </v-list-item>
-            
+          <v-list-item
+            v-for="(actionItem, j) in actionList"
+            :key="j"
+            @click="takeAction(actionItem)"
+          >
+            <v-list-item-content class="pa-0">
+              <v-list-item-title>{{ actionItem.actionName }}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon
+                small
+                v-if="actionItem.icon"
+                v-text="actionItem.icon"
+              ></v-icon>
+            </v-list-item-action>
+          </v-list-item>
         </v-list>
       </v-card>
     </div>
 
-    <div class="col-12 ">
-      <v-card outlined height="200px" >
-      </v-card>
+    <div class="col-12">
+      <v-card outlined height="200px"> </v-card>
     </div>
-    
-    <div class="col-12 ">
+
+    <div class="col-12">
       <v-card outlined height="300px">
         <v-card-text class="pa-1">
           <v-textarea
             hide-details
             filled
             auto-grow
-            label="Add Note"
+            label="Add Note (CTRL + ENTER)"
             rows="2"
             placeholder="Add a note ..."
             outlined
             v-model="addNoteInput.noteMessage"
-            append-icon="mdi-comment-text"
+            append-icon="mdi-send"
             @keypress.ctrl.enter="addNote"
+            @click:append="addNote"
+            hint="CTRL + ENTER"
           ></v-textarea>
           <div>
-          <v-list >
-              <template v-for="(note, index) in fiHighlightedNoteListQuick" >
+            <v-list>
+              <template v-for="(note, index) in fiHighlightedNoteListQuick">
                 <v-list-item :key="'note' + index" dense>
                   <template v-slot:default="{ active }">
                     <v-list-item-content disabled>
-                      <!-- <v-list-item-title  >{{note.noteMesssage}}</v-list-item-title> -->
-
-                      <!-- <v-list-item-subtitle
-                        class="text--primary"
+                      <v-list-item-subtitle
                         v-text="note.noteMesssage"
-                      ></v-list-item-subtitle> -->
-
-                      <v-list-item-subtitle v-text="note.noteMesssage"></v-list-item-subtitle>
+                      ></v-list-item-subtitle>
                     </v-list-item-content>
 
                     <v-list-item-action>
-                      <!-- <v-list-item-action-text class="grey--text">{{ note.createdOn | datetime}}  <v-chip x-small label class="px-1">@{{note.createdBy}}</v-chip> </v-list-item-action-text> -->
-
                       <v-icon
                         small
                         color="secondary"
@@ -84,8 +66,6 @@
                       >
                         mdi-star-outline
                       </v-icon>
-
-                      
                     </v-list-item-action>
                   </template>
                 </v-list-item>
@@ -95,23 +75,15 @@
                   :key="index"
                 ></v-divider>
               </template>
-            <!-- </v-list-item-group> -->
-          </v-list>
-        </div>
+            </v-list>
+          </div>
         </v-card-text>
       </v-card>
-      
-      
     </div>
-
-    
-    
   </div>
-
 </template>
 
 <script lang="ts">
-
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -128,7 +100,7 @@ export default class CFQuickNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
-  clientFileId = this.$route.params.clientFileId
+  clientFileId = this.$route.params.clientFileId;
 
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
   addNote() {
@@ -140,7 +112,7 @@ export default class CFQuickNav extends Vue {
   }
 
   get fiHighlightedNoteListQuick() {
-    return this.fiHighlightedNoteList.slice(0, 5)
+    return this.fiHighlightedNoteList.slice(0, 5);
   }
   mounted() {
     this.getFiNoteList();
@@ -148,51 +120,45 @@ export default class CFQuickNav extends Vue {
 
   getFiNoteList() {
     setTimeout(() => {
-      Action.FiNote.GetFiNoteList.execute1(
-        this.clientFileId,
-        (output) => {
-          console.log(output);
-        }
-      );
+      Action.FiNote.GetFiNoteList.execute1(this.clientFileId, (output) => {
+        console.log(output);
+      });
     }, 700);
   }
 
   actionList = [
-        {
-          actionName: "Send Email",
-          icon: "mdi-email-outline",
-          routerName: "Root.CFile.CFAction.CFSendEmail",
-        },
-        {
-          actionName: "Receive MSF",
-          routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
-        },
-        {
-          actionName: "Record Payment",
-          routerName: "Root.CFile.CFAction.CFRecordPayment",
-        },
-        {
-          actionName: "Create Flow",
-          routerName: "Root.CFile.CFAction.CFCreateRequest",
-        },
-      ]
+    {
+      actionName: "Send Email",
+      icon: "mdi-email-outline",
+      routerName: "Root.CFile.CFAction.CFSendEmail",
+    },
+    {
+      actionName: "Receive MSF",
+      routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
+    },
+    {
+      actionName: "Record Payment",
+      routerName: "Root.CFile.CFAction.CFRecordPayment",
+    },
+    {
+      actionName: "Create Flow",
+      routerName: "Root.CFile.CFAction.CFCreateRequest",
+    },
+  ];
   takeAction(actionItem: any) {
-    if(actionItem.routerName) {
-      this.goto(actionItem.routerName, actionItem.query)
+    if (actionItem.routerName) {
+      this.goto(actionItem.routerName, actionItem.query);
     }
 
-     if(actionItem.command) {
-      actionItem.command()
+    if (actionItem.command) {
+      actionItem.command();
     }
   }
 
   goto(routerName: string, query: any) {
-    this.$router.push({ name: routerName , query: query});
+    this.$router.push({ name: routerName, query: query });
   }
-
 }
-
 </script>
 
-<style>
-</style>
+<style></style>

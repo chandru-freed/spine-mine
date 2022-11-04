@@ -1,55 +1,53 @@
 <template>
   <v-card-text>
-    <!-- <v-card-title v-if="!isTicketActive">Comments</v-card-title> -->
-
-    <v-col class="col-12" v-if="isTicketActive">
-      <v-toolbar flat class="mt-5" color="white">
+    <div class="row justify-center align-content-start">
+      <div class="col-10">
         <v-textarea
           filled
           auto-grow
-          label="Comment"
-          rows="2"
-          placeholder="Add a comment ..."
+          label="Add Comment (CTRL + ENTER)"
+          rows="3"
+          placeholder="Add a Comment ..."
           outlined
           v-model="addCommentInput.comment"
+          append-icon="mdi-send"
+          @keypress.ctrl.enter="addComment"
+          @click:append="addComment"
+          hint="CTRL + ENTER"
         >
-          <template v-slot:append>
-            <f-btn
-              label="Comment"
-              :disabled="addCommentInput.comment.length < 2"
-              class="mx-0"
-              depressed
-              :onClick="() => addComment()"
-              color="secondary"
-            >
-            </f-btn>
-          </template>
         </v-textarea>
-      </v-toolbar>
-    </v-col>
+      </div>
+    </div>
+    <div class="row justify-center align-content-start">
+      <div class="col-10">
+        <v-list two-line>
+          <template v-for="(ticketComment, index) in ticketCommentsList">
+            <v-list-item :key="'comment' + index">
+              <template v-slot:default="{ active }">
+                <v-list-item-content disabled>
+                  <v-list-item-title>{{
+                    ticketComment.comment
+                  }}</v-list-item-title>
+                </v-list-item-content>
 
-    <v-col
-      class="col-12 px-6 pb-0"
-      v-for="(note, index) in ticketCommentsList"
-      :key="'note' + index"
-    >
-      <v-hover v-slot="{ hover }">
-        <v-card flat :elevation="hover ? 1 : 0" color="grey lighten-4">
-          <v-card-subtitle class="pb-0 pt-3">
-            {{ note.comment }}</v-card-subtitle
-          >
-          <v-card-actions class="pt-0 pb-0">
-            <v-btn color="primary" text small>
-              <strong>{{ note.commentedBy }}</strong> @{{
-                note.commentedTime | fromNow
-              }}
-            </v-btn>
-
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-hover>
-    </v-col>
+                <v-list-item-action>
+                  <v-list-item-action-text class="grey--text"
+                    >{{ ticketComment.commentedTime | datetime }}
+                    <v-chip x-small label class="px-1"
+                      >@{{ ticketComment.commentedBy }}</v-chip
+                    >
+                  </v-list-item-action-text>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+            <v-divider
+              v-if="index < ticketCommentsList.length - 1"
+              :key="index"
+            ></v-divider>
+          </template>
+        </v-list>
+      </div>
+    </div>
   </v-card-text>
 </template>
 
@@ -111,7 +109,6 @@ export default class TicketComment extends Vue {
     Action.Ticket.GetTicketCommentList.execute1(this.taskId, (output) => {
       console.log(output);
     });
-    
   }
   addComment() {
     this.addCommentInput.taskId = this.taskId;

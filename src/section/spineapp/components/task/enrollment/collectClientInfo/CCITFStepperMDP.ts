@@ -9,9 +9,9 @@ import CCITFMarkCompleteMDP from "./step7/CCITFMarkCompleteMDP";
 import FTaskStepperMDP from "@/components/generic/FTaskStepperMDP";
 
 export default class CCITFStepperMDP extends FTaskStepperMDP {
-  taskRoot: ManualTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({
       myRefName: "collectClientInfoStepperRef",
       linearProgress: !taskRoot.taskDisabled,

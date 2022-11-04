@@ -1,72 +1,77 @@
 <template>
   <div class="mt-8">
-    <v-card outlined>
-      <v-toolbar flat>
-        <v-btn icon>
-          <v-icon> mdi-star-outline</v-icon>
-        </v-btn>
+    <v-toolbar flat>
+      <v-btn icon>
+        <v-icon> mdi-comment-text</v-icon>
+      </v-btn>
 
-        <v-toolbar-title>Highlights</v-toolbar-title>
+      <v-toolbar-title>Notes</v-toolbar-title>
 
-        <v-spacer></v-spacer>
-      </v-toolbar>
-      <v-card-text>
-        <div class="row justify-center align-content-start">
-          <div class="col-10">
-            <v-textarea
-              filled
-              auto-grow
-              label="Add Highlight (CTRL + ENTER)"
-              rows="3"
-              placeholder="Add a Highlight ..."
-              outlined
-              v-model="addNoteInput.noteMessage"
-              append-icon="mdi-send"
-              @keypress.ctrl.enter="addHighlightedNote"
-              @click:append="addHighlightedNote"
-              hint="CTRL + ENTER"
-            >
-            </v-textarea>
-          </div>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-card-text>
+      <div class="row justify-center align-content-start">
+        <div class="col-10">
+          <v-textarea
+            filled
+            auto-grow
+            label="Add Note (Ctrl + Enter)"
+            rows="3"
+            placeholder="Add a note ..."
+            outlined
+            v-model="addNoteInput.noteMessage"
+            append-icon="mdi-send"
+            @keypress.ctrl.enter="addNote"
+            @click:append="addNote"
+            hint="Press CTRL + ENTER"
+          >
+          </v-textarea>
         </div>
-        <div>
-          <v-list two-line>
-            <template v-for="(note, index) in fiHighlightedNoteList">
-              <v-list-item :key="'note' + index">
-                <template v-slot:default="{ active }">
-                  <v-list-item-content disabled>
-                    <v-list-item-title>{{
-                      note.noteMesssage
-                    }}</v-list-item-title>
-                  </v-list-item-content>
+      </div>
+      <div>
+        <v-list two-line>
+          <template v-for="(note, index) in fiNoteList">
+            <v-list-item :key="'note' + index">
+              <template>
+                <v-list-item-content disabled>
+                  <v-list-item-title>{{ note.noteMesssage }}</v-list-item-title>
+                </v-list-item-content>
 
-                  <v-list-item-action>
-                    <v-list-item-action-text class="grey--text"
-                      >{{ note.createdOn | datetime }}
-                      <v-chip x-small label class="px-1"
-                        >@{{ note.createdBy }}</v-chip
-                      >
-                    </v-list-item-action-text>
-
-                    <v-icon
-                      color="secondary"
-                      @click="highlightNote(note.noteId)"
+                <v-list-item-action>
+                  <v-list-item-action-text class="grey--text"
+                    >{{ note.createdOn | datetime }}
+                    <v-chip x-small label class="px-1"
+                      >@{{ note.createdBy }}</v-chip
                     >
-                      mdi-star-outline
-                    </v-icon>
-                  </v-list-item-action>
-                </template>
-              </v-list-item>
+                  </v-list-item-action-text>
 
-              <v-divider
-                v-if="index < fiHighlightedNoteList.length - 1"
-                :key="index"
-              ></v-divider>
-            </template>
-          </v-list>
-        </div>
-      </v-card-text>
-    </v-card>
+                  <v-icon
+                    v-if="isHighlighted(note.noteId)"
+                    color="secondary"
+                    @click="unTagHighlightNote(note.noteId)"
+                  >
+                    mdi-star-outline
+                  </v-icon>
+
+                  <v-icon
+                    v-if="!isHighlighted(note.noteId)"
+                    color="grey"
+                    @click="highlightNote(note.noteId)"
+                  >
+                    mdi-star-outline
+                  </v-icon>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+
+            <v-divider
+              v-if="index < fiNoteList.length - 1"
+              :key="index"
+            ></v-divider>
+          </template>
+        </v-list>
+      </div>
+    </v-card-text>
   </div>
 </template>
 
@@ -84,7 +89,7 @@ import FBtn from "@/components/generic/FBtn.vue";
     "f-btn": FBtn,
   },
 })
-export default class CFHighlights extends ModelVue {
+export default class CFNoteAllList extends ModelVue {
   @Store.Getter.FiNote.FiNoteStore.fiHighlightedNoteList
   fiHighlightedNoteList: Data.FiNote.FiNote[];
 
@@ -109,10 +114,17 @@ export default class CFHighlights extends ModelVue {
     this.tagNote();
   }
 
-  addHighlightedNote() {
+  unTagHighlightNote(noteId: string) {
+    this.unTagNote(noteId, new Data.FiNote.NoteTag("highlight", "true"));
+  }
+
+  isHighlighted(noteId: string) {
+    return this.fiHighlightedNoteList.some((note) => note.noteId === noteId);
+  }
+
+  addNote() {
     this.addNoteInput.clientFileId = this.clientFileBasicInfo.clientFileId;
     Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
-      this.highlightNote(output.noteId);
       this.addNoteInput = new Data.FiNote.AddNoteInput();
       this.getFiNoteList();
     });

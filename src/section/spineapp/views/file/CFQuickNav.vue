@@ -37,7 +37,7 @@
             hide-details
             filled
             auto-grow
-            label="Add Note (CTRL + ENTER)"
+            label="Add Note (Ctrl + Enter)"
             rows="2"
             placeholder="Add a note ..."
             outlined
@@ -45,13 +45,13 @@
             append-icon="mdi-send"
             @keypress.ctrl.enter="addNote"
             @click:append="addNote"
-            hint="CTRL + ENTER"
+            hint="Press CTRL + ENTER"
           ></v-textarea>
           <div>
             <v-list>
               <template v-for="(note, index) in fiHighlightedNoteListQuick">
                 <v-list-item :key="'note' + index" dense>
-                  <template v-slot:default="{ active }">
+                  <template>
                     <v-list-item-content disabled>
                       <v-list-item-subtitle
                         v-text="note.noteMesssage"

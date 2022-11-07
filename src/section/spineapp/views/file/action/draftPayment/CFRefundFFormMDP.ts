@@ -97,7 +97,7 @@ export default class CFRefundFFormMDP extends FFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-          returnObject: true
+          returnObject: true,
         })
       )
       .addField(

@@ -1,6 +1,6 @@
 <template>
   <div class="CFDraftPayment">
-    {{ draftPaymentInput }}
+    <!-- {{ draftPaymentInput }} -->
     <div class="d-flex justify-space-between align-center mx-5">
       <h4>Draft Payment</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">

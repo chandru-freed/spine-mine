@@ -96,7 +96,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-          returnObject: true
+          returnObject: true,
         })
       )
       .addField(
@@ -136,12 +136,15 @@ export default class CFSettlementFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
           label: "EMandate Id",
-          mandatory: true,
           boundaryClass: "col-4",
+          mandatory: true,
+          options: taskRoot.getFiEMandateListData(),
+          optionLabel: "eMandateId",
+          optionValue: "eMandateId",
         })
       )
       .addAction(
@@ -161,5 +164,4 @@ export default class CFSettlementFFormMDP extends FFormMDP {
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
-  
 }

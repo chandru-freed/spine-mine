@@ -94,14 +94,16 @@ export default class CFCollectionFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           mandatory: true,
         })
-      )
-      .addField(
-        new FTextFieldMDP({
+      ).addField(
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
           label: "EMandate Id",
-          mandatory: true,
           boundaryClass: "col-4",
+          mandatory: true,
+          options: taskRoot.getFiEMandateListData(),
+          optionLabel: "eMandateId",
+          optionValue: "eMandateId",
         })
       )
       .addAction(

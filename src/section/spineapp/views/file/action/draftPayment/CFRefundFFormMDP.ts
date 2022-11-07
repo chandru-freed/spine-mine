@@ -128,12 +128,15 @@ export default class CFRefundFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
           label: "EMandate Id",
-          mandatory: true,
           boundaryClass: "col-4",
+          mandatory: true,
+          options: taskRoot.getFiEMandateListData(),
+          optionLabel: "eMandateId",
+          optionValue: "eMandateId",
         })
       )
       .addAction(

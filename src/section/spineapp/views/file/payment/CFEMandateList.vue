@@ -41,9 +41,8 @@ export default class FEMandate extends ModelVue {
     },
     { text: "Account Number", value: "accountNumber" },
     { text: "IFSC Code", value: "ifscCode" },
-    { text: "Account Type", value: "accountType" },
+    { text: "Account Type", value: "accountType.name" },
     { text: "City", value: "bankAddress.city" },
-    { text: "Actions", value: "actions" },
   ];
 
   clientFileId = this.$route.params.clientFileId;

@@ -78,6 +78,10 @@ export default class CFDraftPayment extends Vue {
   clientFileId = this.$route.params.clientFileId;
   paymentType: string;
 
+  getFiEMandateListData() {
+    return this.fiEMandateList;
+  }
+
   handleSelectedRequestType(value: any) {
     this.paymentType = value.key;
     console.log(this.paymentType);

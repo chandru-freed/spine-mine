@@ -1,9 +1,7 @@
 
 <template>
  <div>
-  CFPaymentDetails Layout
   <router-view/>
-  
  </div>
 </template>
 

@@ -16,13 +16,18 @@
           <template v-slot:[`item.status`]="{ item }">
             <v-chip small outlined>{{ item.status.name }}</v-chip>
           </template>
-          <template v-slot:item.totalAmount="{ item }">
+
+          <template v-slot:item.accountHolderName="{ item }">
             <f-btn
-              :label="item.totalAmount | toINR"
+              :label="item.accountHolderName"
               text
               color="secondary"
-              :onClick="() => gotoTask(item)"
+              :onClick="() => goto(item)"
             ></f-btn>
+          </template>
+          
+          <template v-slot:item.totalAmount="{ item }">
+           {{item.totalAmount | toINR}}
           </template>
           <template v-slot:item.receivedBy="{ item }">
             <v-chip small class="" v-if="item.receivedBy" label>
@@ -44,6 +49,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
+import smileRouter from "src-gen/smile-router";
 
 @Component({
   components: {
@@ -60,7 +66,9 @@ export default class CFPaymentList extends ModelVue {
   }
 
   headers = [
-    { text: "Total Amount", value: "totalAmount" },
+    { text: "Account Holder Name", value: "accountHolderName" },
+    { text: "Payment Type", value: "paymentType.name" },
+    { text: "Amount", value: "totalAmount", align: "right" },
     { text: "Payment Provider", value: "paymentProvider.name" },
     { text: "Status", value: "status" },
     { text: "Presented Date", value: "presentedDate" },
@@ -79,12 +87,11 @@ export default class CFPaymentList extends ModelVue {
     );
   }
 
-  gotoTask(item: any) {
+  goto(item: any) {
     console.log(item.paymentId);
     this.$router.push({
-      name: "Root.ClientFile.PaymentDetails",
+      name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
       params: {
-        clientFileNumber: item.clientFileNumber,
         paymentId: item.paymentId,
       },
     });

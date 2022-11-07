@@ -161,5 +161,4 @@ export default class CFSettlementFFormMDP extends FFormMDP {
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
-  
 }

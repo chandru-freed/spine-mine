@@ -1,6 +1,6 @@
 <template>
   <div class="CFDraftPayment">
-    <!-- {{ draftPaymentInput }} -->
+    <!-- {{selectedRequestType}} -->
     <div class="d-flex justify-space-between align-center mx-5">
       <h4>Draft Payment</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
@@ -16,7 +16,8 @@
       >
         <v-card-text>
           <v-autocomplete
-            v-model="selectedRequestType"
+            :value="selectedRequestTypeMetaData"
+            @input="handleSelectedRequestType"
             :items="requestTypeFlowMapList"
             flat
             hide-no-data
@@ -24,18 +25,19 @@
             label="Select Draft Payment Type"
             outlined
             dense
-            item-value="contentMetaData"
+            return-object
             item-text="key"
+            item-value="contentMetaData"
           ></v-autocomplete>
         </v-card-text>
 
         <v-card-text>
           <component
-            v-if="!!selectedRequestType"
-            :ref="selectedRequestType.myRefName"
-            :is="selectedRequestType.componentName"
-            v-model="draftPaymentRequestInput"
-            v-bind="selectedRequestType.props"
+            v-if="!!selectedRequestTypeMetaData"
+            :ref="selectedRequestTypeMetaData.myRefName"
+            :is="selectedRequestTypeMetaData.componentName"
+            v-model="draftPaymentInput"
+            v-bind="selectedRequestTypeMetaData.props"
           ></component>
         </v-card-text>
       </v-card>
@@ -68,17 +70,15 @@ export default class CFDraftPayment extends Vue {
 
   draftPaymentInput: any = new Data.ClientFile.DraftPaymentInput();
 
-  selectedRequestType: any = {};
+  selectedRequestTypeMetaData: any = {};
 
   clientFileId = this.$route.params.clientFileId;
+  paymentType: string;
 
-
-  get draftPaymentRequestInput() {
-    return this.draftPaymentInput;
-  }
-
-  set draftPaymentRequestInput(value) {
-    this.draftPaymentRequestInput = value;
+  handleSelectedRequestType(value: any) {
+    this.paymentType = value.key;
+    console.log(this.paymentType);
+    this.selectedRequestTypeMetaData = value.contentMetaData;
   }
 
   get requestTypeFlowMapList() {
@@ -105,12 +105,11 @@ export default class CFDraftPayment extends Vue {
   }
 
   draftPayment() {
-    this.draftPaymentRequestInput.clientFileId = this.clientFileId;
-    Action.ClientFile.DraftPayment.execute(
-      this.draftPaymentRequestInput,
-      (output) => {
-      }
-    );
+    this.draftPaymentInput.clientFileId = this.clientFileId;
+    this.draftPaymentInput.paymentType.id = this.paymentType;
+    Action.ClientFile.DraftPayment.execute(this.draftPaymentInput, (output) => {
+      this.goto(output.paymentId);
+    });
   }
 
   gotoAction(paymentId: string) {
@@ -118,6 +117,15 @@ export default class CFDraftPayment extends Vue {
       name: "Root.CFile.CFAction.CFActionList",
       params: {
         clientFileId: this.clientFileId,
+      },
+    });
+  }
+
+  goto(paymentId: string) {
+    this.$router.push({
+      name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
+      params: {
+        paymentId: paymentId,
       },
     });
   }

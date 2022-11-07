@@ -85,6 +85,15 @@ export default class CFLeftNav extends Vue {
       title: "File",
     },
     {
+      action: "mdi-file-account",
+      routerName: "Root.CFile.CFPayment.CFPaymentList",
+      items: [
+        { title: "List", routerName: "Root.CFile.CFPayment.CFPaymentList" },
+        { title: "Transaction", routerName: "Root.CFile.CFPayment.CFTransactionList" },
+      ],
+      title: "Payment",
+    },
+    {
       action: "mdi-checkbox-marked-circle-outline",
       routerName: "Root.CFile.CFTask.CFActiveTasks",
       items: [

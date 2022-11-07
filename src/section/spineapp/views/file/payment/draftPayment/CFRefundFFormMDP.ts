@@ -15,15 +15,16 @@ ifscCode
 eMandateId
 totalAmount
 spaAmount
-feeAmount
+feeAmount? = 0 set
 msfAmount? = 0 set
 */
-export default class CFSettlementFFormMDP extends FFormMDP {
+
+export default class CFRefundFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   constructor({ taskRoot }: { taskRoot: any }) {
     super({
-      myRefName: "cfSettlementFFormRef",
+      myRefName: "cfRefundFFormRef",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
@@ -96,7 +97,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-          returnObject: true
+          returnObject: true,
         })
       )
       .addField(
@@ -127,15 +128,6 @@ export default class CFSettlementFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "feeAmount",
-          label: "Fee Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
-      .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
@@ -161,5 +153,4 @@ export default class CFSettlementFFormMDP extends FFormMDP {
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
-  
 }

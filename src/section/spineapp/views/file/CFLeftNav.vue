@@ -24,7 +24,7 @@
         <v-list-group
           :key="item.title"
           v-model="item.active"
-          :prepend-icon="item.action"
+          :prepend-icon="item.icon"
           no-action
           @click="goto(item.routerName)"
         >
@@ -64,7 +64,8 @@ export default class CFLeftNav extends Vue {
 
   items = [
     {
-      action: "mdi-file-account",
+      title: "File",
+      icon: "mdi-file-account",
       routerName: "Root.CFile.CFInfo.CFPersonalInfo",
       items: [
         { title: "Personal", routerName: "Root.CFile.CFInfo.CFPersonalInfo" },
@@ -77,22 +78,25 @@ export default class CFLeftNav extends Vue {
         { title: "Bank", routerName: "Root.CFile.CFInfo.CFBankInfo" },
         { title: "Document", routerName: "Root.CFile.CFInfo.CFDocumentInfo" },
       ],
-      title: "File",
     },
     {
-      action: "mdi-credit-card-outline - payment icon",
+      title: "Accounting",
+      icon: "mdi-credit-card-outline - payment icon",
       routerName: "Root.CFile.CFPayment.CFPaymentList",
       items: [
-        { title: "List", routerName: "Root.CFile.CFPayment.CFPaymentList" },
+        { title: "Payment", routerName: "Root.CFile.CFPayment.CFPaymentList" },
         {
           title: "Transaction",
           routerName: "Root.CFile.CFPayment.CFTransactionList",
         },
+        {
+          title: "EMandate",
+          routerName: "Root.CFile.CFPayment.CFEMandateList",
+        },
       ],
-      title: "Payment",
     },
     {
-      action: "mdi-checkbox-marked-circle-outline",
+      icon: "mdi-checkbox-marked-circle-outline",
       routerName: "Root.CFile.CFTask.CFActiveTasks",
       items: [
         { title: "Active", routerName: "Root.CFile.CFTask.CFActiveTasks" },
@@ -104,7 +108,8 @@ export default class CFLeftNav extends Vue {
       title: "Task",
     },
     {
-      action: "mdi-ticket-confirmation",
+      title: "Ticket",
+      icon: "mdi-ticket-confirmation",
       routerName: "Root.CFile.CFTicket.CFActiveTickets",
       items: [
         { title: "Active", routerName: "Root.CFile.CFTicket.CFActiveTickets" },
@@ -114,10 +119,10 @@ export default class CFLeftNav extends Vue {
         },
         { title: "Add", routerName: "Root.CFile.CFTicket.CFAddTickets" },
       ],
-      title: "Ticket",
     },
     {
-      action: "mdi-comment-text",
+      title: "Note",
+      icon: "mdi-comment-text",
       routerName: "Root.CFile.CFNote.CFNoteHighlightList",
       items: [
         {
@@ -126,13 +131,12 @@ export default class CFLeftNav extends Vue {
         },
         { title: "All Notes", routerName: "Root.CFile.CFNote.CFNoteAllList" },
       ],
-      title: "Note",
     },
     {
-      action: "mdi-gesture-double-tap",
+      title: "Actions",
+      icon: "mdi-gesture-double-tap",
       routerName: "Root.CFile.CFAction.CFActionList",
       items: [{ title: "List Item" }],
-      title: "Actions",
     },
   ];
 

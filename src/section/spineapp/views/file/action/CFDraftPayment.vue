@@ -68,6 +68,9 @@ export default class CFDraftPayment extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
+  fiEMandateList: Data.ClientFile.FiEMandateList;
+
   draftPaymentInput: any = new Data.ClientFile.DraftPaymentInput();
 
   selectedRequestTypeMetaData: any = {};
@@ -79,6 +82,17 @@ export default class CFDraftPayment extends Vue {
     this.paymentType = value.key;
     console.log(this.paymentType);
     this.selectedRequestTypeMetaData = value.contentMetaData;
+  }
+
+  mounted() {
+    this.getEMandateList();
+  }
+
+  getEMandateList() {
+    Action.ClientFile.GetEMandateList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   get requestTypeFlowMapList() {

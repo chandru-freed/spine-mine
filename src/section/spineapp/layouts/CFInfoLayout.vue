@@ -77,10 +77,6 @@ export default class CFInfoLayout extends Vue {
       tabName: "Document",
       routerName: "Root.CFile.CFInfo.CFDocumentInfo",
     },
-    {
-      tabName: "transaction",
-      routerName: "Root.CFile.CFInfo.CFTransactionInfo",
-    },
   ];
 
   breadcrumbList =  [

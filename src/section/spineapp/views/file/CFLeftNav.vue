@@ -76,20 +76,18 @@ export default class CFLeftNav extends Vue {
         },
         { title: "Bank", routerName: "Root.CFile.CFInfo.CFBankInfo" },
         { title: "Document", routerName: "Root.CFile.CFInfo.CFDocumentInfo" },
-        { title: "Payment", routerName: "Root.CFile.CFInfo.CFPaymentInfo" },
-        {
-          title: "Transaction",
-          routerName: "Root.CFile.CFInfo.CFTransactionInfo",
-        },
       ],
       title: "File",
     },
     {
-      action: "mdi-file-account",
+      action: "mdi-credit-card-outline - payment icon",
       routerName: "Root.CFile.CFPayment.CFPaymentList",
       items: [
         { title: "List", routerName: "Root.CFile.CFPayment.CFPaymentList" },
-        { title: "Transaction", routerName: "Root.CFile.CFPayment.CFTransactionList" },
+        {
+          title: "Transaction",
+          routerName: "Root.CFile.CFPayment.CFTransactionList",
+        },
       ],
       title: "Payment",
     },
@@ -142,7 +140,6 @@ export default class CFLeftNav extends Vue {
   public mini = true;
 
   goto(routerName: string) {
-    console.log("I am in goto", routerName);
     this.$router.push({ name: routerName });
   }
 }

@@ -90,6 +90,10 @@ export default class CFActionList extends Vue {
         {
           actionName: "Receive MSF",
           routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
+        },
+        {
+          actionName: "Draft Payment",
+          routerName: "Root.CFile.CFAction.CFDraftPayment",
         }
       ]
     },

@@ -68,7 +68,7 @@ export default class CFReceiveMSFPayment extends ModelVue {
 
   gotoPaymentDetail(paymentId: string) {
     this.$router.push({
-      name: "Root.CFile.CFInfo.CFPayment.CFPaymentDetails",
+      name: "Root.CFile.CFPayment.CFPaymentDetails",
       params: {
         clientFileId: this.clientFileId,
         paymentId: paymentId,

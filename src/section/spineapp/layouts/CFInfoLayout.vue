@@ -79,7 +79,7 @@ export default class CFInfoLayout extends Vue {
     },
     {
       tabName: "Payment",
-      routerName: "Root.CFile.CFInfo.CFPaymentInfo",
+      routerName: "Root.CFile.CFPayment.CFPaymentList",
     },
     {
       tabName: "transaction",

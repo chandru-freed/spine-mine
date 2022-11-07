@@ -108,7 +108,8 @@ export default class CFDraftPayment extends Vue {
     this.draftPaymentRequestInput.clientFileId = this.clientFileId;
     Action.ClientFile.DraftPayment.execute(
       this.draftPaymentRequestInput,
-      (output) => {}
+      (output) => {
+      }
     );
   }
 

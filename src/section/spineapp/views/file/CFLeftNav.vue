@@ -140,7 +140,7 @@ export default class CFLeftNav extends Vue {
     },
     {
       title: "Settlement",
-      icon: "mdi-cash",
+      icon: "mdi-cash-multiple",
       routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList",
       items: [{ title: "Settlement Plan" }],
     },

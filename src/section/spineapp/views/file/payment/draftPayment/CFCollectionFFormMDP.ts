@@ -127,7 +127,7 @@ export default class CFCollectionFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Draft Payment",
+          label: "Present Payment",
           onClick: this.validateAndSubmit(),
         })
       );
@@ -135,7 +135,7 @@ export default class CFCollectionFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.taskRoot.draftPayment());
+      this.getMyRef().submitForm(this.taskRoot.presentPayment());
     };
   }
 

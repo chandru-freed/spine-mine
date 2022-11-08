@@ -17,17 +17,24 @@
             <v-chip small outlined>{{ item.status.name }}</v-chip>
           </template>
 
+          
+          
+          <template v-slot:item.totalAmount="{ item }">
+          
+           <v-btn
+              text
+              color="secondary"
+              @click="goto(item)"
+            >
+             {{item.totalAmount | toINR}}
+            </v-btn>
+          </template>
           <template v-slot:item.accountHolderName="{ item }">
             <f-btn
               :label="item.accountHolderName"
               text
               color="secondary"
-              :onClick="() => goto(item)"
             ></f-btn>
-          </template>
-          
-          <template v-slot:item.totalAmount="{ item }">
-           {{item.totalAmount | toINR}}
           </template>
           <template v-slot:item.receivedBy="{ item }">
             <v-chip small class="" v-if="item.receivedBy" label>
@@ -66,9 +73,9 @@ export default class CFPaymentList extends ModelVue {
   }
 
   headers = [
-    { text: "Account Holder Name", value: "accountHolderName" },
     { text: "Payment Type", value: "paymentType.name" },
     { text: "Amount", value: "totalAmount", align: "right" },
+    { text: "Account Holder Name", value: "accountHolderName" },
     { text: "Payment Provider", value: "paymentProvider.name" },
     { text: "Status", value: "status" },
     { text: "Presented Date", value: "presentedDate" },

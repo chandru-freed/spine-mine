@@ -34,6 +34,11 @@
             v-bind="selectedRequestType.props"
           ></component>
         </v-card-text>
+        <v-card-actions>
+          <v-btn primary outlined @click="checkPaymentStatus">Check Payment Status</v-btn>
+          <v-btn primary outlined @click="requestFundSplit">Request Split</v-btn>
+          <v-btn primary outlined @click="updateFundSplitStatus">Check Split Status</v-btn>
+        </v-card-actions>
       </v-card>
     </div>
   </div>
@@ -103,6 +108,30 @@ export default class CFPaymentDetails extends Vue {
   getFiPaymentDetails() {
     Action.ClientFile.GetFiPaymentDetails.execute1(this.paymentId, (output) => {
       this.fiPaymentDetails = output;
+    });
+  }
+
+  presentPayment() {
+    Action.ClientFile.PresentPayment.execute1(this.paymentId, (output) => {
+      setTimeout(this.getFiPaymentDetails, 1000)
+    });
+  }
+
+  checkPaymentStatus() {
+    Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
+      setTimeout(this.getFiPaymentDetails, 1000)
+    });
+  }
+
+  updateFundSplitStatus() {
+    Action.ClientFile.UpdateFundSplitStatus.execute2(this.paymentId, "", (output) => {
+      setTimeout(this.getFiPaymentDetails, 1000)
+    });
+  }
+
+  requestFundSplit() {
+    Action.ClientFile.RequestFundSplit.execute1(this.paymentId, (output) => {
+      setTimeout(this.getFiPaymentDetails, 1000)
     });
   }
 

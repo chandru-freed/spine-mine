@@ -2,17 +2,76 @@
   <div class="CFSettlementPlanInfo">
     <template>
       <component
+        v-if="settlementPlanForm"
         :ref="settlementPlanInfoMetaData.myRefName"
         :is="settlementPlanInfoMetaData.componentName"
         :value="selectModel(recordSettledPaymentInput, undefined)"
         v-bind="settlementPlanInfoMetaData.props"
       ></component>
+
+      <component
+        v-if="addSPAEntry"
+        :ref="addSTEntryInfoMetaData.myRefName"
+        :is="addSTEntryInfoMetaData.componentName"
+        :value="selectModel(recordSettledPaymentInput, undefined)"
+        v-bind="addSTEntryInfoMetaData.props"
+      ></component>
+
+      <v-alert dense outlined text color="error" v-if="deleteSPAEntry">
+        <div
+          class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+        >
+          <div class="my-1">Are you sure want to delete?</div>
+          <v-spacer />
+          <FBtn
+            label="Cancel"
+            :on-click="closeAndClearAllForms"
+            outlined
+            color="red"
+            class="mx-2"
+          />
+          <FBtn
+            label="Delete"
+            :on-click="deleteCreditorData"
+            outlined
+            color="red"
+            class="mx-2"
+          />
+        </div>
+      </v-alert>
     </template>
     <v-card flat outlined class="row ma-2">
-      <v-tabs v-model="tab" background-color="transparent" color="secondary">
-        <v-tab> SPA Schedule </v-tab>
-        <v-tab> Fee Schedule </v-tab>
-      </v-tabs>
+      <template>
+        <v-toolbar flat>
+          <v-tabs
+            v-model="tab"
+            background-color="transparent"
+            color="secondary"
+          >
+            <v-tab> SPA Schedule </v-tab>
+            <v-tab> Fee Schedule </v-tab>
+          </v-tabs>
+          <v-spacer></v-spacer>
+          <v-btn
+            :disabled="disabled"
+            icon
+            color="primary"
+            class="mb-2"
+            @click="showAddForm"
+          >
+            <v-icon>mdi-plus-circle-outline</v-icon>
+          </v-btn>
+          <v-btn
+            :disabled="disabled"
+            icon
+            color="primary"
+            class="mb-2"
+            @click="showDeletePopup"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-toolbar>
+      </template>
 
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>
@@ -65,6 +124,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import ModelVue from "@/components/generic/ModelVue";
+import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 
 @Component({
   components: {
@@ -73,7 +133,12 @@ import ModelVue from "@/components/generic/ModelVue";
 })
 export default class CFSettlementPlanInfo extends ModelVue {
   recordSettledPaymentInput = new Data.ClientFile.RecordSettledPaymentInput();
+
   tab = 0;
+  settlementPlanForm = true;
+  addSPAEntry = false;
+  deleteSPAEntry = false;
+
   spaHeaders = [
     {
       text: "Draft Date",
@@ -105,7 +170,30 @@ export default class CFSettlementPlanInfo extends ModelVue {
   get settlementPlanInfoMetaData() {
     return new CFSettlementPlanInfoFFormMDP({ taskRoot: this }).getMetaData();
   }
+
+  get addSTEntryInfoMetaData() {
+    return new AddSTEntryFFormMDP({ taskRoot: this }).getMetaData();
+  }
   //METADATA
+
+  showAddForm() {
+    this.closeDialogs();
+    this.addSPAEntry = true;
+    this.deleteSPAEntry = false;
+    this.settlementPlanForm = false;
+  }
+
+  closeDialogs() {
+    this.addSPAEntry = false;
+    this.deleteSPAEntry = false;
+    this.settlementPlanForm = true;
+  }
+
+  showDeletePopup() {
+    this.deleteSPAEntry = true;
+    this.addSPAEntry = false;
+    this.settlementPlanForm = false;
+  }
 }
 </script>
 

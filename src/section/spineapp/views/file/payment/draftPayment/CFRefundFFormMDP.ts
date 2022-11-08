@@ -61,6 +61,8 @@ export default class CFRefundFFormMDP extends FFormMDP {
             { id: "ENACH", name: "ENACH" },
             { id: "CREDIT_CARD", name: "CREDIT CARD" },
             { id: "DEBIT_CARD", name: "DEBIT CARD" },
+            { id: "NEFT", name: "NEFT" },
+            { id: "IMPS", name: "IMPS" },
           ],
           optionLabel: "name",
           optionValue: "id",
@@ -157,12 +159,12 @@ export default class CFRefundFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
-      .addAction(
-        new FBtnMDP({
-          label: "Present Payment",
-          onClick: this.validateAndSubmit(),
-        })
-      );
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Present Payment",
+      //     onClick: this.validateAndSubmit(),
+      //   })
+      // );
   }
 
   validateAndSubmit() {

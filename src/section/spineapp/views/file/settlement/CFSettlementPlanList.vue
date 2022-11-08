@@ -36,6 +36,13 @@
         {{ item.settlementAmount | toINR }}
       </template>
 
+      <template v-slot:[`item.status`]="{ item }">
+        <v-chip small outlined>
+        {{ item.status }}
+        </v-chip>
+      </template>
+      
+
       <template v-slot:[`item.fiCreditor.creditorName`]="{ item }">
         <v-btn
           text

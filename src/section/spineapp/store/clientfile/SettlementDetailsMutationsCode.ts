@@ -12,6 +12,9 @@ export class SettlementDetailsMutationsCode implements SettlementDetailsMutation
    public updateFiSettlementPlan(state: Data.ClientFile.SettlementDetails, fiSettlementPlanList: Data.ClientFile.FiSettlementPlan[]): void {
      state.fiSettlementPlanList = fiSettlementPlanList;
    }
+   public updateSTPlanDetails(state: Data.ClientFile.SettlementDetails, stPlanDetails: Data.ClientFile.STPlanDetails): void {
+     state.stPlanDetails = stPlanDetails;
+   }
 
 }
 

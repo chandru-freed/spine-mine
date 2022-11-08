@@ -17,4 +17,8 @@ export class SettlementDetailsGettersCode implements SettlementDetailsGetters {
     return state.fiSettlementPlanList;
   }
 
+  public stPlanDetails(state: Data.ClientFile.SettlementDetails): Data.ClientFile.STPlanDetails {
+    return state.stPlanDetails;
+  }
+
 }

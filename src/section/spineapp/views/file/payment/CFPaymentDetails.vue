@@ -2,7 +2,7 @@
   <div class="CFDraftPayment">
     <!-- fiPaymentDetails : {{ fiPaymentDetails }} -->
     <div class="d-flex justify-space-between align-center mx-5">
-      <h4>Draft Payment</h4>
+      <h4>Payment Details</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
@@ -109,6 +109,12 @@ export default class CFPaymentDetails extends Vue {
   getFiPaymentDetails() {
     Action.ClientFile.GetFiPaymentDetails.execute1(this.paymentId, (output) => {
       this.fiPaymentDetails = output;
+    });
+  }
+
+  presentPayment() {
+    Action.ClientFile.PresentPayment.execute1(this.paymentId, (output) => {
+      setTimeout(() => {this.getFiPaymentDetails()}, 1000)
     });
   }
 

@@ -94,6 +94,27 @@ export default class CFCollectionFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           mandatory: true,
         })
+      ).addField(
+        new FSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "status.name",
+          label: "Payment Status",
+          boundaryClass: "col-4",
+          returnObject: true,
+          options: [
+            { id: "DRAFT", name: "DRAFT" },
+            { id: "NOT_REACHABLE", name: "NOT REACHABLE" },
+            { id: "FAILED", name: "FAILED" },
+            { id: "PRESENTED", name: "PRESENTED" },
+            { id: "RECEIVED", name: "RECEIVED" },
+            { id: "REJECTED", name: "REJECTED" },
+            { id: "FUND_SPLIT_REQUESTED", name: "FUND SPLIT REQUESTED" },
+            { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
+            { id: "SETTLED", name: "SETTLED" },
+          ],
+          optionLabel: "name",
+          optionValue: "id",
+        })
       )
       .addField(
         new FTextFieldMDP({

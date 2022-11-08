@@ -35,9 +35,10 @@
           ></component>
         </v-card-text>
         <v-card-actions>
-          <v-btn primary outlined @click="checkPaymentStatus">Check Payment Status</v-btn>
-          <v-btn primary outlined @click="requestFundSplit">Request Split</v-btn>
-          <v-btn primary outlined @click="updateFundSplitStatus">Check Split Status</v-btn>
+          <v-btn primary outlined @click="presentPayment" v-if="fiPaymentDetails.status.id === 'DRAFT'">Present Payment</v-btn>
+          <v-btn primary outlined @click="checkPaymentStatus" v-if="fiPaymentDetails.status.id === 'PRESENTED'">Check Payment Status</v-btn>
+          <v-btn primary outlined @click="requestFundSplit"  v-if="fiPaymentDetails.status.id === 'RECEIVED' && fiPaymentDetails.paymentMode.id === 'ENACH'">Request Split</v-btn>
+          <v-btn primary outlined @click="updateFundSplitStatus"  v-if="fiPaymentDetails.status.id === 'FUND_SPLIT_REQUESTED'">Check Split Status</v-btn>
         </v-card-actions>
       </v-card>
     </div>

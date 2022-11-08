@@ -204,6 +204,12 @@ export default class CollectClientInfoTask extends ModelVue {
         this.getFiDocumentList();
       }, 1000);
     });
+
+    Action.TaskList.SaveAndComplete.interested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
   }
 
   public destroyed() {
@@ -258,6 +264,12 @@ export default class CollectClientInfoTask extends ModelVue {
         this.getFiDocumentList();
       }, 1000);
     });
+
+    Action.TaskList.SaveAndComplete.notInterested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
   }
   // Confirm AccountNumber => per populate account number to confirm cccount number
   setConfirmAccountNumber() {
@@ -310,6 +322,25 @@ export default class CollectClientInfoTask extends ModelVue {
       (output) => {}
     );
   }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
+  }
+
+
+  populateBankDetails(details: any) {
+    this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
+      details.ADDRESS;
+    this.taskFormData.taskOutput.bankInfo.bankAddress.city = details.CITY;
+    this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
+    this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
+  }
+
 }
 </script>
 

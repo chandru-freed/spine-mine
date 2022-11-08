@@ -1,6 +1,6 @@
 <template>
-  <div class="CFSettlementPlanInfo">
-    <h1>This is the Counter page hjhhk</h1>
+  <div class="CFSettlementPlanList">
+    <h1>CFSettlementPlanList hjkhkh</h1>
     <h2>Counter: {{counter}}</h2>
     <button @click="increment">Increment</button>
     <button @click="decrement">Decrement</button>
@@ -20,7 +20,7 @@ import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
 // import * as Action from '@/../src-gen/action';
 
 @Component
-export default class CFSettlementPlanInfo extends Vue {
+export default class CFSettlementPlanList extends Vue {
 
   public counter: number = 0 ;
 

@@ -138,6 +138,12 @@ export default class CFLeftNav extends Vue {
       routerName: "Root.CFile.CFAction.CFActionList",
       items: [{ title: "List Item" }],
     },
+    {
+      title: "Settlement",
+      icon: "mdi-gesture-double-tap",
+      routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList",
+      items: [{ title: "Settlement Plan" }],
+    },
   ];
 
   public drawer = true;

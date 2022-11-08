@@ -1,6 +1,6 @@
 <template>
   <div class="CFSettlementPlanInfo">
-    <h1>This is the Counter page hjhhk</h1>
+    <h1>CFSettlementPlanInfo</h1>
     <h2>Counter: {{counter}}</h2>
     <button @click="increment">Increment</button>
     <button @click="decrement">Decrement</button>

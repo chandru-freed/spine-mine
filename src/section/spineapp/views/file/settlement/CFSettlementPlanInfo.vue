@@ -1,15 +1,14 @@
 <template>
   <v-col class="CFSettlementPlanInfo">
-    {{stPlanDetails.stFeeEntryList}}
+    <!-- {{stPlanDetails.stFeeEntryList}} -->
     <template>
       <v-card outlined class="ma-2">
-      <component
-        
-        :ref="settlementPlanInfoMetaData.myRefName"
-        :is="settlementPlanInfoMetaData.componentName"
-        :value="selectModel(stPlanDetails.stPlanInfo, undefined)"
-        v-bind="settlementPlanInfoMetaData.props"
-      ></component>
+        <component
+          :ref="settlementPlanInfoMetaData.myRefName"
+          :is="settlementPlanInfoMetaData.componentName"
+          :value="selectModel(stPlanDetails.stPlanInfo, undefined)"
+          v-bind="settlementPlanInfoMetaData.props"
+        ></component>
       </v-card>
       <component
         v-if="addSPAEntry"
@@ -27,14 +26,14 @@
           <v-spacer />
           <FBtn
             label="Cancel"
-            :on-click="closeAndClearAllForms"
+            :on-click="closeDialogs"
             outlined
             color="red"
             class="mx-2"
           />
           <FBtn
             label="Delete"
-            :on-click="deleteCreditorData"
+            :on-click="removeSTEntry"
             outlined
             color="red"
             class="mx-2"
@@ -92,12 +91,21 @@
               <template v-slot:[`item.feeAmount`]="{ item }">
                 {{ item.feeAmount | toINR }}
               </template>
+
+              <template v-slot:[`item.actions`]="{ item, index }">
+                <v-icon
+                  :disabled="disabled"
+                  small
+                  @click="showDeletePopup(item, index)"
+                >
+                  mdi-delete
+                </v-icon>
+              </template>
             </v-data-table>
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            
             <v-data-table
               :headers="headers"
               :items="stPlanDetails.stFeeEntryList"
@@ -134,10 +142,12 @@ import * as Action from "@/../src-gen/action";
 import ModelVue from "@/components/generic/ModelVue";
 import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 import * as Snackbar from "node-snackbar";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     FForm,
+    FBtn,
   },
 })
 export default class CFSettlementPlanInfo extends ModelVue {
@@ -147,7 +157,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
   fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
-
+  selectedSTEntry: Data.ClientFile.FiCreditor;
   stPlanId = this.$route.params.stPlanId;
   clientFileId = this.$route.params.clientFileId;
 
@@ -170,6 +180,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
     { text: "SPA Amount", value: "spaAmount" },
     { text: "Fee Amount", value: "feeAmount" },
     { text: "status", value: "status" },
+    { text: "Actions", value: "actions" },
   ];
   //METADATA
   get settlementPlanInfoMetaData() {
@@ -187,8 +198,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
   }
 
   getSTPaymentPlanDetails() {
-    Action.ClientFile.GetSTPlanDetails.execute1(this.stPlanId, output => {
-    });
+    Action.ClientFile.GetSTPlanDetails.execute1(this.stPlanId, (output) => {});
   }
 
   showAddForm() {
@@ -204,13 +214,15 @@ export default class CFSettlementPlanInfo extends ModelVue {
     this.settlementPlanForm = true;
   }
 
-  showDeletePopup() {
+  showDeletePopup(item: any) {
+    console.log("stEntryId", item.stEntryId);
+    this.selectedSTEntry = item;
     this.deleteSPAEntry = true;
     this.addSPAEntry = false;
     this.settlementPlanForm = false;
   }
 
- getFiCreditorInfo() {
+  getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
       this.clientFileId,
       (output) => {}
@@ -225,6 +237,19 @@ export default class CFSettlementPlanInfo extends ModelVue {
       });
       this.getSTPaymentPlanDetails();
       this.addSPAEntry = false;
+      this.settlementPlanForm = true;
+    });
+  }
+
+  removeSTEntry() {
+    const stEntryId = this.selectedSTEntry.stEntryId;
+    Action.ClientFile.RemoveSTEntry.execute1(stEntryId, (output) => {
+      Snackbar.show({
+        text: "Succesfully Delete ST Entry",
+        pos: "bottom-center",
+      });
+      this.getSTPaymentPlanDetails();
+      this.deleteSPAEntry = false;
       this.settlementPlanForm = true;
     });
   }

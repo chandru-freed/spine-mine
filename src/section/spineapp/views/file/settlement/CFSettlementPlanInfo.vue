@@ -60,15 +60,6 @@
           >
             <v-icon>mdi-plus-circle-outline</v-icon>
           </v-btn>
-          <v-btn
-            :disabled="disabled"
-            icon
-            color="primary"
-            class="mb-2"
-            @click="showDeletePopup"
-          >
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
         </v-toolbar>
       </template>
 

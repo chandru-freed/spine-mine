@@ -12,7 +12,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
   constructor({ taskRoot }: { taskRoot: any }) {
     super({
       myRefName: "addSTEntryRef",
-      disabled: true,
+      disabled: taskRoot.disabled,
     });
     this.taskRoot = taskRoot;
 
@@ -20,9 +20,8 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentProvider",
-        label: "AddSTEntryFFormMDP",
-        boundaryClass: "col-4",
-        mandatory: true,
+        label: "Payment Provider",
+        boundaryClass: "col-3",
         returnObject: true,
         options: [
           { id: "NUPAY", name: "NUPAY" },
@@ -32,27 +31,52 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         optionLabel: "name",
         optionValue: "id",
       })
-    );
-  }
-
-  validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.recordSettledPayment());
-    };
+    )
+      .addField(
+        new FSelectDateFieldMDP({
+          dataSelectorKey: "draftDate",
+          label: "Draft Date",
+          parentMDP: this.childMDP,
+          boundaryClass: "col-3",
+          pastDaysDisabled: true,
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "spaAmount",
+          label: "SPA Amount",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "feeAmount",
+          label: "Fee Amount",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Add Settlement",
+          onClick: this.validateAndSubmit(),
+        })
+      );
   }
 
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
-  recordSettledPayment() {
-    return () => {
-      this.taskRoot.recordSettledPayment();
-    };
-  }
 
-  gotoClientFile() {
+  // new implement
+  validateAndSubmit() {
     return () => {
-      this.taskRoot.gotoClientFile();
+      this.getMyRef().submitForm(() => {
+        this.taskRoot.addSPAEntryForm();
+      });
     };
   }
 }

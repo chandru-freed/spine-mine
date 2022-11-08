@@ -8,12 +8,11 @@
         :value="selectModel(recordSettledPaymentInput, undefined)"
         v-bind="settlementPlanInfoMetaData.props"
       ></component>
-
       <component
         v-if="addSPAEntry"
         :ref="addSTEntryInfoMetaData.myRefName"
         :is="addSTEntryInfoMetaData.componentName"
-        :value="selectModel(recordSettledPaymentInput, undefined)"
+        :value="selectModel(addSTEntryInput, undefined)"
         v-bind="addSTEntryInfoMetaData.props"
       ></component>
 
@@ -134,6 +133,8 @@ import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 export default class CFSettlementPlanInfo extends ModelVue {
   recordSettledPaymentInput = new Data.ClientFile.RecordSettledPaymentInput();
 
+  addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
+
   tab = 0;
   settlementPlanForm = true;
   addSPAEntry = false;
@@ -193,6 +194,10 @@ export default class CFSettlementPlanInfo extends ModelVue {
     this.deleteSPAEntry = true;
     this.addSPAEntry = false;
     this.settlementPlanForm = false;
+  }
+
+  addSPAEntryForm() {
+    Action.ClientFile.AddSTEntry.execute(this.addSTEntryInput, (output) => {});
   }
 }
 </script>

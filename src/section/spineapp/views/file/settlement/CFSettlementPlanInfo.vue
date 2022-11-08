@@ -123,6 +123,15 @@
               <template v-slot:[`item.totalAmount`]="{ item }">
                 {{ item.totalAmount | toINR }}
               </template>
+              <template v-slot:[`item.actions`]="{ item, index }">
+                <v-icon
+                  :disabled="disabled"
+                  small
+                  @click="showDeletePopup(item, index)"
+                >
+                  mdi-delete
+                </v-icon>
+              </template>
             </v-data-table>
           </v-card>
         </v-tab-item>

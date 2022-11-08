@@ -67,7 +67,7 @@
         <v-tab-item>
           <v-card flat>
             <v-data-table
-              :headers="spaHeaders"
+              :headers="headers"
               :items="spaEntrySchelduledList"
               sort-by="draftDate"
               class="elevation-0"
@@ -85,7 +85,7 @@
         <v-tab-item>
           <v-card flat>
             <v-data-table
-              :headers="feeHeaders"
+              :headers="headers"
               :items="feeEntrySchelduledList"
               sort-by="draftDate"
               class="elevation-0"
@@ -134,31 +134,22 @@ export default class CFSettlementPlanInfo extends ModelVue {
   addSPAEntry = false;
   deleteSPAEntry = false;
 
-  spaHeaders = [
+  headers = [
     {
-      text: "Draft Date",
+      text: "Payment Provider",
       align: "start",
       sortable: false,
-      value: "draftDate",
+      value: "paymentProvider",
     },
-    { text: "Fee Code", value: "feeCode" },
-    { text: "Amount", value: "amount" },
-    { text: "Tax Amount", value: "taxAmount" },
+    { text: "Payment Mode", value: "paymentMode" },
+    { text: "Account Number", value: "accountNumber" },
+    { text: "Account Holder Name", value: "Account Holder Name" },
     { text: "Total Amount", value: "totalAmount" },
+    { text: "SPA Amount", value: "spaAmount" },
+    { text: "Fee Amount", value: "feeAmount" },
+    { text: "status", value: "status" },
   ];
-  feeHeaders = [
-    {
-      text: "Draft Date",
-      align: "start",
-      sortable: false,
-      value: "draftDate",
-    },
-    { text: "Fee Code", value: "feeCode" },
-    // { text: "Collection Order", value: "collectionOrder" },
-    { text: "Amount", value: "amount" },
-    { text: "Tax Amount", value: "taxAmount" },
-    { text: "Total Amount", value: "totalAmount" },
-  ];
+
   spaEntrySchelduledList = [];
   feeEntrySchelduledList = [];
   //METADATA

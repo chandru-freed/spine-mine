@@ -1,8 +1,8 @@
 <template>
   <v-card class="pa-0 ma-0" flat height="calc(100vh - 48px)">
     <v-data-table
-      :headers="fiCreditorListGridHeaderList"
-      :items="fiCreditorList"
+      :headers="fiCreditorSettlementListGridHeaderList"
+      :items="fiCreditorSettlementList"
       class="elevation-0"
       item-key="settlementId"
       :search="search"
@@ -87,12 +87,12 @@ import Helper from "../../util/Helper";
 
 @Component
 export default class FiCreditorSettlementList extends Vue {
-  @Store.Getter.ClientFile.SettlementDetails.fiCreditorList
-  fiCreditorList: Data.ClientFile.FiCreditorApprochingSettlement[];
+  @Store.Getter.ClientFile.SettlementDetails.fiCreditorSettlementList
+  fiCreditorSettlementList: Data.ClientFile.FiCreditorApprochingSettlement[];
   search: string = "";
   savingPercentage: number = 0;
 
-  fiCreditorListGridHeaderList = [
+  fiCreditorSettlementListGridHeaderList = [
     { text: "Creditor Name", value: "creditorName", align: "start" },
     { text: "Client Name", value: "clientFile.clientBasicInfo.fullName" },
     { text: "Mobile", value: "clientFile.clientBasicInfo.mobile" },
@@ -100,9 +100,6 @@ export default class FiCreditorSettlementList extends Vue {
     { text: "Saving Percentage(%)", value: "savingPercentage" },
     { text: "Total Spa Saving", value: "spaSavingAmount" },
     { text: "Creditor Balance", value: "creditorBalance" },
-
-    // { text: "City", value: "city" },
-    // { text: "State", value: "state" },
   ];
 
   public mounted() {

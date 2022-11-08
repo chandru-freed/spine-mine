@@ -5,10 +5,13 @@ import {SettlementDetailsMutations} from '@/../src-gen/store/clientfile-store-su
 export class SettlementDetailsMutationsCode implements SettlementDetailsMutations   {
 
 
-   public updateFiCreditorList(state: Data.ClientFile.SettlementDetails, fiCreditorList: Data.ClientFile.FiCreditorApprochingSettlement[]  ): void  {
-     state.fiCreditorList = fiCreditorList;
+   public updateFiCreditorList(state: Data.ClientFile.SettlementDetails, fiCreditorSettlementList: Data.ClientFile.FiCreditorApprochingSettlement[]  ): void  {
+     state.fiCreditorSettlementList = fiCreditorSettlementList;
    }
 
+   public updateFiSettlementPlan(state: Data.ClientFile.SettlementDetails, fiSettlementPlanList: Data.ClientFile.FiSettlementPlan[]): void {
+     state.fiSettlementPlanList = fiSettlementPlanList;
+   }
 
 }
 

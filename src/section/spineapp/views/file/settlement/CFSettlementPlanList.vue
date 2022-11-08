@@ -1,61 +1,151 @@
 <template>
-  <div class="CFSettlementPlanList">
-    <h1>CFSettlementPlanList hjkhkh</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
-  </div>
+  <v-col>
+    <v-card v-if="showAddSettlementPlanForm" outlined class="ma-3">
+      <component
+        :ref="addSettlementPlanMetaData.myRefName"
+        :is="addSettlementPlanMetaData.componentName"
+        :value="selectModel(addSettlementPlanInput, undefined)"
+        @input="
+          (newValue) => updateModel(addSettlementPlanInput, newValue, undefined)
+        "
+        v-bind="addSettlementPlanMetaData.props"
+      ></component>
+    </v-card>
 
+    <v-data-table
+      :headers="fiSettlementPlanListGridHeaderList"
+      :items="fiSettlementPlanList"
+      class="elevation-0"
+      item-key="settlementId"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-card-title>Creditor Settlement Plan List</v-card-title>
+          <v-spacer />
+          <v-btn @click="showAddSettlementPlanForm = true" color="primary"
+            >Add Settlement Plan</v-btn
+          >
+        </v-toolbar>
+      </template>
+
+      <template v-slot:[`item.totalOutstanding`]="{ item }">
+        {{ item.totalOutstanding | toINR }}
+      </template>
+
+      <template v-slot:[`item.settlementAmount`]="{ item }">
+        {{ item.settlementAmount | toINR }}
+      </template>
+
+      <template v-slot:[`item.fiCreditor.creditorName`]="{ item }">
+        <v-btn
+          text
+          color="green"
+          @click="gotoPaymentPlan(item.fiSettlementPlanId)"
+          >{{ item.fiCreditor.creditorName }}
+        </v-btn>
+      </template>
+    </v-data-table>
+  </v-col>
 </template>
 
 <script lang="ts">
-
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import * as Action from "@/../src-gen/action";
+import AddSettlementPlanFFormMDP from "./AddSettlementPlanFFormMDP";
+import ModelVue from "@/components/generic/ModelVue";
+import FForm from "@/components/generic/form/FForm.vue";
 
-@Component
-export default class CFSettlementPlanList extends Vue {
+@Component({
+  components: {
+    FForm,
+  },
+})
+export default class CFSettlementPlanList extends ModelVue {
+  @Store.Getter.ClientFile.SettlementDetails.fiSettlementPlanList
+  fiSettlementPlanList: Data.ClientFile.FiSettlementPlan[];
 
-  public counter: number = 0 ;
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
+  addSettlementPlanInput: Data.ClientFile.PlanPaymentSettlementInput =
+    new Data.ClientFile.PlanPaymentSettlementInput();
 
+  @Watch("addSettlementPlanInput.fiCreditorId") fiCreditorIdChanged(
+    newVal: string,
+    oldVal: string
+  ) {
+    const selectedCreditor: any = this.fiCreditorInfo.creditorList.find(
+      (item, index) => {
+        return item.fiCreditorId === newVal;
+      }
+    );
+    this.addSettlementPlanInput.outstandingAmount =
+      selectedCreditor.creditorBalance;
+  }
+
+  showAddSettlementPlanForm: boolean = false;
+
+  fiSettlementPlanListGridHeaderList = [
+    { text: "Creditor Name", value: "fiCreditor.creditorName", align: "start" },
+    { text: "Total Outstanding", value: "totalOutstanding" },
+    { text: "Settlement Amount", value: "settlementAmount" },
+    { text: "Status", value: "status" },
+  ];
+
+
+  get addSettlementPlanMetaData() {
+    return new AddSettlementPlanFFormMDP({ root: this }).getMetaData();
+  }
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
 
   public mounted() {
-
+    this.getFiCreditorInfo();
+    this.getSettlementPlanList();
   }
 
-  public created() {
-
+  getSettlementPlanList() {
+    Action.ClientFile.GetFiCreditorSettlementPlanList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
-  private increment() {
-    this.counter += 1;
+  addSettlement() {
+    Action.ClientFile.PlanPaymentSettlement.execute(
+      this.addSettlementPlanInput,
+      (output) => {
+        this.getSettlementPlanList();
+        this.closeAndResetForms();
+      }
+    );
   }
 
-  private decrement() {
-    this.counter -= 1;
+  closeAndResetForms() {
+    this.showAddSettlementPlanForm = false;
+    this.addSettlementPlanInput =
+      new Data.ClientFile.PlanPaymentSettlementInput();
   }
 
-  private get computedCounter(): number {
-    return this.counter * 2;
+  gotoPaymentPlan(stPlanId: string) {
+    this.$router.push({
+      name:"Root.CFile.CFSettlementPlan.CFSettlementPlanInfo.CFSettlementPlanInfo",
+      params:{ stPlanId}
+    })
   }
-
 }
-
 </script>
 
 <style>

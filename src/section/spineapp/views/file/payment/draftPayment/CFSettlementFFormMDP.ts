@@ -168,12 +168,12 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
-      .addAction(
-        new FBtnMDP({
-          label: "Present Payment",
-          onClick: this.validateAndSubmit(),
-        })
-      );
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Present Payment",
+      //     onClick: this.validateAndSubmit(),
+      //   })
+      // );
   }
 
   validateAndSubmit() {

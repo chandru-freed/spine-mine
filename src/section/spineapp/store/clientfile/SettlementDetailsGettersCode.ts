@@ -9,8 +9,12 @@ export class SettlementDetailsInit {
 export class SettlementDetailsGettersCode implements SettlementDetailsGetters {
 
 
-   public fiCreditorList(state: Data.ClientFile.SettlementDetails): Data.ClientFile.FiCreditorApprochingSettlement[] {
-     return state.fiCreditorList
+   public fiCreditorSettlementList(state: Data.ClientFile.SettlementDetails): Data.ClientFile.FiCreditorApprochingSettlement[] {
+     return state.fiCreditorSettlementList;
    }
+
+  public fiSettlementPlanList(state: Data.ClientFile.SettlementDetails): Data.ClientFile.FiSettlementPlan[] {
+    return state.fiSettlementPlanList;
+  }
 
 }

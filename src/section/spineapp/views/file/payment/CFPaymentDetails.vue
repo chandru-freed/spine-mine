@@ -1,12 +1,6 @@
 <template>
   <div class="CFDraftPayment">
     <!-- fiPaymentDetails : {{ fiPaymentDetails }} -->
-    <div class="d-flex justify-space-between align-center mx-5">
-      <h4>Payment Details</h4>
-      <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
-        <v-icon size="20">mdi-close</v-icon>
-      </v-btn>
-    </div>
     <div class="d-flex justify-center col-12 ma-auto">
       <v-card
         class="pa-0 ma-0 mt-5 col-12"

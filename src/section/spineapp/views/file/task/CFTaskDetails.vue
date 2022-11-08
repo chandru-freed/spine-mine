@@ -253,9 +253,9 @@ export default class CFTaskDetails extends Vue {
     );
     Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
-    // Action.TaskList.SaveAndComplete.interested(
-    //   this.getExecutiveTaskDetailsHandler
-    // );
+    Action.TaskList.SaveAndComplete.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
 
@@ -267,7 +267,6 @@ export default class CFTaskDetails extends Vue {
     Action.Spine.UpdatePaymentStatus.interested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.TaskList.SaveAndComplete.interested(this.handleSaveAndComplete);
 
     this.getExecutiveTaskDetailsWithDelay();
   }
@@ -310,7 +309,6 @@ export default class CFTaskDetails extends Vue {
         // this.gotoTask(item);
       }
     );
-
   }
 
   gotoFile() {
@@ -349,9 +347,9 @@ export default class CFTaskDetails extends Vue {
     );
     Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
-    // Action.TaskList.SaveAndComplete.notInterested(
-    //   this.getExecutiveTaskDetailsHandler
-    // );
+    Action.TaskList.SaveAndComplete.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
 
@@ -362,7 +360,7 @@ export default class CFTaskDetails extends Vue {
     Action.Spine.UpdatePaymentStatus.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.TaskList.SaveAndComplete.notInterested(this.handleSaveAndComplete);
+
   }
 
   findClientFileSummary() {

@@ -9,7 +9,7 @@
     ></component>
   </div>
 </template>
-       <script lang="ts">
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -144,4 +144,4 @@ export default class UnderwrittingTask
 }
 </script>
 
- <style></style>
+<style></style>

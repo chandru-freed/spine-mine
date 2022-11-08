@@ -337,7 +337,6 @@ export default class ManageClientInfoTask
     );
   }
 
-
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
       this.clientFileId,
@@ -346,10 +345,7 @@ export default class ManageClientInfoTask
   }
 
   getBudgetInfo() {
-    Action.ClientFile.GetBudgetInfo.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
   }
 
   getFiPaymentPlanInfo() {
@@ -360,10 +356,7 @@ export default class ManageClientInfoTask
   }
 
   getFiBankInfo() {
-    Action.ClientFile.GetFiBankInfo.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetFiBankInfo.execute1(this.clientFileId, (output) => {});
   }
 
   getFiDocumentList() {

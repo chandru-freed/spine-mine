@@ -27,10 +27,6 @@
     </div>
 
     <div class="col-12">
-      <v-card outlined height="200px"> </v-card>
-    </div>
-
-    <div class="col-12">
       <v-card outlined height="300px">
         <v-card-text class="pa-1">
           <v-textarea
@@ -79,6 +75,10 @@
           </div>
         </v-card-text>
       </v-card>
+    </div>
+
+    <div class="col-12">
+      <v-card outlined height="200px"> </v-card>
     </div>
   </div>
 </template>

@@ -36,6 +36,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn primary outlined @click="checkPaymentStatus">Check Payment Status</v-btn>
+          <v-btn primary outlined @click="requestFundSplit">Request Split</v-btn>
           <v-btn primary outlined @click="updateFundSplitStatus">Check Split Status</v-btn>
         </v-card-actions>
       </v-card>
@@ -123,7 +124,13 @@ export default class CFPaymentDetails extends Vue {
   }
 
   updateFundSplitStatus() {
-    Action.ClientFile.UpdateFundSplitStatus.execute1(this.paymentId, (output) => {
+    Action.ClientFile.UpdateFundSplitStatus.execute2(this.paymentId, "", (output) => {
+      setTimeout(() => {this.getFiPaymentDetails()}, 1000)
+    });
+  }
+
+  requestFundSplit() {
+    Action.ClientFile.RequestFundSplit.execute1(this.paymentId, (output) => {
       setTimeout(() => {this.getFiPaymentDetails()}, 1000)
     });
   }

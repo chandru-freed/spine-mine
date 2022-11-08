@@ -113,25 +113,25 @@ export default class CFPaymentDetails extends Vue {
 
   presentPayment() {
     Action.ClientFile.PresentPayment.execute1(this.paymentId, (output) => {
-      setTimeout(() => {this.getFiPaymentDetails()}, 1000)
+      setTimeout(this.getFiPaymentDetails, 1000)
     });
   }
 
   checkPaymentStatus() {
     Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
-      setTimeout(() => {this.getFiPaymentDetails()}, 1000)
+      setTimeout(this.getFiPaymentDetails, 1000)
     });
   }
 
   updateFundSplitStatus() {
     Action.ClientFile.UpdateFundSplitStatus.execute2(this.paymentId, "", (output) => {
-      setTimeout(() => {this.getFiPaymentDetails()}, 1000)
+      setTimeout(this.getFiPaymentDetails, 1000)
     });
   }
 
   requestFundSplit() {
     Action.ClientFile.RequestFundSplit.execute1(this.paymentId, (output) => {
-      setTimeout(() => {this.getFiPaymentDetails()}, 1000)
+      setTimeout(this.getFiPaymentDetails, 1000)
     });
   }
 

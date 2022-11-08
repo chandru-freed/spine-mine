@@ -61,6 +61,8 @@ export default class CFRefundFFormMDP extends FFormMDP {
             { id: "ENACH", name: "ENACH" },
             { id: "CREDIT_CARD", name: "CREDIT CARD" },
             { id: "DEBIT_CARD", name: "DEBIT CARD" },
+            { id: "NEFT", name: "NEFT" },
+            { id: "IMPS", name: "IMPS" },
           ],
           optionLabel: "name",
           optionValue: "id",

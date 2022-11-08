@@ -332,7 +332,8 @@ export default class CollectClientInfoTask extends ModelVue {
     );
   }
 
-
+  /* Bank Details => based on the IFSC code get the bank address 
+  and per populate the data like ADDRESS, CITY, STATE, COUNTRY */
   populateBankDetails(details: any) {
     this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
       details.ADDRESS;
@@ -340,7 +341,6 @@ export default class CollectClientInfoTask extends ModelVue {
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
   }
-
 }
 </script>
 

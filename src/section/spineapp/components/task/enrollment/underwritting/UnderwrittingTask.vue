@@ -9,7 +9,7 @@
     ></component>
   </div>
 </template>
-       <script lang="ts">
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -103,6 +103,21 @@ export default class UnderwrittingTask
 
   //DATA
 
+  mounted() {
+    Action.TaskList.SaveAndComplete.interested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
+  }
+
+  public destroyed() {
+    Action.TaskList.SaveAndComplete.notInterested((output) => {
+      setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+    });
+  }
   //ACTION
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
@@ -141,7 +156,16 @@ export default class UnderwrittingTask
       this.taskFormData.taskOutput.reasonForUnderwrittingDecline = undefined;
     }
   }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
+  }
 }
 </script>
 
- <style></style>
+<style></style>

@@ -24,16 +24,14 @@ export default class CFSettlementPlanLayout extends Vue {
 
   breadcrumbList = [
     {
-      title: "Settlement",
-      routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList",
-    },
-    {
       title: "Settlement Plan",
-    },
+      routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList",
+    }
   ];
 
   goto(routerName: string) {
     this.$router.push({ name: routerName });
   }
+
 }
 </script>

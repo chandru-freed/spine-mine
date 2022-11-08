@@ -1,7 +1,7 @@
 
 <template>
  <div>
-  Settlement Layout
+  
   <router-view/>
    <router-view name="leftNav"/> 
  <router-view name="summary"/> 

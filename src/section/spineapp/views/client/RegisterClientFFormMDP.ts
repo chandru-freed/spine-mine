@@ -58,15 +58,15 @@ export default class RegisterClientFFormMDP extends FFormMDP {
           mandatory: true,
         })
       )
-      .addField(
-        new FPhoneFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "leadSource",
-          label: "Lead Source",
-          boundaryClass: "col-4",
-          disabled: true,
-        })
-      )
+      // .addField(
+      //   new FPhoneFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "leadSource",
+      //     label: "Lead Source",
+      //     boundaryClass: "col-4",
+      //     disabled: true,
+      //   })
+      // )
       .addAction(
         new FBtnMDP({
           label: "Register Client",

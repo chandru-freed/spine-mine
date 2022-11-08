@@ -42,6 +42,28 @@
         </v-card-actions>
       </v-card>
     </div>
+    <v-col class="col-12">
+      <v-card flat outlined>
+        <v-card-title class="pb-0">Transactions</v-card-title>
+        <v-card-text class="pa-0">
+          <v-data-table
+            :headers="headers"
+            :items="paymentTransactionList"
+            sort-by="draftDate"
+            class="elevation-0"
+          >
+            <template v-slot:[`item.txnDate`]="{ item }">
+              <span class="grey--text">
+                {{ item.txnDate | date }}
+              </span>
+            </template>
+            <template v-slot:[`item.amount`]="{ item }">
+              {{ item.debit ? "- " : "+ " }}{{ item.amount | toINR }}
+            </template>
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-col>
   </div>
   <!--  TASK TAB -->
 </template>
@@ -75,12 +97,19 @@ export default class CFPaymentDetails extends Vue {
   clientFileId = this.$route.params.clientFileId;
   paymentId = this.$route.params.paymentId;
 
+  paymentTransactionList: Data.ClientFile.PaymentTransaction[] = []
+
   get selectedRequestType() {
     return this.requestTypeFlowMapList.find(x => x.key === this.fiPaymentDetails.paymentType.id)?.contentMetaData;
   }
 
   mounted() {
+    this.loadPaymentDetails()
+  }
+
+  loadPaymentDetails() {
     this.getFiPaymentDetails();
+    this.getPaymentTransactionList();
   }
 
   get requestTypeFlowMapList() {
@@ -114,25 +143,25 @@ export default class CFPaymentDetails extends Vue {
 
   presentPayment() {
     Action.ClientFile.PresentPayment.execute1(this.paymentId, (output) => {
-      setTimeout(this.getFiPaymentDetails, 1000)
+      setTimeout(this.loadPaymentDetails, 1000)
     });
   }
 
   checkPaymentStatus() {
     Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
-      setTimeout(this.getFiPaymentDetails, 1000)
+      setTimeout(this.loadPaymentDetails, 1000)
     });
   }
 
   updateFundSplitStatus() {
     Action.ClientFile.UpdateFundSplitStatus.execute2(this.paymentId, "", (output) => {
-      setTimeout(this.getFiPaymentDetails, 1000)
+      setTimeout(this.loadPaymentDetails, 1000)
     });
   }
 
   requestFundSplit() {
     Action.ClientFile.RequestFundSplit.execute1(this.paymentId, (output) => {
-      setTimeout(this.getFiPaymentDetails, 1000)
+      setTimeout(this.loadPaymentDetails, 1000)
     });
   }
 
@@ -143,6 +172,26 @@ export default class CFPaymentDetails extends Vue {
         clientFileId: this.clientFileId,
       },
     });
+  }
+
+  headers = [
+    { text: "Account Identifier", value: "accountIdentifier" },
+    { text: "Intent", value: "intent" },
+    { text: "Amount", value: "amount" },
+    { text: "Payment Ref Number", value: "paymentRefNumber" },
+    { text: "Remote Txn Ref Number", value: "remoteTxnRefNumber" },
+    { text: "Txn Date", value: "txnDate" },
+  ];
+
+
+  //ACTION
+  getPaymentTransactionList() {
+    Action.ClientFile.GetPaymentTransactionList.execute1(
+      this.paymentId,
+      (output) => {
+        this.paymentTransactionList = output
+      }
+    );
   }
 }
 </script>

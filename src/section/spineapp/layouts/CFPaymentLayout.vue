@@ -79,7 +79,7 @@ export default class CFTicketLayout extends Vue {
 
   breadcrumbList = [
     {
-      title: "Payment",
+      title: "Accounting",
       routerName: "Root.CFile.CFPayment.CFPaymentList",
     },
     {

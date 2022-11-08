@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card flat outlined>
+    <v-card flat>
       <v-card-title>Register Client</v-card-title>
       <v-card-text >
         <component

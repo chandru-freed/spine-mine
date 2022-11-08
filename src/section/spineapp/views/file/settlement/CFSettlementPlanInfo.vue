@@ -1,13 +1,16 @@
 <template>
-  <div class="CFSettlementPlanInfo">
+  <v-col class="CFSettlementPlanInfo">
+    {{stPlanDetails.stFeeEntryList}}
     <template>
+      <v-card outlined class="ma-2">
       <component
-        v-if="settlementPlanForm"
+        
         :ref="settlementPlanInfoMetaData.myRefName"
         :is="settlementPlanInfoMetaData.componentName"
-        :value="selectModel(addSettlementPlanInput, undefined)"
+        :value="selectModel(stPlanDetails.stPlanInfo, undefined)"
         v-bind="settlementPlanInfoMetaData.props"
       ></component>
+      </v-card>
       <component
         v-if="addSPAEntry"
         :ref="addSTEntryInfoMetaData.myRefName"
@@ -68,7 +71,7 @@
           <v-card flat>
             <v-data-table
               :headers="headers"
-              :items="spaEntrySchelduledList"
+              :items="stPlanDetails.stSpaEntryList"
               sort-by="draftDate"
               class="elevation-0"
             >
@@ -79,14 +82,25 @@
                   <v-spacer></v-spacer>
                 </v-toolbar>
               </template>
+              <template v-slot:[`item.totalAmount`]="{ item }">
+                {{ item.totalAmount | toINR }}
+              </template>
+              <template v-slot:[`item.spaAmount`]="{ item }">
+                {{ item.spaAmount | toINR }}
+              </template>
+
+              <template v-slot:[`item.feeAmount`]="{ item }">
+                {{ item.feeAmount | toINR }}
+              </template>
             </v-data-table>
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
+            
             <v-data-table
               :headers="headers"
-              :items="feeEntrySchelduledList"
+              :items="stPlanDetails.stFeeEntryList"
               sort-by="draftDate"
               class="elevation-0"
             >
@@ -97,12 +111,16 @@
                   <v-spacer></v-spacer>
                 </v-toolbar>
               </template>
+
+              <template v-slot:[`item.totalAmount`]="{ item }">
+                {{ item.totalAmount | toINR }}
+              </template>
             </v-data-table>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
-  </div>
+  </v-col>
 </template>
 
 <script lang="ts">
@@ -123,11 +141,15 @@ import * as Snackbar from "node-snackbar";
   },
 })
 export default class CFSettlementPlanInfo extends ModelVue {
+  @Store.Getter.ClientFile.SettlementDetails.stPlanDetails
+  stPlanDetails: Data.ClientFile.STPlanDetails;
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
+
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
-  addSettlementPlanInput: Data.ClientFile.PlanPaymentSettlementInput =
-    new Data.ClientFile.PlanPaymentSettlementInput();
 
   stPlanId = this.$route.params.stPlanId;
+  clientFileId = this.$route.params.clientFileId;
 
   tab = 0;
   settlementPlanForm = true;
@@ -139,28 +161,35 @@ export default class CFSettlementPlanInfo extends ModelVue {
       text: "Payment Provider",
       align: "start",
       sortable: false,
-      value: "paymentProvider",
+      value: "paymentProvider.name",
     },
-    { text: "Payment Mode", value: "paymentMode" },
-    { text: "Account Number", value: "accountNumber" },
-    { text: "Account Holder Name", value: "Account Holder Name" },
+    // { text: "Payment Mode", value: "paymentMode" },
+    // { text: "Account Number", value: "accountNumber" },
+    // { text: "Account Holder Name", value: "Account Holder Name" },
     { text: "Total Amount", value: "totalAmount" },
     { text: "SPA Amount", value: "spaAmount" },
     { text: "Fee Amount", value: "feeAmount" },
     { text: "status", value: "status" },
   ];
-
-  spaEntrySchelduledList = [];
-  feeEntrySchelduledList = [];
   //METADATA
   get settlementPlanInfoMetaData() {
-    return new CFSettlementPlanInfoFFormMDP({ taskRoot: this }).getMetaData();
+    return new CFSettlementPlanInfoFFormMDP({ root: this }).getMetaData();
   }
 
   get addSTEntryInfoMetaData() {
     return new AddSTEntryFFormMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
+
+  mounted() {
+    this.getFiCreditorInfo();
+    this.getSTPaymentPlanDetails();
+  }
+
+  getSTPaymentPlanDetails() {
+    Action.ClientFile.GetSTPlanDetails.execute1(this.stPlanId, output => {
+    });
+  }
 
   showAddForm() {
     this.closeDialogs();
@@ -181,6 +210,12 @@ export default class CFSettlementPlanInfo extends ModelVue {
     this.settlementPlanForm = false;
   }
 
+ getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
   addSPAEntryForm() {
     this.addSTEntryInput.stPlanId = this.stPlanId;
     Action.ClientFile.AddSTEntry.execute(this.addSTEntryInput, (output) => {
@@ -188,6 +223,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
         text: "Succesfully Add ST Entry",
         pos: "bottom-center",
       });
+      this.getSTPaymentPlanDetails();
       this.addSPAEntry = false;
       this.settlementPlanForm = true;
     });

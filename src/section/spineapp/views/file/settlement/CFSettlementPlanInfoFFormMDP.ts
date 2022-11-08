@@ -8,24 +8,34 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  taskRoot: any;
-  constructor({ taskRoot }: { taskRoot: any }) {
+  root: any;
+  constructor({ root }: { root: any }) {
     super({
       myRefName: "cfSettlementPlanInfoRef",
       disabled: true,
     });
-    this.taskRoot = taskRoot;
+    this.root = root;
 
-    this.addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "outstandingAmount",
-          label: "Outstanding Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
-          disabled: true,
-        })
-      )
+    this.addField(new FSelectFieldMDP({
+      dataSelectorKey: "fiCreditor.fiCreditorId",
+      options: root.fiCreditorInfo?.creditorList,
+      label: "Creditor",
+      parentMDP: this.childMDP,
+      boundaryClass: "col-4",
+      optionLabel: "creditorName",
+      optionValue: "fiCreditorId",
+      
+    }))
+    .addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "totalOutstanding",
+        label: "Outstanding Amount",
+        boundaryClass: "col-4",
+        mandatory: true,
+        disabled: true,
+      })
+    )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
@@ -44,17 +54,17 @@ export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
   }
 
   getMyRef(): any {
-    return this.taskRoot.$refs[this.myRefName];
+    return this.root.$refs[this.myRefName];
   }
   recordSettledPayment() {
     return () => {
-      this.taskRoot.recordSettledPayment();
+      this.root.recordSettledPayment();
     };
   }
 
   gotoClientFile() {
     return () => {
-      this.taskRoot.gotoClientFile();
+      this.root.gotoClientFile();
     };
   }
 }

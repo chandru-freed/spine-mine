@@ -38,10 +38,9 @@
 
       <template v-slot:[`item.status`]="{ item }">
         <v-chip small outlined>
-        {{ item.status }}
+          {{ item.status }}
         </v-chip>
       </template>
-      
 
       <template v-slot:[`item.fiCreditor.creditorName`]="{ item }">
         <v-btn
@@ -102,13 +101,10 @@ export default class CFSettlementPlanList extends ModelVue {
     { text: "Status", value: "status" },
   ];
 
+  clientFileId = this.$route.params.clientFileId;
 
   get addSettlementPlanMetaData() {
     return new AddSettlementPlanFFormMDP({ root: this }).getMetaData();
-  }
-
-  get clientFileId() {
-    return this.$route.params.clientFileId;
   }
 
   public mounted() {
@@ -148,12 +144,11 @@ export default class CFSettlementPlanList extends ModelVue {
 
   gotoPaymentPlan(stPlanId: string) {
     this.$router.push({
-      name:"Root.CFile.CFSettlementPlan.CFSettlementPlanInfo.CFSettlementPlanInfo",
-      params:{ stPlanId}
-    })
+      name: "Root.CFile.CFSettlementPlan.CFSettlementPlanInfo.CFSettlementPlanInfo",
+      params: { stPlanId },
+    });
   }
 }
 </script>
 
-<style>
-</style>
+<style></style>

@@ -5,7 +5,7 @@
         v-if="settlementPlanForm"
         :ref="settlementPlanInfoMetaData.myRefName"
         :is="settlementPlanInfoMetaData.componentName"
-        :value="selectModel(recordSettledPaymentInput, undefined)"
+        :value="selectModel(addSettlementPlanInput, undefined)"
         v-bind="settlementPlanInfoMetaData.props"
       ></component>
       <component
@@ -115,6 +115,7 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import ModelVue from "@/components/generic/ModelVue";
 import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
+import * as Snackbar from "node-snackbar";
 
 @Component({
   components: {
@@ -122,9 +123,11 @@ import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
   },
 })
 export default class CFSettlementPlanInfo extends ModelVue {
-  recordSettledPaymentInput = new Data.ClientFile.RecordSettledPaymentInput();
-
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
+  addSettlementPlanInput: Data.ClientFile.PlanPaymentSettlementInput =
+    new Data.ClientFile.PlanPaymentSettlementInput();
+
+  stPlanId = this.$route.params.stPlanId;
 
   tab = 0;
   settlementPlanForm = true;
@@ -188,7 +191,15 @@ export default class CFSettlementPlanInfo extends ModelVue {
   }
 
   addSPAEntryForm() {
-    Action.ClientFile.AddSTEntry.execute(this.addSTEntryInput, (output) => {});
+    this.addSTEntryInput.stPlanId = this.stPlanId;
+    Action.ClientFile.AddSTEntry.execute(this.addSTEntryInput, (output) => {
+      Snackbar.show({
+        text: "Succesfully Add ST Entry",
+        pos: "bottom-center",
+      });
+      this.addSPAEntry = false;
+      this.settlementPlanForm = true;
+    });
   }
 }
 </script>

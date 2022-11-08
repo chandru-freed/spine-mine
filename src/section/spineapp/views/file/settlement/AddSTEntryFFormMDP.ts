@@ -61,6 +61,13 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
+          label: "Cancel",
+          btnType: BtnType.TEXT,
+          onClick:this.closeAddForm(),
+        })
+      )
+      .addAction(
+        new FBtnMDP({
           label: "Add Settlement",
           onClick: this.validateAndSubmit(),
         })
@@ -77,6 +84,12 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
       this.getMyRef().submitForm(() => {
         this.taskRoot.addSPAEntryForm();
       });
+    };
+  }
+
+  closeAddForm() {
+    return () => {
+      this.taskRoot.closeDialogs();
     };
   }
 }

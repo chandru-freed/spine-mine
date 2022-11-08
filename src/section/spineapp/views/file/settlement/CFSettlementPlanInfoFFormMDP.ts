@@ -17,22 +17,24 @@ export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
 
     this.addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentProvider",
-        label: "Payment Provider",
-        boundaryClass: "col-4",
-        mandatory: true,
-        returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
-        optionLabel: "name",
-        optionValue: "id",
-      })
-    );
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "outstandingAmount",
+          label: "Outstanding Amount",
+          boundaryClass: "col-4",
+          mandatory: true,
+          disabled: true,
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "settlementAmount",
+          label: "Settlement Amount",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      );
   }
 
   validateAndSubmit() {

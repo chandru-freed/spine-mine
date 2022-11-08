@@ -204,12 +204,6 @@ export default class CollectClientInfoTask extends ModelVue {
         this.getFiDocumentList();
       }, 1000);
     });
-
-    Action.TaskList.SaveAndComplete.interested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
   }
 
   public destroyed() {
@@ -262,12 +256,6 @@ export default class CollectClientInfoTask extends ModelVue {
     Action.Spine.DetachDocument.notInterested((output) => {
       setTimeout(() => {
         this.getFiDocumentList();
-      }, 1000);
-    });
-
-    Action.TaskList.SaveAndComplete.notInterested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
       }, 1000);
     });
   }
@@ -323,14 +311,6 @@ export default class CollectClientInfoTask extends ModelVue {
     );
   }
 
-  getExecutiveTaskDetails() {
-    Action.TaskList.GetExecutiveTaskDetails.execute1(
-      this.$route.params.taskId,
-      (output) => {
-        // console.log(output);
-      }
-    );
-  }
 
   /* Bank Details => based on the IFSC code get the bank address 
   and per populate the data like ADDRESS, CITY, STATE, COUNTRY */

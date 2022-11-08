@@ -103,21 +103,6 @@ export default class UnderwrittingTask
 
   //DATA
 
-  mounted() {
-    Action.TaskList.SaveAndComplete.interested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
-  }
-
-  public destroyed() {
-    Action.TaskList.SaveAndComplete.notInterested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
-  }
   //ACTION
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
@@ -155,15 +140,6 @@ export default class UnderwrittingTask
     if (this.taskFormData.taskOutput.underwrittingApproved) {
       this.taskFormData.taskOutput.reasonForUnderwrittingDecline = undefined;
     }
-  }
-
-  getExecutiveTaskDetails() {
-    Action.TaskList.GetExecutiveTaskDetails.execute1(
-      this.$route.params.taskId,
-      (output) => {
-        // console.log(output);
-      }
-    );
   }
 }
 </script>

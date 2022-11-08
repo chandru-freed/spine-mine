@@ -138,12 +138,6 @@ export default class ManageClientInfoTask
         this.getFiDocumentList();
       }, 1000);
     });
-
-    Action.TaskList.SaveAndComplete.interested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
   }
 
   public destroyed() {
@@ -194,12 +188,6 @@ export default class ManageClientInfoTask
     Action.Spine.DetachDocument.notInterested((output) => {
       setTimeout(() => {
         this.getFiDocumentList();
-      }, 1000);
-    });
-
-    Action.TaskList.SaveAndComplete.notInterested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
       }, 1000);
     });
   }
@@ -375,15 +363,6 @@ export default class ManageClientInfoTask
     Action.ClientFile.GetDocumentList.execute1(
       this.clientFileId,
       (output) => {}
-    );
-  }
-
-  getExecutiveTaskDetails() {
-    Action.TaskList.GetExecutiveTaskDetails.execute1(
-      this.$route.params.taskId,
-      (output) => {
-        // console.log(output);
-      }
     );
   }
 }

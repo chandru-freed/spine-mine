@@ -50,5 +50,10 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.fiEMandateList = fiEMandateList;
   }
 
+  public updateFiActiveEMandateList(state: Data.ClientFile.ClientFileSummary, fiActiveEMandateList: Data.ClientFile.FiActiveEMandateList[]): void {
+    state.fiActiveEMandateList = fiActiveEMandateList;
+  }
+
+
 }
 

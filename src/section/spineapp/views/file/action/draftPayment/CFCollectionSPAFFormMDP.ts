@@ -13,12 +13,12 @@ spaAmount
 feeAmount
 msfAmount
 */
-export default class CFCollectionFFormMDP extends FFormMDP {
+export default class CFCollectionSPAFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   constructor({ taskRoot }: { taskRoot: any }) {
     super({
-      myRefName: "cfCollectionFFormRef",
+      myRefName: "cfCollectionSPAFFormRef",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
@@ -33,11 +33,11 @@ export default class CFCollectionFFormMDP extends FFormMDP {
         returnObject: true,
         options: [
           { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
           { id: "CASHFREE", name: "CASHFREE" },
         ],
         optionLabel: "name",
         optionValue: "id",
+        disabled: true
       })
     )
       .addField(
@@ -59,43 +59,7 @@ export default class CFCollectionFFormMDP extends FFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-        })
-      )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "totalAmount",
-          label: "Total Amount",
-          boundaryClass: "col-4",
-          disabled: true,
-          mandatory: true,
-        })
-      )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "spaAmount",
-          label: "SPA Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "feeAmount",
-          label: "Fee Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "msfAmount",
-          label: "MSF Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
+          disabled: true
         })
       ).addField(
         new FSelectFieldMDP({
@@ -105,8 +69,44 @@ export default class CFCollectionFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           mandatory: true,
           options: taskRoot.getFiEMandateListData(),
-          optionLabel: "eMandateId",
+          optionLabel: "nupayBankName",
           optionValue: "eMandateId",
+          returnObject: true
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "spaAmount",
+          label: "SPA Amount",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "feeAmount",
+          label: "Fee Amount",
+          boundaryClass: "col-3",
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "msfAmount",
+          label: "MSF Amount",
+          boundaryClass: "col-3",
+        })
+      )
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "totalAmount",
+          label: "Total Amount",
+          boundaryClass: "col-3",
+          disabled: true,
+          mandatory: true,
         })
       )
       .addAction(

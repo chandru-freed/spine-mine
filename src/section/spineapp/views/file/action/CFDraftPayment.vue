@@ -26,7 +26,7 @@
             outlined
             dense
             return-object
-            item-text="key"
+            item-text="title"
             item-value="contentMetaData"
           ></v-autocomplete>
         </v-card-text>
@@ -36,7 +36,7 @@
             v-if="!!selectedRequestTypeMetaData"
             :ref="selectedRequestTypeMetaData.myRefName"
             :is="selectedRequestTypeMetaData.componentName"
-            v-model="draftPaymentInput"
+            v-model="draftPaymentInputForm"
             v-bind="selectedRequestTypeMetaData.props"
           ></component>
         </v-card-text>
@@ -57,6 +57,8 @@ import Helper from "../../../util/Helper";
 import CFSettlementFFormMDP from "./draftPayment/CFSettlementFFormMDP";
 import CFCollectionFFormMDP from "./draftPayment/CFCollectionFFormMDP";
 import CFRefundFFormMDP from "./draftPayment/CFRefundFFormMDP";
+import CFCollectionSPAFFormMDP from "./draftPayment/CFCollectionSPAFFormMDP";
+import CFCollectionFeeFFormMDP from "./draftPayment/CFCollectionFeeFFormMDP";
 
 @Component({
   components: {
@@ -71,21 +73,67 @@ export default class CFDraftPayment extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
   fiEMandateList: Data.ClientFile.FiEMandateList;
 
-  draftPaymentInput: any = new Data.ClientFile.DraftPaymentInput();
+  // @Store.Getter.ClientFile.ClientFileSummary.fiActiveEMandateList
+  // fiActiveEMandateList: Data.ClientFile.FiActiveEMandateList;
+
+  draftPaymentInputFormLocal: any = new Data.ClientFile.DraftPaymentInput();
+  eMandateIdObj: any = {};
+
+  get draftPaymentInputForm() {
+    if (this.draftPaymentInputFormLocal.eMandateId) {
+      this.eMandateIdObj = this.draftPaymentInputFormLocal.eMandateId;
+      this.draftPaymentInputFormLocal.accountNumber =
+        this.eMandateIdObj.accountNumber;
+      this.draftPaymentInputFormLocal.accountHolderName =
+        this.eMandateIdObj.accountHolderName;
+      this.draftPaymentInputFormLocal.accountType =
+        this.eMandateIdObj.accountType;
+      this.draftPaymentInputFormLocal.ifscCode = this.eMandateIdObj.ifscCode;
+    }
+    if (!!this.paymentType) {
+      this.draftPaymentInputFormLocal.paymentType = this.paymentType;
+    }
+    if (this.paymentType.title === "COLLECTION (SPA + Fee)") {
+      this.draftPaymentInputFormLocal.paymentProvider =
+        Data.ClientFile.PAYMENT_PROVIDER.NUPAY;
+      this.draftPaymentInputFormLocal.paymentMode =
+        Data.ClientFile.PAYMENT_MODE.ENACH;
+    }
+
+    if (this.paymentType.title === "COLLECTION (Only Fee)") {
+      this.draftPaymentInputFormLocal.paymentProvider =
+        Data.ClientFile.PAYMENT_PROVIDER.CASHFREE;
+    }
+    this.draftPaymentInputFormLocal.totalAmount =
+      this.draftPaymentInputFormLocal.spaAmount +
+      this.draftPaymentInputFormLocal.feeAmount +
+      this.draftPaymentInputFormLocal.msfAmount;
+    return this.draftPaymentInputFormLocal;
+  }
+
+  set draftPaymentInputForm(value: any) {
+    this.draftPaymentInputFormLocal = value;
+  }
+
+  paymentProviderType() {
+    const paymentProvider =
+      this.draftPaymentInputFormLocal.paymentProvider.id !== "CASHFREE";
+    return paymentProvider;
+  }
 
   selectedRequestTypeMetaData: any = {};
 
   clientFileId = this.$route.params.clientFileId;
-  paymentType: string;
+  paymentType: any = {};
 
   getFiEMandateListData() {
     return this.fiEMandateList;
   }
 
   handleSelectedRequestType(value: any) {
-    this.paymentType = value.key;
-    console.log(this.paymentType);
+    this.paymentType = value;
     this.selectedRequestTypeMetaData = value.contentMetaData;
+    this.draftPaymentInputFormLocal = new Data.ClientFile.DraftPaymentInput();
   }
 
   mounted() {
@@ -103,18 +151,28 @@ export default class CFDraftPayment extends Vue {
     return [
       {
         key: "SETTLEMENT",
+        title: "SETTLEMENT",
         contentMetaData: new CFSettlementFFormMDP({
           taskRoot: this,
         }).getMetaData(),
       },
       {
         key: "COLLECTION",
-        contentMetaData: new CFCollectionFFormMDP({
+        title: "COLLECTION (SPA + Fee)",
+        contentMetaData: new CFCollectionSPAFFormMDP({
+          taskRoot: this,
+        }).getMetaData(),
+      },
+      {
+        key: "COLLECTION",
+        title: "COLLECTION (Only Fee)",
+        contentMetaData: new CFCollectionFeeFFormMDP({
           taskRoot: this,
         }).getMetaData(),
       },
       {
         key: "REFUND",
+        title: "REFUND",
         contentMetaData: new CFRefundFFormMDP({
           taskRoot: this,
         }).getMetaData(),
@@ -123,11 +181,15 @@ export default class CFDraftPayment extends Vue {
   }
 
   draftPayment() {
-    this.draftPaymentInput.clientFileId = this.clientFileId;
-    this.draftPaymentInput.paymentType.id = this.paymentType;
-    Action.ClientFile.DraftPayment.execute(this.draftPaymentInput, (output) => {
-      this.goto(output.paymentId);
-    });
+    this.draftPaymentInputForm.clientFileId = this.clientFileId;
+    this.draftPaymentInputForm.paymentType.id = this.paymentType.key;
+    this.draftPaymentInputForm.eMandateId = this.eMandateIdObj.eMandateId;
+    Action.ClientFile.DraftPayment.execute(
+      this.draftPaymentInputForm,
+      (output) => {
+        this.goto(output.paymentId);
+      }
+    );
   }
 
   gotoAction(paymentId: string) {

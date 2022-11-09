@@ -22,7 +22,7 @@ export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
       options: root.fiCreditorInfo?.creditorList,
       label: "Creditor",
       parentMDP: this.childMDP,
-      boundaryClass: "col-4",
+      boundaryClass: "col-3",
       optionLabel: "creditorName",
       optionValue: "fiCreditorId",
       
@@ -32,7 +32,7 @@ export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "totalOutstanding",
         label: "Outstanding Amount",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
         disabled: true,
       })
@@ -42,7 +42,7 @@ export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "settlementAmount",
           label: "Settlement Amount",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
         })
       ).addField(
@@ -50,7 +50,7 @@ export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "settlementPercentage",
           label: "Settlement Percentage",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
         })
       );

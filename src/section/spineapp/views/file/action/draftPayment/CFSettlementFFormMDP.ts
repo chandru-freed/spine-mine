@@ -70,7 +70,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateId",
+          dataSelectorKey: "eMandate",
           label: "EMandate Id",
           boundaryClass: "col-4",
           mandatory: true,
@@ -162,11 +162,14 @@ export default class CFSettlementFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.taskRoot.draftPayment());
+      this.getMyRef().submitForm(this.taskRoot.draftPayment);
     };
   }
 
+
   getMyRef(): any {
+    console.log(this.taskRoot.$refs);
+    console.log(this.taskRoot.$refs[this.myRefName]);
     return this.taskRoot.$refs[this.myRefName];
   }
 }

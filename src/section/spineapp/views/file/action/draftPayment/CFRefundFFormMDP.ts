@@ -129,25 +129,25 @@ export default class CFRefundFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "spaAmount",
           label: "SPA Amount",
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
           mandatory: true,
         })
       )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "feeAmount",
-          label: "Fee Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
+      // .addField(
+      //   new FCurrencyFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "feeAmount",
+      //     label: "Fee Amount",
+      //     boundaryClass: "col-4",
+      //     mandatory: true,
+      //   })
+      // )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "totalAmount",
           label: "Total Amount",
-          boundaryClass: "col-4",
+          boundaryClass: "col-6",
           disabled: true,
           mandatory: true,
         })
@@ -163,7 +163,7 @@ export default class CFRefundFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.taskRoot.draftPayment());
+      this.getMyRef().submitForm(this.taskRoot.draftPayment);
     };
   }
 

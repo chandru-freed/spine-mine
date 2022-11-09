@@ -67,6 +67,7 @@ export default class CFCollectionFFormMDP extends FFormMDP {
           dataSelectorKey: "totalAmount",
           label: "Total Amount",
           boundaryClass: "col-4",
+          disabled: true,
           mandatory: true,
         })
       )
@@ -99,37 +100,18 @@ export default class CFCollectionFFormMDP extends FFormMDP {
       ).addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "status.name",
-          label: "Payment Status",
-          boundaryClass: "col-4",
-          returnObject: true,
-          options: [
-            { id: "DRAFT", name: "DRAFT" },
-            { id: "NOT_REACHABLE", name: "NOT REACHABLE" },
-            { id: "FAILED", name: "FAILED" },
-            { id: "PRESENTED", name: "PRESENTED" },
-            { id: "RECEIVED", name: "RECEIVED" },
-            { id: "REJECTED", name: "REJECTED" },
-            { id: "FUND_SPLIT_REQUESTED", name: "FUND SPLIT REQUESTED" },
-            { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
-            { id: "SETTLED", name: "SETTLED" },
-          ],
-          optionLabel: "name",
-          optionValue: "id",
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
           label: "EMandate Id",
-          mandatory: true,
           boundaryClass: "col-4",
+          mandatory: true,
+          options: taskRoot.getFiEMandateListData(),
+          optionLabel: "eMandateId",
+          optionValue: "eMandateId",
         })
       )
       // .addAction(
       //   new FBtnMDP({
-      //     label: "Present Payment",
+      //     label: "Draft Payment",
       //     onClick: this.validateAndSubmit(),
       //   })
       // );
@@ -137,7 +119,7 @@ export default class CFCollectionFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.taskRoot.presentPayment());
+      this.getMyRef().submitForm(this.taskRoot.draftPayment());
     };
   }
 

@@ -119,7 +119,7 @@ export default class CFCollectionSPAFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.taskRoot.draftPayment());
+      this.getMyRef().submitForm(this.taskRoot.draftPayment);
     };
   }
 

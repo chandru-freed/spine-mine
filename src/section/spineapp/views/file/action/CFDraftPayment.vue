@@ -22,7 +22,7 @@
             flat
             hide-no-data
             hide-details
-            label="Select Draft Payment Type"
+            label="Payment Type"
             outlined
             dense
             return-object
@@ -32,6 +32,7 @@
         </v-card-text>
 
         <v-card-text>
+          
           <component
             v-if="!!selectedRequestTypeMetaData"
             :ref="selectedRequestTypeMetaData.myRefName"
@@ -77,18 +78,21 @@ export default class CFDraftPayment extends Vue {
   // fiActiveEMandateList: Data.ClientFile.FiActiveEMandateList;
 
   draftPaymentInputFormLocal: any = new Data.ClientFile.DraftPaymentInput();
-  eMandateIdObj: any = {};
+  // eMandateSelected: Data.ClientFile.FiEMandateList = new Data.ClientFile.FiEMandateList();
 
   get draftPaymentInputForm() {
-    if (this.draftPaymentInputFormLocal.eMandateId) {
-      this.eMandateIdObj = this.draftPaymentInputFormLocal.eMandateId;
+    this.draftPaymentInputFormLocal.clientFileId = this.clientFileId;
+    this.draftPaymentInputFormLocal.paymentType.id = this.paymentType.key;
+    if (this.draftPaymentInputFormLocal.eMandate) {
+      //this.eMandateSelected = this.draftPaymentInputFormLocal.eMandate;
+      this.draftPaymentInputFormLocal.eMandateId = this.draftPaymentInputFormLocal.eMandate.eMandateId;
       this.draftPaymentInputFormLocal.accountNumber =
-        this.eMandateIdObj.accountNumber;
+        this.draftPaymentInputFormLocal.eMandate.accountNumber;
       this.draftPaymentInputFormLocal.accountHolderName =
-        this.eMandateIdObj.accountHolderName;
+        this.draftPaymentInputFormLocal.eMandate.accountHolderName;
       this.draftPaymentInputFormLocal.accountType =
-        this.eMandateIdObj.accountType;
-      this.draftPaymentInputFormLocal.ifscCode = this.eMandateIdObj.ifscCode;
+        this.draftPaymentInputFormLocal.eMandate.accountType;
+      this.draftPaymentInputFormLocal.ifscCode = this.draftPaymentInputFormLocal.eMandate.ifscCode;
     }
     if (!!this.paymentType) {
       this.draftPaymentInputFormLocal.paymentType = this.paymentType;
@@ -181,9 +185,6 @@ export default class CFDraftPayment extends Vue {
   }
 
   draftPayment() {
-    this.draftPaymentInputForm.clientFileId = this.clientFileId;
-    this.draftPaymentInputForm.paymentType.id = this.paymentType.key;
-    this.draftPaymentInputForm.eMandateId = this.eMandateIdObj.eMandateId;
     Action.ClientFile.DraftPayment.execute(
       this.draftPaymentInputForm,
       (output) => {

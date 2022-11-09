@@ -1,7 +1,7 @@
 <template>
   <div class="CFDraftPayment">
     <!-- fiPaymentDetails : {{ fiPaymentDetails }} -->
-    <div class="d-flex justify-center col-12 ma-auto">
+    <div class="d-flex justify-center col-12 ma-auto" v-if="!!fiPaymentDetails.paymentId">
       <v-card
         class="pa-0 ma-0 mt-5 col-12"
         color="white"
@@ -34,7 +34,9 @@
             v-bind="selectedRequestType.props"
           ></component>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="px-10">
+          <v-btn outlined disabled >{{fiPaymentDetails.status.name}}</v-btn>
+          <v-spacer></v-spacer>
           <v-btn primary outlined @click="presentPayment" v-if="fiPaymentDetails.status.id === 'DRAFT'">Present Payment</v-btn>
           <v-btn primary outlined @click="checkPaymentStatus" v-if="fiPaymentDetails.status.id === 'PRESENTED'">Check Payment Status</v-btn>
           <v-btn primary outlined @click="requestFundSplit"  v-if="fiPaymentDetails.status.id === 'RECEIVED' && fiPaymentDetails.paymentMode.id === 'ENACH'">Request Split</v-btn>
@@ -77,8 +79,9 @@ import * as Action from "@/../src-gen/action";
 import FForm from "@/components/generic/form/FForm.vue";
 import Helper from "../../../util/Helper";
 import CFSettlementFFormMDP from "./draftPayment/CFSettlementFFormMDP";
-import CFCollectionFFormMDP from "./draftPayment/CFCollectionFFormMDP";
 import CFRefundFFormMDP from "./draftPayment/CFRefundFFormMDP";
+import CFCollectionSPAFFormMDP from "./draftPayment/CFCollectionSPAFFormMDP";
+import CFCollectionFeeFFormMDP from "./draftPayment/CFCollectionFeeFFormMDP";
 
 @Component({
   components: {
@@ -90,6 +93,9 @@ export default class CFPaymentDetails extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
+  fiEMandateList: Data.ClientFile.FiEMandateList;
+
   fiPaymentDetails: any = new Data.ClientFile.FiPaymentDetails();
 
   // selectedRequestType: any = {};
@@ -100,7 +106,22 @@ export default class CFPaymentDetails extends Vue {
   paymentTransactionList: Data.ClientFile.PaymentTransaction[] = []
 
   get selectedRequestType() {
-    return this.requestTypeFlowMapList.find(x => x.key === this.fiPaymentDetails.paymentType.id)?.contentMetaData;
+    if(this.fiPaymentDetails.paymentType.id === "SETTLEMENT" ) {
+      return this.requestTypeFlowMapList.find(x => x.key === "SETTLEMENT" )?.contentMetaData;
+    }
+
+    if(this.fiPaymentDetails.paymentType.id === "REFUND" ) {
+      return this.requestTypeFlowMapList.find(x => x.key === "REFUND" )?.contentMetaData;
+    }
+
+    if(this.fiPaymentDetails.paymentType.id === "COLLECTION" ) {
+      if(this.fiPaymentDetails.spaAmount > 0) {
+        return this.requestTypeFlowMapList.find(x => x.title === "COLLECTION (SPA + Fee)" )?.contentMetaData;
+      }
+      return this.requestTypeFlowMapList.find(x => x.title === "COLLECTION (Only Fee)" )?.contentMetaData;
+      
+    }
+    // return this.requestTypeFlowMapList.find(x => x.key === this.fiPaymentDetails.paymentType.id)?.contentMetaData;
   }
 
   mounted() {
@@ -110,24 +131,42 @@ export default class CFPaymentDetails extends Vue {
   loadPaymentDetails() {
     this.getFiPaymentDetails();
     this.getPaymentTransactionList();
+    this.getEMandateList();
+  }
+
+  getEMandateList() {
+    Action.ClientFile.GetEMandateList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   get requestTypeFlowMapList() {
     return [
       {
         key: "SETTLEMENT",
+        title: "SETTLEMENT",
         contentMetaData: new CFSettlementFFormMDP({
           taskRoot: this,
         }).getMetaData(),
       },
       {
         key: "COLLECTION",
-        contentMetaData: new CFCollectionFFormMDP({
+        title: "COLLECTION (SPA + Fee)",
+        contentMetaData: new CFCollectionSPAFFormMDP({
+          taskRoot: this,
+        }).getMetaData(),
+      },
+      {
+        key: "COLLECTION",
+        title: "COLLECTION (Only Fee)",
+        contentMetaData: new CFCollectionFeeFFormMDP({
           taskRoot: this,
         }).getMetaData(),
       },
       {
         key: "REFUND",
+        title: "REFUND",
         contentMetaData: new CFRefundFFormMDP({
           taskRoot: this,
         }).getMetaData(),
@@ -192,6 +231,12 @@ export default class CFPaymentDetails extends Vue {
         this.paymentTransactionList = output
       }
     );
+  }
+
+
+  //
+  getFiEMandateListData() {
+    return this.fiEMandateList;
   }
 }
 </script>

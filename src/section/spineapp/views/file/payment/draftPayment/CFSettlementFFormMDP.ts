@@ -55,11 +55,11 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           mandatory: true,
           returnObject: true,
           options: [
-            { id: "UPI", name: "UPI" },
-            { id: "NET_BANKING", name: "NET BANKING" },
-            { id: "ENACH", name: "ENACH" },
-            { id: "CREDIT_CARD", name: "CREDIT CARD" },
-            { id: "DEBIT_CARD", name: "DEBIT CARD" },
+            // { id: "UPI", name: "UPI" },
+            // { id: "NET_BANKING", name: "NET BANKING" },
+            //{ id: "ENACH", name: "ENACH" },
+            // { id: "CREDIT_CARD", name: "CREDIT CARD" },
+            // { id: "DEBIT_CARD", name: "DEBIT CARD" },
             { id: "NEFT", name: "NEFT" },
             { id: "IMPS", name: "IMPS" },
           ],
@@ -68,12 +68,25 @@ export default class CFSettlementFFormMDP extends FFormMDP {
         })
       )
       .addField(
+        new FSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "eMandateId",
+          label: "EMandate Id",
+          boundaryClass: "col-4",
+          mandatory: true,
+          options: taskRoot.getFiEMandateListData(),
+          optionLabel: "nupayBankName",
+          optionValue: "eMandateId",
+          returnObject: true
+        })
+      )
+      .addField(
         new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           mandatory: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
         })
       )
       .addField(
@@ -82,7 +95,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           dataSelectorKey: "accountHolderName",
           label: "Account Holder Name",
           mandatory: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
         })
       )
       .addField(
@@ -90,7 +103,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "accountType",
           label: "Account Type",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
           options: [
             { id: "SAVINGS", name: "SAVINGS" },
@@ -98,7 +111,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-          returnObject: true
+          returnObject: true,
         })
       )
       .addField(
@@ -107,16 +120,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           mandatory: true,
-          boundaryClass: "col-4",
-        })
-      )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "totalAmount",
-          label: "Total Amount",
-          boundaryClass: "col-4",
-          mandatory: true,
+          boundaryClass: "col-3",
         })
       )
       .addField(
@@ -138,39 +142,19 @@ export default class CFSettlementFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FSelectFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "status.name",
-          label: "Payment Status",
+          dataSelectorKey: "totalAmount",
+          label: "Total Amount",
           boundaryClass: "col-4",
-          returnObject: true,
-          options: [
-            { id: "DRAFT", name: "DRAFT" },
-            { id: "NOT_REACHABLE", name: "NOT REACHABLE" },
-            { id: "FAILED", name: "FAILED" },
-            { id: "PRESENTED", name: "PRESENTED" },
-            { id: "RECEIVED", name: "RECEIVED" },
-            { id: "REJECTED", name: "REJECTED" },
-            { id: "FUND_SPLIT_REQUESTED", name: "FUND SPLIT REQUESTED" },
-            { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
-            { id: "SETTLED", name: "SETTLED" },
-          ],
-          optionLabel: "name",
-          optionValue: "id",
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateId",
-          label: "EMandate Id",
+          disabled: true,
           mandatory: true,
-          boundaryClass: "col-4",
         })
       )
+      
       // .addAction(
       //   new FBtnMDP({
-      //     label: "Present Payment",
+      //     label: "Draft Payment",
       //     onClick: this.validateAndSubmit(),
       //   })
       // );
@@ -178,7 +162,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.taskRoot.presentPayment());
+      this.getMyRef().submitForm(this.taskRoot.draftPayment());
     };
   }
 

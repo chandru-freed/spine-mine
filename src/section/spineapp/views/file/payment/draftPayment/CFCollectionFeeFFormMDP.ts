@@ -68,17 +68,37 @@ export default class CFCollectionFeeFFormMDP extends FFormMDP {
           mandatory: true,
         })
       )
-      .addAction(
-        new FBtnMDP({
-          label: "Draft Payment",
-          onClick: this.validateAndSubmit(),
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "remoteTxnRefNumber",
+          label: "Remote Txn Ref Number",
+          boundaryClass: "col-6",
+          disabled: true,
+          mandatory: true,
         })
-      );
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "remoteTxnRefDetails.paymentLink",
+          label: "Payment Link",
+          boundaryClass: "col-6",
+          disabled: true,
+          mandatory: true,
+        })
+      )
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Draft Payment",
+      //     onClick: this.validateAndSubmit(),
+      //   })
+      // );
   }
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.taskRoot.draftPayment);
+      this.getMyRef().submitForm(this.taskRoot.draftPayment());
     };
   }
 

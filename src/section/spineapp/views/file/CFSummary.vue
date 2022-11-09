@@ -73,7 +73,7 @@
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >
-                  {{ fileSummary.spaAmount | toINR }}
+                  {{ fileSummary.totalMonthlyObligation | toINR }}
                   <span class="text-caption pl-1 pt-2">/ mth</span>
                 </v-list-item-title>
                 <v-list-item-subtitle class="caption" >Due on {{fileSummary.spaDueDate | date}}</v-list-item-subtitle>

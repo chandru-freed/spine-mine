@@ -93,6 +93,11 @@
                 <template v-slot:[`item.spaAmount`]="{ item }">
                   {{ item.spaAmount | toINR }}
                 </template>
+                <template v-slot:[`item.draftDate`]="{ item }">
+                  <span class="grey--text">
+                    {{ item.draftDate | date }}
+                  </span>
+                </template>
 
                 <template v-slot:[`item.actions`]="{ item, index }">
                   <v-icon
@@ -132,6 +137,11 @@
                 </template>
                 <template v-slot:[`item.feeAmount`]="{ item }">
                   {{ item.feeAmount | toINR }}
+                </template>
+                <template v-slot:[`item.draftDate`]="{ item }">
+                  <span class="grey--text">
+                    {{ item.draftDate | date }}
+                  </span>
                 </template>
                 <template v-slot:[`item.actions`]="{ item, index }">
                   <v-icon
@@ -193,8 +203,9 @@ export default class CFSettlementPlanInfo extends ModelVue {
       value: "paymentProvider.name",
     },
     { text: "status", value: "status" },
+    { text: "DraftDate", value: "draftDate" },
     { text: "SPA Amount", value: "spaAmount", align: "right" },
-    { text: "Total Amount", value: "totalAmount", align: "right" },
+    // { text: "Total Amount", value: "totalAmount", align: "right" },
     { text: "Actions", value: "actions", align: "right" },
   ];
   feeHeaders = [
@@ -205,8 +216,9 @@ export default class CFSettlementPlanInfo extends ModelVue {
       value: "paymentProvider.name",
     },
     { text: "status", value: "status" },
+    { text: "Draft Date", value: "draftDate" },
     { text: "Fee Amount", value: "feeAmount", align: "right" },
-    { text: "Total Amount", value: "totalAmount", align: "right" },
+    // { text: "Total Amount", value: "totalAmount", align: "right" },
     { text: "Actions", value: "actions", align: "right" },
   ];
   //METADATA

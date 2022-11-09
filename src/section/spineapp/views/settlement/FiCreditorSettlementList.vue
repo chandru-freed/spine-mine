@@ -10,21 +10,20 @@
       <template v-slot:top>
         <v-toolbar flat>
           <v-card-title>Creditor Settlement List</v-card-title>
-          <v-col cols="4"> </v-col>
-          <v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="1">
             <v-select
               :items="savingPercentageList"
               v-model="savingPercentage"
-              label="Saving Percentage"
+              label="Saving %"
               hide-details
               outlined
-              rounded
               dense
               class="shrink"
               @input="handleSavingPercentageChange"
             ></v-select>
           </v-col>
-          <v-col>
+          <v-col  cols="3">
             <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
@@ -90,7 +89,7 @@ export default class FiCreditorSettlementList extends Vue {
   @Store.Getter.ClientFile.SettlementDetails.fiCreditorSettlementList
   fiCreditorSettlementList: Data.ClientFile.FiCreditorApprochingSettlement[];
   search: string = "";
-  savingPercentage: number = 0;
+  savingPercentage: number = 30;
 
   fiCreditorSettlementListGridHeaderList = [
     { text: "Creditor Name", value: "creditorName", align: "start" },

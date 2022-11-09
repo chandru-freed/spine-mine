@@ -9,7 +9,7 @@
           rounded
         ></v-text-field>
       </div> -->
-      <div class="col-3">
+      <div class="col-4">
         <v-card
           class="mx-auto"
           outlined
@@ -34,7 +34,7 @@
         </v-card>
       </div>
 
-      <div class="col-3">
+      <div class="col-4">
         <v-card
           class="mx-auto"
           outlined
@@ -59,7 +59,7 @@
         </v-card>
       </div>
 
-      <div class="col-3">
+      <div class="col-4">
         <v-card
           class="mx-auto"
           outlined
@@ -84,7 +84,7 @@
         </v-card>
       </div>
 
-      <div class="col-3">
+      <div class="col-4">
         <v-card
           class="mx-auto"
           outlined
@@ -94,15 +94,15 @@
             <v-list-item-content>
               <div class="text-overline mb-4">My Settlement </div>
               <v-list-item-title class="text-h4 mb-1">
-                0 / 0
+                {{myDashboardSummary.settlementEligibleFiCreditorCount}} 
               </v-list-item-title>
               <v-list-item-subtitle
-                >Assigned / Completed Today</v-list-item-subtitle
+                >Ready for Settlement</v-list-item-subtitle
               >
             </v-list-item-content>
 
             <v-list-item-avatar tile size="60">
-              <v-icon size="60">mdi-cash-multiple</v-icon>
+              <v-icon size="60">mdi-handshake-outline</v-icon>
             </v-list-item-avatar>
           </v-list-item>
         </v-card>
@@ -127,7 +127,7 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class Home extends Vue {
-  myDashboardSummary: any = {};
+  myDashboardSummary: Data.Spine.GetMyDashboardSummary =new Data.Spine.GetMyDashboardSummary();
   get items() {
     return [
       {

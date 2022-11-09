@@ -20,11 +20,18 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-card-title>Creditor Settlement Plan List</v-card-title>
+          <v-card-title class="pa-0">Creditor Settlement Plan List</v-card-title>
           <v-spacer />
-          <v-btn @click="showAddSettlementPlanForm = true" color="primary"
-            >Add Settlement Plan</v-btn
-          >
+          <v-btn
+            @click="showAddSettlementPlanForm = true"
+            text
+            elevation
+            outlined
+            color="primary"
+            >Create Settlement Plan
+            <v-spacer />
+             <v-icon small class="ml-2">mdi-plus-circle-outline</v-icon>
+          </v-btn>
         </v-toolbar>
       </template>
 
@@ -96,8 +103,8 @@ export default class CFSettlementPlanList extends ModelVue {
 
   fiSettlementPlanListGridHeaderList = [
     { text: "Creditor Name", value: "fiCreditor.creditorName", align: "start" },
-    { text: "Total Outstanding", value: "totalOutstanding" },
-    { text: "Settlement Amount", value: "settlementAmount" },
+    { text: "Settlement Amount", value: "settlementAmount", align: "right" },
+    { text: "Total Outstanding", value: "totalOutstanding", align: "right"},
     { text: "Status", value: "status" },
   ];
 

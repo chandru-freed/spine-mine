@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div class="row">
       <!-- <div class="col-12 px-6">
         <v-text-field
@@ -9,7 +9,7 @@
           rounded
         ></v-text-field>
       </div> -->
-      <div class="col-4">
+      <div class="col-3">
         <v-card
           class="mx-auto"
           outlined
@@ -34,7 +34,7 @@
         </v-card>
       </div>
 
-      <div class="col-4">
+      <div class="col-3">
         <v-card
           class="mx-auto"
           outlined
@@ -59,7 +59,7 @@
         </v-card>
       </div>
 
-      <div class="col-4">
+      <div class="col-3">
         <v-card
           class="mx-auto"
           outlined
@@ -79,6 +79,30 @@
 
             <v-list-item-avatar tile size="60">
               <v-icon size="60">mdi-ticket-confirmation</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+
+      <div class="col-3">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="gotoRouter('Root.Settlement.FiCreditorSettlementList')"
+        >
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">My Settlement </div>
+              <v-list-item-title class="text-h4 mb-1">
+                0 / 0
+              </v-list-item-title>
+              <v-list-item-subtitle
+                >Assigned / Completed Today</v-list-item-subtitle
+              >
+            </v-list-item-content>
+
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-cash-multiple</v-icon>
             </v-list-item-avatar>
           </v-list-item>
         </v-card>

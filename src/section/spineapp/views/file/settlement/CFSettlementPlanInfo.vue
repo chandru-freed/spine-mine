@@ -193,8 +193,8 @@ export default class CFSettlementPlanInfo extends ModelVue {
       value: "paymentProvider.name",
     },
     { text: "status", value: "status" },
-    { text: "Total Amount", value: "totalAmount", align: "right" },
     { text: "SPA Amount", value: "spaAmount", align: "right" },
+    { text: "Total Amount", value: "totalAmount", align: "right" },
     { text: "Actions", value: "actions", align: "right" },
   ];
   feeHeaders = [
@@ -205,8 +205,8 @@ export default class CFSettlementPlanInfo extends ModelVue {
       value: "paymentProvider.name",
     },
     { text: "status", value: "status" },
-    { text: "Total Amount", value: "totalAmount", align: "right" },
     { text: "Fee Amount", value: "feeAmount", align: "right" },
+    { text: "Total Amount", value: "totalAmount", align: "right" },
     { text: "Actions", value: "actions", align: "right" },
   ];
   //METADATA
@@ -224,17 +224,23 @@ export default class CFSettlementPlanInfo extends ModelVue {
     this.getSTPaymentPlanDetails();
   }
 
+  resetForms() {
+    this.addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
+  }
+
   getSTPaymentPlanDetails() {
     Action.ClientFile.GetSTPlanDetails.execute1(this.stPlanId, (output) => {});
   }
 
   showAddForm() {
+    this.resetForms();
     this.closeDialogs();
     this.addSPAEntry = true;
     this.deleteSPAEntry = false;
   }
 
   closeDialogs() {
+    this.resetForms();
     this.addSPAEntry = false;
     this.deleteSPAEntry = false;
   }

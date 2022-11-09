@@ -53,7 +53,7 @@ export default class AddSettlementPlanFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Add Settlement",
+          label: "Create Settlement Plan",
           onClick: this.validateAndSubmit(),
         })
       );

@@ -30,6 +30,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         ],
         optionLabel: "name",
         optionValue: "id",
+        mandatory: true
       })
     )
       .addField(
@@ -39,6 +40,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           boundaryClass: "col-3",
           pastDaysDisabled: true,
+          mandatory: true
         })
       )
       .addField(
@@ -68,7 +70,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Add Settlement",
+          label: "Add Settlement Entry",
           onClick: this.validateAndSubmit(),
         })
       );

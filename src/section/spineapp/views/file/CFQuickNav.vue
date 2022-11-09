@@ -88,9 +88,13 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import Helper from "../../util/Helper";
 
 @Component
 export default class CFQuickNav extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   @Store.Getter.FiNote.FiNoteStore.fiHighlightedNoteList
   fiHighlightedNoteList: Data.FiNote.FiNote[];
 
@@ -129,20 +133,23 @@ export default class CFQuickNav extends Vue {
   actionList = [
     {
       actionName: "Send Email",
-      icon: "mdi-email-outline",
+      icon: "mdi-chevron-right",
       routerName: "Root.CFile.CFAction.CFSendEmail",
     },
     {
-      actionName: "Receive MSF",
-      routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
+      actionName: "Draft Payment ",
+      icon: "mdi-chevron-right",
+      routerName: "Root.CFile.CFAction.CFDraftPayment",
     },
     {
-      actionName: "Record Payment",
-      routerName: "Root.CFile.CFAction.CFRecordPayment",
+      actionName: "Enrollment Flow",
+      icon: "mdi-chevron-right",
+      command: this.createEnrollmentFlow,
     },
     {
-      actionName: "Create Flow",
-      routerName: "Root.CFile.CFAction.CFCreateRequest",
+      actionName: "More Action",
+      icon: "mdi-chevron-right",
+      routerName: "Root.CFile.CFAction.CFActionList",
     },
   ];
   takeAction(actionItem: any) {
@@ -157,6 +164,24 @@ export default class CFQuickNav extends Vue {
 
   goto(routerName: string, query: any) {
     this.$router.push({ name: routerName, query: query });
+  }
+
+  createEnrollmentFlow() {
+    Action.Spine.CreateEnrollment.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+  gotoCFActiveTaskList() {
+    Helper.Router.gotoCFActiveTaskList({
+      router: this.$router,
+      clientFileId: this.clientFileId,
+    });
   }
 }
 </script>

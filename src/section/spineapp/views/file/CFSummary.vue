@@ -69,7 +69,7 @@
           <v-card flat min-height="75px">
             <v-list-item class="pa-1" dense>
               <v-list-item-content class="pa-0 px-1">
-                <div class="text-caption mb-0 secondary--text">SPA</div>
+                <div class="text-caption mb-0 secondary--text">Monthly Obligation</div>
                 <v-list-item-title
                   class="text-h6 mb-1 font-weight-semibold secondary--text"
                 >

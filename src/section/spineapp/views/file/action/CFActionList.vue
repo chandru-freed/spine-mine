@@ -48,17 +48,17 @@ export default class CFActionList extends Vue {
         actionList : [
           {
             actionName: "Send Email",
-            icon: "mdi-email-outline",
+            icon: "mdi-chevron-right",
             routerName: "Root.CFile.CFAction.CFSendEmail",
           },
           {
             actionName: "Send SMS",
-            icon: "mdi-message-outline",
+            icon: "mdi-chevron-right",
             routerName: "Root.CFile.CFAction.CFSendSMS",
           },
           {
             actionName: "Send Whatsapp",
-            icon: "mdi-whatsapp",
+            icon: "mdi-chevron-right",
             routerName: "Root.CFile.CFAction.CFSendWhatsapp",
           },
         ]
@@ -68,10 +68,12 @@ export default class CFActionList extends Vue {
       actionList : [
         {
           actionName: "Assign RM (Relationship Manager)",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFAssignRM",
         },
         {
           actionName: "Assign Sales Rep",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFAssignSalesRep",
         }
       ]
@@ -81,18 +83,22 @@ export default class CFActionList extends Vue {
       actionList : [
         {
           actionName: "Record Payment",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFRecordPayment",
         },
         {
           actionName: "Receive Payment",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFReceivePayment",
         },
         {
           actionName: "Receive MSF",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
         },
         {
           actionName: "Draft Payment",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFDraftPayment",
         }
       ]
@@ -102,34 +108,42 @@ export default class CFActionList extends Vue {
       actionList : [
         {
           actionName: "Create Flow",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFCreateRequest",
         },
         {
           actionName: "Enrollment",
+          icon: "mdi-chevron-right",
           command: this.createEnrollmentFlow,
         },
         {
           actionName: "Welcome Call",
+          icon: "mdi-chevron-right",
           command: this.createWelcomeCall,
         },
         {
           actionName: "CHPP",
+          icon: "mdi-chevron-right",
           command: this.createCHPPFlow,
         },
         {
           actionName: "Nsf MSF",
+          icon: "mdi-chevron-right",
           command: this.createNsfMSFFlow,
         },
         {
           actionName: "Monthly Followup Call",
+          icon: "mdi-chevron-right",
           command: this.createMFC,
         },
         {
           actionName: "Nsf SPA",
+          icon: "mdi-chevron-right",
           command: this.createNsfSPA,
         },
         {
           actionName: "EMandate",
+          icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: {flowName: "EMandate"}
         }

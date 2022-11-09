@@ -117,7 +117,7 @@
                   <v-divider class="mx-4" inset vertical></v-divider>
                   <v-spacer></v-spacer>
                 </v-toolbar>
-                
+
               </template>
               <template v-slot:[`item.draftDate`]="{ item }">
                 <span class="grey--text">
@@ -308,7 +308,7 @@ export default class FPaymentPlan extends ModelVue {
     console.log(item);
     if (item.paymentId) {
       this.$router.push({
-        name: "Root.ClientFile.PaymentDetails",
+        name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
         params: {
           clientFileNumber: this.$route.params.clientFileNumber,
           paymentId: item.paymentId,

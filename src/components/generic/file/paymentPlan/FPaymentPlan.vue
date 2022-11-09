@@ -113,10 +113,11 @@
             >
               <template v-slot:top>
                 <v-toolbar flat>
-                  <v-toolbar-title>Payment Presented</v-toolbar-title>
+                  <v-toolbar-title>Payment Presented / Skipped</v-toolbar-title>
                   <v-divider class="mx-4" inset vertical></v-divider>
                   <v-spacer></v-spacer>
                 </v-toolbar>
+                
               </template>
               <template v-slot:[`item.draftDate`]="{ item }">
                 <span class="grey--text">
@@ -141,6 +142,7 @@
 
               <template v-slot:[`item.paymentStatus`]="{ item }">
                 <v-btn
+                  v-if="item.paymentStatus"
                   @click="openPaymentDetails(item)"
                   rounded
                   small
@@ -269,7 +271,7 @@ export default class FPaymentPlan extends ModelVue {
 
   get psEntryPresentedList() {
     return this.paymentPlan.paymentSchedule.filter(
-      (psEntry: any) => psEntry.status === "PRESENTED"
+      (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
 

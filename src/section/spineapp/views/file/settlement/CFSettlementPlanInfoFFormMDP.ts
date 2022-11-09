@@ -3,6 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
+import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
@@ -41,6 +42,14 @@ export default class CFSettlementPlanInfoFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "settlementAmount",
           label: "Settlement Amount",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      ).addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "settlementPercentage",
+          label: "Settlement Percentage",
           boundaryClass: "col-4",
           mandatory: true,
         })

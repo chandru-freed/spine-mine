@@ -69,7 +69,7 @@
         <v-tab-item>
           <v-card flat>
             <v-data-table
-              :headers="headers"
+              :headers="spaHeaders"
               :items="stPlanDetails.stSpaEntryList"
               sort-by="draftDate"
               class="elevation-0"
@@ -107,7 +107,7 @@
         <v-tab-item>
           <v-card flat>
             <v-data-table
-              :headers="headers"
+              :headers="feeHeaders"
               :items="stPlanDetails.stFeeEntryList"
               sort-by="draftDate"
               class="elevation-0"
@@ -122,6 +122,9 @@
 
               <template v-slot:[`item.totalAmount`]="{ item }">
                 {{ item.totalAmount | toINR }}
+              </template>
+               <template v-slot:[`item.feeAmount`]="{ item }">
+                {{ item.feeAmount | toINR }}
               </template>
               <template v-slot:[`item.actions`]="{ item, index }">
                 <v-icon
@@ -171,25 +174,32 @@ export default class CFSettlementPlanInfo extends ModelVue {
   clientFileId = this.$route.params.clientFileId;
 
   tab = 0;
-  settlementPlanForm = true;
   addSPAEntry = false;
   deleteSPAEntry = false;
 
-  headers = [
+  spaHeaders = [
     {
       text: "Payment Provider",
       align: "start",
       sortable: false,
       value: "paymentProvider.name",
     },
-    // { text: "Payment Mode", value: "paymentMode" },
-    // { text: "Account Number", value: "accountNumber" },
-    // { text: "Account Holder Name", value: "Account Holder Name" },
-    { text: "Total Amount", value: "totalAmount" },
-    { text: "SPA Amount", value: "spaAmount" },
-    { text: "Fee Amount", value: "feeAmount" },
     { text: "status", value: "status" },
-    { text: "Actions", value: "actions" },
+    { text: "Total Amount", value: "totalAmount", align: "right" },
+    { text: "SPA Amount", value: "spaAmount", align: "right" },
+    { text: "Actions", value: "actions",align: "right"  },
+  ];
+  feeHeaders = [
+    {
+      text: "Payment Provider",
+      align: "start",
+      sortable: false,
+      value: "paymentProvider.name",
+    },
+    { text: "status", value: "status" },
+    { text: "Total Amount", value: "totalAmount",align: "right" },
+    { text: "Fee Amount", value: "feeAmount", align: "right" },
+    { text: "Actions", value: "actions",align: "right"  },
   ];
   //METADATA
   get settlementPlanInfoMetaData() {
@@ -214,13 +224,11 @@ export default class CFSettlementPlanInfo extends ModelVue {
     this.closeDialogs();
     this.addSPAEntry = true;
     this.deleteSPAEntry = false;
-    this.settlementPlanForm = false;
   }
 
   closeDialogs() {
     this.addSPAEntry = false;
     this.deleteSPAEntry = false;
-    this.settlementPlanForm = true;
   }
 
   showDeletePopup(item: any) {
@@ -228,7 +236,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
     this.selectedSTEntry = item;
     this.deleteSPAEntry = true;
     this.addSPAEntry = false;
-    this.settlementPlanForm = false;
   }
 
   getFiCreditorInfo() {
@@ -246,7 +253,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
       });
       this.getSTPaymentPlanDetails();
       this.addSPAEntry = false;
-      this.settlementPlanForm = true;
     });
   }
 
@@ -259,7 +265,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
       });
       this.getSTPaymentPlanDetails();
       this.deleteSPAEntry = false;
-      this.settlementPlanForm = true;
     });
   }
 }

@@ -39,30 +39,7 @@
         />
       </div>
     </v-alert>
-    <v-alert dense outlined text color="warning" class="ma-2" v-if="settleCreditorDialog">
-      <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
-      >
-        <div class="my-1">Are you sure want to Settle Creditor?</div>
-        <v-spacer />
-        <v-btn
-          outlined
-          color="warning"
-          class="ml-2"
-          @click="closeAndClearAllForms()"
-        >
-          Cancel
-        </v-btn>
-        <v-btn
-          outlined
-          color="warning"
-          class="ml-2"
-          @click="settleCreditorData()"
-        >
-          Mark Settle
-        </v-btn>
-      </div>
-    </v-alert>
+
 
     <v-col class="col-12">
       <!--GRID START-->
@@ -125,16 +102,6 @@
             >
               mdi-delete
             </v-icon>
-            <v-btn
-              small
-              dense
-              outlined
-              color="primary"
-              class="ml-2"
-              @click="selectSettleCreditor(item, index)"
-            >
-              Mark Settle
-            </v-btn>
           </template>
         </v-data-table>
       </v-card>
@@ -175,7 +142,7 @@ import * as Snackbar from "node-snackbar";
 export default class FCreditor extends ModelVue {
   addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
-  settleCreditorInput: Data.ClientFile.SettleCreditorInput = new Data.ClientFile.SettleCreditorInput();
+
   selectedCreditorItem: Data.Spine.Creditor;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
@@ -197,7 +164,7 @@ export default class FCreditor extends ModelVue {
   addCreditorDialog = false;
   editCreditorDialog = false;
   deleteCreditorDialog = false;
-  settleCreditorDialog = false;
+
   taskId = this.$route.params.taskId;
 
   @Prop()
@@ -227,9 +194,7 @@ export default class FCreditor extends ModelVue {
     this.closeDialogs();
     this.editCreditorDialog = true;
   }
-  showSettlePopup() {
-    this.settleCreditorDialog = true;
-  }
+
   showDeletePopup() {
     this.closeAndClearAllForms();
     this.deleteCreditorDialog = true;
@@ -242,7 +207,6 @@ export default class FCreditor extends ModelVue {
     this.addCreditorDialog = false;
     this.editCreditorDialog = false;
     this.deleteCreditorDialog = false;
-    this.settleCreditorDialog = false;
   }
   resetForms() {
     this.addCreditorForm = new Data.Spine.Creditor();
@@ -279,20 +243,6 @@ export default class FCreditor extends ModelVue {
     });
   }
 
-  settleCreditorData() {
-    this.settleCreditorInput.fiCreditorId =  this.selectedCreditorItem.fiCreditorId;
-    Action.ClientFile.SettleCreditor.execute(
-      this.settleCreditorInput,
-      (output) => {
-        this.closeDialogs();
-        Snackbar.show({
-          text: "Succesfully Settled Creditor",
-          pos: "bottom-center",
-        });
-      },(err)=>(console.log(err))
-    );
-  }
-
   selectEditCreditor(item: any, index: any) {
     this.selectedCreditorItem = item;
     this.editCreditorForm = {
@@ -304,11 +254,6 @@ export default class FCreditor extends ModelVue {
     this.selectedCreditorItem = item;
     this.showDeletePopup();
     console.log(this.deleteCreditorDialog);
-  }
-
-  selectSettleCreditor(item: any, index: number) {
-    this.selectedCreditorItem = item;
-    this.showSettlePopup();
   }
 
   get filteredHeaders() {

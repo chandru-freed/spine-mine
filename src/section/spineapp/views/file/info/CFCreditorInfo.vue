@@ -38,9 +38,7 @@ export default class CFCreditorInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditor;
 
-  get clientFileId() {
-    return this.$route.params.clientFileId;
-  }
+  clientFileId = this.$route.params.clientFileId;
   //METADATA
   get creditorInfoMetaData() {
     return new CFCreditorInfoFCreditorMDP({

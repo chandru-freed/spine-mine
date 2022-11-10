@@ -1,6 +1,13 @@
 <template>
   <div ref="creditorListRef">
-    <v-alert dense outlined text color="warning" class="ma-2" v-if="settleCreditorDialog">
+    <v-alert
+      dense
+      outlined
+      text
+      color="warning"
+      class="ma-2"
+      v-if="settleCreditorDialog"
+    >
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
@@ -63,8 +70,7 @@
           </template>
           <template v-slot:[`item.actions`]="{ item, index }">
             <v-btn
-
-        :disabled="item.settlementStatus === 'SETTLED'"
+              :disabled="item.settlementStatus === 'SETTLED'"
               small
               dense
               outlined
@@ -114,10 +120,13 @@ import * as Snackbar from "node-snackbar";
 export default class FCreditor extends ModelVue {
   addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
-  settleCreditorInput: Data.ClientFile.SettleCreditorInput = new Data.ClientFile.SettleCreditorInput();
+  settleCreditorInput: Data.ClientFile.SettleCreditorInput =
+    new Data.ClientFile.SettleCreditorInput();
   selectedCreditorItem: Data.Spine.Creditor;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
+
+  clientFileId = this.$route.params.clientFileId;
 
   headers = [
     {
@@ -174,19 +183,28 @@ export default class FCreditor extends ModelVue {
   }
 
   settleCreditorData() {
-    this.settleCreditorInput.fiCreditorId =  this.selectedCreditorItem.fiCreditorId;
+    this.settleCreditorInput.fiCreditorId =
+      this.selectedCreditorItem.fiCreditorId;
     Action.ClientFile.SettleCreditor.execute(
       this.settleCreditorInput,
       (output) => {
         this.closeDialogs();
+        this.getFiCreditorInfo();
         Snackbar.show({
           text: "Succesfully Settled Creditor",
           pos: "bottom-center",
         });
-      },(err)=>(console.log(err))
+      },
+      (err) => console.log(err)
     );
   }
 
+  getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
   selectSettleCreditor(item: any, index: number) {
     this.selectedCreditorItem = item;
     this.showSettlePopup();

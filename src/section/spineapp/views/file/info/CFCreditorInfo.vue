@@ -26,7 +26,7 @@ import * as ServerData from "@/../src-gen/server-data";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Action from "@/../src-gen/action";
-import FCreditor from "@/components/generic/file/creditor/FCreditor.vue";
+import FCreditor from "@/section/spineapp/views/file/info/creditor/FCreditor.vue";
 import CFCreditorInfoFCreditorMDP from "./CFCreditorInfoFCreditorMDP";
 @Component({
   components: {

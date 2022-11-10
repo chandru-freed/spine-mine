@@ -190,6 +190,7 @@ export default class FCreditor extends ModelVue {
       (output) => {
         this.closeDialogs();
         this.getFiCreditorInfo();
+        this.findClientFileSummary();
         Snackbar.show({
           text: "Succesfully Settled Creditor",
           pos: "bottom-center",
@@ -205,6 +206,13 @@ export default class FCreditor extends ModelVue {
       (output) => {}
     );
   }
+  findClientFileSummary() {
+    Action.ClientFile.GetClientFileSummary.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
   selectSettleCreditor(item: any, index: number) {
     this.selectedCreditorItem = item;
     this.showSettlePopup();

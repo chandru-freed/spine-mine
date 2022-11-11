@@ -44,8 +44,9 @@
     <template>
       <v-card flat outlined class="row ma-2">
         <template>
-          <v-toolbar flat>
+          <v-toolbar flat dense>
             <v-tabs
+              dense
               v-model="tab"
               background-color="transparent"
               color="secondary"
@@ -100,6 +101,7 @@
                 </template>
 
                 <template v-slot:[`item.actions`]="{ item, index }">
+                  <v-btn small outlined primary class="mr-2" @click="presentStEntry">Present</v-btn>
                   <v-icon
                     :disabled="disabled"
                     small
@@ -107,6 +109,7 @@
                   >
                     mdi-delete
                   </v-icon>
+
                 </template>
               </v-data-table>
             </v-card>

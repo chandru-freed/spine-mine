@@ -1,5 +1,6 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
@@ -59,6 +60,45 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           label: "Fee Amount",
           boundaryClass: "col-3",
           mandatory: true,
+        })
+      )
+      .addField(
+        new FAccountFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "accountNumber",
+          label: "Account Number",
+          boundaryClass: "col-3",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "accountHolderName",
+          label: "Account Holder Name",
+          boundaryClass: "col-3",
+        })
+      )
+      .addField(
+        new FSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "accountType",
+          label: "Account Type",
+          boundaryClass: "col-3",
+          options: [
+            { id: "SAVINGS", name: "SAVINGS" },
+            { id: "CURRENT", name: "CURRENT" },
+          ],
+          optionLabel: "name",
+          optionValue: "id",
+          returnObject: true,
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "ifscCode",
+          label: "IFSC Code",
+          boundaryClass: "col-3",
         })
       )
       .addAction(

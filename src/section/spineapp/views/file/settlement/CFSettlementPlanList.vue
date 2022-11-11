@@ -20,12 +20,11 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-card-title class="pa-0">Creditor Settlement Plan List</v-card-title>
+          <v-card-title class="pa-0">Settlement Plan List</v-card-title>
           <v-spacer />
           <v-btn
             @click="showAddSettlementPlanForm = true"
-            text
-            elevation
+            elevation-0
             outlined
             color="primary"
             >Create Settlement Plan
@@ -41,6 +40,10 @@
 
       <template v-slot:[`item.settlementAmount`]="{ item }">
         {{ item.settlementAmount | toINR }}
+      </template>
+
+      <template v-slot:[`item.settlementPercentage`]="{ item }">
+        {{ item.settlementPercentage}} %
       </template>
 
       <template v-slot:[`item.status`]="{ item }">
@@ -105,6 +108,7 @@ export default class CFSettlementPlanList extends ModelVue {
     { text: "Creditor Name", value: "fiCreditor.creditorName", align: "start" },
     { text: "Settlement Amount", value: "settlementAmount", align: "right" },
     { text: "Total Outstanding", value: "totalOutstanding", align: "right"},
+    { text: "Settlement Percentage", value: "settlementPercentage", align: "right"},
     { text: "Status", value: "status" },
   ];
 

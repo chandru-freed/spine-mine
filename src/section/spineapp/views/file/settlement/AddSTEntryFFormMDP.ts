@@ -6,6 +6,7 @@ import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFiel
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class AddSTEntryFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -18,6 +19,21 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
 
     this.addField(
+      new FSelectFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "settledTo",
+        label: "Settled To",
+        boundaryClass: "col-3",
+        returnObject: true,
+        options: [
+          { id: "CREDITOR", name: "CREDITOR" },
+          { id: "CL_PERSONAL", name: "CLIENT" }
+        ],
+        optionLabel: "name",
+        optionValue: "id",
+        mandatory: true
+      })
+    ).addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentProvider",

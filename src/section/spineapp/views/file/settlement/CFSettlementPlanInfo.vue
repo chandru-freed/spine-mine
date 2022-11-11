@@ -101,9 +101,9 @@
                 </template>
 
                 <template v-slot:[`item.actions`]="{ item, index }">
-                  <v-btn small outlined primary class="mr-2" @click="presentStEntry">Present</v-btn>
+                  <v-btn :disabled="!stEntryScheduled(item)" small outlined primary class="mr-2" @click="presentSTEntry(item)">Present</v-btn>
                   <v-icon
-                    :disabled="disabled"
+                    :disabled="!stEntryScheduled(item)"
                     small
                     @click="showDeletePopup(item, index)"
                   >
@@ -148,7 +148,7 @@
                 </template>
                 <template v-slot:[`item.actions`]="{ item, index }">
                   <v-icon
-                    :disabled="disabled"
+                    :disabled="!stEntryScheduled(item)"
                     small
                     @click="showDeletePopup(item, index)"
                   >
@@ -234,6 +234,10 @@ export default class CFSettlementPlanInfo extends ModelVue {
   }
   //METADATA
 
+  stEntryScheduled(item: any) {
+    return item.status === "SCHEDULED"
+  }
+
   mounted() {
     this.getFiCreditorInfo();
     this.getSTPaymentPlanDetails();
@@ -280,7 +284,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
         text: "Succesfully Add ST Entry",
         pos: "bottom-center",
       });
-      this.getSTPaymentPlanDetails();
+      setTimeout(this.getSTPaymentPlanDetails, 1000);
       this.addSPAEntry = false;
     });
   }
@@ -292,7 +296,18 @@ export default class CFSettlementPlanInfo extends ModelVue {
         text: "Succesfully Delete ST Entry",
         pos: "bottom-center",
       });
-      this.getSTPaymentPlanDetails();
+      setTimeout(this.getSTPaymentPlanDetails, 1000);
+      this.deleteSPAEntry = false;
+    });
+  }
+
+  presentSTEntry(item: any) {
+    Action.ClientFile.PresentSTEntry.execute1(item.stEntryId, (output) => {
+      Snackbar.show({
+        text: "Succesfully Delete ST Entry",
+        pos: "bottom-center",
+      });
+      setTimeout(this.getSTPaymentPlanDetails, 1000);
       this.deleteSPAEntry = false;
     });
   }

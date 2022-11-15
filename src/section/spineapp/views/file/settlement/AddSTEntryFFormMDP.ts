@@ -24,11 +24,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         dataSelectorKey: "settledTo",
         label: "Settled To",
         boundaryClass: "col-3",
-        returnObject: true,
-        options: [
-          { id: "CREDITOR", name: "CREDITOR" },
-          { id: "CL_PERSONAL", name: "CLIENT" }
-        ],
+        options: Data.ClientFile.SETTLED_TO.list(),
         optionLabel: "name",
         optionValue: "id",
         mandatory: true
@@ -39,7 +35,6 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         dataSelectorKey: "paymentProvider",
         label: "Payment Provider",
         boundaryClass: "col-3",
-        returnObject: true,
         options: [
           { id: "NUPAY", name: "NUPAY" },
           { id: "ESCROWPAY", name: "ESCROWPAY" },
@@ -106,7 +101,6 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-          returnObject: true,
         })
       )
       .addField(
@@ -115,6 +109,16 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           boundaryClass: "col-3",
+        })
+      ).addField(
+        new FSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "eMandateId",
+          label: "E Mandate",
+          boundaryClass: "col-3",
+          options: this.taskRoot.fiEMandateList,
+          optionLabel: "nupayBankName",
+          optionValue: "eMandateId",
         })
       )
       .addAction(

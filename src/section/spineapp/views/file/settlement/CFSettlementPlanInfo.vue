@@ -241,7 +241,16 @@ export default class CFSettlementPlanInfo extends ModelVue {
   mounted() {
     this.getFiCreditorInfo();
     this.getSTPaymentPlanDetails();
+    this.getEMandateList();
   }
+
+   getEMandateList() {
+    Action.ClientFile.GetEMandateList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
 
   resetForms() {
     this.addSTEntryInput = new Data.ClientFile.AddSTEntryInput();

@@ -64,7 +64,7 @@ export default class CFCollectionSPAFFormMDP extends FFormMDP {
       ).addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateId",
+          dataSelectorKey: "eMandate",
           label: "EMandate Id",
           boundaryClass: "col-4",
           mandatory: true,

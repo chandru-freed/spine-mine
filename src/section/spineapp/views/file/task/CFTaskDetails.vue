@@ -77,6 +77,7 @@ import WaitForEMandateTask from "@/section/spineapp/components/task/eMandate/wai
 import SendEMandateLinkTask from "@/section/spineapp/components/task/eMandate/sendEMandateLink/SendEMandateLinkTask.vue";
 import GetEMandateStatusTask from "@/section/spineapp/components/task/eMandate/getEMandateStatus/GetEMandateStatusTask.vue";
 import CollectMSFTask from "@/section/spineapp/components/task/enrollment/collectMSF/CollectMSFTask.vue";
+import PlanSettlementTask from "@/section/spineapp/components/task/settlementPlan/planSettlement/PlanSettlementTask.vue";
 
 @Component({
   components: {
@@ -128,6 +129,7 @@ import CollectMSFTask from "@/section/spineapp/components/task/enrollment/collec
     "f-btn": FBtn,
     FollowUpCallTask,
     CollectMSFTask,
+    PlanSettlementTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -221,6 +223,8 @@ export default class CFTaskDetails extends Vue {
     ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
     ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
     ["MFC::FollowUpCall", "FollowUpCallTask"],
+    ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
+    
   ]);
 
   taskId = this.$route.params.taskId;

@@ -28,7 +28,7 @@ export default class EMandateFFormMDP extends FFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "eMandateBankInfo.accountHolderName",
+        dataSelectorKey: "createEMandateInput.eMandateBankInfo.accountHolderName",
         label: "Account Holder Name",
         mandatory: true,
         boundaryClass: "col-4",
@@ -37,7 +37,7 @@ export default class EMandateFFormMDP extends FFormMDP {
       .addField(
         new FAccountFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateBankInfo.accountNumber",
+          dataSelectorKey: "createEMandateInput.eMandateBankInfo.accountNumber",
           label: "Account Number",
           mandatory: true,
           boundaryClass: "col-4",
@@ -46,7 +46,7 @@ export default class EMandateFFormMDP extends FFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateBankInfo.accountType",
+          dataSelectorKey: "createEMandateInput.eMandateBankInfo.accountType",
           label: "Account Type",
           boundaryClass: "col-4",
           mandatory: true,
@@ -61,7 +61,7 @@ export default class EMandateFFormMDP extends FFormMDP {
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "collectionAmount",
+          dataSelectorKey: "createEMandateInput.collectionAmount",
           label: "Collection Amount",
           boundaryClass: "col-4",
           mandatory: true,
@@ -70,7 +70,7 @@ export default class EMandateFFormMDP extends FFormMDP {
       .addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "firstCollectionDate",
+          dataSelectorKey: "createEMandateInput.firstCollectionDate",
           label: "First Collection Date",
           boundaryClass: "col-4",
           pastDaysDisabled: true,
@@ -80,7 +80,7 @@ export default class EMandateFFormMDP extends FFormMDP {
       .addField(
         new FNupayBankSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateBankInfo.nupayBankMasterId",
+          dataSelectorKey: "createEMandateInput.eMandateBankInfo.nupayBankMasterId",
           label: "Bank Name",
           boundaryClass: "col-4",
           mandatory: true,
@@ -89,7 +89,7 @@ export default class EMandateFFormMDP extends FFormMDP {
       .addField(
         new FIFSCCodeFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateBankInfo.ifscCode",
+          dataSelectorKey: "createEMandateInput.eMandateBankInfo.ifscCode",
           label: "IFSC Code",
           mandatory: true,
           boundaryClass: "col-4",
@@ -103,7 +103,7 @@ export default class EMandateFFormMDP extends FFormMDP {
         new AddressFMiniFormMDP({
           taskRoot: this.taskRoot,
           parent: this,
-          dataSelectorKey: "eMandateBankInfo.bankAddress",
+          dataSelectorKey: "createEMandateInput.eMandateBankInfo.bankAddress",
           disabled: taskRoot.taskDisabled,
           label: "Bank Address",
         })

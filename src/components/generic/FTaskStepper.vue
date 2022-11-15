@@ -114,6 +114,7 @@ import CLProfile from "./clientProfile/CLProfile.vue";
 import FMarkComplete from "./file/markcomplete/FMarkComplete.vue";
 import FEMandate from "./file/eMandate/FEMandate.vue";
 import Task from "@/section/spineapp/util/Task";
+import FSettlementPlan from "./file/settlementPlan/FSettlementPlan.vue";
 
 @Component({
   components: {
@@ -125,6 +126,7 @@ import Task from "@/section/spineapp/util/Task";
     FDocument,
     FMarkComplete,
     FEMandate,
+    FSettlementPlan
   },
 })
 export default class FTaskStepper extends ModelVue {

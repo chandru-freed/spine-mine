@@ -78,6 +78,9 @@ import FNumberTextField from "./field/FNumberTextField.vue";
 import FRemoteAutoCompleteField from "./field/FRemoteAutoCompleteField.vue";
 import FDateTimeSelectField from "./field/FDateTimeSelectField.vue";
 import FNupayBankSelectField from "./field/FNupayBankSelectField.vue";
+import FUploadFileField from "./field/FUploadFileFieldForCF.vue";
+import FUploadFileFieldForClient from "./field/FUploadFileFieldForCF.vue";
+import FUploadFileFieldForCF from "./field/FUploadFileFieldForCF.vue";
 
 @Component({
   components: {
@@ -104,7 +107,8 @@ import FNupayBankSelectField from "./field/FNupayBankSelectField.vue";
     FNumberTextField,
     FRemoteAutoCompleteField,
     FDateTimeSelectField,
-    FNupayBankSelectField
+    FNupayBankSelectField,
+    FUploadFileFieldForCF
   },
 })
 export default class FForm extends ModelVue {

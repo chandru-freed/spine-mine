@@ -42,6 +42,7 @@ export default abstract class ErrorResponse {
 
     private static createErrorResponse(theError: AxiosError): ErrorResponse {
         const response = theError.response!;
+        console.log(response,"Error is this")
         switch (response.status) {
             case 400: return ClientExceptions.fromJsonString(JSON.stringify(response.data));
             case 412: return ClientErrors.fromJsonString(JSON.stringify(response.data));

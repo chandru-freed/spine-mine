@@ -14,7 +14,8 @@ export default class PSTFStepperMDP extends FTaskStepperMDP {
         this.addStep({
             name:"Settlement Plan",
             stepContent:new FSettlementPlanMDP({
-                taskRoot: this.taskRoot
+                taskRoot: this.taskRoot,
+                disabled: this.taskRoot.taskDisabled,
             })
         }).addStep({
             name:"Mark Complete",

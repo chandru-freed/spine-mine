@@ -7,10 +7,11 @@ export default class FSettlementPlanMDP implements MDP {
   parent: any;
   myRefName: string;
   dataSelectorKey: string | undefined;
+  disabled: boolean;
 
-  constructor({ taskRoot,}: { taskRoot: any;}) {
+  constructor({ taskRoot,disabled}: { taskRoot: any;disabled: boolean}) {
     this.taskRoot = taskRoot;
-   
+    this.disabled = disabled;
     
   }
 
@@ -20,7 +21,8 @@ export default class FSettlementPlanMDP implements MDP {
       myRefName: this.myRefName,
       dataSelectorKey: this.dataSelectorKey,
       props: {
-        taskRoot: this.taskRoot
+        taskRoot: this.taskRoot,
+        disabled: this.disabled
       },
     };
   }

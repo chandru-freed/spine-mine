@@ -46,11 +46,11 @@
         {{ item.settlementPercentage}} %
       </template>
 
-      <template v-slot:[`item.status`]="{ item }">
+      <!-- <template v-slot:[`item.status`]="{ item }">
         <v-chip small outlined>
           {{ item.status }}
         </v-chip>
-      </template>
+      </template> -->
 
       <template v-slot:[`item.fiCreditor.creditorName`]="{ item }">
         <v-btn

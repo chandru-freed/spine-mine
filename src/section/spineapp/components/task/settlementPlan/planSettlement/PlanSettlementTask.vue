@@ -107,6 +107,38 @@ export default class PlanSettlementTask extends ModelVue {
         this.getSTPaymentPlanDetails();
       }, 1000);
     });
+
+    Action.ClientFile.RemoveSTEntry.interested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.PresentSTEntry.interested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+  }
+
+  destroyed() {
+    Action.ClientFile.AddSTEntry.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.RemoveSTEntry.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.PresentSTEntry.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
   }
 
   getSTPaymentPlanDetails() {

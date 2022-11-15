@@ -101,9 +101,9 @@
                 </template>
 
                 <template v-slot:[`item.actions`]="{ item, index }">
-                  <v-btn :disabled="!stEntryScheduled(item)" small outlined primary class="mr-2" @click="presentSTEntry(item)">Present</v-btn>
+                  <v-btn :disabled="!stEntryScheduled(item) || disabled" small outlined primary class="mr-2" @click="presentSTEntry(item)">Present</v-btn>
                   <v-icon
-                    :disabled="!stEntryScheduled(item)"
+                    :disabled="!stEntryScheduled(item) ||disabled"
                     small
                     @click="showDeletePopup(item, index)"
                   >
@@ -195,6 +195,14 @@ export default class FSettlementPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
   fiEMandateList: Data.ClientFile.FiEMandateList;
 
+  @Prop({
+    default:false
+  }) disabled: boolean;
+
+  @Watch("addSTEntryInput.paymentMode") addSTEntryInputchanged(newVal: any, olVal: any) {
+    console.log(newVal);
+  }
+
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
   selectedSTEntry: Data.ClientFile.FiCreditor;
   // stPlanId = this.$route.params.stPlanId;
@@ -221,7 +229,7 @@ export default class FSettlementPlan extends ModelVue {
       text: "Payment Provider",
       align: "start",
       sortable: false,
-      value: "paymentProvider.name",
+      value: "paymentProvider",
     },
     { text: "status", value: "status" },
     { text: "DraftDate", value: "draftDate" },
@@ -234,7 +242,7 @@ export default class FSettlementPlan extends ModelVue {
       text: "Payment Provider",
       align: "start",
       sortable: false,
-      value: "paymentProvider.name",
+      value: "paymentProvider",
     },
     { text: "status", value: "status" },
     { text: "Draft Date", value: "draftDate" },
@@ -257,6 +265,7 @@ export default class FSettlementPlan extends ModelVue {
   }
 
   mounted() {
+    console.log(Data.ClientFile.PAYMENT_MODE.list())
     this.getFiCreditorInfo();
     this.getEMandateList();
   }
@@ -301,6 +310,7 @@ export default class FSettlementPlan extends ModelVue {
   }
   addSPAEntryForm() {
     this.addSTEntryInput.stPlanId = this.stPlanId;
+    console.log(this.addSTEntryInput)
     Action.ClientFile.AddSTEntry.execute(this.addSTEntryInput, (output) => {
       Snackbar.show({
         text: "Succesfully Add ST Entry",

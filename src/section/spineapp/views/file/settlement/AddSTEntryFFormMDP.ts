@@ -35,11 +35,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         dataSelectorKey: "paymentProvider",
         label: "Payment Provider",
         boundaryClass: "col-3",
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
         mandatory: true

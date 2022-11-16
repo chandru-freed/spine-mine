@@ -189,6 +189,10 @@ export default class CFSettlementPlanInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
+  fiEMandateList: Data.ClientFile.FiEMandateList;
+
+
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
   selectedSTEntry: Data.ClientFile.FiCreditor;
   stPlanId = this.$route.params.stPlanId;

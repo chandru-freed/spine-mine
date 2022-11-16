@@ -64,19 +64,19 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
   }
 
   getMyRef(): any {
-    return this.parent.getMyRef().$refs[this.myRefName][0];
+    console.log(this.parent.getMyRef().$refs)
+    // return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
   validateAndMarkComplete() {
     return () => {
-      this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
+      this.saveAndMarkCompleteTask();
     };
   }
 
   saveAndMarkCompleteTask() {
-    return () => {
+      console.log(this.taskRoot,  " Task root")
       this.taskRoot.saveAndMarkCompleteTask();
-    };
   }
 
   isStarted() {

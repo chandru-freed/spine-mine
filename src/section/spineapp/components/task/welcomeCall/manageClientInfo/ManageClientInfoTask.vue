@@ -217,6 +217,14 @@ export default class ManageClientInfoTask
       : {};
   }
 
+  // ModelValue =>  Used in Terminated State
+  get taskDetailsData() {
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskDetailsOutput,
+    };
+  }
+  
   get taskStateTerminated() {
     return (
       this.taskDetails.taskState === "COMPLETED" ||
@@ -288,6 +296,7 @@ export default class ManageClientInfoTask
   }
   //ACTION
   saveAndMarkCompleteTask() {
+    console.log(this.taskFormData,"this.taskFormData");
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

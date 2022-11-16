@@ -7,6 +7,7 @@ import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/fiel
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import * as Data from "@/../src-gen/data";
+import FEMandateSelectFieldMDP from "@/components/generic/form/field/FEMandateSelectFieldMDP";
 
 export default class AddSTEntryFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -91,10 +92,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "accountType",
           label: "Account Type",
           boundaryClass: "col-3",
-          options: [
-            { id: "SAVINGS", name: "SAVINGS" },
-            { id: "CURRENT", name: "CURRENT" },
-          ],
+          options: Data.ClientFile.ACCOUNT_TYPE.list(),
           optionLabel: "name",
           optionValue: "id",
         })
@@ -107,14 +105,11 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           boundaryClass: "col-3",
         })
       ).addField(
-        new FSelectFieldMDP({
+        new FEMandateSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
           label: "E Mandate",
-          boundaryClass: "col-3",
-          options: this.taskRoot.fiEMandateList,
-          optionLabel: "nupayBankName",
-          optionValue: "eMandateId",
+          boundaryClass: "col-3"
         })
       )
       .addAction(

@@ -2,9 +2,10 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
+import FEMandateSelectFieldMDP from "@/components/generic/form/field/FEMandateSelectFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-
+import * as Data from "@/../src-gen/data";
 /* 
 paymentProvider - NUPAY default 
 paymentMode  - drop down
@@ -37,11 +38,7 @@ export default class CFRefundFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         mandatory: true,
         returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
         disabled: true,
@@ -69,15 +66,12 @@ export default class CFRefundFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FSelectFieldMDP({
+        new FEMandateSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandate",
           label: "EMandate Id",
           boundaryClass: "col-4",
           mandatory: true,
-          options: taskRoot.getFiEMandateListData(),
-          optionLabel: "nupayBankName",
-          optionValue: "eMandateId",
           returnObject: true
         })
       )
@@ -106,10 +100,7 @@ export default class CFRefundFFormMDP extends FFormMDP {
           label: "Account Type",
           boundaryClass: "col-3",
           mandatory: true,
-          options: [
-            { id: "SAVINGS", name: "SAVINGS" },
-            { id: "CURRENT", name: "CURRENT" },
-          ],
+          options: Data.ClientFile.ACCOUNT_TYPE.list(),
           optionLabel: "name",
           optionValue: "id",
           returnObject: true,

@@ -93,8 +93,6 @@ export default class CFPaymentDetails extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
-  fiEMandateList: Data.ClientFile.FiEMandateList;
 
   fiPaymentDetails: any = new Data.ClientFile.FiPaymentDetails();
 
@@ -131,15 +129,8 @@ export default class CFPaymentDetails extends Vue {
   loadPaymentDetails() {
     this.getFiPaymentDetails();
     this.getPaymentTransactionList();
-    this.getEMandateList();
   }
 
-  getEMandateList() {
-    Action.ClientFile.GetEMandateList.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
-  }
 
   get requestTypeFlowMapList() {
     return [
@@ -231,12 +222,6 @@ export default class CFPaymentDetails extends Vue {
         this.paymentTransactionList = output
       }
     );
-  }
-
-
-  //
-  getFiEMandateListData() {
-    return this.fiEMandateList;
   }
 }
 </script>

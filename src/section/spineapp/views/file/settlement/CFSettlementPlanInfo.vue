@@ -189,9 +189,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
-  fiEMandateList: Data.ClientFile.FiEMandateList;
-
 
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
   selectedSTEntry: Data.ClientFile.FiCreditor;
@@ -245,14 +242,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
   mounted() {
     this.getFiCreditorInfo();
     this.getSTPaymentPlanDetails();
-    this.getEMandateList();
-  }
-
-   getEMandateList() {
-    Action.ClientFile.GetEMandateList.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
   }
 
 

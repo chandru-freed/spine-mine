@@ -71,9 +71,6 @@ export default class CFDraftPayment extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
-  fiEMandateList: Data.ClientFile.FiEMandateList;
-
   // @Store.Getter.ClientFile.ClientFileSummary.fiActiveEMandateList
   // fiActiveEMandateList: Data.ClientFile.FiActiveEMandateList;
 
@@ -130,9 +127,6 @@ export default class CFDraftPayment extends Vue {
   clientFileId = this.$route.params.clientFileId;
   paymentType: any = {};
 
-  getFiEMandateListData() {
-    return this.fiEMandateList;
-  }
 
   handleSelectedRequestType(value: any) {
     this.paymentType = value;
@@ -141,14 +135,7 @@ export default class CFDraftPayment extends Vue {
   }
 
   mounted() {
-    this.getEMandateList();
-  }
-
-  getEMandateList() {
-    Action.ClientFile.GetEMandateList.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
+    
   }
 
   get requestTypeFlowMapList() {

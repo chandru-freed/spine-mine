@@ -192,9 +192,6 @@ export default class FSettlementPlan extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
-  fiEMandateList: Data.ClientFile.FiEMandateList;
-
   @Prop({
     default:false
   }) disabled: boolean;
@@ -267,16 +264,7 @@ export default class FSettlementPlan extends ModelVue {
   mounted() {
     console.log(Data.ClientFile.PAYMENT_MODE.list())
     this.getFiCreditorInfo();
-    this.getEMandateList();
   }
-
-  getEMandateList() {
-    Action.ClientFile.GetEMandateList.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
-  }
-
 
   resetForms() {
     this.addSTEntryInput = new Data.ClientFile.AddSTEntryInput();

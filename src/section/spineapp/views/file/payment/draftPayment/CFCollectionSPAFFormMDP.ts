@@ -3,6 +3,8 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import * as Data from "@/../src-gen/data";
+import FEMandateSelectFieldMDP from "@/components/generic/form/field/FEMandateSelectFieldMDP";
 
 /*
 paymentProvider
@@ -31,10 +33,7 @@ export default class CFCollectionSPAFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         mandatory: true,
         returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
         disabled: true
@@ -48,29 +47,18 @@ export default class CFCollectionSPAFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           mandatory: true,
           returnObject: true,
-          options: [
-            { id: "UPI", name: "UPI" },
-            { id: "NET_BANKING", name: "NET BANKING" },
-            { id: "ENACH", name: "ENACH" },
-            { id: "CREDIT_CARD", name: "CREDIT CARD" },
-            { id: "DEBIT_CARD", name: "DEBIT CARD" },
-            { id: "NEFT", name: "NEFT" },
-            { id: "IMPS", name: "IMPS" },
-          ],
+          options: Data.ClientFile.PAYMENT_MODE.list(),
           optionLabel: "name",
           optionValue: "id",
           disabled: true
         })
       ).addField(
-        new FSelectFieldMDP({
+        new FEMandateSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
           label: "EMandate Id",
           boundaryClass: "col-4",
           mandatory: true,
-          options: taskRoot.getFiEMandateListData(),
-          optionLabel: "nupayBankName",
-          optionValue: "eMandateId",
           returnObject: true
         })
       )

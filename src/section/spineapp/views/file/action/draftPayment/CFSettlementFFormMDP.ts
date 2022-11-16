@@ -4,6 +4,8 @@ import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import * as Data from "@/../src-gen/data";
+import FEMandateSelectFieldMDP from "@/components/generic/form/field/FEMandateSelectFieldMDP";
 
 /* 
 paymentProvider - NUPAY default 
@@ -36,11 +38,7 @@ export default class CFSettlementFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         mandatory: true,
         returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
         disabled: true,
@@ -68,15 +66,12 @@ export default class CFSettlementFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FSelectFieldMDP({
+        new FEMandateSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandate",
           label: "EMandate Id",
           boundaryClass: "col-4",
           mandatory: true,
-          options: taskRoot.getFiEMandateListData(),
-          optionLabel: "nupayBankName",
-          optionValue: "eMandateId",
           returnObject: true
         })
       )

@@ -58,7 +58,7 @@
                   {{ fileSummary.msfAmount | toINR }}
                   <span class="text-caption pl-1 pt-2">/ mth</span>
                 </v-list-item-title>
-                <v-list-item-subtitle  class="caption"  >Due on {{fileSummary.msfDueDate | date}}</v-list-item-subtitle>
+                <v-list-item-subtitle v-if="fileSummary.msfDueDate"  class="caption"  >Due on {{fileSummary.msfDueDate | date}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -76,7 +76,7 @@
                   {{ fileSummary.totalMonthlyObligation | toINR }}
                   <span class="text-caption pl-1 pt-2">/ mth</span>
                 </v-list-item-title>
-                <v-list-item-subtitle class="caption" >Due on {{fileSummary.spaDueDate | date}}</v-list-item-subtitle>
+                <v-list-item-subtitle class="caption" v-if="fileSummary.spaDueDate">Due on {{fileSummary.spaDueDate | date}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>

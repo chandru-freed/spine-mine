@@ -113,7 +113,7 @@ export default class CFLeftNav extends Vue {
           title: "Completed",
           routerName: "Root.CFile.CFTicket.CFCompletedTickets",
         },
-        { title: "Add", routerName: "Root.CFile.CFTicket.CFAddTicket" },
+        { title: "Raise", routerName: "Root.CFile.CFTicket.CFAddTicket" },
       ],
     },
     {

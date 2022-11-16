@@ -18,10 +18,12 @@ export default class AddTicketFFormMDP extends FFormMDP {
             label: "Subject",
             parentMDP: new FFormChildMDP(),
             mandatory: true,
+            boundaryClass: "col-6",
         })).addField(new FTextFieldMDP({
             dataSelectorKey: "ticketType",
             label: "Category",
             parentMDP: new FFormChildMDP(),
+            boundaryClass: "col-6",
         })).addField(new FTextareaMDP({
             dataSelectorKey: "ticketDetails",
             label: "Description",
@@ -30,20 +32,23 @@ export default class AddTicketFFormMDP extends FFormMDP {
             dataSelectorKey: "clientFileNumber",
             label: "Client File Number",
             parentMDP: new FFormChildMDP(),
-            disabled: true
+            disabled: true,
+            boundaryClass: "col-4",
         })).addField(new FSelectFieldMDP({
             dataSelectorKey: "priority",
             label: "Priority",
             parentMDP: new FFormChildMDP(),
-            options:[1,2,3,4,5]
+            options:[1,2,3,4,5],
+            boundaryClass: "col-3",
         }))
         .addField(new FGompaUserRemoteAutoCompleteFieldMDP({
             dataSelectorKey: "assignTo",
             label: "Assign To",
             parentMDP: new FFormChildMDP(),
+            boundaryClass: "col-5",
         })).addAction(new FBtnMDP({
             label: "Raise a Ticket",
-            onClick: this.validateAndAdd()
+            onClick: this.validateAndAdd(),
         }))
 
     }

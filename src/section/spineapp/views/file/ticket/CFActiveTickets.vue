@@ -11,7 +11,8 @@
         <template v-slot:top>
           <v-toolbar flat>
             <v-card-title>My Active Ticket</v-card-title>
-            <v-col class="col-7"></v-col>
+            <!-- <v-col class="col-5"></v-col> -->
+            <v-spacer />
             <v-col>
               <v-text-field
                 v-model="search"
@@ -24,7 +25,11 @@
                 dense
                 class="shrink"
               ></v-text-field>
+              
             </v-col>
+            <v-btn color="primary"
+            @click="goToAddTicketPage"
+            outlined>Raise a ticket </v-btn>
           </v-toolbar>
         </template>
 
@@ -115,6 +120,12 @@ export default class CFActiveTickets extends Vue {
     this.$router.push({
       name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails",
       params: { myTicketId: item.taskId },
+    });
+  }
+
+  goToAddTicketPage() {
+     this.$router.push({
+      name: "Root.CFile.CFTicket.CFAddTicket",
     });
   }
 }

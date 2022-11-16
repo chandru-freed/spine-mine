@@ -1,57 +1,74 @@
 <template>
-  <div class="CFAddTickets">
-    <h1>This is the CFAddTickets page</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+  <div>
+    <v-card flat outlined>
+      <v-card-title>Raise a Ticket</v-card-title>
+      <v-card-text >
+        <component
+          v-if="!!addTicketFormMetaData"
+          :ref="addTicketFormMetaData.myRefName"
+          :is="addTicketFormMetaData.componentName"
+          v-model="addTicketInput"
+          v-bind="addTicketFormMetaData.props"
+        ></component>
+      </v-card-text>
+    </v-card>
   </div>
-
 </template>
 
 <script lang="ts">
+import FForm from "@/components/generic/form/FForm.vue";
+import Vue from "vue";
+import { Prop,Component, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
+import * as Snackbar from 'node-snackbar';
 
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
-// import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
-
-@Component
-export default class CFAddTickets extends Vue {
-
-  public counter: number = 0 ;
-
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
-
-
-  public mounted() {
-
+import CFAddTicketFFormMDP from './CFAddTicketFFormMDP';
+@Component({
+  components:{
+    FForm
+  }
+})
+export default class AddTicket extends Vue {
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  clientFileId = this.$route.params.clientFileId;
+  addTicketInput: Data.Ticket.RaiseTicketInput = new Data.Ticket.RaiseTicketInput();
+  get addTicketFormMetaData() {
+    return new CFAddTicketFFormMDP({root: this}).getMetaData();
   }
 
-  public created() {
-
+  get clientFileNumber(): string {
+    
+    return this.clientFileBasicInfo.clientFileNumber;
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
 
+  mounted() {
+    this.getCFBasicInfo();
   }
 
-  private increment() {
-    this.counter += 1;
+   getCFBasicInfo() {
+    Action.ClientFile.GetCFBasicInfo.execute1(
+      this.clientFileId,
+      (output) => {
+        this.addTicketInput.clientFileNumber = output.clientFileNumber;
+      }
+    );
   }
 
-  private decrement() {
-    this.counter -= 1;
+  addTicket() {
+    Action.Ticket.RaiseTicket.execute(this.addTicketInput, output => {
+      Snackbar.show({
+        text: "Succesfully added a ticket",
+        pos: "bottom-center"
+      });
+      this.$router.push({name:"Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails", params :{myTicketId: output.myTicketTaskId}})
+    })
   }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
+  goBack() {
+    this.$router.back();
   }
 
 }

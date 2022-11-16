@@ -13,6 +13,7 @@
           append-icon="mdi-send"
           @keypress.ctrl.enter="addComment"
           @click:append="addComment"
+          :disabled="ticketCompleted"
           hint="CTRL + ENTER"
         >
         </v-textarea>
@@ -63,6 +64,10 @@ import * as Snackbar from "node-snackbar";
   components: { "f-btn": FBtn },
 })
 export default class TicketComment extends Vue {
+  @Prop({
+    default: false
+  })
+  ticketCompleted: boolean;
   @Store.Getter.Ticket.TicketSummary.ticketCommentsList
   ticketCommentsList: Data.Ticket.MyTicketCommentDetails[];
 

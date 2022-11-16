@@ -94,14 +94,14 @@ export default class CFDraftPayment extends Vue {
     if (!!this.paymentType) {
       this.draftPaymentInputFormLocal.paymentType = this.paymentType;
     }
-    if (this.paymentType.title === "COLLECTION (SPA + Fee)") {
+    if (this.paymentType.code === "depositSpaAndFee") {
       this.draftPaymentInputFormLocal.paymentProvider =
         Data.ClientFile.PAYMENT_PROVIDER.NUPAY;
       this.draftPaymentInputFormLocal.paymentMode =
         Data.ClientFile.PAYMENT_MODE.ENACH;
     }
 
-    if (this.paymentType.title === "COLLECTION (Only Fee)") {
+    if (this.paymentType.code === "depositOnlyFee") {
       this.draftPaymentInputFormLocal.paymentProvider =
         Data.ClientFile.PAYMENT_PROVIDER.CASHFREE;
     }
@@ -146,20 +146,23 @@ export default class CFDraftPayment extends Vue {
         contentMetaData: new CFSettlementFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "settlement",
       },
       {
         key: "COLLECTION",
-        title: "COLLECTION (SPA + Fee)",
+        title: "DEPOSIT (SPA + Fee)",
         contentMetaData: new CFCollectionSPAFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "depositSpaAndFee",
       },
       {
         key: "COLLECTION",
-        title: "COLLECTION (Only Fee)",
+        title: "DEPOSIT (Only Fee)",
         contentMetaData: new CFCollectionFeeFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "depositOnlyFee",
       },
       {
         key: "REFUND",
@@ -167,6 +170,7 @@ export default class CFDraftPayment extends Vue {
         contentMetaData: new CFRefundFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "refund",
       },
     ];
   }

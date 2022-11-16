@@ -120,7 +120,8 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateId",
           label: "E Mandate",
-          boundaryClass: "col-3"
+          boundaryClass: "col-3",
+          mandatory: true
         })
       )
       

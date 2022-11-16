@@ -54,11 +54,11 @@
             class="mx-2"
             @click="reAssignClicked()"
             outlined
-            :disabled="taskCompleted"
+            :disabled="ticketCompleted"
             >Assign</v-btn
           >
           <v-btn
-            :disabled="taskCompleted"
+            :disabled="ticketCompleted"
             color="primary"
             class="mx-2"
             @click="closeTicketDialog = true"
@@ -74,7 +74,7 @@
           v-bind="ticketSummaryFormMetaData.props"
         ></component>
       </v-card-text>
-      <ticket-comment />
+      <ticket-comment :ticketCompleted="ticketCompleted" />
     </v-card>
   </div>
 </template>
@@ -127,7 +127,7 @@ export default class TicketDetails extends Vue {
     return this.ticketTaskDetails.taskInput;
   }
 
-  get taskCompleted() {
+  get ticketCompleted() {
     return this.ticketTaskDetails.taskState === "COMPLETED";
   }
   mounted() {

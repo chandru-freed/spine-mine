@@ -66,7 +66,6 @@ export default class CFLeftNav extends Vue {
     {
       title: "File",
       icon: "mdi-file-account",
-      routerName: "Root.CFile.CFInfo.CFPersonalInfo",
       items: [
         { title: "Personal", routerName: "Root.CFile.CFInfo.CFPersonalInfo" },
         { title: "Creditor", routerName: "Root.CFile.CFInfo.CFCreditorInfo" },
@@ -82,7 +81,6 @@ export default class CFLeftNav extends Vue {
     {
       title: "Accounting",
       icon: "mdi-credit-card-outline - payment icon",
-      routerName: "Root.CFile.CFPayment.CFPaymentList",
       items: [
         { title: "Payment", routerName: "Root.CFile.CFPayment.CFPaymentList" },
         {
@@ -97,7 +95,6 @@ export default class CFLeftNav extends Vue {
     },
     {
       icon: "mdi-checkbox-marked-circle-outline",
-      routerName: "Root.CFile.CFTask.CFActiveTasks",
       items: [
         { title: "Active", routerName: "Root.CFile.CFTask.CFActiveTasks" },
         {
@@ -110,7 +107,6 @@ export default class CFLeftNav extends Vue {
     {
       title: "Ticket",
       icon: "mdi-ticket-confirmation",
-      routerName: "Root.CFile.CFTicket.CFActiveTickets",
       items: [
         { title: "Active", routerName: "Root.CFile.CFTicket.CFActiveTickets" },
         {
@@ -123,7 +119,6 @@ export default class CFLeftNav extends Vue {
     {
       title: "Note",
       icon: "mdi-comment-text",
-      routerName: "Root.CFile.CFNote.CFNoteHighlightList",
       items: [
         {
           title: "Highlights",
@@ -135,14 +130,12 @@ export default class CFLeftNav extends Vue {
     {
       title: "Actions",
       icon: "mdi-gesture-double-tap",
-      routerName: "Root.CFile.CFAction.CFActionList",
-      items: [{ title: "List Item" }],
+      items: [{ title: "List Item",routerName: "Root.CFile.CFAction.CFActionList", }],
     },
     {
       title: "Settlement",
       icon: "mdi-handshake-outline",
-      routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList",
-      items: [{ title: "Settlement Plan" }],
+      items: [{ title: "Settlement Plan",routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList", }],
     },
   ];
 

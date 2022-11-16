@@ -78,10 +78,10 @@ import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
 import Helper from "../../../util/Helper";
-import CFSettlementFFormMDP from "./draftPayment/CFSettlementFFormMDP";
-import CFRefundFFormMDP from "./draftPayment/CFRefundFFormMDP";
-import CFCollectionSPAFFormMDP from "./draftPayment/CFCollectionSPAFFormMDP";
-import CFCollectionFeeFFormMDP from "./draftPayment/CFCollectionFeeFFormMDP";
+import CFSettlementFFormMDP from "./paymentDetails/CFSettlementFFormMDP";
+import CFRefundFFormMDP from "./paymentDetails/CFRefundFFormMDP";
+import CFCollectionSPAFFormMDP from "./paymentDetails/CFCollectionSPAFFormMDP";
+import CFCollectionFeeFFormMDP from "./paymentDetails/CFCollectionFeeFFormMDP";
 
 @Component({
   components: {

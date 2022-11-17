@@ -92,6 +92,10 @@ export default class CFAssignSalesRep extends ModelVue {
       },
     });
   }
+
+  goBack() {
+    this.$router.go(-1);
+  }
 }
 </script>
 

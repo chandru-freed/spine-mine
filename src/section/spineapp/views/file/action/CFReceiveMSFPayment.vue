@@ -90,6 +90,10 @@ export default class CFReceiveMSFPayment extends ModelVue {
       },
     });
   }
+  
+  goBack() {
+    this.$router.go(-1);
+  }
 }
 </script>
 

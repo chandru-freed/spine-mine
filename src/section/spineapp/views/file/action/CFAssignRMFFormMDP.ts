@@ -44,7 +44,7 @@ export default class CFAssignRMFFormMDP extends FFormMDP {
 
   gotoClientFile() {
     return () => {
-      this.taskRoot.gotoClientFile();
+      this.taskRoot.goBack();
     }
   }
 

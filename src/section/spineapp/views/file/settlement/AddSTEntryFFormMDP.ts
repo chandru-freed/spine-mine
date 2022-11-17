@@ -76,7 +76,6 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           boundaryClass: "col-3",
-          mandatory: true
         })
       )
       .addField(
@@ -85,7 +84,6 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "accountHolderName",
           label: "Account Holder Name",
           boundaryClass: "col-3",
-          mandatory: true
         })
       )
       .addField(
@@ -97,7 +95,6 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           options: Data.ClientFile.ACCOUNT_TYPE.list(),
           optionLabel: "name",
           optionValue: "id",
-          mandatory: true
         })
       )
       .addField(
@@ -106,7 +103,6 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "ifscCode",
           label: "IFSC Code",
           boundaryClass: "col-3",
-          mandatory: true
         })
       ).addField(
         new FEMandateSelectFieldMDP({

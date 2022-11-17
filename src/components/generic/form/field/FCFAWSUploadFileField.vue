@@ -21,7 +21,7 @@
           <v-icon class="mr-2">mdi-file</v-icon>
           {{ fileName }}
           <v-spacer/>
-          <a @click="deleteUploadedImage"><v-icon>mdi-close</v-icon></a>
+          <a @click="detachDocument"><v-icon>mdi-close</v-icon></a>
         </div>
       </div>
       <div class="col-3">
@@ -140,11 +140,18 @@ export default class FCFAWSUploadFileField extends Vue {
     Action.ClientFile.AttachDocument.execute(input, (output) => {
       this.uploadedDocument.fiDocumentId = output.fiDocumentId;
       this.modelValue = this.uploadedDocument;
-      this.closeAndClearAllForms();
+      this.clearAllForms();
     });
   }
 
-  closeAndClearAllForms() {
+  detachDocument() {
+     Action.ClientFile.DetachDocument.execute1(this.modelValue.fiDocumentId, (output) => {
+      this.modelValue = new Data.ClientFile.FiDocument();
+    });
+  }
+  
+
+  clearAllForms() {
     this.selectedFile = undefined;
   }
 
@@ -158,10 +165,6 @@ export default class FCFAWSUploadFileField extends Vue {
 
   get fileName() {
     return this.modelValue?.documentPath.split("/").pop()||'';
-  }
-
-  deleteUploadedImage() {
-    this.modelValue = new Data.ClientFile.FiDocument();
   }
 
 }

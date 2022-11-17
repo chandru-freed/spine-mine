@@ -143,7 +143,9 @@ export default class CFLeftNav extends Vue {
   public mini = true;
 
   goto(routerName: string) {
+    if(routerName) {
     this.$router.push({ name: routerName });
+    }
   }
 }
 </script>

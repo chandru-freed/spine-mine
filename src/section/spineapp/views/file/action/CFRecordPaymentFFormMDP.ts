@@ -158,7 +158,7 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
 
   gotoClientFile() {
     return () => {
-      this.taskRoot.gotoClientFile();
+      this.taskRoot.goBack();
     };
   }
 }

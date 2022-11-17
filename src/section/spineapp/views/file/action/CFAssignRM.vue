@@ -92,6 +92,10 @@ export default class CFAssignRM extends ModelVue {
       },
     });
   }
+
+  goBack() {
+    this.$router.go(-1);
+  }
 }
 </script>
 

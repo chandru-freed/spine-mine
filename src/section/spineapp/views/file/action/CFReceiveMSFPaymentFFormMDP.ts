@@ -53,7 +53,7 @@ export default class CFReceiveMSFPaymentFFormMDP extends FFormMDP {
 
   gotoClientFile() {
     return () => {
-      this.taskRoot.gotoClientFile();
+      this.taskRoot.goBack();
     };
   }
 }

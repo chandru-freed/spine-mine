@@ -18,9 +18,26 @@
         v-bind="addSTEntryInfoMetaData.props"
       ></component>
 
+      <component
+        v-if="showUpdateAccountDetails"
+        :ref="updateAccountDetailsFFormMDP.myRefName"
+        :is="updateAccountDetailsFFormMDP.componentName"
+        :value="selectModel(updateAccountDetailsInput, undefined)"
+        v-bind="updateAccountDetailsFFormMDP.props"
+      ></component>
+
+      
+
       <v-alert dense outlined text color="error" v-if="deleteSPAEntry">
         <div
-          class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+          class="
+            d-flex
+            flex-row
+            align-start
+            flex-wrap
+            justify-space-around
+            pa-2
+          "
         >
           <div class="my-1">Are you sure want to delete?</div>
           <v-spacer />
@@ -101,7 +118,23 @@
                 </template>
 
                 <template v-slot:[`item.actions`]="{ item, index }">
-                  <v-btn :disabled="!stEntryScheduled(item)" small outlined primary class="mr-2" @click="presentSTEntry(item)">Present</v-btn>
+                  <v-btn
+                    :disabled="!stEntryScheduled(item)"
+                    small
+                    outlined
+                    color="primary"
+                    class="mr-2"
+                    @click="presentSTEntry(item)"
+                    >Present</v-btn
+                  >
+                  <v-btn
+                    small
+                    outlined
+                    color="primary"
+                    class="mr-2"
+                    @click="handleUpdateAccountDetailsClick(item)"
+                    >Update account info</v-btn
+                  >
                   <v-icon
                     :disabled="!stEntryScheduled(item)"
                     small
@@ -109,7 +142,6 @@
                   >
                     mdi-delete
                   </v-icon>
-
                 </template>
               </v-data-table>
             </v-card>
@@ -176,6 +208,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 import * as Snackbar from "node-snackbar";
 import FBtn from "@/components/generic/FBtn.vue";
+import UpdateAccountDetailsFFormMDP from './UpdateAccountDetailsFFormMDP';
 
 @Component({
   components: {
@@ -189,8 +222,9 @@ export default class CFSettlementPlanInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
-
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
+  updateAccountDetailsInput: Data.ClientFile.UpdateAccountDetailsInput =
+    new Data.ClientFile.UpdateAccountDetailsInput();
   selectedSTEntry: Data.ClientFile.FiCreditor;
   stPlanId = this.$route.params.stPlanId;
   clientFileId = this.$route.params.clientFileId;
@@ -198,6 +232,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
   tab = 0;
   addSPAEntry = false;
   deleteSPAEntry = false;
+  showUpdateAccountDetails: boolean = false;
 
   spaHeaders = [
     {
@@ -233,17 +268,20 @@ export default class CFSettlementPlanInfo extends ModelVue {
   get addSTEntryInfoMetaData() {
     return new AddSTEntryFFormMDP({ taskRoot: this }).getMetaData();
   }
+
+  get updateAccountDetailsFFormMDP() {
+    return new UpdateAccountDetailsFFormMDP({ taskRoot: this }).getMetaData()
+  }
   //METADATA
 
   stEntryScheduled(item: any) {
-    return item.status === "SCHEDULED"
+    return item.status === "SCHEDULED";
   }
 
   mounted() {
     this.getFiCreditorInfo();
     this.getSTPaymentPlanDetails();
   }
-
 
   resetForms() {
     this.addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
@@ -264,6 +302,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
     this.resetForms();
     this.addSPAEntry = false;
     this.deleteSPAEntry = false;
+    this.showUpdateAccountDetails = false;
   }
 
   showDeletePopup(item: any) {
@@ -290,7 +329,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
       this.addSPAEntry = false;
     });
   }
-
   removeSTEntry() {
     const stEntryId = this.selectedSTEntry.stEntryId;
     Action.ClientFile.RemoveSTEntry.execute1(stEntryId, (output) => {
@@ -306,12 +344,30 @@ export default class CFSettlementPlanInfo extends ModelVue {
   presentSTEntry(item: any) {
     Action.ClientFile.PresentSTEntry.execute1(item.stEntryId, (output) => {
       Snackbar.show({
-        text: "Succesfully Delete ST Entry",
+        text: "Succesfully Deleted ST Entry",
         pos: "bottom-center",
       });
       setTimeout(this.getSTPaymentPlanDetails, 1000);
       this.deleteSPAEntry = false;
     });
+  }
+  handleUpdateAccountDetailsClick(item: any) {
+    this.selectedSTEntry = item;
+    this.updateAccountDetailsInput = Data.ClientFile.UpdateAccountDetailsInput.fromJson(item);
+    this.showUpdateAccountDetails = true;
+  }
+  updateAccountInfo() {
+    Action.ClientFile.UpdateSTEntryAccountDetails.execute(
+      this.updateAccountDetailsInput,
+      (output) => {
+        Snackbar.show({
+        text: "Account details Updated",
+        pos: "bottom-center",
+      });
+        this.closeDialogs();
+        setTimeout(this.getSTPaymentPlanDetails, 1000);
+      }
+    );
   }
 }
 </script>

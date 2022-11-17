@@ -1,7 +1,6 @@
 
 <template>
   <div>
-    <h4>Plan settlement</h4>
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -17,9 +16,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
-import Helper from "@/section/spineapp/util/Helper";
 import PSTFStepperMDP from "./PSTFStepperMDP";
-import FSettlementPlan from "@/components/generic/file/settlementPlan/FSettlementPlan.vue";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import * as Action from "@/../src-gen/action";
 @Component({
@@ -119,6 +116,12 @@ export default class PlanSettlementTask extends ModelVue {
         this.getSTPaymentPlanDetails();
       }, 1000);
     });
+
+     Action.ClientFile.UpdateSTEntryAccountDetails.interested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
   }
 
   destroyed() {
@@ -135,6 +138,12 @@ export default class PlanSettlementTask extends ModelVue {
     });
 
     Action.ClientFile.PresentSTEntry.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+     Action.ClientFile.UpdateSTEntryAccountDetails.notInterested(() => {
       setTimeout(() => {
         this.getSTPaymentPlanDetails();
       }, 1000);

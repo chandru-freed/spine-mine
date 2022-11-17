@@ -96,6 +96,9 @@ export default class ReceivePayment extends ModelVue {
       },
     });
   }
+   goBack() {
+    this.$router.go(-1);
+  }
 }
 </script>
 

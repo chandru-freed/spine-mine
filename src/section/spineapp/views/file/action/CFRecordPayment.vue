@@ -97,6 +97,10 @@ export default class CFRecordPayment extends ModelVue {
       },
     });
   }
+
+  goBack() {
+    this.$router.go(-1);
+  }
 }
 </script>
 

@@ -11,12 +11,21 @@
           :disabled="disabled"
           :outlined="outlined"
           :dense="dense"
+          :hide-details="fileName !== ''"
+          :error-messages="errorMessages"
+          prepend-inner-icon="mdi-paperclip"
+          prepend-icon=""
         >
         </v-file-input>
-        {{ modelValue.documentPath }}
+        <div v-if="fileName" class="d-flex align-center my-2">
+          <v-icon class="mr-2">mdi-file</v-icon>
+          {{ fileName }}
+          <v-spacer/>
+          <a @click="deleteUploadedImage"><v-icon>mdi-close</v-icon></a>
+        </div>
       </div>
       <div class="col-3">
-        <v-btn :disabled="!selectedFile" @click="getPresignedURLAndUpload" color="primary">Upload</v-btn>
+        <v-btn :disabled="!selectedFile" @click="getPresignedURLAndUpload" color="primary">Upload </v-btn>
       </div>
     </div>
   </div>
@@ -26,15 +35,15 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
-import { VFileInput } from "vuetify/lib/components";
+import { VFileInput, VTextField } from "vuetify/lib/components";
 import axios from "axios";
 
 @Component({
   components: {
-    // VFileInput,
+    VFileInput,
   },
 })
-export default class FUploadFileFieldForCF extends Vue {
+export default class FCFAWSUploadFileField extends Vue {
   // MODEL VALUE - START
   @Prop()
   value: any;
@@ -54,6 +63,8 @@ export default class FUploadFileFieldForCF extends Vue {
   @Prop()
   dense: boolean;
 
+  @Prop()
+  errorMessages: any;
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
@@ -63,6 +74,8 @@ export default class FUploadFileFieldForCF extends Vue {
   attachDocumentToCFInput: Data.ClientFile.AttachDocumentInput =
     new Data.ClientFile.AttachDocumentInput();
   presignedUrl: string = "";
+
+  // MODEL VALUE - START
   get modelValue() {
     return this.value;
   }
@@ -72,10 +85,14 @@ export default class FUploadFileFieldForCF extends Vue {
   }
   // MODEL VALUE - END
 
+
+  mounted() {
+  }
   
   
   fileSelected(newValue: any) {
     this.selectedFile = newValue;
+    // this.getPresignedURLAndUpload();
   }
 
   
@@ -101,6 +118,9 @@ export default class FUploadFileFieldForCF extends Vue {
       headers: {
         "Content-Type": this.selectedFile.fileDoc?.type,
       },
+      onUploadProgress: (progress: any) => {
+        console.log(progress);
+      }
     };
     const axiosResponse = await axios.put(
       this.presignedUrl,
@@ -130,11 +150,20 @@ export default class FUploadFileFieldForCF extends Vue {
 
   generateRandomUrl(file: File | null) {
     if (file) {
-      const dateValue = new Date().valueOf();
-      return dateValue + file.name;
+      const dateValue: string = new Date().valueOf().toString();
+      return dateValue.slice(-4) + file.name;
     }
     return "";
   }
+
+  get fileName() {
+    return this.modelValue?.documentPath.split("/").pop()||'';
+  }
+
+  deleteUploadedImage() {
+    this.modelValue = new Data.ClientFile.FiDocument();
+  }
+
 }
 </script>
 

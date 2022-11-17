@@ -78,9 +78,9 @@ import FNumberTextField from "./field/FNumberTextField.vue";
 import FRemoteAutoCompleteField from "./field/FRemoteAutoCompleteField.vue";
 import FDateTimeSelectField from "./field/FDateTimeSelectField.vue";
 import FNupayBankSelectField from "./field/FNupayBankSelectField.vue";
-import FUploadFileField from "./field/FUploadFileFieldForCF.vue";
-import FUploadFileFieldForClient from "./field/FUploadFileFieldForCF.vue";
-import FUploadFileFieldForCF from "./field/FUploadFileFieldForCF.vue";
+import FUploadFileField from "./field/FCFAWSUploadFileField.vue";
+import FUploadFileFieldForClient from "./field/FCFAWSUploadFileField.vue";
+import FCFAWSUploadFileField from "./field/FCFAWSUploadFileField.vue";
 import FEMandateSelectField from "./field/FEMandateSelectField.vue";
 
 @Component({
@@ -109,7 +109,7 @@ import FEMandateSelectField from "./field/FEMandateSelectField.vue";
     FRemoteAutoCompleteField,
     FDateTimeSelectField,
     FNupayBankSelectField,
-    FUploadFileFieldForCF,
+    FCFAWSUploadFileField,
     FEMandateSelectField
   },
 })

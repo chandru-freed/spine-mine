@@ -1,8 +1,8 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
-export default class FUploadFileFieldForCFMDP implements FFieldMDP {
-  componentName = "FUploadFileFieldForCF";
+export default class FCFAWSUploadFileFieldMDP implements FFieldMDP {
+  componentName = "FCFAWSUploadFileField";
   dataSelectorKey: string;
   label: string;
   accept: string;
@@ -42,7 +42,7 @@ export default class FUploadFileFieldForCFMDP implements FFieldMDP {
   }
 
   getRules() {
-    const required = this.mandatory ? "required" : "";
+    const required = this.mandatory ? "document_required" : "";
     return `${required}|${this.rules}`;
   }
 

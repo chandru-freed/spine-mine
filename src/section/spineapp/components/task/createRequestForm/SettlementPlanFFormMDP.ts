@@ -3,7 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
-import FUploadFileFieldForCFMDP from "@/components/generic/form/field/FUploadFileFieldForCFMDP";
+import FCFAWSUploadFileFieldMDP from "@/components/generic/form/field/FCFAWSUploadFileFieldMDP";
 
 export default class SettlementPlanFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -49,7 +49,7 @@ export default class SettlementPlanFFormMDP extends FFormMDP {
           boundaryClass: "col-6",
         },
       ))
-      .addField(new FUploadFileFieldForCFMDP(
+      .addField(new FCFAWSUploadFileFieldMDP(
         {
           parentMDP: this.childMDP,
           dataSelectorKey: "createSettlementPlanInput.bankSifDoc",

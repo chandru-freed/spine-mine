@@ -184,16 +184,21 @@ export default class CFCreateRequest extends Vue {
   mounted() {
     // this.getNupayBankMasterList();
     this.getFiCreditorInfo();
-    if(this.queryFlowName) {
-      this.selectedRequestType = this.requestTypeFlowMapList.find(x=> x.key === this.queryFlowName)?.contentMetaData;
-    }
   }
 
     getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
       this.clientFileId,
-      (output) => {}
+      (output) => {
+        this.selectRequestFromQuery();
+      }
     );
+    }
+
+    selectRequestFromQuery() {
+      if(this.queryFlowName) {
+            this.selectedRequestType = this.requestTypeFlowMapList.find(x=> x.key === this.queryFlowName)?.contentMetaData;
+        }
     }
 
 

@@ -12,6 +12,7 @@ export default class Validator {
     this.timeValidator();
     this.timeValidatorwithSeconds();
     this.positiveNumber();
+    this.documentRequired();
   }
 
 
@@ -37,6 +38,18 @@ export default class Validator {
       },
     });
   }
+
+
+  private static documentRequired() {
+    extend("document_required", {
+      message: (field: string) => field + " field is required",
+      validate: (value: any): boolean => {
+        return value?.fiDocumentId!=='';
+      },
+    });
+  }
+
+  
 
   // rules + messages
   private static allMessages() {

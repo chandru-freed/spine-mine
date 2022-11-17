@@ -146,6 +146,12 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: {flowName: "EMandate"}
+        },
+        {
+          actionName: "Settlement Plan",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFCreateRequest",
+          query: {flowName: "Settlement Plan"}
         }
       ]
     },

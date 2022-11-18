@@ -104,11 +104,13 @@ export default class CFNoteHighlightList extends ModelVue {
 
   addHighlightedNote() {
     this.addNoteInput.clientFileId = this.clientFileBasicInfo.clientFileId;
-    Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
-      this.highlightNote(output.noteId);
-      this.addNoteInput = new Data.FiNote.AddNoteInput();
-      this.getFiNoteList();
-    });
+    if (this.addNoteInput.noteMessage.length > 1) {
+      Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
+        this.highlightNote(output.noteId);
+        this.addNoteInput = new Data.FiNote.AddNoteInput();
+        this.getFiNoteList();
+      });
+    }
   }
 
   getFiNoteList() {

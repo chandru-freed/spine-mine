@@ -19,7 +19,7 @@
 
           
           
-          <template v-slot:item.totalAmount="{ item }">
+          <template v-slot:[`item.totalAmount`]="{ item }">
           
            <v-btn
               text
@@ -29,14 +29,14 @@
              {{item.totalAmount | toINR}}
             </v-btn>
           </template>
-          <template v-slot:item.accountHolderName="{ item }">
+          <template v-slot:[`item.accountHolderName`]="{ item }">
             <f-btn
               :label="item.accountHolderName"
               text
               color="secondary"
             ></f-btn>
           </template>
-          <template v-slot:item.receivedBy="{ item }">
+          <template v-slot:[`item.receivedBy`]="{ item }">
             <v-chip small class="" v-if="item.receivedBy" label>
               <v-icon small left> mdi-account-circle-outline </v-icon>
               {{ item.receivedBy }}

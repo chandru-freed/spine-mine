@@ -72,7 +72,7 @@
               <v-tab> Fee Schedule </v-tab>
             </v-tabs>
             <v-spacer></v-spacer>
-            <v-btn
+            <!-- <v-btn
               :disabled="disabled"
               icon
               color="primary"
@@ -80,26 +80,20 @@
               @click="showAddForm"
             >
               <v-icon>mdi-plus-circle-outline</v-icon>
-            </v-btn>
+            </v-btn> -->
           </v-toolbar>
         </template>
-
-        <v-tabs-items v-model="tab" class="col-12">
+      
+        <v-tabs-items v-model="tab" class=" col-12">
           <v-tab-item>
-            <v-card flat>
-              <v-data-table
+              <f-data-table
                 :headers="spaHeaders"
                 :items="stPlanDetails.stSpaEntryList"
+                :actions="spaActions"
                 sort-by="draftDate"
                 class="elevation-0"
+                item-key="stEntryId"
               >
-                <template v-slot:top>
-                  <v-toolbar flat>
-                    <v-toolbar-title>SPA Schedule</v-toolbar-title>
-                    <v-divider class="mx-4" inset vertical></v-divider>
-                    <v-spacer></v-spacer>
-                  </v-toolbar>
-                </template>
                 <template v-slot:[`item.status`]="{ item }">
                   <v-chip small outlined>
                     {{ item.status }}
@@ -143,14 +137,15 @@
                     mdi-delete
                   </v-icon>
                 </template>
-              </v-data-table>
-            </v-card>
+              </f-data-table>
           </v-tab-item>
           <v-tab-item>
-            <v-card flat>
-              <v-data-table
+              <f-data-table
                 :headers="feeHeaders"
                 :items="stPlanDetails.stFeeEntryList"
+                 :actions="feeActions"
+                title="Fee Schedule"
+                item-key="stEntryId"
                 sort-by="draftDate"
                 class="elevation-0"
               >
@@ -187,8 +182,7 @@
                     mdi-delete
                   </v-icon>
                 </template>
-              </v-data-table>
-            </v-card>
+              </f-data-table>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -209,11 +203,15 @@ import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 import * as Snackbar from "node-snackbar";
 import FBtn from "@/components/generic/FBtn.vue";
 import UpdateAccountDetailsFFormMDP from './UpdateAccountDetailsFFormMDP';
+import FAddBtn from "@/components/generic/FAddBtn.vue";
+import FDataTable, { ActionType } from "@/components/generic/FDataTable.vue";
 
 @Component({
   components: {
     FForm,
     FBtn,
+FAddBtn,
+FDataTable
   },
 })
 export default class CFSettlementPlanInfo extends ModelVue {
@@ -243,9 +241,8 @@ export default class CFSettlementPlanInfo extends ModelVue {
     },
     { text: "status", value: "status" },
     { text: "DraftDate", value: "draftDate" },
-    { text: "SPA Amount", value: "spaAmount", align: "right" },
+    { text: "SPA Amount", value: "spaAmount", },
     // { text: "Total Amount", value: "totalAmount", align: "right" },
-    { text: "Actions", value: "actions", align: "right" },
   ];
   feeHeaders = [
     {
@@ -258,8 +255,53 @@ export default class CFSettlementPlanInfo extends ModelVue {
     { text: "Draft Date", value: "draftDate" },
     { text: "Fee Amount", value: "feeAmount", align: "right" },
     // { text: "Total Amount", value: "totalAmount", align: "right" },
-    { text: "Actions", value: "actions", align: "right" },
   ];
+
+  spaActions: any [] = [
+    {
+      type: ActionType.OTHERS,
+      label: "Present",
+      onClick: (item: any) => {this.presentSTEntry(item)}
+    },
+    {
+      type: ActionType.OTHERS,
+      label: "Update Account Info",
+      onClick: (item: any) => this.handleUpdateAccountDetailsClick(item)
+    },
+    
+    {
+      type: ActionType.ADD,
+      onClick: () => this.showAddForm(),
+      label:"Add STEntry"
+    }
+  ]
+
+  feeActions: any [] = [
+    {
+      type: ActionType.OTHERS,
+      label: "Present",
+      onClick: (item: any) => {this.presentSTEntry(item)}
+    },
+    {
+      type: ActionType.OTHERS,
+      label: "Update Account Info",
+      onClick: (item: any) => this.handleUpdateAccountDetailsClick(item)
+    },
+    {
+      type: ActionType.OTHERS,
+      label: "Update Account Info1",
+      onClick: (item: any) => this.handleUpdateAccountDetailsClick(item)
+    },
+    {
+      type: ActionType.DELETE,
+      onClick: (item: any) => this.showDeletePopup(item)
+    },
+    {
+      type: ActionType.ADD,
+      onClick: () => this.showAddForm(),
+      label:"Add STEntry"
+    }
+  ]
   //METADATA
   get settlementPlanInfoMetaData() {
     return new CFSettlementPlanInfoFFormMDP({ root: this }).getMetaData();

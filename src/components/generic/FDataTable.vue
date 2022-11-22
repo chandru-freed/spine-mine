@@ -105,6 +105,11 @@ export default class FDataTable extends VDataTable {
   @Prop({
     default: () => [],
   })
+  dataSelectorKey: any[];
+
+  @Prop({
+    default: () => [],
+  })
   actions: any[];
 
   @Prop({
@@ -121,6 +126,7 @@ export default class FDataTable extends VDataTable {
   selectedAction: any = {};
 
   getValue(item: any, path: any) {
+    console.log(path,item,"item")
     return path.split(".").reduce((res: any, prop: any) => res[prop], item);
   }
 
@@ -170,6 +176,52 @@ export default class FDataTable extends VDataTable {
   get filteredActions() {
     return this.actions.filter(item => item.type === ActionType.OTHERS)
   }
+
+  //  @Prop({
+  //   default:() => []
+  //  })
+  // value: any;
+
+  // get modelValue(): any {
+  //   return this.value;
+  // }
+
+  // set modelValue(newModelValue: any) {
+  //   // console.log("emitting input " + newModelValue);
+  //   this.$emit("input", newModelValue);
+  // }
+
+
+  // selectModel(modelData: any, modelSelectorKey: string | undefined) {
+  //   if(!modelSelectorKey) {
+  //     return modelData
+  //   } else {
+  //     const arr = modelSelectorKey.split(".")
+  //     let ret = modelData
+  //     arr.forEach(elem => { 
+  //       ret = ret[elem]
+  //     })
+
+  //     return ret
+  //   }
+    
+  // }
+
+  // updateModel(modelData: any, newValue: any , modelSelectorKey: string | undefined) {
+  //   if(!modelSelectorKey) {
+  //     modelData = newValue
+  //   } else {
+  //     const arr = modelSelectorKey.split(".")
+  //     if(arr.length == 1) {
+  //       modelData[modelSelectorKey] = newValue
+  //     } else {
+  //       const lastDataSelector = arr[arr.length-1]
+  //       const childDataSelector = arr.slice(0, arr.length - 1).join(".")
+  //       const childModelData  = this.selectModel(modelData,childDataSelector)
+  //       childModelData[lastDataSelector] = newValue
+  //     }
+  //   }
+  // }
 }
 
 export enum ActionType {

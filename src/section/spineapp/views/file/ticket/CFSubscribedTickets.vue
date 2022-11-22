@@ -1,20 +1,17 @@
 <template>
-  <div class="CompletedTicket">
-    <!-- TASK TAB -->
-    <my-ticket-tab v-model="tab"></my-ticket-tab>
-    <!-- TASK TAB -->
+  <div class="CFCompletedTickets">
     <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
-        :items="myTicketTaskList"
+        :items="myTicketTaskDetailsGet"
         class="elevation-0"
         item-key="taskId"
         :search="search"
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-card-title>My Completed Ticket</v-card-title>
-            <v-col class="col-7"></v-col>
+            <v-card-title>My Subscribed Tickets</v-card-title>
+            <v-spacer />
             <v-col>
               <v-text-field
                 v-model="search"
@@ -28,6 +25,9 @@
                 class="shrink"
               ></v-text-field>
             </v-col>
+            <v-btn color="primary"
+            @click="goToAddTicketPage"
+            outlined>Raise a ticket </v-btn>
           </v-toolbar>
         </template>
 
@@ -60,7 +60,7 @@
 
         <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
-            {{ item.allocatedTime | datetime}} ({{
+            {{ item.allocatedTime | datetime }} ({{
               item.allocatedTime | fromNow
             }})
           </span>
@@ -77,47 +77,55 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import store, * as Store from "@/../src-gen/store";
-import MyTicketTab from "../../components/tab/MyTicketTab.vue";
+
 import FBtn from "@/components/generic/FBtn.vue";
 @Component({
   components: {
-    "my-ticket-tab": MyTicketTab,
     "f-btn": FBtn,
   },
 })
-export default class CompletedTicketList extends Vue {
-  tab: number = 1;
+export default class CFSubscribedTickets extends Vue {
+  @Store.Getter.Ticket.TicketSummary.myTicketSubscribedList
+  myTicketTaskDetailsGet: Data.Ticket.MyTicketTaskDetailsGet;
 
-  search: string = ""
-  @Store.Getter.Ticket.TicketSummary.myTicketCompletedList
-  myTicketTaskList: Data.Ticket.MyTicketDetails[];
+  search: string = "";
+
+
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
 
   allocatedTicketTaskGridHeaderList = [
-    // { text: "Task Id", value: "taskId" },
     { text: "Ticket Number", value: "cid", align: "start" },
     { text: "Subject", value: "displayId", align: "start" },
-    // { text: "Task", value: "taskName", align: "start" },
     { text: "Priority", value: "priority" },
     { text: "Raised By", value: "raisedBy" },
     { text: "Allocated To", value: "allocatedTo" },
     { text: "Allocated On", value: "allocatedTime" },
-    //{ text: "Last Updated On", value: "lastUpdatedTime" },
-    // { text: "Suspended", value: "isSuspended" },
-    // { text: "", value: "action", sortable: false },
   ];
 
   mounted() {
-    this.getMyTicketTaskList();
+    this.getMyCFTicketCompletedList();
   }
-  getMyTicketTaskList() {
-    Action.Ticket.GetMyTicketCompletedList.execute((output) => {
-    });
+
+  getMyCFTicketCompletedList() {
+    Action.Ticket.GetMyCFTicketSubscribedList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   gotoTask(item: any) {
     this.$router.push({
-      name: "Root.MyTicket.MyTicketDetails.MyTicketTaskDetails",
-      params: { myTicketId: item.taskId, ticketNumber: item.cid },
+      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails",
+      params: { myTicketId: item.taskId},
+    });
+  }
+
+
+  goToAddTicketPage() {
+     this.$router.push({
+      name: "Root.CFile.CFTicket.CFAddTicket",
     });
   }
 }

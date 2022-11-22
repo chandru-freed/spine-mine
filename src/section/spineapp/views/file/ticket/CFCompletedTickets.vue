@@ -85,7 +85,7 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class CFCompletedTickets extends Vue {
-  @Store.Getter.Ticket.TicketSummary.fiMyCFTicketCompletedList
+  @Store.Getter.Ticket.TicketSummary.myTicketCompletedList
   myTicketTaskDetailsGet: Data.Ticket.MyTicketTaskDetailsGet;
 
   search: string = "";

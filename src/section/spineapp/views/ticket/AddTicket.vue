@@ -30,18 +30,18 @@ import AddTicketFFormMDP from './AddTicketFFormMDP';
   }
 })
 export default class AddTicket extends Vue {
-  addTicketInput: Data.Ticket.RaiseTicketInput = new Data.Ticket.RaiseTicketInput();
+  addTicketInput: Data.Ticket.RaiseATicketInput = new Data.Ticket.RaiseATicketInput();
   get addTicketFormMetaData() {
     return new AddTicketFFormMDP({root: this}).getMetaData();
   }
 
   addTicket() {
-    Action.Ticket.RaiseTicket.execute(this.addTicketInput, output => {
+    Action.Ticket.RaiseATicket.execute(this.addTicketInput, output => {
       Snackbar.show({
         text: "Succesfully added a ticket",
         pos: "bottom-center"
       });
-      this.$router.push({name:"Root.MyTicket.MyTicketDetails.MyTicketTaskDetails", params :{myTicketId: output.myTicketTaskId}})
+      this.$router.push({name:"Root.MyTicket.MyTicketDetailsRedirect", params :{ticketNumber: output.ticketNumber}})
     })
   }
   goBack() {

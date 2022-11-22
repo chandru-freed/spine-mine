@@ -14,13 +14,15 @@ export default class AddTicketFFormMDP extends FFormMDP {
         super({ myRefName: "addTicketFFormRef" });
         this.root = prop.root;
         this.addField(new FTextFieldMDP({
-            dataSelectorKey: "ticketSubject",
+            dataSelectorKey: "subject",
             label: "Subject",
             parentMDP: new FFormChildMDP(),
             mandatory: true,
+            boundaryClass:"col-6"
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "ticketType",
+            dataSelectorKey: "category",
             label: "Category",
+            boundaryClass:"col-6",
             parentMDP: new FFormChildMDP(),
         })).addField(new FTextareaMDP({
             dataSelectorKey: "ticketDetails",
@@ -33,16 +35,19 @@ export default class AddTicketFFormMDP extends FFormMDP {
             queryUrl: "/spineapi/clientfile/search-client-file?clientFileNumberContains=",
             itemText: "clientFileNumber",
             itemValue: "clientFileNumber",
+            boundaryClass:"col-4",
         })).addField(new FSelectFieldMDP({
             dataSelectorKey: "priority",
             label: "Priority",
             parentMDP: new FFormChildMDP(),
-            options:[1,2,3,4,5]
+            options:[1,2,3,4,5],
+            boundaryClass:"col-4",
         }))
         .addField(new FGompaUserRemoteAutoCompleteFieldMDP({
             dataSelectorKey: "assignTo",
             label: "Assign To",
             parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-4",
         }))
         .addAction(new FBtnMDP({
             label: "Cancel",

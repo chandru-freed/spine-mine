@@ -142,9 +142,9 @@
           <v-tab-item>
               <f-data-table
                 :headers="feeHeaders"
-                :items="stPlanDetails.stFeeEntryList"
                  :actions="feeActions"
                 title="Fee Schedule"
+                :items="stPlanDetails.stFeeEntryList"
                 item-key="stEntryId"
                 sort-by="draftDate"
                 class="elevation-0"

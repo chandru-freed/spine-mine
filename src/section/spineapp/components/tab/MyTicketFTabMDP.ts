@@ -15,6 +15,9 @@ export default class MyTicketFTabMDP extends FTabMDP {
     }).addTab({
       tabName: "Completed",
       routerName: "Root.MyTicket.CompletedTicketList",
+    }).addTab({
+      tabName: "Subscribed",
+      routerName: "Root.MyTicket.SubscribedTicketList",
     });
   }
 

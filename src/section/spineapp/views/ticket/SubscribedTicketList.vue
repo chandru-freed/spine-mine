@@ -6,7 +6,7 @@
     <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
       <v-data-table
         :headers="allocatedTicketTaskGridHeaderList"
-        :items="myTicketTaskList"
+        :items="myTicketSubscribedList"
         class="elevation-0"
         item-key="taskId"
         :search="search"
@@ -85,12 +85,13 @@ import FBtn from "@/components/generic/FBtn.vue";
     "f-btn": FBtn,
   },
 })
-export default class CompletedTicketList extends Vue {
+export default class SubscribedTicketList extends Vue {
   tab: number = 1;
 
   search: string = ""
-  @Store.Getter.Ticket.TicketSummary.myTicketCompletedList
-  myTicketTaskList: Data.Ticket.MyTicketDetails[];
+
+  @Store.Getter.Ticket.TicketSummary.myTicketSubscribedList
+  myTicketSubscribedList: Data.Ticket.MyTicketDetails[];
 
   allocatedTicketTaskGridHeaderList = [
     // { text: "Task Id", value: "taskId" },
@@ -110,7 +111,8 @@ export default class CompletedTicketList extends Vue {
     this.getMyTicketTaskList();
   }
   getMyTicketTaskList() {
-    Action.Ticket.GetMyTicketCompletedList.execute((output) => {
+    
+    Action.Ticket.GetMyTicketSubscribedList.execute((output) => {
     });
   }
 

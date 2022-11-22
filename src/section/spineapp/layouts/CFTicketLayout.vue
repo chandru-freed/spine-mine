@@ -71,6 +71,10 @@ export default class CFTicketLayout extends Vue {
       tabName: "Completed",
       routerName: "Root.CFile.CFTicket.CFCompletedTickets",
     },
+    {
+      tabName: "Subscribed",
+      routerName: "Root.CFile.CFTicket.CFSubscribedTickets",
+    },
   ];
 
   breadcrumbList = [

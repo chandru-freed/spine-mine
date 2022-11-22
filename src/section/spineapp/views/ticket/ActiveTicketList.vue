@@ -74,6 +74,7 @@
 import Vue from "vue";
 import { Prop, Component } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
+import store, * as Store from "@/../src-gen/store";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
@@ -88,8 +89,8 @@ import FBtn from "@/components/generic/FBtn.vue";
 export default class ActiveTicketList extends Vue {
   tab: number = 0;
   search: string = "";
-
-  myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
+  @Store.Getter.Ticket.TicketSummary.myTicketActiveList
+  myTicketTaskList: Data.Ticket.MyTicketDetails[];
 
   allocatedTicketTaskGridHeaderList = [
     // { text: "Task Id", value: "taskId" },
@@ -110,7 +111,6 @@ export default class ActiveTicketList extends Vue {
   }
   getMyTicketTaskList() {
     Action.Ticket.GetMyTicketActiveList.execute((output) => {
-      this.myTicketTaskList = output;
     });
   }
 

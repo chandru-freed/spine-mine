@@ -14,29 +14,29 @@ export default class TicketSummaryFFormMDP extends FFormMDP {
         super({ myRefName: "addTicketFFormRef", readonly: true, disabled: true });
         this.root = prop.root;
         this.addField(new FTextFieldMDP({
-            dataSelectorKey: "ticketSubject",
+            dataSelectorKey: "taskInput.subject",
             label: "Subject",
             parentMDP: new FFormChildMDP(),
             mandatory: true,
             boundaryClass:"col-3",
             readonly: true
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "ticketType",
+            dataSelectorKey: "taskInput.category",
             label: "Category",
             parentMDP: new FFormChildMDP(),
             boundaryClass:"col-3",
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "clientFileNumber",
+            dataSelectorKey: "clientFile.clientFileNumber",
             label: "Client File Number",
             boundaryClass:"col-3",
             parentMDP: new FFormChildMDP(),
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "ticketNumber",
+            dataSelectorKey: "taskInput.ticketNumber",
             label: "Ticket Number",
             parentMDP: new FFormChildMDP(),
             boundaryClass:"col-3",
         })).addField(new FTextareaMDP({
-            dataSelectorKey: "ticketDetails",
+            dataSelectorKey: "taskInput.ticketDetails",
             label: "Description",
             parentMDP: new FFormChildMDP(),
         }));

@@ -34,7 +34,7 @@ export default class AddTicket extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
   clientFileId = this.$route.params.clientFileId;
-  addTicketInput: Data.Ticket.RaiseTicketInput = new Data.Ticket.RaiseTicketInput();
+  addTicketInput: Data.Ticket.RaiseATicketInput = new Data.Ticket.RaiseATicketInput();
   get addTicketFormMetaData() {
     return new CFAddTicketFFormMDP({root: this}).getMetaData();
   }
@@ -50,21 +50,22 @@ export default class AddTicket extends Vue {
   }
 
    getCFBasicInfo() {
-    Action.ClientFile.GetCFBasicInfo.execute1(
-      this.clientFileId,
-      (output) => {
-        this.addTicketInput.clientFileNumber = output.clientFileNumber;
-      }
-    );
+    this.addTicketInput.clientFileId = this.clientFileId;
+    // Action.ClientFile.GetCFBasicInfo.execute1(
+    //   this.clientFileId,
+    //   (output) => {
+    //     this.addTicketInput.clientFileId = this.clientFileId;
+    //   }
+    // );
   }
 
   addTicket() {
-    Action.Ticket.RaiseTicket.execute(this.addTicketInput, output => {
+    Action.Ticket.RaiseATicket.execute(this.addTicketInput, output => {
       Snackbar.show({
         text: "Succesfully added a ticket",
         pos: "bottom-center"
       });
-      this.$router.push({name:"Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails", params :{myTicketId: output.myTicketTaskId}})
+      this.$router.push({name:"Root.CFile.CFTicket.CFTicketDetailsRedirect", params :{ticketNumber: output.ticketNumber}})
     })
   }
   goBack() {

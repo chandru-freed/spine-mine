@@ -119,7 +119,7 @@ export default class CFTicketDetails extends Vue {
   }
 
   get taskSummary(): any {
-    return this.ticketTaskDetails.taskInput;
+    return this.ticketTaskDetails;
   }
 
   get ticketCompleted() {

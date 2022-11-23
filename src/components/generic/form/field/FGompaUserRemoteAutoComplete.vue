@@ -55,7 +55,9 @@ export default class FGompaUserRemoteAutoCompleteField extends VAutocomplete {
     if (value?.length >= this.minSearchValueLength) {
       this.fetchItems();
     } else {
+      if(!this.$props.multiple) {
       this.fetchedItems = [];
+      }
     }
   }
 

@@ -12,7 +12,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import Helper from "../../util/Helper";
+import Helper from "../../../util/Helper";
 
 @Component
 export default class MyTicketDetailsRedirect extends Vue {

@@ -1,7 +1,7 @@
 <template>
   <v-card-text>
-    <div class="row justify-center align-content-start">
-      <div class="col-10">
+    <div class="justify-center align-content-start">
+      <div >
         <v-textarea
           filled
           auto-grow
@@ -19,12 +19,12 @@
         </v-textarea>
       </div>
     </div>
-    <div class="row justify-center align-content-start">
-      <div class="col-10">
+    <div class=" justify-center align-content-start">
+      <div >
         <v-list two-line>
           <template v-for="(ticketComment, index) in ticketCommentsList">
             <v-list-item :key="'comment' + index">
-              <template v-slot:default="{ active }">
+              <template v-slot:default="{  }">
                 <v-list-item-content disabled>
                   <v-list-item-title>{{
                     ticketComment.comment
@@ -76,7 +76,7 @@ export default class TicketComment extends Vue {
   addCommentInput: Data.Ticket.AddCommentOnTicketInput =
     new Data.Ticket.AddCommentOnTicketInput();
 
-  get taskId() {
+  get ticketId() {
     return this.$route.params.myTicketId;
   }
 
@@ -111,12 +111,12 @@ export default class TicketComment extends Vue {
     };
   }
   getTicketCommentList() {
-    Action.Ticket.GetTicketCommentList.execute1(this.taskId, (output) => {
+    Action.Ticket.GetTicketCommentList.execute1(this.ticketId, (output) => {
       console.log(output);
     });
   }
   addComment() {
-    this.addCommentInput.taskId = this.taskId;
+    this.addCommentInput.ticketId = this.ticketId;
     Action.Ticket.AddCommentOnTicket.execute(this.addCommentInput, (output) => {
       Snackbar.show({
         text: "Succesfully added a comment",

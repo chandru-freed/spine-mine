@@ -7,6 +7,7 @@ import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import * as Data from "@/../src-gen/data";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
+import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 
 export default class TicketSummaryFFormMDP extends FFormMDP {
     root: any;
@@ -18,30 +19,43 @@ export default class TicketSummaryFFormMDP extends FFormMDP {
             label: "Subject",
             parentMDP: new FFormChildMDP(),
             mandatory: true,
-            boundaryClass:"col-3",
+            boundaryClass:"col-4",
             readonly: true
         })).addField(new FTextFieldMDP({
             dataSelectorKey: "taskInput.category",
             label: "Category",
             parentMDP: new FFormChildMDP(),
-            boundaryClass:"col-3",
-        })).addField(new FTextFieldMDP({
-            dataSelectorKey: "clientFile.clientFileNumber",
-            label: "Client File Number",
-            boundaryClass:"col-3",
-            parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-4",
         })).addField(new FTextFieldMDP({
             dataSelectorKey: "taskInput.ticketNumber",
             label: "Ticket Number",
             parentMDP: new FFormChildMDP(),
-            boundaryClass:"col-3",
+            boundaryClass:"col-4",
         })).addField(new FTextareaMDP({
             dataSelectorKey: "taskInput.ticketDetails",
             label: "Description",
             parentMDP: new FFormChildMDP(),
+        })).addField(new FSelectDateFieldMDP({
+            dataSelectorKey: "sla",
+            label: "SLA",
+            parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-4"
+        })).addField(new FTextFieldMDP({
+            dataSelectorKey: "subscriberList",
+            label: "Subscriber List",
+            parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-4",
+        })).addField(new FTextFieldMDP({
+            dataSelectorKey: "clientFile.clientFileNumber",
+            label: "Client File Number",
+            boundaryClass:"col-4",
+            parentMDP: new FFormChildMDP(),
+            condition: this.showClientFileNumberField()
         }));
-        
+    }
 
+    showClientFileNumberField(): boolean {
+        return this.root.taskSummary.clientFile !== undefined
     }
     validateAndAdd() {
         return () => {

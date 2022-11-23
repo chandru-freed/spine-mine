@@ -19,6 +19,8 @@ export default class FGompaUserRemoteAutoCompleteFieldMDP implements MDP {
     hideNoData: boolean = true;
     hideSelected: boolean = true;
     minSearchValueLength: number;
+    multiple: boolean = false;
+    smallChips: boolean = false;
     constructor({
         parentMDP,
         label="User Search",
@@ -33,7 +35,9 @@ export default class FGompaUserRemoteAutoCompleteFieldMDP implements MDP {
         queryUrl="/gompa-api/user/find-user?userName=",
         returnObject,
         clearable=true,
-        minSearchValueLength=2
+        minSearchValueLength=2,
+        multiple=false,
+        smallChips=false
 
     }: {
         parentMDP: FFormChildMDP;
@@ -50,6 +54,8 @@ export default class FGompaUserRemoteAutoCompleteFieldMDP implements MDP {
         returnObject?: boolean;
         clearable?:boolean;
         minSearchValueLength?:number;
+        multiple?:boolean;
+        smallChips?:boolean;
     }) {
         this.parentMDP = parentMDP;
         this.label = label;
@@ -65,6 +71,8 @@ export default class FGompaUserRemoteAutoCompleteFieldMDP implements MDP {
         this.returnObject = returnObject;
         this.clearable = clearable;
         this.minSearchValueLength = minSearchValueLength;
+        this.multiple = multiple;
+        this.smallChips = smallChips;
     }
 
 
@@ -98,7 +106,10 @@ export default class FGompaUserRemoteAutoCompleteFieldMDP implements MDP {
                 clearable: this.clearable,
                 hideNoData: this.hideNoData,
                 hideSelected: this.hideSelected,
-                minSearchValueLength: this.minSearchValueLength
+                minSearchValueLength: this.minSearchValueLength,
+                multiple: this.multiple,
+                smallChips: this.smallChips,
+                deletableChips: this.smallChips
             }
         }
     }

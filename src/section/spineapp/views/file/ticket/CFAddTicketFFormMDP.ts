@@ -7,6 +7,7 @@ import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import * as Data from "@/../src-gen/data";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
+import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 
 export default class AddTicketFFormMDP extends FFormMDP {
     root: any;
@@ -48,7 +49,24 @@ export default class AddTicketFFormMDP extends FFormMDP {
             label: "Assign To",
             parentMDP: new FFormChildMDP(),
             boundaryClass: "col-6",
-        })).addAction(new FBtnMDP({
+        }))
+        .addField(new FSelectDateFieldMDP({
+            dataSelectorKey: "sla",
+            label: "SLA",
+            parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-6",
+        }))
+        .addField(new FGompaUserRemoteAutoCompleteFieldMDP({
+            dataSelectorKey: "subscriberList",
+            label: "Subscriber List",
+            parentMDP: new FFormChildMDP(),
+            boundaryClass:"col-6",
+            multiple: true,
+            smallChips: true,
+            clearable: false
+        }))
+        
+        .addAction(new FBtnMDP({
             label: "Raise a Ticket",
             onClick: this.validateAndAdd(),
         }))

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="CFTicketDetails">
     <!-- CLOSE TICKET -->
     <v-alert text class="ma-5" color="primary" v-if="closeTicketDialog">
       <div class="text-center py-3">
@@ -42,23 +42,15 @@
         <v-card-title
           >Ticket Summary<v-spacer />
           <v-btn
-            class="mx-2"
-            v-if="taskSummary.clientFileNumber"
-            color="primary"
-            @click="gotoFile"
-            text
-            >Go To File</v-btn
-          >
-          <v-btn
             color="primary"
             class="mx-2"
             @click="reAssignClicked()"
             outlined
-            :disabled="taskCompleted"
+            :disabled="ticketCompleted"
             >Assign</v-btn
           >
           <v-btn
-            :disabled="taskCompleted"
+            :disabled="ticketCompleted"
             color="primary"
             class="mx-2"
             @click="closeTicketDialog = true"
@@ -73,8 +65,9 @@
           v-model="taskSummary"
           v-bind="ticketSummaryFormMetaData.props"
         ></component>
+        <ticket-comment :ticketCompleted="ticketCompleted" />
       </v-card-text>
-      <ticket-comment />
+      
     </v-card>
   </div>
 </template>
@@ -88,10 +81,13 @@ import store, * as Store from "@/../src-gen/store";
 // import AddCommentFFormMDP from './AddCommentFFormMDP';
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Snackbar from "node-snackbar";
-import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
+// import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
 import FBtn from "@/components/generic/FBtn.vue";
-import TicketComment from "./TicketComment.vue";
-import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
+// import TicketComment from "./TicketComment.vue";
+import TicketSummaryFFormMDP from "../../../ticket/TicketSummaryFFormMDP";
+import ReAssignTicketFFormMDP from "../../../ticket/details/ReAssignTicketFFormMDP";
+import TicketComment from "../../../ticket/details/TicketComment.vue";
+// import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
 @Component({
   components: {
     FForm,
@@ -99,7 +95,7 @@ import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
     "ticket-comment": TicketComment,
   },
 })
-export default class MyTicketTaskDetails extends Vue {
+export default class CFTicketDetails extends Vue {
   @Store.Getter.Ticket.TicketSummary.ticketTaskDetails
   ticketTaskDetails: Data.Ticket.MyTicketTaskDetails;
 
@@ -124,10 +120,10 @@ export default class MyTicketTaskDetails extends Vue {
   }
 
   get taskSummary(): any {
-    return this.ticketTaskDetails.taskInput;
+    return this.ticketTaskDetails;
   }
 
-  get taskCompleted() {
+  get ticketCompleted() {
     return this.ticketTaskDetails.taskState === "COMPLETED";
   }
   mounted() {

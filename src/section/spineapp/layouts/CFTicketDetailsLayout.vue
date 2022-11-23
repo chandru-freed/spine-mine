@@ -13,6 +13,7 @@
 
     <v-card outlined height="1000px">
       <v-card flat min-height="600">
+        <router-view name="details"/>
         <router-view></router-view>
       </v-card>
     </v-card>

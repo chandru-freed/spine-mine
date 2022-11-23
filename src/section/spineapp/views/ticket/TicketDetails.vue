@@ -90,8 +90,8 @@ import FForm from "@/components/generic/form/FForm.vue";
 import * as Snackbar from "node-snackbar";
 import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
 import FBtn from "@/components/generic/FBtn.vue";
-import TicketComment from "./TicketComment.vue";
-import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
+import TicketComment from "./details/TicketComment.vue";
+import ReAssignTicketFFormMDP from "./details/ReAssignTicketFFormMDP";
 @Component({
   components: {
     FForm,

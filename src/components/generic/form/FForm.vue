@@ -82,6 +82,7 @@ import FUploadFileField from "./field/FCFAWSUploadFileField.vue";
 import FUploadFileFieldForClient from "./field/FCFAWSUploadFileField.vue";
 import FCFAWSUploadFileField from "./field/FCFAWSUploadFileField.vue";
 import FEMandateSelectField from "./field/FEMandateSelectField.vue";
+import FAWSUploadFileField from "./field/FAWSUploadFileField.vue";
 
 @Component({
   components: {
@@ -110,7 +111,8 @@ import FEMandateSelectField from "./field/FEMandateSelectField.vue";
     FDateTimeSelectField,
     FNupayBankSelectField,
     FCFAWSUploadFileField,
-    FEMandateSelectField
+    FEMandateSelectField,
+    FAWSUploadFileField
   },
 })
 export default class FForm extends ModelVue {

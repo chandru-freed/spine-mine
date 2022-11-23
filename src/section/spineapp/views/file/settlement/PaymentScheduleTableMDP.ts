@@ -6,14 +6,14 @@ export default class PaymentScheduleTableMDP extends FDataTableMDP {
     constructor() {
         super({dataSelectorKey: "stFeeEntryList"});
 
-        this.addField({
+        this.addColumn({
             text: "Payment Provider",
             align: "start",
             sortable: false,
             value: "paymentProvider",
-          }).addField({ text: "status", value: "status" },)
-          .addField({ text: "DraftDate", value: "draftDate" })
-          .addField({ text: "SPA Amount", value: "spaAmount" });
+          }).addColumn({ text: "status", value: "status" },)
+          .addColumn({ text: "DraftDate", value: "draftDate" })
+          .addColumn({ text: "SPA Amount", value: "spaAmount" });
 
 
           

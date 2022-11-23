@@ -5,7 +5,7 @@
       :headers="filteredHeaders"
       :items="items"
       class="elevation-0"
-      :show-select="actions.length > 0"
+      :show-select="showCheckbox"
       :single-select="true"
       v-bind="$props"
       checkbox-color="primary"
@@ -175,6 +175,10 @@ export default class FDataTable extends VDataTable {
 
   get filteredActions() {
     return this.actions.filter(item => item.type === ActionType.OTHERS)
+  }
+
+  get showCheckbox() {
+    return this.actions.filter(item => item.type === ActionType.OTHERS).length > 0;
   }
 
   //  @Prop({

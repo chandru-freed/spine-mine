@@ -44,7 +44,7 @@ export default class Validator {
     extend("document_required", {
       message: (field: string) => field + " field is required",
       validate: (value: any): boolean => {
-        return value?.fiDocumentId!=='';
+        return value?.documentPath!=='';
       },
     });
   }

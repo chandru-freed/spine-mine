@@ -1,5 +1,5 @@
 <template>
-  <div class="CFTicketDetails">
+  <div>
     <!-- CLOSE TICKET -->
     <v-alert text class="ma-5" color="primary" v-if="closeTicketDialog">
       <div class="text-center py-3">
@@ -13,7 +13,6 @@
           :on-click="() => (closeTicketDialog = false)"
           outlined
           color="primary"
-          Ò
         />
         <FBtn
           label="Close Ticket"
@@ -25,7 +24,7 @@
     </v-alert>
     <!-- CLOSE TICKET -->
     <!-- ASSIGN TICKET -->
-    <v-card flat class="mx-5" outlined v-if="reAssignTicketDialog">
+    <v-card flat class="my-3" outlined v-if="reAssignTicketDialog">
       <v-card-title>Re Assign Ticket<v-spacer /> </v-card-title>
       <component
         v-if="!!reAssignTicketFormMetaData"
@@ -37,27 +36,35 @@
     </v-card>
     <!-- ASSIGN TICKET -->
 
-    <v-card flat outlined>
+    <v-card flat >
       <v-card-text>
         <v-card-title
           >Ticket Summary<v-spacer />
+          <v-btn
+            class="mx-2"
+            v-if="taskSummary.clientFileNumber"
+            color="primary"
+            @click="gotoFile"
+            text
+            >Go To File</v-btn
+          >
+         
           <v-btn
             color="primary"
             class="mx-2"
             @click="reAssignClicked()"
             outlined
-            :disabled="ticketCompleted"
+            :disabled="taskCompleted"
             >Assign</v-btn
           >
           <v-btn
-            :disabled="ticketCompleted"
+            :disabled="taskCompleted"
             color="primary"
             class="mx-2"
             @click="closeTicketDialog = true"
             >Close Ticket</v-btn
           >
         </v-card-title>
-
         <component
           v-if="!!ticketSummaryFormMetaData"
           :ref="ticketSummaryFormMetaData.myRefName"
@@ -66,7 +73,6 @@
           v-bind="ticketSummaryFormMetaData.props"
         ></component>
       </v-card-text>
-      <ticket-comment :ticketCompleted="ticketCompleted" />
     </v-card>
   </div>
 </template>
@@ -80,13 +86,11 @@ import store, * as Store from "@/../src-gen/store";
 // import AddCommentFFormMDP from './AddCommentFFormMDP';
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Snackbar from "node-snackbar";
-// import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
+import TicketSummaryFFormMDP from "../TicketSummaryFFormMDP";
 import FBtn from "@/components/generic/FBtn.vue";
-// import TicketComment from "./TicketComment.vue";
-import TicketSummaryFFormMDP from "../../ticket/TicketSummaryFFormMDP";
-import ReAssignTicketFFormMDP from "../../ticket/ReAssignTicketFFormMDP";
-import TicketComment from "../../ticket/TicketComment.vue";
-// import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
+import TicketComment from "./TicketComment.vue";
+import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
+import FFooTab from "@/components/generic/FFooTab.vue";
 @Component({
   components: {
     FForm,
@@ -94,9 +98,9 @@ import TicketComment from "../../ticket/TicketComment.vue";
     "ticket-comment": TicketComment,
   },
 })
-export default class CFTicketDetails extends Vue {
+export default class MyTicketTaskDetails extends Vue {
   @Store.Getter.Ticket.TicketSummary.ticketTaskDetails
-  ticketTaskDetails: Data.Ticket.MyTicketTaskDetails;
+  ticketTaskDetails: Data.Ticket.MyTicketDetails;
 
   @Store.Getter.Ticket.TicketSummary.ticketCommentsList
   ticketCommentsList: Data.Ticket.MyTicketCommentDetails[];
@@ -122,7 +126,7 @@ export default class CFTicketDetails extends Vue {
     return this.ticketTaskDetails;
   }
 
-  get ticketCompleted() {
+  get taskCompleted() {
     return this.ticketTaskDetails.taskState === "COMPLETED";
   }
   mounted() {

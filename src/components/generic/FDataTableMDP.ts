@@ -1,7 +1,7 @@
 import MDP from "./MDP";
 export default class FDataTableMDP implements MDP {
     componentName = "FDataTable";
-    fieldList: any[] = [];
+    columnList: any[] = [];
     actionList: any[] = [];
     myRefName: string;
     dataSelectorKey: string;
@@ -10,8 +10,8 @@ export default class FDataTableMDP implements MDP {
     }
 
 
-  addField(newField: any) {
-    this.fieldList.push(newField);
+  addColumn(newField: any) {
+    this.columnList.push(newField);
     return this;
   }
 
@@ -24,7 +24,7 @@ export default class FDataTableMDP implements MDP {
         return {
             componentName: this.componentName,
             props: {
-                headers: this.fieldList,
+                headers: this.columnList,
                 actions:this.actionList,
                 dataSelectorKey: this.dataSelectorKey,
             }

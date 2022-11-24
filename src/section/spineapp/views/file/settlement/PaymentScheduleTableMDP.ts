@@ -1,4 +1,4 @@
-import FDataTableMDP, { ActionType } from "@/components/generic/FDataTableMDP"
+import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP"
 
 
 export default class PaymentScheduleTableMDP extends FDataTableMDP {

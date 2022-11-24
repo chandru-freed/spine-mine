@@ -41,11 +41,6 @@ export default class TicketSummaryFFormMDP extends FFormMDP {
             parentMDP: new FFormChildMDP(),
             boundaryClass:"col-4"
         })).addField(new FTextFieldMDP({
-            dataSelectorKey: "subscriberList",
-            label: "Subscriber List",
-            parentMDP: new FFormChildMDP(),
-            boundaryClass:"col-4",
-        })).addField(new FTextFieldMDP({
             dataSelectorKey: "clientFile.clientFileNumber",
             label: "Client File Number",
             boundaryClass:"col-4",

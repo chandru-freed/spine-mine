@@ -15,6 +15,14 @@
       :headers="ticketDocumentListColumns"
       :actions="ticketDocumentListActions"
     >
+    
+
+     <template v-slot:[`item.documentPath`]="{ item }">
+            <a @click="openUploadedFile(item.documentPath)">
+                    {{ item.documentPath }}
+            </a>
+      </template>
+    
     </f-data-table>
   </v-card-text>
 </template>
@@ -105,6 +113,14 @@ export default class MyTicketDocumentList extends ModelVue {
     this.attachUploadedDocumentInput =
       new Data.Spine.AttachUploadedDocumentInput();
     this.showAttachForm = false;
+  }
+
+  openUploadedFile(docPath: string) {
+    console.log(docPath)
+    Action.Spine.GetUploadedUrl.execute1(docPath,output => {
+      console.log(output.uploadedUrl)
+      window.open(output.uploadedUrl);
+    })
   }
 }
 </script>

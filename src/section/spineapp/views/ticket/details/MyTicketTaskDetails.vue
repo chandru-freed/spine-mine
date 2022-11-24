@@ -36,7 +36,7 @@
     </v-card>
     <!-- ASSIGN TICKET -->
 
-    <v-card flat >
+    <v-card flat>
       <v-card-text>
         <v-card-title
           >Ticket Summary<v-spacer />
@@ -48,7 +48,7 @@
             text
             >Go To File</v-btn
           >
-         
+
           <v-btn
             color="primary"
             class="mx-2"
@@ -134,10 +134,18 @@ export default class MyTicketTaskDetails extends Vue {
     Action.Ticket.CloseTicket.interested(
       this.getMyTicketTaskDetailsWithDelay()
     );
+
+    Action.Ticket.AddSubscriberList.interested(
+      this.getMyTicketTaskDetailsWithDelay()
+    );
   }
 
   public destroyed() {
     Action.Ticket.CloseTicket.notInterested(
+      this.getMyTicketTaskDetailsWithDelay()
+    );
+
+    Action.Ticket.AddSubscriberList.notInterested(
       this.getMyTicketTaskDetailsWithDelay()
     );
   }

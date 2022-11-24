@@ -50,7 +50,8 @@ export default class MyTicketSubscriberList extends ModelVue {
   showAddForm: boolean = false;
 
   ticketSubscriberListColumns = [
-    { text: "Name", value: "fullName" },
+    { text: "User Name", value: "userName" },
+    { text: "Full Name", value: "fullName" },
     { text: "Email Id", value: "emailId" },
     { text: "Mobile", value: "mobile" },
     
@@ -65,7 +66,7 @@ export default class MyTicketSubscriberList extends ModelVue {
   ];
 
   mounted() {
-    console.log(this.ticketTaskDetails.subscriberList);
+    console.log(this.ticketTaskDetails.subscriberList, "Subscriber list");
   }
 
   handleAddClick() {

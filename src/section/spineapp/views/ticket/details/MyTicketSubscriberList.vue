@@ -12,12 +12,21 @@
       v-bind="addSubscriberFFormMetaData.props"
     ></component>
 
-    <f-data-table
+    <component
+      v-if="ticketTaskDetails.subscriberList"
+      :ref="tableMetaData.myRefName"
+      :is="tableMetaData.componentName"
+      :value="ticketTaskDetails.subscriberList"
+      v-bind="tableMetaData.props"
+    ></component>
+
+
+    <!-- <f-data-table
       :items="ticketTaskDetails.subscriberList"
       :headers="ticketSubscriberListColumns"
       :actions="ticketSubscriberListActions"
     >
-    </f-data-table>
+    </f-data-table> -->
   </v-card-text>
 </v-card>
 </div>
@@ -33,9 +42,9 @@ import * as Action from "@/../src-gen/action";
 import AttachTicketDocumentFFormMDP from "./AttachTicketDocumentFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import FDataTable, { ActionType } from "@/components/generic/FDataTable.vue";
+import FDataTable, { ActionType } from "@/components/generic/table/FDataTable.vue";
 import AddSubscriberFFormMDP from "./AddSubscriberFFormMDP";
-
+import MTSubscriberListFTableMDP from "./MTSubscriberListFTableMDP";
 @Component({
   components: {
     MyTicketDetailsTab,
@@ -98,6 +107,10 @@ export default class MyTicketSubscriberList extends ModelVue {
     this.addSubscriberListInput =
       new Data.Ticket.AddSubscriberListInput();
     this.showAddForm = false;
+  }
+
+  get tableMetaData() {
+    return new MTSubscriberListFTableMDP({root: this}).getMetaData();
   }
 }
 </script>

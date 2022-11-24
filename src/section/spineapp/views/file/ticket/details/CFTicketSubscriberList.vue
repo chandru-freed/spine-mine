@@ -10,12 +10,13 @@
       ></component>
     </v-card>
     <v-card flat>
-      <f-data-table
-        :items="ticketTaskDetails.subscriberList"
-        :headers="ticketSubscriberListColumns"
-        :actions="ticketSubscriberListActions"
-      >
-      </f-data-table>
+      <component
+      v-if="ticketTaskDetails.subscriberList"
+      :ref="subscriberTableMetaData.myRefName"
+      :is="subscriberTableMetaData.componentName"
+      :value="ticketTaskDetails.subscriberList"
+      v-bind="subscriberTableMetaData.props"
+    ></component>
     </v-card>
   </div>
 </template>
@@ -29,9 +30,10 @@ import * as Action from "@/../src-gen/action";
 
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import FDataTable, { ActionType } from "@/components/generic/FDataTable.vue";
+import FDataTable, { ActionType } from "@/components/generic/table/FDataTable.vue";
 import CFTicketDetailsTab from "@/section/spineapp/components/tab/CFTicketDetailsTab.vue";
 import AddSubscriberFFormMDP from "@/section/spineapp/views/ticket/details/AddSubscriberFFormMDP";
+import MTSubscriberListFTableMDP from "../../../ticket/details/MTSubscriberListFTableMDP";
 
 @Component({
   components: {
@@ -85,6 +87,10 @@ export default class CFTicketSubscriberList extends ModelVue {
     return new AddSubscriberFFormMDP({
       root: this,
     }).getMetaData();
+  }
+
+   get subscriberTableMetaData() {
+    return new MTSubscriberListFTableMDP({root: this}).getMetaData();
   }
 
   closeAndClearAllForms() {

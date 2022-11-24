@@ -9,18 +9,13 @@
         v-bind="attachTicketDocumentFFormMDP.props"
       ></component>
     </v-card>
-      <v-card flat>
-      <f-data-table
-        :items="uploadedDocumentList"
-        :headers="ticketDocumentListColumns"
-        :actions="ticketDocumentListActions"
-      >
-        <template v-slot:[`item.documentPath`]="{ item }">
-          <a @click="openUploadedFile(item.documentPath)">
-            {{ item.documentPath }}
-          </a>
-        </template>
-      </f-data-table>
+    <v-card flat>
+       <component
+      :ref="documentListFTableMetaData.myRefName"
+      :is="documentListFTableMetaData.componentName"
+      :value="uploadedDocumentList"
+      v-bind="documentListFTableMetaData.props"
+    ></component>
     </v-card>
   </div>
 </template>
@@ -33,9 +28,12 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import FDataTable, { ActionType } from "@/components/generic/FDataTable.vue";
+import FDataTable, {
+  ActionType,
+} from "@/components/generic/table/FDataTable.vue";
 import AttachTicketDocumentFFormMDP from "@/section/spineapp/views/ticket/details/AttachTicketDocumentFFormMDP";
 import CFTicketDetailsTab from "@/section/spineapp/components/tab/CFTicketDetailsTab.vue";
+import MTDocumentListFTableMDP from "../../../ticket/details/MTDocumentListFTableMDP";
 
 @Component({
   components: {
@@ -104,6 +102,10 @@ export default class CFTicketDocumentList extends ModelVue {
       root: this,
       parent: this,
     }).getMetaData();
+  }
+
+  get documentListFTableMetaData() {
+    return new MTDocumentListFTableMDP({ root: this }).getMetaData();
   }
 
   closeAndClearAllForms() {

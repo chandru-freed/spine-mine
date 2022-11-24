@@ -12,20 +12,12 @@
       v-bind="attachTicketDocumentFFormMDP.props"
     ></component>
 
-    <f-data-table
-      :items="uploadedDocumentList"
-      :headers="ticketDocumentListColumns"
-      :actions="ticketDocumentListActions"
-    >
-    
-
-     <template v-slot:[`item.documentPath`]="{ item }">
-            <a @click="openUploadedFile(item.documentPath)">
-                    {{ item.documentPath }}
-            </a>
-      </template>
-    
-    </f-data-table>
+    <component
+      :ref="documentListFTableMetaData.myRefName"
+      :is="documentListFTableMetaData.componentName"
+      :value="uploadedDocumentList"
+      v-bind="documentListFTableMetaData.props"
+    ></component>
   </v-card-text>
   </v-card>
 </div>
@@ -41,8 +33,8 @@ import * as Action from "@/../src-gen/action";
 import AttachTicketDocumentFFormMDP from "./AttachTicketDocumentFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import FDataTable, { ActionType } from "@/components/generic/FDataTable.vue";
-
+import FDataTable, { ActionType } from "@/components/generic/table/FDataTable.vue";
+import MTDocumentListFTableMDP from "./MTDocumentListFTableMDP";
 @Component({
   components: {
     MyTicketDetailsTab,
@@ -125,6 +117,10 @@ export default class MyTicketDocumentList extends ModelVue {
       console.log(output.uploadedUrl)
       window.open(output.uploadedUrl);
     })
+  }
+
+  get documentListFTableMetaData() {
+    return new MTDocumentListFTableMDP({root: this}).getMetaData();
   }
 }
 </script>

@@ -42,8 +42,8 @@
 <script lang="ts">
 import TicketComment from "@/section/spineapp/views/ticket/details/TicketComment.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import FDataTable from "./FDataTable.vue";
-import FDataTableMDP from "./FDataTableMDP";
+import FDataTable from "./table/FDataTable.vue";
+import FDataTableMDP from "./table/FDataTableMDP";
 import FForm from "./form/FForm.vue";
 import ModelVue from "./ModelVue";
 

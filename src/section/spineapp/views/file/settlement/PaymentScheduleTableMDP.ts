@@ -4,7 +4,7 @@ import FDataTableMDP, { ActionType } from "@/components/generic/FDataTableMDP"
 export default class PaymentScheduleTableMDP extends FDataTableMDP {
 
     constructor() {
-        super({dataSelectorKey: "stFeeEntryList"});
+        super();
 
         // this.addColumn({
         //     text: "Payment Provider",
@@ -21,8 +21,6 @@ export default class PaymentScheduleTableMDP extends FDataTableMDP {
             type: ActionType.OTHERS,
             label: "Present",
             onClick: (item: any) => {this.presentSTEntry(item)}
-          }).addAction({
-
           })
 
         //   this.actionList = [

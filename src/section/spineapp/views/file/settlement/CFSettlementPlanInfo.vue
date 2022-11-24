@@ -87,8 +87,8 @@
         <v-tabs-items v-model="tab" class=" col-12">
           <v-tab-item>
               <f-data-table
-                :headers="spaHeaders"
-                :items="stPlanDetails.stSpaEntryList"
+                :columnList="spaHeaders"
+                :value="stPlanDetails.stSpaEntryList"
                 :actions="spaActions"
                 sort-by="draftDate"
                 class="elevation-0"
@@ -141,10 +141,10 @@
           </v-tab-item>
           <v-tab-item>
               <f-data-table
-                :headers="feeHeaders"
+                :columnList="feeHeaders"
                  :actions="feeActions"
                 title="Fee Schedule"
-                :items="stPlanDetails.stFeeEntryList"
+                :value="stPlanDetails.stFeeEntryList"
                 item-key="stEntryId"
                 sort-by="draftDate"
                 class="elevation-0"
@@ -204,7 +204,7 @@ import * as Snackbar from "node-snackbar";
 import FBtn from "@/components/generic/FBtn.vue";
 import UpdateAccountDetailsFFormMDP from './UpdateAccountDetailsFFormMDP';
 import FAddBtn from "@/components/generic/FAddBtn.vue";
-import FDataTable, { ActionType } from "@/components/generic/FDataTable.vue";
+import FDataTable, { ActionType } from "@/components/generic/table/FDataTable.vue";
 
 @Component({
   components: {

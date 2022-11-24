@@ -13,6 +13,7 @@ export default class Validator {
     this.timeValidatorwithSeconds();
     this.positiveNumber();
     this.documentRequired();
+    this.validateIfsc();
   }
 
 
@@ -97,6 +98,20 @@ export default class Validator {
       },
     });
   }
+
+
+  private static validateIfsc() {
+    extend("validate_ifsc", {
+      message: (field: any) => "IFSC code not valid",
+      validate: (value: any): boolean => {
+        //::TODO 5th place has to be 0
+        const regex = /^[A-Za-z]{4}\d{7}$/;
+        return value.match(regex);
+      },
+    });
+  }
+
+  
 
   private static timeValidator() {
     extend("time", {

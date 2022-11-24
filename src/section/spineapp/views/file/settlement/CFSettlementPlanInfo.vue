@@ -288,11 +288,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
       onClick: (item: any) => this.handleUpdateAccountDetailsClick(item)
     },
     {
-      type: ActionType.OTHERS,
-      label: "Update Account Info1",
-      onClick: (item: any) => this.handleUpdateAccountDetailsClick(item)
-    },
-    {
       type: ActionType.DELETE,
       onClick: (item: any) => this.showDeletePopup(item)
     },

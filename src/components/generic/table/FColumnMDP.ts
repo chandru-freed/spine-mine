@@ -5,7 +5,7 @@ export default class FColumnMDP implements MDP {
    
     label: string;
     dataSelectorKey: string | undefined;
-    align?: string;
+    align: string = "left";
     sortable?: boolean;
     columnCellMDP?: FColumnCellMDP;
 
@@ -18,7 +18,7 @@ export default class FColumnMDP implements MDP {
     }) {
         this.label = props.label;
         this.dataSelectorKey = props.dataSelectorKey;
-        this.align = props.align;
+        this.align = props.align||"left";
         this.sortable = props.sortable;
         this.columnCellMDP = props.columnCellMDP;
     }

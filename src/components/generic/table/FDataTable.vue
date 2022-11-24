@@ -67,6 +67,7 @@
             :value="item"
             v-bind="header.columnCellMetaData.props"
           ></component>
+          
 
           <span v-else :key="'dataTable' + index">
             {{ getValue(item, header.value) }}

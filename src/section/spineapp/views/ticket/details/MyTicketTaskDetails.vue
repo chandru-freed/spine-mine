@@ -36,8 +36,7 @@
     </v-card>
     <!-- ASSIGN TICKET -->
 
-    <v-card flat>
-      <v-card-text>
+    <v-card flat outlined>
         <v-card-title
           >Ticket Summary<v-spacer />
           <v-btn
@@ -72,7 +71,6 @@
           v-model="taskSummary"
           v-bind="ticketSummaryFormMetaData.props"
         ></component>
-      </v-card-text>
     </v-card>
   </div>
 </template>

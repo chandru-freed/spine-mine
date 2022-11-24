@@ -1,22 +1,28 @@
 <template>
-  <v-card-text>
+  <div>
     <cf-ticket-details-tab v-model="tab"></cf-ticket-details-tab>
-    <!-- {{ticketTaskDetails}} -->
-    <component
-      v-if="showAttachForm"
-      :ref="attachTicketDocumentFFormMDP.myRefName"
-      :is="attachTicketDocumentFFormMDP.componentName"
-      :value="selectModel(attachUploadedDocumentInput, undefined)"
-      v-bind="attachTicketDocumentFFormMDP.props"
-    ></component>
+    <v-card flat>
+      <component
+        v-if="showAttachForm"
+        :ref="attachTicketDocumentFFormMDP.myRefName"
+        :is="attachTicketDocumentFFormMDP.componentName"
+        :value="selectModel(attachUploadedDocumentInput, undefined)"
+        v-bind="attachTicketDocumentFFormMDP.props"
+      ></component>
 
-    <f-data-table
-      :items="uploadedDocumentList"
-      :headers="ticketDocumentListColumns"
-      :actions="ticketDocumentListActions"
-    >
-    </f-data-table>
-  </v-card-text>
+      <f-data-table
+        :items="uploadedDocumentList"
+        :headers="ticketDocumentListColumns"
+        :actions="ticketDocumentListActions"
+      >
+        <template v-slot:[`item.documentPath`]="{ item }">
+          <a @click="openUploadedFile(item.documentPath)">
+            {{ item.documentPath }}
+          </a>
+        </template>
+      </f-data-table>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,10 +39,9 @@ import CFTicketDetailsTab from "@/section/spineapp/components/tab/CFTicketDetail
 
 @Component({
   components: {
-    
     FForm,
     FDataTable,
-    "cf-ticket-details-tab": CFTicketDetailsTab
+    "cf-ticket-details-tab": CFTicketDetailsTab,
   },
 })
 export default class CFTicketDocumentList extends ModelVue {
@@ -72,11 +77,10 @@ export default class CFTicketDocumentList extends ModelVue {
 
   getDocumentList() {
     setTimeout(() => {
-    Action.Spine.GetDocumentList.execute1(this.ticketId, output => {
-      this.uploadedDocumentList = output;
-    });  
+      Action.Spine.GetDocumentList.execute1(this.ticketId, (output) => {
+        this.uploadedDocumentList = output;
+      });
     }, 500);
-    
   }
 
   handleAddClick() {
@@ -106,6 +110,13 @@ export default class CFTicketDocumentList extends ModelVue {
     this.attachUploadedDocumentInput =
       new Data.Spine.AttachUploadedDocumentInput();
     this.showAttachForm = false;
+  }
+
+  openUploadedFile(docPath: string) {
+    console.log(docPath);
+    Action.Spine.GetUploadedUrl.execute1(docPath, (output) => {
+      window.open(output.uploadedUrl);
+    });
   }
 }
 </script>

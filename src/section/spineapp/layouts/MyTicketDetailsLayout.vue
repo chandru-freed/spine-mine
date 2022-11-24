@@ -1,9 +1,9 @@
 
 <template>
-<v-card>
+<div>
   <router-view name="details"/>
   <router-view/>
-</v-card>
+</div>
 </template>
 
 <script lang="ts">

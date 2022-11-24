@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat outlined>
     <v-data-table
       @input="handleSelectChange"
       :headers="filteredHeaders"
@@ -11,7 +11,7 @@
       checkbox-color="primary"
     >
       <template v-if="title || actions.length > 0" v-slot:top>
-        <v-toolbar flat>
+        <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer />
           <div class="col-3" v-if="filteredActions.length>2">

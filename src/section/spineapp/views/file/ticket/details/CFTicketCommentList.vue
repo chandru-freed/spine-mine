@@ -1,8 +1,12 @@
 <template>
-  <v-card-text>
+  <div>
     <cf-ticket-details-tab v-model="tab"></cf-ticket-details-tab>
-    <ticket-comment />
-  </v-card-text>
+    <v-card outlined flat>
+      <v-card-text>
+        <ticket-comment />
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">

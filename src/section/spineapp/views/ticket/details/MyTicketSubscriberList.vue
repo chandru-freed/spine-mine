@@ -1,7 +1,9 @@
 <template>
+<div>
+<my-ticket-details-tab v-model="tab"></my-ticket-details-tab>
+<v-card flat>
   <v-card-text>
-    <my-ticket-details-tab v-model="tab"></my-ticket-details-tab>
-    <!-- {{ticketTaskDetails}} -->
+    
     <component
       v-if="showAddForm"
       :ref="addSubscriberFFormMetaData.myRefName"
@@ -17,6 +19,8 @@
     >
     </f-data-table>
   </v-card-text>
+</v-card>
+</div>
 </template>
 
 <script lang="ts">

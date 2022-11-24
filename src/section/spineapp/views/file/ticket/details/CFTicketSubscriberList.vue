@@ -1,7 +1,7 @@
 <template>
-  <v-card-text>
-    <cf-ticket-details-tab v-model="tab"></cf-ticket-details-tab>
-    <!-- {{ticketTaskDetails}} -->
+<div>
+  <cf-ticket-details-tab v-model="tab"></cf-ticket-details-tab>
+  <v-card flat>
     <component
       v-if="showAddForm"
       :ref="addSubscriberFFormMetaData.myRefName"
@@ -16,7 +16,8 @@
       :actions="ticketSubscriberListActions"
     >
     </f-data-table>
-  </v-card-text>
+  </v-card>
+</div>
 </template>
 
 <script lang="ts">

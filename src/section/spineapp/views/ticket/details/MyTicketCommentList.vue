@@ -1,9 +1,12 @@
 <template>
+<div>
+<my-ticket-details-tab v-model="tab"></my-ticket-details-tab>
+<v-card flat>
   <v-card-text>
-    <my-ticket-details-tab v-model="tab"></my-ticket-details-tab>
     <ticket-comment />
   </v-card-text>
-
+</v-card>
+</div>
 </template>
 
 <script lang="ts">

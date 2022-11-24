@@ -1,5 +1,6 @@
 <template>
-  <v-card-text>
+<v-card flat>
+  <!-- <v-card-text> -->
     <div class="justify-center align-content-start">
       <div >
         <v-textarea
@@ -49,7 +50,8 @@
         </v-list>
       </div>
     </div>
-  </v-card-text>
+  <!-- </v-card-text> -->
+</v-card>
 </template>
 
 <script lang="ts">

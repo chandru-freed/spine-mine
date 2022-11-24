@@ -1,15 +1,15 @@
 <template>
   <div>
     <cf-ticket-details-tab v-model="tab"></cf-ticket-details-tab>
-    <v-card flat>
+    <v-card v-if="showAttachForm" outlined class="my-3">
       <component
-        v-if="showAttachForm"
         :ref="attachTicketDocumentFFormMDP.myRefName"
         :is="attachTicketDocumentFFormMDP.componentName"
         :value="selectModel(attachUploadedDocumentInput, undefined)"
         v-bind="attachTicketDocumentFFormMDP.props"
       ></component>
-
+    </v-card>
+      <v-card flat>
       <f-data-table
         :items="uploadedDocumentList"
         :headers="ticketDocumentListColumns"

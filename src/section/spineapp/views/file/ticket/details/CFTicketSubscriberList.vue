@@ -1,23 +1,23 @@
 <template>
-<div>
-  <cf-ticket-details-tab v-model="tab"></cf-ticket-details-tab>
-  <v-card flat>
-    <component
-      v-if="showAddForm"
-      :ref="addSubscriberFFormMetaData.myRefName"
-      :is="addSubscriberFFormMetaData.componentName"
-      :value="selectModel(addSubscriberListInput, undefined)"
-      v-bind="addSubscriberFFormMetaData.props"
-    ></component>
-
-    <f-data-table
-      :items="ticketTaskDetails.subscriberList"
-      :headers="ticketSubscriberListColumns"
-      :actions="ticketSubscriberListActions"
-    >
-    </f-data-table>
-  </v-card>
-</div>
+  <div>
+    <cf-ticket-details-tab v-model="tab"></cf-ticket-details-tab>
+    <v-card flat outlined class="my-3" v-if="showAddForm">
+      <component
+        :ref="addSubscriberFFormMetaData.myRefName"
+        :is="addSubscriberFFormMetaData.componentName"
+        :value="selectModel(addSubscriberListInput, undefined)"
+        v-bind="addSubscriberFFormMetaData.props"
+      ></component>
+    </v-card>
+    <v-card flat>
+      <f-data-table
+        :items="ticketTaskDetails.subscriberList"
+        :headers="ticketSubscriberListColumns"
+        :actions="ticketSubscriberListActions"
+      >
+      </f-data-table>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,12 +33,11 @@ import FDataTable, { ActionType } from "@/components/generic/FDataTable.vue";
 import CFTicketDetailsTab from "@/section/spineapp/components/tab/CFTicketDetailsTab.vue";
 import AddSubscriberFFormMDP from "@/section/spineapp/views/ticket/details/AddSubscriberFFormMDP";
 
-
 @Component({
   components: {
     FForm,
     FDataTable,
-    "cf-ticket-details-tab": CFTicketDetailsTab
+    "cf-ticket-details-tab": CFTicketDetailsTab,
   },
 })
 export default class CFTicketSubscriberList extends ModelVue {
@@ -55,7 +54,6 @@ export default class CFTicketSubscriberList extends ModelVue {
     { text: "Name", value: "fullName" },
     { text: "Email Id", value: "emailId" },
     { text: "Mobile", value: "mobile" },
-    
   ];
 
   ticketSubscriberListActions = [
@@ -89,11 +87,8 @@ export default class CFTicketSubscriberList extends ModelVue {
     }).getMetaData();
   }
 
-  
-
   closeAndClearAllForms() {
-    this.addSubscriberListInput =
-      new Data.Ticket.AddSubscriberListInput();
+    this.addSubscriberListInput = new Data.Ticket.AddSubscriberListInput();
     this.showAddForm = false;
   }
 }

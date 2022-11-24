@@ -84,7 +84,7 @@ import * as Snackbar from "node-snackbar";
 // import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
 import FBtn from "@/components/generic/FBtn.vue";
 // import TicketComment from "./TicketComment.vue";
-import TicketSummaryFFormMDP from "../../../ticket/TicketSummaryFFormMDP";
+import TicketSummaryFFormMDP from "../../../ticket/details/TicketSummaryFFormMDP";
 import ReAssignTicketFFormMDP from "../../../ticket/details/ReAssignTicketFFormMDP";
 import TicketComment from "../../../ticket/details/TicketComment.vue";
 // import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";

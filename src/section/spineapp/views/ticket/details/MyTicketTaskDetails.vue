@@ -84,7 +84,7 @@ import store, * as Store from "@/../src-gen/store";
 // import AddCommentFFormMDP from './AddCommentFFormMDP';
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Snackbar from "node-snackbar";
-import TicketSummaryFFormMDP from "../TicketSummaryFFormMDP";
+import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
 import FBtn from "@/components/generic/FBtn.vue";
 import TicketComment from "./TicketComment.vue";
 import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";

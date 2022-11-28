@@ -124,7 +124,7 @@ export default class FDocument extends ModelVue {
   selectedCreditorIndex: number;
   headers = [
     { text: "DocumentType", value: "documentType" },
-    { text: "Doc Path", value: "documentPath" },
+    { text: "Document Name", value: "documentPath" },
     { text: "Details", value: "documentDetails" },
     { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },

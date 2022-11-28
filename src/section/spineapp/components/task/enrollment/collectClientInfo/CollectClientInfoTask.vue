@@ -261,9 +261,10 @@ export default class CollectClientInfoTask extends ModelVue {
   }
   // Confirm AccountNumber => per populate account number to confirm cccount number
   setConfirmAccountNumber() {
-    if (this.taskDetailsOutput.bankInfo) {
+    console.log(this.bankInfoStore,"this.taskDetailsOutput.bankInfo")
+    if (this.bankInfoStore) {
       this.taskFormOutput.bankInfo.confirmAccountNumber =
-        this.taskDetailsOutput.bankInfo.accountNumber;
+        this.bankInfoStore.accountNumber;
     }
   }
 
@@ -301,7 +302,9 @@ export default class CollectClientInfoTask extends ModelVue {
   }
 
   getFiBankInfo() {
-    Action.ClientFile.GetFiBankInfo.execute1(this.clientFileId, (output) => {});
+    Action.ClientFile.GetFiBankInfo.execute1(this.clientFileId, (output) => {
+      this.setConfirmAccountNumber();
+    });
   }
 
   getFiDocumentList() {

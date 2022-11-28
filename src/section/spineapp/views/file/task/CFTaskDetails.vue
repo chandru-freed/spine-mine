@@ -283,6 +283,7 @@ export default class CFTaskDetails extends Vue {
     setTimeout(() => {
       this.getExecutiveTaskDetails();
       this.findClientFileSummary();
+      this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
     }, 1000);
   }
 

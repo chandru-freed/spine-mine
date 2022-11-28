@@ -31,7 +31,7 @@ export default class CFTicketDetailsRedirect extends Vue {
       (output) => {
         setTimeout(() => {
           if(output.ticketId) {
-          this.$router.push({name:"Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails", params :{myTicketId: output.ticketId}})
+          this.$router.push({name:"Root.CFile.CFTicket.CFTicketDetails.CFTicketCommentList", params :{myTicketId: output.ticketId}})
           } else {
             this.$router.push({name:"Root.CFile.CFTicket.CFSubscribedTickets"})
           }

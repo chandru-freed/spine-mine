@@ -40,10 +40,10 @@
             </v-col>
           </v-toolbar>
         </template>
-        <template v-slot:item.fullName="{ item }">
+        <template v-slot:[`item.fullName`]="{ item }">
           <f-btn :label="item.fullName" text color="green" :onClick="()=>gotoClient(item.clientId)"></f-btn>
         </template>
-        <template v-slot:item.clientFileNumber="{ item }">
+        <template v-slot:[`item.clientFileNumber`]="{ item }">
           <f-btn
             :label="item.clientFileNumber"
             text
@@ -112,6 +112,10 @@ export default class ClientFileSearch
 
   get clientFileSearchFormMetaData(): any {
     return new ClientFileSearchFFormMDP({ taskRoot: this }).getMetaData();
+  }
+
+  mounted() {
+    this.searchClientFile();
   }
 
   searchClientFile() {

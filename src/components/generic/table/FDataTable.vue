@@ -56,22 +56,22 @@
       </template>
 
       <template
-        v-for="(header, index) in columnList"
+        v-for="(header) in columnList"
         v-slot:[`item.${header.value}`]="{ item }"
       >
         <slot :name="[`item.${header.value}`]" :item="item">
           <component
-            v-if="header.columnCellMetaData"
             :ref="header.columnCellMetaData.myRefName"
             :is="header.columnCellMetaData.componentName"
             :value="item"
             v-bind="header.columnCellMetaData.props"
+            :dataSelectorKey="header.value"
           ></component>
           
 
-          <span v-else :key="'dataTable' + index">
+          <!-- <span v-else :key="'dataTable' + index">
             {{ getValue(item, header.value) }}
-          </span>
+          </span> -->
         </slot>
       </template>
 
@@ -109,12 +109,18 @@ import { VBtn, VDataTable } from "vuetify/lib/components";
 import FAddBtn from "../FAddBtn.vue";
 import * as Snackbar from "node-snackbar";
 import FColumnLink from "./cell/FColumnLink.vue";
+import FColumnBtn from "./cell/FColumnBtn.vue";
+import FColumnINR from "./cell/FColumnINR.vue";
+import FColumnText from "./cell/FColumnText.vue";
 
 @Component({
   components: {
     VBtn,
     FAddBtn,
-    FColumnLink
+    FColumnLink,
+    FColumnBtn,
+    FColumnINR,
+    FColumnText
   },
 })
 export default class FDataTable extends VDataTable {

@@ -117,7 +117,7 @@ export default class CFCompletedTickets extends Vue {
 
   gotoTask(item: any) {
     this.$router.push({
-      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketDetails",
+      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketCommentList",
       params: { myTicketId: item.taskId},
     });
   }

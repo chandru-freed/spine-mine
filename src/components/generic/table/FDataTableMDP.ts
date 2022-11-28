@@ -36,7 +36,6 @@ export default class FDataTableMDP implements MDP {
       props: {
         columnList: this.columnList.map(item => item.getMetaData()),
         actions: this.actionList,
-
       }
     }
   }

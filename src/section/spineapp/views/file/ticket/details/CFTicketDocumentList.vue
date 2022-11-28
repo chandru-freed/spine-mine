@@ -115,7 +115,6 @@ export default class CFTicketDocumentList extends ModelVue {
   }
 
   openUploadedFile(docPath: string) {
-    console.log(docPath);
     Action.Spine.GetUploadedUrl.execute1(docPath, (output) => {
       window.open(output.uploadedUrl);
     });

@@ -10,11 +10,10 @@ export default class MTDocumentListFTableMDP extends FDataTableMDP {
             .addColumn(
                 {
                     dataSelectorKey: "documentPath",
-                    label: "Doc Path",
+                    label: "Document Name",
                     columnCellMDP:
                         new FColumnLinkMDP({
                             onClick: (item) => this.handleDocPathClick(item),
-                            dataSelectorKey: "documentPath"
                         })
                 })
             .addColumn({ dataSelectorKey: "documentDetails", label: "Details", })
@@ -26,7 +25,7 @@ export default class MTDocumentListFTableMDP extends FDataTableMDP {
         return () => this.root.handleAddClick();
     }
     handleDocPathClick(item: any) {
-        console.log(item)
+        console.log(item,"Document is this")
         this.root.openUploadedFile(item.documentPath)
     }
 

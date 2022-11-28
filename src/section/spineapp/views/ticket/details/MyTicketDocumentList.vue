@@ -54,20 +54,6 @@ export default class MyTicketDocumentList extends ModelVue {
 
   uploadedDocumentList: Data.Spine.DocumentDetails[] = [];
 
-  ticketDocumentListColumns = [
-    { text: "DocumentType", value: "documentType" },
-    { text: "Doc Path", value: "documentPath" },
-    { text: "Details", value: "documentDetails" },
-  ];
-
-  ticketDocumentListActions = [
-    {
-      type: ActionType.ADD,
-      onClick: () => this.handleAddClick(),
-      label: "Attach Document",
-    },
-  ];
-
   mounted() {
     console.log(this.attachUploadedDocumentInput);
     this.getDocumentList();
@@ -112,9 +98,9 @@ export default class MyTicketDocumentList extends ModelVue {
   }
 
   openUploadedFile(docPath: string) {
-    console.log(docPath)
+    console.log(docPath,"docPath is this")
     Action.Spine.GetUploadedUrl.execute1(docPath,output => {
-      console.log(output.uploadedUrl)
+      console.log(output.uploadedUrl,"Uploaded url")
       window.open(output.uploadedUrl);
     })
   }

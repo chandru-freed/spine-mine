@@ -12,7 +12,7 @@
       ></component>
     </v-card>
 
-    <v-data-table
+    <!-- <v-data-table
       :headers="fiSettlementPlanListGridHeaderList"
       :items="fiSettlementPlanList"
       class="elevation-0"
@@ -46,11 +46,7 @@
         {{ item.settlementPercentage}} %
       </template>
 
-      <!-- <template v-slot:[`item.status`]="{ item }">
-        <v-chip small outlined>
-          {{ item.status }}
-        </v-chip>
-      </template> -->
+   
 
       <template v-slot:[`item.fiCreditor.creditorName`]="{ item }">
         <v-btn
@@ -60,7 +56,14 @@
           >{{ item.fiCreditor.creditorName }}
         </v-btn>
       </template>
-    </v-data-table>
+    </v-data-table> -->
+    <component
+        :ref="CFStPlanListFDataTableMetaData.myRefName"
+        :is="CFStPlanListFDataTableMetaData.componentName"
+        :value="selectModel(fiSettlementPlanList, undefined)"
+        v-bind="CFStPlanListFDataTableMetaData.props"
+      ></component>
+    
   </v-col>
 </template>
 
@@ -73,10 +76,12 @@ import * as Action from "@/../src-gen/action";
 import AddSettlementPlanFFormMDP from "./AddSettlementPlanFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-
+import CFStPlanListFDataTableMDP from './CFStPlanListFDataTableMDP';
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 @Component({
   components: {
     FForm,
+    FDataTable
   },
 })
 export default class CFSettlementPlanList extends ModelVue {
@@ -158,6 +163,14 @@ export default class CFSettlementPlanList extends ModelVue {
       name: "Root.CFile.CFSettlementPlan.CFSettlementPlanInfo.CFSettlementPlanInfo",
       params: { stPlanId },
     });
+  }
+  
+
+
+  get CFStPlanListFDataTableMetaData() {
+    return new CFStPlanListFDataTableMDP({
+      root: this
+    }).getMetaData();
   }
 }
 </script>

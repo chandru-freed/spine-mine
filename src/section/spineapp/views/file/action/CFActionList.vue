@@ -264,6 +264,7 @@ export default class CFActionList extends Vue {
       (output) => {
         setTimeout(() => {
           this.$emit("flowCreated");
+          this.gotoCFActiveTaskList();
         }, 400);
       }
     );

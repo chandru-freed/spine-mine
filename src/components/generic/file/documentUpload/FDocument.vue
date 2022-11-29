@@ -242,6 +242,7 @@ export default class FDocument extends ModelVue {
     const input = Data.Spine.AttachDocumentInput.fromJson(
       this.uploadedDocument
     );
+    input.documentDetails = this.uploadDocumentForm.documentDetails;
     input.clientFileId = this.taskRoot.clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.AttachDocument.execute(input, (output) => {

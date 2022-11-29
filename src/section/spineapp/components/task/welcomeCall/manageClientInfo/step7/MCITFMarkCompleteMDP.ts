@@ -6,7 +6,7 @@ export default class MCITFMarkCompleteMDP extends FMarkCompleteMDP {
   taskRoot: any;
   parent: any;
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
-    super();
+    super({ taskRoot, parent });
     this.taskRoot = taskRoot;
     this.parent = parent;
 

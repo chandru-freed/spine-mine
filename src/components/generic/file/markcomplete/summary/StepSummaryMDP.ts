@@ -3,6 +3,10 @@ export default class StepSummaryMDP implements MDP {
     componentName: string = "StepSummary";
     myRefName: string = "stepSummary";
     summaryList: SummaryMDP[] = [];
+    parent: any;
+    constructor({parent}:{parent: any}) {
+        this.parent = parent;
+    }
 
     addSummary(props: { name: string, content: MDP, stepIndex: Number }) {
         this.summaryList.push(new SummaryMDP({
@@ -19,6 +23,7 @@ export default class StepSummaryMDP implements MDP {
             myRefName: this.myRefName,
             props: {
                 summaryMetaDataList: this.summaryList.map((summary) => summary.getMetaData()),
+                parent: this.parent
             }
         }
     }
@@ -38,7 +43,7 @@ export class SummaryMDP implements MDP {
         return {
             name: this.name,
             content: this.content.getMetaData(),
-            stepIndex: this.stepIndex
+            stepIndex: this.stepIndex,
         };
     }
 }

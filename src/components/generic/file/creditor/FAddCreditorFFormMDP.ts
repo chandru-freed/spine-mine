@@ -74,9 +74,21 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
         new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
+          label: "Credit Card Number",
+          mandatory: true,
+          boundaryClass: "col-4",
+          condition: this.parent.isCreditCard()
+        })
+      )
+
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "accountNumber",
           label: "Account Number",
           mandatory: true,
           boundaryClass: "col-4",
+          condition: !this.parent.isCreditCard()
         })
       )
 
@@ -98,7 +110,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    return this.parent.getMyRef()[0].$refs[this.myRefName];
+    return this.parent.$refs[this.myRefName];
   }
 
   submitAddCreditor() {
@@ -110,19 +122,19 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
   }
 
   closeAddForm() {
-    this.parent.getMyRef()[0].closeAndClearAllForms();
+    this.parent.closeAndClearAllForms();
   }
 
   addCreditor() {
     const input = Data.Spine.AddCreditorInput.fromJson(
-      this.parent.getMyRef()[0].addCreditorForm
+      this.parent.addCreditorForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.AddCreditor.execute(input, (output) => {
-      this.parent.getMyRef()[0].closeAndClearAllForms();
+      this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",
         pos: "bottom-center",

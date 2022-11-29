@@ -14,6 +14,7 @@ export default class Validator {
     this.positiveNumber();
     this.documentRequired();
     this.validateIfsc();
+    this.validatePan();
   }
 
 
@@ -136,6 +137,18 @@ export default class Validator {
       },
     });
   }
+
+  private static validatePan() {
+    extend("validate_pan", {
+      message: (field: any) => "PAN is not valid",
+      validate: (value: any): boolean => {
+        //::TODO 5th place has to be 0
+        const regex = /^[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}$/;
+        return value.match(regex);
+      },
+    });
+  }
+
 
   // add more validators ... and call them in setup as shown above
 

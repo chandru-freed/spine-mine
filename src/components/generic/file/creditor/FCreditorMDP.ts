@@ -24,19 +24,16 @@ export default class FCreditorMDP implements MDP {
     this.disabled = disabled;
     this.readonly = readonly;
 
-    this.addCreditorForm = new FAddCreditorFFormMDP({
-      taskRoot: this.taskRoot,
-      parent: this,
-    });
+    // this.addCreditorForm = new FAddCreditorFFormMDP({
+    //   taskRoot: this.taskRoot,
+    //   parent: this,
+    // });
 
-    this.editCreditorForm = new FEditCreditorFFormMDP({
-      taskRoot: this.taskRoot,
-      parent: this,
-    });
-
-    
+    // this.editCreditorForm = new FEditCreditorFFormMDP({
+    //   taskRoot: this.taskRoot,
+    //   parent: this,
+    // });
   }
-
 
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);
@@ -49,8 +46,8 @@ export default class FCreditorMDP implements MDP {
       myRefName: this.myRefName,
       dataSelectorKey: this.dataSelectorKey,
       props: {
-        addCreditorFormMetaData: this.addCreditorForm.getMetaData(),
-        editCreditorFormMetaData: this.editCreditorForm.getMetaData(),
+        // addCreditorFormMetaData: this.addCreditorForm.getMetaData(),
+        // editCreditorFormMetaData: this.editCreditorForm.getMetaData(),
         actionMetaDataList: this.actionList.map((action) =>
           action.getMetaData()
         ),

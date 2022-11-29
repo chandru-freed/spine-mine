@@ -77,6 +77,7 @@ export default class FProfileFFormMDP extends FFormMDP {
           label: "PAN",
           boundaryClass: "col-6",
           mandatory: true,
+          rules:"validate_pan"
         })
       )
       .addField(

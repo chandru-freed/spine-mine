@@ -132,6 +132,8 @@ import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
+import FAddCreditorFFormMDP from "./FAddCreditorFFormMDP";
+import FEditCreditorFFormMDP from "./FEditCreditorFFormMDP";
 
 @Component({
   components: {
@@ -167,11 +169,11 @@ export default class FCreditor extends ModelVue {
 
   taskId = this.$route.params.taskId;
 
-  @Prop()
-  addCreditorFormMetaData: any;
+  // @Prop()
+  // addCreditorFormMetaData: any;
 
-  @Prop()
-  editCreditorFormMetaData: any;
+  // @Prop()
+  // editCreditorFormMetaData: any;
 
   @Prop()
   actionMetaDataList: any[];
@@ -194,6 +196,8 @@ export default class FCreditor extends ModelVue {
     this.closeDialogs();
     this.editCreditorDialog = true;
   }
+
+
 
   showDeletePopup() {
     this.closeAndClearAllForms();
@@ -270,5 +274,28 @@ export default class FCreditor extends ModelVue {
         actionMetaData.condition === true
     );
   }
+
+  get addCreditorFormMetaData() {
+    return new FAddCreditorFFormMDP({
+      taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
+  }
+
+  get editCreditorFormMetaData() {
+    return new FEditCreditorFFormMDP({
+       taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
+  }
+
+  isCreditCard(): boolean {
+    if(this.addCreditorDialog) {
+    return this.addCreditorForm.debtType === 'Credit Card'
+    } else {
+      return this.editCreditorForm.debtType === 'Credit Card'
+    }
+  }
+  
 }
 </script>

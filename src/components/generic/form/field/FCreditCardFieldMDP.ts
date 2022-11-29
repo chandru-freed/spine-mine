@@ -1,8 +1,8 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
-import FNumberFieldMDP from "./FNumberFieldMDP";
+import FNumberTextFieldMDP from "./FNumberTextFieldMDP";
 
-export default class FAccountFieldMDP extends FNumberFieldMDP {
+export default class FCreditCardFieldMDP extends FNumberTextFieldMDP {
   constructor(props: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -13,10 +13,14 @@ export default class FAccountFieldMDP extends FNumberFieldMDP {
     boundaryClass?: string;
     disabled?: boolean;
     condition?: boolean;
+    mask?: string;
+    unmask?: string;
     prefix?: string;
   }) {
     super({
       ...props,
+      mask: "#### #### #### ####",
+      unmask: "################",
     });
   }
 }

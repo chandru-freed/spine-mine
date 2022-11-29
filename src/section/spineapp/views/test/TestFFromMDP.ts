@@ -9,6 +9,7 @@ import TestIntf from "./TestIntf";
 // import FFooTextFieldMDP from "@/components/generic/form/field/FFooTextFieldMDP";
 import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFieldMDP";
 import FDateTimeSelectFieldMDP from "@/components/generic/form/field/FDateTimeSelectFieldMDP";
+import FCreditCardFieldMDP from "@/components/generic/form/field/FCreditCardFieldMDP";
 
 export default class TestFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -22,23 +23,19 @@ export default class TestFormMDP extends FFormMDP {
     // this.parent = parent;
 
     this.addField(
-      new FNumberTextFieldMDP({
+      new FCreditCardFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "firstName",
         label: "Pincode",
         boundaryClass: "col-4",
-        mask: "######",
-        unmask: "######",
       })
     )
       .addField(
-        new FTextFieldMDP({
+        new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "name",
           label: "Name",
           boundaryClass: "col-4",
-          mask: "### ###",
-          unmask: "######",
         })
       )
       .addField(

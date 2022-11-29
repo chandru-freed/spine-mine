@@ -11,6 +11,7 @@ import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
 import * as Snackbar from "node-snackbar";
 import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
+import FCreditCardFieldMDP from "../../form/field/FCreditCardFieldMDP";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -71,7 +72,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
       )
 
       .addField(
-        new FAccountFieldMDP({
+        new FCreditCardFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Credit Card Number",

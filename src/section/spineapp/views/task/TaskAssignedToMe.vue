@@ -31,7 +31,7 @@
             </v-col>
           </v-toolbar>
         </template>
-        <template v-slot:item.taskState="{ item }">
+        <template v-slot:[`item.taskState`]="{ item }">
 
         <v-icon color="grey" v-if="item.taskState === 'CREATED'"
           >mdi-plus-circle-outline</v-icon
@@ -57,24 +57,24 @@
           >mdi-alert-circle</v-icon
         >
       </template>
-      <template v-slot:item.priority="{ item }">
+      <template v-slot:[`item.priority`]="{ item }">
         <v-chip  small outlined>
           {{ item.priority }}
         </v-chip>
       </template>
-        <template v-slot:item.taskName="{ item }">
+        <template v-slot:[`item.taskName`]="{ item }">
           <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
         </template>
-        <template v-slot:item.cid="{ item }">
+        <template v-slot:[`item.cid`]="{ item }">
           <f-btn :label="item.cid" text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
         </template>
-        <template v-slot:item.displayId="{ item }">
+        <template v-slot:[`item.displayId`]="{ item }">
           <span class="overline">
             {{ item.displayId }}
           </span>
         </template>
 
-        <template v-slot:item.allocatedTime="{ item }">
+        <template v-slot:[`item.allocatedTime`]="{ item }">
           <span class="grey--text">
             {{ item.allocatedTime | datetime }} ({{
               item.allocatedTime | fromNow
@@ -82,7 +82,7 @@
           </span>
         </template>
 
-        <template v-slot:item.action="{ item }" >
+        <template v-slot:[`item.action`]="{ item }" >
           <f-btn label="START" v-if="item.taskState === 'ALLOCATED'" outlined small color="primary" :onClick="()=>startTask('', item)">   
           </f-btn>
         </template>
@@ -160,7 +160,7 @@ export default class TaskAssignedToMe extends Vue {
 
   gotoTask(item: any) {
     this.$router.push({
-      name: "Root.ClientFile.FileTask.FileTaskDetails",
+      name: "Root.CFTaskRedirect",
       params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
   }

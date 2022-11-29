@@ -50,6 +50,10 @@ import ModelVue from "@/components/generic/ModelVue";
 export default class StepSummary extends ModelVue {
   @Prop()
   summaryMetaDataList: any[];
+  
+  @Prop()
+  parent: any;
+  
 
   get creditorInfo() {
     return {
@@ -104,7 +108,7 @@ export default class StepSummary extends ModelVue {
   }
 
   goToStep(step: Number) {
-    this.$router.push({ query: { step: step.toString() } });
+    this.parent.getMyRef().gotoSpecifiedStep(step);
   }
 }
 </script>

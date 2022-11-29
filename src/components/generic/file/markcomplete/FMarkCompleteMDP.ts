@@ -13,7 +13,11 @@ export default class FMarkCompleteMDP implements MDP {
     componentName: string = "FMarkComplete";
     formList: FFormMDP[] = [];
     actionList: FBtnMDP[] = [];
-    constructor() {
+    taskRoot: any;
+    parent: any;
+    constructor({ taskRoot, parent }:{ taskRoot: any, parent: any }) {
+        this.taskRoot = taskRoot;
+        this.parent = parent;
     }
 
     addAction(newAction: FBtnMDP) {
@@ -27,7 +31,7 @@ export default class FMarkCompleteMDP implements MDP {
     }
 
     getClientInfoSummaryMetaData() {
-        return new StepSummaryMDP()
+        return new StepSummaryMDP({parent: this.parent})
             .addSummary({
                 name: "Profile",
                 content: new ProfileSummaryFFormMDP(),

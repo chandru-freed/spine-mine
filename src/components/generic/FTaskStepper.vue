@@ -197,6 +197,11 @@ export default class FTaskStepper extends ModelVue {
     this.selectedStep = this.selectedStep + 1;
   }
 
+  gotoSpecifiedStep(step: any) {
+    // this.changeStepQuery(this.selectedStep + 1);
+    this.selectedStep = step;
+  }
+
   pullAndStartTask() {
     Action.TaskList.PullStartAndMerge.execute1(this.taskId, (output) => {
       // console.log("");

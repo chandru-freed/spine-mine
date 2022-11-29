@@ -176,7 +176,8 @@ export default class FBudget extends ModelVue {
   sumMiniBudgetAmount(budgetObj: any) {
     return Object.values(budgetObj).reduce(
       (accumulator: number, objValue: any) => {
-        return accumulator + objValue;
+        const val = isNaN(objValue)?0: objValue;
+        return accumulator + val;
       },
       0
     );

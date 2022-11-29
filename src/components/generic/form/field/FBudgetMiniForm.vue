@@ -80,7 +80,8 @@ export default class FBudgetMiniForm extends ModelVue {
   get totalAmount() {
     return Object.values(this.modelValue).reduce(
       (accumulator: number, objValue: any) => {
-        return accumulator + objValue;
+        const val = isNaN(objValue)?0: objValue;
+        return accumulator + val;
       },
       0
     );

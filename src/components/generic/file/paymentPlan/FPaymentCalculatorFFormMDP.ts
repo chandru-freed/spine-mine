@@ -162,7 +162,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     };
   }
 
-  schedulePaymentPlan() {
+  schedulePaymentPlan(callback?: () => void) {
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
       this.taskRoot.taskFormData.taskOutput.paymentPlan
     );
@@ -177,6 +177,9 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
+      if(callback) {
+        callback();
+      }
     });
   }
 }

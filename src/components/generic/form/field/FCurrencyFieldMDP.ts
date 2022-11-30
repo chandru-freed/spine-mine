@@ -13,6 +13,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
   disabled: boolean;
   condition: boolean;
   precession: string;
+  readonly: boolean | undefined;
   // defaultValue?: string;
 
   constructor({
@@ -26,6 +27,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     disabled = false,
     condition = true,
     precession = "0",
+    readonly = false,
   }: // defaultValue
   {
     parentMDP: FFormChildMDP;
@@ -38,6 +40,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     disabled?: boolean;
     condition?: boolean;
     precession?: string;
+    readonly?:boolean;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -50,6 +53,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     this.disabled = disabled;
     this.condition = condition;
     this.precession = precession;
+    this.readonly = readonly;
     // this.defaultValue = defaultValue;
   }
 
@@ -60,6 +64,10 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
 
   getBoundaryClass() {
     return `${this.boundaryClass} py-0 px-2`;
+  }
+
+  isDisabled() {
+    return this.disabled || this.readonly;
   }
 
   getMetaData(): object {
@@ -75,8 +83,9 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        disabled: this.disabled,
+        disabled: this.isDisabled(),
         precession: this.precession,
+        readonly: this.readonly,
         // defaultValue: this.defaultValue
       },
     };

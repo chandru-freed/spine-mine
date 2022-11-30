@@ -34,6 +34,8 @@ import Task from "@/section/spineapp/util/Task";
 
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import CCITFStepperMDP from "./CCITFStepperMDP";
+import moment from "moment";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -50,7 +52,7 @@ export default class CollectClientInfoTask extends ModelVue {
   personalInfoStore: Data.ClientFile.ClPersonalInfo;
   // Creditor Info
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
-  fiCreditorStore: Data.ClientFile.FiCreditor;
+  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
   // Budget Info
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfoStore: Data.ClientFile.BudgetInfo;
@@ -165,17 +167,17 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.AddCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.UpdateCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
@@ -215,18 +217,18 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.AddCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
     Action.Spine.UpdateCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
@@ -261,7 +263,6 @@ export default class CollectClientInfoTask extends ModelVue {
   }
   // Confirm AccountNumber => per populate account number to confirm cccount number
   setConfirmAccountNumber() {
-    console.log(this.bankInfoStore,"this.taskDetailsOutput.bankInfo")
     if (this.bankInfoStore) {
       this.taskFormOutput.bankInfo.confirmAccountNumber =
         this.bankInfoStore.accountNumber;
@@ -284,10 +285,15 @@ export default class CollectClientInfoTask extends ModelVue {
   }
 
   getFiCreditorInfo() {
-    Action.ClientFile.GetCreditorInfo.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
+      // this.schedulePaymentPlan();
+    });
+  }
+
+  getFiCreditorInfoAndSchedulePP() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
+      this.schedulePaymentPlan();
+    });
   }
 
   getBudgetInfo() {
@@ -314,7 +320,6 @@ export default class CollectClientInfoTask extends ModelVue {
     );
   }
 
-
   /* Bank Details => based on the IFSC code get the bank address 
   and per populate the data like ADDRESS, CITY, STATE, COUNTRY */
   populateBankDetails(details: any) {
@@ -323,6 +328,30 @@ export default class CollectClientInfoTask extends ModelVue {
     this.taskFormData.taskOutput.bankInfo.bankAddress.city = details.CITY;
     this.taskFormData.taskOutput.bankInfo.bankAddress.state = details.STATE;
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
+  }
+
+  schedulePaymentPlan() {
+    const paymentPlan = this.fiPaymentPlanInfoStore
+      ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
+      : new Data.Spine.PaymentPlan();
+    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(paymentPlan);
+    input.clientFileId = this.clientFileId;
+    input.ppCalculator.outstanding = this.fiCreditorStore.totalDebt;
+    input.taskId = this.taskId;
+    if(input.ppCalculator.firstDraftDate === '') {
+    input.ppCalculator.firstDraftDate = moment()
+      .add(2, "days")
+      .format(Helper.DATE_FORMAT);
+    input.ppCalculator.feeFirstDraftDate = moment()
+      .format(Helper.DATE_FORMAT);
+    }
+      // if(input.ppCalculator.firstDraftDate === '') {
+    Action.Spine.SchedulePaymentPlan.execute(
+      input,
+      (output: any) => {},
+      (error) => {}
+    );
+      // }
   }
 }
 </script>

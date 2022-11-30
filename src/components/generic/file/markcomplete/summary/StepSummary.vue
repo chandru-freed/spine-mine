@@ -41,10 +41,12 @@ import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
 import Task from "@/section/spineapp/util/Task";
 import ModelVue from "@/components/generic/ModelVue";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 @Component({
   components: {
     FForm,
     "f-btn": FBtn,
+    FDataTable
   },
 })
 export default class StepSummary extends ModelVue {
@@ -53,6 +55,24 @@ export default class StepSummary extends ModelVue {
   
   @Prop()
   parent: any;
+
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfoStore: Data.ClientFile.ClPersonalInfo;
+  // Creditor Info
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
+  // Budget Info
+  @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
+  budgetInfoStore: Data.ClientFile.BudgetInfo;
+  // Payment Plan Info
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
+  fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
+  // Bank Info
+  @Store.Getter.ClientFile.ClientFileSummary.fiBankInfo
+  bankInfoStore: Data.ClientFile.FiBankInfo;
+  // Document List
+  @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
+  fiDocumentListStore: Data.ClientFile.FiDocument[];
   
 
   get creditorInfo() {
@@ -74,7 +94,26 @@ export default class StepSummary extends ModelVue {
   get budgetInfo() {
     const budgetInfo = this.modelValue.taskOutput.budgetInfo;
     budgetInfo.stdiPercentage = Math.round(budgetInfo.stdiPercentage);
+    budgetInfo.totalSecuredDebtAmount = this.totalSecuredDebtAmount;
+    budgetInfo.totalMonthlyExpense = this.budgetInfoStore?.totalMonthlyExpense;
     return budgetInfo;
+  }
+
+
+  get totalSecuredDebtAmount() {
+    const totalDebtRepayments = this.budgetInfoStore?this.sumMiniBudgetAmount(this.budgetInfoStore.debtRepayments):0;
+    return totalDebtRepayments;
+  }
+
+
+  sumMiniBudgetAmount(budgetObj: any) {
+    return Object.values(budgetObj).reduce(
+      (accumulator: number, objValue: any) => {
+        const val = isNaN(objValue)?0: objValue;
+        return accumulator + val;
+      },
+      0
+    );
   }
 
   get bankSummary() {
@@ -88,8 +127,8 @@ export default class StepSummary extends ModelVue {
 
   get documentSummary() {
     return {
-      documentsCount: this.modelValue.taskOutput.fileDocumentList.length,
-      documentTypeList: this.modelValue.taskOutput.fileDocumentList
+      documentsCount: this.fiDocumentListStore.length,
+      documentTypeList: this.fiDocumentListStore
         .map((item: any) => {
           return item.documentType;
         })
@@ -104,6 +143,12 @@ export default class StepSummary extends ModelVue {
       creditorInfo: this.creditorInfo,
       budgetInfo: this.budgetInfo,
       documentSummary: this.documentSummary,
+      fiCreditorStore: this.fiCreditorStore,
+      budgetInfoStore: this.budgetInfoStore,
+      fiPaymentPlanInfoStore: this.fiPaymentPlanInfoStore || new Data.ClientFile.FiPaymentPlanInfo(),
+      bankInfoStore: this.bankInfoStore || new Data.ClientFile.FiBankInfo(),
+      personalInfoStore: this.personalInfoStore || new Data.ClientFile.ClPersonalInfo(),
+      creditorList: this.fiCreditorStore?.creditorList || []
     };
   }
 

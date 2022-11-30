@@ -36,11 +36,13 @@ export default class FMarkCompleteMDP implements MDP {
                 name: "Profile",
                 content: new ProfileSummaryFFormMDP(),
                 stepIndex:0
-            }).addSummary({
-                name: "Creditor",
-                content: new CreditorSummaryFFormMDP(),
-                stepIndex:1
-            }).addSummary({
+            })
+            // .addSummary({
+            //     name: "Creditor",
+            //     content: new CreditorSummaryFFormMDP(),
+            //     stepIndex:1
+            // })
+            .addSummary({
                 name: "Budget",
                 content: new BudgetSummaryFFormMDP(),
                 stepIndex:2

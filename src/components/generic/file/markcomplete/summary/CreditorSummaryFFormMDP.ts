@@ -1,28 +1,24 @@
 
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 
-export default class CreditorSummaryFFormMDP extends FFormMDP {
+export default class CreditorSummaryFFormMDP extends FDataTableMDP {
     childMDP = new FFormChildMDP();
     constructor() {
         super({
-            myRefName: "creditorSummaryFForm",
-
+            dataSelectorKey: "creditorList"
         });
-
-        this.addField(new FTextFieldMDP({
-            dataSelectorKey: "creditorInfo.creditosCount",
-            label: "Number Of Creditors",
-            parentMDP: this.childMDP,
-            readonly: true,
-            boundaryClass: "col-4"
-        })).addField(new FTextFieldMDP({
-            dataSelectorKey: "creditorInfo.totalDebt",
-            label: "Total Debt Amount",
-            parentMDP: this.childMDP,
-            readonly: true,
-            boundaryClass: "col-4"
-        }))
+        this.addColumn({
+            label: "Creditor Name",
+            dataSelectorKey:"creditorName"
+        }).addColumn({
+            label: "Type",
+            dataSelectorKey:"debtType"
+        }).addColumn({
+            label: "Outstanding Amount",
+            dataSelectorKey:"creditorBalance"
+        });
     }
 
 }

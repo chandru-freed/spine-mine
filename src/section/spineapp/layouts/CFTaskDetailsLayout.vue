@@ -20,20 +20,26 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
 
 @Component
 export default class CFTaskDetailsLayout extends Vue {
   currentRouteName: string = this.$route.name as string;
+  @Store.Getter.TaskList.Summary.executiveTaskDetails
+  taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  breadcrumbList = [
-    {
-      title: "Tasks",
-      routerName: "Root.CFile.CFTask.CFActiveTasks",
-    },
-    {
-      title: "Details",
-    },
-  ];
+  get breadcrumbList() {
+    return [
+      {
+        title: "Tasks",
+        routerName: "Root.CFile.CFTask.CFActiveTasks",
+      },
+      {
+        title: this.taskDetails.taskName,
+      },
+    ];
+  }
 
   goto(routerName: string) {
     this.$router.push({ name: routerName });

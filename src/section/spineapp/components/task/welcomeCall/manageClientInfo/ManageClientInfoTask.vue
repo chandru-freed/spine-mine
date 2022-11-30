@@ -30,6 +30,7 @@ import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITFStepperMDP from "./MCITFStepperMDP";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
+import moment from "moment";
 @Component({
   components: {
     FTaskStepper,
@@ -47,7 +48,7 @@ export default class ManageClientInfoTask
   personalInfoStore: Data.ClientFile.ClPersonalInfo;
 
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
-  fiCreditorStore: Data.ClientFile.FiCreditor;
+  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
 
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfoStore: Data.ClientFile.BudgetInfo;
@@ -99,17 +100,17 @@ export default class ManageClientInfoTask
 
     Action.Spine.AddCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.UpdateCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
@@ -149,18 +150,18 @@ export default class ManageClientInfoTask
 
     Action.Spine.AddCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
     Action.Spine.UpdateCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfo();
+        this.getFiCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
@@ -373,6 +374,36 @@ export default class ManageClientInfoTask
       this.clientFileId,
       (output) => {}
     );
+  }
+
+  schedulePaymentPlan() {
+    const paymentPlan = this.fiPaymentPlanInfoStore
+      ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
+      : new Data.Spine.PaymentPlan();
+    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(paymentPlan);
+    input.clientFileId = this.clientFileId;
+    input.ppCalculator.outstanding = this.fiCreditorStore.totalDebt;
+    input.taskId = this.taskId;
+    if(input.ppCalculator.firstDraftDate === '') {
+    input.ppCalculator.firstDraftDate = moment()
+      .add(2, "days")
+      .format(Helper.DATE_FORMAT);
+    input.ppCalculator.feeFirstDraftDate = moment()
+      .format(Helper.DATE_FORMAT);
+    }
+      // if(input.ppCalculator.firstDraftDate === '') {
+    Action.Spine.SchedulePaymentPlan.execute(
+      input,
+      (output: any) => {},
+      (error) => {}
+    );
+      // }
+  }
+
+   getFiCreditorInfoAndSchedulePP() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
+      this.schedulePaymentPlan();
+    });
   }
 }
 </script>

@@ -40,7 +40,7 @@
               small
               class="mx-2"
               color="primary"
-              :disabled="selectedItems.length == 0 || disabled"
+              :disabled="selectedItems.length == 0 || disabled || action.disabled"
             >
               {{ action.label }}
             </v-btn>
@@ -112,6 +112,8 @@ import FColumnLink from "./cell/FColumnLink.vue";
 import FColumnBtn from "./cell/FColumnBtn.vue";
 import FColumnINR from "./cell/FColumnINR.vue";
 import FColumnText from "./cell/FColumnText.vue";
+import FColumnStatus from "./cell/FColumnStatus.vue";
+import FColumnDate from "./cell/FColumnDate.vue";
 
 @Component({
   components: {
@@ -120,7 +122,9 @@ import FColumnText from "./cell/FColumnText.vue";
     FColumnLink,
     FColumnBtn,
     FColumnINR,
-    FColumnText
+    FColumnText,
+    FColumnStatus,
+    FColumnDate,
   },
 })
 export default class FDataTable extends VDataTable {
@@ -170,6 +174,7 @@ export default class FDataTable extends VDataTable {
   handleActionClick(action: any) {
     this.selectedAction = action;
     action.onClick(this.selectedItems[0]);
+    this.selectedItems = [];
   }
 
   handleDeleteClick(item: any) {
@@ -218,8 +223,10 @@ export default class FDataTable extends VDataTable {
   }
 
   get showCheckbox() {
+    const otherActions = this.actions.filter((item) => item.type === ActionType.OTHERS);
     return (
-      this.actions.filter((item) => item.type === ActionType.OTHERS).length > 0
+      otherActions.filter(item => !item.disabled).length>0
+      && !this.disabled
     );
   }
 

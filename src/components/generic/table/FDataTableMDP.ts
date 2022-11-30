@@ -6,9 +6,25 @@ export default class FDataTableMDP implements MDP {
   columnList: FColumnMDP[] = [];
   actionList: any[] = [];
   myRefName: string;
-
-  constructor() {
-
+  dataSelectorKey: string | undefined;
+  itemKey: string | undefined;
+  disabled: boolean | undefined;
+  title: string | undefined;
+  constructor({
+    dataSelectorKey,
+    itemKey,
+    disabled=false,
+    title
+  }:{
+    dataSelectorKey?: string;
+    itemKey?: string;
+    disabled?: boolean;
+    title?: string
+  }) {
+    this.dataSelectorKey = dataSelectorKey;
+    this.itemKey = itemKey;
+    this.disabled = disabled;
+    this.title = title;
   }
 
 
@@ -36,6 +52,10 @@ export default class FDataTableMDP implements MDP {
       props: {
         columnList: this.columnList.map(item => item.getMetaData()),
         actions: this.actionList,
+        dataSelectorKey: this.dataSelectorKey,
+        itemKey:this.itemKey,
+        disabled: this.disabled,
+        title: this.title
       }
     }
   }
@@ -54,5 +74,6 @@ export interface FTableActionField {
   type: ActionType;
   onClick: (item: any) => any;
   label: string;
+  disabled?:boolean;
 }
 

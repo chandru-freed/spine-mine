@@ -3,7 +3,7 @@ import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTable
 export default class MTSubscriberListFTableMDP extends FDataTableMDP {
     root: any;
     constructor({ root }: { root: any }) {
-        super();
+        super({});
         this.root = root;
         this.addColumn({ dataSelectorKey: "userName", label: "User Name", })
             .addColumn({ dataSelectorKey: "fullName", label: "Full Name", })

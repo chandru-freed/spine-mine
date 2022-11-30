@@ -4,7 +4,7 @@ import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTable
 export default class MTDocumentListFTableMDP extends FDataTableMDP {
     root: any;
     constructor({ root }: { root: any }) {
-        super();
+        super({});
         this.root = root;
         this.addColumn({ dataSelectorKey: "documentType", label: "Document Type", })
             .addColumn(

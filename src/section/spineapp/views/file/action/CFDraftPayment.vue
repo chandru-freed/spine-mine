@@ -60,7 +60,8 @@ import CFCollectionFFormMDP from "./draftPayment/CFCollectionFFormMDP";
 import CFRefundFFormMDP from "./draftPayment/CFRefundFFormMDP";
 import CFCollectionSPAFFormMDP from "./draftPayment/CFCollectionSPAFFormMDP";
 import CFCollectionFeeFFormMDP from "./draftPayment/CFCollectionFeeFFormMDP";
-
+import CFSettlementToClientFFormMDP from './draftPayment/CFSettlementToClientFFormMDP';
+import CFSettlementToCreditorFFormMDP from './draftPayment/CFSettlementToCreditorFFormMDP';
 @Component({
   components: {
     CFSettlementFFormMDP,
@@ -71,18 +72,23 @@ export default class CFDraftPayment extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
+
   // @Store.Getter.ClientFile.ClientFileSummary.fiActiveEMandateList
   // fiActiveEMandateList: Data.ClientFile.FiActiveEMandateList;
 
-  draftPaymentInputFormLocal: any = new Data.ClientFile.DraftPaymentInput();
+  draftPaymentInputFormLocal: Data.ClientFile.DraftPaymentInput = new Data.ClientFile.DraftPaymentInput();
   // eMandateSelected: Data.ClientFile.FiEMandateList = new Data.ClientFile.FiEMandateList();
 
-  get draftPaymentInputForm() {
+  get draftPaymentInputForm()  {
     this.draftPaymentInputFormLocal.clientFileId = this.clientFileId;
     this.draftPaymentInputFormLocal.paymentType.id = this.paymentType.key;
+    console.log(this.draftPaymentInputFormLocal,"Getter")
     if (this.draftPaymentInputFormLocal.eMandate) {
       //this.eMandateSelected = this.draftPaymentInputFormLocal.eMandate;
       this.draftPaymentInputFormLocal.eMandateId = this.draftPaymentInputFormLocal.eMandate.eMandateId;
+      if(this.paymentType.code !== 'settlement-to-creditor') {
       this.draftPaymentInputFormLocal.accountNumber =
         this.draftPaymentInputFormLocal.eMandate.accountNumber;
       this.draftPaymentInputFormLocal.accountHolderName =
@@ -90,6 +96,7 @@ export default class CFDraftPayment extends Vue {
       this.draftPaymentInputFormLocal.accountType =
         this.draftPaymentInputFormLocal.eMandate.accountType;
       this.draftPaymentInputFormLocal.ifscCode = this.draftPaymentInputFormLocal.eMandate.ifscCode;
+      }
     }
     if (!!this.paymentType) {
       this.draftPaymentInputFormLocal.paymentType = this.paymentType;
@@ -105,10 +112,18 @@ export default class CFDraftPayment extends Vue {
       this.draftPaymentInputFormLocal.paymentProvider =
         Data.ClientFile.PAYMENT_PROVIDER.CASHFREE;
     }
+    if(this.paymentType.code==='settlement-to-client') {
+      this.draftPaymentInputFormLocal.settledTo = Data.ClientFile.SETTLED_TO.CL_PERSONAL;
+      this.draftPaymentInputFormLocal.settledToId = this.clientFileId;
+    }
+    if(this.paymentType.code==='settlement-to-creditor') {
+      this.draftPaymentInputFormLocal.settledTo = Data.ClientFile.SETTLED_TO.CREDITOR;
+    }
+    
     this.draftPaymentInputFormLocal.totalAmount =
-      this.draftPaymentInputFormLocal.spaAmount +
-      this.draftPaymentInputFormLocal.feeAmount +
-      this.draftPaymentInputFormLocal.msfAmount;
+      (this.draftPaymentInputFormLocal.spaAmount||0) +
+      (this.draftPaymentInputFormLocal.feeAmount || 0) +
+      (this.draftPaymentInputFormLocal.msfAmount || 0);
     return this.draftPaymentInputFormLocal;
   }
 
@@ -132,11 +147,20 @@ export default class CFDraftPayment extends Vue {
     this.paymentType = value;
     this.selectedRequestTypeMetaData = value.contentMetaData;
     this.draftPaymentInputFormLocal = new Data.ClientFile.DraftPaymentInput();
+    console.log(this.draftPaymentInputForm)
   }
 
   mounted() {
-    
+    this.getFiCreditorInfo();
   }
+
+   getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
 
   get requestTypeFlowMapList() {
     return [
@@ -147,6 +171,23 @@ export default class CFDraftPayment extends Vue {
           taskRoot: this,
         }).getMetaData(),
         code: "settlement",
+      },
+
+      {
+        key: "SETTLEMENT",
+        title: "SETTLEMENT TO CLIENT",
+        contentMetaData: new CFSettlementToClientFFormMDP({
+          taskRoot: this,
+        }).getMetaData(),
+        code: "settlement-to-client",
+      },
+      {
+        key: "SETTLEMENT",
+        title: "SETTLEMENT TO CREDITOR",
+        contentMetaData: new CFSettlementToCreditorFFormMDP({
+          taskRoot: this,
+        }).getMetaData(),
+        code: "settlement-to-creditor",
       },
       {
         key: "COLLECTION",
@@ -179,7 +220,7 @@ export default class CFDraftPayment extends Vue {
     Action.ClientFile.DraftPayment.execute(
       this.draftPaymentInputForm,
       (output) => {
-        this.goto(output.paymentId);
+        this.gotoCFPaymentDetails(output.paymentId);
       }
     );
   }
@@ -193,7 +234,7 @@ export default class CFDraftPayment extends Vue {
     });
   }
 
-  goto(paymentId: string) {
+  gotoCFPaymentDetails(paymentId: string) {
     this.$router.push({
       name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
       params: {

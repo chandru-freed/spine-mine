@@ -12,7 +12,7 @@ export default class BankInfoSummaryFFormMDP extends FFormMDP {
 
     this.addField(
       new FTextFieldMDP({
-        dataSelectorKey: "taskOutput.bankInfo.accountNumber",
+        dataSelectorKey: "bankInfoStore.accountNumber",
         label: "Account Number",
         parentMDP: this.childMDP,
         readonly: true,
@@ -21,11 +21,27 @@ export default class BankInfoSummaryFFormMDP extends FFormMDP {
     ).addField(
       new FNupayBankSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.bankInfo.nupayBankMasterId",
+        dataSelectorKey: "bankInfoStore.nupayBankMasterId",
         label: "Bank Name",
         boundaryClass: "col-4",
         readonly: true,
         mandatory: true,
+      })
+    ).addField(
+      new FTextFieldMDP({
+        dataSelectorKey: "bankInfoStore.ifscCode",
+        label: "IFSC Code",
+        parentMDP: this.childMDP,
+        readonly: true,
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FTextFieldMDP({
+        dataSelectorKey: "bankInfoStore.accountHolderName",
+        label: "Account Holder Name",
+        parentMDP: this.childMDP,
+        readonly: true,
+        boundaryClass: "col-4",
       })
     );
   }

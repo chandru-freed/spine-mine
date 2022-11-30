@@ -82,7 +82,8 @@ import CFSettlementFFormMDP from "./paymentDetails/CFSettlementFFormMDP";
 import CFRefundFFormMDP from "./paymentDetails/CFRefundFFormMDP";
 import CFCollectionSPAFFormMDP from "./paymentDetails/CFCollectionSPAFFormMDP";
 import CFCollectionFeeFFormMDP from "./paymentDetails/CFCollectionFeeFFormMDP";
-
+import CFSettlementToClientFFormMDP from './paymentDetails/CFSettlementToClientFFormMDP';
+import CFSettlementToCreditorFFormMDP from './paymentDetails/CFSettlementToCreditorFFormMDP';
 @Component({
   components: {
     CFSettlementFFormMDP,
@@ -140,6 +141,23 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFSettlementFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "settlement"
+      },
+       {
+        key: "SETTLEMENT",
+        title: "SETTLEMENT TO CLIENT",
+        contentMetaData: new CFSettlementToClientFFormMDP({
+          taskRoot: this,
+        }).getMetaData(),
+        code: "settlement-to-client"
+      },
+       {
+        key: "SETTLEMENT",
+        title: "SETTLEMENT TO CREDITOR",
+        contentMetaData: new CFSettlementToCreditorFFormMDP({
+          taskRoot: this,
+        }).getMetaData(),
+        code: "settlement-to-creditor"
       },
       {
         key: "COLLECTION",
@@ -147,6 +165,7 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFCollectionSPAFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "collectionSpa"
       },
       {
         key: "COLLECTION",
@@ -154,6 +173,7 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFCollectionFeeFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "collectionFee"
       },
       {
         key: "REFUND",
@@ -161,6 +181,7 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFRefundFFormMDP({
           taskRoot: this,
         }).getMetaData(),
+        code: "collection-refund"
       },
     ];
   }

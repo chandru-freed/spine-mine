@@ -5,7 +5,8 @@ import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTable
 export default class CFStPlanListFDataTableMDP extends FDataTableMDP {
     root: any;
     constructor({root}: {root: any}){
-        super();
+        super({
+        });
         this.root = root;
 
         this.addColumn({

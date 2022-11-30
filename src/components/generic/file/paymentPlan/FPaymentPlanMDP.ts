@@ -11,7 +11,7 @@ export default class FPaymentPlanMDP implements MDP {
   myRefName: string;
   dataSelectorKey: string | undefined;
 
-  paymentCalculatorForm: FFormMDP
+  paymentCalculatorForm: FPaymentCalculatorFFormMDP
 
   actionList: FBtnMDP[] = [];
 
@@ -52,6 +52,13 @@ export default class FPaymentPlanMDP implements MDP {
   }
 
 
+  ppCalculatorFormSubmit() {
+    return (nextCallback?: () => void) => {
+    this.paymentCalculatorForm.getMyRef().submitForm(() => {
+      this.paymentCalculatorForm.schedulePaymentPlan(nextCallback);
+    });
+    }
+  }
 
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);

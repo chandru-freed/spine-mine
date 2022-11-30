@@ -107,7 +107,7 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
   }
 
   addClientFile() {
-    Action.ClientFile.AddClientFile.execute1(this.clientId, (output) => {
+    Action.ClientFile.AddClientFileToMyQ.execute1(this.clientId, (output) => {
       setTimeout(() => {
         this.gotoFile(output.clientFileNumber);
       }, 1000);

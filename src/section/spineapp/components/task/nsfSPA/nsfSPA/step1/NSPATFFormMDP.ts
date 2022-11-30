@@ -184,8 +184,8 @@ export default class NSPATFFormMDP extends FFormMDP {
 }
 
 export enum NsfSPAOptions {
-  ClientDeferred = "Client Deferred",
-  SystemDeferred = "System Deferred",
+  ClientDeferred = "Call Back Requested",
+  SystemDeferred = "Follow Up Required",
   ReceivePayment = "Receive Payment",
   DraftRescheduled = "Draft Rescheduled",
 }

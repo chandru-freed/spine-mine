@@ -199,8 +199,8 @@ export default class FUCTFFormMDP extends FFormMDP {
 }
 
 export enum MFCFOptions {
-  ClientDeferred = "Client Deferred",
-  SystemDeferred = "System Deferred",
+  ClientDeferred = "Call Back Requested",
+  SystemDeferred = "Follow Up Required",
   ReceivePayment = "Receive Payment",
   DraftRescheduled = "Draft Rescheduled",
 }

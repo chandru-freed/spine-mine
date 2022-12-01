@@ -1,5 +1,5 @@
 <template>
-  <v-card flat outlined>
+  <v-card :ref="myRefName" flat outlined>
     <v-data-table
       :value="selectedItems"
       @input="handleSelectChange"
@@ -7,10 +7,11 @@
       :items="selectModel(modelValue, dataSelectorKey)"
       class="elevation-0"
       :show-select="showCheckbox"
-      :single-select="true"
+      :single-select="!multiSelect"
       v-bind="$props"
       :disabled="disabled"
       :itemKey="itemKey"
+      :search="search"
       checkbox-color="primary"
     >
       <template v-if="title || actions.length > 0" v-slot:top>
@@ -54,6 +55,18 @@
             :label="addBtnData.label"
             @click="addBtnData.onClick"
           />
+           <v-text-field
+           v-if="enableSearch"
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search Item"
+                single-line
+                hide-details
+                outlined
+                rounded
+                dense
+                class="shrink"
+              ></v-text-field>
         </v-toolbar>
       </template>
 
@@ -77,12 +90,6 @@
         </slot>
       </template>
 
-      <!-- <template
-        v-for="header in headers"
-        v-slot:[`item.${header.value}`]="{ item }"
-      >
-        
-      </template> -->
 
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon
@@ -110,42 +117,43 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { VBtn, VDataTable } from "vuetify/lib/components";
 import FAddBtn from "../FAddBtn.vue";
 import * as Snackbar from "node-snackbar";
-import FColumnLink from "./cell/FColumnLink.vue";
-import FColumnBtn from "./cell/FColumnBtn.vue";
-import FColumnINR from "./cell/FColumnINR.vue";
-import FColumnText from "./cell/FColumnText.vue";
-import FColumnStatus from "./cell/FColumnStatus.vue";
-import FColumnDate from "./cell/FColumnDate.vue";
+import FCellLink from "./cell/FCellLink.vue";
+import FCellBtn from "./cell/FCellBtn.vue";
+import FCellINR from "./cell/FCellINR.vue";
+import FCellText from "./cell/FCellText.vue";
+import FCellStatus from "./cell/FCellStatus.vue";
+import FCellDate from "./cell/FCellDate.vue";
 import ModelVue from "../ModelVue";
 
 @Component({
   components: {
     VBtn,
     FAddBtn,
-    FColumnLink,
-    FColumnBtn,
-    FColumnINR,
-    FColumnText,
-    FColumnStatus,
-    FColumnDate,
+    FCellLink,
+    FCellBtn,
+    FCellINR,
+    FCellText,
+    FCellStatus,
+    FCellDate,
   },
 })
 export default class FDataTable extends ModelVue {
-  // @Prop()
-  // value: any;
-
   @Prop({
     default: () => [],
   })
   columnList: any[];
 
-  // @Prop({
-  //   default: () => [],
-  // })
-  // items: any[];
+  @Prop()
+  myRefName: string;
 
   @Prop()
   dataSelectorKey: string;
+
+  @Prop()
+  enableSearch: boolean;
+
+  @Prop()
+  multiSelect: boolean;
 
   @Prop({
     default: () => [],
@@ -168,7 +176,7 @@ export default class FDataTable extends ModelVue {
   itemKey: string;
 
   
-
+  search = "";
   selectedItems: any = [];
   selectedAction: any = {};
 
@@ -177,14 +185,20 @@ export default class FDataTable extends ModelVue {
   }
 
   handleSelectChange(newVal: any) {
-    this.selectedAction = {};
-    this.selectedItems = newVal;
+      this.selectedItems = newVal;
   }
 
   handleActionClick(action: any) {
     this.selectedAction = action;
-    action.onClick(this.selectedItems[0]);
-    this.selectedItems = [];
+    if(this.multiSelect) {
+      action.onClick(this.selectedItems,() => {
+        this.selectedItems = [];
+      });
+    } else {
+      action.onClick(this.selectedItems[0],() => {
+        this.selectedItems = [];
+      });
+    }
   }
 
   handleDeleteClick(item: any) {
@@ -210,14 +224,6 @@ export default class FDataTable extends ModelVue {
   get addBtnData() {
     return this.actions.find((item) => item.type === ActionType.ADD);
   }
-
-  // isLink(header: FColumnField) {
-  //   return header.type === ColumnType.LINK;
-  // }
-
-  // isChip(header: FColumnField) {
-  //   return header.type === ColumnType.CHIP;
-  // }
 
   get filteredHeaders() {
     const headers = [...this.columnList];
@@ -245,24 +251,13 @@ export default class FDataTable extends ModelVue {
   }
 
   set modelValue(newModelValue: any) {
-    console.log("setter", newModelValue);
-    // console.log("emitting input " + newModelValue);
     this.$emit("input", newModelValue);
   }
 
-  selectModel(modelData: any, modelSelectorKey: string | undefined) {
-    if(!modelSelectorKey) {
-      return modelData
-    } else {
-      const arr = modelSelectorKey.split(".")
-      let ret = modelData
-      arr.forEach(elem => { 
-        ret = ret[elem]
-      })
+  
 
-      return ret
-    }
-    
+  resetSelectedItems() {
+    this.selectedItems = [];
   }
 
 }

@@ -7,7 +7,8 @@ export default class CreditorSummaryFDataTableMDP extends FDataTableMDP {
     childMDP = new FFormChildMDP();
     constructor(props: {taskRoot: any}) {
         super({
-            dataSelectorKey: "creditorList"
+            dataSelectorKey: "creditorList",
+            myRefName:"creditorSummaryFDataTableRef"
         });
         this.addColumn({
             label: "Creditor Name",

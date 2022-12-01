@@ -86,7 +86,10 @@ export default class FDateSelectField extends VTextField {
   }
 
   set modelValue(newModelValue: string) {
+    console.log(newModelValue,"newModelValue")
+    if(newModelValue ) {
     this.$emit("input", new Date(newModelValue).toISOString());
+    }
   }
   // MODEL VALUE - END
 }

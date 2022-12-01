@@ -1,10 +1,10 @@
-import { FColumnLinkMDP } from "@/components/generic/table/cell/FColumnLinkMDP";
+import FCellLinkMDP from "@/components/generic/table/cell/FCellLinkMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 
 export default class MTDocumentListFTableMDP extends FDataTableMDP {
     root: any;
     constructor({ root }: { root: any }) {
-        super({});
+        super({myRefName: "mtDocumentListFTableMDP"});
         this.root = root;
         this.addColumn({ dataSelectorKey: "documentType", label: "Document Type", })
             .addColumn(
@@ -12,7 +12,7 @@ export default class MTDocumentListFTableMDP extends FDataTableMDP {
                     dataSelectorKey: "documentPath",
                     label: "Document Name",
                     columnCellMDP:
-                        new FColumnLinkMDP({
+                        new FCellLinkMDP({
                             onClick: (item) => this.handleDocPathClick(item),
                         })
                 })

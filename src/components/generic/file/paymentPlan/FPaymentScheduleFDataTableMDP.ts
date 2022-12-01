@@ -1,21 +1,21 @@
-import { FColumnDateMDP } from "../../table/cell/FColumnDateMDP";
-import { FColumnINRMDP } from "../../table/cell/FColumnINRMDP";
-import { FColumnStatusMDP } from "../../table/cell/FColumnStatusMDP";
+import FCellDateMDP from "../../table/cell/FCellDateMDP";
+import FCellINRMDP from "../../table/cell/FCellINRMDP";
+import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP";
 
 export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule" });
+        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule",myRefName:"fPaymentScheduleFDataTableMDP" });
         this.parent = parent;
         this.addColumn({
             label: "Draft Date",
             dataSelectorKey: "draftDate",
-            columnCellMDP: new FColumnDateMDP()
-        }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FColumnINRMDP() })
-            .addColumn({ label: "Settlement Amount", dataSelectorKey: "settlementReserve", columnCellMDP: new FColumnINRMDP() })
-            .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FColumnINRMDP() })
-            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FColumnStatusMDP() });
+            columnCellMDP: new FCellDateMDP()
+        }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellINRMDP() })
+            .addColumn({ label: "Settlement Amount", dataSelectorKey: "settlementReserve", columnCellMDP: new FCellINRMDP() })
+            .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellINRMDP() })
+            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP() });
 
 
         this.addAction({
@@ -24,7 +24,7 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
             type: ActionType.OTHERS,
         }).addAction({
             label: "Skip",
-            onClick: (item) => { this.handleSkipClick(item) },
+            onClick: (item, callback) => { this.handleSkipClick(item,callback) },
             type: ActionType.OTHERS,
         });
 
@@ -33,7 +33,7 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
         this.parent.presentPSEntry(item.psEntryId)
     }
 
-    handleSkipClick(item: any) {
-        this.parent.skip(item.psEntryId)
+    handleSkipClick(item: any,callback?: () => any) {
+        this.parent.skip(item.psEntryId,callback)
     }
 }

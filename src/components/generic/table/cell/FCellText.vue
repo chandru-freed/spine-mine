@@ -1,6 +1,6 @@
 <template>
   <div >
-    {{selectModel(modelValue,dataSelectorKey)}}
+    {{selectModel(modelValue,dataSelectorKey)||'--'}}
   </div>
 </template>
 <script lang="ts">

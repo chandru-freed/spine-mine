@@ -81,7 +81,7 @@
           :on-select="gotoFile"
         ></FClientFileAutoCompleteField>
       </div>
-      <v-btn icon @click="$router.push({ name: 'Root.Search.ClientSearch' })"
+      <v-btn icon @click="$router.push({ name: 'Root.Search.ClientFileSearch' })"
         ><v-icon>mdi-magnify</v-icon></v-btn
       >
     </template>

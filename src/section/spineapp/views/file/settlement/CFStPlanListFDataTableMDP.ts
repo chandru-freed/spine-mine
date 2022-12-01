@@ -1,30 +1,31 @@
-import { FColumnBtnMDP } from "@/components/generic/table/cell/FColumnBtnMDP";
-import { FColumnINRMDP } from "@/components/generic/table/cell/FColumnINRMDP";
+import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import FCellINRMDP from "@/components/generic/table/cell/FCellINRMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP"
 
 export default class CFStPlanListFDataTableMDP extends FDataTableMDP {
     root: any;
     constructor({root}: {root: any}){
         super({
+            myRefName: "cfstPlanListFDataTableRef"
         });
         this.root = root;
 
         this.addColumn({
             label:"Creditor Name",
             dataSelectorKey: "fiCreditor.creditorName",
-            columnCellMDP: new FColumnBtnMDP({
+            columnCellMDP: new FCellBtnMDP({
                 onClick: (item) => this.handleCreditorClick(item),
             })
 
         }).addColumn({
             label:"Settlement Amount",
             dataSelectorKey: "settlementAmount",
-            columnCellMDP: new FColumnINRMDP()
+            columnCellMDP: new FCellINRMDP()
 
         }).addColumn({
             label:"Total Outstanding",
             dataSelectorKey: "totalOutstanding",
-            columnCellMDP: new FColumnINRMDP()
+            columnCellMDP: new FCellINRMDP()
 
         }).addColumn({
             label:"Settlement Percentage",

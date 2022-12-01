@@ -145,21 +145,9 @@ export default class CFSettlementToClientFFormMDP extends FFormMDP {
           disabled: true,
           mandatory: true,
         })
-      )
-      
-      .addAction(
-        new FBtnMDP({
-          label: "Draft Payment",
-          onClick: this.validateAndSubmit(),
-        })
       );
   }
 
-  validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.taskRoot.draftPayment);
-    };
-  }
 
 
   getMyRef(): any {

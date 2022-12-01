@@ -20,7 +20,7 @@
             outlined
             dense
             item-value="contentMetaData"
-            item-text="key"
+            item-text="title"
           ></v-autocomplete>
         </v-card-text>
 
@@ -95,7 +95,10 @@ export default class CFPaymentDetails extends Vue {
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
 
-  fiPaymentDetails: any = new Data.ClientFile.FiPaymentDetails();
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
+
+  fiPaymentDetails: Data.ClientFile.FiPaymentDetails = new Data.ClientFile.FiPaymentDetails();
 
   // selectedRequestType: any = {};
 
@@ -106,7 +109,14 @@ export default class CFPaymentDetails extends Vue {
 
   get selectedRequestType() {
     if(this.fiPaymentDetails.paymentType.id === "SETTLEMENT" ) {
-      return this.requestTypeFlowMapList.find(x => x.key === "SETTLEMENT" )?.contentMetaData;
+      console.log(this.fiPaymentDetails.settledTo==Data.ClientFile.SETTLED_TO.CREDITOR.id)
+      if(this.fiPaymentDetails.settledTo === Data.ClientFile.SETTLED_TO.CREDITOR.id) {
+      return this.requestTypeFlowMapList.find(x => x.code === "settlement-to-creditor" )?.contentMetaData;  
+      } else {
+        return this.requestTypeFlowMapList.find(x => x.code === "settlement-to-client" )?.contentMetaData;
+      }
+      
+      
     }
 
     if(this.fiPaymentDetails.paymentType.id === "REFUND" ) {
@@ -124,7 +134,16 @@ export default class CFPaymentDetails extends Vue {
   }
 
   mounted() {
-    this.loadPaymentDetails()
+    this.loadPaymentDetails();
+    this.getFiCreditorInfo();
+  }
+
+
+   getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   loadPaymentDetails() {

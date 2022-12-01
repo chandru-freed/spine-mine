@@ -4,11 +4,13 @@
       :value="selectedItems"
       @input="handleSelectChange"
       :headers="filteredHeaders"
-      :items="modelValue"
+      :items="selectModel(modelValue, dataSelectorKey)"
       class="elevation-0"
       :show-select="showCheckbox"
       :single-select="true"
       v-bind="$props"
+      :disabled="disabled"
+      :itemKey="itemKey"
       checkbox-color="primary"
     >
       <template v-if="title || actions.length > 0" v-slot:top>
@@ -114,6 +116,7 @@ import FColumnINR from "./cell/FColumnINR.vue";
 import FColumnText from "./cell/FColumnText.vue";
 import FColumnStatus from "./cell/FColumnStatus.vue";
 import FColumnDate from "./cell/FColumnDate.vue";
+import ModelVue from "../ModelVue";
 
 @Component({
   components: {
@@ -127,9 +130,9 @@ import FColumnDate from "./cell/FColumnDate.vue";
     FColumnDate,
   },
 })
-export default class FDataTable extends VDataTable {
-  @Prop()
-  value: any;
+export default class FDataTable extends ModelVue {
+  // @Prop()
+  // value: any;
 
   @Prop({
     default: () => [],
@@ -158,6 +161,13 @@ export default class FDataTable extends VDataTable {
     default: null,
   })
   title: string;
+
+  @Prop({
+    default: null,
+  })
+  itemKey: string;
+
+  
 
   selectedItems: any = [];
   selectedAction: any = {};
@@ -239,6 +249,22 @@ export default class FDataTable extends VDataTable {
     // console.log("emitting input " + newModelValue);
     this.$emit("input", newModelValue);
   }
+
+  selectModel(modelData: any, modelSelectorKey: string | undefined) {
+    if(!modelSelectorKey) {
+      return modelData
+    } else {
+      const arr = modelSelectorKey.split(".")
+      let ret = modelData
+      arr.forEach(elem => { 
+        ret = ret[elem]
+      })
+
+      return ret
+    }
+    
+  }
+
 }
 
 export enum ActionType {

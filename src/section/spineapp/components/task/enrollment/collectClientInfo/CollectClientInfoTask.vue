@@ -65,6 +65,9 @@ export default class CollectClientInfoTask extends ModelVue {
   // Document List
   @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
   fiDocumentListStore: Data.ClientFile.FiDocument;
+  
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  clientFileSummary: Data.ClientFile.FileSummary;
   // URl we are getting taskId and clientFileId
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;

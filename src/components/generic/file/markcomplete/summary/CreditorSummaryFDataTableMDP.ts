@@ -1,11 +1,11 @@
 
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 
-export default class CreditorSummaryFFormMDP extends FDataTableMDP {
+export default class CreditorSummaryFDataTableMDP extends FDataTableMDP {
     childMDP = new FFormChildMDP();
-    constructor() {
+    constructor(props: {taskRoot: any}) {
         super({
             dataSelectorKey: "creditorList"
         });
@@ -18,7 +18,19 @@ export default class CreditorSummaryFFormMDP extends FDataTableMDP {
         }).addColumn({
             label: "Outstanding Amount",
             dataSelectorKey:"creditorBalance"
-        });
+        }).addColumn({
+            label: "Days Delinquent",
+            dataSelectorKey:"daysDelinquentAsOnOnboarding"
+        })
+        
+        .addAction({
+            label:`WAD: ${props.taskRoot.clientFileSummary.wad}`,
+            onClick: () => {},
+            type: ActionType.OTHERS,
+            disabled: true
+        })
+        
+        ;
     }
 
 }

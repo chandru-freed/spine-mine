@@ -1,7 +1,7 @@
 import MDP from "@/components/generic/MDP";
 import FBtnMDP from "../../FBtnMDP";
 import StepSummaryMDP from "./summary/StepSummaryMDP";
-import CreditorSummaryFFormMDP from "./summary/CreditorSummaryFFormMDP";
+import CreditorSummaryFDataTableMDP from "./summary/CreditorSummaryFDataTableMDP";
 import ProfileSummaryFFormMDP from "./summary/ProfileSummaryFFormMDP";
 import BudgetSummaryFFormMDP from "./summary/BudgetSummaryFFormMDP";
 import PaymentPlanSummaryFFormMDP from "./summary/PaymentPlanSummaryFFormMDP";
@@ -37,11 +37,11 @@ export default class FMarkCompleteMDP implements MDP {
                 content: new ProfileSummaryFFormMDP(),
                 stepIndex:0
             })
-            // .addSummary({
-            //     name: "Creditor",
-            //     content: new CreditorSummaryFFormMDP(),
-            //     stepIndex:1
-            // })
+            .addSummary({
+                name: "Creditor",
+                content: new CreditorSummaryFDataTableMDP({taskRoot: this.taskRoot}),
+                stepIndex:1,
+            })
             .addSummary({
                 name: "Budget",
                 content: new BudgetSummaryFFormMDP(),

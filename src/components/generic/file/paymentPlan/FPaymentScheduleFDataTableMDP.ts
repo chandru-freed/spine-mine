@@ -2,6 +2,8 @@ import FCellDateMDP from "../../table/cell/FCellDateMDP";
 import FCellINRMDP from "../../table/cell/FCellINRMDP";
 import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP";
+import * as Action from "@/../src-gen/action";
+import * as Snackbar from "node-snackbar";
 
 export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -20,20 +22,37 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
 
         this.addAction({
             label: "Present",
-            onClick: (item) => { this.handlePresentClick(item) },
+            onClick: (item) => this.handlePresentClick(item) ,
             type: ActionType.OTHERS,
         }).addAction({
             label: "Skip",
-            onClick: (item, callback) => { this.handleSkipClick(item,callback) },
+            onClick: (item) =>  this.handleSkipClick(item) ,
             type: ActionType.OTHERS,
         });
 
     }
-    handlePresentClick(item: any) {
-        this.parent.presentPSEntry(item.psEntryId)
+    handlePresentClick(item: any): Promise<any> {
+        return new Promise(resolve => {
+            Action.Spine.PresentPSEntry.execute1(item.psEntryId, (output) => {
+                Snackbar.show({
+                  text: "Succesfully update.",
+                  pos: "bottom-center",
+                });
+                resolve(true);
+              });
+        });
     }
 
-    handleSkipClick(item: any,callback?: () => any) {
-        this.parent.skip(item.psEntryId,callback)
+    handleSkipClick(item: any,): Promise<any> {
+        return new Promise(resolve => {
+            Action.Spine.Skip.execute1(item.psEntryId, (output) => {
+                Snackbar.show({
+                  text: "Succesfully update.",
+                  pos: "bottom-center",
+                });
+                resolve(true);
+              });
+        })
+        // this.parent.skip(item.psEntryId,callback)
     }
 }

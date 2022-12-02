@@ -1,6 +1,13 @@
 <template>
   <v-card class="pa-0 ma-0" flat height="calc(100vh - 48px)">
-      <v-data-table
+      <component
+        v-if="!!myCFFileFDataTableMetaData"
+        :ref="myCFFileFDataTableMetaData.myRefName"
+        :is="myCFFileFDataTableMetaData.componentName"
+        :value="selectModel(myClientFileList, undefined)"
+        v-bind="myCFFileFDataTableMetaData.props"
+      ></component>
+      <!-- <v-data-table
         :headers="myClientFileListGridHeaderList"
         :items="myClientFileList"
         :search="search"
@@ -40,7 +47,7 @@
             >{{ item.clientFileNumber }}</v-btn
           >
         </template>
-      </v-data-table>
+      </v-data-table> -->
     </v-card>
 </template>
 
@@ -51,12 +58,15 @@ import * as Data from '@/../src-gen/data';
 import * as ServerData from '@/../src-gen/server-data';
 import * as Action from '@/../src-gen/action';
 import Helper from "../../util/Helper";
-
+import MyCFFileFDataTableMDP from './MyCFFileFDataTableMDP';
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import ModelVue from "@/components/generic/ModelVue";
 @Component({
   components: {
+    FDataTable
   },
 })
-export default class MyCFFiles extends Vue {
+export default class MyCFFiles extends ModelVue {
   myClientFileListGridHeaderList = [
     { text: "Client File Number", value: "clientFileNumber", align: "start" },
     { text: "Client Name", value: "fullName" },
@@ -88,6 +98,10 @@ export default class MyCFFiles extends Vue {
       name: "Root.Client.ClientDetails",
       params: { clientId: clientId },
     });
+  }
+
+  get myCFFileFDataTableMetaData() {
+      return new MyCFFileFDataTableMDP({parent: this}).getMetaData();
   }
 }
 </script>

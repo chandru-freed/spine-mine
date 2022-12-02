@@ -112,7 +112,7 @@ export default class UnAssignedCFSearch
     });
   }
 
-  handleAssignRMClick(itemList: any[], callback: () => void) {
+  handleAssignRMClick(itemList: any[]) {
     this.assignRMInputList = itemList.map((item) => {
       const assignRMInput = Data.ClientFile.AssignRMInput.fromJson(item);
       return assignRMInput;
@@ -136,7 +136,7 @@ export default class UnAssignedCFSearch
 
   resetFormAndTable() {
     this.showAssignRMFForm = false;
-    (this.$refs["unAssignedCFListFDataTableRef"] as any).resetSelectedItems();
+    (this.$refs["unAssignedCFListFDataTableRef"] as any).clearSelectedItems();
     this.assignRMListInput = {
       assignedRM: "",
     };

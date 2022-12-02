@@ -45,7 +45,10 @@ export default class CFStPlanListFDataTableMDP extends FDataTableMDP {
         this.root.gotoPaymentPlan(item.fiSettlementPlanId)
     }
     handleCreateSettlementPlan() {
-        this.root.showAddSettlementPlanForm = true;
+        return new Promise((resolve, reject) => {
+            this.root.showAddSettlementPlanForm = true;    
+        })
+        
 
     }
 }

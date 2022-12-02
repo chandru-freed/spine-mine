@@ -1,12 +1,12 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
-import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP"
+import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 
-
-export default class unAssignedCFListFDataTableMDP extends FDataTableMDP {
+export default class MyCFFileFDataTableMDP extends FDataTableMDP {
     parent: any;
-    constructor(props: { parent?: any }) {
-        super({ title: "Client File List",itemKey:"clientFileId", multiSelect: true, myRefName: "unAssignedCFListFDataTableRef" });
+    constructor(props: {parent: any}) {
+        
+        super({myRefName: "myCFFileFDataTableRef",enableSearch: true,title:"My Client files"});
         this.parent = props.parent;
         this.addColumn({
             label: "Client File Number",
@@ -29,30 +29,27 @@ export default class unAssignedCFListFDataTableMDP extends FDataTableMDP {
             label: "E-mail",
             dataSelectorKey: "emailId"
         })
-            .addColumn({
-                label: "City",
-                dataSelectorKey: "city"
-            }).addColumn({
-                label: "State",
-                dataSelectorKey: "state"
-            }).addAction({
-                label: "Assign RM",
-                onClick:(item) => this.handleAssignRMClick(item),
-                type: ActionType.OTHERS
-            })
-
+        .addColumn({
+            label: "Client File Status",
+            dataSelectorKey: "clientFileStatus",
+            columnCellMDP: new FCellStatusMDP()
+        })
+        
+        
+        .addColumn({
+            label: "City",
+            dataSelectorKey: "city"
+        }).addColumn({
+            label: "State",
+            dataSelectorKey: "state"
+        })
     }
+
 
     handleClientFileClick(item: any) {
         this.parent.gotoFile(item.clientFileNumber);
     }
 
-    handleAssignRMClick(itemList: any): Promise<any> {
-        return new Promise(resolve => {
-            this.parent.handleAssignRMClick(itemList);
-        })
-        
-    }
 
     handleClientClick(item: any) {
         this.parent.gotoClient(item.clientId);

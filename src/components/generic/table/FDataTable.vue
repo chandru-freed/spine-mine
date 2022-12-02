@@ -14,7 +14,7 @@
       :search="search"
       checkbox-color="primary"
     >
-      <template v-if="title || actions.length > 0" v-slot:top>
+      <template v-if="title || actions.length > 0||enableSearch" v-slot:top>
         <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer />
@@ -124,6 +124,7 @@ import FCellText from "./cell/FCellText.vue";
 import FCellStatus from "./cell/FCellStatus.vue";
 import FCellDate from "./cell/FCellDate.vue";
 import ModelVue from "../ModelVue";
+import { FTableActionField } from "./FDataTableMDP";
 
 @Component({
   components: {
@@ -188,18 +189,20 @@ export default class FDataTable extends ModelVue {
       this.selectedItems = newVal;
   }
 
-  handleActionClick(action: any) {
+  handleActionClick(action: FTableActionField) {
     this.selectedAction = action;
     if(this.multiSelect) {
-      action.onClick(this.selectedItems,() => {
-        this.selectedItems = [];
+      
+      action.onClick(this.selectedItems).then((res: any) => {
+        this.clearSelectedItems();
       });
     } else {
-      action.onClick(this.selectedItems[0],() => {
-        this.selectedItems = [];
+      action.onClick(this.selectedItems[0]).then((res: any) => {
+        this.clearSelectedItems();
       });
     }
   }
+
 
   handleDeleteClick(item: any) {
     // const deleteAction = this.actions.find(item => item.type===ActionType.DELETE);
@@ -254,9 +257,7 @@ export default class FDataTable extends ModelVue {
     this.$emit("input", newModelValue);
   }
 
-  
-
-  resetSelectedItems() {
+  clearSelectedItems() {
     this.selectedItems = [];
   }
 

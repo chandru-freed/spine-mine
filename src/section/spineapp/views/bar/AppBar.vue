@@ -41,6 +41,9 @@
           <v-icon small class="pr-1">mdi-plus-circle</v-icon>
           Create
         </v-btn>
+
+       
+        
       </template>
 
       <v-list dense>
@@ -70,6 +73,7 @@
       ></v-text-field>
     </div> -->
     <template v-if="showSearch">
+      
       <div class="mt-6 py-2">
         <FClientFileAutoCompleteField
           dense
@@ -81,9 +85,16 @@
           :on-select="gotoFile"
         ></FClientFileAutoCompleteField>
       </div>
-      <v-btn icon @click="$router.push({ name: 'Root.Search.ClientFileSearch' })"
-        ><v-icon>mdi-magnify</v-icon></v-btn
+
+        <v-btn
+        @click="$router.push({ name: 'Root.Search.ClientFileSearch' })"
+        color="primary"
+        
+        class="elevation-0 mx-3"
+        outlined
+        ><v-icon class="pr-1" small>mdi-magnify</v-icon> Search</v-btn
       >
+      
     </template>
     <!-- <v-spacer></v-spacer> -->
     <app-bar-notification-menu />

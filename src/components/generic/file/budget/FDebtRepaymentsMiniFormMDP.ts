@@ -14,7 +14,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
       label: "Debt Repayments",
       mandatory: true,
       boundaryClass: "col-4",
-      minHeight: "575"
+      minHeight: "575",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -39,7 +39,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "loansAgainstSecurity",
-          label: "Loans Against Security",
+          label: "Loan Against Security",
           mandatory: true,
         })
       )

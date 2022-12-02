@@ -135,11 +135,15 @@ export default class UnAssignedCFSearch
   }
 
   resetFormAndTable() {
-    this.showAssignRMFForm = false;
+    this.hideAssignRMFForm();
     (this.$refs["unAssignedCFListFDataTableRef"] as any).clearSelectedItems();
     this.assignRMListInput = {
       assignedRM: "",
     };
+  }
+
+  hideAssignRMFForm() {
+      this.showAssignRMFForm = false;
   }
 
   gotoClient(clientId: string) {

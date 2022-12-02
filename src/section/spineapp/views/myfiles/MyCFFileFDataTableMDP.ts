@@ -1,6 +1,6 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
-import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 
 export default class MyCFFileFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -42,12 +42,22 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         }).addColumn({
             label: "State",
             dataSelectorKey: "state"
+        }).addAction({
+            type: ActionType.ADD,
+            label:"Add My Client File",
+            onClick: (item) => this.addMyClientFile(item)
         })
     }
 
 
     handleClientFileClick(item: any) {
         this.parent.gotoFile(item.clientFileNumber);
+    }
+
+    addMyClientFile(item: any) {
+        return new Promise(res=> {
+            this.parent.showRegisterMyCFForm = true;
+        });
     }
 
 

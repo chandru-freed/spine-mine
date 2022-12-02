@@ -3,7 +3,7 @@ import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP"
 
 
-export default class unAssignedCFListFDataTableMDP extends FDataTableMDP {
+export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props: { parent?: any }) {
         super({ title: "Client File List",itemKey:"clientFileId", multiSelect: true, myRefName: "unAssignedCFListFDataTableRef" });
@@ -38,7 +38,7 @@ export default class unAssignedCFListFDataTableMDP extends FDataTableMDP {
             }).addAction({
                 label: "Assign RM",
                 onClick:(item) => this.handleAssignRMClick(item),
-                type: ActionType.OTHERS
+                type: ActionType.OTHERS,
             })
 
     }

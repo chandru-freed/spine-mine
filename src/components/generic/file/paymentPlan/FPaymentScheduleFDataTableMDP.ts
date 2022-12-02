@@ -24,10 +24,12 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
             label: "Present",
             onClick: (item) => this.handlePresentClick(item) ,
             type: ActionType.OTHERS,
+            confirmation: true
         }).addAction({
             label: "Skip",
             onClick: (item) =>  this.handleSkipClick(item) ,
             type: ActionType.OTHERS,
+            confirmation: true
         });
 
     }

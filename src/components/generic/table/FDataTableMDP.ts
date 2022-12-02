@@ -91,5 +91,6 @@ export interface FTableActionField {
   onClick: (item: any) => Promise<any>;
   label: string;
   disabled?:boolean;
+  confirmation?: boolean;
 }
 

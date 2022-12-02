@@ -24,16 +24,16 @@
       dense
       type="warning"
       outlined
-      class="col-5 ma-auto mb-5"
+      class="col-8 ma-auto mb-5"
       v-if="
         paymentPlan.ppCalculator.totalMonthlyObligation >
         this.modelValue.budgetInfo.proposedDSPayment
       "
     >
       Monthly Obligation ({{
-        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)
+        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2) | toINR
       }}) greater than Affordability ({{
-        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)
+        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)| toINR
       }}).
     </v-alert>
 
@@ -53,7 +53,6 @@
               v-bind="fPaymentScheduleFDataTableMetaData.props"
             ></component>
           </v-card>
-          <v-divider></v-divider>
           <v-card flat class="mt-5">
             <component
               :is="fPSkipedPresentedTableMetaData.componentName"

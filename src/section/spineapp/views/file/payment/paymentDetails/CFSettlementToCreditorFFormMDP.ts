@@ -73,7 +73,7 @@ export default class CFSettlementToCreditorFFormMDP extends FFormMDP {
       .addField(
         new FEMandateSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandate",
+          dataSelectorKey: "eMandateId",
           label: "EMandate Id",
           boundaryClass: "col-3",
           mandatory: true,
@@ -150,22 +150,8 @@ export default class CFSettlementToCreditorFFormMDP extends FFormMDP {
           disabled: true,
           mandatory: true,
         })
-      )
-      
-      .addAction(
-        new FBtnMDP({
-          label: "Draft Payment",
-          onClick: this.validateAndSubmit(),
-        })
       );
   }
-
-  validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.taskRoot.draftPayment);
-    };
-  }
-
 
   getMyRef(): any {
     console.log(this.taskRoot.$refs);

@@ -11,7 +11,7 @@ import ModelVue from "../../ModelVue";
   components: {
   },
 })
-export default class FColumnINR extends ModelVue {
+export default class FCellINR extends ModelVue {
  @Prop() 
  dataSelectorKey: string;
 }

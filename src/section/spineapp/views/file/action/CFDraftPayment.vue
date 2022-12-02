@@ -164,14 +164,14 @@ export default class CFDraftPayment extends Vue {
 
   get requestTypeFlowMapList() {
     return [
-      {
-        key: "SETTLEMENT",
-        title: "SETTLEMENT",
-        contentMetaData: new CFSettlementFFormMDP({
-          taskRoot: this,
-        }).getMetaData(),
-        code: "settlement",
-      },
+      // {
+      //   key: "SETTLEMENT",
+      //   title: "SETTLEMENT",
+      //   contentMetaData: new CFSettlementFFormMDP({
+      //     taskRoot: this,
+      //   }).getMetaData(),
+      //   code: "settlement",
+      // },
 
       {
         key: "SETTLEMENT",

@@ -1,6 +1,9 @@
 import FColumnCellMDP from '../FColumnCellMDP';
-export class FColumnStatusMDP implements FColumnCellMDP {
-    componentName: string = "FColumnStatus";
+export default class FCellINRMDP implements FColumnCellMDP {
+    
+    constructor() {
+    }
+    componentName: string = "FCellINR";
     getMetaData(): object {
         return {
             componentName: this.componentName,

@@ -14,45 +14,13 @@
     </v-card>
     <!-- CLIENT FILE LIST -->
     <v-card class="pa-0 ma-0" color="transparent">
-      <v-data-table
-        :headers="clientGridHeaderList"
-        :items="searchResultList"
-        :search="search"
-        class="elevation-0"
-        item-key="clientId"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-col class="col-2"></v-col>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
-        <template v-slot:[`item.fullName`]="{ item }">
-          <f-btn :label="item.fullName" text color="green" :onClick="()=>gotoClient(item.clientId)"></f-btn>
-        </template>
-        <template v-slot:[`item.clientFileNumber`]="{ item }">
-          <f-btn
-            :label="item.clientFileNumber"
-            text
-            color="secondary"
-            :onClick="()=>gotoFile(item.clientFileNumber)"
-            ></f-btn
-          >
-        </template>
-      </v-data-table>
+      <component
+        v-if="!!allClientFileListFDataTableMetaData"
+        :ref="allClientFileListFDataTableMetaData.myRefName"
+        :is="allClientFileListFDataTableMetaData.componentName"
+        :value="selectModel(searchResultList, undefined)"
+        v-bind="allClientFileListFDataTableMetaData.props"
+      ></component>
     </v-card>
     <!-- CLIENT FILE LIST  -->
   </div>
@@ -72,11 +40,13 @@ import ClientFileSearchIntf from "./ClientFileSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
 import Helper from "../../util/Helper";
 import FBtn from "@/components/generic/FBtn.vue";
-
+import AllClientFileListFDataTableMDP from "./AllClientFileListFDataTableMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 @Component({
   components: {
     FForm,
-    "f-btn":FBtn
+    "f-btn": FBtn,
+    FDataTable,
   },
 })
 export default class ClientFileSearch
@@ -90,14 +60,6 @@ export default class ClientFileSearch
   searchResultList: Data.ClientFile.SearchClientFileOutput;
 
   search = "";
-  clientGridHeaderList = [
-    { text: "Client File Number", value: "clientFileNumber", align: "start" },
-    { text: "Client Name", value: "fullName" },
-    { text: "Mobile", value: "mobile" },
-    { text: "E-mail", value: "emailId" },
-    { text: "City", value: "city" },
-    { text: "State", value: "state" },
-  ];
 
   clientFileSearchFormLocal: any = new Data.ClientFile.SearchClientFileInput();
 
@@ -106,6 +68,11 @@ export default class ClientFileSearch
     return this.clientFileSearchFormLocal;
   }
 
+  get allClientFileListFDataTableMetaData() {
+    return new AllClientFileListFDataTableMDP({
+      parent: this,
+    }).getMetaData();
+  }
   set clientFileSearchForm(value: any) {
     this.clientFileSearchFormLocal = value;
   }
@@ -115,8 +82,14 @@ export default class ClientFileSearch
   }
 
   mounted() {
+    this.resetClientSearchInput();
     this.searchClientFile();
   }
+  resetClientSearchInput() {
+    
+    this.clientFileSearchForm = new Data.ClientFile.SearchClientFileInput();
+  }
+  
 
   searchClientFile() {
     Action.ClientFile.SearchClientFile.execute(
@@ -128,10 +101,10 @@ export default class ClientFileSearch
   }
 
   gotoFile(clientFileNumber: string) {
-      Helper.Router.gotoFile({
-        router: this.$router,
-        clientFileNumber: clientFileNumber,
-      });
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: clientFileNumber,
+    });
   }
 
   gotoClient(clientId: string) {

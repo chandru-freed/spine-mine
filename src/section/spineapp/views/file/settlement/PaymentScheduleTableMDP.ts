@@ -4,7 +4,7 @@ import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTable
 export default class PaymentScheduleTableMDP extends FDataTableMDP {
 
     constructor() {
-        super({});
+        super({myRefName:"paymentScheduleTableRef"});
 
         // this.addColumn({
         //     text: "Payment Provider",

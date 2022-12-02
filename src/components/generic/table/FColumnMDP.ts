@@ -1,5 +1,5 @@
 import MDP from "../MDP";
-import { FColumnTextMDP } from "./cell/FColumnTextMDP";
+import FCellTextMDP from "./cell/FCellTextMDP";
 import FColumnCellMDP from "./FColumnCellMDP";
 
 export default class FColumnMDP implements MDP {
@@ -21,7 +21,7 @@ export default class FColumnMDP implements MDP {
         this.dataSelectorKey = props.dataSelectorKey;
         this.align = props.align||"left";
         this.sortable = props.sortable;
-        this.columnCellMDP = props.columnCellMDP || new FColumnTextMDP({dataSelectorKey: this.dataSelectorKey});
+        this.columnCellMDP = props.columnCellMDP || new FCellTextMDP({dataSelectorKey: this.dataSelectorKey});
     }
 
     getMetaData(): object {

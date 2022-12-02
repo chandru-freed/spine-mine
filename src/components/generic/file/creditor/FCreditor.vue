@@ -158,6 +158,8 @@ export default class FCreditor extends ModelVue {
     },
     { text: "Creditor Balance", value: "creditorBalance" },
     { text: "Last Date Of Payment", value: "lastDateOfPayment" },
+    { text: "Days Delinquent", value: "daysDelinquentAsOnOnboarding" },
+    
     { text: "Debt Type", value: "debtType" },
     { text: "Account Number", value: "accountNumber" },
     { text: "Actions", value: "actions" },
@@ -218,6 +220,7 @@ export default class FCreditor extends ModelVue {
   }
 
   get creditorList() {
+    console.log(this.modelValue)
     return this.modelValue.creditorList;
   }
 

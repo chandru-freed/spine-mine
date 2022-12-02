@@ -1,7 +1,7 @@
 <template>
-  <a @click="onClick(modelValue)">
+  <v-chip v-if="selectModel(modelValue,dataSelectorKey)" small outlined>
     {{selectModel(modelValue,dataSelectorKey)}}
-  </a>
+  </v-chip>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -11,11 +11,7 @@ import ModelVue from "../../ModelVue";
   components: {
   },
 })
-export default class FColumnLink extends ModelVue {
- 
-  @Prop()
-  onClick: (item: any) => void;
-  
+export default class FCellStatus extends ModelVue {
   @Prop()
   dataSelectorKey: () => void;
 }

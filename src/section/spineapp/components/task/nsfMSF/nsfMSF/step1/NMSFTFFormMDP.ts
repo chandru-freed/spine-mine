@@ -88,7 +88,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
           dataSelectorKey: "taskOutput.msfScheduledDraftDate",
           label: "Msf Scheduled Draft Date",
           mandatory: true,
-          futureDaysDisabled: true,
+          pastDaysDisabled: true,
           condition: this.isDraftRescheduled(),
         })
       )

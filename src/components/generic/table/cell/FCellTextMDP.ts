@@ -1,5 +1,5 @@
 import FColumnCellMDP from '../FColumnCellMDP';
-export class FColumnTextMDP implements FColumnCellMDP {
+export default class FCellTextMDP implements FColumnCellMDP {
     
     dataSelectorKey: string | undefined;
     constructor({
@@ -7,7 +7,7 @@ export class FColumnTextMDP implements FColumnCellMDP {
     }: {  dataSelectorKey?: string }) {
         this.dataSelectorKey = dataSelectorKey;
     }
-    componentName: string = "FColumnText";
+    componentName: string = "FCellText";
     getMetaData(): object {
         return {
             componentName: this.componentName,

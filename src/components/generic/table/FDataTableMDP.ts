@@ -10,21 +10,33 @@ export default class FDataTableMDP implements MDP {
   itemKey: string | undefined;
   disabled: boolean | undefined;
   title: string | undefined;
+  enableSearch: boolean | undefined;
+  multiSelect: boolean | undefined;
   constructor({
     dataSelectorKey,
+    myRefName,
     itemKey,
     disabled=false,
-    title
+    title,
+    enableSearch=false,
+    multiSelect=false,
+    
   }:{
     dataSelectorKey?: string;
     itemKey?: string;
     disabled?: boolean;
-    title?: string
+    title?: string;
+    enableSearch?: boolean;
+    multiSelect?: boolean;
+    myRefName: string;
   }) {
     this.dataSelectorKey = dataSelectorKey;
     this.itemKey = itemKey;
     this.disabled = disabled;
     this.title = title;
+    this.enableSearch = enableSearch;
+    this.multiSelect = multiSelect;
+    this.myRefName = myRefName;
   }
 
 
@@ -49,13 +61,17 @@ export default class FDataTableMDP implements MDP {
   getMetaData() {
     return {
       componentName: this.componentName,
+      myRefName: this.myRefName,
       props: {
         columnList: this.columnList.map(item => item.getMetaData()),
         actions: this.actionList,
         dataSelectorKey: this.dataSelectorKey,
         itemKey:this.itemKey,
         disabled: this.disabled,
-        title: this.title
+        title: this.title,
+        enableSearch: this.enableSearch,
+        multiSelect: this.multiSelect,
+        myRefName: this.myRefName,
       }
     }
   }
@@ -72,7 +88,7 @@ export enum ActionType {
 
 export interface FTableActionField {
   type: ActionType;
-  onClick: (item: any) => any;
+  onClick: (item: any, callback?:() => any) => any;
   label: string;
   disabled?:boolean;
 }

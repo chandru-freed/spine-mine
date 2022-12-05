@@ -39,6 +39,7 @@ export default class FUCTFFormMDP extends FFormMDP {
           dataSelectorKey: "taskOutput.clientDeferredTime",
           label: "Client Deferred Time",
           condition: this.isClientDeffered(),
+          pastDaysDisabled: true
         })
       )
       .addField(
@@ -47,6 +48,7 @@ export default class FUCTFFormMDP extends FFormMDP {
           dataSelectorKey: "taskOutput.systemDeferredTime",
           label: "System Deferred Time",
           condition: this.isSystemDeffered(),
+          pastDaysDisabled: true
         })
       )
       .addField(

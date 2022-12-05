@@ -78,6 +78,7 @@ import SendEMandateLinkTask from "@/section/spineapp/components/task/eMandate/se
 import GetEMandateStatusTask from "@/section/spineapp/components/task/eMandate/getEMandateStatus/GetEMandateStatusTask.vue";
 import CollectMSFTask from "@/section/spineapp/components/task/enrollment/collectMSF/CollectMSFTask.vue";
 import PlanSettlementTask from "@/section/spineapp/components/task/settlementPlan/planSettlement/PlanSettlementTask.vue";
+import MFCCompletionTask from "@/section/spineapp/components/task/mfc/MFCCompletion/MFCCompletionTask.vue";
 
 @Component({
   components: {
@@ -106,6 +107,7 @@ import PlanSettlementTask from "@/section/spineapp/components/task/settlementPla
     GenerateLinkTask,
     SendLinkTask,
     NsfMSFCompletionTask,
+    MFCCompletionTask,
     NsfMSFSystemDeferredTask,
     NsfMSFClientDeferredTask,
     PaymentReceivedConfirmationTask,
@@ -223,6 +225,7 @@ export default class CFTaskDetails extends Vue {
     ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
     ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
     ["MFC::FollowUpCall", "FollowUpCallTask"],
+    ["MFC::MFCCompletion", "MFCCompletionTask"],
     ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
     
   ]);

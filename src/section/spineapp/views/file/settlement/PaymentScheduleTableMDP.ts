@@ -20,7 +20,7 @@ export default class PaymentScheduleTableMDP extends FDataTableMDP {
           this.addAction({
             type: ActionType.OTHERS,
             label: "Present",
-            onClick: (item: any) => {this.presentSTEntry(item)}
+            onClick: (item: any) => this.presentSTEntry(item)
           })
 
         //   this.actionList = [
@@ -44,7 +44,9 @@ export default class PaymentScheduleTableMDP extends FDataTableMDP {
           
     }
     presentSTEntry(item: any) {
-
+      return new Promise(resolve => {
+        resolve(true)
+      });
     }
 
 }

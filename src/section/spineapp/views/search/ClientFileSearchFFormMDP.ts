@@ -67,6 +67,16 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
+      .addField(
+        new FGompaUserRemoteAutoCompleteFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "assignedSalesRep",
+          label: "Assigned Sales Rep",
+          boundaryClass: "col-4",
+        })
+      )
+
+      
       
       .addAction(
         new FBtnMDP({

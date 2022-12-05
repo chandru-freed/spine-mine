@@ -149,26 +149,6 @@ export default class FPaymentPlan extends ModelVue {
     );
   }
 
-  presentPSEntry(psEntryId: string) {
-    Action.Spine.PresentPSEntry.execute1(psEntryId, (output) => {
-      Snackbar.show({
-        text: "Succesfully update.",
-        pos: "bottom-center",
-      });
-    });
-  }
-
-  skip(psEntryId: string,callback:() => any) {
-    Action.Spine.Skip.execute1(psEntryId, (output) => {
-      console.log("Callback time")
-      callback();
-      Snackbar.show({
-        text: "Succesfully update.",
-        pos: "bottom-center",
-      });
-      
-    });
-  }
   openPaymentDetails(item: any) {
     console.log(item);
     if (item.paymentId) {

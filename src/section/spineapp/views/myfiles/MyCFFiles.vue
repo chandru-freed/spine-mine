@@ -1,46 +1,20 @@
 <template>
   <v-card class="pa-0 ma-0" flat height="calc(100vh - 48px)">
-      <v-data-table
-        :headers="myClientFileListGridHeaderList"
-        :items="myClientFileList"
-        :search="search"
-        class="elevation-0"
-        item-key="clientId"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-card-title>My Client Files</v-card-title>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.fullName="{ item }">
-          <v-btn text color="green" @click="gotoClient(item.clientId)">{{
-            item.fullName
-          }}</v-btn>
-        </template>
-        
-         <template v-slot:item.clientFileNumber="{ item }">
-          <v-btn
-            text
-            color="secondary"
-            @click="gotoFile(item.clientFileNumber)"
-            >{{ item.clientFileNumber }}</v-btn
-          >
-        </template>
-      </v-data-table>
+    <component
+        v-if="!!showRegisterMyCFForm"
+        :ref="registerMyCFFFormMetaData.myRefName"
+        :is="registerMyCFFFormMetaData.componentName"
+        :value="selectModel(registerClientFormData, undefined)"
+        v-bind="registerMyCFFFormMetaData.props"
+      ></component>
+      <component
+        v-if="!!myCFFileFDataTableMetaData"
+        :ref="myCFFileFDataTableMetaData.myRefName"
+        :is="myCFFileFDataTableMetaData.componentName"
+        :value="selectModel(myClientFileList, undefined)"
+        v-bind="myCFFileFDataTableMetaData.props"
+      ></component>
+      
     </v-card>
 </template>
 
@@ -51,12 +25,18 @@ import * as Data from '@/../src-gen/data';
 import * as ServerData from '@/../src-gen/server-data';
 import * as Action from '@/../src-gen/action';
 import Helper from "../../util/Helper";
-
+import MyCFFileFDataTableMDP from './MyCFFileFDataTableMDP';
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import RegisterMyCFFFormMDP from './RegisterMyCFFFormMDP';
+import FForm from "@/components/generic/form/FForm.vue";
 @Component({
   components: {
+    FDataTable,
+    FForm
   },
 })
-export default class MyCFFiles extends Vue {
+export default class MyCFFiles extends ModelVue {
   myClientFileListGridHeaderList = [
     { text: "Client File Number", value: "clientFileNumber", align: "start" },
     { text: "Client Name", value: "fullName" },
@@ -67,6 +47,10 @@ export default class MyCFFiles extends Vue {
   ];
   myClientFileList: Data.ClientFile.MyClientFile[] = [];
   search: string = '';
+  showRegisterMyCFForm: boolean = false;
+  registerClientFormData: Data.Client.RegisterAndAddClientFileForm = new Data.Client.RegisterAndAddClientFileForm()
+
+
 
   mounted() {
     this.getMyClientFileList();
@@ -88,6 +72,24 @@ export default class MyCFFiles extends Vue {
       name: "Root.Client.ClientDetails",
       params: { clientId: clientId },
     });
+  }
+
+  registerClient () {
+    Action.Client.RegisterAndAddClientFileToMyQ.execute(this.registerClientFormData, (output: any) => {
+      console.log("RegisterClient : ",output)
+       setTimeout(() => {
+        this.showRegisterMyCFForm = false;
+        this.getMyClientFileList();
+        }, 500);
+    } )
+}
+
+  get myCFFileFDataTableMetaData() {
+      return new MyCFFileFDataTableMDP({parent: this}).getMetaData();
+  }
+
+  get registerMyCFFFormMetaData() {
+    return new RegisterMyCFFFormMDP({root: this}).getMetaData();
   }
 }
 </script>

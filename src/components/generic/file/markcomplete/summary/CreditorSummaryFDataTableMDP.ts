@@ -26,7 +26,7 @@ export default class CreditorSummaryFDataTableMDP extends FDataTableMDP {
         
         .addAction({
             label:`WAD: ${props.taskRoot.clientFileSummary.wad}`,
-            onClick: () => {},
+            onClick: () => new Promise(resolve => {}),
             type: ActionType.OTHERS,
             disabled: true
         })

@@ -170,17 +170,17 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.AddCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.UpdateCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.interested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
@@ -220,18 +220,18 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.AddCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
     Action.Spine.UpdateCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSchedulePP();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSchedulePP();
       }, 1000);
     });
 
@@ -293,7 +293,8 @@ export default class CollectClientInfoTask extends ModelVue {
     });
   }
 
-  getFiCreditorInfoAndSchedulePP() {
+  getClientCreditorInfoAndSchedulePP() {
+    this.getClientFileSummary();
     Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
       this.schedulePaymentPlan();
     });
@@ -355,6 +356,13 @@ export default class CollectClientInfoTask extends ModelVue {
       (error) => {}
     );
       // }
+  }
+
+    getClientFileSummary() {
+    Action.ClientFile.GetClientFileSummary.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 }
 </script>

@@ -88,8 +88,9 @@ export enum ActionType {
 
 export interface FTableActionField {
   type: ActionType;
-  onClick: (item: any, callback?:() => any) => any;
+  onClick: (item: any) => Promise<any>;
   label: string;
   disabled?:boolean;
+  confirmation?: boolean;
 }
 

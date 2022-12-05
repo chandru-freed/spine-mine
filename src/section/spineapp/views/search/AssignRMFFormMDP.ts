@@ -43,7 +43,7 @@ export default class CFAssignRMFFormMDP extends FFormMDP {
 
   cancel() {
     return () => {
-      this.taskRoot.cancel();
+      this.taskRoot.hideAssignRMFForm();
     }
   }
 

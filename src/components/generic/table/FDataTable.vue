@@ -1,5 +1,29 @@
 <template>
   <v-card :ref="myRefName" flat outlined>
+    <v-alert
+      dense
+      outlined
+      text
+      color="warning"
+      v-if="showConfirmation == true"
+    >
+      <div
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+      >
+        <div class="my-1">Are you sure want to proceed?</div>
+        <v-spacer />
+        <v-btn
+          @click="showConfirmation = false"
+          outlined
+          color="warning"
+          class="mx-2"
+          >Cancel</v-btn
+        >
+        <v-btn @click="handleActionClick" outlined color="warning" class="mx-2">
+          Confirm
+        </v-btn>
+      </div>
+    </v-alert>
     <v-data-table
       :value="selectedItems"
       @input="handleSelectChange"
@@ -14,7 +38,7 @@
       :search="search"
       checkbox-color="primary"
     >
-      <template v-if="title || actions.length > 0" v-slot:top>
+      <template v-if="title || actions.length > 0 || enableSearch" v-slot:top>
         <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer />
@@ -22,7 +46,7 @@
             <v-select
               :value="selectedAction"
               :items="filteredActions"
-              @input="handleActionClick"
+              @input="actionClicked"
               item-text="label"
               outlined
               return-object
@@ -39,39 +63,42 @@
               v-for="(action, index) in filteredActions"
               :key="'action' + index"
               outlined
-              @click="() => handleActionClick(action)"
+              @click="() => actionClicked(action)"
               small
               class="mx-2"
               color="primary"
-              :disabled="selectedItems.length == 0 || disabled || action.disabled"
+              :disabled="
+                selectedItems.length == 0 || disabled || action.disabled
+              "
             >
               {{ action.label }}
             </v-btn>
           </div>
 
           <f-add-btn
+            class="mx-3"
             v-if="addBtnData"
             outlined
             :label="addBtnData.label"
             @click="addBtnData.onClick"
           />
-           <v-text-field
-           v-if="enableSearch"
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
+          <v-text-field
+            v-if="enableSearch"
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search Item"
+            single-line
+            hide-details
+            outlined
+            rounded
+            dense
+            class="shrink"
+          ></v-text-field>
         </v-toolbar>
       </template>
 
       <template
-        v-for="(header) in columnList"
+        v-for="header in columnList"
         v-slot:[`item.${header.value}`]="{ item }"
       >
         <slot :name="[`item.${header.value}`]" :item="item">
@@ -82,14 +109,12 @@
             v-bind="header.columnCellMetaData.props"
             :dataSelectorKey="header.value"
           ></component>
-          
 
           <!-- <span v-else :key="'dataTable' + index">
             {{ getValue(item, header.value) }}
           </span> -->
         </slot>
       </template>
-
 
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon
@@ -124,6 +149,8 @@ import FCellText from "./cell/FCellText.vue";
 import FCellStatus from "./cell/FCellStatus.vue";
 import FCellDate from "./cell/FCellDate.vue";
 import ModelVue from "../ModelVue";
+import { FTableActionField } from "./FDataTableMDP";
+import FBtn from "../FBtn.vue";
 
 @Component({
   components: {
@@ -135,6 +162,7 @@ import ModelVue from "../ModelVue";
     FCellText,
     FCellStatus,
     FCellDate,
+    FBtn,
   },
 })
 export default class FDataTable extends ModelVue {
@@ -175,28 +203,38 @@ export default class FDataTable extends ModelVue {
   })
   itemKey: string;
 
-  
   search = "";
+  showConfirmation: boolean = false;
   selectedItems: any = [];
-  selectedAction: any = {};
+  selectedAction: FTableActionField;
 
   getValue(item: any, path: any) {
     return path.split(".").reduce((res: any, prop: any) => res[prop], item);
   }
 
   handleSelectChange(newVal: any) {
-      this.selectedItems = newVal;
+    this.showConfirmation = false;
+    this.selectedItems = newVal;
   }
 
-  handleActionClick(action: any) {
+  actionClicked(action: FTableActionField) {
     this.selectedAction = action;
-    if(this.multiSelect) {
-      action.onClick(this.selectedItems,() => {
-        this.selectedItems = [];
+    if (action.confirmation === true) {
+      this.showConfirmation = true;
+    } else {
+      this.handleActionClick();
+    }
+  }
+
+  handleActionClick() {
+    this.showConfirmation = false;
+    if (this.multiSelect) {
+      this.selectedAction.onClick(this.selectedItems).then((res: any) => {
+        this.clearSelectedItems();
       });
     } else {
-      action.onClick(this.selectedItems[0],() => {
-        this.selectedItems = [];
+      this.selectedAction.onClick(this.selectedItems[0]).then((res: any) => {
+        this.clearSelectedItems();
       });
     }
   }
@@ -239,10 +277,11 @@ export default class FDataTable extends ModelVue {
   }
 
   get showCheckbox() {
-    const otherActions = this.actions.filter((item) => item.type === ActionType.OTHERS);
+    const otherActions = this.actions.filter(
+      (item) => item.type === ActionType.OTHERS
+    );
     return (
-      otherActions.filter(item => !item.disabled).length>0
-      && !this.disabled
+      otherActions.filter((item) => !item.disabled).length > 0 && !this.disabled
     );
   }
 
@@ -254,12 +293,9 @@ export default class FDataTable extends ModelVue {
     this.$emit("input", newModelValue);
   }
 
-  
-
-  resetSelectedItems() {
+  clearSelectedItems() {
     this.selectedItems = [];
   }
-
 }
 
 export enum ActionType {

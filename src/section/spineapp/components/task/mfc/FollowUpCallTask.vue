@@ -1,7 +1,7 @@
 <template>
   <div>
-    hello
-    Root Data : {{ taskFormData }}
+    <!-- Root Data : {{ taskFormData }} -->
+
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -11,7 +11,7 @@
     ></component>
   </div>
 </template>
-       <script lang="ts">
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
@@ -45,8 +45,8 @@ export default class FollowUpCallTask
   }
   //METADATA
 
-  selectedNMSFTaskOption() {
-    return this.taskFormData.taskOutput.selectedNMSFTaskOption;
+  selectedMFCTaskOption() {
+    return this.taskFormData.taskOutput.selectedTaskOption;
   }
 
   // DATA
@@ -82,7 +82,7 @@ export default class FollowUpCallTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = {};
+  taskFormOutputLocal: any = new Data.Spine.MFCTaskOutput();
 
   get taskFormOutput() {
     if (this.taskDetailsOutput.disposition === null) {
@@ -112,15 +112,11 @@ export default class FollowUpCallTask
     });
   }
 
-  saveTask() {
-    this.taskFormOutput.manualPayment =
-      this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
-    this.taskFormOutput.answered = !(
-      this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
-    );
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
 
@@ -143,7 +139,21 @@ export default class FollowUpCallTask
       clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
+
+
+  goToStep(step: number) {
+    Helper.Router.gotoStep({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+      step,
+      route: this.$route,
+    });
+  }
+
+  get currentStep(): number {
+    return this.$route.query.step ? Number(this.$route.query.step) : 0;
+  }
 }
 </script>
 
-        <style></style>
+<style></style>

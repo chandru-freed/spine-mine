@@ -44,6 +44,12 @@
     <v-col class="col-12">
       <!--GRID START-->
       <v-card flat outlined>
+      <!-- <component
+        :value="creditorList"
+          :is="fCreditorListFDataTableMetaData.componentName"
+          :ref="fCreditorListFDataTableMetaData.myRefName"
+          v-bind="fCreditorListFDataTableMetaData.props"
+        ></component> -->
         <v-data-table
           :headers="filteredHeaders"
           :items="creditorList"
@@ -134,11 +140,14 @@ import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
 import FAddCreditorFFormMDP from "./FAddCreditorFFormMDP";
 import FEditCreditorFFormMDP from "./FEditCreditorFFormMDP";
+import FCreditorListFDataTableMDP from "./FCreditorListFDataTableMDP";
+import FDataTable from "../../table/FDataTable.vue";
 
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable
   },
 })
 export default class FCreditor extends ModelVue {
@@ -299,6 +308,10 @@ export default class FCreditor extends ModelVue {
       return this.editCreditorForm.debtType === 'Credit Card'
     }
   }
+
+  // get fCreditorListFDataTableMetaData() {
+  //   return new FCreditorListFDataTableMDP({parent:this}).getMetaData();
+  // }
   
 }
 </script>

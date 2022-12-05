@@ -5,6 +5,7 @@ export default class FDataTableMDP implements MDP {
   componentName = "FDataTable";
   columnList: FColumnMDP[] = [];
   actionList: any[] = [];
+  infoList: any[] = [];
   myRefName: string;
   dataSelectorKey: string | undefined;
   itemKey: string | undefined;
@@ -58,6 +59,11 @@ export default class FDataTableMDP implements MDP {
     return this;
   }
 
+  addInfo(newAction: {label: string}) {
+    this.infoList.push(newAction);
+    return this;
+  }
+
   getMetaData() {
     return {
       componentName: this.componentName,
@@ -72,6 +78,7 @@ export default class FDataTableMDP implements MDP {
         enableSearch: this.enableSearch,
         multiSelect: this.multiSelect,
         myRefName: this.myRefName,
+        infoList: this.infoList,
       }
     }
   }

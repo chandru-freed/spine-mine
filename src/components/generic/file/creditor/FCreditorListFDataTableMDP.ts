@@ -35,6 +35,8 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             type: ActionType.EDIT,
             onClick: item => new Promise(resolve => {}),
             label: "",
+          }).addInfo({
+            label: "Hello"
           })
         
     }

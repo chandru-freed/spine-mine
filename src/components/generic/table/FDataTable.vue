@@ -41,6 +41,9 @@
       <template v-if="title || actions.length > 0 || enableSearch" v-slot:top>
         <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
+          <v-chip v-for="(info, index) in infoList" :key="info.label+index" label outlined color="primary">
+            {{info.label}}
+          </v-chip>
           <v-spacer />
           <div class="col-3" v-if="filteredActions.length > 2">
             <v-select
@@ -187,6 +190,13 @@ export default class FDataTable extends ModelVue {
     default: () => [],
   })
   actions: any[];
+
+  @Prop({
+    default: () => [],
+  })
+  infoList: any[];
+
+  
 
   @Prop({
     default: false,

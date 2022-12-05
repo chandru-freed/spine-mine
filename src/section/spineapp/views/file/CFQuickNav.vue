@@ -27,7 +27,7 @@
     </div>
 
     <div class="col-12">
-      <v-card outlined height="300px">
+      <v-card outlined>
         <v-card-text class="pa-1">
           <v-textarea
             hide-details
@@ -44,8 +44,16 @@
             hint="Press CTRL + ENTER"
           ></v-textarea>
           <div>
-            <v-list>
-              <template v-for="(note, index) in fiHighlightedNoteListQuick">
+            <div class="d-flex mt-4">
+              <v-spacer />
+              <v-btn-toggle v-model="selectedToggleType" mandatory dense>
+                <v-btn> All </v-btn>
+                <v-btn> Highlighted </v-btn>
+              </v-btn-toggle>
+            </div>
+
+            <v-list height="200px" class="overflow-y-auto">
+              <template v-for="(note, index) in fiNoteListQuick">
                 <v-list-item :key="'note' + index" dense>
                   <template>
                     <v-list-item-content disabled>
@@ -53,21 +61,11 @@
                         v-text="note.noteMesssage"
                       ></v-list-item-subtitle>
                     </v-list-item-content>
-
-                    <v-list-item-action>
-                      <v-icon
-                        small
-                        color="secondary"
-                        @click="highlightNote(note.noteId)"
-                      >
-                        mdi-star-outline
-                      </v-icon>
-                    </v-list-item-action>
                   </template>
                 </v-list-item>
 
                 <v-divider
-                  v-if="index < fiHighlightedNoteListQuick.length - 1"
+                  v-if="index < fiNoteListQuick.length - 1"
                   :key="index"
                 ></v-divider>
               </template>
@@ -105,19 +103,28 @@ export default class CFQuickNav extends Vue {
   fileSummary: Data.ClientFile.FileSummary;
 
   clientFileId = this.$route.params.clientFileId;
-
+  selectedToggleType: any = 0;
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
   addNote() {
     this.addNoteInput.clientFileId = this.clientFileId;
     Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
       this.addNoteInput = new Data.FiNote.AddNoteInput();
-      //this.getFiNoteList();
+      this.getFiNoteList();
     });
   }
 
-  get fiHighlightedNoteListQuick() {
-    return this.fiHighlightedNoteList.slice(0, 5);
+  // get fiHighlightedNoteListQuick() {
+  //   return this.fiHighlightedNoteList.slice(0, 5);
+  // }
+
+  get fiNoteListQuick() {
+    if (this.selectedToggleType === 0) {
+      return this.fiNoteList;
+    } else {
+      return this.fiHighlightedNoteList;
+    }
   }
+
   mounted() {
     this.getFiNoteList();
   }

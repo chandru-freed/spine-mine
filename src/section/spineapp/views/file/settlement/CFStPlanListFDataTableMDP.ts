@@ -20,12 +20,12 @@ export default class CFStPlanListFDataTableMDP extends FDataTableMDP {
         }).addColumn({
             label:"Settlement Amount",
             dataSelectorKey: "settlementAmount",
-            columnCellMDP: new FCellINRMDP()
+            columnCellMDP: new FCellINRMDP({})
 
         }).addColumn({
             label:"Total Outstanding",
             dataSelectorKey: "totalOutstanding",
-            columnCellMDP: new FCellINRMDP()
+            columnCellMDP: new FCellINRMDP({})
 
         }).addColumn({
             label:"Settlement Percentage",

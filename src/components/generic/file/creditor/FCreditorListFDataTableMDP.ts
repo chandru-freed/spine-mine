@@ -13,7 +13,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           .addColumn({
             label: "Creditor Balance",
             dataSelectorKey: "creditorBalance",
-            columnCellMDP: new FCellINRMDP()
+            columnCellMDP: new FCellINRMDP({})
           }).addColumn({
             label: "Last Date Of Payment",
             dataSelectorKey: "lastDateOfPayment",

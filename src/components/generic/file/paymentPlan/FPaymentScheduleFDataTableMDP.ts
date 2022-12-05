@@ -14,9 +14,9 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
             label: "Draft Date",
             dataSelectorKey: "draftDate",
             columnCellMDP: new FCellDateMDP()
-        }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellINRMDP() })
-            .addColumn({ label: "Settlement Amount", dataSelectorKey: "settlementReserve", columnCellMDP: new FCellINRMDP() })
-            .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellINRMDP() })
+        }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellINRMDP({rounded:true }) })
+            .addColumn({ label: "Settlement Amount", dataSelectorKey: "settlementReserve", columnCellMDP: new FCellINRMDP({rounded:true}) })
+            .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellINRMDP({}) })
             .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP() });
 
 
@@ -30,6 +30,13 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
             onClick: (item) =>  this.handleSkipClick(item) ,
             type: ActionType.OTHERS,
             confirmation: true
+        }).addAction({
+            label: "Add Entry",
+            onClick: (item) =>  this.handleAddEntryClick() ,
+            type: ActionType.ADD,
+            confirmation: true,
+            disabled:this.disabled
+
         });
 
     }
@@ -56,5 +63,11 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
               });
         })
         // this.parent.skip(item.psEntryId,callback)
+    }
+
+    handleAddEntryClick() {
+        return new Promise(resolve => {
+            this.parent.showAddPsEntryForm = true;
+        });
     }
 }

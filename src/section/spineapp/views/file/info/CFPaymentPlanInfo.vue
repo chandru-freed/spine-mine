@@ -61,6 +61,7 @@ export default class CFPaymentPlanInfo extends ModelVue {
   public getPaymentHandler = (output: any) => this.getFiPaymentWithDelay();
 
   public mounted() {
+Action.ClientFile.AddPSEntry.interested(this.getFiPaymentWithDelay);
     this.getFiPaymentWithDelay();
 
     Action.Spine.PresentPSEntry.interested(this.getPaymentHandler);
@@ -70,6 +71,7 @@ export default class CFPaymentPlanInfo extends ModelVue {
   public destroyed() {
     Action.Spine.PresentPSEntry.notInterested(this.getPaymentHandler);
     Action.Spine.Skip.notInterested(this.getPaymentHandler);
+    Action.ClientFile.AddPSEntry.notInterested(this.getFiPaymentWithDelay);
   }
 
   getFiPaymentWithDelay() {

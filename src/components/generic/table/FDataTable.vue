@@ -41,9 +41,14 @@
       <template v-if="title || actions.length > 0 || enableSearch" v-slot:top>
         <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
-          <v-chip v-for="(info, index) in infoList" :key="info.label+index" label outlined color="primary">
-            {{info.label}}
-          </v-chip>
+          <div v-for="(info, index) in infoList" :key="info.label+index">
+              <component
+            :is="info.infoMetaData.componentName"
+            :value="info.value"
+            :label="info.label"
+            v-bind="info.infoMetaData.props"
+          ></component>
+          </div>
           <v-spacer />
           <div class="col-3" v-if="filteredActions.length > 2">
             <v-select
@@ -84,6 +89,9 @@
             outlined
             :label="addBtnData.label"
             @click="addBtnData.onClick"
+             :disabled="
+               disabled || addBtnData.disabled
+              "
           />
           <v-text-field
             v-if="enableSearch"
@@ -154,6 +162,7 @@ import FCellDate from "./cell/FCellDate.vue";
 import ModelVue from "../ModelVue";
 import { FTableActionField } from "./FDataTableMDP";
 import FBtn from "../FBtn.vue";
+import FTextInfo from "./info/FTextInfo.vue";
 
 @Component({
   components: {
@@ -166,6 +175,7 @@ import FBtn from "../FBtn.vue";
     FCellStatus,
     FCellDate,
     FBtn,
+    FTextInfo
   },
 })
 export default class FDataTable extends ModelVue {

@@ -12,9 +12,9 @@ export default class FFeeFDataTableMDP extends FDataTableMDP {
             label: "Draft Date",
             dataSelectorKey: "draftDate",
             columnCellMDP: new FCellDateMDP()
-        }).addColumn({ label: "Fee Code", dataSelectorKey: "feeCode", columnCellMDP: new FCellINRMDP() })
-            .addColumn({ label: "Amount", dataSelectorKey: "amount", columnCellMDP: new FCellINRMDP() })
-            .addColumn({ label: "Tax Amount", dataSelectorKey: "taxAmount", columnCellMDP: new FCellINRMDP() })
+        }).addColumn({ label: "Fee Code", dataSelectorKey: "feeCode", columnCellMDP: new FCellINRMDP({}) })
+            .addColumn({ label: "Amount", dataSelectorKey: "amount", columnCellMDP: new FCellINRMDP({}) })
+            .addColumn({ label: "Tax Amount", dataSelectorKey: "taxAmount", columnCellMDP: new FCellINRMDP({}) })
             .addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellStatusMDP() })
             .addColumn({ label: "Payment Status", dataSelectorKey: "paymentStatus", columnCellMDP: new FCellStatusMDP() });
     }

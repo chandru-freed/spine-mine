@@ -1,6 +1,7 @@
 import MDP from "../MDP";
 import FColumnCellMDP from "./FColumnCellMDP";
 import FColumnMDP from "./FColumnMDP";
+import FTabelInfoMDP from "./FTabelInfoMDP";
 export default class FDataTableMDP implements MDP {
   componentName = "FDataTable";
   columnList: FColumnMDP[] = [];
@@ -59,8 +60,8 @@ export default class FDataTableMDP implements MDP {
     return this;
   }
 
-  addInfo(newAction: {label: string}) {
-    this.infoList.push(newAction);
+  addInfo(newAction: {label: string,value?: string;infoMDP?: MDP;}) {
+    this.infoList.push(new FTabelInfoMDP(newAction));
     return this;
   }
 
@@ -78,7 +79,7 @@ export default class FDataTableMDP implements MDP {
         enableSearch: this.enableSearch,
         multiSelect: this.multiSelect,
         myRefName: this.myRefName,
-        infoList: this.infoList,
+        infoList: this.infoList.map(item => item.getMetaData()),
       }
     }
   }

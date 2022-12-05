@@ -4,10 +4,11 @@ import DispositionFMiniFormMDP, {
   DispositionType,
 } from "@/components/generic/form/field/DispositionFMiniFormMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
-import FMiniFormMDP from "@/components/generic/form/field/FMiniFormMDP";
+import FDateTimeSelectFieldMDP from "@/components/generic/form/field/FDateTimeSelectFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import FTimeFieldMDP from "@/components/generic/form/field/FTimeFieldMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class FUCTFFormMDP extends FFormMDP {
@@ -17,7 +18,7 @@ export default class FUCTFFormMDP extends FFormMDP {
   selectedOption: string;
   constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
     super({
-      myRefName: "fUCTFFormRef",
+      myRefName: "FUCTFFormRef",
       disabled: taskRoot.taskDisabled,
       colWidth: 12,
     });
@@ -26,61 +27,26 @@ export default class FUCTFFormMDP extends FFormMDP {
     this.addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.selectedNMSFTaskOption",
+        dataSelectorKey: "taskOutput.selectedTaskOption",
         label: "Select Option",
-        options: Object.values(MFCFOptions),
+        options: Object.values(MFCOptions),
         mandatory: true,
       })
     )
       .addField(
-        new FNumberFieldMDP({
+        new FDateTimeSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.clientDeferredTime",
           label: "Client Deferred Time",
           condition: this.isClientDeffered(),
-          mandatory: true,
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FDateTimeSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.systemDeferredTime",
           label: "System Deferred Time",
           condition: this.isSystemDeffered(),
-        })
-      )
-      .addField(
-        new FNumberFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.amountToBeReceived",
-          label: "Amount To Be Received",
-          condition: this.isReceivePayment(),
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.upiId",
-          label: "UPI Id",
-          condition: this.isReceivePayment(),
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.intent",
-          label: "Intent",
-          condition: this.isReceivePayment(),
-        })
-      )
-      .addField(
-        new FSelectDateFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.msfScheduledDraftDate",
-          label: "Msf Scheduled Draft Date",
-          mandatory: true,
-          futureDaysDisabled: true,
-          condition: this.isDraftRescheduled(),
         })
       )
       .addField(
@@ -117,13 +83,6 @@ export default class FUCTFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Save",
-          onClick: this.validateAndSubmit(),
-          condition: this.isStarted(),
-        })
-      )
-      .addAction(
-        new FBtnMDP({
           label: "Rescue",
           onClick: this.rescueTask(),
           condition: this.isException(),
@@ -134,7 +93,7 @@ export default class FUCTFFormMDP extends FFormMDP {
   getSelectedOption() {
     return () => {
       this.selectedOption =
-        this.taskRoot.taskFormData.taskOutput.selectedNMSFTaskOption;
+        this.taskRoot.taskFormData.taskOutput.selectedTaskOption;
     };
   }
 
@@ -142,16 +101,17 @@ export default class FUCTFFormMDP extends FFormMDP {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
+  // new implement
   validateAndSubmit() {
-    return () => {
-      this.getMyRef().submitForm(this.saveTask());
+    return (successCallBack: any) => {
+      this.getMyRef().submitForm(() => {
+        this.saveTask(() => successCallBack());
+      });
     };
   }
 
-  saveTask() {
-    return () => {
-      this.taskRoot.saveTask();
-    };
+  saveTask(successCallBack: any) {
+    this.taskRoot.saveTask(() => successCallBack());
   }
 
   rescueTask() {
@@ -162,24 +122,13 @@ export default class FUCTFFormMDP extends FFormMDP {
 
   isClientDeffered(): boolean {
     return (
-      this.taskRoot.selectedNMSFTaskOption() === MFCFOptions.ClientDeferred
+      this.taskRoot.selectedMFCTaskOption() === MFCOptions.ClientDeferred
     );
   }
 
   isSystemDeffered(): boolean {
     return (
-      this.taskRoot.selectedNMSFTaskOption() === MFCFOptions.SystemDeferred
-    );
-  }
-
-  isReceivePayment(): boolean {
-    return (
-      this.taskRoot.selectedNMSFTaskOption() === MFCFOptions.ReceivePayment
-    );
-  }
-  isDraftRescheduled(): boolean {
-    return (
-      this.taskRoot.selectedNMSFTaskOption() === MFCFOptions.DraftRescheduled
+      this.taskRoot.selectedMFCTaskOption() === MFCOptions.SystemDeferred
     );
   }
 
@@ -198,9 +147,7 @@ export default class FUCTFFormMDP extends FFormMDP {
   }
 }
 
-export enum MFCFOptions {
+export enum MFCOptions {
   ClientDeferred = "Call Back Requested",
   SystemDeferred = "Follow Up Required",
-  ReceivePayment = "Receive Payment",
-  DraftRescheduled = "Draft Rescheduled",
 }

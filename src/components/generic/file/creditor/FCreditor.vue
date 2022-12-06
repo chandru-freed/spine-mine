@@ -43,14 +43,14 @@
 
     <v-col class="col-12">
       <!--GRID START-->
-      <v-card flat outlined>
-      <!-- <component
+      <v-card flat >
+      <component
         :value="creditorList"
           :is="fCreditorListFDataTableMetaData.componentName"
           :ref="fCreditorListFDataTableMetaData.myRefName"
           v-bind="fCreditorListFDataTableMetaData.props"
-        ></component> -->
-        <v-data-table
+        ></component>
+        <!-- <v-data-table
           :headers="filteredHeaders"
           :items="creditorList"
           sort-by="lastDateOfPayment"
@@ -97,7 +97,7 @@
               :disabled="disabled"
               small
               class="mr-2"
-              @click="selectEditCreditor(item, index)"
+              @click="selectEditCreditor(item)"
             >
               mdi-pencil
             </v-icon>
@@ -109,7 +109,7 @@
               mdi-delete
             </v-icon>
           </template>
-        </v-data-table>
+        </v-data-table> -->
       </v-card>
       <!--GRID END-->
       <!--ACTION START-->
@@ -259,7 +259,7 @@ export default class FCreditor extends ModelVue {
     });
   }
 
-  selectEditCreditor(item: any, index: any) {
+  selectEditCreditor(item: any) {
     this.selectedCreditorItem = item;
     this.editCreditorForm = {
       ...item,
@@ -309,9 +309,9 @@ export default class FCreditor extends ModelVue {
     }
   }
 
-  // get fCreditorListFDataTableMetaData() {
-  //   return new FCreditorListFDataTableMDP({parent:this}).getMetaData();
-  // }
+  get fCreditorListFDataTableMetaData() {
+    return new FCreditorListFDataTableMDP({parent:this}).getMetaData();
+  }
   
 }
 </script>

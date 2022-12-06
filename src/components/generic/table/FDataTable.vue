@@ -1,31 +1,22 @@
 <template>
   <v-card :ref="myRefName" flat outlined>
-    <v-alert
-      dense
-      outlined
-      text
-      color="warning"
+    <f-alert
+      message="Are you sure want to proceed?"
+      @confirmClick="fireActionClick"
+      @cancelClick="showConfirmation = false"
       v-if="showConfirmation == true"
-    >
-      <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
-      >
-        <div class="my-1">Are you sure want to proceed?</div>
-        <v-spacer />
-        <v-btn
-          @click="showConfirmation = false"
-          outlined
-          color="warning"
-          class="mx-2"
-          >Cancel</v-btn
-        >
-        <v-btn @click="handleActionClick" outlined color="warning" class="mx-2">
-          Confirm
-        </v-btn>
-      </div>
-    </v-alert>
+    />
+
+    <f-alert
+      message="Are you sure want to delete?"
+      @confirmClick="fireDeleteActionClick"
+      @cancelClick="showDeleteConfirmation = false"
+      v-if="showDeleteConfirmation == true"
+      color="red"
+    />
+
     <v-data-table
-      :value="selectedItems"
+      :value="selectedItemList"
       @input="handleSelectChange"
       :headers="filteredHeaders"
       :items="selectModel(modelValue, dataSelectorKey)"
@@ -41,42 +32,62 @@
       <template v-if="title || actions.length > 0 || enableSearch" v-slot:top>
         <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
-          <div v-for="(info, index) in infoList" :key="info.label+index">
-              <component
-            :is="info.infoMetaData.componentName"
-            :value="info.value"
-            :label="info.label"
-            v-bind="info.infoMetaData.props"
-          ></component>
+          <v-divider vertical class="mx-3" inset />
+          <div
+            v-for="(info, index) in infoMetaDataList"
+            :key="info.label + index"
+          >
+            <component
+              :is="info.infoMetaData.componentName"
+              :value="info.value"
+              :label="info.label"
+              v-bind="info.infoMetaData.props"
+              class="mx-1"
+            ></component>
           </div>
           <v-spacer />
-          <div class="col-3" v-if="filteredActions.length > 2">
-            <v-select
-              :value="selectedAction"
-              :items="filteredActions"
-              @input="actionClicked"
-              item-text="label"
-              outlined
-              return-object
-              small
-              dense
-              :hide-details="true"
-              label="Actions"
-              :disabled="selectedItems.length == 0 || disabled"
-              color="primary"
-            />
+          <div v-if="filteredActions.length > 0">
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  dense
+                  small
+                  outlined
+                >
+                  Actions
+                  <v-icon small>mdi-chevron-down</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(action, index) in filteredActions"
+                  :key="index"
+                  link
+                  :disabled="
+                  isActionDisabled(action)
+                  "
+                  @click="() => handleOtherActionClick(action)"
+                >
+                  <v-list-item-title>{{ action.label }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </div>
           <div v-else class="d-flex">
             <v-btn
               v-for="(action, index) in filteredActions"
               :key="'action' + index"
               outlined
-              @click="() => actionClicked(action)"
+              @click="() => handleOtherActionClick(action)"
               small
               class="mx-2"
               color="primary"
               :disabled="
-                selectedItems.length == 0 || disabled || action.disabled
+                selectedItemList.length == 0 || disabled || action.disabled
               "
             >
               {{ action.label }}
@@ -84,14 +95,12 @@
           </div>
 
           <f-add-btn
-            class="mx-3"
+            class="ml-3"
             v-if="addBtnData"
             outlined
             :label="addBtnData.label"
             @click="addBtnData.onClick"
-             :disabled="
-               disabled || addBtnData.disabled
-              "
+            :disabled="disabled || addBtnData.disabled"
           />
           <v-text-field
             v-if="enableSearch"
@@ -103,7 +112,7 @@
             outlined
             rounded
             dense
-            class="shrink"
+            class="shrink ml-3"
           ></v-text-field>
         </v-toolbar>
       </template>
@@ -120,10 +129,6 @@
             v-bind="header.columnCellMetaData.props"
             :dataSelectorKey="header.value"
           ></component>
-
-          <!-- <span v-else :key="'dataTable' + index">
-            {{ getValue(item, header.value) }}
-          </span> -->
         </slot>
       </template>
 
@@ -162,7 +167,9 @@ import FCellDate from "./cell/FCellDate.vue";
 import ModelVue from "../ModelVue";
 import { FTableActionField } from "./FDataTableMDP";
 import FBtn from "../FBtn.vue";
-import FTextInfo from "./info/FTextInfo.vue";
+import FInfoText from "./info/FInfoText.vue";
+import FInfoINR from "./info/FInfoINR.vue";
+import FAlert from "../FAlert.vue";
 
 @Component({
   components: {
@@ -175,7 +182,9 @@ import FTextInfo from "./info/FTextInfo.vue";
     FCellStatus,
     FCellDate,
     FBtn,
-    FTextInfo
+    FInfoText,
+    FInfoINR,
+    FAlert
   },
 })
 export default class FDataTable extends ModelVue {
@@ -204,9 +213,7 @@ export default class FDataTable extends ModelVue {
   @Prop({
     default: () => [],
   })
-  infoList: any[];
-
-  
+  infoMetaDataList: any[];
 
   @Prop({
     default: false,
@@ -225,7 +232,9 @@ export default class FDataTable extends ModelVue {
 
   search = "";
   showConfirmation: boolean = false;
-  selectedItems: any = [];
+  showDeleteConfirmation: boolean = false;
+  selectedItemList: any[] = [];
+  selectedItemForDelete: any;
   selectedAction: FTableActionField;
 
   getValue(item: any, path: any) {
@@ -234,44 +243,60 @@ export default class FDataTable extends ModelVue {
 
   handleSelectChange(newVal: any) {
     this.showConfirmation = false;
-    this.selectedItems = newVal;
+    this.selectedItemList = newVal;
   }
 
-  actionClicked(action: FTableActionField) {
+  handleOtherActionClick(action: FTableActionField) {
     this.selectedAction = action;
     if (action.confirmation === true) {
       this.showConfirmation = true;
     } else {
-      this.handleActionClick();
+      this.fireActionClick();
     }
   }
 
-  handleActionClick() {
+  fireActionClick() {
     this.showConfirmation = false;
-    if (this.multiSelect) {
-      this.selectedAction.onClick(this.selectedItems).then((res: any) => {
+    if (this.multiSelect && !this.selectedAction.singleSelect && this.selectedAction.type === ActionType.OTHERS) {
+      this.selectedAction.onClick(this.selectedItemList).then((res: any) => {
         this.clearSelectedItems();
       });
     } else {
-      this.selectedAction.onClick(this.selectedItems[0]).then((res: any) => {
+      this.selectedAction.onClick(this.selectedItemList[0]).then((res: any) => {
         this.clearSelectedItems();
       });
     }
   }
 
+  fireDeleteActionClick() {
+    this.showDeleteConfirmation = false;
+    this.deleteBtnData.onClick(this.selectedItemForDelete).then(res => {
+      this.clearSelectedItems();
+    });
+  }
+
   handleDeleteClick(item: any) {
-    // const deleteAction = this.actions.find(item => item.type===ActionType.DELETE);
-    this.deleteBtnData.onClick(item);
+    this.selectedAction = this.deleteBtnData;
+    this.selectedItemForDelete = item;
+    if (this.selectedAction.confirmation === true) {
+      this.showDeleteConfirmation = true;
+    } else {
+      this.fireActionClick();
+    }
+    // this.deleteBtnData.onClick(item);
+  }
+
+  isActionDisabled(action: FTableActionField) {
+    return this.selectedItemList.length == 0 ||
+    this.disabled || action.disabled ||
+    (this.selectedItemList.length > 1&&action.singleSelect)
   }
 
   handleEditClick(item: any) {
-    const editAction = this.actions.find(
-      (item) => item.type === ActionType.EDIT
-    );
-    editAction.onClick(item);
+    this.editBtnData.onClick(item);
   }
 
-  get deleteBtnData() {
+  get deleteBtnData(): FTableActionField {
     return this.actions.find((item) => item.type === ActionType.DELETE);
   }
 
@@ -314,7 +339,7 @@ export default class FDataTable extends ModelVue {
   }
 
   clearSelectedItems() {
-    this.selectedItems = [];
+    this.selectedItemList = [];
   }
 }
 

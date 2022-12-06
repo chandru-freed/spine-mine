@@ -1,5 +1,5 @@
 <template>
-  <v-chip label outlined color="primary">
+  <v-chip label outlined small color="primary">
     {{label}} - {{value}}
   </v-chip>
 </template>
@@ -11,7 +11,7 @@ import ModelVue from "../../ModelVue";
   components: {
   },
 })
-export default class FTextInfo extends ModelVue {
+export default class FInfoText extends ModelVue {
  @Prop()
  label: string;
 }

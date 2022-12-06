@@ -8,7 +8,7 @@ import * as Snackbar from "node-snackbar";
 export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule",myRefName:"fPaymentScheduleFDataTableMDP" });
+        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule",myRefName:"fPaymentScheduleFDataTableMDP", multiSelect: true });
         this.parent = parent;
         this.addColumn({
             label: "Draft Date",
@@ -29,20 +29,22 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
             label: "Skip",
             onClick: (item) =>  this.handleSkipClick(item) ,
             type: ActionType.OTHERS,
-            confirmation: true
+            confirmation: true,
+            singleSelect: true
         }).addAction({
             label: "Add Entry",
             onClick: (item) =>  this.handleAddEntryClick() ,
             type: ActionType.ADD,
             confirmation: true,
-            disabled:this.disabled
+            disabled:this.disabled,
 
         });
 
     }
     handlePresentClick(item: any): Promise<any> {
         return new Promise(resolve => {
-            Action.Spine.PresentPSEntry.execute1(item.psEntryId, (output) => {
+            console.log(item)
+            Action.Spine.PresentPSEntry.execute1(item[0].psEntryId, (output) => {
                 Snackbar.show({
                   text: "Succesfully update.",
                   pos: "bottom-center",
@@ -54,7 +56,7 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
 
     handleSkipClick(item: any,): Promise<any> {
         return new Promise(resolve => {
-            Action.Spine.Skip.execute1(item.psEntryId, (output) => {
+            Action.Spine.Skip.execute1(item[0].psEntryId, (output) => {
                 Snackbar.show({
                   text: "Succesfully update.",
                   pos: "bottom-center",

@@ -1,7 +1,7 @@
 import FColumnCellMDP from '../FColumnCellMDP';
-export default class FTextInfoMDP implements FColumnCellMDP {
+export default class FInfoTextMDP implements FColumnCellMDP {
     
-    componentName: string = "FTextInfo";
+    componentName: string = "FInfoText";
     getMetaData(): object {
         return {
             componentName: this.componentName,

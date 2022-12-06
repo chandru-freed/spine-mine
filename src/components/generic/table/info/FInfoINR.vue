@@ -1,0 +1,18 @@
+<template>
+  <v-chip label outlined small color="primary">
+    {{label}} - {{value | toINR}}
+  </v-chip>
+</template>
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import ModelVue from "../../ModelVue";
+
+@Component({
+  components: {
+  },
+})
+export default class FInfoINR extends ModelVue {
+ @Prop()
+ label: string;
+}
+</script>

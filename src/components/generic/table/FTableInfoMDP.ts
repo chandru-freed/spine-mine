@@ -1,7 +1,7 @@
 import MDP from "../MDP";
-import FTextInfoMDP from "./info/FTextInfoMDP";
+import FInfoTextMDP from "./info/FInfoTextMDP";
 
-export default class FTabelInfoMDP implements MDP {
+export default class FTableInfoMDP implements MDP {
     label: string = "";
     infoMDP: MDP;
     value: string | undefined;
@@ -13,7 +13,7 @@ export default class FTabelInfoMDP implements MDP {
         value?: string;
     }) {
         this.label = label;
-        this.infoMDP = infoMDP || new FTextInfoMDP();
+        this.infoMDP = infoMDP || new FInfoTextMDP();
         this.value = value;
     }
     getMetaData(): object {

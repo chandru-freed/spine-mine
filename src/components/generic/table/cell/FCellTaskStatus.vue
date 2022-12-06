@@ -9,6 +9,9 @@
     <v-icon color="primary" v-if="modelValue.taskState === 'STARTED'"
       >mdi-pencil-circle-outline</v-icon
     >
+       <v-icon color="primary" v-if="modelValue.taskState === 'PARTIALLY_COMPLETED'"
+      >mdi-pencil-circle-outline</v-icon
+    >
     <v-icon color="primary" v-if="modelValue.taskState === 'SAVED'"
       >mdi-progress-pencil</v-icon
     >

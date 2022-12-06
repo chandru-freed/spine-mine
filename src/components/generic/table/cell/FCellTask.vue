@@ -1,5 +1,8 @@
 <template>
   <v-btn text :color="color" @click="gotoTask()">
+    <v-icon color="primary" dense small class="mr-1">
+      mdi-checkbox-marked-circle-outline
+    </v-icon>
     {{ selectModel(modelValue, dataSelectorKey) }}
   </v-btn>
 </template>
@@ -25,7 +28,10 @@ export default class FCellTask extends ModelVue {
   gotoTask() {
     this.$router.push({
       name: "Root.CFTaskRedirect",
-      params: { clientFileNumber: this.modelValue.cid, taskId: this.modelValue.taskId },
+      params: {
+        clientFileNumber: this.modelValue.cid,
+        taskId: this.modelValue.taskId,
+      },
     });
   }
 }

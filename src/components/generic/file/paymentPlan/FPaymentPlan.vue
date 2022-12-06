@@ -89,7 +89,7 @@
             <component
               :is="fFeeFDataTableMetaData.componentName"
               :ref="fFeeFDataTableMetaData.myRefName"
-              :value="subscriptionFeeSchedule"
+              :value="subscriptionFeeScheduleList"
               v-bind="fFeeFDataTableMetaData.props"
             ></component>
           </v-card>
@@ -150,24 +150,25 @@ export default class FPaymentPlan extends ModelVue {
   get clientFileId() {
   return this.$route.params.clientFileId;
   }
-  get paymentPlan() {
+  get paymentPlan(): Data.ClientFile.FiPaymentPlanInfo {
     return this.modelValue.paymentPlan;
   }
 
   get psEntrySchelduledList() {
-    return this.paymentPlan.paymentSchedule.filter(
+    console.log(this.paymentPlan)
+    return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );
   }
 
   get psEntryPresentedList() {
-    return this.paymentPlan.paymentSchedule.filter(
+    return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
 
-  get subscriptionFeeSchedule() {
-    return this.paymentPlan.subscriptionFeeSchedule;
+  get subscriptionFeeScheduleList() {
+    return this.paymentPlan.subscriptionFeeScheduleList;
   }
 
   get actionMetaDataListFiltered() {

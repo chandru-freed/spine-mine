@@ -1,6 +1,6 @@
 
 <template>
-  <span >
+  <span class="grey--text">
     {{selectModel(modelValue,dataSelectorKey) | date}}
   </span>
 </template>

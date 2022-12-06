@@ -1,10 +1,10 @@
 import FColumnCellMDP from '../FColumnCellMDP';
-export default class FCellINRMDP implements FColumnCellMDP {
+export default class FCellCurrencyMDP implements FColumnCellMDP {
     rounded: boolean | undefined;
     constructor({rounded=false}: {rounded?: boolean}) {
         this.rounded = rounded;
     }
-    componentName: string = "FCellINR";
+    componentName: string = "FCellCurrency";
     getMetaData(): object {
         return {
             componentName: this.componentName,

@@ -10,7 +10,7 @@ import ModelVue from "../../ModelVue";
 @Component({
   components: {},
 })
-export default class FCellINR extends ModelVue {
+export default class FCellCurrency extends ModelVue {
   @Prop()
   dataSelectorKey: string;
 

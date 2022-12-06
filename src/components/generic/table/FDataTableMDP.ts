@@ -1,4 +1,5 @@
 import MDP from "../MDP";
+import FCellCurrencyMDP from "./cell/FCellCurrencyMDP";
 import FColumnCellMDP from "./FColumnCellMDP";
 import FColumnMDP from "./FColumnMDP";
 import FTabelInfoMDP from "./FTableInfoMDP";
@@ -54,6 +55,33 @@ export default class FDataTableMDP implements MDP {
     );
     return this;
   }
+
+
+  addCurrencyColumn(newField: {
+    label: string;
+    dataSelectorKey: string;
+    rounded?: boolean
+  }) {
+    const newCellMDP = new FColumnMDP(newField);
+    newCellMDP.align = 'right';
+    newCellMDP.columnCellMDP = new FCellCurrencyMDP({rounded: newField.rounded });
+    this.columnList.push(
+      newCellMDP
+    );
+    return this;
+  }  
+
+  addNumberColumn(newField: {
+    label: string;
+    dataSelectorKey: string;
+  }) {
+    const newCellMDP = new FColumnMDP(newField);
+    newCellMDP.align = 'right';
+    this.columnList.push(
+      newCellMDP
+    );
+    return this;
+  } 
   
 
   addAction(newAction: FTableActionField) {

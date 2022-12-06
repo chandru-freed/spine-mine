@@ -1,5 +1,5 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
-import FCellINRMDP from "@/components/generic/table/cell/FCellINRMDP";
+import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP"
 
 export default class CFStPlanListFDataTableMDP extends FDataTableMDP {
@@ -20,12 +20,12 @@ export default class CFStPlanListFDataTableMDP extends FDataTableMDP {
         }).addColumn({
             label:"Settlement Amount",
             dataSelectorKey: "settlementAmount",
-            columnCellMDP: new FCellINRMDP({})
+            columnCellMDP: new FCellCurrencyMDP({})
 
         }).addColumn({
             label:"Total Outstanding",
             dataSelectorKey: "totalOutstanding",
-            columnCellMDP: new FCellINRMDP({})
+            columnCellMDP: new FCellCurrencyMDP({})
 
         }).addColumn({
             label:"Settlement Percentage",

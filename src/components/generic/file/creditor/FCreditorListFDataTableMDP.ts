@@ -1,9 +1,10 @@
-import FCellINRMDP from "../../table/cell/FCellINRMDP";
+import FCellCurrencyMDP from "../../table/cell/FCellCurrencyMDP";
 import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP"
 import FInfoINRMDP from "../../table/info/FInfoINRMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
+import FCellDateMDP from "../../table/cell/FCellDateMDP";
 export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
@@ -13,14 +14,14 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             label: "Creditor Name",
             dataSelectorKey: "creditorName",
           })
-          .addColumn({
+          .addCurrencyColumn({
             label: "Creditor Balance",
             dataSelectorKey: "creditorBalance",
-            columnCellMDP: new FCellINRMDP({})
           }).addColumn({
             label: "Last Date Of Payment",
             dataSelectorKey: "lastDateOfPayment",
-          }).addColumn({
+            columnCellMDP: new FCellDateMDP()
+          }).addNumberColumn({
             label: "Days Delinquent",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
           }).addColumn({

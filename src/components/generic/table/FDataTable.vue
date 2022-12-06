@@ -160,7 +160,7 @@ import FAddBtn from "../FAddBtn.vue";
 import * as Snackbar from "node-snackbar";
 import FCellLink from "./cell/FCellLink.vue";
 import FCellBtn from "./cell/FCellBtn.vue";
-import FCellINR from "./cell/FCellINR.vue";
+import FCellCurrency from "./cell/FCellCurrency.vue";
 import FCellText from "./cell/FCellText.vue";
 import FCellStatus from "./cell/FCellStatus.vue";
 import FCellDate from "./cell/FCellDate.vue";
@@ -179,7 +179,7 @@ import FCellEmail from "./cell/FCellEmail.vue";
     FAddBtn,
     FCellLink,
     FCellBtn,
-    FCellINR,
+    FCellCurrency,
     FCellText,
     FCellStatus,
     FCellDate,

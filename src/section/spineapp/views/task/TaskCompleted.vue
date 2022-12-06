@@ -3,73 +3,13 @@
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
-      <!--  COMPLETED TASK -->
-      <v-data-table
-        :headers="completedTaskheaders"
-        :items="completedTaskTList"
-        class="elevation-0"
-        :search="search"
-        item-key="completedTaskId"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-card-title>My Completed Task</v-card-title>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.cid="{ item }">
-          <f-btn
-            :label="item.cid"
-            text
-            color="secondary"
-            :onClick="() => gotoFile(item)"
-          ></f-btn>
-        </template>
-        <template v-slot:item.taskName="{ item }">
-          <f-btn
-            :label="item.taskName"
-            text
-            color="primary"
-            :onClick="() => gotoTask(item)"
-          ></f-btn>
-        </template>
-        <template v-slot:item.displayId="{ item }">
-          <span class="overline">
-            {{ item.displayId }}
-          </span>
-        </template>
-        <template v-slot:item.startedTime="{ item }">
-          <span class="grey--text">
-            {{ item.startedTime | (date - time) }} ({{
-              item.startedTime | fromNow
-            }})
-          </span>
-        </template>
-
-        <template v-slot:item.completedTime="{ item }">
-          <span class="grey--text">
-            {{ item.completedTime | (date - time) }} ({{
-              item.completedTime | fromNow
-            }})
-          </span>
-        </template>
-      </v-data-table>
-      <!--  COMPLETED TASK -->
-    </v-card>
+      <component
+        v-if="!!taskCompletedFDataTableMetaData"
+        :ref="taskCompletedFDataTableMetaData.myRefName"
+        :is="taskCompletedFDataTableMetaData.componentName"
+        :value="selectModel(completedTaskTList, undefined)"
+        v-bind="taskCompletedFDataTableMetaData.props"
+      ></component>
   </div>
 </template>
 
@@ -82,14 +22,20 @@ import TaskTab from "@/section/spineapp/components/tab/TaskTab.vue";
 import moment from "moment";
 import Helper from "../../util/Helper";
 import FBtn from "@/components/generic/FBtn.vue";
+import TaskCompletedFDataTableMDP from "./TaskCompletedFDataTableMDP";
+import ModelVue from "@/components/generic/ModelVue";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import FForm from "@/components/generic/form/FForm.vue";
 
 @Component({
   components: {
     "task-tab": TaskTab,
     "f-btn": FBtn,
+    FDataTable,
+    FForm,
   },
 })
-export default class TaskCompleted extends Vue {
+export default class TaskCompleted extends ModelVue {
   completedTaskTList: Data.TaskList.CompletedTaskGrid[] = [];
   tab = 0;
   selected = [];
@@ -124,7 +70,10 @@ export default class TaskCompleted extends Vue {
   }
 
   gotoFile(item: any) {
-    Helper.Router.gotoFile({router: this.$router, clientFileNumber: item.cid});
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: item.cid,
+    });
   }
 
   gotoTask(item: any) {
@@ -132,6 +81,10 @@ export default class TaskCompleted extends Vue {
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
+  }
+
+  get taskCompletedFDataTableMetaData() {
+    return new TaskCompletedFDataTableMDP({ parent: this }).getMetaData();
   }
 }
 </script>

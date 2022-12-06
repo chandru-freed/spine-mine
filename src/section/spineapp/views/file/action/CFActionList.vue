@@ -165,6 +165,11 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           command: this.createNsfSPA,
         },
+         {
+          actionName: "Amendment",
+          icon: "mdi-chevron-right",
+          command: this.createAmendmentFlow,
+        },
         {
           actionName: "EMandate",
           icon: "mdi-chevron-right",
@@ -177,6 +182,7 @@ export default class CFActionList extends Vue {
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: { flowName: "Settlement Plan" },
         },
+        
       ],
     },
   ];
@@ -269,6 +275,19 @@ export default class CFActionList extends Vue {
       }
     );
   }
+
+  createAmendmentFlow() {
+    Action.Spine.CreateAmendment.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.$emit("flowCreated");
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
 
   gotoCFActiveTaskList() {
     Helper.Router.gotoCFActiveTaskList({

@@ -75,18 +75,23 @@ import SettlementPlanFFormMDP from "@/section/spineapp/components/task/createReq
 export default class CFCreateRequest extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-  
+
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
-  fiCreditorInfo: Data.ClientFile.FiCreditorInfo
+  fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
   createEMandateInput: any = new Data.Spine.CreateEMandateInput();
-  createSettlementPlanInput: Data.Spine.CreateSettlementPlanInput = new Data.Spine.CreateSettlementPlanInput();
+  createSettlementPlanInput: Data.Spine.CreateSettlementPlanInput =
+    new Data.Spine.CreateSettlementPlanInput();
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
 
-  @Watch('fileCreateRequestInput.createSettlementPlanInput.fiCreditorId') creditorChanged(newVal: any, oldVal: any) {
-    console.log(newVal)
-    const totalOutstanding: any = this.fiCreditorInfo.creditorList.find(item => item.fiCreditorId === newVal)?.creditorBalance;
-    this.fileCreateRequestInput.createSettlementPlanInput.totalOutstandingAmount = totalOutstanding;
+  @Watch("fileCreateRequestInput.createSettlementPlanInput.fiCreditorId")
+  creditorChanged(newVal: any, oldVal: any) {
+    console.log(newVal);
+    const totalOutstanding: any = this.fiCreditorInfo.creditorList.find(
+      (item) => item.fiCreditorId === newVal
+    )?.creditorBalance;
+    this.fileCreateRequestInput.createSettlementPlanInput.totalOutstandingAmount =
+      totalOutstanding;
   }
 
   leftFocused = false;
@@ -94,15 +99,15 @@ export default class CFCreateRequest extends Vue {
 
   selectedRequestType: any = {};
 
-  queryFlowName = this.$route.query.flowName
+  queryFlowName = this.$route.query.flowName;
 
   get fileCreateRequestInput() {
     this.createEMandateInput.eMandateBankInfo.accountHolderName =
       this.clientFileBasicInfo.clientBasicInfo.fullName;
     return {
       createEMandateInput: this.createEMandateInput,
-      createSettlementPlanInput: this.createSettlementPlanInput
-      };
+      createSettlementPlanInput: this.createSettlementPlanInput,
+    };
   }
   get requestTypeFlowMapList() {
     return [
@@ -186,21 +191,19 @@ export default class CFCreateRequest extends Vue {
     this.getFiCreditorInfo();
   }
 
-    getFiCreditorInfo() {
-    Action.ClientFile.GetCreditorInfo.execute1(
-      this.clientFileId,
-      (output) => {
-        this.selectRequestFromQuery();
-      }
-    );
-    }
+  getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
+      this.selectRequestFromQuery();
+    });
+  }
 
-    selectRequestFromQuery() {
-      if(this.queryFlowName) {
-            this.selectedRequestType = this.requestTypeFlowMapList.find(x=> x.key === this.queryFlowName)?.contentMetaData;
-        }
+  selectRequestFromQuery() {
+    if (this.queryFlowName) {
+      this.selectedRequestType = this.requestTypeFlowMapList.find(
+        (x) => x.key === this.queryFlowName
+      )?.contentMetaData;
     }
-
+  }
 
   createEnrollmentFlow() {
     Action.Spine.CreateEnrollment.execute1(
@@ -226,6 +229,16 @@ export default class CFCreateRequest extends Vue {
 
   createNsfMSFFlow() {
     Action.Spine.CreateNsfMSF.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoTask();
+        }, 400);
+      }
+    );
+  }
+  createAmendment() {
+    Action.Spine.CreateAmendment.execute1(
       this.clientFileBasicInfo.clientFileNumber,
       (output) => {
         setTimeout(() => {
@@ -271,22 +284,28 @@ export default class CFCreateRequest extends Vue {
     console.log("createEMandate--- ", this.createEMandateInput);
     this.fileCreateRequestInput.createEMandateInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateEMandate.execute(this.fileCreateRequestInput.createEMandateInput, (output) => {
-      setTimeout(() => {
-        this.gotoTask();
-      }, 400);
-    });
+    Action.Spine.CreateEMandate.execute(
+      this.fileCreateRequestInput.createEMandateInput,
+      (output) => {
+        setTimeout(() => {
+          this.gotoTask();
+        }, 400);
+      }
+    );
   }
 
   createSettlementPlan() {
     this.fileCreateRequestInput.createSettlementPlanInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
-      console.log(this.fileCreateRequestInput.createSettlementPlanInput)
-    Action.Spine.CreateSettlementPlan.execute(this.fileCreateRequestInput.createSettlementPlanInput, (output) => {
-      setTimeout(() => {
-        this.gotoTask();
-      }, 400);
-    });
+    console.log(this.fileCreateRequestInput.createSettlementPlanInput);
+    Action.Spine.CreateSettlementPlan.execute(
+      this.fileCreateRequestInput.createSettlementPlanInput,
+      (output) => {
+        setTimeout(() => {
+          this.gotoTask();
+        }, 400);
+      }
+    );
   }
 
   populateBankDetails(details: any) {
@@ -296,7 +315,8 @@ export default class CFCreateRequest extends Vue {
       details.CITY;
     this.fileCreateRequestInput.createEMandateInput.eMandateBankInfo.bankAddress.state =
       details.STATE;
-    this.fileCreateRequestInput.createEMandateInput.eMandateBankInfo.bankAddress.country = "India";
+    this.fileCreateRequestInput.createEMandateInput.eMandateBankInfo.bankAddress.country =
+      "India";
   }
 
   // getNupayBankMasterList() {

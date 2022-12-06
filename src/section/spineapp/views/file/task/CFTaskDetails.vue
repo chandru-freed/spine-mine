@@ -79,6 +79,7 @@ import GetEMandateStatusTask from "@/section/spineapp/components/task/eMandate/g
 import CollectMSFTask from "@/section/spineapp/components/task/enrollment/collectMSF/CollectMSFTask.vue";
 import PlanSettlementTask from "@/section/spineapp/components/task/settlementPlan/planSettlement/PlanSettlementTask.vue";
 import MFCCompletionTask from "@/section/spineapp/components/task/mfc/MFCCompletion/MFCCompletionTask.vue";
+import PrepareAmendmentTask from "@/section/spineapp/components/task/amendment/prepareAmendment/PrepareAmendmentTask.vue";
 
 @Component({
   components: {
@@ -131,7 +132,8 @@ import MFCCompletionTask from "@/section/spineapp/components/task/mfc/MFCComplet
     "f-btn": FBtn,
     FollowUpCallTask,
     CollectMSFTask,
-    PlanSettlementTask
+    PlanSettlementTask,
+    PrepareAmendmentTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -227,6 +229,7 @@ export default class CFTaskDetails extends Vue {
     ["MFC::FollowUpCall", "FollowUpCallTask"],
     ["MFC::MFCCompletion", "MFCCompletionTask"],
     ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
+    ["Amendment::PrepareAmendment", "PrepareAmendmentTask"],
     
   ]);
 

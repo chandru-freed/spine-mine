@@ -68,6 +68,28 @@
             ></component>
 
             <component
+              v-if="showModifyForm"
+              :is="modifyPsEntryFFormMetaData.componentName"
+              :ref="modifyPsEntryFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  modifyAmountPSEListInput,
+                  modifyPsEntryFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    addPsEntryInput,
+                    newValue,
+                    modifyPsEntryFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="modifyPsEntryFFormMetaData.props"
+            ></component>
+            
+
+            <component
               :is="fPaymentScheduleFDataTableMetaData.componentName"
               :ref="fPaymentScheduleFDataTableMetaData.myRefName"
               :value="psEntrySchelduledList"
@@ -134,6 +156,7 @@ import FDataTable from "../../table/FDataTable.vue";
 import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
 import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
 import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
+import ModifyPsEntryFFormMDP from "./ModifyPsEntryFFormMDP";
 @Component({
   components: {
     FForm,
@@ -145,7 +168,10 @@ export default class FPaymentPlan extends ModelVue {
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
+  showModifyForm: boolean = false;
   addPsEntryInput: Data.ClientFile.AddPSEntryInput = new Data.ClientFile.AddPSEntryInput();
+  modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput = new Data.ClientFile.ModifyAmountPSEListInput();
+  fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   get clientFileId() {
   return this.$route.params.clientFileId;
   }
@@ -154,7 +180,7 @@ export default class FPaymentPlan extends ModelVue {
   }
 
   get psEntrySchelduledList() {
-    console.log(this.paymentPlan)
+    console.log(this.paymentPlan,"Payment plan is this")
     return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );
@@ -191,13 +217,17 @@ export default class FPaymentPlan extends ModelVue {
     }
   }
 
-  resetFormsAndData() {
+  resetFormsTableAndData() {
     this.showAddPsEntryForm = false;
+    this.showModifyForm = false;
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
+    this.modifyAmountPSEListInput = new Data.ClientFile.ModifyAmountPSEListInput();
+    (this.$refs[this.fPaymentScheduleFDataTableRefName] as any).clearSelectedItems();
   } 
 
+
   get fPaymentScheduleFDataTableMetaData() {
-    return new FPaymentScheduleFDataTableMDP({ parent: this }).getMetaData();
+    return new FPaymentScheduleFDataTableMDP({ parent: this, refName: this.fPaymentScheduleFDataTableRefName }).getMetaData();
   }
 
   get fPSkipedPresentedTableMetaData() {
@@ -212,6 +242,10 @@ export default class FPaymentPlan extends ModelVue {
     return new AddPsEntryFFormMDP({
       parent: this,
     }).getMetaData();
+  }
+
+  get modifyPsEntryFFormMetaData() {
+    return new ModifyPsEntryFFormMDP({parent: this}).getMetaData();
   }
 
   @Prop()

@@ -6,7 +6,7 @@ import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP";
 export default class FFeeFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({  title: "Payment Schedule",myRefName:"fFeeFDataTableMDP" });
+        super({  title: "Fee Payment Schedule",myRefName:"fFeeFDataTableMDP" });
         this.parent = parent;
         this.addColumn({
             label: "Draft Date",

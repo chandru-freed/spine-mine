@@ -46,19 +46,6 @@ export default class TaskAssignedToMe extends ModelVue {
 
   allocatedTaskList: Data.TaskList.GetActiveTaskListAllocatedGrid[] = [];
 
-  allocatedTaskGridHeaderList = [
-    // { text: "Task Id", value: "taskId" },
-    { text: "File Number", value: "cid", align: "start" },
-    { text: "Client", value: "displayId", align: "start" },
-    { text: "Task", value: "taskName", align: "start" },
-    { text: "", value: "priority" },
-    { text: "Status", value: "taskState" },
-    { text: "Allocated On", value: "allocatedTime" },
-    //{ text: "Last Updated On", value: "lastUpdatedTime" },
-    // { text: "Suspended", value: "isSuspended" },
-    { text: "", value: "action", sortable: false },
-  ];
-
   mounted() {
     // this.getAllocatedTaskList();
     this.getActiveTaskListAllocatedGrid();
@@ -70,11 +57,6 @@ export default class TaskAssignedToMe extends ModelVue {
     });
   }
 
-  startTask(value: any, item: Data.TaskList.AllocatedTaskGrid) {
-    Action.TaskList.Start.execute1(item.taskId, (output) => {
-      this.gotoTask(item);
-    });
-  }
 
   gotoFile(item: any) {
     Helper.Router.gotoFile({

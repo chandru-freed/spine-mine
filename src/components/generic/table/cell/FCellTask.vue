@@ -1,9 +1,6 @@
 <template>
-  <v-btn text :color="color" @click="onClick(modelValue)">
-    <v-icon :color="color" v-if="icon" dense small class="mr-1"> {{icon}} </v-icon>
-    <span class="overline">
+  <v-btn text :color="color" @click="gotoTask()">
     {{ selectModel(modelValue, dataSelectorKey) }}
-    </span>
   </v-btn>
 </template>
 <script lang="ts">
@@ -13,9 +10,9 @@ import ModelVue from "../../ModelVue";
 @Component({
   components: {},
 })
-export default class FColumnBtn extends ModelVue {
-  @Prop()
-  onClick: (item: any) => void;
+export default class FCellTask extends ModelVue {
+  // @Prop()
+  // onClick: (item: any) => void;
 
   @Prop({
     default: "green",
@@ -23,9 +20,13 @@ export default class FColumnBtn extends ModelVue {
   color: string;
 
   @Prop()
-  icon: string;
-
-  @Prop()
   dataSelectorKey: () => void;
+
+  gotoTask() {
+    this.$router.push({
+      name: "Root.CFTaskRedirect",
+      params: { clientFileNumber: this.modelValue.cid, taskId: this.modelValue.taskId },
+    });
+  }
 }
 </script>

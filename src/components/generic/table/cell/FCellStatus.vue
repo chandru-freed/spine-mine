@@ -1,5 +1,5 @@
 <template>
-  <v-chip v-if="selectModel(modelValue,dataSelectorKey)" small>
+  <v-chip :outlined="outlined" v-if="selectModel(modelValue,dataSelectorKey)" small>
     {{selectModel(modelValue,dataSelectorKey)}}
   </v-chip>
 </template>
@@ -13,6 +13,9 @@ import ModelVue from "../../ModelVue";
 })
 export default class FCellStatus extends ModelVue {
   @Prop()
-  dataSelectorKey: () => void;
+  dataSelectorKey: string;
+
+  @Prop({default: false})
+  outlined: boolean
 }
 </script>

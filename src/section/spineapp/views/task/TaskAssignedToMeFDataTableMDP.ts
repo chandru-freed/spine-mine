@@ -1,23 +1,27 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
+import FCellTaskMDP from "@/components/generic/table/cell/FCellTaskMDP";
+import FCellTaskStatusMDP from "@/components/generic/table/cell/FCellTaskStatusMDP";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
 
-export default class MyCFFileFDataTableMDP extends FDataTableMDP {
+export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any }) {
     super({
-      myRefName: "myCFFileFDataTableRef",
+      myRefName: "taskAssignedToMeFDataTableRef",
       enableSearch: true,
-      title: "My Client files",
+      title: "My Assigned Task",
     });
     this.parent = props.parent;
     this.addColumn({
       label: "Client File Number",
-      dataSelectorKey: "clientFileNumber",
+      dataSelectorKey: "cid",
       columnCellMDP: new FCellBtnMDP({
         color: "secondary",
         icon: "mdi-file-account",
@@ -27,13 +31,8 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
       }),
     })
       .addColumn({
-        label: "Client File Status",
-        dataSelectorKey: "clientFileStatus",
-        columnCellMDP: new FCellStatusMDP({}),
-      })
-      .addColumn({
-        label: "Client Name",
-        dataSelectorKey: "fullName",
+        label: "Client",
+        dataSelectorKey: "displayId",
         columnCellMDP: new FCellBtnMDP({
           color: "deep-purple",
           icon: "mdi-account",
@@ -43,32 +42,31 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         }),
       })
       .addColumn({
-        label: "Mobile",
-        dataSelectorKey: "mobile",
-        columnCellMDP: new FCellPhoneMDP,
+        label: "Task",
+        dataSelectorKey: "taskName",
+        columnCellMDP: new FCellTaskMDP({
+          color: "primary",
+        }),
       })
       .addColumn({
-        label: "E-mail",
-        dataSelectorKey: "emailId",
-        columnCellMDP: new FCellEmailMDP
+        label: "",
+        dataSelectorKey: "priority",
+        columnCellMDP: new FCellStatusMDP({ outlined: true }),
       })
       .addColumn({
-        label: "City",
-        dataSelectorKey: "city",
+        label: "Status",
+        dataSelectorKey: "taskState",
+        columnCellMDP: new FCellTaskStatusMDP(),
       })
       .addColumn({
-        label: "State",
-        dataSelectorKey: "state",
-      })
-      .addAction({
-        type: ActionType.ADD,
-        label: "Add My Client File",
-        onClick: (item) => this.addMyClientFile(item),
+        label: "Allocated On klkl",
+        dataSelectorKey: "allocatedTime",
+        columnCellMDP: new FCellDateTimeMDP(),
       });
   }
 
   handleClientFileClick(item: any) {
-    this.parent.gotoFile(item.clientFileNumber);
+    this.parent.gotoFile(item);
   }
 
   addMyClientFile(item: any) {
@@ -78,6 +76,6 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
   }
 
   handleClientClick(item: any) {
-    this.parent.gotoClient(item.clientId);
+    this.parent.gotoClient(item.taskInput.clRegistrationDetails.clientId);
   }
 }

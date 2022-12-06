@@ -14,6 +14,6 @@ import ModelVue from "../../ModelVue";
 })
 export default class FCellDateTime extends ModelVue {
   @Prop()
-  dataSelectorKey: () => void;
+  dataSelectorKey: string;
 }
 </script>

@@ -20,7 +20,7 @@ export default class FCellTask extends ModelVue {
   color: string;
 
   @Prop()
-  dataSelectorKey: () => void;
+  dataSelectorKey: string;
 
   gotoTask() {
     this.$router.push({

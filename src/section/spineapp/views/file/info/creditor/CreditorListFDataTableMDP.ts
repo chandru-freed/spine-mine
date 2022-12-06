@@ -33,7 +33,7 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
             }).addColumn({
                 label: "Settlement Status",
                 dataSelectorKey: "settlementStatus",
-                columnCellMDP: new FCellStatusMDP()
+                columnCellMDP: new FCellStatusMDP({})
             })
             .addAction({
                 type: ActionType.OTHERS,

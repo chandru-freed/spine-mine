@@ -173,6 +173,7 @@ import FCellEmail from "./cell/FCellEmail.vue";
 import FCellTask from "./cell/FCellTask.vue";
 import FCellDateTime from "./cell/FCellDateTime.vue";
 import FCellTaskStatus from "./cell/FCellTaskStatus.vue";
+import FCellName from "./cell/FCellName.vue";
 
 @Component({
   components: {
@@ -192,7 +193,8 @@ import FCellTaskStatus from "./cell/FCellTaskStatus.vue";
     FCellEmail,
     FCellTask,
     FCellDateTime,
-    FCellTaskStatus
+    FCellTaskStatus,
+    FCellName
   },
 })
 export default class FDataTable extends ModelVue {

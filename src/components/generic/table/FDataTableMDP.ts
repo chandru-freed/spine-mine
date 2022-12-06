@@ -1,5 +1,6 @@
 import MDP from "../MDP";
 import FCellCurrencyMDP from "./cell/FCellCurrencyMDP";
+import FCellNameMDP from "./cell/FCellNameMDP";
 import FColumnCellMDP from "./FColumnCellMDP";
 import FColumnMDP from "./FColumnMDP";
 import FTabelInfoMDP from "./FTableInfoMDP";
@@ -75,8 +76,21 @@ export default class FDataTableMDP implements MDP {
     label: string;
     dataSelectorKey: string;
   }) {
-    const newCellMDP = new FColumnMDP(newField);
+    const newCellMDP = new FColumnMDP(newField) ;
     newCellMDP.align = 'right';
+    this.columnList.push(
+      newCellMDP
+    );
+    return this;
+  } 
+
+  addNameColumn(newField: {
+    label: string;
+    dataSelectorKey: string;
+    clientId: string
+  }) {
+    const newCellMDP = new FColumnMDP(newField);
+    newCellMDP.columnCellMDP = new FCellNameMDP({})
     this.columnList.push(
       newCellMDP
     );

@@ -170,6 +170,10 @@ import FInfoINR from "./info/FInfoINR.vue";
 import FAlert from "../FAlert.vue";
 import FCellPhone from "./cell/FCellPhone.vue";
 import FCellEmail from "./cell/FCellEmail.vue";
+import FCellTask from "./cell/FCellTask.vue";
+import FCellDateTime from "./cell/FCellDateTime.vue";
+import FCellTaskStatus from "./cell/FCellTaskStatus.vue";
+import FCellName from "./cell/FCellName.vue";
 
 @Component({
   components: {
@@ -187,6 +191,10 @@ import FCellEmail from "./cell/FCellEmail.vue";
     FAlert,
     FCellPhone,
     FCellEmail,
+    FCellTask,
+    FCellDateTime,
+    FCellTaskStatus,
+    FCellName
   },
 })
 export default class FDataTable extends ModelVue {

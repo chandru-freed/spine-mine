@@ -1,7 +1,8 @@
-
 <template>
   <span class="grey--text">
-    {{selectModel(modelValue,dataSelectorKey) | date}}
+    {{ selectModel(modelValue, dataSelectorKey) | datetime }} ({{
+      selectModel(modelValue, dataSelectorKey) | fromNow
+    }})
   </span>
 </template>
 <script lang="ts">
@@ -9,10 +10,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import ModelVue from "../../ModelVue";
 
 @Component({
-  components: {
-  },
+  components: {},
 })
-export default class FCellDate extends ModelVue {
+export default class FCellDateTime extends ModelVue {
   @Prop()
   dataSelectorKey: string;
 }

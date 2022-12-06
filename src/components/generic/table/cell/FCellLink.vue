@@ -17,6 +17,6 @@ export default class FCellLink extends ModelVue {
   onClick: (item: any) => void;
   
   @Prop()
-  dataSelectorKey: () => void;
+  dataSelectorKey: string;
 }
 </script>

@@ -35,7 +35,7 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         .addColumn({
             label: "Client File Status",
             dataSelectorKey: "clientFileStatus.name",
-            columnCellMDP: new FCellStatusMDP()
+            columnCellMDP: new FCellStatusMDP({})
         })
         
         

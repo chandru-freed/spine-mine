@@ -1,8 +1,10 @@
 <template>
-  <v-btn text :color="color" @click="onClick(modelValue)">
-    <v-icon :color="color" v-if="icon" dense small class="mr-1"> {{icon}} </v-icon>
+  <v-btn text :color="color">
+    <v-icon :color="color" v-if="icon" dense small class="mr-1">
+      {{ icon }}
+    </v-icon>
     <span class="overline">
-    {{ selectModel(modelValue, dataSelectorKey) }}
+      {{ selectModel(modelValue, dataSelectorKey) }}
     </span>
   </v-btn>
 </template>
@@ -13,19 +15,22 @@ import ModelVue from "../../ModelVue";
 @Component({
   components: {},
 })
-export default class FColumnBtn extends ModelVue {
+export default class FCellName extends ModelVue {
   @Prop()
   onClick: (item: any) => void;
 
   @Prop({
-    default: "green",
+    default: "deep-purple",
   })
   color: string;
 
-  @Prop()
+  @Prop({
+    default: "mdi-account",
+  })
   icon: string;
 
   @Prop()
   dataSelectorKey: string;
+
 }
 </script>

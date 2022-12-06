@@ -3,60 +3,14 @@
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
-      <v-data-table
-        :headers="toBePulledTaskGridHeaderList"
-        :items="toBePulledTaskList"
-        sort-by="calories"
-        class="elevation-0"
-        :search="search"
-        item-key="taskId"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-card-title>Task To Be Pulled</v-card-title>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.taskName="{ item }">
-          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
-        </template>
-        <template v-slot:item.cid="{ item }">
-          <f-btn :label="item.cid " text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
-        </template>
-        <template v-slot:item.displayId="{ item }">
-          <span class="overline">
-            {{ item.displayId }}
-          </span>
-        </template>
 
-        <template v-slot:item.readyTime="{ item }">
-          <span class="grey--text">
-            {{ item.readyTime | datetime }} ({{
-              item.readyTime | fromNow
-            }})
-          </span>
-        </template>
-
-        <template v-slot:item.action="{ item }">
-          <f-btn label="START" outlined small color="primary" :onClick="()=>pullStartAndMerge('',item)"></f-btn>
-        </template>
-      </v-data-table>
-    </v-card>
-    <!--  TASK TAB -->
+    <component
+      v-if="!!taskPoolFDataTableMetaData"
+      :ref="taskPoolFDataTableMetaData.myRefName"
+      :is="taskPoolFDataTableMetaData.componentName"
+      :value="selectModel(toBePulledTaskList, undefined)"
+      v-bind="taskPoolFDataTableMetaData.props"
+    ></component>
   </div>
 </template>
 
@@ -70,14 +24,20 @@ import TaskTab from "@/section/spineapp/components/tab/TaskTab.vue";
 
 import moment from "moment";
 import FBtn from "@/components/generic/FBtn.vue";
+import TaskPoolFDataTableMDP from "./TaskPoolFDataTableMDP";
+import ModelVue from "@/components/generic/ModelVue";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import FForm from "@/components/generic/form/FForm.vue";
 
 @Component({
   components: {
     "task-tab": TaskTab,
-    "f-btn":FBtn
+    "f-btn": FBtn,
+    FDataTable,
+    FForm,
   },
 })
-export default class TaskPool extends Vue {
+export default class TaskPool extends ModelVue {
   tab = 0;
 
   selected = [];
@@ -105,20 +65,17 @@ export default class TaskPool extends Vue {
   }
 
   getToBePulledTaskList() {
-    Action.TaskList.GetToBePulledTaskList.execute(
-      (output) => {
-        this.toBePulledTaskList = output;
-      }
-    );
+    Action.TaskList.GetToBePulledTaskList.execute((output) => {
+      this.toBePulledTaskList = output;
+    });
   }
 
   pullStartAndMerge(value: any, item: Data.TaskList.ToBePulledTaskGrid) {
     Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
-      this.gotoTask(item);
+      
     });
+    this.gotoTask(item);
   }
-
-  
 
   gotoFile(item: any) {
     this.$router.push({
@@ -132,6 +89,10 @@ export default class TaskPool extends Vue {
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
+  }
+
+  get taskPoolFDataTableMetaData() {
+    return new TaskPoolFDataTableMDP({ parent: this }).getMetaData();
   }
 }
 </script>

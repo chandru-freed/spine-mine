@@ -10,13 +10,13 @@ import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
 
-export default class TaskPoolFDataTableMDP extends FDataTableMDP {
+export default class TaskCompletedFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any }) {
     super({
-      myRefName: "taskPoolFDataTableRef",
+      myRefName: "taskCompletedFDataTableRef",
       enableSearch: true,
-      title: "Task To Be Pulled",
+      title: "My Completed Task",
       itemKey: 'taskId'
     });
     this.parent = props.parent;
@@ -55,14 +55,13 @@ export default class TaskPoolFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellStatusMDP({ outlined: true }),
       })
       .addColumn({
-        label: "Ready On",
-        dataSelectorKey: "readyTime",
+        label: "Started Time",
+        dataSelectorKey: "startedTime",
         columnCellMDP: new FCellDateTimeMDP(),
-      })
-      .addAction({
-        label: "Start",
-        onClick: (item) => this.handleStartClick(item),
-        type: ActionType.OTHERS,
+      }).addColumn({
+        label: "Completed Time",
+        dataSelectorKey: "completedTime",
+        columnCellMDP: new FCellDateTimeMDP(),
       });
   }
 

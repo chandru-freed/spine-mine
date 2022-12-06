@@ -1,40 +1,16 @@
 <template>
   <div ref="creditorListRef">
-    <v-alert
-      dense
-      outlined
-      text
-      color="warning"
-      class="ma-2"
-      v-if="settleCreditorDialog"
-    >
-      <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
-      >
-        <div class="my-1">Are you sure want to Settle Creditor?</div>
-        <v-spacer />
-        <v-btn
-          outlined
-          color="warning"
-          class="ml-2"
-          @click="closeAndClearAllForms()"
-        >
-          Cancel
-        </v-btn>
-        <v-btn
-          outlined
-          color="warning"
-          class="ml-2"
-          @click="settleCreditorData()"
-        >
-          Mark Settle
-        </v-btn>
-      </div>
-    </v-alert>
 
     <v-col class="col-12">
+      
+      <component
+          :is="creditorListFDataTableMetaData.componentName"
+          :ref="creditorListFDataTableMetaData.myRefName"
+          v-bind="creditorListFDataTableMetaData.props"
+          :value="creditorList"
+        ></component>
       <!--GRID START-->
-      <v-card flat outlined>
+      <!-- <v-card flat outlined>
         <v-data-table
           :headers="filteredHeaders"
           :items="creditorList"
@@ -82,7 +58,7 @@
             </v-btn>
           </template>
         </v-data-table>
-      </v-card>
+      </v-card> -->
       <!--GRID END-->
       <!--ACTION START-->
       <div
@@ -110,11 +86,13 @@ import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
-
+import CreditorListFDataTableMDP from './CreditorListFDataTableMDP';
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable
   },
 })
 export default class FCreditor extends ModelVue {
@@ -183,9 +161,9 @@ export default class FCreditor extends ModelVue {
     return this.modelValue.totalDebt;
   }
 
-  settleCreditorData() {
+  settleCreditorData(item: any) {
     this.settleCreditorInput.fiCreditorId =
-      this.selectedCreditorItem.fiCreditorId;
+      item.fiCreditorId;
     Action.ClientFile.SettleCreditor.execute(
       this.settleCreditorInput,
       (output) => {
@@ -214,7 +192,7 @@ export default class FCreditor extends ModelVue {
     );
   }
 
-  selectSettleCreditor(item: any, index: number) {
+  selectSettleCreditor(item: any) {
     this.selectedCreditorItem = item;
     this.showSettlePopup();
   }
@@ -232,6 +210,10 @@ export default class FCreditor extends ModelVue {
         actionMetaData.condition === undefined ||
         actionMetaData.condition === true
     );
+  }
+
+  get creditorListFDataTableMetaData() {
+    return new CreditorListFDataTableMDP({parent: this}).getMetaData();
   }
 }
 </script>

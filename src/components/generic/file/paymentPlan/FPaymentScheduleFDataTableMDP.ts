@@ -8,7 +8,7 @@ import * as Snackbar from "node-snackbar";
 export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule",myRefName:"fPaymentScheduleFDataTableMDP", multiSelect: true });
+        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule", myRefName: "fPaymentScheduleFDataTableMDP", multiSelect: true });
         this.parent = parent;
         this.addColumn({
             label: "Draft Date",
@@ -22,49 +22,69 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
 
         this.addAction({
             label: "Present",
-            onClick: (item) => this.handlePresentClick(item) ,
-            type: ActionType.OTHERS,
-            confirmation: true
-        }).addAction({
-            label: "Skip",
-            onClick: (item) =>  this.handleSkipClick(item) ,
+            onClick: (item) => this.handlePresentClick(item),
             type: ActionType.OTHERS,
             confirmation: true,
             singleSelect: true
         }).addAction({
+            label: "Skip",
+            onClick: (item) => this.handleSkipClick(item),
+            type: ActionType.OTHERS,
+            confirmation: true,
+            singleSelect: true
+        }).addAction({
+            label: "Remove ",
+            onClick: (itemList) => this.handleRemoveClick(itemList),
+            type: ActionType.OTHERS,
+            confirmation: true,
+        }).addAction({
             label: "Add Entry",
-            onClick: (item) =>  this.handleAddEntryClick() ,
+            onClick: (item) => this.handleAddEntryClick(),
             type: ActionType.ADD,
             confirmation: true,
-            disabled:this.disabled,
-
+            disabled: this.disabled,
         });
 
     }
     handlePresentClick(item: any): Promise<any> {
         return new Promise(resolve => {
             console.log(item)
-            Action.Spine.PresentPSEntry.execute1(item[0].psEntryId, (output) => {
+            Action.Spine.PresentPSEntry.execute1(item.psEntryId, (output) => {
                 Snackbar.show({
-                  text: "Succesfully update.",
-                  pos: "bottom-center",
+                    text: "Succesfully update.",
+                    pos: "bottom-center",
                 });
                 resolve(true);
-              });
+            });
         });
     }
 
     handleSkipClick(item: any,): Promise<any> {
         return new Promise(resolve => {
-            Action.Spine.Skip.execute1(item[0].psEntryId, (output) => {
+            Action.Spine.Skip.execute1(item.psEntryId, (output) => {
                 Snackbar.show({
-                  text: "Succesfully update.",
-                  pos: "bottom-center",
+                    text: "Succesfully update.",
+                    pos: "bottom-center",
                 });
                 resolve(true);
-              });
+            });
         })
         // this.parent.skip(item.psEntryId,callback)
+    }
+
+    handleRemoveClick(itemList: any[]) {
+        console.log(itemList);
+        const psEntryIdList = itemList.map(item => item.psEntryId)
+        console.log(psEntryIdList)
+        return new Promise(resolve => {
+           Action.ClientFile.RemovePSEntryList.execute1(psEntryIdList, output => {
+            Snackbar.show({
+                text: "Succesfully Removed.",
+                pos: "bottom-center",
+            });
+            resolve(true);
+           })
+        })
     }
 
     handleAddEntryClick() {

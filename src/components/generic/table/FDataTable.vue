@@ -67,9 +67,7 @@
                   v-for="(action, index) in filteredActions"
                   :key="index"
                   link
-                  :disabled="
-                  isActionDisabled(action)
-                  "
+                  :disabled="isActionDisabled(action)"
                   @click="() => handleOtherActionClick(action)"
                 >
                   <v-list-item-title>{{ action.label }}</v-list-item-title>
@@ -133,22 +131,22 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon
-          v-if="editBtnData"
+        <v-btn
           :disabled="disabled"
-          small
+          icon
           @click="handleEditClick(item)"
+          v-if="editBtnData"
         >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          v-if="deleteBtnData"
+          <v-icon small class="px-1"> mdi-pencil </v-icon>
+        </v-btn>
+        <v-btn
+          icon
           :disabled="disabled"
-          small
           @click="handleDeleteClick(item)"
+          v-if="deleteBtnData"
         >
-          mdi-delete
-        </v-icon>
+          <v-icon small class="px-1"> mdi-delete </v-icon>
+        </v-btn>
       </template>
     </v-data-table>
   </v-card>
@@ -267,7 +265,11 @@ export default class FDataTable extends ModelVue {
 
   fireActionClick() {
     this.showConfirmation = false;
-    if (this.multiSelect && !this.selectedAction.singleSelect && this.selectedAction.type === ActionType.OTHERS) {
+    if (
+      this.multiSelect &&
+      !this.selectedAction.singleSelect &&
+      this.selectedAction.type === ActionType.OTHERS
+    ) {
       this.selectedAction.onClick(this.selectedItemList).then((res: any) => {
         this.clearSelectedItems();
       });
@@ -280,7 +282,7 @@ export default class FDataTable extends ModelVue {
 
   fireDeleteActionClick() {
     this.showDeleteConfirmation = false;
-    this.deleteBtnData.onClick(this.selectedItemForDelete).then(res => {
+    this.deleteBtnData.onClick(this.selectedItemForDelete).then((res) => {
       this.clearSelectedItems();
     });
   }
@@ -297,9 +299,12 @@ export default class FDataTable extends ModelVue {
   }
 
   isActionDisabled(action: FTableActionField) {
-    return this.selectedItemList.length == 0 ||
-    this.disabled || action.disabled ||
-    (this.selectedItemList.length > 1&&action.singleSelect)
+    return (
+      this.selectedItemList.length == 0 ||
+      this.disabled ||
+      action.disabled ||
+      (this.selectedItemList.length > 1 && action.singleSelect)
+    );
   }
 
   handleEditClick(item: any) {

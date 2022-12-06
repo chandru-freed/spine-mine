@@ -36,6 +36,17 @@ export default class AddPsEntryFFormMDP extends FFormMDP {
         optionValue: "id"
       })
     ).addField(
+      new FSelectFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentMode",
+        label: "Payment Mode",
+        mandatory: true,
+        options: Data.ClientFile.PAYMENT_MODE.list(),
+        boundaryClass: "col-4",
+        optionLabel: "name",
+        optionValue: "id"
+      })
+    ).addField(
       new FEMandateSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "eMandateId",

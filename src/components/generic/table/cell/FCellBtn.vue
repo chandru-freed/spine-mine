@@ -1,30 +1,28 @@
-
 <template>
-    <v-btn
-          text
-          :color="color"
-          @click="onClick(modelValue)"
-          >{{selectModel(modelValue,dataSelectorKey)}}
-        </v-btn>
+  <v-btn text :color="color" @click="onClick(modelValue)">
+    <v-icon :color="color" v-if="icon" dense small class="mr-1"> {{icon}} </v-icon>
+    {{ selectModel(modelValue, dataSelectorKey) }}
+  </v-btn>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ModelVue from "../../ModelVue";
 
 @Component({
-  components: {
-  },
+  components: {},
 })
 export default class FColumnBtn extends ModelVue {
- 
   @Prop()
   onClick: (item: any) => void;
 
   @Prop({
-    default: "green"
+    default: "green",
   })
   color: string;
-  
+
+  @Prop()
+  icon: string;
+
   @Prop()
   dataSelectorKey: () => void;
 }

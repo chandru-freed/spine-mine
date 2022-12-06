@@ -163,6 +163,8 @@ import ModelVue from "../ModelVue";
 import { FTableActionField } from "./FDataTableMDP";
 import FBtn from "../FBtn.vue";
 import FTextInfo from "./info/FTextInfo.vue";
+import FCellPhone from "./cell/FCellPhone.vue";
+import FCellEmail from "./cell/FCellEmail.vue";
 
 @Component({
   components: {
@@ -175,7 +177,9 @@ import FTextInfo from "./info/FTextInfo.vue";
     FCellStatus,
     FCellDate,
     FBtn,
-    FTextInfo
+    FTextInfo,
+    FCellPhone,
+    FCellEmail
   },
 })
 export default class FDataTable extends ModelVue {

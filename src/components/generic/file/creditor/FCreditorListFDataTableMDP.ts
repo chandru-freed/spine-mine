@@ -1,23 +1,27 @@
-import FCellINRMDP from "../../table/cell/FCellINRMDP";
+import FCellCurrencyMDP from "../../table/cell/FCellCurrencyMDP";
 import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP"
-
+import FInfoINRMDP from "../../table/info/FInfoINRMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
+import * as Snackbar from "node-snackbar";
+import FCellDateMDP from "../../table/cell/FCellDateMDP";
 export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
-        super({myRefName:"fCreditorListFDataTableRef"});
-        this.parent = parent;
+        super({myRefName:"fCreditorListFDataTableRef", title: "Creditors",enableSearch: true});
+        this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",
             dataSelectorKey: "creditorName",
           })
-          .addColumn({
+          .addCurrencyColumn({
             label: "Creditor Balance",
             dataSelectorKey: "creditorBalance",
-            columnCellMDP: new FCellINRMDP()
           }).addColumn({
             label: "Last Date Of Payment",
             dataSelectorKey: "lastDateOfPayment",
-          }).addColumn({
+            columnCellMDP: new FCellDateMDP()
+          }).addNumberColumn({
             label: "Days Delinquent",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
           }).addColumn({
@@ -28,14 +32,55 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             dataSelectorKey: "accountNumber",
           }).addAction({
             type: ActionType.DELETE,
-            onClick: item => new Promise(resolve => {}),
+            onClick: item => this.deleteCreditorData(item),
             label: "",
             confirmation: true
           }).addAction({
             type: ActionType.EDIT,
-            onClick: item => new Promise(resolve => {}),
+            onClick: item => this.selectEditCreditor(item),
             label: "",
+            confirmation: true
+          }).addAction({
+            type: ActionType.ADD,
+            onClick: item => this.handleAddClick(),
+            label: "Add Creditor",
+          })
+          
+          .addInfo({
+            label: "Total Amount",
+            value: this.parent.totalDebt,
+            infoMDP: new FInfoINRMDP()
+          }).addInfo({
+            label: "WAD",
+            value: this.parent.clientFileSummary.wad,
           })
         
+    }
+
+    deleteCreditorData(item: any) {
+      return new Promise(resolve => {
+        Action.Spine.RemoveCreditor.execute1(item.fiCreditorId, (output) => {
+          Snackbar.show({
+            text: "Succesfully Removed",
+            pos: "bottom-center",
+          });
+          resolve(true);
+        });
+      })
+      
+    }
+
+    selectEditCreditor(item: any) {
+      return new Promise(resolve => {
+        this.parent.selectEditCreditor(item);
+      })
+    }
+
+    handleAddClick() {
+      return new Promise(resolve => {
+        this.parent.showAddForm();
+        resolve(true);
+      })
+      
     }
 }

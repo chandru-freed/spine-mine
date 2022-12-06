@@ -5,13 +5,13 @@
         <div class="col-4 pb-0">
           <v-list-item>
             <v-list-item-avatar tile size="80">
-              <v-icon size="40" color="secondary">mdi-account</v-icon>
+              <v-icon size="40" color="deep-purple">mdi-account</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="text-overline">{{
                 clientBasicInfo.emailId
               }}</v-list-item-title>
-              <v-list-item-title class="text-h5"
+              <v-list-item-title class="text-h5 deep-purple--text overline"
                 >{{ clientBasicInfo.firstName }}
                 {{ clientBasicInfo.lastName }}</v-list-item-title
               >

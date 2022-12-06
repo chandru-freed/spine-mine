@@ -43,8 +43,14 @@
 
     <v-col class="col-12">
       <!--GRID START-->
-      <v-card flat outlined>
-        <v-data-table
+      <v-card flat >
+      <component
+        :value="creditorList"
+          :is="fCreditorListFDataTableMetaData.componentName"
+          :ref="fCreditorListFDataTableMetaData.myRefName"
+          v-bind="fCreditorListFDataTableMetaData.props"
+        ></component>
+        <!-- <v-data-table
           :headers="filteredHeaders"
           :items="creditorList"
           sort-by="lastDateOfPayment"
@@ -91,7 +97,7 @@
               :disabled="disabled"
               small
               class="mr-2"
-              @click="selectEditCreditor(item, index)"
+              @click="selectEditCreditor(item)"
             >
               mdi-pencil
             </v-icon>
@@ -103,7 +109,7 @@
               mdi-delete
             </v-icon>
           </template>
-        </v-data-table>
+        </v-data-table> -->
       </v-card>
       <!--GRID END-->
       <!--ACTION START-->
@@ -134,11 +140,14 @@ import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
 import FAddCreditorFFormMDP from "./FAddCreditorFFormMDP";
 import FEditCreditorFFormMDP from "./FEditCreditorFFormMDP";
+import FCreditorListFDataTableMDP from "./FCreditorListFDataTableMDP";
+import FDataTable from "../../table/FDataTable.vue";
 
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable
   },
 })
 export default class FCreditor extends ModelVue {
@@ -250,7 +259,7 @@ export default class FCreditor extends ModelVue {
     });
   }
 
-  selectEditCreditor(item: any, index: any) {
+  selectEditCreditor(item: any) {
     this.selectedCreditorItem = item;
     this.editCreditorForm = {
       ...item,
@@ -298,6 +307,10 @@ export default class FCreditor extends ModelVue {
     } else {
       return this.editCreditorForm.debtType === 'Credit Card'
     }
+  }
+
+  get fCreditorListFDataTableMetaData() {
+    return new FCreditorListFDataTableMDP({parent:this}).getMetaData();
   }
   
 }

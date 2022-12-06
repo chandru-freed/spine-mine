@@ -1,7 +1,7 @@
 <template>
-  <div >
-    {{selectModel(modelValue,dataSelectorKey)| toINR}}
-  </div>
+  <v-chip label outlined color="primary">
+    {{label}} - {{value}}
+  </v-chip>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -11,8 +11,8 @@ import ModelVue from "../../ModelVue";
   components: {
   },
 })
-export default class FCellINR extends ModelVue {
- @Prop() 
- dataSelectorKey: string;
+export default class FInfoText extends ModelVue {
+ @Prop()
+ label: string;
 }
 </script>

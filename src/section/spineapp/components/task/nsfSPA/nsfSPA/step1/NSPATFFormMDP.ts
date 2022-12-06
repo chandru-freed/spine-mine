@@ -3,6 +3,7 @@ import DispositionFMiniFormMDP, {
   DispositionType,
 } from "@/components/generic/form/field/DispositionFMiniFormMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
+import FDateTimeSelectFieldMDP from "@/components/generic/form/field/FDateTimeSelectFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -31,20 +32,22 @@ export default class NSPATFFormMDP extends FFormMDP {
       })
     )
       .addField(
-        new FNumberFieldMDP({
+        new FDateTimeSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.clientDeferredTime",
           label: "Client Deferred Time",
           condition: this.isClientDeffered(),
           mandatory: true,
+          pastDaysDisabled: true
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FDateTimeSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.systemDeferredTime",
           label: "System Deferred Time",
           condition: this.isSystemDeffered(),
+          pastDaysDisabled: true
         })
       )
 

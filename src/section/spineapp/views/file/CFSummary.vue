@@ -23,12 +23,12 @@
           <v-divider></v-divider>
           <v-list-item two-line >
               <v-list-item-icon class="mr-2" >
-                <v-icon color="primary">
+                <v-icon color="deep-purple">
                   mdi-account
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title class="primary--text text-body-1 ">{{clientFileBasicInfo.clientBasicInfo.fullName}}</v-list-item-title>
+                <v-list-item-title class="deep-purple--text text-body-1 overline">{{clientFileBasicInfo.clientBasicInfo.fullName}}</v-list-item-title>
                 <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
                 <v-list-item-subtitle class="text-body-1">{{clientFileBasicInfo.clientBasicInfo.mobile | phone}}</v-list-item-subtitle>
               </v-list-item-content>

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- Root Data : {{ taskFormData }} -->
-
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -11,18 +9,21 @@
     ></component>
   </div>
 </template>
-<script lang="ts">
+       <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import FTaskStepper from "@/components/generic/FTaskStepper.vue";
+import * as Action from "@/../src-gen/action";
 
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
+import moment from "moment";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import Task from "@/section/spineapp/util/Task";
+import NMSFCTFStepperMDP from "@/section/spineapp/components/task/nsfMSF/nsfMSFCompletion/NMSFCTFStepperMDP";
 import Helper from "@/section/spineapp/util/Helper";
-import FollowUpCallFStepperMDP from "./FollowUpCallFStepperMDP";
+import MFCCTFStepperMDP from "./MFCCTFStepperMDP";
 
 @Component({
   components: {
@@ -30,7 +31,7 @@ import FollowUpCallFStepperMDP from "./FollowUpCallFStepperMDP";
     FBtn,
   },
 })
-export default class FollowUpCallTask
+export default class MFCCompletionTask
   extends ModelVue
   implements ManualTaskIntf
 {
@@ -41,13 +42,10 @@ export default class FollowUpCallTask
 
   //METADATA
   get stepperMetaData() {
-    return new FollowUpCallFStepperMDP({ taskRoot: this }).getMetaData();
+    return new MFCCTFStepperMDP({ taskRoot: this }).getMetaData();
   }
-  //METADATA
 
-  selectedMFCTaskOption() {
-    return this.taskFormData.taskOutput.selectedTaskOption;
-  }
+  //METADATA
 
   // DATA
   get taskDetailsOutput() {
@@ -82,14 +80,9 @@ export default class FollowUpCallTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.MFCTaskOutput();
+  taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.disposition === null) {
-      this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
-    }
-    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
-
     return this.taskFormOutputLocal;
   }
 
@@ -98,11 +91,11 @@ export default class FollowUpCallTask
   }
   //Task Output
 
-  //DATA
-
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
+
+  //DATA
 
   //ACTION
   saveAndMarkCompleteTask() {
@@ -112,11 +105,10 @@ export default class FollowUpCallTask
     });
   }
 
-  saveTask(successCallBack = () => {}) {
+  saveTask() {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
-      callback: successCallBack,
     });
   }
 
@@ -139,21 +131,5 @@ export default class FollowUpCallTask
       clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
-
-
-  goToStep(step: number) {
-    Helper.Router.gotoStep({
-      router: this.$router,
-      clientFileNumber: this.$route.params.clientFileNumber,
-      step,
-      route: this.$route,
-    });
-  }
-
-  get currentStep(): number {
-    return this.$route.query.step ? Number(this.$route.query.step) : 0;
-  }
 }
 </script>
-
-<style></style>

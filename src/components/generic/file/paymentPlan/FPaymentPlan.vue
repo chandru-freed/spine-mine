@@ -47,6 +47,27 @@
         <v-tab-item>
           <v-card flat>
             <component
+              v-if="showAddPsEntryForm"
+              :is="addPsEntryFFormMetaData.componentName"
+              :ref="addPsEntryFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  addPsEntryInput,
+                  addPsEntryFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    addPsEntryInput,
+                    newValue,
+                    addPsEntryFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="addPsEntryFFormMetaData.props"
+            ></component>
+
+            <component
               :is="fPaymentScheduleFDataTableMetaData.componentName"
               :ref="fPaymentScheduleFDataTableMetaData.myRefName"
               :value="psEntrySchelduledList"
@@ -67,7 +88,7 @@
             <component
               :is="fFeeFDataTableMetaData.componentName"
               :ref="fFeeFDataTableMetaData.myRefName"
-              :value="subscriptionFeeSchedule"
+              :value="subscriptionFeeScheduleList"
               v-bind="fFeeFDataTableMetaData.props"
             ></component>
           </v-card>
@@ -107,10 +128,12 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Action from "@/../src-gen/action";
+import * as Data from "@/../src-gen/data";
 import FPaymentScheduleFDataTableMDP from "./FPaymentScheduleFDataTableMDP";
 import FDataTable from "../../table/FDataTable.vue";
 import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
 import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
+import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
 @Component({
   components: {
     FForm,
@@ -121,24 +144,30 @@ import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
 export default class FPaymentPlan extends ModelVue {
   tab = 0;
 
-  get paymentPlan() {
+  showAddPsEntryForm: boolean = false;
+  addPsEntryInput: Data.ClientFile.AddPSEntryInput = new Data.ClientFile.AddPSEntryInput();
+  get clientFileId() {
+  return this.$route.params.clientFileId;
+  }
+  get paymentPlan(): Data.ClientFile.FiPaymentPlanInfo {
     return this.modelValue.paymentPlan;
   }
 
   get psEntrySchelduledList() {
-    return this.paymentPlan.paymentSchedule.filter(
+    console.log(this.paymentPlan)
+    return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );
   }
 
   get psEntryPresentedList() {
-    return this.paymentPlan.paymentSchedule.filter(
+    return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
 
-  get subscriptionFeeSchedule() {
-    return this.paymentPlan.subscriptionFeeSchedule;
+  get subscriptionFeeScheduleList() {
+    return this.paymentPlan.subscriptionFeeScheduleList;
   }
 
   get actionMetaDataListFiltered() {
@@ -162,6 +191,11 @@ export default class FPaymentPlan extends ModelVue {
     }
   }
 
+  resetFormsAndData() {
+    this.showAddPsEntryForm = false;
+    this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
+  } 
+
   get fPaymentScheduleFDataTableMetaData() {
     return new FPaymentScheduleFDataTableMDP({ parent: this }).getMetaData();
   }
@@ -172,6 +206,12 @@ export default class FPaymentPlan extends ModelVue {
 
   get fFeeFDataTableMetaData() {
     return new FFeeFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get addPsEntryFFormMetaData() {
+    return new AddPsEntryFFormMDP({
+      parent: this,
+    }).getMetaData();
   }
 
   @Prop()

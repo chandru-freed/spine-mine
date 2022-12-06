@@ -39,6 +39,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
           label: "Client Deferred Time",
           condition: this.isClientDeffered(),
           mandatory: true,
+          pastDaysDisabled: true
         })
       )
       .addField(
@@ -47,6 +48,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
           dataSelectorKey: "taskOutput.systemDeferredTime",
           label: "System Deferred Time",
           condition: this.isSystemDeffered(),
+          pastDaysDisabled: true
         })
       )
       // .addField(

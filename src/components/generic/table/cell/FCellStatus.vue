@@ -1,5 +1,5 @@
 <template>
-  <v-chip v-if="selectModel(modelValue,dataSelectorKey)" small outlined>
+  <v-chip v-if="selectModel(modelValue,dataSelectorKey)" small>
     {{selectModel(modelValue,dataSelectorKey)}}
   </v-chip>
 </template>

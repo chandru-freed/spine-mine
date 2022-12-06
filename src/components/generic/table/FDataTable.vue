@@ -170,6 +170,9 @@ import FBtn from "../FBtn.vue";
 import FInfoText from "./info/FInfoText.vue";
 import FInfoINR from "./info/FInfoINR.vue";
 import FAlert from "../FAlert.vue";
+import FTextInfo from "./info/FTextInfo.vue";
+import FCellPhone from "./cell/FCellPhone.vue";
+import FCellEmail from "./cell/FCellEmail.vue";
 
 @Component({
   components: {
@@ -184,7 +187,10 @@ import FAlert from "../FAlert.vue";
     FBtn,
     FInfoText,
     FInfoINR,
-    FAlert
+    FAlert,
+    FTextInfo,
+    FCellPhone,
+    FCellEmail
   },
 })
 export default class FDataTable extends ModelVue {

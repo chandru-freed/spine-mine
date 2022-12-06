@@ -2,11 +2,13 @@ import FColumnCellMDP from '../FColumnCellMDP';
 export default class FCellBtnMDP implements FColumnCellMDP {
     onClick: (item: any) => any;
     color: string | undefined;
+    icon: string | undefined;
     constructor({
-        onClick, dataSelectorKey,color="green"
-    }: { onClick: (item: any) => any;dataSelectorKey?: string;color?:string }) {
+        onClick, dataSelectorKey,color="green",icon
+    }: { onClick: (item: any) => any;dataSelectorKey?: string;color?:string, icon?: string }) {
         this.onClick = onClick;
         this.color = color;
+        this.icon = icon;
     }
     // dataSelectorKey: string;
     componentName: string = "FCellBtn";
@@ -15,7 +17,8 @@ export default class FCellBtnMDP implements FColumnCellMDP {
             componentName: this.componentName,
             props: {
                 onClick: this.onClick,
-                color:this.color
+                color:this.color,
+                icon: this.icon
             }
         }
     }

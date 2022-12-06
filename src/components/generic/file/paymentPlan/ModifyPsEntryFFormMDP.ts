@@ -24,53 +24,16 @@ export default class AddPsEntryFFormMDP extends FFormMDP {
     });
     this.parent = parent;
 
-    this.addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentProvider",
-        label: "Payment Provider",
-        mandatory: true,
-        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
-        boundaryClass: "col-4",
-        optionLabel: "name",
-        optionValue: "id"
-      })
-    ).addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentMode",
-        label: "Payment Mode",
-        mandatory: true,
-        options: Data.ClientFile.PAYMENT_MODE.list(),
-        boundaryClass: "col-4",
-        optionLabel: "name",
-        optionValue: "id"
-      })
-    ).addField(
-      new FEMandateSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "eMandateId",
-        label: "E-Mandate",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FSelectDateFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "draftDate",
-        label: "Draft Date",
-        mandatory: true,
-        boundaryClass: "col-4",
-      })
-    ).addField(new FCurrencyFieldMDP({
+    this.addField(new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "spaAmount",
         label: "Spa Amount",
-        boundaryClass: "col-4",
+        boundaryClass: "col-6",
+        mandatory: true
     })).addField(new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "feeAmount",
-        boundaryClass: "col-4",
+        boundaryClass: "col-6",
         label: "Fee Amount"
     })).addAction(
       new FBtnMDP({
@@ -80,7 +43,7 @@ export default class AddPsEntryFFormMDP extends FFormMDP {
     ).addAction(
       new FBtnMDP({
         label: "Add Entry",
-        onClick: this.validateAndAddEntry(),
+        onClick: this.validateAndModifyEntry(),
       })
     );
   }
@@ -90,16 +53,15 @@ export default class AddPsEntryFFormMDP extends FFormMDP {
     return this.parent.$refs[this.myRefName];
   }
 
-  validateAndAddEntry() {
+  validateAndModifyEntry() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.addEntry();
+        this.modifyEntry();
       });
     };
   }
-  addEntry() {
-    this.parent.addPsEntryInput.clientFileId = this.parent.clientFileId;
-    Action.ClientFile.AddPSEntry.execute(this.parent.addPsEntryInput, output => {
+  modifyEntry() {
+    Action.ClientFile.ModifyAmountPSEntryList.execute(this.parent.modifyAmountPSEListInput, output => {
       this.parent.resetFormsTableAndData();
       Snackbar.show({
         text: "Succesfully added an entry",

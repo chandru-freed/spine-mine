@@ -6,7 +6,7 @@ import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP";
 export default class FPSkipedPresentedFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule",myRefName: "fpSkipedPresentedFDataTableMDP" });
+        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Skipped Payment Schedule",myRefName: "fpSkipedPresentedFDataTableMDP" });
         this.parent = parent;
         this.addColumn({
             label: "Draft Date",

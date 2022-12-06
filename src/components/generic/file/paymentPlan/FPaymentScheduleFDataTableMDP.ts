@@ -7,15 +7,15 @@ import * as Snackbar from "node-snackbar";
 
 export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
-    constructor({ parent }: { parent: any }) {
-        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule", myRefName: "fPaymentScheduleFDataTableMDP", multiSelect: true });
+    constructor({ parent,refName }: { parent: any, refName: string }) {
+        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule", myRefName: refName, multiSelect: true });
         this.parent = parent;
         this.addColumn({
             label: "Draft Date",
             dataSelectorKey: "draftDate",
             columnCellMDP: new FCellDateMDP()
         }).addCurrencyColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", rounded: true })
-            .addCurrencyColumn({ label: "Settlement Amount", dataSelectorKey: "settlementReserve", rounded: true })
+            .addCurrencyColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", rounded: true })
             .addCurrencyColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount" })
             .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP() });
 
@@ -37,7 +37,13 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
             onClick: (itemList) => this.handleRemoveClick(itemList),
             type: ActionType.OTHERS,
             confirmation: true,
-        }).addAction({
+        })
+        .addAction({
+            label: "Modify",
+            onClick: (itemList) => this.handleModifyClick(itemList),
+            type: ActionType.OTHERS,
+        })
+        .addAction({
             label: "Add Entry",
             onClick: (item) => this.handleAddEntryClick(),
             type: ActionType.ADD,
@@ -77,14 +83,21 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
         const psEntryIdList = itemList.map(item => item.psEntryId)
         console.log(psEntryIdList)
         return new Promise(resolve => {
-           Action.ClientFile.RemovePSEntryList.execute1(psEntryIdList, output => {
-            Snackbar.show({
-                text: "Succesfully Removed.",
-                pos: "bottom-center",
-            });
-            resolve(true);
-           })
+            Action.ClientFile.RemovePSEntryList.execute1(psEntryIdList, output => {
+                Snackbar.show({
+                    text: "Succesfully Removed.",
+                    pos: "bottom-center",
+                });
+                resolve(true);
+            })
         })
+    }
+
+    handleModifyClick(itemList: any[]) {
+        return new Promise(resolve => {
+            this.parent.modifyAmountPSEListInput.psEntryIdList = itemList.map(item => item.psEntryId);
+            this.parent.showModifyForm = true;
+        });
     }
 
     handleAddEntryClick() {

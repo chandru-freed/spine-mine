@@ -6,9 +6,9 @@ export default class UTPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "paymentPlanRef",
-      disabled: true,
+      disabled: taskRoot.taskDisabled,
       dataSelectorKey: "taskInput",
-      disabledActionBtn: true,
+      disabledActionBtn: taskRoot.taskDisabled,
     });
   }
   getMyRef() {

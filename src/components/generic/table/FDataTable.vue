@@ -130,11 +130,11 @@
         </slot>
       </template>
 
-      <template v-slot:[`item.actions`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item, index }">
         <v-btn
           :disabled="disabled"
           icon
-          @click="handleEditClick(item)"
+          @click="handleEditClick(item,index)"
           v-if="editBtnData"
         >
           <v-icon small class="px-1"> mdi-pencil </v-icon>
@@ -142,7 +142,7 @@
         <v-btn
           icon
           :disabled="disabled"
-          @click="handleDeleteClick(item)"
+          @click="handleDeleteClick(item,index)"
           v-if="deleteBtnData"
         >
           <v-icon small class="px-1"> mdi-delete </v-icon>
@@ -246,6 +246,7 @@ export default class FDataTable extends ModelVue {
   selectedItemList: any[] = [];
   selectedItemForDelete: any;
   selectedAction: FTableActionField;
+  selectedRowIndex: number | undefined;
 
   getValue(item: any, path: any) {
     return path.split(".").reduce((res: any, prop: any) => res[prop], item);
@@ -284,18 +285,19 @@ export default class FDataTable extends ModelVue {
 
   fireDeleteActionClick() {
     this.showDeleteConfirmation = false;
-    this.deleteBtnData.onClick(this.selectedItemForDelete).then((res) => {
+    this.deleteBtnData.onClick(this.selectedItemForDelete,this.selectedRowIndex).then((res) => {
       this.clearSelectedItems();
     });
   }
 
-  handleDeleteClick(item: any) {
+  handleDeleteClick(item: any,index?: number) {
     this.selectedAction = this.deleteBtnData;
     this.selectedItemForDelete = item;
+    this.selectedRowIndex = index;
     if (this.selectedAction.confirmation === true) {
       this.showDeleteConfirmation = true;
     } else {
-      this.fireActionClick();
+      this.fireDeleteActionClick();
     }
     // this.deleteBtnData.onClick(item);
   }
@@ -309,8 +311,9 @@ export default class FDataTable extends ModelVue {
     );
   }
 
-  handleEditClick(item: any) {
-    this.editBtnData.onClick(item);
+  handleEditClick(item: any, index: number) {
+    this.selectedRowIndex = index;
+    this.editBtnData.onClick(item,index);
   }
 
   get deleteBtnData(): FTableActionField {

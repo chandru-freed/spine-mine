@@ -1,7 +1,7 @@
 
 <template>
 <div>
-<!-- Root Data : {{ taskFormData }} --> 
+<!-- Root Data : {{ taskFormData.taskOutput }}  -->
 <component 
   :ref="stepperMetaData.myRefName"
   :is="stepperMetaData.componentName"
@@ -20,6 +20,7 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import PATFStepperMDP from "./PATFStepperMDP"
+import * as Action from "@/../src-gen/action";
 @Component({
   components: {
     FTaskStepper
@@ -28,6 +29,13 @@ import PATFStepperMDP from "./PATFStepperMDP"
 export default class PrepareAmendmentTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+  // Creditor Info
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
+
+  clientFileId = this.$route.params.clientFileId;
+
   taskId = this.$route.params.taskId;
 
   get stepperMetaData(): any {
@@ -55,6 +63,11 @@ export default class PrepareAmendmentTask extends ModelVue {
   };
 
   get taskFormData() {
+    console.log(this.taskDetailsOutput,this.taskFormOutput);
+    this.taskFormOutput.newCreditorInfo = this.taskFormOutput.newCreditorInfo?this.taskFormOutput.newCreditorInfo:this.taskDetailsInput.existingCreditorInfo;
+    
+    this.taskFormOutput.newPaymentPlan =this.taskFormOutput.newPaymentPlan?this.taskFormOutput.newPaymentPlan:this.taskDetailsInput.existingPaymentPlan;
+    console.log(this.taskFormOutput,"this.taskFormOutput");
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskFormOutput,
@@ -67,9 +80,12 @@ export default class PrepareAmendmentTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
+  taskFormOutputLocal: Data.Spine.AmendmentTaskOutput = new Data.Spine.AmendmentTaskOutput();
 
   get taskFormOutput() {
+     this.taskFormOutputLocal = {
+      ...this.taskDetailsOutput
+    };
     return this.taskFormOutputLocal;
   }
 
@@ -82,7 +98,21 @@ export default class PrepareAmendmentTask extends ModelVue {
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
+
+    get taskStateTerminated() {
+    return (
+      this.taskDetails.taskState === "COMPLETED" ||
+      this.taskDetails.taskState === "FORCE_COMPLETED" ||
+      this.taskDetails.taskState === "CANCELLED" ||
+      this.taskDetails.taskState === "RESET"
+    );
+  }
   //ACTION
+
+
+  mounted() {
+    this.getFiCreditorInfo();
+  }
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
@@ -96,6 +126,12 @@ export default class PrepareAmendmentTask extends ModelVue {
     });
   }
   
+   getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
+      // this.schedulePaymentPlan();
+    });
+  }
+
   //Action
 }
 

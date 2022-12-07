@@ -115,6 +115,8 @@ import FMarkComplete from "./file/markcomplete/FMarkComplete.vue";
 import FEMandate from "./file/eMandate/FEMandate.vue";
 import Task from "@/section/spineapp/util/Task";
 import FSettlementPlan from "./file/settlementPlan/FSettlementPlan.vue";
+import FAmendmentCreditor from "./file/amendmentCreditor/FAmendmentCreditor.vue";
+import FAmendmentPaymentPlan from "./file/amendmentPaymentPlan/FAmendmentPaymentPlan.vue";
 
 @Component({
   components: {
@@ -126,7 +128,9 @@ import FSettlementPlan from "./file/settlementPlan/FSettlementPlan.vue";
     FDocument,
     FMarkComplete,
     FEMandate,
-    FSettlementPlan
+    FSettlementPlan,
+    FAmendmentCreditor,
+    FAmendmentPaymentPlan
   },
 })
 export default class FTaskStepper extends ModelVue {

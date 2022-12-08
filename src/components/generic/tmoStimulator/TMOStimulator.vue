@@ -2,35 +2,35 @@
   <div class="ma-2">
     <v-card elevation="2" class="pa-5">
       <div class="d-flex align-start mb-10">
-        <v-chip class="mr-2" color="primary" label outlined>
+        <v-chip class="mr-2" color="primary" label outlined large>
           Repayment Amount:&nbsp;&nbsp;<span
             class="font-weight-bold secondary--text"
             >{{ Math.round(result.repaymentAmount) | toINR }}</span
           >
         </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined>
+        <v-chip class="mr-2" color="primary" label outlined large>
           SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
             Math.round(result.monthlyPayment) | toINR
           }}</span>
         </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined
+        <v-chip class="mr-2" color="primary" label outlined large
           >MSF: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
             result.msfAmount | toINR
           }}</span>
         </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined>
-          Monthly Obligation: &nbsp;&nbsp;<span
+        <v-chip class="mr-2" color="primary" label outlined large>
+          TMO/Affordability : &nbsp;&nbsp;<span
             class="font-weight-bold secondary--text"
             >{{ Math.round(result.monthlyObligation) | toINR }}</span
           >
         </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined
-          >Tenure: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-            result.tenure
-          }}</span>
+        <v-chip class="mr-2" color="primary" label outlined large
+          >Tenure: &nbsp;&nbsp;<span class="font-weight-bold secondary--text"
+            >{{ result.tenure }} mth</span
+          >
         </v-chip>
       </div>
-      <div class="row mb-5">
+      <!-- <div class="row mb-5">
         <div class="col-3">
           <FCurrencyField
             label="Outstanding Amount"
@@ -58,15 +58,28 @@
             :pastDaysDisabled="true"
           />
         </div>
-      </div>
+      </div> -->
 
-      <v-slider
+      <!-- <v-slider
         :rules="rules"
         max="72"
         min="1"
         v-model="result.tenure"
         thumb-label="always"
-      />
+      /> -->
+
+      <!-- <div class="d-flex justify-center">
+        <v-btn outlined color="primary" @click="schedulePaymentPlan()"
+          >Calculate Payment Schedule</v-btn
+        >
+      </div> -->
+      <component
+        :is="tmoStimulatorFormMetaData.componentName"
+        :ref="tmoStimulatorFormMetaData.myRefName"
+        :value="selectModel(result)"
+        @input="(newValue) => updateModel(modelValue, newValue, result)"
+        v-bind="tmoStimulatorFormMetaData.props"
+      ></component>
       <v-alert
         dense
         type="warning"
@@ -82,11 +95,15 @@
           Math.round(result.affordability) | toINR
         }}).
       </v-alert>
-      <div class="d-flex justify-center">
-        <v-btn outlined color="primary" @click="schedulePaymentPlan()"
-          >Calculate Payment Schedule</v-btn
-        >
-      </div>
+      <v-alert
+        dense
+        type="error"
+        class="col-12 mb-5"
+        outlined
+        v-if="this.result.tenure >= this.tenureApproval"
+      >
+        It needs to be approved by the manager.
+      </v-alert>
     </v-card>
   </div>
 </template>
@@ -100,15 +117,23 @@ import ModelVue from "../ModelVue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
+import store, * as Store from "@/../src-gen/store";
+import TMOStimulatorFFormMDP from "./TMOStimulatorFFormMDP";
+import FForm from "../form/FForm.vue";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
     FCurrencyField,
     FNumberField,
     FDateSelectField,
+    FForm,
   },
 })
 export default class TMOStimulator extends ModelVue {
+  @Store.Getter.TaskList.Summary.executiveTaskDetails
+  taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
   feeGSTPercentage: number = 11.8;
@@ -131,6 +156,14 @@ export default class TMOStimulator extends ModelVue {
     monthlyObligation: 0,
     firstSPADraftDate: "",
   };
+
+  //METADATA
+  get tmoStimulatorFormMetaData() {
+    return new TMOStimulatorFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
+  //METADATA
 
   mounted() {
     setTimeout(() => {
@@ -185,6 +218,14 @@ export default class TMOStimulator extends ModelVue {
         pos: "bottom-center",
       });
     });
+  }
+
+  getTenureApproval() {
+    return this.rules;
+  }
+
+  get taskDisabled(): boolean {
+    return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 }
 

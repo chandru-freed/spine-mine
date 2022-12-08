@@ -158,6 +158,8 @@ import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
 import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
 import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
 import ModifyPsEntryFFormMDP from "./ModifyPsEntryFFormMDP";
+import * as Store from "@/../src-gen/store";
+
 @Component({
   components: {
     FForm,
@@ -173,6 +175,13 @@ export default class FPaymentPlan extends ModelVue {
   addPsEntryInput: Data.ClientFile.AddPSEntryInput = new Data.ClientFile.AddPSEntryInput();
   modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput = new Data.ClientFile.ModifyAmountPSEListInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
+  taskId = this.$route.params.taskId;
+
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  
+
   get clientFileId() {
   return this.$route.params.clientFileId;
   }
@@ -181,7 +190,6 @@ export default class FPaymentPlan extends ModelVue {
   }
 
   get psEntrySchelduledList() {
-    console.log(this.paymentPlan,"Payment plan is this")
     return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );

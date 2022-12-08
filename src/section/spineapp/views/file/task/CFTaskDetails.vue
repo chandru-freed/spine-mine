@@ -80,6 +80,7 @@ import CollectMSFTask from "@/section/spineapp/components/task/enrollment/collec
 import PlanSettlementTask from "@/section/spineapp/components/task/settlementPlan/planSettlement/PlanSettlementTask.vue";
 import MFCCompletionTask from "@/section/spineapp/components/task/mfc/MFCCompletion/MFCCompletionTask.vue";
 import PrepareAmendmentTask from "@/section/spineapp/components/task/amendment/prepareAmendment/PrepareAmendmentTask.vue";
+import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFee/RefundFeeTask.vue";
 
 @Component({
   components: {
@@ -133,7 +134,8 @@ import PrepareAmendmentTask from "@/section/spineapp/components/task/amendment/p
     FollowUpCallTask,
     CollectMSFTask,
     PlanSettlementTask,
-    PrepareAmendmentTask
+    PrepareAmendmentTask,
+    RefundFeeTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -230,6 +232,7 @@ export default class CFTaskDetails extends Vue {
     ["MFC::MFCCompletion", "MFCCompletionTask"],
     ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
     ["Amendment::PrepareAmendment", "PrepareAmendmentTask"],
+    ["RefundFee::RefundFee", "RefundFeeTask"],
     
   ]);
 

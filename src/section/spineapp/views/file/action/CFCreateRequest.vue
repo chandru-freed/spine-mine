@@ -60,6 +60,7 @@ import MFCFFormMDP from "@/section/spineapp/components/task/createRequestForm/MF
 import NsfSPAFFormMDP from "@/section/spineapp/components/task/createRequestForm/NsfSPAFFormMDP";
 import EMandateFFormMDP from "@/section/spineapp/components/task/createRequestForm/EMandateFFormMDP";
 import SettlementPlanFFormMDP from "@/section/spineapp/components/task/createRequestForm/SettlementPlanFFormMDP";
+import RefundFeeFFormMDP from "@/section/spineapp/components/task/createRequestForm/RefundFeeFFormMDP";
 
 @Component({
   components: {
@@ -82,6 +83,9 @@ export default class CFCreateRequest extends Vue {
   createEMandateInput: any = new Data.Spine.CreateEMandateInput();
   createSettlementPlanInput: Data.Spine.CreateSettlementPlanInput =
     new Data.Spine.CreateSettlementPlanInput();
+
+  createRefundFeeInput: Data.Spine.CreateRefundFeeInput =
+    new Data.Spine.CreateRefundFeeInput();
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
 
   @Watch("fileCreateRequestInput.createSettlementPlanInput.fiCreditorId")
@@ -107,6 +111,7 @@ export default class CFCreateRequest extends Vue {
     return {
       createEMandateInput: this.createEMandateInput,
       createSettlementPlanInput: this.createSettlementPlanInput,
+      createRefundFeeInput: this.createRefundFeeInput
     };
   }
   get requestTypeFlowMapList() {
@@ -163,6 +168,13 @@ export default class CFCreateRequest extends Vue {
       {
         key: "Settlement Plan",
         contentMetaData: new SettlementPlanFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: "Refund Fee",
+        contentMetaData: new RefundFeeFFormMDP({
           taskRoot: this,
           parent: this,
         }).getMetaData(),
@@ -306,6 +318,15 @@ export default class CFCreateRequest extends Vue {
         }, 400);
       }
     );
+  }
+
+  createRefundFeeFlow() {
+    this.createRefundFeeInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
+    Action.Spine.CreateRefundFee.execute(this.createRefundFeeInput, output => {
+       setTimeout(() => {
+          this.gotoTask();
+        }, 400);
+    })
   }
 
   populateBankDetails(details: any) {

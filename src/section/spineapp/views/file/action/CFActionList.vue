@@ -182,6 +182,12 @@ export default class CFActionList extends Vue {
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: { flowName: "Settlement Plan" },
         },
+        {
+          actionName: "Refund Fee",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFCreateRequest",
+          query: { flowName: "Refund Fee" },
+        },
         
       ],
     },

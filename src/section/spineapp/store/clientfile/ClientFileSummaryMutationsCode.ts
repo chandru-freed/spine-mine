@@ -55,7 +55,8 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
   }
 
   public resetCFSummary(state: Data.ClientFile.ClientFileSummary): void {
-    state = new Data.ClientFile.ClientFileSummary();
+    state.clientFileBasicInfo = new Data.ClientFile.ClientFileBasicInfo();
+    state.personalInfo = new Data.ClientFile.ClPersonalInfo();
   }
 
 

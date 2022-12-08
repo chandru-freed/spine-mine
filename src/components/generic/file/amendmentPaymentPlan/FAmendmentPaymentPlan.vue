@@ -20,22 +20,22 @@
 
     <div class="d-flex justify-space-around"></div>
 
-    <v-alert
+    <!-- <v-alert
       dense
       type="warning"
       outlined
-      class="col-8 ma-auto mb-5"
+      class="col-5 ma-auto mb-5"
       v-if="
         paymentPlan.ppCalculator.totalMonthlyObligation >
         this.modelValue.budgetInfo.proposedDSPayment
       "
     >
       Monthly Obligation ({{
-        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2) | toINR
+        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)
       }}) greater than Affordability ({{
-        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)| toINR
+        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)
       }}).
-    </v-alert>
+    </v-alert> -->
 
     <v-card flat outlined class="row ma-2">
       <v-tabs v-model="tab" background-color="transparent" color="secondary">
@@ -96,6 +96,7 @@
               v-bind="fPaymentScheduleFDataTableMetaData.props"
             ></component>
           </v-card>
+          <v-divider></v-divider>
           <v-card flat class="mt-5">
             <component
               :is="fPSkipedPresentedTableMetaData.componentName"
@@ -157,8 +158,6 @@ import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
 import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
 import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
 import ModifyPsEntryFFormMDP from "./ModifyPsEntryFFormMDP";
-import * as Store from "@/../src-gen/store";
-
 @Component({
   components: {
     FForm,
@@ -166,7 +165,7 @@ import * as Store from "@/../src-gen/store";
     FDataTable,
   },
 })
-export default class FPaymentPlan extends ModelVue {
+export default class FAmendmentPaymentPlan extends ModelVue {
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
@@ -174,34 +173,28 @@ export default class FPaymentPlan extends ModelVue {
   addPsEntryInput: Data.ClientFile.AddPSEntryInput = new Data.ClientFile.AddPSEntryInput();
   modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput = new Data.ClientFile.ModifyAmountPSEListInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
-  taskId = this.$route.params.taskId;
-
-
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-  
-
   get clientFileId() {
   return this.$route.params.clientFileId;
   }
-  get paymentPlan(): Data.ClientFile.FiPaymentPlanInfo {
-    return this.modelValue.paymentPlan;
+  get paymentPlan(){
+    return this.modelValue.newPaymentPlan;
   }
 
   get psEntrySchelduledList() {
-    return this.paymentPlan.paymentScheduleList.filter(
+    
+    return this.paymentPlan?.paymentSchedule.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );
   }
 
   get psEntryPresentedList() {
-    return this.paymentPlan.paymentScheduleList.filter(
+    return this.paymentPlan?.paymentSchedule.filter(
       (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
 
   get subscriptionFeeScheduleList() {
-    return this.paymentPlan.subscriptionFeeScheduleList;
+    return this.paymentPlan?.subscriptionFeeSchedule;
   }
 
   get actionMetaDataListFiltered() {

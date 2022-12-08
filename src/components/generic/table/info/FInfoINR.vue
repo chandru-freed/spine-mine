@@ -1,6 +1,6 @@
 <template>
   <v-chip label outlined color="primary">
-    {{label}} - {{value | toINR}}
+    {{label}} - {{inrValue | toINR}}
   </v-chip>
 </template>
 <script lang="ts">
@@ -14,5 +14,9 @@ import ModelVue from "../../ModelVue";
 export default class FInfoINR extends ModelVue {
  @Prop()
  label: string;
+
+ get inrValue() {
+  return this.value? this.value: 0
+ }
 }
 </script>

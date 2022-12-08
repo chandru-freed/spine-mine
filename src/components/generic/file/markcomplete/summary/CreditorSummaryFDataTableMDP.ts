@@ -11,7 +11,7 @@ export default class CreditorSummaryFDataTableMDP extends FDataTableMDP {
             myRefName:"creditorSummaryFDataTableRef"
         });
         this.addColumn({
-            label: "Creditor Name",
+            label: "Creditor Name1",
             dataSelectorKey:"creditorName"
         }).addColumn({
             label: "Type",
@@ -23,12 +23,9 @@ export default class CreditorSummaryFDataTableMDP extends FDataTableMDP {
             label: "Days Delinquent",
             dataSelectorKey:"daysDelinquentAsOnOnboarding"
         })
-        
-        .addAction({
-            label:`WAD: ${props.taskRoot.clientFileSummary.wad}`,
-            onClick: () => new Promise(resolve => {}),
-            type: ActionType.OTHERS,
-            disabled: true
+        .addInfo({
+            label:`WAD`,
+            value:`${props.taskRoot.clientFileSummary.wad}`
         })
         
         ;

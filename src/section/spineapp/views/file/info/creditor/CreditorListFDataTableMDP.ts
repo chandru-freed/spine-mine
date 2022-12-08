@@ -61,8 +61,10 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
             Action.ClientFile.SettleCreditor.execute(
                 this.parent.settleCreditorInput,
                 (output) => {
-                    this.parent.getFiCreditorInfo();
-                    this.parent.findClientFileSummary();
+                    setTimeout(() => {
+                        this.parent.getFiCreditorInfo();
+                        this.parent.findClientFileSummary();
+                    }, 500);
                     Snackbar.show({
                         text: "Succesfully Settled Creditor",
                         pos: "bottom-center",

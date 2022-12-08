@@ -40,6 +40,7 @@ export default class CFileLayout extends Vue {
   clientFileId = this.$route.params.clientFileId;
 
   mounted() {
+    Store.Mutation.ClientFile.ClientFileSummary.RESET_C_F_SUMMARY();
     this.getCFBasicInfo();
     this.findClientFileSummary();
   }

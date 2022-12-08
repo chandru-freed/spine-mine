@@ -139,7 +139,7 @@ export enum ActionType {
 
 export interface FTableActionField {
   type: ActionType;
-  onClick: (item: any) => Promise<any>;
+  onClick: (item: any, index?: number) => Promise<any>;
   label: string;
   disabled?:boolean;
   confirmation?: boolean;

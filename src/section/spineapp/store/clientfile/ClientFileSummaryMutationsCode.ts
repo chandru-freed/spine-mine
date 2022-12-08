@@ -54,6 +54,11 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.fiActiveEMandateList = fiActiveEMandateList;
   }
 
+  public resetCFSummary(state: Data.ClientFile.ClientFileSummary): void {
+    state.clientFileBasicInfo = new Data.ClientFile.ClientFileBasicInfo();
+    state.personalInfo = new Data.ClientFile.ClPersonalInfo();
+  }
+
 
 }
 

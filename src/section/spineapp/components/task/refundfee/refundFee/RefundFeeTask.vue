@@ -1,7 +1,8 @@
 
 <template>
 <div>
-<!-- Root Data : {{ taskFormData.taskOutput }}  -->
+<h4>Fill The Task Name</h4>
+<!-- Root Data : {{ taskFormData }} --> 
 <component 
   :ref="stepperMetaData.myRefName"
   :is="stepperMetaData.componentName"
@@ -19,27 +20,19 @@ import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
-import PATFStepperMDP from "./PATFStepperMDP"
-import * as Action from "@/../src-gen/action";
+import RFTFStepperMDP from "./RFTFStepperMDP"
 @Component({
   components: {
-    FTaskStepper
+    FTaskStepper,
   },
 })
-export default class PrepareAmendmentTask extends ModelVue {
+export default class RefundFeeTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-
-  // Creditor Info
-  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
-  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
-
-  clientFileId = this.$route.params.clientFileId;
-
   taskId = this.$route.params.taskId;
 
   get stepperMetaData(): any {
-    return new PATFStepperMDP({taskRoot: this}).getMetaData();
+    return new RFTFStepperMDP({taskRoot: this}).getMetaData();
   }
   
   // DATA
@@ -63,11 +56,6 @@ export default class PrepareAmendmentTask extends ModelVue {
   };
 
   get taskFormData() {
-    console.log(this.taskDetailsOutput,this.taskFormOutput);
-    this.taskFormOutput.newCreditorInfo = this.taskFormOutput.newCreditorInfo?this.taskFormOutput.newCreditorInfo:this.taskDetailsInput.existingCreditorInfo;
-    
-    this.taskFormOutput.newPaymentPlan =this.taskFormOutput.newPaymentPlan?this.taskFormOutput.newPaymentPlan:this.taskDetailsInput.existingPaymentPlan;
-    console.log(this.taskFormOutput,"this.taskFormOutput");
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskFormOutput,
@@ -80,17 +68,26 @@ export default class PrepareAmendmentTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: Data.Spine.AmendmentTaskOutput = new Data.Spine.AmendmentTaskOutput();
+  taskFormOutputLocal: Data.Spine.RefundFeeOutput = new Data.Spine.RefundFeeOutput();
 
   get taskFormOutput() {
-     this.taskFormOutputLocal = {
+    console.log(this.taskDetailsOutput)
+    this.taskFormOutputLocal = {
       ...this.taskDetailsOutput
-    };
+    }
     return this.taskFormOutputLocal;
   }
 
   set taskFormOutput(newValue) {
     this.taskFormOutputLocal = newValue;
+  }
+
+  isRefundSuccessfull() {
+    return this.taskFormData.taskOutput.refundSuccessful === true
+  }
+
+  isRefundFailed() {
+    return this.taskFormData.taskOutput.refundSuccessful === false
   }
   //Task Output
 
@@ -98,21 +95,7 @@ export default class PrepareAmendmentTask extends ModelVue {
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
-
-    get taskStateTerminated() {
-    return (
-      this.taskDetails.taskState === "COMPLETED" ||
-      this.taskDetails.taskState === "FORCE_COMPLETED" ||
-      this.taskDetails.taskState === "CANCELLED" ||
-      this.taskDetails.taskState === "RESET"
-    );
-  }
   //ACTION
-
-
-  mounted() {
-    this.getFiCreditorInfo();
-  }
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
@@ -126,12 +109,6 @@ export default class PrepareAmendmentTask extends ModelVue {
     });
   }
   
-   getFiCreditorInfo() {
-    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
-      // this.schedulePaymentPlan();
-    });
-  }
-
   //Action
 }
 

@@ -47,6 +47,10 @@ export default class CollectClientInfoTask extends ModelVue {
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   //Store we are getting task form data
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  
   // Personal Info
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfoStore: Data.ClientFile.ClPersonalInfo;

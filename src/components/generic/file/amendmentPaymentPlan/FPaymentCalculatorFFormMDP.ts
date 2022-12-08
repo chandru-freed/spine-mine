@@ -28,6 +28,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     super({
       myRefName: "paymentCalculatorFormRef",
       disabled: disabled,
+      dataSelectorKey: "newPaymentPlan"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -36,32 +37,34 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     this.addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.ppCode",
+        dataSelectorKey: "ppCalculator.ppCode",
         label: "Program Code",
         mandatory: true,
         options: ["PM", "AF"],
         boundaryClass: "col-3",
       })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "creditorInfo.totalDebt",
-        label: "Outstanding Amount",
-        mandatory: true,
-        boundaryClass: "col-3",
-        disabled: true
-      })
-    ) .addField(
+    )
+    // .addField(
+    //   new FCurrencyFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "creditorInfo.totalDebt",
+    //     label: "Outstanding Amount",
+    //     mandatory: true,
+    //     boundaryClass: "col-3",
+    //     disabled: true
+    //   })
+    // )
+    .addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.settlementPercentage",
+        dataSelectorKey: "ppCalculator.settlementPercentage",
         label: "Settlement Percentage",
         boundaryClass: "col-3",
       })
     ).addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.repaymentAmount",
+        dataSelectorKey: "ppCalculator.repaymentAmount",
         label: "Repayment Amount",
         boundaryClass: "col-3",
         disabled: true,
@@ -69,7 +72,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FSelectDateFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.firstDraftDate",
+        dataSelectorKey: "ppCalculator.firstDraftDate",
         label: "First Draft Date",
         mandatory: true,
         boundaryClass: "col-3",
@@ -78,7 +81,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.spaDraftDay",
+        dataSelectorKey: "ppCalculator.spaDraftDay",
         label: "SPA Draft Day",
         boundaryClass: "col-3",
         disabled: true,
@@ -86,7 +89,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FSelectDateFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.feeFirstDraftDate",
+        dataSelectorKey: "ppCalculator.feeFirstDraftDate",
         label: "Fee First Draft Date",
         mandatory: true,
         boundaryClass: "col-3",
@@ -95,7 +98,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.msfDraftDay",
+        dataSelectorKey: "ppCalculator.msfDraftDay",
         label: "MSF Draft Day",
         boundaryClass: "col-3",
         disabled: true,
@@ -103,7 +106,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.tenor",
+        dataSelectorKey: "ppCalculator.tenor",
         label: "Tenor",
         mandatory: true,
         boundaryClass: "col-3",
@@ -111,7 +114,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.msfDraftAmount",
+        dataSelectorKey: "ppCalculator.msfDraftAmount",
         label: "MSF Amount",
         boundaryClass: "col-3",
         disabled: true,
@@ -119,23 +122,26 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     ).addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.totalMonthlyObligation",
+        dataSelectorKey: "ppCalculator.totalMonthlyObligation",
         label: "Monthly Obligation",
         boundaryClass: "col-3",
         disabled: true,
       })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "budgetInfo.proposedDSPayment",
-        label: "Affordability",
-        boundaryClass: "col-3",
-        disabled: true,
-      })
-    ).addField(
+    )
+    // .addField(
+    //   new FCurrencyFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "budgetInfo.proposedDSPayment",
+    //     label: "Affordability",
+    //     boundaryClass: "col-3",
+    //     disabled: true,
+    //   })
+    // )
+    .
+    addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "paymentPlan.ppCalculator.feeCode",
+        dataSelectorKey: "ppCalculator.feeCode",
         label: "Fee Code",
         mandatory: true,
         boundaryClass: "col-3",
@@ -163,22 +169,14 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   schedulePaymentPlan(callback?: () => void) {
-    const parentComponent = this.parent.getMyRef();
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
-      parentComponent.modelValue.paymentPlan
+      this.taskRoot.taskFormData.taskOutput.paymentPlan
     );
-    input.clientFileId = parentComponent.clientFileBasicInfo.clientFileId;
+    input.clientFileId = (
+      this.taskRoot as any
+    ).clientFileBasicInfo.clientFileId;
     input.ppCalculator.outstanding =
-    parentComponent.modelValue.creditorInfo.totalDebt;
-    input.taskId = parentComponent.taskId;
-    Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
-      Snackbar.show({
-        text: "Succesfully Saved",
-        pos: "bottom-center",
-      });
-      if(callback) {
-        callback();
-      }
-    });
+      this.taskRoot.taskFormData.taskOutput.creditorInfo.totalDebt;
+    input.taskId = this.taskRoot.taskId;
   }
 }

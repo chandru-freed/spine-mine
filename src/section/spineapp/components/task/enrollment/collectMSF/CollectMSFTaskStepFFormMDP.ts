@@ -89,6 +89,7 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Receive MSF Payment",
           onClick: this.receiveMSFPayment(),
+          disabled: this.taskRoot.taskFormData.taskOutput.firstMSFPaymentDetails.status  === 'SETTLED'
         })
       )
       .addAction(

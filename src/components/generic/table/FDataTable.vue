@@ -175,6 +175,7 @@ import FCellDateTime from "./cell/FCellDateTime.vue";
 import FCellTaskStatus from "./cell/FCellTaskStatus.vue";
 import FCellName from "./cell/FCellName.vue";
 import FCellUppercase from "./cell/FCellUppercase.vue";
+import FCellDayPastDue from "./cell/FCellDayPastDue.vue";
 
 @Component({
   components: {
@@ -196,7 +197,8 @@ import FCellUppercase from "./cell/FCellUppercase.vue";
     FCellDateTime,
     FCellTaskStatus,
     FCellName,
-    FCellUppercase
+    FCellUppercase,
+    FCellDayPastDue
   },
 })
 export default class FDataTable extends ModelVue {

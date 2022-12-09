@@ -76,6 +76,7 @@ export default class FMiniFormMDP implements FFieldMDP {
         label: this.label,
         fieldMetaDataList: this.fieldList.map((field) => field.getMetaData()),
         disabled: this.disabled,
+        mandatory: this.mandatory, // Only for miniform
       },
     };
   }

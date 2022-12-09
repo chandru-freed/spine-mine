@@ -26,7 +26,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }) {
     // console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
-      myRefName: "paymentCalculatorFormRef",
+      myRefName: "amendmentPaymentCalculatorFormRef",
       disabled: disabled,
       dataSelectorKey: "newPaymentPlan"
     });
@@ -156,7 +156,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.getMyRef());
+    console.log(this.parent.getMyRef(),"Ref");
     return this.parent.getMyRef().$refs[this.myRefName];
   }
 
@@ -169,14 +169,25 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   schedulePaymentPlan(callback?: () => void) {
+    const parentComponent = this.parent.getMyRef();
+    console.log(parentComponent,"parentComponent")
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
-      this.taskRoot.taskFormData.taskOutput.paymentPlan
+      parentComponent.modelValue.newPaymentPlan
     );
-    input.clientFileId = (
-      this.taskRoot as any
-    ).clientFileBasicInfo.clientFileId;
+    input.clientFileId = parentComponent.clientFileBasicInfo.clientFileId;
+    console.log(parentComponent,"parentComponent")
     input.ppCalculator.outstanding =
-      this.taskRoot.taskFormData.taskOutput.creditorInfo.totalDebt;
-    input.taskId = this.taskRoot.taskId;
+    parentComponent.modelValue.newCreditorInfo.totalDebt;
+    input.taskId = parentComponent.taskId;
+    Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
+      console.log(output)
+      Snackbar.show({
+        text: "Succesfully Saved",
+        pos: "bottom-center",
+      });
+      if(callback) {
+        callback();
+      }
+    });
   }
 }

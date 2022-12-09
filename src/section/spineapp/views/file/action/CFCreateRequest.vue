@@ -200,6 +200,7 @@ export default class CFCreateRequest extends Vue {
 
   mounted() {
     // this.getNupayBankMasterList();
+    this.createRefundFeeInput.accountDetails = new Data.Spine.AccountDetails();
     this.getFiCreditorInfo();
   }
 

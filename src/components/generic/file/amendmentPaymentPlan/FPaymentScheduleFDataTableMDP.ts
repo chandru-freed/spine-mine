@@ -15,7 +15,7 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
             dataSelectorKey: "draftDate",
             columnCellMDP: new FCellDateMDP()
         }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true }) })
-            .addColumn({ label: "SPA Amount", dataSelectorKey: "settlementReserve", columnCellMDP: new FCellCurrencyMDP({rounded:true}) })
+            .addColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true}) })
             .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellCurrencyMDP({}) })
             .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) });
 

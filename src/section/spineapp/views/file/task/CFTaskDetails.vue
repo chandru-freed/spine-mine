@@ -281,6 +281,10 @@ export default class CFTaskDetails extends Vue {
       this.getExecutiveTaskDetailsHandler
     );
 
+   Action.ClientFile.MarkClientFileAsOnBoarded.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+
     this.getExecutiveTaskDetailsWithDelay();
   }
 
@@ -373,6 +377,10 @@ export default class CFTaskDetails extends Vue {
     );
     Action.Spine.UpdatePaymentStatus.notInterested(
       this.getExecutiveTaskDetailsHandler
+    );
+
+       Action.ClientFile.MarkClientFileAsOnBoarded.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
     );
 
   }

@@ -13,8 +13,7 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
       disabled: taskRoot.taskDisabled,
       label: "Incidental Expenses",
       mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "645"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -23,39 +22,44 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "healthInsuranceExpense",
-        label: "Health Insurance Expense",
+        label: "Health Insurance",
         mandatory: true,
+        boundaryClass: "col",
       })
     )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "vehicleInsuranceExpense",
-          label: "Vehicle Insurance Expense",
+          label: "Vehicle Insurance",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "sipExpense",
-          label: "SIP Expense",
+          label: "SIP",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "stockTradesExpense",
-          label: "Stock Trades Expense",
+          label: "Stock Trades",
           mandatory: true,
+          boundaryClass: "col",
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "otherExpense",
-          label: "Other Expense",
+          label: "Other",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
   }

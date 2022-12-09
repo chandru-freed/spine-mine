@@ -1,9 +1,9 @@
 import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
-export default class FCurrencyFieldMDP implements FFieldMDP {
-  componentName = "FCurrencyField";
-  dataSelectorKey: string;
+export default class FRangeSliderMDP implements FFieldMDP {
+  componentName = "FRangeSlider";
+  dataSelectorKey: any;
   label: string;
   type: string;
   rules: string;
@@ -12,39 +12,27 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
-  precession: string;
-  readonly: boolean | undefined;
-  hideDetails: boolean;
-  // defaultValue?: string;
 
   constructor({
     parentMDP,
-    dataSelectorKey,
-    label,
+    dataSelectorKey='',
+    label = '',
     type = "text",
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    condition = true,
-    precession = "0",
-    readonly = false,
-    hideDetails= true,
-  }: // defaultValue
-  {
+    condition = true
+  }: {
     parentMDP: FFormChildMDP;
-    dataSelectorKey: string;
-    label: string;
+    dataSelectorKey?: any;
+    label?: string;
     type?: string;
-    rules?: string;
+    rules?: any;
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean;
-    precession?: string;
-    readonly?:boolean;
-    hideDetails?: boolean;
-    // defaultValue?: string
+    condition?: boolean
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -54,11 +42,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
-    this.condition = condition;
-    this.precession = precession;
-    this.readonly = readonly;
-    this.hideDetails = hideDetails;
-    // this.defaultValue = defaultValue;
+    this.condition = condition
   }
 
   getRules() {
@@ -68,10 +52,6 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
 
   getBoundaryClass() {
     return `${this.boundaryClass} py-0 px-2`;
-  }
-
-  isDisabled() {
-    return this.disabled || this.readonly;
   }
 
   getMetaData(): object {
@@ -87,11 +67,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        disabled: this.isDisabled(),
-        precession: this.precession,
-        readonly: this.readonly,
-        hideDetails: this.hideDetails
-        // defaultValue: this.defaultValue
+        disabled: this.disabled,
       },
     };
   }

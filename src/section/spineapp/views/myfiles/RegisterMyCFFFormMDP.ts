@@ -75,7 +75,7 @@ export default class RegisterMyCFFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Register My CF",
+          label: "Add My Client File",
           onClick: this.validateAndSubmit(),
         })
       );

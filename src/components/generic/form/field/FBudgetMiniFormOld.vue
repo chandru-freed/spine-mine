@@ -1,54 +1,37 @@
 <template>
   <!-- <div class="d-flex flex-row align-start flex-wrap justify-start py-2 align-stretch"> -->
-  <div class="py-2">
+    <div class="py-2">
     <v-card
       outlined
       class="col-12 d-flex flex-column align-stretch"
       :min-height="minHeight"
     >
-    <div class="d-flex justify-space-between align-center px-2 pb-3" >
-      <v-subheader class="pa-0" style="height:0">{{ label }}</v-subheader>
-      <!-- <FCurrencyField
-          outlined
-          dense
-          :value="totalAmount"
-          :label="`TOTAL`"
-          disabled
-        ></FCurrencyField> -->
-        <v-chip dense label outlined small color="grey">TOTAL:&nbsp;&nbsp; <span
-              class="font-weight-bold warning--text"
-              >{{totalAmount | toINR}}</span></v-chip>
-    </div>
-      <div class="d-flex">
-        <div
-          v-for="(fieldMetaData, indx) in fieldMetaDataList"
-          :key="indx"
-          :class="fieldMetaData.boundaryClass"
+      <v-subheader class="pa-2 mb-2">{{ label }}</v-subheader>
+      <div
+        v-for="(fieldMetaData, indx) in fieldMetaDataList"
+        :key="indx"
+        :class="fieldMetaData.boundaryClass"
+      >
+        <ValidationProvider
+          :vid="fieldMetaData.props.id"
+          :name="fieldMetaData.props.label"
+          :rules="fieldMetaData.rules"
+          v-slot="{ errors }"
         >
-          <ValidationProvider
-            :vid="fieldMetaData.props.id"
-            :name="fieldMetaData.props.label"
-            :rules="fieldMetaData.rules"
-            v-slot="{ errors }"
-          >
-            <component
-              :is="fieldMetaData.componentName"
-              v-bind="fieldMetaData.props"
-              :value="selectModel(modelValue, fieldMetaData.dataSelectorKey)"
-              @input="
-                (newValue) =>
-                  updateModel(
-                    modelValue,
-                    newValue,
-                    fieldMetaData.dataSelectorKey
-                  )
-              "
-              :error-messages="errors"
-              :disabled="disabled"
-            ></component>
-          </ValidationProvider>
-        </div>
-        <!-- <div class="col py-0 px-2" >
+          <component
+            :is="fieldMetaData.componentName"
+            v-bind="fieldMetaData.props"
+            :value="selectModel(modelValue, fieldMetaData.dataSelectorKey)"
+            @input="
+              (newValue) =>
+                updateModel(modelValue, newValue, fieldMetaData.dataSelectorKey)
+            "
+            :error-messages="errors"
+            :disabled="disabled"
+          ></component>
+        </ValidationProvider>
+      </div>
+      <div class="col-12 px-2" style="margin-top: auto;">
         <FCurrencyField
           outlined
           dense
@@ -56,7 +39,6 @@
           :label="`TOTAL`"
           disabled
         ></FCurrencyField>
-        </div> -->
       </div>
     </v-card>
   </div>
@@ -98,7 +80,7 @@ export default class FBudgetMiniForm extends ModelVue {
   get totalAmount() {
     return Object.values(this.modelValue).reduce(
       (accumulator: number, objValue: any) => {
-        const val = isNaN(objValue) ? 0 : objValue;
+        const val = isNaN(objValue)?0: objValue;
         return accumulator + val;
       },
       0

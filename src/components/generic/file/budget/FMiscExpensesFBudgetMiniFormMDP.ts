@@ -13,7 +13,7 @@ export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP 
       disabled: taskRoot.taskDisabled,
       label: "Miscellaneous Expenses",
       mandatory: true,
-      boundaryClass: "col-4",
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -22,8 +22,9 @@ export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP 
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "miscellaneousExpense",
-        label: "Miscellaneous Expense",
+        label: "Miscellaneous",
         mandatory: true,
+        boundaryClass: "col",
       })
     )
   }

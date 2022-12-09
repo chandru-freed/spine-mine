@@ -83,6 +83,7 @@ import FUploadFileFieldForClient from "./field/FCFAWSUploadFileField.vue";
 import FCFAWSUploadFileField from "./field/FCFAWSUploadFileField.vue";
 import FEMandateSelectField from "./field/FEMandateSelectField.vue";
 import FAWSUploadFileField from "./field/FAWSUploadFileField.vue";
+import FRangeSlider from "./field/FRangeSlider.vue";
 
 @Component({
   components: {
@@ -113,6 +114,7 @@ import FAWSUploadFileField from "./field/FAWSUploadFileField.vue";
     FCFAWSUploadFileField,
     FEMandateSelectField,
     FAWSUploadFileField,
+    FRangeSlider
   },
 })
 export default class FForm extends ModelVue {

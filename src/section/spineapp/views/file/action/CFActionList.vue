@@ -56,6 +56,7 @@ import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from "@/../src-gen/action";
 import Helper from "@/section/spineapp/util/Helper";
+import * as Snackbar from "node-snackbar";
 
 @Component
 export default class CFActionList extends Vue {
@@ -165,7 +166,7 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           command: this.createNsfSPA,
         },
-         {
+        {
           actionName: "Amendment",
           icon: "mdi-chevron-right",
           command: this.createAmendmentFlow,
@@ -188,7 +189,16 @@ export default class CFActionList extends Vue {
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: { flowName: "Refund Fee" },
         },
-        
+      ],
+    },
+    {
+      groupName: "Other Action",
+      actionList: [
+        {
+          actionName: "Mark File As Onboarded",
+          icon: "mdi-chevron-right",
+          command: this.markClientFileAsOnBoarded,
+        },
       ],
     },
   ];
@@ -294,7 +304,6 @@ export default class CFActionList extends Vue {
     );
   }
 
-
   gotoCFActiveTaskList() {
     Helper.Router.gotoCFActiveTaskList({
       router: this.$router,
@@ -302,14 +311,30 @@ export default class CFActionList extends Vue {
     });
   }
 
+  markClientFileAsOnBoarded() {
+    Action.ClientFile.MarkClientFileAsOnBoarded.execute1(
+      this.clientFileId,
+      (output) => {
+        Snackbar.show({
+          text: "Succesfully update.",
+          pos: "bottom-center",
+        });
+      }
+    );
+  }
+
   get filteredActionGroupList() {
-    const filteredValList = this.actionGroupList.map((actionGroup) => {
-      let ag = { ...actionGroup };
-      ag.actionList = ag.actionList.filter((action: any) =>
-        action.actionName.toLowerCase().includes(this.searchText.toLowerCase())
-      );
-      return ag;
-    }).filter(item => item.actionList.length>0);
+    const filteredValList = this.actionGroupList
+      .map((actionGroup) => {
+        let ag = { ...actionGroup };
+        ag.actionList = ag.actionList.filter((action: any) =>
+          action.actionName
+            .toLowerCase()
+            .includes(this.searchText.toLowerCase())
+        );
+        return ag;
+      })
+      .filter((item) => item.actionList.length > 0);
     return filteredValList;
   }
 }

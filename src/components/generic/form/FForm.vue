@@ -112,7 +112,7 @@ import FAWSUploadFileField from "./field/FAWSUploadFileField.vue";
     FNupayBankSelectField,
     FCFAWSUploadFileField,
     FEMandateSelectField,
-    FAWSUploadFileField
+    FAWSUploadFileField,
   },
 })
 export default class FForm extends ModelVue {
@@ -161,6 +161,10 @@ export default class FForm extends ModelVue {
         actionMetaData.condition === undefined ||
         actionMetaData.condition === true
     );
+  }
+
+  isDirty(rules: string) {
+    return(rules.includes('required'))
   }
 }
 </script>

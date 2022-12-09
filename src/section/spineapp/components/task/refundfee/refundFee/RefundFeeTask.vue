@@ -1,7 +1,6 @@
 
 <template>
 <div>
-<h4>Fill The Task Name</h4>
 <!-- Root Data : {{ taskFormData }} --> 
 <component 
   :ref="stepperMetaData.myRefName"
@@ -30,6 +29,7 @@ export default class RefundFeeTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
   taskId = this.$route.params.taskId;
+  clientFileId = this.$route.params.clientFileId;
 
   get stepperMetaData(): any {
     return new RFTFStepperMDP({taskRoot: this}).getMetaData();
@@ -71,9 +71,13 @@ export default class RefundFeeTask extends ModelVue {
   taskFormOutputLocal: Data.Spine.RefundFeeOutput = new Data.Spine.RefundFeeOutput();
 
   get taskFormOutput() {
-    console.log(this.taskDetailsOutput)
-    this.taskFormOutputLocal = {
+    console.log(this.taskFormOutputLocal,"Task detail op")
+    if(Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
+      this.taskFormOutputLocal = {
       ...this.taskDetailsOutput
+    }
+    } else {
+      this.taskFormOutputLocal.accountDetails = this.taskDetailsInput.accountDetails
     }
     return this.taskFormOutputLocal;
   }

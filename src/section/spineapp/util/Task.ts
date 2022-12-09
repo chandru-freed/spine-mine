@@ -17,6 +17,25 @@ export default class Task  {
     static isTaskNotActionable(taskState: string) {
       return !this.isTaskActionable(taskState)
     }
-  
+
+    static isTaskOutputNotAvailable(taskOutput: any = {}) {
+      console.log(taskOutput)
+      return Object.keys(taskOutput).length === 0;
+    }
+
+    static isTaskOutputAvailable(taskOutput: any = {}) {
+      return !this.isTaskOutputNotAvailable(taskOutput)
+    }
+
+    static mergeTaskOutputAndReturn(taskInput: any = {},taskOutput: any = {},) {
+      console.log(taskOutput,"taskFormOutput in task")
+      if(this.isTaskOutputNotAvailable(taskOutput)) {
+        return {
+          ...taskInput
+        }
+      } else {
+        return taskOutput
+      }
+    }
    
 }

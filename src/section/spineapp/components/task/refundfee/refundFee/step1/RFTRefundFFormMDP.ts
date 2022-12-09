@@ -1,12 +1,15 @@
 
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FAWSUploadFileFieldMDP from "@/components/generic/form/field/FAWSUploadFileFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FEMandateSelectFieldMDP from "@/components/generic/form/field/FEMandateSelectFieldMDP";
 import FNupayBankSelectFieldMDP from "@/components/generic/form/field/FNupayBankSelectFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import Task from "@/section/spineapp/util/Task";
+import * as Data from "@/../src-gen/data";
+import FCFAWSUploadFileFieldMDP from "@/components/generic/form/field/FCFAWSUploadFileFieldMDP";
 export default class RFTRefundFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: any;
@@ -84,9 +87,20 @@ export default class RFTRefundFFormMDP extends FFormMDP {
                 label: "TXN Ref Number",
                 dataSelectorKey: "taskOutput.txnRefNumber",
                 parentMDP: this.childMDP,
-                condition: this.taskRoot.isRefundSuccessfull(),
+                condition: this.taskRoot.isRefundSuccessfull() || this.taskRoot.isRefundFailed(),
                 mandatory: true
-            })).addField(new FTextFieldMDP({
+            }))
+            .addField(new FCFAWSUploadFileFieldMDP(
+                {
+                  parentMDP: this.childMDP,
+                  dataSelectorKey: "taskOutput.attachedDoc",
+                  label: "Document",
+                  mandatory: true,
+                  boundaryClass: "col-12",
+                  condition: this.taskRoot.isRefundSuccessfull(),
+                },
+              ))
+            .addField(new FTextFieldMDP({
                 label: "Refund Failure Code",
                 dataSelectorKey: "taskOutput.refundFailureCode",
                 parentMDP: this.childMDP,

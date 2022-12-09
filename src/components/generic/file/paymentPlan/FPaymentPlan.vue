@@ -157,6 +157,8 @@ import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
 import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
 import ModifyPsEntryFFormMDP from "./ModifyPsEntryFFormMDP";
 import TMOStimulator from "../../tmoStimulator/TMOStimulator.vue";
+import * as Store from "@/../src-gen/store";
+
 @Component({
   components: {
     FForm,
@@ -175,6 +177,13 @@ export default class FPaymentPlan extends ModelVue {
   modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput =
     new Data.ClientFile.ModifyAmountPSEListInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
+  taskId = this.$route.params.taskId;
+
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  
+
   get clientFileId() {
     return this.$route.params.clientFileId;
   }

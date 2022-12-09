@@ -29,10 +29,10 @@
       :search="search"
       checkbox-color="primary"
     >
-      <template v-if="title || actions.length > 0 || enableSearch" v-slot:top>
+      <template v-if="title || actions.length > 0 || enableSearch || infoMetaDataList.length>0" v-slot:top>
         <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
-          <v-divider vertical class="mx-3" inset />
+          <v-divider v-if="title" vertical class="mx-3" inset />
           <div
             v-for="(info, index) in infoMetaDataList"
             :key="info.label + index"

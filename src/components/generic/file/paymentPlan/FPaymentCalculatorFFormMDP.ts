@@ -163,15 +163,14 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   schedulePaymentPlan(callback?: () => void) {
+    const parentComponent = this.parent.getMyRef();
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
-      this.taskRoot.taskFormData.taskOutput.paymentPlan
+      parentComponent.modelValue.paymentPlan
     );
-    input.clientFileId = (
-      this.taskRoot as any
-    ).clientFileBasicInfo.clientFileId;
+    input.clientFileId = parentComponent.clientFileBasicInfo.clientFileId;
     input.ppCalculator.outstanding =
-      this.taskRoot.taskFormData.taskOutput.creditorInfo.totalDebt;
-    input.taskId = this.taskRoot.taskId;
+    parentComponent.modelValue.creditorInfo.totalDebt;
+    input.taskId = parentComponent.taskId;
     Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",

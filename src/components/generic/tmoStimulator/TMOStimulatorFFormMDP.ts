@@ -53,29 +53,16 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           boundaryClass: "col-3",
           pastDaysDisabled: true,
         })
-      )
-      .addField(
+      ).addField(
         new FRangeSliderMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "tenure",
           mandatory: true,
           boundaryClass: "col-12",
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Calculate Payment Schedule",
-          onClick: this.calculatePaymentSchedule(),
         })
       );
   }
 
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
-  }
-  calculatePaymentSchedule() {
-    return () => {
-      this.taskRoot.schedulePaymentPlan();
-    };
   }
 }

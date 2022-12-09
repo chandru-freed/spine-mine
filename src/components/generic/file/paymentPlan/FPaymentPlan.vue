@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- {{modelValue.paymentPlan}} -->
-    <!-- <component
+    <component
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
       :value="
@@ -16,11 +15,10 @@
           )
       "
       v-bind="paymentCalculatorFormMetaData.props"
-    ></component> -->
+    ></component>
 
     <div class="d-flex justify-space-around"></div>
 
-    <TMOStimulator v-if="modelValue" :value="modelValue" />
     <v-alert
       dense
       type="warning"
@@ -121,7 +119,15 @@
 
     <div
       v-if="!disabled"
-      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
+      class="
+        d-flex
+        flex-row
+        align-start
+        flex-wrap
+        justify-space-around
+        pa-2
+        my-5
+      "
     >
       <div
         :class="actionMetaData.boundaryClass"

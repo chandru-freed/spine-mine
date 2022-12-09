@@ -3,70 +3,14 @@
     <!-- TASK TAB -->
     <my-ticket-tab v-model="tab"></my-ticket-tab>
     <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
-      <v-data-table
-        :headers="allocatedTicketTaskGridHeaderList"
-        :items="myTicketSubscribedList"
-        class="elevation-0"
-        item-key="taskId"
-        :search="search"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-card-title>My Completed Ticket</v-card-title>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
 
-        <template v-slot:[`item.priority`]="{ item }">
-          <v-chip small outlined>
-            {{ item.priority }}
-          </v-chip>
-        </template>
-        <template v-slot:[`item.taskName`]="{ item }">
-          <f-btn
-            :label="item.taskName"
-            text
-            color="primary"
-            :onClick="() => gotoTask(item)"
-          ></f-btn>
-        </template>
-        <template v-slot:[`item.cid`]="{ item }">
-          <f-btn
-            :label="item.cid"
-            text
-            color="secondary"
-            :onClick="() => gotoTask(item)"
-          ></f-btn>
-        </template>
-        <template v-slot:[`item.displayId`]="{ item }">
-          <span class="overline">
-            {{ item.displayId }}
-          </span>
-        </template>
-
-        <template v-slot:[`item.allocatedTime`]="{ item }">
-          <span class="grey--text">
-            {{ item.allocatedTime | datetime}} ({{
-              item.allocatedTime | fromNow
-            }})
-          </span>
-        </template>
-      </v-data-table>
-    </v-card>
+    <component
+      v-if="!!subscribedTicketListFDataTableMDP"
+      :ref="subscribedTicketListFDataTableMDP.myRefName"
+      :is="subscribedTicketListFDataTableMDP.componentName"
+      :value="selectModel(myTicketSubscribedList, undefined)"
+      v-bind="subscribedTicketListFDataTableMDP.props"
+    ></component>
   </div>
 </template>
 
@@ -79,41 +23,37 @@ import * as Action from "@/../src-gen/action";
 import store, * as Store from "@/../src-gen/store";
 import MyTicketTab from "../../components/tab/MyTicketTab.vue";
 import FBtn from "@/components/generic/FBtn.vue";
+import SubscribedTicketListFDataTableMDP from "./SubscribedTicketListFDataTableMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
 @Component({
   components: {
     "my-ticket-tab": MyTicketTab,
     "f-btn": FBtn,
+    FDataTable,
+    FForm,
   },
 })
-export default class SubscribedTicketList extends Vue {
+export default class SubscribedTicketList extends ModelVue {
   tab: number = 1;
 
-  search: string = ""
+  search: string = "";
 
   @Store.Getter.Ticket.TicketSummary.myTicketSubscribedList
   myTicketSubscribedList: Data.Ticket.MyTicketDetails[];
 
-  allocatedTicketTaskGridHeaderList = [
-    // { text: "Task Id", value: "taskId" },
-    { text: "Ticket Number", value: "cid", align: "start" },
-    { text: "Subject", value: "displayId", align: "start" },
-    // { text: "Task", value: "taskName", align: "start" },
-    { text: "Priority", value: "priority" },
-    { text: "Raised By", value: "raisedBy" },
-    { text: "Allocated To", value: "allocatedTo" },
-    { text: "Allocated On", value: "allocatedTime" },
-    //{ text: "Last Updated On", value: "lastUpdatedTime" },
-    // { text: "Suspended", value: "isSuspended" },
-    // { text: "", value: "action", sortable: false },
-  ];
+  get subscribedTicketListFDataTableMDP() {
+    return new SubscribedTicketListFDataTableMDP({
+      parent: this,
+    }).getMetaData();
+  }
 
   mounted() {
     this.getMyTicketTaskList();
   }
   getMyTicketTaskList() {
-    
-    Action.Ticket.GetMyTicketSubscribedList.execute((output) => {
-    });
+    Action.Ticket.GetMyTicketSubscribedList.execute((output) => {});
   }
 
   gotoTask(item: any) {

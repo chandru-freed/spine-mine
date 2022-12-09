@@ -1,78 +1,6 @@
 <template>
   <div class="ma-2">
-    <v-card elevation="2" class="pa-5">
-      <div class="d-flex align-start mb-10">
-        <v-chip class="mr-2" color="primary" label outlined large>
-          Repayment Amount:&nbsp;&nbsp;<span
-            class="font-weight-bold secondary--text"
-            >{{ Math.round(result.repaymentAmount) | toINR }}</span
-          >
-        </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined large>
-          SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-            Math.round(result.monthlyPayment) | toINR
-          }}</span>
-        </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined large
-          >MSF: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-            result.msfAmount | toINR
-          }}</span>
-        </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined large>
-          TMO/Affordability : &nbsp;&nbsp;<span
-            class="font-weight-bold secondary--text"
-            >{{ Math.round(result.monthlyObligation) | toINR }}</span
-          >
-        </v-chip>
-        <v-chip class="mr-2" color="primary" label outlined large
-          >Tenure: &nbsp;&nbsp;<span class="font-weight-bold secondary--text"
-            >{{ result.tenure }} mth</span
-          >
-        </v-chip>
-      </div>
-      <!-- <div class="row mb-5">
-        <div class="col-3">
-          <FCurrencyField
-            label="Outstanding Amount"
-            v-model="result.outstanding"
-          />
-        </div>
-        <div class="col-3">
-          <FNumberField
-            label="Settlement Percentage"
-            v-model="result.settlementPercentage"
-            outlined
-          />
-        </div>
-        <div class="col-3">
-          <FCurrencyField
-            label="Affordability"
-            v-model="result.affordability"
-          />
-        </div>
-        <div class="col-3">
-          <FDateSelectField
-            label="First SPA Draft Date"
-            v-model="result.firstSPADraftDate"
-            outlined
-            :pastDaysDisabled="true"
-          />
-        </div>
-      </div> -->
-
-      <!-- <v-slider
-        :rules="rules"
-        max="72"
-        min="1"
-        v-model="result.tenure"
-        thumb-label="always"
-      /> -->
-
-      <!-- <div class="d-flex justify-center">
-        <v-btn outlined color="primary" @click="schedulePaymentPlan()"
-          >Calculate Payment Schedule</v-btn
-        >
-      </div> -->
+    <v-card elevation="2">
       <component
         :is="tmoStimulatorFormMetaData.componentName"
         :ref="tmoStimulatorFormMetaData.myRefName"
@@ -80,30 +8,81 @@
         @input="(newValue) => updateModel(modelValue, newValue, result)"
         v-bind="tmoStimulatorFormMetaData.props"
       ></component>
-      <v-alert
-        dense
-        type="warning"
-        class="col-12 mb-5"
-        outlined
-        v-if="
-          Math.round(result.monthlyObligation) >
-          Math.round(result.affordability)
-        "
-      >
-        Monthly Obligation ({{ Math.round(result.monthlyObligation) | toINR }})
-        greater than Affordability ({{
-          Math.round(result.affordability) | toINR
-        }}).
-      </v-alert>
-      <v-alert
-        dense
-        type="error"
-        class="col-12 mb-5"
-        outlined
-        v-if="this.result.tenure >= this.tenureApproval"
-      >
-        It needs to be approved by the manager.
-      </v-alert>
+      <div class="px-5 pb-5">
+        <div class="d-flex align-start mb-5">
+          <v-chip class="mr-2" color="primary" label outlined large>
+            Repayment Amount:&nbsp;&nbsp;<span
+              class="font-weight-bold secondary--text"
+              >{{ Math.round(result.repaymentAmount) | toINR }}</span
+            >
+          </v-chip>
+          <v-chip class="mr-2" color="primary" label outlined large>
+            SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
+              Math.round(result.monthlyPayment) | toINR
+            }}</span>
+          </v-chip>
+          <v-chip class="mr-2" color="primary" label outlined large
+            >MSF: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
+              result.msfAmount | toINR
+            }}</span>
+          </v-chip>
+          <v-chip
+            class="mr-2"
+            color="primary"
+            label
+            outlined
+            large
+            v-if="monthlyObligationLessThan"
+          >
+            TMO/Affordability : &nbsp;&nbsp;<span
+              class="font-weight-bold secondary--text"
+              >{{ Math.round(result.monthlyObligation) | toINR }}</span
+            >
+          </v-chip>
+          <v-chip
+            class="mr-2"
+            color="warning"
+            label
+            outlined
+            large
+            v-if="monthlyObligationGreaterThanEqual"
+          >
+            TMO/Affordability : &nbsp;&nbsp;<span
+              class="font-weight-bold warning--text"
+              >{{ Math.round(result.monthlyObligation) | toINR }}</span
+            >
+          </v-chip>
+          <v-chip
+            class="mr-2"
+            color="primary"
+            label
+            outlined
+            large
+            v-if="tenureLessThan"
+            >Tenure: &nbsp;&nbsp;<span class="font-weight-bold secondary--text"
+              >{{ result.tenure }} mth</span
+            >
+          </v-chip>
+          <v-chip
+            class="mr-2"
+            color="error"
+            label
+            outlined
+            large
+            v-if="tenureLessGreaterThanEqual"
+            >Tenure: &nbsp;&nbsp;<span class="font-weight-bold"
+              >{{ result.tenure }} mth</span
+            >
+          </v-chip>
+        </div>
+        <component
+          :is="tmoStimulatorMDP.componentName"
+          :ref="tmoStimulatorMDP.myRefName"
+          :value="selectModel(result)"
+          @input="(newValue) => updateModel(modelValue, newValue, result)"
+          v-bind="tmoStimulatorMDP.props"
+        ></component>
+      </div>
     </v-card>
   </div>
 </template>
@@ -121,6 +100,7 @@ import store, * as Store from "@/../src-gen/store";
 import TMOStimulatorFFormMDP from "./TMOStimulatorFFormMDP";
 import FForm from "../form/FForm.vue";
 import Task from "@/section/spineapp/util/Task";
+import TMOStimulatorMDP from "./TMOStimulatorMDP";
 
 @Component({
   components: {
@@ -137,12 +117,11 @@ export default class TMOStimulator extends ModelVue {
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
   feeGSTPercentage: number = 11.8;
-  tenureApproval: any = 0;
-  rules = [
-    (v: number) =>
-      this.result.tenure <= this.tenureApproval ||
-      "It needs to be approved by the manager",
-  ];
+  // rules = [
+  //   (v: number) =>
+  //     this.result.tenure <= this.tenureApproval ||
+  //     "It needs to be approved by the manager",
+  // ];
   tenorNew = 0;
 
   resultLocal: any = {
@@ -155,11 +134,39 @@ export default class TMOStimulator extends ModelVue {
     msfAmount: 0,
     monthlyObligation: 0,
     firstSPADraftDate: "",
+    tenureApproval: 0,
   };
+
+  get monthlyObligationLessThan() {
+    return (
+      Math.round(this.result.monthlyObligation) <=
+      Math.round(this.result.affordability)
+    );
+  }
+
+  get monthlyObligationGreaterThanEqual() {
+    return (
+      Math.round(this.result.monthlyObligation) >=
+      Math.round(this.result.affordability)
+    );
+  }
+
+  get tenureLessThan() {
+    return this.result.tenure <= this.result.tenureApproval;
+  }
+
+  get tenureLessGreaterThanEqual() {
+    return this.result.tenure >= this.result.tenureApproval;
+  }
 
   //METADATA
   get tmoStimulatorFormMetaData() {
     return new TMOStimulatorFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
+  get tmoStimulatorMDP() {
+    return new TMOStimulatorMDP({
       taskRoot: this,
     }).getMetaData();
   }
@@ -192,7 +199,9 @@ export default class TMOStimulator extends ModelVue {
       this.resultLocal.tenure;
     this.resultLocal.repaymentAmount =
       (this.resultLocal.outstanding * totalPercentage) / 100;
-    this.tenureApproval = getTenureWithFreed(this.resultLocal.outstanding);
+    this.resultLocal.tenureApproval = getTenureWithFreed(
+      this.resultLocal.outstanding
+    );
     this.resultLocal.msfAmount = getMSFWithFreed(this.resultLocal.outstanding);
     this.resultLocal.monthlyObligation =
       this.resultLocal.monthlyPayment + this.resultLocal.msfAmount;
@@ -218,10 +227,6 @@ export default class TMOStimulator extends ModelVue {
         pos: "bottom-center",
       });
     });
-  }
-
-  getTenureApproval() {
-    return this.rules;
   }
 
   get taskDisabled(): boolean {

@@ -3,7 +3,7 @@ import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
 export default class FRangeSliderMDP implements FFieldMDP {
   componentName = "FRangeSlider";
-  dataSelectorKey: string;
+  dataSelectorKey: any;
   label: string;
   type: string;
   rules: string;
@@ -15,7 +15,7 @@ export default class FRangeSliderMDP implements FFieldMDP {
 
   constructor({
     parentMDP,
-    dataSelectorKey,
+    dataSelectorKey='',
     label = '',
     type = "text",
     rules = "",
@@ -25,7 +25,7 @@ export default class FRangeSliderMDP implements FFieldMDP {
     condition = true
   }: {
     parentMDP: FFormChildMDP;
-    dataSelectorKey: string;
+    dataSelectorKey?: any;
     label?: string;
     type?: string;
     rules?: any;

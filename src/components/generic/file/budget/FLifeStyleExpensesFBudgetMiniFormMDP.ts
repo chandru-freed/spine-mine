@@ -11,10 +11,9 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       parentMDP: new FFormChildMDP(),
       dataSelectorKey: "lifeStyleExpenses",
       disabled: taskRoot.taskDisabled,
-      label: "Life Style Expenses",
+      label: "Life Style",
       mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "645"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -23,39 +22,44 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "travelExpense",
-        label: "Travel/Fuel Expense",
+        label: "Travel/Fuel",
         mandatory: true,
+        boundaryClass: "col",
       })
     )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "digitalSubscriptionsExpense",
-          label: "Digital Subscriptions Expense",
+          label: "Digital Subscriptions",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "diningOutExpense",
-          label: "Dining Out Expense",
+          label: "Dining Out",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "houseHelpExpense",
-          label: "House Help Expense",
+          label: "House Help",
           mandatory: true,
+          boundaryClass: "col",
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "outingExpense",
-          label: "Outing Expense",
+          label: "Outing",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
   }

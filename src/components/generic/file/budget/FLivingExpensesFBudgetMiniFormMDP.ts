@@ -13,8 +13,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
       disabled: taskRoot.taskDisabled,
       label: "Living Expenses",
       mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "575"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -25,6 +24,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
         dataSelectorKey: "rentMaintenance",
         label: "Rent / Maintenance",
         mandatory: true,
+        boundaryClass: "col",
       })
     )
       .addField(
@@ -33,6 +33,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           dataSelectorKey: "groceryExpense",
           label: "Grocery Expense",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
@@ -41,6 +42,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           dataSelectorKey: "electricityBill",
           label: "Electricity Bill",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
@@ -49,6 +51,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           dataSelectorKey: "gasBill",
           label: "Gas Bill",
           mandatory: true,
+          boundaryClass: "col",
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -56,6 +59,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           dataSelectorKey: "phoneBill",
           label: "Phone Bill",
           mandatory: true,
+          boundaryClass: "col",
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -63,6 +67,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           dataSelectorKey: "otherUtilities",
           label: "Other Utilities",
           mandatory: true,
+          boundaryClass: "col",
         })
       );
   }

@@ -1,56 +1,54 @@
-import FFieldMDP from "@/components/generic/form/field/FFieldMDP";
-import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FBtnMDP from "../../FBtnMDP";
+import FFieldMDP from "./FFieldMDP";
+import MDP from "../../MDP";
 
-export default class FTextareaMDP implements FFieldMDP {
-  componentName = "FTextarea";
+export class FFormChildMDP {
+  outlined = true;
+  dense = true;
+}
+
+export default class FBudgetMiniFormMDP implements FFieldMDP {
+  componentName = "FBudgetMiniForm";
+
+  fieldList: FFieldMDP[] = [];
+
   dataSelectorKey: string;
+  disabled: boolean;
+  minHeight: string;
+
   label: string;
-  type: string;
   rules: string;
   mandatory: boolean;
-  parentMDP: FFormChildMDP;
   boundaryClass: string;
-  disabled: boolean;
-  condition: boolean;
-  rows: string;
-  autoGrow: boolean;
+  parentMDP: FFormChildMDP;
 
   constructor({
     parentMDP,
     dataSelectorKey,
+    disabled = false,
     label,
-    type = "text",
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
-    disabled = false,
-    condition = true,
-    rows="2",
-    autoGrow= true
+    minHeight = "",
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
+    disabled?: boolean;
     label: string;
-    type?: string;
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string;
-    disabled?: boolean;
-    condition?: boolean;
-    rows?: string;
-    autoGrow?: boolean;
+    minHeight?: string;
   }) {
-    this.parentMDP = parentMDP;
+    this.parentMDP = parentMDP; // todo : Check not being used
     this.dataSelectorKey = dataSelectorKey;
+    this.disabled = disabled;
     this.label = label;
-    this.type = type;
     this.rules = rules;
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
-    this.disabled = disabled;
-    this.condition = condition
-    this.rows = rows;
-    this.autoGrow = autoGrow;
+    this.minHeight = minHeight;
   }
 
   getRules() {
@@ -62,22 +60,22 @@ export default class FTextareaMDP implements FFieldMDP {
     return `${this.boundaryClass} py-0 px-2`;
   }
 
+  addField(newField: FFieldMDP) {
+    this.fieldList.push(newField);
+    return this;
+  }
+
   getMetaData(): object {
     return {
       componentName: this.componentName,
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
-      condition: this.condition,
       props: {
-        id: this.dataSelectorKey,
         label: this.label,
-        type: this.type,
-        outlined: this.parentMDP.outlined,
-        dense: this.parentMDP.dense,
+        fieldMetaDataList: this.fieldList.map((field) => field.getMetaData()),
         disabled: this.disabled,
-        rows: this.rows,
-        autoGrow: this.autoGrow
+        minHeight: this.minHeight,
       },
     };
   }

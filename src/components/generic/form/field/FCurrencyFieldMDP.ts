@@ -14,6 +14,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
   condition: boolean;
   precession: string;
   readonly: boolean | undefined;
+  hideDetails: boolean;
   // defaultValue?: string;
 
   constructor({
@@ -28,6 +29,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     condition = true,
     precession = "0",
     readonly = false,
+    hideDetails= true,
   }: // defaultValue
   {
     parentMDP: FFormChildMDP;
@@ -41,6 +43,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     condition?: boolean;
     precession?: string;
     readonly?:boolean;
+    hideDetails?: boolean;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -54,6 +57,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     this.condition = condition;
     this.precession = precession;
     this.readonly = readonly;
+    this.hideDetails = hideDetails;
     // this.defaultValue = defaultValue;
   }
 
@@ -86,6 +90,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
         disabled: this.isDisabled(),
         precession: this.precession,
         readonly: this.readonly,
+        hideDetails: this.hideDetails
         // defaultValue: this.defaultValue
       },
     };

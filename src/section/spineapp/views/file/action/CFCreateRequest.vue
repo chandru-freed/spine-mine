@@ -312,8 +312,9 @@ export default class CFCreateRequest extends Vue {
     this.fileCreateRequestInput.createSettlementPlanInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
     console.log(this.fileCreateRequestInput.createSettlementPlanInput);
+    const input = Data.Spine.CreateSettlementPlanInput.fromJson(this.fileCreateRequestInput.createSettlementPlanInput)
     Action.Spine.CreateSettlementPlan.execute(
-      this.fileCreateRequestInput.createSettlementPlanInput,
+      input,
       (output) => {
         setTimeout(() => {
           this.gotoTask();

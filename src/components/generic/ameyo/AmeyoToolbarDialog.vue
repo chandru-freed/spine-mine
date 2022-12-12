@@ -20,10 +20,11 @@
     </div> -->
      <iframe
           id="ameyoIframe"
-          height="450"
+          height="200"
           width="320"
           :src="iframeUrl"
           persistent
+          style="border:none;margin: 12px;border-radius: 4px;"
         ></iframe>
   </v-layout>
 </template>

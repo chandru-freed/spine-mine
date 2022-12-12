@@ -2,6 +2,11 @@
   <div class="row">
     <div class="col-12">
       <v-card outlined height="200px">
+        <AmeyoToolbarDialog :ameyoToolbar="true" />
+      </v-card>
+    </div>
+    <div class="col-12">
+      <v-card outlined height="200px">
         <v-card-text class="pt-1 pb-0">
           <div>Quick Actions</div>
         </v-card-text>
@@ -72,12 +77,6 @@
             </v-list>
           </div>
         </v-card-text>
-      </v-card>
-    </div>
-
-    <div class="col-12">
-      <v-card outlined height="200px">
-        <AmeyoToolbarDialog :ameyoToolbar="true" />
       </v-card>
     </div>
   </div>

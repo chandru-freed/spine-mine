@@ -2,9 +2,19 @@
   <v-select
     v-bind="$props"
     :value="modelValue"
-    @input="(newValue) => (modelValue = newValue)"
+    @input="(newVal) => mandateSelectChanged(newVal)"
     :items="fiEMandateList"
-  ></v-select>
+  >
+    <template v-slot:item="data">
+      <v-list-item-content>
+        <v-list-item-title v-html="data.item.nupayBankName"></v-list-item-title>
+        <v-list-item-subtitle>
+          {{ data.item.amount | toRoundedINR }},
+          {{ data.item.accountNumber | masked-account-number }}
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </template>
+  </v-select>
 </template>
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
@@ -26,10 +36,20 @@ export default class FEMandateSelectField extends VSelect {
   @Prop()
   value: any;
 
+  @Prop()
+  onSelect: (details: any) => void;
+
   clientFileId = this.$route.params.clientFileId;
 
   get modelValue() {
     return this.value;
+  }
+
+  mandateSelectChanged(newVal: any) {
+    this.modelValue = newVal;
+    if (this.onSelect) {
+      this.onSelect(newVal);
+    }
   }
 
   mounted() {

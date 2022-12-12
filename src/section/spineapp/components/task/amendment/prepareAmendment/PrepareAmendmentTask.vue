@@ -42,18 +42,7 @@ export default class PrepareAmendmentTask extends ModelVue {
     return new PATFStepperMDP({taskRoot: this}).getMetaData();
   }
   
-  // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
 
   //FORM
 
@@ -64,7 +53,7 @@ export default class PrepareAmendmentTask extends ModelVue {
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -78,12 +67,13 @@ export default class PrepareAmendmentTask extends ModelVue {
   taskFormOutputLocal: Data.Spine.AmendmentTaskOutput = new Data.Spine.AmendmentTaskOutput();
 
   get taskFormOutput() {
-    
-    if(Task.isTaskOutputNotAvailable(this.taskDetailsOutput)) {
-    this.taskDetailsOutput.newCreditorInfo = this.taskDetailsInput.existingCreditorInfo;
-    this.taskDetailsOutput.newPaymentPlan =this.taskDetailsInput.existingPaymentPlan;
+    console.log(this.taskDetails.isOutputEmpty)
+    if(this.taskDetails.isOutputEmpty) {
+      this.taskFormOutputLocal.newCreditorInfo = (this.taskDetails.inputJson as any).existingCreditorInfo 
+      this.taskFormOutputLocal.newPaymentPlan = (this.taskDetails.inputJson as any).existingPaymentPlan;
+    } else {
+      this.taskFormOutputLocal  = Data.Spine.AmendmentTaskOutput.fromJson(this.taskDetails.outputJson);
     }
-    this.taskFormOutputLocal = Task.mergeTaskOutputAndReturn(this.taskDetailsInput, this.taskDetailsOutput);
     return this.taskFormOutputLocal;
   }
 

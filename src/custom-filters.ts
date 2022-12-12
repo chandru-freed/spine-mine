@@ -17,6 +17,8 @@ export default class CustomFilters {
     this.toDateAndTime();
     this.maskPhone();
     this.toMonthDay();
+    this.toMaskedAccountNumber();
+    this.toRoundedINR();
   }
 
   private static toUSD() {
@@ -32,6 +34,17 @@ export default class CustomFilters {
     });
   }
 
+  private static toRoundedINR() {
+    Vue.filter("toRoundedINR", (value: number = 0) => {
+      return `₹ ${Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    });
+  }  
+  
+  private static toMaskedAccountNumber() {
+    Vue.filter("masked-account-number", (value: string) => {
+      return `XXXX ${value.substring(value.length - 4)}`;
+    });
+  }
   private static toDate() {
     Vue.filter("date", (value: any) => {
       if (!value) { return "-"}

@@ -37,7 +37,8 @@ export default class RFTRefundFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskInput.accountDetails.accountHolderName",
                 parentMDP: this.childMDP,
                 disabled: true,
-                boundaryClass:"col-4"
+                boundaryClass:"col-4",
+                condition: this.taskRoot.taskFormData.taskInput.accountDetails
             }))
             .addField(
                 new FTextFieldMDP({
@@ -46,6 +47,7 @@ export default class RFTRefundFFormMDP extends FFormMDP {
                   label: "Account Number",
                   boundaryClass: "col-4",
                   disabled: true,
+                  condition: this.taskRoot.taskFormData.taskInput.accountDetails
                 })
               )
             .
@@ -54,7 +56,8 @@ export default class RFTRefundFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskInput.accountDetails.nupayBankMasterId",
                 parentMDP: this.childMDP,
                 disabled: true,
-                boundaryClass:"col-4"
+                boundaryClass:"col-4",
+                condition: this.taskRoot.taskFormData.taskInput.accountDetails
             }))
             .
             addField(new FTextFieldMDP({
@@ -62,7 +65,8 @@ export default class RFTRefundFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskInput.accountDetails.accountType",
                 parentMDP: this.childMDP,
                 disabled: true,
-                boundaryClass:"col-4"
+                boundaryClass:"col-4",
+                condition: this.taskRoot.taskFormData.taskInput.accountDetails
             }))
             .
             addField(new FTextFieldMDP({
@@ -70,7 +74,8 @@ export default class RFTRefundFFormMDP extends FFormMDP {
                 dataSelectorKey: "taskInput.accountDetails.ifscCode",
                 parentMDP: this.childMDP,
                 disabled: true,
-                boundaryClass:"col-4"
+                boundaryClass:"col-4",
+                condition: this.taskRoot.taskFormData.taskInput.accountDetails
             }))
             .
 
@@ -81,7 +86,8 @@ export default class RFTRefundFFormMDP extends FFormMDP {
                 parentMDP: this.childMDP,
                 optionLabel: "name",
                 optionValue: "value",
-                mandatory: true
+                mandatory: true,
+                boundaryClass: 'col-12'
             }))
             .addField(new FTextFieldMDP({
                 label: "TXN Ref Number",

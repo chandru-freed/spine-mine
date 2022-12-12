@@ -29,7 +29,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
     condition = true,
     precession = "0",
     readonly = false,
-    hideDetails= true,
+    hideDetails= false,
   }: // defaultValue
   {
     parentMDP: FFormChildMDP;

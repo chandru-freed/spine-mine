@@ -15,6 +15,7 @@ export default class FEMandateSelectFieldMDP implements FFieldMDP {
   returnObject: boolean;
   disabled: boolean
   condition: boolean;
+  onSelect: (details: any) => void | undefined;
   constructor({
     parentMDP,
     dataSelectorKey,
@@ -27,6 +28,7 @@ export default class FEMandateSelectFieldMDP implements FFieldMDP {
     disabled = false,
     returnObject=false,
     condition=true,
+    onSelect,
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -38,6 +40,7 @@ export default class FEMandateSelectFieldMDP implements FFieldMDP {
     disabled?: boolean
     condition?:boolean
     returnObject?: boolean
+    onSelect?: any;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -49,6 +52,7 @@ export default class FEMandateSelectFieldMDP implements FFieldMDP {
     this.disabled = disabled
     this.condition = condition;
     this.returnObject = returnObject;
+    this.onSelect = onSelect;
   }
 
   getRules() {
@@ -76,7 +80,8 @@ export default class FEMandateSelectFieldMDP implements FFieldMDP {
         disabled: this.disabled,
         returnObject: this.returnObject,
         itemText: this.optionLabel,
-        itemValue: this.optionValue
+        itemValue: this.optionValue,
+        onSelect: this.onSelect
       },
     };
   }

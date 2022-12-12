@@ -39,7 +39,8 @@ export default class RefundFeeFFormMDP extends FFormMDP {
       label: "Emandate",
       parentMDP:this.childMDP,
       boundaryClass:"col-4",
-      returnObject: true
+      returnObject: true,
+      onSelect: (details: any) => {this.handleSelectedEmandate(details)}
   }))
     .addField(new AccountFMiniFormMDP({
       dataSelectorKey:"createRefundFeeInput.accountDetails",
@@ -47,7 +48,6 @@ export default class RefundFeeFFormMDP extends FFormMDP {
       label: "Account Details",
       parent:this.parent,
       taskRoot: this.taskRoot,
-      mandatory: true
 
     }))
     .
@@ -69,6 +69,11 @@ export default class RefundFeeFFormMDP extends FFormMDP {
     return () => {
       this.getMyRef().submitForm(this.createNsfMSFFlow());
     };
+  }
+
+  handleSelectedEmandate(details: any) {
+    console.log(details);
+    this.taskRoot.populateAccountDetailsRefund(details);
   }
 
   createNsfMSFFlow() {

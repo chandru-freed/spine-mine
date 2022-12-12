@@ -45,17 +45,17 @@ export default class UnderwrittingTask
   }
 
   // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //FORM
 
@@ -66,7 +66,7 @@ export default class UnderwrittingTask
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -78,17 +78,21 @@ export default class UnderwrittingTask
 
   //Task Output
 
-  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput();
+  taskFormOutputLocal: Data.Spine.UnderwrittingTaskOutput = new Data.Spine.UnderwrittingTaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.underwrittingApproved) {
-      this.taskFormOutputLocal.underwrittingApproved =
-        this.taskDetailsOutput.underwrittingApproved;
-    }
-    if (this.taskDetailsOutput.reasonForUnderwrittingDecline) {
-      this.taskFormOutputLocal.reasonForUnderwrittingDecline =
-        this.taskDetailsOutput.reasonForUnderwrittingDecline;
-    }
+    // if (this.taskDetailsOutput.underwrittingApproved) {
+    //   this.taskFormOutputLocal.underwrittingApproved =
+    //     this.taskDetailsOutput.underwrittingApproved;
+    // }
+    // if (this.taskDetailsOutput.reasonForUnderwrittingDecline) {
+    //   this.taskFormOutputLocal.reasonForUnderwrittingDecline =
+    //     this.taskDetailsOutput.reasonForUnderwrittingDecline;
+    // }
+
+    this.taskFormOutputLocal = this.taskDetails.isOutputEmpty
+    ?new Data.Spine.UnderwrittingTaskOutput()
+    :Data.Spine.UnderwrittingTaskOutput.fromJson(this.taskDetails.outputJson)
     return this.taskFormOutputLocal;
   }
 

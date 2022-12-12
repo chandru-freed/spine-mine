@@ -25,36 +25,6 @@
         :value="selectModel(updateAccountDetailsInput, undefined)"
         v-bind="updateAccountDetailsFFormMDP.props"
       ></component>
-
-      <v-alert dense outlined text color="error" v-if="deleteSPAEntry">
-        <div
-          class="
-            d-flex
-            flex-row
-            align-start
-            flex-wrap
-            justify-space-around
-            pa-2
-          "
-        >
-          <div class="my-1">Are you sure want to delete?</div>
-          <v-spacer />
-          <FBtn
-            label="Cancel"
-            :on-click="closeDialogs"
-            outlined
-            color="red"
-            class="mx-2"
-          />
-          <FBtn
-            label="Delete"
-            :on-click="removeSTEntry"
-            outlined
-            color="red"
-            class="mx-2"
-          />
-        </div>
-      </v-alert>
     </template>
     <template>
       <v-card flat outlined class="row ma-2">
@@ -70,123 +40,36 @@
               <v-tab> Fee Schedule </v-tab>
             </v-tabs>
             <v-spacer></v-spacer>
-            <v-btn
+            <f-add-btn
               :disabled="disabled"
-              icon
               color="primary"
               class="mb-2"
               @click="showAddForm"
+              label="Add StEntry"
             >
-              <v-icon>mdi-plus-circle-outline</v-icon>
-            </v-btn>
+            </f-add-btn>
           </v-toolbar>
         </template>
 
         <v-tabs-items v-model="tab" class="col-12">
           <v-tab-item>
-            <v-card flat>
-              <v-data-table
-                :headers="spaHeaders"
-                :items="stPlanDetails.stSpaEntryList"
-                sort-by="draftDate"
-                class="elevation-0"
-              >
-                <template v-slot:top>
-                  <v-toolbar flat>
-                    <v-toolbar-title>SPA Schedule</v-toolbar-title>
-                    <v-divider class="mx-4" inset vertical></v-divider>
-                    <v-spacer></v-spacer>
-                  </v-toolbar>
-                </template>
-                <template v-slot:[`item.status`]="{ item }">
-                  <v-chip small outlined>
-                    {{ item.status }}
-                  </v-chip>
-                </template>
-                <template v-slot:[`item.totalAmount`]="{ item }">
-                  {{ item.totalAmount | toINR }}
-                </template>
-                <template v-slot:[`item.spaAmount`]="{ item }">
-                  {{ item.spaAmount | toINR }}
-                </template>
-                <template v-slot:[`item.draftDate`]="{ item }">
-                  <span class="grey--text">
-                    {{ item.draftDate | date }}
-                  </span>
-                </template>
-
-                <template v-slot:[`item.actions`]="{ item, index }">
-                  <v-btn
-                    :disabled="!stEntryScheduled(item) || disabled"
-                    small
-                    outlined
-                    color="primary"
-                    class="mr-2"
-                    @click="presentSTEntry(item)"
-                    >Present</v-btn
-                  >
-                  <v-btn
-                    small
-                    outlined
-                    color="primary"
-                    class="mr-2"
-                    @click="handleUpdateAccountDetailsClick(item)"
-                    >Update account info</v-btn
-                  >
-                  <v-icon
-                    :disabled="!stEntryScheduled(item) || disabled"
-                    small
-                    @click="showDeletePopup(item, index)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                </template>
-              </v-data-table>
-            </v-card>
+             <component
+          v-if="stPlanDetails.stPlanInfo"
+          :ref="spaScheduleTableMetaData.myRefName"
+          :is="spaScheduleTableMetaData.componentName"
+          :value="stPlanDetails"
+          v-bind="spaScheduleTableMetaData.props"
+        ></component>
+            
           </v-tab-item>
           <v-tab-item>
-            <v-card flat>
-              <v-data-table
-                :headers="feeHeaders"
-                :items="stPlanDetails.stFeeEntryList"
-                sort-by="draftDate"
-                class="elevation-0"
-              >
-                <template v-slot:top>
-                  <v-toolbar flat>
-                    <v-toolbar-title>Fee Schedule</v-toolbar-title>
-                    <v-divider class="mx-4" inset vertical></v-divider>
-                    <v-spacer></v-spacer>
-                  </v-toolbar>
-                </template>
-                <template v-slot:[`item.status`]="{ item }">
-                  <v-chip small outlined>
-                    {{ item.status }}
-                  </v-chip>
-                </template>
-
-                <template v-slot:[`item.totalAmount`]="{ item }">
-                  {{ item.totalAmount | toINR }}
-                </template>
-                <template v-slot:[`item.feeAmount`]="{ item }">
-                  {{ item.feeAmount | toINR }}
-                </template>
-                <template v-slot:[`item.draftDate`]="{ item }">
-                  <span class="grey--text">
-                    {{ item.draftDate | date }}
-                  </span>
-                </template>
-                <template v-slot:[`item.actions`]="{ item, index }">
-                  <v-icon
-                    :disabled="!stEntryScheduled(item)"
-                    small
-                    @click="showDeletePopup(item, index)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                </template>
-              </v-data-table>
-            </v-card>
+              <component
+          v-if="stPlanDetails.stPlanInfo"
+          :ref="feeScheduleTableMetaData.myRefName"
+          :is="feeScheduleTableMetaData.componentName"
+          :value="stPlanDetails"
+          v-bind="feeScheduleTableMetaData.props"
+        ></component>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -207,11 +90,17 @@ import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 import * as Snackbar from "node-snackbar";
 import FBtn from "@/components/generic/FBtn.vue";
 import UpdateAccountDetailsFFormMDP from "./UpdateAccountDetailsFFormMDP";
+import SPAScheduleTableMDP from "@/section/spineapp/views/file/settlement/SPAScheduleTableMDP";
+import FeeScheduleTableMDP from "@/section/spineapp/views/file/settlement/FeeScheduleTableMDP";
+import FDataTable from "../../table/FDataTable.vue";
+import FAddBtn from "../../FAddBtn.vue";
 
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable,
+    FAddBtn
   },
 })
 export default class FSettlementPlan extends ModelVue {
@@ -245,7 +134,6 @@ export default class FSettlementPlan extends ModelVue {
 
   tab = 0;
   addSPAEntry = false;
-  deleteSPAEntry = false;
 
   get taskDetailsInput() {
     return !!this.taskDetails && !!this.taskDetails.taskInput
@@ -257,32 +145,6 @@ export default class FSettlementPlan extends ModelVue {
     return this.taskDetailsInput.stPlanInfo?.fiSettlementPlanId;
   }
 
-  spaHeaders = [
-    {
-      text: "Payment Provider",
-      align: "start",
-      sortable: false,
-      value: "paymentProvider",
-    },
-    { text: "status", value: "status" },
-    { text: "DraftDate", value: "draftDate" },
-    { text: "SPA Amount", value: "spaAmount", align: "right" },
-    // { text: "Total Amount", value: "totalAmount", align: "right" },
-    { text: "Actions", value: "actions", align: "right" },
-  ];
-  feeHeaders = [
-    {
-      text: "Payment Provider",
-      align: "start",
-      sortable: false,
-      value: "paymentProvider",
-    },
-    { text: "status", value: "status" },
-    { text: "Draft Date", value: "draftDate" },
-    { text: "Fee Amount", value: "feeAmount", align: "right" },
-    // { text: "Total Amount", value: "totalAmount", align: "right" },
-    { text: "Actions", value: "actions", align: "right" },
-  ];
   //METADATA
   get settlementPlanInfoMetaData() {
     return new CFSettlementPlanInfoFFormMDP({ root: this }).getMetaData();
@@ -294,6 +156,14 @@ export default class FSettlementPlan extends ModelVue {
 
   get updateAccountDetailsFFormMDP() {
     return new UpdateAccountDetailsFFormMDP({ taskRoot: this }).getMetaData();
+  }
+
+    get spaScheduleTableMetaData() {
+    return new SPAScheduleTableMDP({ root:this }).getMetaData()
+  }
+
+  get feeScheduleTableMetaData() {
+    return new FeeScheduleTableMDP({ root:this }).getMetaData()
   }
   //METADATA
 
@@ -314,21 +184,13 @@ export default class FSettlementPlan extends ModelVue {
     this.resetForms();
     this.closeDialogs();
     this.addSPAEntry = true;
-    this.deleteSPAEntry = false;
   }
   closeDialogs() {
     this.resetForms();
     this.addSPAEntry = false;
-    this.deleteSPAEntry = false;
     this.showUpdateAccountDetails = false;
   }
 
-  showDeletePopup(item: any) {
-    console.log("stEntryId", item.stEntryId);
-    this.selectedSTEntry = item;
-    this.deleteSPAEntry = true;
-    this.addSPAEntry = false;
-  }
 
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
@@ -348,24 +210,12 @@ export default class FSettlementPlan extends ModelVue {
     });
   }
 
-  removeSTEntry() {
-    const stEntryId = this.selectedSTEntry.stEntryId;
-    Action.ClientFile.RemoveSTEntry.execute1(stEntryId, (output) => {
-      Snackbar.show({
-        text: "Succesfully Delete ST Entry",
-        pos: "bottom-center",
-      });
-      this.deleteSPAEntry = false;
-    });
-  }
-
   presentSTEntry(item: any) {
     Action.ClientFile.PresentSTEntry.execute1(item.stEntryId, (output) => {
       Snackbar.show({
         text: "Succesfully Delete ST Entry",
         pos: "bottom-center",
       });
-      this.deleteSPAEntry = false;
     });
   }
 

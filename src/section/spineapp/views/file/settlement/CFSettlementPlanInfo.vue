@@ -1,9 +1,9 @@
 <template>
   <v-col class="CFSettlementPlanInfo">
-    <!-- {{stPlanDetails.stFeeEntryList}} -->
     <template>
       <v-card outlined class="ma-2">
         <component
+          v-if="settlementPlanInfoMetaData"
           :ref="settlementPlanInfoMetaData.myRefName"
           :is="settlementPlanInfoMetaData.componentName"
           :value="selectModel(stPlanDetails.stPlanInfo, undefined)"
@@ -25,8 +25,6 @@
         :value="selectModel(updateAccountDetailsInput, undefined)"
         v-bind="updateAccountDetailsFFormMDP.props"
       ></component>
-
-      
 
       <v-alert dense outlined text color="error" v-if="deleteSPAEntry">
         <div
@@ -72,117 +70,35 @@
               <v-tab> Fee Schedule </v-tab>
             </v-tabs>
             <v-spacer></v-spacer>
-            <!-- <v-btn
+            <f-add-btn
               :disabled="disabled"
-              icon
               color="primary"
               class="mb-2"
               @click="showAddForm"
+              label="Add StEntry"
             >
-              <v-icon>mdi-plus-circle-outline</v-icon>
-            </v-btn> -->
+            </f-add-btn>
           </v-toolbar>
         </template>
-      
-        <v-tabs-items v-model="tab" class=" col-12">
-          <v-tab-item>
-              <f-data-table
-                :columnList="spaHeaders"
-                :value="stPlanDetails.stSpaEntryList"
-                :actions="spaActions"
-                sort-by="draftDate"
-                class="elevation-0"
-                item-key="stEntryId"
-              >
-                <template v-slot:[`item.status`]="{ item }">
-                  <v-chip small outlined>
-                    {{ item.status }}
-                  </v-chip>
-                </template>
-                <template v-slot:[`item.totalAmount`]="{ item }">
-                  {{ item.totalAmount | toINR }}
-                </template>
-                <template v-slot:[`item.spaAmount`]="{ item }">
-                  {{ item.spaAmount | toINR }}
-                </template>
-                <template v-slot:[`item.draftDate`]="{ item }">
-                  <span class="grey--text">
-                    {{ item.draftDate | date }}
-                  </span>
-                </template>
 
-                <template v-slot:[`item.actions`]="{ item, index }">
-                  <v-btn
-                    :disabled="!stEntryScheduled(item)"
-                    small
-                    outlined
-                    color="primary"
-                    class="mr-2"
-                    @click="presentSTEntry(item)"
-                    >Present</v-btn
-                  >
-                  <v-btn
-                    small
-                    outlined
-                    color="primary"
-                    class="mr-2"
-                    @click="handleUpdateAccountDetailsClick(item)"
-                    >Update account info</v-btn
-                  >
-                  <v-icon
-                    :disabled="!stEntryScheduled(item)"
-                    small
-                    @click="showDeletePopup(item, index)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                </template>
-              </f-data-table>
+        <v-tabs-items v-model="tab" class="col-12">
+          <v-tab-item>
+            <component
+              v-if="stPlanDetails.stPlanInfo"
+              :ref="spaScheduleTableMetaData.myRefName"
+              :is="spaScheduleTableMetaData.componentName"
+              :value="stPlanDetails"
+              v-bind="spaScheduleTableMetaData.props"
+            ></component>
           </v-tab-item>
           <v-tab-item>
-              <f-data-table
-                :columnList="feeHeaders"
-                 :actions="feeActions"
-                title="Fee Schedule"
-                :value="stPlanDetails.stFeeEntryList"
-                item-key="stEntryId"
-                sort-by="draftDate"
-                class="elevation-0"
-              >
-                <template v-slot:top>
-                  <v-toolbar flat>
-                    <v-toolbar-title>Fee Schedule</v-toolbar-title>
-                    <v-divider class="mx-4" inset vertical></v-divider>
-                    <v-spacer></v-spacer>
-                  </v-toolbar>
-                </template>
-                <template v-slot:[`item.status`]="{ item }">
-                  <v-chip small outlined>
-                    {{ item.status }}
-                  </v-chip>
-                </template>
-
-                <template v-slot:[`item.totalAmount`]="{ item }">
-                  {{ item.totalAmount | toINR }}
-                </template>
-                <template v-slot:[`item.feeAmount`]="{ item }">
-                  {{ item.feeAmount | toINR }}
-                </template>
-                <template v-slot:[`item.draftDate`]="{ item }">
-                  <span class="grey--text">
-                    {{ item.draftDate | date }}
-                  </span>
-                </template>
-                <template v-slot:[`item.actions`]="{ item, index }">
-                  <v-icon
-                    :disabled="!stEntryScheduled(item)"
-                    small
-                    @click="showDeletePopup(item, index)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                </template>
-              </f-data-table>
+            <component
+              v-if="stPlanDetails.stPlanInfo"
+              :ref="feeScheduleTableMetaData.myRefName"
+              :is="feeScheduleTableMetaData.componentName"
+              :value="stPlanDetails"
+              v-bind="feeScheduleTableMetaData.props"
+            ></component>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -202,16 +118,20 @@ import ModelVue from "@/components/generic/ModelVue";
 import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 import * as Snackbar from "node-snackbar";
 import FBtn from "@/components/generic/FBtn.vue";
-import UpdateAccountDetailsFFormMDP from './UpdateAccountDetailsFFormMDP';
+import UpdateAccountDetailsFFormMDP from "./UpdateAccountDetailsFFormMDP";
 import FAddBtn from "@/components/generic/FAddBtn.vue";
-import FDataTable, { ActionType } from "@/components/generic/table/FDataTable.vue";
+import FDataTable, {
+  ActionType,
+} from "@/components/generic/table/FDataTable.vue";
+import SPAScheduleTableMDP from "./SPAScheduleTableMDP";
+import FeeScheduleTableMDP from "./FeeScheduleTableMDP";
 
 @Component({
   components: {
     FForm,
     FBtn,
-FAddBtn,
-FDataTable
+    FAddBtn,
+    FDataTable,
   },
 })
 export default class CFSettlementPlanInfo extends ModelVue {
@@ -231,72 +151,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
   addSPAEntry = false;
   deleteSPAEntry = false;
   showUpdateAccountDetails: boolean = false;
-
-  spaHeaders = [
-    {
-      text: "Payment Provider",
-      align: "start",
-      sortable: false,
-      value: "paymentProvider",
-    },
-    { text: "status", value: "status" },
-    { text: "DraftDate", value: "draftDate" },
-    { text: "SPA Amount", value: "spaAmount", },
-    // { text: "Total Amount", value: "totalAmount", align: "right" },
-  ];
-  feeHeaders = [
-    {
-      text: "Payment Provider",
-      align: "start",
-      sortable: false,
-      value: "paymentProvider",
-    },
-    { text: "status", value: "status" },
-    { text: "Draft Date", value: "draftDate" },
-    { text: "Fee Amount", value: "feeAmount", align: "right" },
-    // { text: "Total Amount", value: "totalAmount", align: "right" },
-  ];
-
-  spaActions: any [] = [
-    {
-      type: ActionType.OTHERS,
-      label: "Present",
-      onClick: (item: any) => {this.presentSTEntry(item)}
-    },
-    {
-      type: ActionType.OTHERS,
-      label: "Update Account Info",
-      onClick: (item: any) => this.handleUpdateAccountDetailsClick(item)
-    },
-    
-    {
-      type: ActionType.ADD,
-      onClick: () => this.showAddForm(),
-      label:"Add STEntry"
-    }
-  ]
-
-  feeActions: any [] = [
-    {
-      type: ActionType.OTHERS,
-      label: "Present",
-      onClick: (item: any) => {this.presentSTEntry(item)}
-    },
-    {
-      type: ActionType.OTHERS,
-      label: "Update Account Info",
-      onClick: (item: any) => this.handleUpdateAccountDetailsClick(item)
-    },
-    {
-      type: ActionType.DELETE,
-      onClick: (item: any) => this.showDeletePopup(item)
-    },
-    {
-      type: ActionType.ADD,
-      onClick: () => this.showAddForm(),
-      label:"Add STEntry"
-    }
-  ]
   //METADATA
   get settlementPlanInfoMetaData() {
     return new CFSettlementPlanInfoFFormMDP({ root: this }).getMetaData();
@@ -307,8 +161,17 @@ export default class CFSettlementPlanInfo extends ModelVue {
   }
 
   get updateAccountDetailsFFormMDP() {
-    return new UpdateAccountDetailsFFormMDP({ taskRoot: this }).getMetaData()
+    return new UpdateAccountDetailsFFormMDP({ taskRoot: this }).getMetaData();
   }
+
+  get spaScheduleTableMetaData() {
+    return new SPAScheduleTableMDP({ root: this }).getMetaData();
+  }
+
+  get feeScheduleTableMetaData() {
+    return new FeeScheduleTableMDP({ root: this }).getMetaData();
+  }
+
   //METADATA
 
   stEntryScheduled(item: any) {
@@ -390,7 +253,8 @@ export default class CFSettlementPlanInfo extends ModelVue {
   }
   handleUpdateAccountDetailsClick(item: any) {
     this.selectedSTEntry = item;
-    this.updateAccountDetailsInput = Data.ClientFile.UpdateAccountDetailsInput.fromJson(item);
+    this.updateAccountDetailsInput =
+      Data.ClientFile.UpdateAccountDetailsInput.fromJson(item);
     this.showUpdateAccountDetails = true;
   }
   updateAccountInfo() {
@@ -398,9 +262,9 @@ export default class CFSettlementPlanInfo extends ModelVue {
       this.updateAccountDetailsInput,
       (output) => {
         Snackbar.show({
-        text: "Account details Updated",
-        pos: "bottom-center",
-      });
+          text: "Account details Updated",
+          pos: "bottom-center",
+        });
         this.closeDialogs();
         setTimeout(this.getSTPaymentPlanDetails, 1000);
       }

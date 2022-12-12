@@ -68,7 +68,7 @@ export default class CollectClientInfoTask extends ModelVue {
   bankInfoStore: Data.ClientFile.FiBankInfo;
   // Document List
   @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
-  fiDocumentListStore: Data.ClientFile.FiDocument;
+  fiDocumentListStore: Data.ClientFile.FiDocument[];
   
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
@@ -77,22 +77,22 @@ export default class CollectClientInfoTask extends ModelVue {
   clientFileId = this.$route.params.clientFileId;
 
   // Parse JSON String => As taskOutput and taskInput comes as Json String
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   // ModelValue =>  Used in Terminated State
   get taskDetailsData() {
     return {
-      taskInput: this.taskDetailsInput,
-      taskOutput: this.taskDetailsOutput,
+      taskInput: this.taskDetails.inputJson,
+      taskOutput: this.taskDetails.outputJson,
     };
   }
 
@@ -109,7 +109,7 @@ export default class CollectClientInfoTask extends ModelVue {
   taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
       taskState: this.taskDetails.taskState,
     };
@@ -118,11 +118,11 @@ export default class CollectClientInfoTask extends ModelVue {
     this.taskFormDataLocal = value;
   }
 
-  taskFormOutputLocal: Data.Spine.CollectClientInfoTask =
+  taskFormOutputLocal: any =
     new Data.Spine.CollectClientInfoTask();
   get taskFormOutput() {
     this.taskFormOutputLocal = {
-      ...this.taskDetailsOutput,
+      ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
         ? Data.Spine.PersonalInfo.fromJson(this.personalInfoStore)
         : new Data.Spine.PersonalInfo(),
@@ -139,7 +139,7 @@ export default class CollectClientInfoTask extends ModelVue {
         ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
-      needVerification: this.taskDetailsOutput.needVerification,
+      needVerification: (this.taskDetails.outputJson as any).needVerification,
     };
     return this.taskFormOutputLocal;
   }

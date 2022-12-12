@@ -20,6 +20,7 @@
     </div> -->
      <iframe
           id="ameyoIframe"
+          allow="geolocation;microphone;camera"
           height="200"
           width="320"
           :src="iframeUrl"

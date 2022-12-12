@@ -110,7 +110,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "eMandateId",
           label: "E Mandate",
           boundaryClass: "col-3",
-          mandatory: true
+          mandatory: true,
         })
       )
       .addAction(

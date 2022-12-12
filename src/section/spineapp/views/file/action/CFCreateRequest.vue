@@ -87,6 +87,7 @@ export default class CFCreateRequest extends Vue {
   createRefundFeeInput: Data.Spine.CreateRefundFeeInput =
     new Data.Spine.CreateRefundFeeInput();
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
+  
 
   @Watch("fileCreateRequestInput.createSettlementPlanInput.fiCreditorId")
   creditorChanged(newVal: any, oldVal: any) {
@@ -311,8 +312,9 @@ export default class CFCreateRequest extends Vue {
     this.fileCreateRequestInput.createSettlementPlanInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
     console.log(this.fileCreateRequestInput.createSettlementPlanInput);
+    const input = Data.Spine.CreateSettlementPlanInput.fromJson(this.fileCreateRequestInput.createSettlementPlanInput)
     Action.Spine.CreateSettlementPlan.execute(
-      this.fileCreateRequestInput.createSettlementPlanInput,
+      input,
       (output) => {
         setTimeout(() => {
           this.gotoTask();
@@ -322,6 +324,9 @@ export default class CFCreateRequest extends Vue {
   }
 
   createRefundFeeFlow() {
+    if(this.createRefundFeeInput.accountDetails?.nupayBankMasterId === "") {
+      this.createRefundFeeInput.accountDetails = undefined;
+    }
     this.createRefundFeeInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
     Action.Spine.CreateRefundFee.execute(this.createRefundFeeInput, output => {
        setTimeout(() => {
@@ -340,6 +345,10 @@ export default class CFCreateRequest extends Vue {
     this.fileCreateRequestInput.createEMandateInput.eMandateBankInfo.bankAddress.country =
       "India";
   }
+
+  populateAccountDetailsRefund(details: any) {
+    this.fileCreateRequestInput.createRefundFeeInput.accountDetails = details;
+  }  
 
   // getNupayBankMasterList() {
   //   Action.ClientFile.GetNupayBankMasterList.execute((output) => {

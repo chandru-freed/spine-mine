@@ -35,14 +35,16 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         optionLabel: "name",
         optionValue: "id",
       })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.firstMSFPaymentDetails.feeAmount",
-        label: "Fee Amount",
-        boundaryClass: "col-3",
-      })
-    ).addField(
+    )
+    // .addField(
+    //   new FCurrencyFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "taskOutput.firstMSFPaymentDetails.feeAmount",
+    //     label: "Fee Amount",
+    //     boundaryClass: "col-3",
+    //   })
+    // )
+    .addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.firstMSFPaymentDetails.msfAmount",
@@ -61,7 +63,7 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.firstMSFPaymentDetails.status",
         label: "Payment Status",
-        boundaryClass: "col-6",
+        boundaryClass: "col-3",
         returnObject: true,
         options: [
           { id: "DRAFT", name: "DRAFT" },
@@ -83,7 +85,7 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         dataSelectorKey:
           "taskOutput.firstMSFPaymentDetails.remoteTxnRefDetails.paymentLink",
         label: "Remote Payment Link",
-        boundaryClass: "col-6",
+        boundaryClass: "col-12",
       })
     ).addAction(
         new FBtnMDP({

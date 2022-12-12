@@ -28,13 +28,13 @@ export default class AmendmentFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.createWelcomeCall());
+      this.getMyRef().submitForm(this.createAmendmentFlow());
     };
   }
 
-  createWelcomeCall() {
+  createAmendmentFlow() {
     return () => {
-      this.taskRoot.createWelcomeCall();
+      this.taskRoot.createAmendmentFlow();
     };
   }
 }

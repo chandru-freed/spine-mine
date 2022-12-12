@@ -41,7 +41,8 @@ export default class AddTicket extends Vue {
         text: "Succesfully added a ticket",
         pos: "bottom-center"
       });
-      this.$router.push({name:"Root.MyTicket.MyTicketDetailsRedirect", params :{ticketNumber: output.ticketNumber}})
+      // this.$router.push({name:"Root.MyTicket.MyTicketDetailsRedirect", params :{ticketNumber: output.ticketNumber}})
+      this.$router.push({name:"Root.MyTicket.SubscribedTicketList"})
     })
   }
   goBack() {

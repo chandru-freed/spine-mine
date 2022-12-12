@@ -13,8 +13,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       disabled: taskRoot.taskDisabled,
       label: "Dependent Expenses",
       mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "645"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -23,53 +22,60 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "medicalExpense",
-        label: "Medical Expense",
+        label: "Medical",
         mandatory: true,
+        boundaryClass: "col",
       })
     )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "essentialCareExpense",
-          label: "Essential Care Expense",
+          label: "Essential Care",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "schoolFeeExpense",
-          label: "School Fee Expense",
+          label: "School Fee",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "schoolBusExpense",
-          label: "School Bus Expense",
+          label: "School Bus",
           mandatory: true,
+          boundaryClass: "col",
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "booksAndProjectsExpense",
-          label: "Books And Projects Expense",
+          label: "Books And Projects",
           mandatory: true,
+          boundaryClass: "col",
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "nursingAttendExpense",
-          label: "Nursing Attend Expense",
+          label: "Nursing Attend",
           mandatory: true,
+          boundaryClass: "col",
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "petCareExpense",
-          label: "Pet Care Expense",
+          label: "Pet Care",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
   }

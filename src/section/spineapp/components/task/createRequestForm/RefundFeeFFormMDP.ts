@@ -1,5 +1,6 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import AccountFMiniFormMDP from "@/components/generic/form/field/AccountFMiniFormMDP";
 import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFormMDP";
 import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
@@ -34,59 +35,21 @@ export default class RefundFeeFFormMDP extends FFormMDP {
       },
     ))
     .addField(new FEMandateSelectFieldMDP({
-      dataSelectorKey:"createRefundFeeInput.accountDetails.emandateId",
+      dataSelectorKey:"selectedEMandate",
       label: "Emandate",
       parentMDP:this.childMDP,
-      boundaryClass:"col-4"
+      boundaryClass:"col-4",
+      returnObject: true
   }))
-    .addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "createRefundFeeInput.accountDetails.accountHolderName",
-        label: "Account Holder Name",
-        boundaryClass: "col-4",
-      })
-    )
-    .addField(
-      new FAccountFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "createRefundFeeInput.accountDetails.accountNumber",
-        label: "Account Number",
-        boundaryClass: "col-4",
-      })
-    )
-    .addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "createRefundFeeInput.accountDetails.accountType",
-        label: "Account Type",
-        boundaryClass: "col-4",
-        options: [
-          { id: "SAVINGS", name: "Savings" },
-          { id: "CURRENT", name: "Current" },
-        ],
-        optionLabel: "name",
-        optionValue: "id",
-      })
-    )
-    .addField(
-      new FNupayBankSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "createRefundFeeInput.accountDetails.nupayBankMasterId",
-        label: "Bank Name",
-        boundaryClass: "col-4",
-      })
-    )
-    .addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "createRefundFeeInput.accountDetails.ifscCode",
-        label: "IFSC Code",
-        boundaryClass: "col-4",
-        disabled: this.disabled,
-        rules:"validate_ifsc"
-      })
-    )
+    .addField(new AccountFMiniFormMDP({
+      dataSelectorKey:"createRefundFeeInput.accountDetails",
+      disabled:this.disabled,
+      label: "Account Details",
+      parent:this.parent,
+      taskRoot: this.taskRoot,
+      mandatory: true
+
+    }))
     .
     
    

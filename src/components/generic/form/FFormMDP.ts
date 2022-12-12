@@ -64,7 +64,7 @@ export default class FFormMDP implements MDP {
         ),
         disabled: this.disabled,
         boundaryClass: this.getFFormBoundaryClass(),
-        readonly: this.readonly
+        readonly: this.readonly,
       },
     };
   }

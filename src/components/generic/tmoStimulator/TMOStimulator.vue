@@ -71,7 +71,7 @@
             large
             v-if="tenureLessGreaterThanEqual"
             >Tenure: &nbsp;&nbsp;<span class="font-weight-bold"
-              >{{ result.tenure }} mth</span
+              >{{ result.tenure }} mths</span
             >
           </v-chip>
         </div>

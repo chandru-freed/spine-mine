@@ -11,7 +11,7 @@ export default class FCFAWSUploadFileFieldMDP implements FFieldMDP {
   parentMDP: FFormChildMDP;
   boundaryClass: string;
   disabled: boolean;
-
+  condition: boolean;
   constructor({
     parentMDP,
     dataSelectorKey,
@@ -21,6 +21,7 @@ export default class FCFAWSUploadFileFieldMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
+    condition=true
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -30,6 +31,7 @@ export default class FCFAWSUploadFileFieldMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
+    condition?: boolean
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -39,6 +41,7 @@ export default class FCFAWSUploadFileFieldMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
+    this.condition = condition;
   }
 
   getRules() {
@@ -56,6 +59,7 @@ export default class FCFAWSUploadFileFieldMDP implements FFieldMDP {
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
+      condition: this.condition,
       props: {
         id: this.dataSelectorKey,
         label: this.label,

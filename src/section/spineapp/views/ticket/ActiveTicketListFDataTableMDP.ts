@@ -3,6 +3,7 @@ import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
+import FCellSLAMDP from "@/components/generic/table/cell/FCellSLAMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FCellTaskMDP from "@/components/generic/table/cell/FCellTaskMDP";
 import FCellTaskStatusMDP from "@/components/generic/table/cell/FCellTaskStatusMDP";
@@ -35,6 +36,10 @@ export default class ActiveTicketListFDataTableMDP extends FDataTableMDP {
         label: "Subject",
         dataSelectorKey: "displayId",
         columnCellMDP: new FCellUppercaseMDP()
+      }).addColumn({
+        label: "SLA",
+        dataSelectorKey: "sla",
+        columnCellMDP: new FCellSLAMDP(),
       })
       .addColumn({
         label: "priority",

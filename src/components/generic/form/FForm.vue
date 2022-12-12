@@ -164,5 +164,9 @@ export default class FForm extends ModelVue {
         actionMetaData.condition === true
     );
   }
+
+  isDirty(rules: string) {
+    return(rules.includes('required'))
+  }
 }
 </script>

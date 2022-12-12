@@ -269,6 +269,9 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.SaveAndComplete.interested(
       this.getTaskDetailsAndFileSummaryWithDelay
     );
+     Action.Spine.SchedulePaymentPlan.interested(
+      this.getFindClientFileSummaryWithDelay
+    );
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
 
@@ -279,6 +282,10 @@ export default class CFTaskDetails extends Vue {
     );
     Action.Spine.UpdatePaymentStatus.interested(
       this.getExecutiveTaskDetailsHandler
+    );
+
+   Action.ClientFile.MarkClientFileAsOnBoarded.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
     );
 
     this.getExecutiveTaskDetailsWithDelay();
@@ -294,6 +301,10 @@ export default class CFTaskDetails extends Vue {
       this.findClientFileSummary();
       this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
     }, 1000);
+  }
+
+   getFindClientFileSummaryWithDelay() {
+    setTimeout(this.findClientFileSummary, 1000);
   }
 
   getExecutiveTaskDetails() {
@@ -373,6 +384,14 @@ export default class CFTaskDetails extends Vue {
     );
     Action.Spine.UpdatePaymentStatus.notInterested(
       this.getExecutiveTaskDetailsHandler
+    );
+
+      Action.Spine.SchedulePaymentPlan.notInterested(
+      this.getFindClientFileSummaryWithDelay
+    );
+
+       Action.ClientFile.MarkClientFileAsOnBoarded.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
     );
 
   }

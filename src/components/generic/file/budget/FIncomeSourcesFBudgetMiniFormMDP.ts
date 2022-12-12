@@ -13,8 +13,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
       disabled: taskRoot.taskDisabled,
       label: "Income Sources",
       mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "575"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -25,6 +24,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
         dataSelectorKey: "salary",
         label: "Salary",
         mandatory: true,
+        boundaryClass: "col",
       })
     )
       .addField(
@@ -33,6 +33,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           dataSelectorKey: "businessIncome",
           label: "Business Income",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
@@ -41,6 +42,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           dataSelectorKey: "otherIncome",
           label: "Other Income",
           mandatory: true,
+          boundaryClass: "col",
         })
       )
       .addField(
@@ -49,6 +51,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           dataSelectorKey: "familySupport",
           label: "Family Support",
           mandatory: true,
+          boundaryClass: "col",
         })
       );
   }

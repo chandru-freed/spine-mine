@@ -1,26 +1,26 @@
-import FBtnMDP from "./../../FBtnMDP";
+import FBtnMDP from "../../FBtnMDP";
 import FFieldMDP from "./FFieldMDP";
-import MDP from "./../../MDP";
+import MDP from "../../MDP";
 
 export class FFormChildMDP {
   outlined = true;
   dense = true;
 }
 
-export default class FMiniFormMDP implements FFieldMDP {
-  componentName = "FMiniForm";
+export default class FBudgetMiniFormMDP implements FFieldMDP {
+  componentName = "FBudgetMiniForm";
 
   fieldList: FFieldMDP[] = [];
 
   dataSelectorKey: string;
   disabled: boolean;
+  minHeight: string;
 
   label: string;
   rules: string;
   mandatory: boolean;
   boundaryClass: string;
   parentMDP: FFormChildMDP;
-  condition: boolean;
 
   constructor({
     parentMDP,
@@ -30,7 +30,7 @@ export default class FMiniFormMDP implements FFieldMDP {
     rules = "",
     mandatory = false,
     boundaryClass = "col-12",
-    condition =true
+    minHeight = "",
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -39,7 +39,7 @@ export default class FMiniFormMDP implements FFieldMDP {
     rules?: string;
     mandatory?: boolean;
     boundaryClass?: string;
-    condition?: boolean
+    minHeight?: string;
   }) {
     this.parentMDP = parentMDP; // todo : Check not being used
     this.dataSelectorKey = dataSelectorKey;
@@ -48,7 +48,7 @@ export default class FMiniFormMDP implements FFieldMDP {
     this.rules = rules;
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
-    this.condition = condition;
+    this.minHeight = minHeight;
   }
 
   getRules() {
@@ -71,12 +71,11 @@ export default class FMiniFormMDP implements FFieldMDP {
       dataSelectorKey: this.dataSelectorKey,
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
-      condition: this.condition,
       props: {
         label: this.label,
         fieldMetaDataList: this.fieldList.map((field) => field.getMetaData()),
         disabled: this.disabled,
-        mandatory: this.mandatory, // Only for miniform
+        minHeight: this.minHeight,
       },
     };
   }

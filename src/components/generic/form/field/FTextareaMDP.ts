@@ -12,6 +12,8 @@ export default class FTextareaMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
+  rows: string;
+  autoGrow: boolean;
 
   constructor({
     parentMDP,
@@ -22,7 +24,9 @@ export default class FTextareaMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    condition = true
+    condition = true,
+    rows="2",
+    autoGrow= true
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -32,7 +36,9 @@ export default class FTextareaMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean
+    condition?: boolean;
+    rows?: string;
+    autoGrow?: boolean;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -43,6 +49,8 @@ export default class FTextareaMDP implements FFieldMDP {
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
     this.condition = condition
+    this.rows = rows;
+    this.autoGrow = autoGrow;
   }
 
   getRules() {
@@ -68,6 +76,8 @@ export default class FTextareaMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
+        rows: this.rows,
+        autoGrow: this.autoGrow
       },
     };
   }

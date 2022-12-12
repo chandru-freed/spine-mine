@@ -63,11 +63,6 @@ export default class PrepareAmendmentTask extends ModelVue {
   };
 
   get taskFormData() {
-    console.log(this.taskDetailsOutput,this.taskFormOutput);
-    this.taskFormOutput.newCreditorInfo = this.taskFormOutput.newCreditorInfo?this.taskFormOutput.newCreditorInfo:this.taskDetailsInput.existingCreditorInfo;
-    
-    this.taskFormOutput.newPaymentPlan =this.taskFormOutput.newPaymentPlan?this.taskFormOutput.newPaymentPlan:this.taskDetailsInput.existingPaymentPlan;
-    console.log(this.taskFormOutput,"this.taskFormOutput");
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskFormOutput,
@@ -83,9 +78,12 @@ export default class PrepareAmendmentTask extends ModelVue {
   taskFormOutputLocal: Data.Spine.AmendmentTaskOutput = new Data.Spine.AmendmentTaskOutput();
 
   get taskFormOutput() {
-     this.taskFormOutputLocal = {
-      ...this.taskDetailsOutput
-    };
+    
+    if(Task.isTaskOutputNotAvailable(this.taskDetailsOutput)) {
+    this.taskDetailsOutput.newCreditorInfo = this.taskDetailsInput.existingCreditorInfo;
+    this.taskDetailsOutput.newPaymentPlan =this.taskDetailsInput.existingPaymentPlan;
+    }
+    this.taskFormOutputLocal = Task.mergeTaskOutputAndReturn(this.taskDetailsInput, this.taskDetailsOutput);
     return this.taskFormOutputLocal;
   }
 

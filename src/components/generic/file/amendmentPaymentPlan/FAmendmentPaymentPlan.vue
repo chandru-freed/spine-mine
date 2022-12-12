@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{modelValue.paymentPlan}} -->
     <component
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
@@ -152,6 +151,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
+import * as Store from "@/../src-gen/store";
 import FPaymentScheduleFDataTableMDP from "./FPaymentScheduleFDataTableMDP";
 import FDataTable from "../../table/FDataTable.vue";
 import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
@@ -173,6 +173,13 @@ export default class FAmendmentPaymentPlan extends ModelVue {
   addPsEntryInput: Data.ClientFile.AddPSEntryInput = new Data.ClientFile.AddPSEntryInput();
   modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput = new Data.ClientFile.ModifyAmountPSEListInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
+
+  taskId = this.$route.params.taskId;
+
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   get clientFileId() {
   return this.$route.params.clientFileId;
   }
@@ -182,19 +189,19 @@ export default class FAmendmentPaymentPlan extends ModelVue {
 
   get psEntrySchelduledList() {
     
-    return this.paymentPlan?.paymentSchedule.filter(
+    return this.paymentPlan?.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );
   }
 
   get psEntryPresentedList() {
-    return this.paymentPlan?.paymentSchedule.filter(
+    return this.paymentPlan?.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
 
   get subscriptionFeeScheduleList() {
-    return this.paymentPlan?.subscriptionFeeSchedule;
+    return this.paymentPlan?.subscriptionFeeScheduleList;
   }
 
   get actionMetaDataListFiltered() {

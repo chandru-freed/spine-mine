@@ -37,6 +37,8 @@ import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
 import { VFileInput, VTextField } from "vuetify/lib/components";
 import axios from "axios";
+import moment from "moment";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -70,7 +72,7 @@ export default class FCFAWSUploadFileField extends Vue {
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
   selectedFile: any = null;
-  uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
+  uploadedDocument: Data.Spine.FiDocument = new Data.Spine.FiDocument();
   attachDocumentToCFInput: Data.ClientFile.AttachDocumentInput =
     new Data.ClientFile.AttachDocumentInput();
   presignedUrl: string = "";
@@ -132,14 +134,16 @@ export default class FCFAWSUploadFileField extends Vue {
 
   handlePostUploadFile() {
     this.uploadedDocument.documentType = this.selectedFile.docType;
-    this.uploadedDocument.uploadedOn = new Date();
+    this.uploadedDocument.uploadedOn = new Date().toISOString();
+    this.uploadedDocument.documentDetails = "";
+    this.uploadedDocument.documentType = "";
     const input = Data.ClientFile.AttachDocumentInput.fromJson(
       this.uploadedDocument
     );
     input.clientFileId = this.clientFileBasicInfo.clientFileId;
     Action.ClientFile.AttachDocument.execute(input, (output) => {
       this.uploadedDocument.fiDocumentId = output.fiDocumentId;
-      this.modelValue = this.uploadedDocument;
+      this.modelValue = {...this.uploadedDocument};
       this.clearAllForms();
     });
   }
@@ -164,7 +168,7 @@ export default class FCFAWSUploadFileField extends Vue {
   }
 
   get fileName() {
-    return this.modelValue?.documentPath.split("/").pop()||'';
+    return this.modelValue?.documentPath?.split("/").pop()||'';
   }
 
 }

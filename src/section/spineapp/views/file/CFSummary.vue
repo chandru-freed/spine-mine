@@ -32,9 +32,15 @@
                 }}</v-list-item-title
               >
               <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
-              <v-list-item-subtitle class="text-body-1" @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)">{{
-                clientFileBasicInfo.clientBasicInfo.mobile | phone
-              }}</v-list-item-subtitle>
+              <v-list-item-subtitle
+                class="text-body-1"
+                @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
+              >
+                {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
+                <v-btn icon color="secondary" outlined small dense>
+                  <v-icon small>mdi-phone</v-icon>
+                </v-btn>
+              </v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>

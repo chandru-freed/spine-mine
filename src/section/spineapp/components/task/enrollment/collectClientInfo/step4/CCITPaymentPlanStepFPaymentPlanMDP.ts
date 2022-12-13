@@ -12,7 +12,7 @@ export default class CCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
       disabled: taskRoot.taskDisabled,
       dataSelectorKey: "taskOutput",
       hideMSFTab: true,
-      disabledActionBtn: true,
+      disabledActionBtn: taskRoot.taskDisabled,
     });
   }
 

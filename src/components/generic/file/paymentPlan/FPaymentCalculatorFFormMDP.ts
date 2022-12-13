@@ -145,6 +145,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
       new FBtnMDP({
         label: "Calculate Payment Schedule",
         onClick: this.calculatePaymentSchedule(),
+        disabled: this.parent.disabledActionBtn
       })
     );
   }

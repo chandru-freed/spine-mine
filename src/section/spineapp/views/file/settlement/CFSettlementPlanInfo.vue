@@ -244,7 +244,7 @@ export default class CFSettlementPlanInfo extends ModelVue {
   presentSTEntry(item: any) {
     Action.ClientFile.PresentSTEntry.execute1(item.stEntryId, (output) => {
       Snackbar.show({
-        text: "Succesfully Deleted ST Entry",
+        text: "Succesfully Presented ST Entry",
         pos: "bottom-center",
       });
       setTimeout(this.getSTPaymentPlanDetails, 1000);

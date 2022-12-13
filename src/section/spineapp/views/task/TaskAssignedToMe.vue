@@ -3,14 +3,26 @@
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
     <!-- TASK TAB -->
-    
-    <component
-      v-if="!!taskAssignedToMeFDataTableMetaData"
-      :ref="taskAssignedToMeFDataTableMetaData.myRefName"
-      :is="taskAssignedToMeFDataTableMetaData.componentName"
-      :value="selectModel(allocatedTaskList, undefined)"
-      v-bind="taskAssignedToMeFDataTableMetaData.props"
-    ></component>
+    <v-card>
+      <component
+        v-if="!!showSuspendForm"
+        :ref="suspendTaskFFormMetaData.myRefName"
+        :is="suspendTaskFFormMetaData.componentName"
+        :value="selectModel(suspendTaskInput, undefined)"
+        @input="
+          (newValue) => updateModel(suspendTaskInput, newValue, undefined)
+        "
+        v-bind="suspendTaskFFormMetaData.props"
+      ></component>
+
+      <component
+        v-if="!!taskAssignedToMeFDataTableMetaData"
+        :ref="taskAssignedToMeFDataTableMetaData.myRefName"
+        :is="taskAssignedToMeFDataTableMetaData.componentName"
+        :value="selectModel(allocatedTaskList, undefined)"
+        v-bind="taskAssignedToMeFDataTableMetaData.props"
+      ></component>
+    </v-card>
   </div>
 </template>
 
@@ -29,7 +41,7 @@ import TaskAssignedToMeFDataTableMDP from "./TaskAssignedToMeFDataTableMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FForm from "@/components/generic/form/FForm.vue";
-
+import SuspendTaskFFormMDP from "./SuspendTaskFFormMDP";
 @Component({
   components: {
     "task-tab": TaskTab,
@@ -45,18 +57,29 @@ export default class TaskAssignedToMe extends ModelVue {
   search = "";
 
   allocatedTaskList: Data.TaskList.GetActiveTaskListAllocatedGrid[] = [];
-
+  suspendTaskInput: Data.TaskList.SuspendTaskInput =
+    new Data.TaskList.SuspendTaskInput();
+  showSuspendForm: boolean = false;
+  taskTableRefName: string = "taskAssignedToMeFDataTableRef";
   mounted() {
-    // this.getAllocatedTaskList();
+    Action.TaskList.Suspend.interested(this.getActiveTLAllocatedWithDelay);
     this.getActiveTaskListAllocatedGrid();
   }
 
+  destroyed() {
+    Action.TaskList.Suspend.notInterested(this.getActiveTLAllocatedWithDelay);
+  }
+
+  getActiveTLAllocatedWithDelay() {
+    setTimeout(() => {
+      this.getActiveTaskListAllocatedGrid();
+    }, 1000);
+  }
   getActiveTaskListAllocatedGrid() {
     Action.TaskList.GetActiveTaskListAllocated.execute((output) => {
       this.allocatedTaskList = output;
     });
   }
-
 
   gotoFile(item: any) {
     Helper.Router.gotoFile({
@@ -79,8 +102,26 @@ export default class TaskAssignedToMe extends ModelVue {
     });
   }
 
+  handleSuspendClick(item: any) {
+    this.showSuspendForm = true;
+    this.suspendTaskInput.taskId = item.taskId;
+  }
+
   get taskAssignedToMeFDataTableMetaData() {
-    return new TaskAssignedToMeFDataTableMDP({ parent: this }).getMetaData();
+    return new TaskAssignedToMeFDataTableMDP({
+      parent: this,
+      myRefName: this.taskTableRefName,
+    }).getMetaData();
+  }
+  get suspendTaskFFormMetaData() {
+    return new SuspendTaskFFormMDP({
+      root: this,
+    }).getMetaData();
+  }
+
+  clearTableAndForm() {
+    this.showSuspendForm = false;
+    (this.$refs[this.taskTableRefName] as any).clearSelectedItems();
   }
 }
 </script>

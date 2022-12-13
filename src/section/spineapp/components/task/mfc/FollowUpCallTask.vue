@@ -85,10 +85,11 @@ export default class FollowUpCallTask
   taskFormOutputLocal: any = new Data.Spine.MFCTaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.disposition === null) {
-      this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
+    if (Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
+      this.taskFormOutputLocal = { ...this.taskDetailsOutput };
+    } else {
+      this.taskFormOutputLocal = new Data.Spine.MFCTaskOutput();
     }
-    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
 
     return this.taskFormOutputLocal;
   }
@@ -139,7 +140,6 @@ export default class FollowUpCallTask
       clientFileNumber: this.$route.params.clientFileNumber,
     });
   }
-
 
   goToStep(step: number) {
     Helper.Router.gotoStep({

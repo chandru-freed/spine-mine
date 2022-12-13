@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12">
       <v-card outlined height="200px">
-        <AmeyoToolbarDialog :ameyoToolbar="true" />
+        <!-- <AmeyoToolbarDialog :ameyoToolbar="false" /> -->
       </v-card>
     </div>
     <div class="col-12">

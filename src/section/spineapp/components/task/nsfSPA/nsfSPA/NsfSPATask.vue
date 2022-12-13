@@ -82,10 +82,11 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfSPATaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.disposition === null) {
-      this.taskDetailsOutput.disposition = new Data.Spine.NsfSPADisposition();
+    if (Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
+      this.taskFormOutputLocal = { ...this.taskDetailsOutput };
+    } else {
+      this.taskFormOutputLocal = new Data.Spine.NsfSPATaskOutput();
     }
-    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
 
     return this.taskFormOutputLocal;
   }

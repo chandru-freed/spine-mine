@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{taskFormData}} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -22,7 +23,9 @@ import moment from "moment";
 import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
+// import * as Snackbar from "node-snackbar";
 import RMPTFStepperMDP from "@/section/spineapp/components/task/nsfMSF/receiveManualPayment/RMPTFStepperMDP";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -30,12 +33,17 @@ import RMPTFStepperMDP from "@/section/spineapp/components/task/nsfMSF/receiveMa
     FBtn,
   },
 })
-export default class ReceiveManualPaymentTask
-  extends ModelVue
-  implements FlowTaskIntf
-{
+export default class ReceiveManualPaymentTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  receiveMSFPaymentInput = new Data.Spine.ReceiveMSFPaymentInput();
 
   taskId = this.$route.params.taskId;
 
@@ -46,17 +54,17 @@ export default class ReceiveManualPaymentTask
   //METADATA
 
   // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //FORM
 
@@ -67,7 +75,7 @@ export default class ReceiveManualPaymentTask
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -78,19 +86,18 @@ export default class ReceiveManualPaymentTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.ReceiveManualPaymentTaskOutput();
+  taskFormOutputLocal: any = new Data.Spine.MSFPaymentDetailsOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.paymentSuccessfull) {
-      this.taskFormOutputLocal.paymentSuccessfull =
-        this.taskDetailsOutput.paymentSuccessfull;
-    }
-    if (this.taskDetailsOutput.failureCode) {
-      this.taskFormOutputLocal.failureCode = this.taskDetailsOutput.failureCode;
-    }
-    if (this.taskDetailsOutput.failureReason) {
-      this.taskFormOutputLocal.failureReason =
-        this.taskDetailsOutput.failureReason;
+    if (this.taskDetails.isOutputEmpty) {
+      this.taskFormOutputLocal = new Data.Spine.MSFPaymentDetailsOutput();
+      //  this.taskFormOutputLocal.msfPaymentDetails.remoteTxnRefDetails = {}
+      if (this.taskFormOutputLocal.msfPaymentDetails.msfAmount == 0) {
+        this.taskFormOutputLocal.msfPaymentDetails.msfAmount =
+          this.fileSummary.msfAmount;
+      }
+    } else {
+      this.taskFormOutputLocal = { ...this.taskDetails.outputJson };
     }
     return this.taskFormOutputLocal;
   }
@@ -125,6 +132,39 @@ export default class ReceiveManualPaymentTask
     Helper.Router.gotoFile({
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
+    });
+  }
+
+  receiveMSFPayment() {
+    this.receiveMSFPaymentInput.taskId = this.taskId;
+    this.receiveMSFPaymentInput.clientFileId =
+      this.clientFileBasicInfo.clientFileId;
+    this.receiveMSFPaymentInput.msfAmount = this.fileSummary.msfAmount;
+    Action.Spine.ReceiveMSFPayment.execute(
+      this.receiveMSFPaymentInput,
+      (output) => {
+        FSnackbar.success("Succesfully assigned");
+      }
+    );
+  }
+
+  checkPaymentStatus() {
+    let updatePaymentStatusInput = new Data.Spine.UpdateMsfPaymentStatusInput();
+    updatePaymentStatusInput.taskId = this.taskId;
+    updatePaymentStatusInput.clientFileId =
+      this.clientFileBasicInfo.clientFileId;
+    updatePaymentStatusInput.paymentId =
+      this.taskFormData.taskOutput.msfPaymentDetails.paymentId;
+    Action.Spine.UpdateMsfPaymentStatus.execute(
+      updatePaymentStatusInput,
+      (output) => {}
+    );
+  }
+
+  saveAndMarkCompleteTask() {
+    Task.Action.saveAndMarkCompleteTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
     });
   }
 }

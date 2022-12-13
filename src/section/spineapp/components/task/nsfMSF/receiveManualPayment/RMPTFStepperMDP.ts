@@ -4,9 +4,9 @@ import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 import RMPTStepFFormMDP from "./RMPTStepFFormMDP";
 
 export default class RMPTFStepperMDP extends FTaskStepperMDP {
-  taskRoot: FlowTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: FlowTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: "receiveManualPaymentStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;

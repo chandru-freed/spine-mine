@@ -15,6 +15,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
@@ -24,6 +25,7 @@ import NMSFFStepperMDP from "./NMSFFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import { NsfMSFOptions } from "./step1/NMSFTFFormMDP";
+import CFSummary from "@/section/spineapp/views/file/CFSummary.vue";
 
 @Component({
   components: {
@@ -34,6 +36,9 @@ import { NsfMSFOptions } from "./step1/NMSFTFFormMDP";
 export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+    @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
 
   taskId = this.$route.params.taskId;
 
@@ -83,10 +88,15 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.disposition === null) {
-      this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
+    if (Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
+      this.taskFormOutputLocal = { ...this.taskDetailsOutput };
+    } else {
+      this.taskFormOutputLocal = new Data.Spine.NsfMSFTaskOutput();
+      if(this.taskFormOutputLocal.amountToBeReceived == 0){
+        this.taskFormOutputLocal.amountToBeReceived = this.fileSummary.msfAmount;
+      }
+
     }
-    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
 
     return this.taskFormOutputLocal;
   }
@@ -101,6 +111,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
+
 
   //ACTION
   saveAndMarkCompleteTask() {

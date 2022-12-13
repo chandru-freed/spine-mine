@@ -20,7 +20,7 @@
             </v-list-item-action>
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item two-line>
+          <v-list-item dense>
             <v-list-item-icon class="mr-2">
               <v-icon color="deep-purple"> mdi-account </v-icon>
             </v-list-item-icon>
@@ -32,23 +32,38 @@
                 }}</v-list-item-title
               >
               <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
-              <v-list-item-subtitle
-                class="text-body-1"
-                @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
-              >
-                {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
-                <v-btn icon color="secondary" outlined small dense>
-                  <v-icon small>mdi-phone</v-icon>
-                </v-btn>
-              </v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
               <v-chip x-small class="mx-2" color="green lighten-3"
                 >active</v-chip
               >
-              <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
-              <!-- <v-list-item-subtitle class="text-body-1">{{clientFileBasicInfo.clientBasicInfo.mobile | phone}}</v-list-item-subtitle> -->
+            </v-list-item-action>
+            
+          </v-list-item >
+          <v-list-item dense >
+            <v-list-item-icon class="mr-2">
+              <v-btn
+                icon
+                color="secondary"
+                outlined
+                small
+                dense
+                @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
+              >
+                <v-icon small>mdi-phone</v-icon>
+              </v-btn>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-subtitle
+                class="text-body-1"
+                @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
+              >
+                {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
               <span class="caption mr-2"
                 >{{ clientFileBasicInfo.clientBasicInfo.emailId }}
               </span>
@@ -238,7 +253,6 @@ export default class CFSummary extends Vue {
   minHeight = 80;
 
   private callByAmeyo(phoneNumber: string) {
-    console.log("Inside call by ameyo ", phoneNumber);
     AmeyoService.dial(phoneNumber);
   }
 }

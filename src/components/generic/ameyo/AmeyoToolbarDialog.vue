@@ -21,7 +21,7 @@
      <iframe
           id="ameyoIframe"
           allow="geolocation;microphone;camera"
-          height="200"
+          height="600"
           width="320"
           :src="iframeUrl"
           persistent
@@ -57,9 +57,9 @@ export default class AmeyoToolbarDialog extends Vue {
   private dialog: boolean = false;
   //Make the DIV element draggagle:
 
-mounted(){
-  this.dragElement(document.getElementById("mydiv"));
-}
+// mounted(){
+//   this.dragElement(document.getElementById("mydiv"));
+// }
 
  dragElement(elmnt:any) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;

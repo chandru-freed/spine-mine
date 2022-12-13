@@ -1,6 +1,9 @@
 <template>
   <v-app id="inspire">
     <v-main>
+      <div style="visibility: hidden;height: 0;">
+      <AmeyoToolbarDialog />
+    </div>
       <v-container fluid fill-height>
         <v-row class="align-center justify-center">
           <v-col xs="12" sm="8" md="4">
@@ -46,10 +49,12 @@ import LoginFFormMDP from "./LoginFFormMDP";
 import AmeyoService from "@/components/generic/ameyo/AmeyoService";
 
 import axios, { AxiosError, AxiosInstance } from "axios";
+import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 @Component({
   components: {
     LoginFFormMDP,
     FForm,
+    AmeyoToolbarDialog
   },
 })
 export default class Login extends Vue {
@@ -66,7 +71,7 @@ export default class Login extends Vue {
 
     Action.Login.Login.execute(this.loginForm, (output) => {
       vm.getRoleListForUser(this.loginForm.userName);
-       this.ameyoLogin('freed_salesrep@gmail.com', '123456')
+      this.ameyoLogin("salesmanager1", "Welcome@123");
     });
   }
 
@@ -100,11 +105,10 @@ export default class Login extends Vue {
       }
     );
   }
-  private ameyoLogin(userId:string,password:string){
-      AmeyoService.login(userId, password);
-    }
+  private ameyoLogin(userId: string, password: string) {
+    AmeyoService.login(userId, password);
+  }
 }
-
 </script>
 
 <style></style>

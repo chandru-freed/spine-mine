@@ -2,11 +2,6 @@
   <div class="row">
     <div class="col-12">
       <v-card outlined height="200px">
-        <!-- <AmeyoToolbarDialog :ameyoToolbar="false" /> -->
-      </v-card>
-    </div>
-    <div class="col-12">
-      <v-card outlined height="200px">
         <v-card-text class="pt-1 pb-0">
           <div>Quick Actions</div>
         </v-card-text>
@@ -79,6 +74,7 @@
         </v-card-text>
       </v-card>
     </div>
+    <div class="col-12"></div>
   </div>
 </template>
 
@@ -88,12 +84,9 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import Helper from "../../util/Helper";
-import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 
 @Component({
-  components: {
-    AmeyoToolbarDialog,
-  },
+  components: {},
 })
 export default class CFQuickNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo

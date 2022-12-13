@@ -5,11 +5,56 @@
         <AmeyoToolbarDialog :ameyoToolbar="true" />
       </v-card>
     </div>
+
     <div class="col-12">
-      <v-card outlined height="200px">
-        <v-card-text class="pt-1 pb-0">
-          <div>Quick Actions</div>
+      <v-card outlined max-height="200px" class="overflow-y-auto">
+        <v-card-text class="py-1 d-flex align-center">
+          Active Tasks <v-spacer />
+          <v-btn icon @click="gotoTaskList"
+            ><v-icon small> mdi-open-in-new</v-icon></v-btn
+          >
         </v-card-text>
+        <v-divider />
+        <v-list dense class="py-0">
+          <v-list-item
+            v-for="(cfTask, j) in cfTaskList"
+            :key="j"
+          >
+            <v-list-item-content class="pa-0">
+              <v-list-item-title
+                >
+                <v-btn class="px-0 text-left" text small @click="gotoTaskDetails(cfTask)">
+                <v-icon class="mr-3" :color="taskStateIconMap[cfTask.taskState].color">{{
+                  taskStateIconMap[cfTask.taskState].icon
+                }}</v-icon>
+                
+                {{ cfTask.taskName }}
+                </v-btn>
+                
+                </v-list-item-title
+              >
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-btn
+              v-if="!cfTask.allocatedTo && cfTask.taskType === 'MANUAL'"
+              @click="() => pullStartAndMerge(cfTask)"
+              dense outlined x-small color="primary">Start</v-btn>
+              <!-- <v-icon small> mdi-chevron-right </v-icon> -->
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </div>
+
+    <div class="col-12">
+      <v-card outlined max-height="200px" class="overflow-y-auto">
+        <v-card-text class="py-1 d-flex align-center">
+          <CFActionList :useAsDropDown="true" /> <v-spacer />
+          <v-btn icon @click="gotoActionList"
+            ><v-icon small> mdi-open-in-new</v-icon></v-btn
+          >
+        </v-card-text>
+        <v-divider />
         <v-list dense class="py-0">
           <v-list-item
             v-for="(actionItem, j) in actionList"
@@ -33,6 +78,13 @@
 
     <div class="col-12">
       <v-card outlined>
+        <v-card-text class="py-1 d-flex align-center">
+          Notes <v-spacer />
+          <v-btn icon @click="gotoNotes"
+            ><v-icon small> mdi-open-in-new</v-icon></v-btn
+          >
+        </v-card-text>
+        <v-divider />
         <v-card-text class="pa-1">
           <v-textarea
             hide-details
@@ -57,7 +109,7 @@
               </v-btn-toggle>
             </div>
 
-            <v-list height="200px" class="overflow-y-auto">
+            <v-list max-height="200px" class="overflow-y-auto">
               <template v-for="(note, index) in fiNoteListQuick">
                 <v-list-item :key="'note' + index" dense>
                   <template>
@@ -89,10 +141,12 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import Helper from "../../util/Helper";
 import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
+import CFActionList from "./action/CFActionList.vue";
 
 @Component({
   components: {
     AmeyoToolbarDialog,
+    CFActionList
   },
 })
 export default class CFQuickNav extends Vue {
@@ -108,8 +162,22 @@ export default class CFQuickNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
+  @Store.Getter.TaskList.BenchTaskSummary.cfActiveTaskList
+  cfTaskList: Data.TaskList.GetTaskListByCidGrid[];
+
   clientFileId = this.$route.params.clientFileId;
   selectedToggleType: any = 0;
+  taskStateIconMap: any = {
+    CREATED: { icon: "mdi-plus-circle-outline", color: "grey" },
+    TO_BE_PULLED: { icon: "mdi-account-cancel-outline",color:"grey" },
+    ALLOCATED: { icon: "mdi-account-circle-outline", color:"secondary" },
+    STARTED: { icon: "mdi-pencil-circle-outline" , color:"primary"},
+    SAVED: { icon: "mdi-progress-pencil" ,color:"primary"},
+    COMPLETED: { icon: "mdi-check-circle-outline",color:"success" },
+    CANCELLED: { icon: "mdi-cancel" , color:"grey"},
+    EXCEPTION_Q: { icon: "mdi-alert-circle", color:"red" },
+    EXIT_Q: { icon: "mdi-alert-circle", color:"red" },
+  };
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
   addNote() {
     this.addNoteInput.clientFileId = this.clientFileId;
@@ -138,7 +206,7 @@ export default class CFQuickNav extends Vue {
   getFiNoteList() {
     setTimeout(() => {
       Action.FiNote.GetFiNoteList.execute1(this.clientFileId, (output) => {
-        console.log(output);
+        // console.log(output);
       });
     }, 700);
   }
@@ -159,11 +227,11 @@ export default class CFQuickNav extends Vue {
       icon: "mdi-chevron-right",
       command: this.createEnrollmentFlow,
     },
-    {
-      actionName: "More Action",
-      icon: "mdi-chevron-right",
-      routerName: "Root.CFile.CFAction.CFActionList",
-    },
+    // {
+    //   actionName: "More Action",
+    //   icon: "mdi-chevron-right",
+    //   routerName: "Root.CFile.CFAction.CFActionList",
+    // },
   ];
   takeAction(actionItem: any) {
     if (actionItem.routerName) {
@@ -177,6 +245,18 @@ export default class CFQuickNav extends Vue {
 
   goto(routerName: string, query: any) {
     this.$router.push({ name: routerName, query: query });
+  }
+
+  gotoTaskList() {
+    this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
+  }
+
+  gotoActionList() {
+    this.$router.push({ name: "Root.CFile.CFAction.CFActionList" });
+  }
+
+  gotoNotes() {
+    this.$router.push({ name: "Root.CFile.CFNote.CFNoteHighlightList" });
   }
 
   createEnrollmentFlow() {
@@ -194,6 +274,22 @@ export default class CFQuickNav extends Vue {
     Helper.Router.gotoCFActiveTaskList({
       router: this.$router,
       clientFileId: this.clientFileId,
+    });
+  }
+
+  gotoTaskDetails(item: any) {
+    const params = { ...this.$route.params, taskId: item.taskId };
+
+    this.$router.push({
+      name: "Root.CFile.CFTask.CFTaskDetails.CFTaskDetails",
+      params: params,
+    });
+  }
+
+  pullStartAndMerge(item: Data.TaskList.ToBePulledTaskGrid) {
+    Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
+      console.log(item)
+      this.gotoTaskDetails(item);
     });
   }
 }

@@ -1,23 +1,21 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
-import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
-import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
-import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FCellTaskMDP from "@/components/generic/table/cell/FCellTaskMDP";
-import FCellTaskStatusMDP from "@/components/generic/table/cell/FCellTaskStatusMDP";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
-export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
+export default class TaskSuspendedFDataTableMDP extends FDataTableMDP {
   parent: any;
-  constructor(props: { parent: any, myRefName: string }) {
+  constructor(props: { parent: any }) {
     super({
-      myRefName: props.myRefName,
+      myRefName: "taskSuspendedFDataTableRef",
       enableSearch: true,
-      title: "My Assigned Task",
-      itemKey:"taskId"
+      title: "Suspended Task",
+      itemKey: 'taskId'
     });
     this.parent = props.parent;
     this.addColumn({
@@ -55,36 +53,21 @@ export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellStatusMDP({ outlined: true }),
       })
       .addColumn({
-        label: "Status",
-        dataSelectorKey: "taskState",
-        columnCellMDP: new FCellTaskStatusMDP(),
-      })
-      .addColumn({
-        label: "Allocated On",
-        dataSelectorKey: "allocatedTime",
+        label: "Resume On",
+        dataSelectorKey: "resumeOn",
         columnCellMDP: new FCellDateTimeMDP(),
       })
       .addAction({
-        label:"Suspend",
-        onClick:(item) => this.handleSuspendClick(item),
+        label: "Resume",
+        onClick: (item) => this.handleResumeClick(item),
         type: ActionType.OTHERS,
-      })
-      ;
+        confirmation: true
+      });
   }
-
-  
 
   handleClientFileClick(item: any) {
     this.parent.gotoFile(item);
   }
-
-  handleSuspendClick(item: any) {
-    return new Promise(resolve => {
-      console.log(item);
-      this.parent.handleSuspendClick(item);
-    })
-  }
-
 
   addMyClientFile(item: any) {
     return new Promise((res) => {
@@ -94,5 +77,13 @@ export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
 
   handleClientClick(item: any) {
     this.parent.gotoClient(item.taskInput.clRegistrationDetails.clientId);
+  }
+
+  handleResumeClick(item: any) {
+    return new Promise((resolve) => {
+    Action.TaskList.Resume.execute1(item.taskId, output => {
+        resolve(true);
+    });
+    });
   }
 }

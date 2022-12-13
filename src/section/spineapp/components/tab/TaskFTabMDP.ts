@@ -21,6 +21,10 @@ export default class TaskFTabMDP extends FTabMDP {
       tabName: "Completed",
       routerName: "Root.TaskList.TaskCompleted",
     })
+    .addTab({
+      tabName: "Suspended",
+      routerName: "Root.TaskList.TaskSuspended",
+    })
   }
 
   getMyRef(): any {

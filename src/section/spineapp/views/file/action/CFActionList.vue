@@ -1,49 +1,73 @@
 <template>
   <div>
-    <v-text-field
-      outlined
-      class="ma-5"
-      rounded
-      label="Search"
-      dense
-      v-model="searchText"
-      prepend-inner-icon="mdi-magnify"
-    />
-    <div class="row mx-4">
-      <div
-        class="col-md-4"
-        v-for="(actionGroup, i) in filteredActionGroupList"
-        :key="i"
+    <div v-if="useAsDropDown">
+      <v-autocomplete
+        prepend-inner-icon="mdi-magnify"
+        outlined
+        hide-details
+        dense
+        class="mx-0"
+        :search-input="searchText"
+        @update:search-input="newVal => searchText=newVal"
+        :items="actionListForAutoComplete"
+        item-text="actionName"
+        label="Actions"
+        :hide-no-data="true"
       >
-        <v-card outlined color="grey lighten-3">
-          <v-card-subtitle class="px-2 py-1 overline">{{
-            actionGroup.groupName
-          }}</v-card-subtitle>
-          <v-list dense class="py-0">
-            <v-list-item
-              v-for="(actionItem, j) in actionGroup.actionList"
-              :key="j"
-              @click="takeAction(actionItem)"
-            >
-              <!-- <v-list-item-icon >
+        <template v-slot:item="data">
+          <v-card-text @click="takeAction(data.item)" class="row" small
+            >{{ data.item.actionName }} <v-spacer />
+            <v-icon small> mdi-chevron-right</v-icon></v-card-text
+          >
+        </template>
+      </v-autocomplete>
+    </div>
+    <div v-else>
+      <v-text-field
+        outlined
+        class="ma-5"
+        rounded
+        label="Search"
+        dense
+        v-model="searchText"
+        prepend-inner-icon="mdi-magnify"
+      />
+      <div class="row mx-4">
+        <div
+          class="col-md-4"
+          v-for="(actionGroup, i) in filteredActionGroupList"
+          :key="i"
+        >
+          <v-card outlined color="grey lighten-3">
+            <v-card-subtitle class="px-2 py-1 overline">{{
+              actionGroup.groupName
+            }}</v-card-subtitle>
+            <v-list dense class="py-0">
+              <v-list-item
+                v-for="(actionItem, j) in actionGroup.actionList"
+                :key="j"
+                @click="takeAction(actionItem)"
+              >
+                <!-- <v-list-item-icon >
                   <v-icon v-if="actionItem.icon" v-text="actionItem.icon"></v-icon>
                 </v-list-item-icon> -->
 
-              <v-list-item-content class="pa-0">
-                <v-list-item-title>{{
-                  actionItem.actionName
-                }}</v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-icon
-                  small
-                  v-if="actionItem.icon"
-                  v-text="actionItem.icon"
-                ></v-icon>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list>
-        </v-card>
+                <v-list-item-content class="pa-0">
+                  <v-list-item-title>{{
+                    actionItem.actionName
+                  }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-icon
+                    small
+                    v-if="actionItem.icon"
+                    v-text="actionItem.icon"
+                  ></v-icon>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +86,11 @@ import * as Snackbar from "node-snackbar";
 export default class CFActionList extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  @Prop({
+    default: false,
+  })
+  useAsDropDown: boolean;
 
   clientFileId = this.$route.params.clientFileId;
 
@@ -213,6 +242,7 @@ export default class CFActionList extends Vue {
   }
 
   takeAction(actionItem: any) {
+    this.searchText = "";
     if (actionItem.routerName) {
       this.goto(actionItem.routerName, actionItem.query);
     }
@@ -335,6 +365,17 @@ export default class CFActionList extends Vue {
         return ag;
       })
       .filter((item) => item.actionList.length > 0);
+    return filteredValList;
+  }
+
+  get actionListForAutoComplete() {
+    let actionsList: any = [];
+    this.actionGroupList.map((item) => {
+      actionsList.push(...item.actionList);
+    });
+    const filteredValList = this.searchText?.length>1?actionsList.filter((action: any) =>
+      action.actionName.toLowerCase().includes(this.searchText.toLowerCase())
+    ):[];
     return filteredValList;
   }
 }

@@ -43,13 +43,32 @@ export default class CFileLayout extends Vue {
     Store.Mutation.ClientFile.ClientFileSummary.RESET_C_F_SUMMARY();
     this.getCFBasicInfo();
     this.findClientFileSummary();
+    this.getTaskListForClientFile();
+     Action.TaskList.PullStartAndMerge.interested(
+      this.getTaskListForClientFile
+    );
   }
+
+   get clientFileNumber(): string {
+    return this.clientFileBasicInfo.clientFileNumber;
+  }
+
+
+  getTaskListForClientFile() {
+    setTimeout(() => {
+      Action.TaskList.GetTaskListByCid.execute1(
+        this.clientFileNumber,
+        (output) => {
+        }
+      );
+    }, 1000);
+  }
+
 
   getCFBasicInfo() {
     Action.ClientFile.GetCFBasicInfo.execute1(
       this.clientFileId,
       (output) => {
-       
       }
     );
   }

@@ -14,8 +14,9 @@ export default class FSnackbar {
     Snackbar.show({
       text: message,
       pos: POSITION,
-      backgroundColor: 'warning',
-      textColor: 'white'
+      backgroundColor: '#FFB74D',
+      actionTextColor: 'white',
+      textColor: 'white',
     });
   }
 
@@ -23,7 +24,8 @@ export default class FSnackbar {
     Snackbar.show({
       text: message,
       pos: POSITION,
-      backgroundColor: 'error',
+      backgroundColor: '#EF5350',
+      actionTextColor: 'white',
       textColor: 'white'
     });
   }
@@ -32,7 +34,8 @@ export default class FSnackbar {
     Snackbar.show({
       text: message,
       pos: POSITION,
-      backgroundColor: 'info',
+      backgroundColor: '#1E88E5',
+      actionTextColor: 'white',
       textColor: 'white'
     });
   }

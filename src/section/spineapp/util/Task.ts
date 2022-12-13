@@ -1,5 +1,6 @@
 
 import TaskAction from "./TaskAction";
+import * as ApiAction from "@/../src-gen/action";
 export default class Task  {
     static Action = TaskAction;
     static isTaskActionable(taskState: string) {
@@ -37,5 +38,15 @@ export default class Task  {
         return taskOutput
       }
     }
+
+    // getExecutiveTaskDetails(taskId: string) {
+    //   ApiAction.TaskList.GetExecutiveTaskDetails.execute1(
+    //     taskId,
+    //     (output) => {
+    //       // console.log(output);
+    //       this.loading = false;
+    //     }
+    //   );
+    // }
    
 }

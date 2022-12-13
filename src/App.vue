@@ -14,9 +14,9 @@
     </v-main>
   </v-app> -->
   <v-app>
-    <div style="visibility: hidden;     height: 0;">
+    <!-- <div style="visibility: hidden;     height: 0;">
       <AmeyoToolbarDialog />
-    </div>
+    </div> -->
     <router-view />
   </v-app>
 </template>

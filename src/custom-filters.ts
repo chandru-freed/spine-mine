@@ -30,13 +30,21 @@ export default class CustomFilters {
 
   private static toINR() {
     Vue.filter("toINR", (value: any) => {
-      return `₹ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      return `${value.toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0
+     })}`;
     });
   }
 
   private static toRoundedINR() {
     Vue.filter("toRoundedINR", (value: number = 0) => {
-      return `₹ ${Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      return `₹ ${Math.round(value).toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0
+     })}`;
     });
   }  
   

@@ -181,6 +181,29 @@ export default class CFSettlementPlanInfo extends ModelVue {
   mounted() {
     this.getFiCreditorInfo();
     this.getSTPaymentPlanDetails();
+    Action.ClientFile.AddSTEntry.interested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.RemoveSTEntry.interested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.PresentSTEntry.interested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.UpdateSTEntryAccountDetails.interested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
   }
 
   resetForms() {

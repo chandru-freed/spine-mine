@@ -79,7 +79,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-4",
           condition: this.parent.isCreditCard(),
-          rules:"min:10|max:18"
+          rules:"min:9|max:18"
         })
       )
 
@@ -90,7 +90,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           label: "Account Number",
           mandatory: true,
           boundaryClass: "col-4",
-          rules:"min:10|max:18",
+          rules:"min:9|max:18",
           condition: !this.parent.isCreditCard()
         })
       )

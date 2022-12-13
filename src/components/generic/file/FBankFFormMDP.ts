@@ -42,7 +42,7 @@ export default class FBankFFormMDP extends FFormMDP {
         dataSelectorKey: "accountNumber",
         label: "Account Number",
         mandatory: true,
-        rules:"min:10|max:18",
+        rules:"min:9|max:18",
         boundaryClass: "col-4",
       })
     )

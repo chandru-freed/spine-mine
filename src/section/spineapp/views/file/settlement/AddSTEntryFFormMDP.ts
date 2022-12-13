@@ -41,7 +41,19 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         optionValue: "id",
         mandatory: true
       })
+    ).addField(
+      new FSelectFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentMode",
+        label: "Payment Mode",
+        boundaryClass: "col-3",
+        options: Data.ClientFile.PAYMENT_MODE.list(),
+        optionLabel: "name",
+        optionValue: "id",
+        mandatory: true
+      })
     )
+
       .addField(
         new FSelectDateFieldMDP({
           dataSelectorKey: "draftDate",
@@ -76,6 +88,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           boundaryClass: "col-3",
+          rules: "min:9|max:18",
         })
       )
       .addField(
@@ -117,7 +130,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Cancel",
           btnType: BtnType.TEXT,
-          onClick:this.closeAddForm(),
+          onClick: this.closeAddForm(),
         })
       )
       .addAction(

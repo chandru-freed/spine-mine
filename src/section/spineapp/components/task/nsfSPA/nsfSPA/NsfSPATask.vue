@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- {{taskFormData}} -->
+    <!-- {{ taskFormData }} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -35,6 +35,9 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
+
   taskId = this.$route.params.taskId;
 
   //METADATA
@@ -48,17 +51,17 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   }
 
   // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //FORM
 
@@ -69,7 +72,7 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -83,10 +86,12 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfSPATaskOutput();
 
   get taskFormOutput() {
-    if (Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
-      this.taskFormOutputLocal = { ...this.taskDetailsOutput };
-    } else {
+    if (this.taskDetails.isOutputEmpty) {
       this.taskFormOutputLocal = new Data.Spine.NsfSPATaskOutput();
+      this.taskFormOutputLocal.amountToBeReceived = Math.round(this.fileSummary.totalMonthlyObligation - this.fileSummary.msfAmount);
+       
+    } else {
+      this.taskFormOutputLocal = { ...this.taskDetails.outputJson };
     }
 
     return this.taskFormOutputLocal;

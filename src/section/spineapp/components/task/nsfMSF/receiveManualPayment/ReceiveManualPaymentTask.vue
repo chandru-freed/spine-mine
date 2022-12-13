@@ -91,11 +91,8 @@ export default class ReceiveManualPaymentTask extends ModelVue {
   get taskFormOutput() {
     if (this.taskDetails.isOutputEmpty) {
       this.taskFormOutputLocal = new Data.Spine.MSFPaymentDetailsOutput();
-      //  this.taskFormOutputLocal.msfPaymentDetails.remoteTxnRefDetails = {}
-      if (this.taskFormOutputLocal.msfPaymentDetails.msfAmount == 0) {
-        this.taskFormOutputLocal.msfPaymentDetails.msfAmount =
-          this.fileSummary.msfAmount;
-      }
+      this.taskFormOutputLocal.msfPaymentDetails.msfAmount =
+        this.fileSummary.msfAmount;
     } else {
       this.taskFormOutputLocal = { ...this.taskDetails.outputJson };
     }

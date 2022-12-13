@@ -37,7 +37,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-    @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
   taskId = this.$route.params.taskId;
@@ -92,10 +92,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
       this.taskFormOutputLocal = { ...this.taskDetailsOutput };
     } else {
       this.taskFormOutputLocal = new Data.Spine.NsfMSFTaskOutput();
-      if(this.taskFormOutputLocal.amountToBeReceived == 0){
-        this.taskFormOutputLocal.amountToBeReceived = this.fileSummary.msfAmount;
-      }
-
+      this.taskFormOutputLocal.amountToBeReceived = this.fileSummary.msfAmount;
     }
 
     return this.taskFormOutputLocal;
@@ -111,7 +108,6 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
-
 
   //ACTION
   saveAndMarkCompleteTask() {

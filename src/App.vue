@@ -35,6 +35,7 @@ export default {
     // drawer: true,
     // mini: true
   }),
+  
 };
 </script>
 <style scoped>

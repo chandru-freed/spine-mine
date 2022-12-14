@@ -40,6 +40,7 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
+    console.log(input)
     Action.Spine.UpdateBudgetInfo.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",

@@ -25,6 +25,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
         label: "Salary",
         mandatory: true,
         boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -34,6 +35,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           label: "Business Income",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -43,6 +45,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           label: "Other Income",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -52,6 +55,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           label: "Family Support",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       );
   }

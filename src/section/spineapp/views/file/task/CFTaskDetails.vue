@@ -258,6 +258,7 @@ export default class CFTaskDetails extends Vue {
   public handleSaveAndComplete = () => {
     //this.gotoFile();
   };
+
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.PullStartAndMerge.interested(
@@ -284,14 +285,13 @@ export default class CFTaskDetails extends Vue {
       this.getExecutiveTaskDetailsHandler
     );
 
-    
     Action.Spine.UpdateMsfPaymentStatus.interested(
       this.getExecutiveTaskDetailsHandler
     );
 
     Action.Spine.ReceiveMSFPayment.interested(
       this.getExecutiveTaskDetailsHandler
-    );  
+    );
 
     Action.ClientFile.MarkClientFileAsOnBoarded.interested(
       this.getTaskDetailsAndFileSummaryWithDelay

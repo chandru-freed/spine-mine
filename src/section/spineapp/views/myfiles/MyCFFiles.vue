@@ -74,8 +74,20 @@ export default class MyCFFiles extends ModelVue {
     });
   }
 
+  // registerClient() {
+  //   Action.Client.RegisterAndAddClientFileToMyQ.execute(
+  //     this.registerClientFormData,
+  //     (output: any) => {
+  //       setTimeout(() => {
+  //         this.showRegisterMyCFForm = false;
+  //       }, 500);
+  //       this.gotoFile(output.clientFileNumber);
+  //     }
+  //   );
+  // }
+
   registerClient() {
-    Action.Client.RegisterAndAddClientFileToMyQ.execute(
+    Action.Client.RegisterAndEnroll.execute(
       this.registerClientFormData,
       (output: any) => {
         setTimeout(() => {

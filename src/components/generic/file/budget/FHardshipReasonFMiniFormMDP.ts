@@ -1,32 +1,33 @@
 import { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FBudgetMiniFormMDP from "@/components/generic/form/field/FBudgetMiniFormMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
+import FMiniFormMDP from "../../form/field/FMiniFormMDP";
+import FTextareaMDP from "../../form/field/FTextareaMDP";
 
-export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP {
+export default class FHardshipReasonFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "miscellaneousExpenses",
+      // dataSelectorKey: "hardshipReason",
       disabled: taskRoot.taskDisabled,
-      label: "Miscellaneous Expenses",
+      label: "Reason For Hardship",
       mandatory: true,
-      boundaryClass: "col-12",
+      boundaryClass: "col-5",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
 
     this.addField(
-      new FCurrencyFieldMDP({
+      new FTextareaMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "miscellaneousExpense",
-        label: "Miscellaneous",
+        label: "Reason For Hardship",
+        dataSelectorKey: "hardshipReason",
         mandatory: true,
-        boundaryClass: "col",
-        hideDetails: true
+        rows: '7'
       })
-    )
+    );
   }
 }

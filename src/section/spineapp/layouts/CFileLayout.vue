@@ -19,57 +19,23 @@
       </div>
     </div>
 
-    <div class="text-center">
-      <v-dialog
-        v-model="dialog"
-        transition="dialog-top-transition"
-        max-width="600"
+    <div :class="['phoneCall', showHide ? 'right0' : '']">
+      <v-btn
+        v-show="!hidden"
+        color="green"
+        dark
+        v-bind="attrs"
+        v-on="on"
+        fab
+        @click="openNavShow()"
       >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            v-show="!hidden"
-            color="green"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            fixed
-            bottom
-            right
-            fab
-          >
-            <v-icon>mdi-phone-in-talk</v-icon>
-          </v-btn>
-        </template>
+        <v-icon v-if="!showHide">mdi-phone-in-talk</v-icon>
+        <v-icon v-if="showHide">mdi-close</v-icon>
+      </v-btn>
+    </div>
 
-        <v-card class="pa-5">
-          <!-- <FNumberTextField v-model="phoneNumber" outlined label="Phone Nmuber" /> -->
-          <div class="d-flex justify-center">
-            <!-- <v-btn
-              class="mx-2"
-              color="green"
-              small
-              dark
-              dense
-              @click="callByAmeyo()"
-            >
-              <v-icon small dark dense class="mr-2">mdi-phone</v-icon>Call
-              Start</v-btn
-            > -->
-            <v-btn
-              class="mx-2"
-              color="red"
-              small
-              dark
-              dense
-              @click="callEndAmeyo()"
-            >
-              <v-icon small dark dense class="mr-2">mdi-phone</v-icon>Call
-              end</v-btn
-            >
-          </div>
-          <AmeyoToolbarDialog  />
-        </v-card>
-      </v-dialog>
+    <div :class="['sidenavBar', showHide ? 'right0' : '']">
+      <AmeyoToolbarDialog />
     </div>
   </v-container>
 </template>
@@ -87,7 +53,7 @@ import FNumberTextField from "@/components/generic/form/field/FNumberTextField.v
 @Component({
   components: {
     AmeyoToolbarDialog,
-    FNumberTextField
+    FNumberTextField,
   },
 })
 export default class CFileLayout extends Vue {
@@ -97,32 +63,28 @@ export default class CFileLayout extends Vue {
   clientFileId = this.$route.params.clientFileId;
   dialog: boolean = false;
   phoneNumber: string;
+  showHide = false;
 
   mounted() {
     Store.Mutation.ClientFile.ClientFileSummary.RESET_C_F_SUMMARY();
     this.getCFBasicInfo();
     this.findClientFileSummary();
     this.getTaskListForClientFile();
-     Action.TaskList.PullStartAndMerge.interested(
-      this.getTaskListForClientFile
-    );
+    Action.TaskList.PullStartAndMerge.interested(this.getTaskListForClientFile);
   }
 
-   get clientFileNumber(): string {
+  get clientFileNumber(): string {
     return this.clientFileBasicInfo.clientFileNumber;
   }
-
 
   getTaskListForClientFile() {
     setTimeout(() => {
       Action.TaskList.GetTaskListByCid.execute1(
         this.clientFileNumber,
-        (output) => {
-        }
+        (output) => {}
       );
     }, 1000);
   }
-
 
   getCFBasicInfo() {
     Action.ClientFile.GetCFBasicInfo.execute1(
@@ -146,6 +108,34 @@ export default class CFileLayout extends Vue {
     console.log(this.phoneNumber);
     AmeyoService.dial(this.phoneNumber);
   }
+
+  openNavShow() {
+    this.showHide = !this.showHide;
+  }
 }
 </script>
+
+<style scoped>
+.sidenavBar {
+  position: fixed;
+  top: 0;
+  right: -500px;
+  bottom: 0;
+  z-index: 999;
+  background: #fff;
+  transition: 0.5s;
+}
+.sidenavBar.right0 {
+  right: 0;
+}
+.phoneCall {
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  transition: 0.5s;
+}
+.phoneCall.right0 {
+  right: 330px;
+}
+</style>
 

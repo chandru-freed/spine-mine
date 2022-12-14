@@ -25,6 +25,7 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
         label: "Health Insurance",
         mandatory: true,
         boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -34,6 +35,7 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           label: "Vehicle Insurance",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -43,6 +45,7 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           label: "SIP",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -52,6 +55,7 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           label: "Stock Trades",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -60,6 +64,7 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           label: "Other",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
   }

@@ -17,6 +17,8 @@
       v-bind="paymentCalculatorFormMetaData.props"
     ></component>
 
+    <!-- <TMOStimulator v-if="modelValue" :value="modelValue" /> -->
+
     <div class="d-flex justify-space-around"></div>
 
     <v-alert
@@ -64,27 +66,6 @@
                   )
               "
               v-bind="addPsEntryFFormMetaData.props"
-            ></component>
-
-            <component
-              v-if="showModifyForm"
-              :is="modifyPsEntryFFormMetaData.componentName"
-              :ref="modifyPsEntryFFormMetaData.myRefName"
-              :value="
-                selectModel(
-                  modifyAmountPSEListInput,
-                  modifyPsEntryFFormMetaData.dataSelectorKey
-                )
-              "
-              @input="
-                (newValue) =>
-                  updateModel(
-                    addPsEntryInput,
-                    newValue,
-                    modifyPsEntryFFormMetaData.dataSelectorKey
-                  )
-              "
-              v-bind="modifyPsEntryFFormMetaData.props"
             ></component>
 
             <component
@@ -150,14 +131,13 @@ import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
-import FPaymentScheduleFDataTableMDP from "./FPaymentScheduleFDataTableMDP";
-import FDataTable from "../../table/FDataTable.vue";
-import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
-import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
-import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
-import ModifyPsEntryFFormMDP from "./ModifyPsEntryFFormMDP";
-import TMOStimulator from "../../tmoStimulator/TMOStimulator.vue";
 import * as Store from "@/../src-gen/store";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
+import FCFPPScheduleFDataTableMDP from './FCFPPScheduleFDataTableMDP';
+import FCFPSkipedPresentedFDataTableMDP from './FCFPSkipedPresentedFDataTableMDP';
+import FCFFeeFDataTableMDP from './FCFFeeFDataTableMDP';
+import AddCFPsEntryFFormMDP from './AddCFPsEntryFFormMDP';
 
 @Component({
   components: {
@@ -167,15 +147,12 @@ import * as Store from "@/../src-gen/store";
     TMOStimulator,
   },
 })
-export default class FPaymentPlan extends ModelVue {
+export default class FCFPaymentPlan extends ModelVue {
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
-  showModifyForm: boolean = false;
   addPsEntryInput: Data.ClientFile.AddPSEntryInput =
     new Data.ClientFile.AddPSEntryInput();
-  modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput =
-    new Data.ClientFile.ModifyAmountPSEListInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
@@ -230,39 +207,33 @@ export default class FPaymentPlan extends ModelVue {
 
   resetFormsTableAndData() {
     this.showAddPsEntryForm = false;
-    this.showModifyForm = false;
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
-    this.modifyAmountPSEListInput =
-      new Data.ClientFile.ModifyAmountPSEListInput();
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();
   }
 
   get fPaymentScheduleFDataTableMetaData() {
-    return new FPaymentScheduleFDataTableMDP({
+    return new FCFPPScheduleFDataTableMDP({
       parent: this,
       refName: this.fPaymentScheduleFDataTableRefName,
     }).getMetaData();
   }
 
   get fPSkipedPresentedTableMetaData() {
-    return new FPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
+    return new FCFPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
   }
 
   get fFeeFDataTableMetaData() {
-    return new FFeeFDataTableMDP({ parent: this }).getMetaData();
+    return new FCFFeeFDataTableMDP({ parent: this }).getMetaData();
   }
 
   get addPsEntryFFormMetaData() {
-    return new AddPsEntryFFormMDP({
+    return new AddCFPsEntryFFormMDP({
       parent: this,
     }).getMetaData();
   }
 
-  get modifyPsEntryFFormMetaData() {
-    return new ModifyPsEntryFFormMDP({ parent: this }).getMetaData();
-  }
 
   @Prop()
   paymentCalculatorFormMetaData: any;

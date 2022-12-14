@@ -24,7 +24,12 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           }).addNumberColumn({
             label: "Days Delinquent",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
-          }).addColumn({
+          })
+          .addNumberColumn({
+            label: "DPD",
+            dataSelectorKey: "daysPastDue",
+          })
+          .addColumn({
             label: "Debt Type",
             dataSelectorKey: "debtType",
           }).addColumn({

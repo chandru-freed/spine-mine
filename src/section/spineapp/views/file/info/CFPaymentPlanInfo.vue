@@ -26,13 +26,13 @@ import * as Action from "@/../src-gen/action";
 
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import FPaymentPlan from "@/components/generic/file/paymentPlan/FPaymentPlan.vue";
 import CFPaymentPlanInfoFPaymentPlanMDP from "./CFPaymentPlanInfoFPaymentPlanMDP";
+import FCFPaymentPlan from "@/components/generic/file/paymentPlan/cfPaymentPlan/FCFPaymentPlan.vue";
 
 @Component({
   components: {
     FForm,
-    FPaymentPlan,
+    FCFPaymentPlan
   },
 })
 export default class CFPaymentPlanInfo extends ModelVue {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component
+    <!-- <component
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
       :value="
@@ -15,7 +15,10 @@
           )
       "
       v-bind="paymentCalculatorFormMetaData.props"
-    ></component>
+    ></component> -->
+
+    <TMOStimulator v-if="modelValue" :value="modelValue" />
+
 
     <div class="d-flex justify-space-around"></div>
 
@@ -25,12 +28,12 @@
       outlined
       class="col-5 ma-auto mb-5"
       v-if="
-        paymentPlan.ppCalculator.totalMonthlyObligation >
+        paymentPlan?.ppCalculator.totalMonthlyObligation >
         this.modelValue.budgetInfo.proposedDSPayment
       "
     >
       Monthly Obligation ({{
-        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)
+        paymentPlan?.ppCalculator.totalMonthlyObligation.toFixed(2)
       }}) greater than Affordability ({{
         this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)
       }}).
@@ -39,7 +42,6 @@
     <v-card flat outlined class="row ma-2">
       <v-tabs v-model="tab" background-color="transparent" color="secondary">
         <v-tab> Payment Schedule </v-tab>
-        <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab" class="col-12">
@@ -66,26 +68,6 @@
               v-bind="addPsEntryFFormMetaData.props"
             ></component>
 
-            <component
-              v-if="showModifyForm"
-              :is="modifyPsEntryFFormMetaData.componentName"
-              :ref="modifyPsEntryFFormMetaData.myRefName"
-              :value="
-                selectModel(
-                  modifyAmountPSEListInput,
-                  modifyPsEntryFFormMetaData.dataSelectorKey
-                )
-              "
-              @input="
-                (newValue) =>
-                  updateModel(
-                    addPsEntryInput,
-                    newValue,
-                    modifyPsEntryFFormMetaData.dataSelectorKey
-                  )
-              "
-              v-bind="modifyPsEntryFFormMetaData.props"
-            ></component>
 
             <component
               :is="fPaymentScheduleFDataTableMetaData.componentName"
@@ -101,16 +83,6 @@
               :ref="fPSkipedPresentedTableMetaData.myRefName"
               :value="psEntryPresentedList"
               v-bind="fPSkipedPresentedTableMetaData.props"
-            ></component>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card flat>
-            <component
-              :is="fFeeFDataTableMetaData.componentName"
-              :ref="fFeeFDataTableMetaData.myRefName"
-              :value="subscriptionFeeScheduleList"
-              v-bind="fFeeFDataTableMetaData.props"
             ></component>
           </v-card>
         </v-tab-item>
@@ -150,14 +122,15 @@ import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
-import FPaymentScheduleFDataTableMDP from "./FPaymentScheduleFDataTableMDP";
-import FDataTable from "../../table/FDataTable.vue";
-import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
-import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
-import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
-import ModifyPsEntryFFormMDP from "./ModifyPsEntryFFormMDP";
-import TMOStimulator from "../../tmoStimulator/TMOStimulator.vue";
+import FEnrollmentPPScheduleFDataTableMDP from "./FEPPScheduleFDataTableMDP";
+
+import FEPSkipedPresentedFDataTableMDP from "./FEPSkipedPresentedFDataTableMDP";
+import AddEPsEntryFFormMDP from "./AddEPsEntryFFormMDP";
+
+
 import * as Store from "@/../src-gen/store";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
 
 @Component({
   components: {
@@ -167,16 +140,14 @@ import * as Store from "@/../src-gen/store";
     TMOStimulator,
   },
 })
-export default class FPaymentPlan extends ModelVue {
+export default class FEPaymentPlan extends ModelVue {
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
-  showModifyForm: boolean = false;
   addPsEntryInput: Data.ClientFile.AddPSEntryInput =
     new Data.ClientFile.AddPSEntryInput();
-  modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput =
-    new Data.ClientFile.ModifyAmountPSEListInput();
-  fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
+
+  fPaymentScheduleFDataTableRefName: string = "fEPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
 
@@ -192,13 +163,13 @@ export default class FPaymentPlan extends ModelVue {
   }
 
   get psEntrySchelduledList() {
-    return this.paymentPlan.paymentScheduleList.filter(
+    return this.paymentPlan?.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );
   }
 
   get psEntryPresentedList() {
-    return this.paymentPlan.paymentScheduleList.filter(
+    return this.paymentPlan?.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
@@ -230,38 +201,27 @@ export default class FPaymentPlan extends ModelVue {
 
   resetFormsTableAndData() {
     this.showAddPsEntryForm = false;
-    this.showModifyForm = false;
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
-    this.modifyAmountPSEListInput =
-      new Data.ClientFile.ModifyAmountPSEListInput();
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();
   }
 
   get fPaymentScheduleFDataTableMetaData() {
-    return new FPaymentScheduleFDataTableMDP({
+    return new FEnrollmentPPScheduleFDataTableMDP({
       parent: this,
       refName: this.fPaymentScheduleFDataTableRefName,
     }).getMetaData();
   }
 
   get fPSkipedPresentedTableMetaData() {
-    return new FPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
-  }
-
-  get fFeeFDataTableMetaData() {
-    return new FFeeFDataTableMDP({ parent: this }).getMetaData();
+    return new FEPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
   }
 
   get addPsEntryFFormMetaData() {
-    return new AddPsEntryFFormMDP({
+    return new AddEPsEntryFFormMDP({
       parent: this,
     }).getMetaData();
-  }
-
-  get modifyPsEntryFFormMetaData() {
-    return new ModifyPsEntryFFormMDP({ parent: this }).getMetaData();
   }
 
   @Prop()
@@ -275,11 +235,5 @@ export default class FPaymentPlan extends ModelVue {
 
   @Prop()
   actionMetaDataList: any[];
-
-  @Prop({ default: false })
-  hideMSFTab: boolean;
-
-  @Prop({ default: false })
-  disabledActionBtn: boolean;
 }
 </script>

@@ -63,7 +63,6 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
           taskRoot: this.taskRoot,
           parent: this,
         }),
-        submitFunc: ccitPPStepFPaymentPlanMDP.ppCalculatorFormSubmit(),
       })
       .addStep({
         name: "Bank",

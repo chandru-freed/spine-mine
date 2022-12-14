@@ -50,7 +50,7 @@ export default class CollectClientInfoTask extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-  
+
   // Personal Info
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfoStore: Data.ClientFile.ClPersonalInfo;
@@ -69,7 +69,7 @@ export default class CollectClientInfoTask extends ModelVue {
   // Document List
   @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
   fiDocumentListStore: Data.ClientFile.FiDocument[];
-  
+
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
   // URl we are getting taskId and clientFileId
@@ -118,9 +118,9 @@ export default class CollectClientInfoTask extends ModelVue {
     this.taskFormDataLocal = value;
   }
 
-  taskFormOutputLocal: any =
-    new Data.Spine.CollectClientInfoTask();
+  taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
   get taskFormOutput() {
+    console.log(this.fiPaymentPlanInfoStore, "Compiling");
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
@@ -174,17 +174,17 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.AddCreditor.interested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSummary();
       }, 1000);
     });
     Action.Spine.UpdateCreditor.interested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSummary();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.interested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSummary();
       }, 1000);
     });
 
@@ -198,6 +198,25 @@ export default class CollectClientInfoTask extends ModelVue {
         this.getFiPaymentPlanInfo();
       }, 1000);
     });
+
+    Action.Spine.DraftPSPlanForPM.interested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
+    Action.ClientFile.AddPSEntry.interested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
+    Action.Spine.RecalculatePSPlanForPM.interested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
     Action.Spine.UpdateBankInfo.interested((output) => {
       setTimeout(() => {
         this.getFiBankInfo();
@@ -213,6 +232,12 @@ export default class CollectClientInfoTask extends ModelVue {
         this.getFiDocumentList();
       }, 1000);
     });
+
+    Action.Spine.Skip.interested(() => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
   }
 
   public destroyed() {
@@ -224,18 +249,18 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.AddCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSummary();
       }, 1000);
     });
 
     Action.Spine.UpdateCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSummary();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSchedulePP();
+        this.getClientCreditorInfoAndSummary();
       }, 1000);
     });
 
@@ -246,6 +271,24 @@ export default class CollectClientInfoTask extends ModelVue {
     });
 
     Action.Spine.SchedulePaymentPlan.notInterested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
+    Action.Spine.DraftPSPlanForPM.notInterested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
+    Action.ClientFile.AddPSEntry.notInterested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
+    Action.Spine.RecalculatePSPlanForPM.notInterested((output) => {
       setTimeout(() => {
         this.getFiPaymentPlanInfo();
       }, 1000);
@@ -265,6 +308,12 @@ export default class CollectClientInfoTask extends ModelVue {
     Action.Spine.DetachDocument.notInterested((output) => {
       setTimeout(() => {
         this.getFiDocumentList();
+      }, 1000);
+    });
+
+    Action.Spine.Skip.notInterested(() => {
+      setTimeout(() => {
+        this.getFiPaymentPlanInfo();
       }, 1000);
     });
   }
@@ -297,10 +346,10 @@ export default class CollectClientInfoTask extends ModelVue {
     });
   }
 
-  getClientCreditorInfoAndSchedulePP() {
+  getClientCreditorInfoAndSummary() {
     this.getClientFileSummary();
     Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
-      this.schedulePaymentPlan();
+      // this.schedulePaymentPlan();
     });
   }
 
@@ -346,23 +395,24 @@ export default class CollectClientInfoTask extends ModelVue {
     input.clientFileId = this.clientFileId;
     input.ppCalculator.outstanding = this.fiCreditorStore.totalDebt;
     input.taskId = this.taskId;
-    if(input.ppCalculator.firstDraftDate === '') {
-    input.ppCalculator.firstDraftDate = moment()
-      .add(2, "days")
-      .format(Helper.DATE_FORMAT);
-    input.ppCalculator.feeFirstDraftDate = moment()
-      .format(Helper.DATE_FORMAT);
+    if (input.ppCalculator.firstDraftDate === "") {
+      input.ppCalculator.firstDraftDate = moment()
+        .add(2, "days")
+        .format(Helper.DATE_FORMAT);
+      input.ppCalculator.feeFirstDraftDate = moment().format(
+        Helper.DATE_FORMAT
+      );
     }
-      // if(input.ppCalculator.firstDraftDate === '') {
+    // if(input.ppCalculator.firstDraftDate === '') {
     Action.Spine.SchedulePaymentPlan.execute(
       input,
       (output: any) => {},
       (error) => {}
     );
-      // }
+    // }
   }
 
-    getClientFileSummary() {
+  getClientFileSummary() {
     Action.ClientFile.GetClientFileSummary.execute1(
       this.clientFileId,
       (output) => {}

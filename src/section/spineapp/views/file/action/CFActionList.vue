@@ -2,7 +2,6 @@
   <div>
     <div v-if="useAsDropDown">
       <v-autocomplete
-        prepend-inner-icon="mdi-magnify"
         outlined
         hide-details
         dense

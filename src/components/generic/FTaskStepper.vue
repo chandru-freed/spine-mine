@@ -117,6 +117,8 @@ import Task from "@/section/spineapp/util/Task";
 import FSettlementPlan from "./file/settlementPlan/FSettlementPlan.vue";
 import FAmendmentCreditor from "./file/amendmentCreditor/FAmendmentCreditor.vue";
 import FAmendmentPaymentPlan from "./file/amendmentPaymentPlan/FAmendmentPaymentPlan.vue";
+import FEPaymentPlan from "./file/paymentPlan/enrollmentPaymentPlan/FEPaymentPlan.vue";
+import FCFPaymentPlan from "./file/paymentPlan/cfPaymentPlan/FCFPaymentPlan.vue";
 
 @Component({
   components: {
@@ -130,7 +132,9 @@ import FAmendmentPaymentPlan from "./file/amendmentPaymentPlan/FAmendmentPayment
     FEMandate,
     FSettlementPlan,
     FAmendmentCreditor,
-    FAmendmentPaymentPlan
+    FAmendmentPaymentPlan,
+    FEPaymentPlan,
+    FCFPaymentPlan
   },
 })
 export default class FTaskStepper extends ModelVue {

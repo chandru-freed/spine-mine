@@ -139,13 +139,14 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item, index }">
+        <div class="d-flex">
         <v-btn
           :disabled="disabled"
           icon
           @click="handleEditClick(item, index)"
           v-if="editBtnData"
         >
-          <v-icon small class="px-1"> mdi-pencil </v-icon>
+          <v-icon small > mdi-pencil </v-icon>
         </v-btn>
         <v-btn
           icon
@@ -153,8 +154,9 @@
           @click="handleDeleteClick(item, index)"
           v-if="deleteBtnData"
         >
-          <v-icon small class="px-1"> mdi-delete </v-icon>
+          <v-icon small > mdi-delete </v-icon>
         </v-btn>
+        </div>
       </template>
     </v-data-table>
   </v-card>

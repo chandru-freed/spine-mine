@@ -104,7 +104,7 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
       new FNumberFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.tenor",
-        label: "Tenor",
+        label: "Tenure",
         mandatory: true,
         boundaryClass: "col-3",
       })

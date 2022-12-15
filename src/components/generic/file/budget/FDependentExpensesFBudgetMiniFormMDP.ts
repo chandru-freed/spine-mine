@@ -25,6 +25,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
         label: "Medical",
         mandatory: true,
         boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -34,6 +35,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "Essential Care",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -43,6 +45,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "School Fee",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -52,6 +55,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "School Bus",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -60,6 +64,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "Books And Projects",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -68,6 +73,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "Nursing Attend",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -76,6 +82,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "Pet Care",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
   }

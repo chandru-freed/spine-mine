@@ -51,30 +51,30 @@ export default class NSPATFFormMDP extends FFormMDP {
         })
       )
 
-      .addField(
-        new FNumberFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.amountToBeReceived",
-          label: "Amount To Be Received",
-          condition: this.isReceivePayment(),
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.upiId",
-          label: "UPI Id",
-          condition: this.isReceivePayment(),
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.intent",
-          label: "Intent",
-          condition: this.isReceivePayment(),
-        })
-      )
+      // .addField(
+      //   new FNumberFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.amountToBeReceived",
+      //     label: "Amount To Be Received",
+      //     condition: this.isReceivePayment(),
+      //   })
+      // )
+      // .addField(
+      //   new FTextFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.upiId",
+      //     label: "UPI Id",
+      //     condition: this.isReceivePayment(),
+      //   })
+      // )
+      // .addField(
+      //   new FTextFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.intent",
+      //     label: "Intent",
+      //     condition: this.isReceivePayment(),
+      //   })
+      // )
       .addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
@@ -174,11 +174,11 @@ export default class NSPATFFormMDP extends FFormMDP {
     );
   }
 
-  isReceivePayment(): boolean {
-    return (
-      this.taskRoot.selectedNSPATaskOption() === NsfSPAOptions.ReceivePayment
-    );
-  }
+  // isReceivePayment(): boolean {
+  //   return (
+  //     this.taskRoot.selectedNSPATaskOption() === NsfSPAOptions.ReceivePayment
+  //   );
+  // }
   isDraftRescheduled(): boolean {
     return (
       this.taskRoot.selectedNSPATaskOption() === NsfSPAOptions.DraftRescheduled
@@ -189,6 +189,6 @@ export default class NSPATFFormMDP extends FFormMDP {
 export enum NsfSPAOptions {
   ClientDeferred = "Call Back Requested",
   SystemDeferred = "Follow Up Required",
-  ReceivePayment = "Receive Payment",
+  // ReceivePayment = "Receive Payment",
   DraftRescheduled = "Draft Rescheduled",
 }

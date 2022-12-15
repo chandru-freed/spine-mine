@@ -25,6 +25,7 @@ export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP 
         label: "Miscellaneous",
         mandatory: true,
         boundaryClass: "col",
+        hideDetails: true
       })
     )
   }

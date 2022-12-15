@@ -25,6 +25,7 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
         label: "Travel/Fuel",
         mandatory: true,
         boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -34,6 +35,7 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "Digital Subscriptions",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -43,6 +45,7 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "Dining Out",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -52,6 +55,7 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "House Help",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -60,6 +64,7 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           label: "Outing",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
   }

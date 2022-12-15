@@ -24,7 +24,7 @@ export default class FMiniFormMDP implements FFieldMDP {
 
   constructor({
     parentMDP,
-    dataSelectorKey,
+    dataSelectorKey="",
     disabled = false,
     label,
     rules = "",
@@ -33,7 +33,7 @@ export default class FMiniFormMDP implements FFieldMDP {
     condition =true
   }: {
     parentMDP: FFormChildMDP;
-    dataSelectorKey: string;
+    dataSelectorKey?: string;
     disabled?: boolean;
     label: string;
     rules?: string;

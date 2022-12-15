@@ -25,7 +25,7 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.firstMSFPaymentDetails.paymentProvider",
         label: "Payment Provider",
-        boundaryClass: "col-3",
+        boundaryClass: "col-4",
         returnObject: true,
         options: [
           { id: "NUPAY", name: "NUPAY" },
@@ -49,21 +49,23 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.firstMSFPaymentDetails.msfAmount",
         label: "MSF Amount",
-        boundaryClass: "col-3",
+        boundaryClass: "col-4",
       })
-    ).addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.firstMSFPaymentDetails.totalAmount",
-        label: "Total Amount",
-        boundaryClass: "col-3",
-      })
-    )      .addField(
+    )
+    // .addField(
+    //   new FCurrencyFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "taskOutput.firstMSFPaymentDetails.totalAmount",
+    //     label: "Total Amount",
+    //     boundaryClass: "col-3",
+    //   })
+    // )      
+    .addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.firstMSFPaymentDetails.status",
         label: "Payment Status",
-        boundaryClass: "col-3",
+        boundaryClass: "col-4",
         returnObject: true,
         options: [
           { id: "DRAFT", name: "DRAFT" },
@@ -87,7 +89,8 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         label: "Remote Payment Link",
         boundaryClass: "col-12",
       })
-    ).addAction(
+    )
+    .addAction(
         new FBtnMDP({
           label: "Receive MSF Payment",
           onClick: this.receiveMSFPayment(),

@@ -25,6 +25,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
         label: "Auto Loan",
         mandatory: true,
         boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -34,6 +35,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
           label: "Housing Loan",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -43,6 +45,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
           label: "Loan Against Security",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -52,6 +55,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
           label: "Collateralized Bussiness Loan",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       );
   }

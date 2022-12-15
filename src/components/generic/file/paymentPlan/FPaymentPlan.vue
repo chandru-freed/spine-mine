@@ -191,7 +191,6 @@ export default class FPaymentPlan extends ModelVue {
   }
 
   get psEntrySchelduledList() {
-    console.log(this.paymentPlan, "Payment plan is this");
     return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );

@@ -135,7 +135,7 @@ import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFe
     CollectMSFTask,
     PlanSettlementTask,
     PrepareAmendmentTask,
-    RefundFeeTask
+    RefundFeeTask,
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -233,7 +233,6 @@ export default class CFTaskDetails extends Vue {
     ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
     ["Amendment::PrepareAmendment", "PrepareAmendmentTask"],
     ["RefundFee::RefundFee", "RefundFeeTask"],
-    
   ]);
 
   taskId = this.$route.params.taskId;
@@ -259,6 +258,7 @@ export default class CFTaskDetails extends Vue {
   public handleSaveAndComplete = () => {
     //this.gotoFile();
   };
+
   public mounted() {
     Action.TaskList.PullTask.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.PullStartAndMerge.interested(
@@ -269,7 +269,7 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.SaveAndComplete.interested(
       this.getTaskDetailsAndFileSummaryWithDelay
     );
-     Action.Spine.SchedulePaymentPlan.interested(
+    Action.Spine.SchedulePaymentPlan.interested(
       this.getFindClientFileSummaryWithDelay
     );
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
@@ -280,11 +280,20 @@ export default class CFTaskDetails extends Vue {
     Action.Spine.ReceiveFirstMSFPayment.interested(
       this.getExecutiveTaskDetailsHandler
     );
+
     Action.Spine.UpdatePaymentStatus.interested(
       this.getExecutiveTaskDetailsHandler
     );
 
-   Action.ClientFile.MarkClientFileAsOnBoarded.interested(
+    Action.Spine.UpdateMsfPaymentStatus.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.Spine.ReceiveMSFPayment.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.ClientFile.MarkClientFileAsOnBoarded.interested(
       this.getTaskDetailsAndFileSummaryWithDelay
     );
 
@@ -303,7 +312,7 @@ export default class CFTaskDetails extends Vue {
     }, 1000);
   }
 
-   getFindClientFileSummaryWithDelay() {
+  getFindClientFileSummaryWithDelay() {
     setTimeout(this.findClientFileSummary, 1000);
   }
 
@@ -386,14 +395,21 @@ export default class CFTaskDetails extends Vue {
       this.getExecutiveTaskDetailsHandler
     );
 
-      Action.Spine.SchedulePaymentPlan.notInterested(
+    Action.Spine.ReceiveMSFPayment.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.Spine.UpdateMsfPaymentStatus.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.Spine.SchedulePaymentPlan.notInterested(
       this.getFindClientFileSummaryWithDelay
     );
 
-       Action.ClientFile.MarkClientFileAsOnBoarded.notInterested(
+    Action.ClientFile.MarkClientFileAsOnBoarded.notInterested(
       this.getTaskDetailsAndFileSummaryWithDelay
     );
-
   }
 
   findClientFileSummary() {

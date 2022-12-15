@@ -3,7 +3,7 @@
     <v-slider
       v-bind="$props"
       :value="modelValue.tenure"
-      :rules="rules"
+      :rules="sliderRules"
       thumb-label="always"
       @input="(newValue) => (modelValue.tenure = newValue)"
     />
@@ -31,7 +31,7 @@ export default class FRangeSlider extends VSlider {
   }
   // MODEL VALUE - END
 
-  get rules() {
+  get sliderRules() {
     return [
       (v: number) => this.modelValue.tenure <= this.modelValue.tenureApproval,
       (v: number) =>

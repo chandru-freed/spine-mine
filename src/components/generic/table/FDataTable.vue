@@ -29,7 +29,15 @@
       :search="search"
       checkbox-color="primary"
     >
-      <template v-if="title || actions.length > 0 || enableSearch || infoMetaDataList.length>0" v-slot:top>
+      <template
+        v-if="
+          title ||
+          actions.length > 0 ||
+          enableSearch ||
+          infoMetaDataList.length > 0
+        "
+        v-slot:top
+      >
         <v-toolbar class="mx-1" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-divider v-if="title" vertical class="mx-3" inset />
@@ -131,22 +139,24 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item, index }">
+        <div class="d-flex">
         <v-btn
           :disabled="disabled"
           icon
-          @click="handleEditClick(item,index)"
+          @click="handleEditClick(item, index)"
           v-if="editBtnData"
         >
-          <v-icon small class="px-1"> mdi-pencil </v-icon>
+          <v-icon small > mdi-pencil </v-icon>
         </v-btn>
         <v-btn
           icon
           :disabled="disabled"
-          @click="handleDeleteClick(item,index)"
+          @click="handleDeleteClick(item, index)"
           v-if="deleteBtnData"
         >
-          <v-icon small class="px-1"> mdi-delete </v-icon>
+          <v-icon small > mdi-delete </v-icon>
         </v-btn>
+        </div>
       </template>
     </v-data-table>
   </v-card>
@@ -200,7 +210,7 @@ import FCellSLA from "./cell/FCellSLA.vue";
     FCellName,
     FCellUppercase,
     FCellDayPastDue,
-    FCellSLA
+    FCellSLA,
   },
 })
 export default class FDataTable extends ModelVue {
@@ -291,12 +301,14 @@ export default class FDataTable extends ModelVue {
 
   fireDeleteActionClick() {
     this.showDeleteConfirmation = false;
-    this.deleteBtnData.onClick(this.selectedItemForDelete,this.selectedRowIndex).then((res) => {
-      this.clearSelectedItems();
-    });
+    this.deleteBtnData
+      .onClick(this.selectedItemForDelete, this.selectedRowIndex)
+      .then((res) => {
+        this.clearSelectedItems();
+      });
   }
 
-  handleDeleteClick(item: any,index?: number) {
+  handleDeleteClick(item: any, index?: number) {
     this.selectedAction = this.deleteBtnData;
     this.selectedItemForDelete = item;
     this.selectedRowIndex = index;
@@ -319,7 +331,7 @@ export default class FDataTable extends ModelVue {
 
   handleEditClick(item: any, index: number) {
     this.selectedRowIndex = index;
-    this.editBtnData.onClick(item,index);
+    this.editBtnData.onClick(item, index);
   }
 
   get deleteBtnData(): FTableActionField {

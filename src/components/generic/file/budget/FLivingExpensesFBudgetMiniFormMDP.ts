@@ -25,6 +25,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
         label: "Rent / Maintenance",
         mandatory: true,
         boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -34,6 +35,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           label: "Grocery Expense",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -43,6 +45,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           label: "Electricity Bill",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -52,6 +55,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           label: "Gas Bill",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -60,6 +64,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           label: "Phone Bill",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
@@ -68,6 +73,7 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           label: "Other Utilities",
           mandatory: true,
           boundaryClass: "col",
+          hideDetails: true
         })
       );
   }

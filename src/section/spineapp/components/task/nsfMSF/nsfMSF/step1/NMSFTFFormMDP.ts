@@ -3,6 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import DispositionFMiniFormMDP, {
   DispositionType,
 } from "@/components/generic/form/field/DispositionFMiniFormMDP";
+import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FDateTimeSelectFieldMDP from "@/components/generic/form/field/FDateTimeSelectFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
@@ -66,35 +67,20 @@ export default class NMSFTFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.amountToBeReceived",
           label: "Amount To Be Received",
+          disabled: true,
           condition: this.isReceivePayment(),
         })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.upiId",
-          label: "UPI Id",
-          condition: this.isReceivePayment(),
-        })
-      )
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.intent",
-          label: "Intent",
-          condition: this.isReceivePayment(),
-        })
-      )
-      .addField(
-        new FSelectDateFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.msfScheduledDraftDate",
-          label: "Msf Scheduled Draft Date",
-          mandatory: true,
-          pastDaysDisabled: true,
-          condition: this.isDraftRescheduled(),
-        })
-      )
+      )      
+      // .addField(
+      //   new FSelectDateFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.msfScheduledDraftDate",
+      //     label: "Msf Scheduled Draft Date",
+      //     mandatory: true,
+      //     pastDaysDisabled: true,
+      //     condition: this.isDraftRescheduled(),
+      //   })
+      // )
       .addField(
         new DispositionFMiniFormMDP({
           taskRoot,
@@ -133,7 +119,14 @@ export default class NMSFTFFormMDP extends FFormMDP {
           onClick: this.rescueTask(),
           condition: this.isException(),
         })
-      );
+      )
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Check Payment Status",
+      //     condition: this.isReceivePayment(),
+      //     onClick: this.checkPaymentStatus(),
+      //   })
+      // );
   }
 
   getSelectedOption() {
@@ -201,6 +194,10 @@ export default class NMSFTFFormMDP extends FFormMDP {
       this.taskRoot.taskDetails.taskState === "EXCEPTION_Q" ||
       this.taskRoot.taskDetails.taskState === "EXIT_Q"
     );
+  }
+
+  checkPaymentStatus(){
+    return () => {};
   }
 }
 

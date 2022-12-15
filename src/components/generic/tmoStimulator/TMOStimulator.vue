@@ -101,6 +101,8 @@ import TMOStimulatorFFormMDP from "./TMOStimulatorFFormMDP";
 import FForm from "../form/FForm.vue";
 import Task from "@/section/spineapp/util/Task";
 import TMOStimulatorMDP from "./TMOStimulatorMDP";
+import moment from "moment";
+import Helper from "@/section/spineapp/util/Helper";
 
 @Component({
   components: {
@@ -174,16 +176,21 @@ export default class TMOStimulator extends ModelVue {
 
   mounted() {
     setTimeout(() => {
-      this.resultLocal.tenure = this.modelValue.paymentPlan.ppCalculator.tenor;
+      this.resultLocal.tenure = this.modelValue.paymentPlan?.ppCalculator?.tenor || 12;
       this.resultLocal.outstanding =
-        this.modelValue.paymentPlan.ppCalculator.outstanding;
+        this.modelValue.creditorInfo.totalDebt;
       this.resultLocal.settlementPercentage =
-        this.modelValue.paymentPlan.ppCalculator.settlementPercentage;
+        this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
       this.resultLocal.affordability =
-        this.modelValue.budgetInfo.proposedDSPayment;
+        this.modelValue.budgetInfo?.proposedDSPayment || 0;
       this.resultLocal.firstSPADraftDate =
-        this.modelValue.paymentPlan.ppCalculator.firstDraftDate;
+        this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
     }, 1000);
+  }
+
+  isPaymentPlanDataAvailable() {
+    console.log(this.modelValue,"is payment plan available")
+    return this.modelValue.paymentPlan?.psPlanId !== ""
   }
 
   @Watch("result.tenure") tenureChanged(newValue: any, oldValue: any) {
@@ -212,21 +219,38 @@ export default class TMOStimulator extends ModelVue {
     this.resultLocal = value;
   }
 
+  scheduleorDraftPaymentPlan() {
+      if(this.isPaymentPlanDataAvailable()) {
+        this.schedulePaymentPlan();
+      } else {
+        this.draftPaymentPlan();
+      }
+  }
+
   schedulePaymentPlan() {
-    const input: Data.Spine.SchedulePaymentPlanInput =
-      Data.Spine.SchedulePaymentPlanInput.fromJson(this.modelValue.paymentPlan);
-    input.clientFileId = this.clientFileId;
-    input.ppCalculator.outstanding = this.result.outstanding;
-    input.ppCalculator.firstDraftDate = this.result.firstSPADraftDate;
-    input.ppCalculator.settlementPercentage = this.result.settlementPercentage;
-    input.ppCalculator.tenor = this.tenorNew;
-    input.taskId = this.taskId;
-    Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
+    const input: Data.Spine.RecalculatePSPlanForPMInput =
+      Data.Spine.RecalculatePSPlanForPMInput.fromJson(this.modelValue.paymentPlan);
+      input.psPlanId = this.modelValue.paymentPlan.psPlanId;
+    input.outstanding = this.result.outstanding;
+    input.spaFirstDraftDate = this.result.firstSPADraftDate;
+    input.settlementPercentage = this.result.settlementPercentage;
+    input.tenor = this.tenorNew;
+    Action.Spine.RecalculatePSPlanForPM.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
     });
+  }
+
+   draftPaymentPlan() {
+    const input: Data.Spine.DraftPSPlanForPMInput = new Data.Spine.DraftPSPlanForPMInput();
+    input.clientFileId = this.clientFileId;
+    input.outstanding = this.result.outstanding;
+    input.spaFirstDraftDate = moment().add(2,'days').format(Helper.DATE_FORMAT);
+    Action.Spine.DraftPSPlanForPM.execute(input, output => {
+
+    })
   }
 
   get taskDisabled(): boolean {

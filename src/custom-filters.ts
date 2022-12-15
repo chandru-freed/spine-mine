@@ -40,7 +40,11 @@ export default class CustomFilters {
 
   private static toRoundedINR() {
     Vue.filter("toRoundedINR", (value: number = 0) => {
-      return `₹ ${Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      return `₹ ${Math.round(value).toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0
+     })}`;
     });
   }  
   
@@ -64,7 +68,7 @@ export default class CustomFilters {
 
   private static fromNow() {
     Vue.filter("fromNow", (value: any) => {
-      return Moment(new Date(value)).fromNow();
+      return value?Moment(new Date(value)).fromNow():'--';
     });
   }
 
@@ -76,12 +80,12 @@ export default class CustomFilters {
 
   private static toDateTime() {
     Vue.filter("date-time", (value: any) => {
-      return Moment(new Date(value)).format("MMM Do, h:mm a");
+      return value?Moment(new Date(value)).format("MMM Do, h:mm a"):'--';
     });
   }
   private static toDateAndTime() {
     Vue.filter("datetime", (value: any) => {
-      return Moment(new Date(value)).format("MMM Do, h:mm a");
+      return value?Moment(new Date(value)).format("MMM Do, h:mm a"):'--';
     });
   }
 

@@ -16,14 +16,10 @@
         class="ms-4"
         dot
       > -->
-        <v-avatar
-          size="40px"
-          v-bind="attrs"
-          v-on="on"
-        >
-          <!-- <v-img :src="require('@/assets/images/avatars/1.png')"></v-img> -->
-          <v-icon>mdi-account-circle-outline</v-icon>
-        </v-avatar>
+      <v-avatar size="40px" v-bind="attrs" v-on="on">
+        <!-- <v-img :src="require('@/assets/images/avatars/1.png')"></v-img> -->
+        <v-icon>mdi-account-circle-outline</v-icon>
+      </v-avatar>
       <!-- </v-badge> -->
     </template>
     <v-list>
@@ -44,13 +40,15 @@
         </v-badge>
         <div
           class="d-inline-flex flex-column justify-center ms-3"
-          style="vertical-align:middle"
+          style="vertical-align: middle"
         >
           <span class="text--primary font-weight-semibold mb-n1">
-            {{loggedInUser.userName}}
+            {{ loggedInUser.userName }}
             <!-- John Doe -->
           </span>
-          <small class="text--disabled text-capitalize"> {{loggedInUser.fullName}}</small>
+          <small class="text--disabled text-capitalize">
+            {{ loggedInUser.fullName }}</small
+          >
         </div>
       </div>
 
@@ -144,9 +142,7 @@
       <!-- Logout -->
       <v-list-item @click="logout" dense>
         <v-list-item-icon class="me-2">
-          <v-icon size="22">
-            mdi-logout-variant
-          </v-icon>
+          <v-icon size="22"> mdi-logout-variant </v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>Logout</v-list-item-title>
@@ -156,12 +152,13 @@
   </v-menu>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import AmeyoService from "./generic/ameyo/AmeyoService";
 @Component
-export default class AppBarUserMenu extends Vue { 
+export default class AppBarUserMenu extends Vue {
   @Store.Getter.Login.LoginDetails.loggedInUser
   loggedInUser: Data.Login.LoginDetails;
 
@@ -171,6 +168,10 @@ export default class AppBarUserMenu extends Vue {
   logout() {
     window.localStorage.removeItem("userName");
     this.$router.push({ name: "Login.Login" });
+  }
+
+  private logoutByAmeyo() {
+    AmeyoService.logout();
   }
 }
 </script>

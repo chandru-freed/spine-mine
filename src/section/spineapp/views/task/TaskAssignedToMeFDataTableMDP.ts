@@ -12,11 +12,12 @@ import FDataTableMDP, {
 
 export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
   parent: any;
-  constructor(props: { parent: any }) {
+  constructor(props: { parent: any, myRefName: string }) {
     super({
-      myRefName: "taskAssignedToMeFDataTableRef",
+      myRefName: props.myRefName,
       enableSearch: true,
       title: "My Assigned Task",
+      itemKey:"taskId"
     });
     this.parent = props.parent;
     this.addColumn({
@@ -59,15 +60,31 @@ export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellTaskStatusMDP(),
       })
       .addColumn({
-        label: "Allocated On klkl",
+        label: "Allocated On",
         dataSelectorKey: "allocatedTime",
         columnCellMDP: new FCellDateTimeMDP(),
-      });
+      })
+      .addAction({
+        label:"Suspend",
+        onClick:(item) => this.handleSuspendClick(item),
+        type: ActionType.OTHERS,
+      })
+      ;
   }
+
+  
 
   handleClientFileClick(item: any) {
     this.parent.gotoFile(item);
   }
+
+  handleSuspendClick(item: any) {
+    return new Promise(resolve => {
+      console.log(item);
+      this.parent.handleSuspendClick(item);
+    })
+  }
+
 
   addMyClientFile(item: any) {
     return new Promise((res) => {

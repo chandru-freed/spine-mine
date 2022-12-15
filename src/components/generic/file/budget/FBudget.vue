@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{modelValue}} -->
     <component
       style="height: 100%"
       :ref="budgetFormMetaData.myRefName"
@@ -39,7 +40,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> {{ totalSecuredDebtAmount  | toINR }} </v-btn>
+              <v-btn text> {{ totalSecuredDebtAmount | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -130,6 +131,8 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
+import store, * as Store from "@/../src-gen/store";
+
 @Component({
   components: {
     FForm,
@@ -137,7 +140,29 @@ import * as Data from "@/../src-gen/data";
   },
 })
 export default class FBudget extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfo: Data.ClientFile.ClPersonalInfo;
+
   affordabilityPercentage = 85;
+
+  //FORM
+
+  taskFormDataLocal: any = {
+    taskInput: {},
+    taskOutput: {},
+  };
+
+  get taskFormData() {
+    return {
+      taskInput: this.personalInfo,
+      taskOutput: this.modelValue,
+    };
+  }
+
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
+  }
+  //FORM
 
   get incomeSources() {
     return this.modelValue.incomeSources;
@@ -176,7 +201,7 @@ export default class FBudget extends ModelVue {
   sumMiniBudgetAmount(budgetObj: any) {
     return Object.values(budgetObj).reduce(
       (accumulator: number, objValue: any) => {
-        const val = isNaN(objValue)?0: objValue;
+        const val = isNaN(objValue) ? 0 : objValue;
         return accumulator + val;
       },
       0

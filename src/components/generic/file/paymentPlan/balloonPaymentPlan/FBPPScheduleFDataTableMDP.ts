@@ -6,10 +6,10 @@ import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 import * as Snackbar from "node-snackbar";
 
-export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
+export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent,refName }: { parent: any, refName: string }) {
-        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule", myRefName: refName, multiSelect: true });
+        super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Payment Schedule", myRefName: refName, multiSelect: true, });
         this.parent = parent;
         this.addColumn({
             label: "Draft Date",

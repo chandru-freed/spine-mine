@@ -1,13 +1,14 @@
 import FAmendmentPaymentPlanMDP from "@/components/generic/file/amendmentPaymentPlan/FAmendmentPaymentPlanMDP";
+import FBPaymentPlanMDP from "@/components/generic/file/paymentPlan/balloonPaymentPlan/FBPaymentPlanMDP";
 
-export default class  PATPPFAPaymentPlanMDP extends FAmendmentPaymentPlanMDP {
+export default class  PATPPFAPaymentPlanMDP extends FBPaymentPlanMDP {
     constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
         super({
           taskRoot: taskRoot,
           parent: parent,
           myRefName: "paymentPlanRef",
           disabled: taskRoot.taskDisabled,
-          dataSelectorKey: "taskOutput",
+          // dataSelectorKey: "taskOutput",
           hideMSFTab: true,
           disabledActionBtn: true,
         });

@@ -1,11 +1,11 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
-import FPaymentCalculatorFFormMDP from "./FCFPaymentCalculatorFFormMDP";
+import FPaymentCalculatorFFormMDP from "./FBPaymentCalculatorFFormMDP";
 
 
-export default class FCFPaymentPlanMDP implements MDP {
-  componentName = "FCFPaymentPlan";
+export default class FBPaymentPlanMDP implements MDP {
+  componentName = "FBPaymentPlan";
   taskRoot: any;
   parent: any;
   myRefName: string;

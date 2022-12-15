@@ -23,7 +23,7 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
         label: "Outstanding Amount",
         mandatory: true,
         boundaryClass: "col-3",
-        disabled: this.disabled,
+        disabled: true,
       })
     )
       .addField(
@@ -41,7 +41,7 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           dataSelectorKey: "affordability",
           label: "Affordability",
           boundaryClass: "col-3",
-          disabled: this.disabled,
+          disabled: true,
         })
       )
       .addField(

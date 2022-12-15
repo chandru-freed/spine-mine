@@ -4,7 +4,7 @@ import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 
 
-export default class FCFFeeFDataTableMDP extends FDataTableMDP {
+export default class FBFeeFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
         super({  title: "Fee Payment Schedule",myRefName:"fFeeFDataTableMDP" });

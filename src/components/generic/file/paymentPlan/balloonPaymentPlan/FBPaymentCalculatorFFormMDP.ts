@@ -10,7 +10,7 @@ import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 
 
-export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
+export default class FBPaymentCalculatorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;

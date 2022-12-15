@@ -1,15 +1,15 @@
 
 <template>
-<div>
-<!-- Root Data : {{ taskFormData.taskOutput }}  -->
-<component 
-  :ref="stepperMetaData.myRefName"
-  :is="stepperMetaData.componentName"
-  :value="selectModel(taskFormData, undefined)"
-  @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
-  v-bind="stepperMetaData.props"
-></component>
-</div>
+  <div>
+    <!-- Root Data : {{ taskFormData.taskOutput }}  -->
+    <component
+      :ref="stepperMetaData.myRefName"
+      :is="stepperMetaData.componentName"
+      :value="selectModel(taskFormData, undefined)"
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+      v-bind="stepperMetaData.props"
+    ></component>
+  </div>
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
@@ -19,11 +19,11 @@ import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
-import PATFStepperMDP from "./PATFStepperMDP"
+import PATFStepperMDP from "./PATFStepperMDP";
 import * as Action from "@/../src-gen/action";
 @Component({
   components: {
-    FTaskStepper
+    FTaskStepper,
   },
 })
 export default class PrepareAmendmentTask extends ModelVue {
@@ -34,15 +34,15 @@ export default class PrepareAmendmentTask extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorStore: Data.ClientFile.FiCreditorInfo;
 
+  newPaymentPlan: Data.Spine.FiPSPlanInfo = new Data.Spine.FiPSPlanInfo();
+
   clientFileId = this.$route.params.clientFileId;
 
   taskId = this.$route.params.taskId;
 
   get stepperMetaData(): any {
-    return new PATFStepperMDP({taskRoot: this}).getMetaData();
+    return new PATFStepperMDP({ taskRoot: this }).getMetaData();
   }
-  
-
 
   //FORM
 
@@ -64,16 +64,21 @@ export default class PrepareAmendmentTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: Data.Spine.AmendmentTaskOutput = new Data.Spine.AmendmentTaskOutput();
+  taskFormOutputLocal: Data.Spine.AmendmentTaskOutput =
+    new Data.Spine.AmendmentTaskOutput();
 
   get taskFormOutput() {
-    console.log(this.taskDetails.isOutputEmpty)
-    if(this.taskDetails.isOutputEmpty) {
-      this.taskFormOutputLocal.newCreditorInfo = (this.taskDetails.inputJson as any).existingCreditorInfo 
-      this.taskFormOutputLocal.newPaymentPlan = (this.taskDetails.inputJson as any).existingPaymentPlan;
+    console.log(this.taskDetails.outputJson,this.taskDetails.inputJson);
+    if (this.taskDetails.isOutputEmpty) {
+      this.taskFormOutputLocal.creditorInfo = (
+        this.taskDetails.inputJson as any
+      ).existingCreditorInfo;
     } else {
-      this.taskFormOutputLocal  = Data.Spine.AmendmentTaskOutput.fromJson(this.taskDetails.outputJson);
+      this.taskFormOutputLocal = Data.Spine.AmendmentTaskOutput.fromJson(
+        this.taskDetails.outputJson
+      );
     }
+    this.taskFormOutputLocal.paymentPlan = this.newPaymentPlan;
     return this.taskFormOutputLocal;
   }
 
@@ -82,12 +87,22 @@ export default class PrepareAmendmentTask extends ModelVue {
   }
   //Task Output
 
+  getPSPlanInfo() {
+    setTimeout(() => {
+      const newPSPlanId = (this.taskDetails.inputJson as any).newPSPlanId;
+      Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
+        console.log(output);
+        this.newPaymentPlan = output;
+      });
+    }, 1000);
+  }
+
   //DATA
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(this.taskDetails.taskState);
   }
 
-    get taskStateTerminated() {
+  get taskStateTerminated() {
     return (
       this.taskDetails.taskState === "COMPLETED" ||
       this.taskDetails.taskState === "FORCE_COMPLETED" ||
@@ -97,9 +112,14 @@ export default class PrepareAmendmentTask extends ModelVue {
   }
   //ACTION
 
-
   mounted() {
     this.getFiCreditorInfo();
+    this.getPSPlanInfo();
+    Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfo)
+  }
+
+  destroyed() {
+    Action.Spine.RecalculatePSPlanForPM.notInterested(this.getPSPlanInfo)
   }
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({
@@ -113,8 +133,8 @@ export default class PrepareAmendmentTask extends ModelVue {
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-  
-   getFiCreditorInfo() {
+
+  getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
       // this.schedulePaymentPlan();
     });
@@ -122,6 +142,5 @@ export default class PrepareAmendmentTask extends ModelVue {
 
   //Action
 }
-
 </script>
 

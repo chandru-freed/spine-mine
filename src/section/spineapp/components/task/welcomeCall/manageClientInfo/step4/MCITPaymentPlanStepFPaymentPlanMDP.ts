@@ -10,7 +10,8 @@ export default class MCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "welcomeCallPaymentPlanRef",
-      disabled: taskRoot.taskDisabled,
+      // disabled: taskRoot.taskDisabled,
+      disabled: true,
       dataSelectorKey: "taskOutput",
       disabledActionBtn: taskRoot.taskDisabled,
     });

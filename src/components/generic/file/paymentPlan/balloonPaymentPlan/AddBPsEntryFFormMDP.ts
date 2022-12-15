@@ -11,7 +11,7 @@ import FEMandateSelectFieldMDP from "@/components/generic/form/field/FEMandateSe
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
-export default class AddCFPsEntryFFormMDP extends FFormMDP {
+export default class AddBPsEntryFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   parent: any;
   constructor({
@@ -21,7 +21,7 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
   }) {
     // console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
-      myRefName: "addPsEntryFFormRef",
+      myRefName: "AddBPsEntryFFormRef",
     });
     this.parent = parent;
 

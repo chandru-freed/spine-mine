@@ -6,7 +6,7 @@ import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
-export default class ModifyCFPsEntryFFormMDP extends FFormMDP {
+export default class ModifyBPsEntryFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   parent: any;
   constructor({

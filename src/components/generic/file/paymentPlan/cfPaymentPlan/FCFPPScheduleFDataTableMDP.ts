@@ -4,6 +4,7 @@ import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
+import FInfoINRMDP from "@/components/generic/table/info/FInfoINRMDP";
 import * as Snackbar from "node-snackbar";
 
 export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
@@ -18,8 +19,12 @@ export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
         }).addCurrencyColumn({ label: "Total Amount", dataSelectorKey: "totalAmount",rounded: true })
             .addCurrencyColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", rounded:true,})
             .addCurrencyColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", })
-            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) });
-
+            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) })
+            .addInfo({label:"Total",value: this.parent.modelValue.paymentPlan.psEntryTotalAmount,infoMDP: new FInfoINRMDP({rounded: true})})
+            .addInfo({label:"Tenure",value: this.parent.modelValue.paymentPlan.ppCalculator.tenor,})
+            
+            ;
+            
 
         this.addAction({
             label: "Present",

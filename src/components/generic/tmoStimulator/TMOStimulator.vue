@@ -5,7 +5,7 @@
         :is="tmoStimulatorFormMetaData.componentName"
         :ref="tmoStimulatorFormMetaData.myRefName"
         :value="selectModel(result)"
-        @input="(newValue) => updateModel(modelValue, newValue, result)"
+        @input="(newValue) => updateModel(result, newValue, undefined)"
         v-bind="tmoStimulatorFormMetaData.props"
       ></component>
       <div class="px-5 pb-5">
@@ -119,6 +119,17 @@ export default class TMOStimulator extends ModelVue {
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
   feeGSTPercentage: number = 11.8;
+
+  @Prop({
+    default: 45
+  }) percentage: number;
+  
+
+  @Watch("percentage") percentageChanged(newVal: any, oldVal: any) {
+    console.log(oldVal, newVal);
+    this.resultLocal.settlementPercentage = newVal
+
+  }
   // rules = [
   //   (v: number) =>
   //     this.result.tenure <= this.tenureApproval ||
@@ -176,9 +187,9 @@ export default class TMOStimulator extends ModelVue {
 
   mounted() {
     setTimeout(() => {
-      this.resultLocal.tenure = this.modelValue.paymentPlan?.ppCalculator?.tenor || 12;
-      this.resultLocal.outstanding =
-        this.modelValue.creditorInfo.totalDebt;
+      this.resultLocal.tenure =
+        this.modelValue.paymentPlan?.ppCalculator?.tenor || 12;
+      this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
       this.resultLocal.settlementPercentage =
         this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
       this.resultLocal.affordability =
@@ -189,8 +200,8 @@ export default class TMOStimulator extends ModelVue {
   }
 
   isPaymentPlanDataAvailable() {
-    console.log(this.modelValue,"is payment plan available")
-    return this.modelValue.paymentPlan?.psPlanId !== ""
+    console.log(this.modelValue, "is payment plan available");
+    return this.modelValue.paymentPlan?.psPlanId !== "";
   }
 
   @Watch("result.tenure") tenureChanged(newValue: any, oldValue: any) {
@@ -200,6 +211,14 @@ export default class TMOStimulator extends ModelVue {
   get result() {
     const totalPercentage =
       this.resultLocal.settlementPercentage + this.feeGSTPercentage;
+    this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
+    this.resultLocal.affordability =
+        this.modelValue.budgetInfo?.proposedDSPayment || 0;
+      this.resultLocal.firstSPADraftDate =
+        this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
+      // console.log(this.resultLocal.settlementPercentage,"this.resultLocal.settlementPercentage")
+    // this.resultLocal.settlementPercentage =
+    //     this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
     this.resultLocal.monthlyPayment =
       (this.resultLocal.outstanding * totalPercentage) /
       100 /
@@ -216,21 +235,24 @@ export default class TMOStimulator extends ModelVue {
   }
 
   set result(value: any) {
+    console.log(value,this.resultLocal.settlementPercentage,"Setter")
     this.resultLocal = value;
   }
 
   scheduleorDraftPaymentPlan() {
-      if(this.isPaymentPlanDataAvailable()) {
-        this.schedulePaymentPlan();
-      } else {
-        this.draftPaymentPlan();
-      }
+    if (this.isPaymentPlanDataAvailable()) {
+      this.schedulePaymentPlan();
+    } else {
+      this.draftPaymentPlan();
+    }
   }
 
   schedulePaymentPlan() {
     const input: Data.Spine.RecalculatePSPlanForPMInput =
-      Data.Spine.RecalculatePSPlanForPMInput.fromJson(this.modelValue.paymentPlan);
-      input.psPlanId = this.modelValue.paymentPlan.psPlanId;
+      Data.Spine.RecalculatePSPlanForPMInput.fromJson(
+        this.modelValue.paymentPlan
+      );
+    input.psPlanId = this.modelValue.paymentPlan.psPlanId;
     input.outstanding = this.result.outstanding;
     input.spaFirstDraftDate = this.result.firstSPADraftDate;
     input.settlementPercentage = this.result.settlementPercentage;
@@ -243,14 +265,15 @@ export default class TMOStimulator extends ModelVue {
     });
   }
 
-   draftPaymentPlan() {
-    const input: Data.Spine.DraftPSPlanForPMInput = new Data.Spine.DraftPSPlanForPMInput();
+  draftPaymentPlan() {
+    const input: Data.Spine.DraftPSPlanForPMInput =
+      new Data.Spine.DraftPSPlanForPMInput();
     input.clientFileId = this.clientFileId;
     input.outstanding = this.result.outstanding;
-    input.spaFirstDraftDate = moment().add(2,'days').format(Helper.DATE_FORMAT);
-    Action.Spine.DraftPSPlanForPM.execute(input, output => {
-
-    })
+    input.spaFirstDraftDate = moment()
+      .add(2, "days")
+      .format(Helper.DATE_FORMAT);
+    Action.Spine.DraftPSPlanForPM.execute(input, (output) => {});
   }
 
   get taskDisabled(): boolean {

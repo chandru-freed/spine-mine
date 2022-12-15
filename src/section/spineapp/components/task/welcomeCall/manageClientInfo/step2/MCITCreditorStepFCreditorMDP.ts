@@ -8,7 +8,8 @@ export default class MCITCreditorStepFCreditorMDP extends FCreditorMDP {
       parent: parent,
       myRefName: "welcomeCallCreditorRef",
       dataSelectorKey: "taskOutput.creditorInfo",
-      disabled: taskRoot.taskDisabled,
+      // disabled: taskRoot.taskDisabled,
+      disabled: true,
     });
   }
 

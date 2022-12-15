@@ -48,7 +48,7 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
             .addInfo({
                 label: "Total Amount",
                 value: this.parent.totalDebt,
-                infoMDP: new FInfoINRMDP()
+                infoMDP: new FInfoINRMDP({})
             }).addInfo({
                 label: "WAD",
                 value: this.parent.clientFileSummary.wad,

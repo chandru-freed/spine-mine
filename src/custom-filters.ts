@@ -40,7 +40,7 @@ export default class CustomFilters {
 
   private static toRoundedINR() {
     Vue.filter("toRoundedINR", (value: number = 0) => {
-      return `₹ ${Math.round(value).toLocaleString('en-IN', {
+      return `${Math.round(value).toLocaleString('en-IN', {
         style: 'currency',
         currency: 'INR',
         minimumFractionDigits: 0

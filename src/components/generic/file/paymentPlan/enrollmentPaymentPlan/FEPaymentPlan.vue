@@ -17,7 +17,9 @@
       v-bind="paymentCalculatorFormMetaData.props"
     ></component> -->
 
-    <TMOStimulator v-if="modelValue" :value="modelValue" />
+    <TMOStimulator v-if="modelValue" :value="modelValue"
+    :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"
+    />
 
 
     <div class="d-flex justify-space-around"></div>

@@ -52,7 +52,6 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "eMandateId",
         label: "E-Mandate",
-        mandatory: true,
         boundaryClass: "col-4",
       })
     ).addField(
@@ -100,6 +99,7 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
   }
   addEntry() {
     this.parent.addPsEntryInput.clientFileId = this.parent.clientFileId;
+    this.parent.addPsEntryInput.psPlanId = this.parent.modelValue.paymentPlan.psPlanId;
     Action.ClientFile.AddPSEntry.execute(this.parent.addPsEntryInput, output => {
       this.parent.resetFormsTableAndData();
       Snackbar.show({

@@ -8,7 +8,7 @@ import FCellDateMDP from "../../table/cell/FCellDateMDP";
 export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
-        super({myRefName:"fCreditorListFDataTableRef", title: "Creditors",enableSearch: true});
+        super({myRefName:"fCreditorListFDataTableRef", title: "Creditors",enableSearch: true, disabled: props.parent.disabled});
         this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",
@@ -54,7 +54,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           .addInfo({
             label: "Total Amount",
             value: this.parent.totalDebt,
-            infoMDP: new FInfoINRMDP()
+            infoMDP: new FInfoINRMDP({})
           }).addInfo({
             label: "WAD",
             value: this.parent.clientFileSummary.wad,

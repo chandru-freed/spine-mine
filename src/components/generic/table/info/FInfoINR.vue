@@ -15,8 +15,11 @@ export default class FInfoINR extends ModelVue {
  @Prop()
  label: string;
 
+ @Prop()
+ rounded: boolean;
+
  get inrValue() {
-  return this.value? this.value: 0
+  return this.rounded? Math.round(this.value): 0
  }
 }
 </script>

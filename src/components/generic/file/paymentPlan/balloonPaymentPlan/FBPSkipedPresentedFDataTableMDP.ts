@@ -4,7 +4,7 @@ import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 
 
-export default class FCFPSkipedPresentedFDataTableMDP extends FDataTableMDP {
+export default class FBPSkipedPresentedFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
         super({ itemKey: "psEntryId", disabled: parent.disabledActionBtn, title: "Skipped Payment Schedule",myRefName: "fpSkipedPresentedFDataTableMDP" });

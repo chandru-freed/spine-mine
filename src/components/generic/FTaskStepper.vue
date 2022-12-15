@@ -119,6 +119,7 @@ import FAmendmentCreditor from "./file/amendmentCreditor/FAmendmentCreditor.vue"
 import FAmendmentPaymentPlan from "./file/amendmentPaymentPlan/FAmendmentPaymentPlan.vue";
 import FEPaymentPlan from "./file/paymentPlan/enrollmentPaymentPlan/FEPaymentPlan.vue";
 import FCFPaymentPlan from "./file/paymentPlan/cfPaymentPlan/FCFPaymentPlan.vue";
+import FBPaymentPlan from "./file/paymentPlan/balloonPaymentPlan/FBPaymentPlan.vue";
 
 @Component({
   components: {
@@ -134,7 +135,8 @@ import FCFPaymentPlan from "./file/paymentPlan/cfPaymentPlan/FCFPaymentPlan.vue"
     FAmendmentCreditor,
     FAmendmentPaymentPlan,
     FEPaymentPlan,
-    FCFPaymentPlan
+    FCFPaymentPlan,
+    FBPaymentPlan
   },
 })
 export default class FTaskStepper extends ModelVue {

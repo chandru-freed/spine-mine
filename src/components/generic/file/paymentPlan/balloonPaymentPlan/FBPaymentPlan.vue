@@ -1,6 +1,7 @@
 <template>
   <div>
-    <component
+    <!-- <component
+    v-if="modelValue.paymentPlan"
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
       :value="
@@ -15,11 +16,12 @@
           )
       "
       v-bind="paymentCalculatorFormMetaData.props"
-    ></component>
+    ></component> -->
+    <TMOStimulator :percentage="tmosSimulatorInput.paymentPlan.ppCalculator?.settlementPercentage" v-if="tmosSimulatorInput" :value="tmosSimulatorInput" />
 
     <div class="d-flex justify-space-around"></div>
 
-    <v-alert
+    <!-- <v-alert
       dense
       type="warning"
       outlined
@@ -30,11 +32,11 @@
       "
     >
       Monthly Obligation ({{
-        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)
+        paymentPlan?.ppCalculator.totalMonthlyObligation.toFixed(2)
       }}) greater than Affordability ({{
-        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)
+        this.modelValue.budgetInfo?.proposedDSPayment.toFixed(2)
       }}).
-    </v-alert>
+    </v-alert> -->
 
     <v-card flat outlined class="row ma-2">
       <v-tabs v-model="tab" background-color="transparent" color="secondary">
@@ -153,11 +155,12 @@ import * as Data from "@/../src-gen/data";
 import * as Store from "@/../src-gen/store";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
-import FCFPPScheduleFDataTableMDP from './FCFPPScheduleFDataTableMDP';
-import FCFPSkipedPresentedFDataTableMDP from './FCFPSkipedPresentedFDataTableMDP';
-import FCFFeeFDataTableMDP from './FCFFeeFDataTableMDP';
-import AddCFPsEntryFFormMDP from './AddCFPsEntryFFormMDP';
-import ModifyCFPsEntryFFormMDP from './ModifyCFPsEntryFFormMDP';
+
+import FBPSkipedPresentedFDataTableMDP from './FBPSkipedPresentedFDataTableMDP';
+import FBPPScheduleFDataTableMDP from './FBPPScheduleFDataTableMDP';
+import AddBPsEntryFFormMDP from './AddBPsEntryFFormMDP';
+import ModifyBPsEntryFFormMDP from './ModifyBPsEntryFFormMDP';
+import FBFeeFDataTableMDP from './FBFeeFDataTableMDP';
 @Component({
   components: {
     FForm,
@@ -166,7 +169,7 @@ import ModifyCFPsEntryFFormMDP from './ModifyCFPsEntryFFormMDP';
     TMOStimulator,
   },
 })
-export default class FCFPaymentPlan extends ModelVue {
+export default class FBPaymentPlan extends ModelVue {
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
@@ -187,23 +190,35 @@ export default class FCFPaymentPlan extends ModelVue {
     return this.$route.params.clientFileId;
   }
   get paymentPlan(): Data.ClientFile.FiPaymentPlanInfo {
-    return this.modelValue.paymentPlan;
+    return this.modelValue.taskOutput.paymentPlan;
+  }
+
+  get tmosSimulatorInput() {
+    console.log(this.modelValue,"TMOs")
+    return {
+      paymentPlan : this.paymentPlan,
+      creditorInfo: this.modelValue.taskOutput.creditorInfo,
+      budgetInfo: this.modelValue.taskInput.existingBudgetInfo
+    }
   }
 
   get psEntrySchelduledList() {
-    return this.paymentPlan.paymentScheduleList.filter(
+    console.log("this.paymentPlan",this.modelValue)
+    return this.paymentPlan?.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
-    );
+    )||[];
   }
 
+  
+
   get psEntryPresentedList() {
-    return this.paymentPlan.paymentScheduleList.filter(
+    return this.paymentPlan?.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
 
   get subscriptionFeeScheduleList() {
-    return this.paymentPlan.subscriptionFeeScheduleList;
+    return this.paymentPlan?.subscriptionFeeScheduleList;
   }
 
   get actionMetaDataListFiltered() {
@@ -239,28 +254,28 @@ export default class FCFPaymentPlan extends ModelVue {
   }
 
   get fPaymentScheduleFDataTableMetaData() {
-    return new FCFPPScheduleFDataTableMDP({
+    return new FBPPScheduleFDataTableMDP({
       parent: this,
       refName: this.fPaymentScheduleFDataTableRefName,
     }).getMetaData();
   }
 
   get fPSkipedPresentedTableMetaData() {
-    return new FCFPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
+    return new FBPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
   }
 
   get fFeeFDataTableMetaData() {
-    return new FCFFeeFDataTableMDP({ parent: this }).getMetaData();
+    return new FBFeeFDataTableMDP({ parent: this }).getMetaData();
   }
 
   get addPsEntryFFormMetaData() {
-    return new AddCFPsEntryFFormMDP({
+    return new AddBPsEntryFFormMDP({
       parent: this,
     }).getMetaData();
   }
 
   get modifyPsEntryFFormMetaData() {
-    return new ModifyCFPsEntryFFormMDP({ parent: this }).getMetaData();
+    return new ModifyBPsEntryFFormMDP({ parent: this }).getMetaData();
   }
 
   @Prop()

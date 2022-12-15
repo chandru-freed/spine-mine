@@ -32,26 +32,17 @@ export default class FClientLanguageSelectField extends VSelect {
   }
   // MODEL VALUE - END
 
-  // nupayBankMasterList: any[] = [""];
+  
   clientLanguageList:  any[] = [""];
-  //nupayBankLoading = true
+  
   mounted() {
-    // this.getNupayBankMasterList();
     this.getClientLanguageList();
   }
 
-  // getNupayBankMasterList() {
-  //   Action.ClientFile.GetNupayBankMasterList.execute((output) => {
-  //     this.nupayBankMasterList = output.nupayBankMasterList;
-  //     //this.nupayBankLoading = false
-  //   });
-  // }
 
   getClientLanguageList(){
     Action.ClientFile.GetClientLanguageList.execute((output) => {
-      console.log("GetClientLanguageList============",output);
       this.clientLanguageList = output;
-      //this.nupayBankLoading = false
     });
   }
 }

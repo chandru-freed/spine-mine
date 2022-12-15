@@ -24,7 +24,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "name",
+        dataSelectorKey: "fullName",
         label: "Name",
         boundaryClass: "col-3",
         readonly: true,
@@ -59,7 +59,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "dependents",
+          dataSelectorKey: "hasDependents",
           label: "Dependents",
           mandatory: true,
           options: [true, false],

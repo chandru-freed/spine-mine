@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div :class="['phoneCall', showHide ? 'right0' : '']">
+    <!-- <div :class="['phoneCall', showHide ? 'right0' : '']">
       <v-btn
         v-show="!hidden"
         color="green"
@@ -36,7 +36,7 @@
 
     <div :class="['sidenavBar', showHide ? 'right0' : '']">
       <AmeyoToolbarDialog />
-    </div>
+    </div> -->
   </v-container>
 </template>
 

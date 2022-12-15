@@ -30,11 +30,11 @@ export default class CustomFilters {
 
   private static toINR() {
     Vue.filter("toINR", (value: any) => {
-      return value?`${value.toLocaleString('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        minimumFractionDigits: 0
-     })}`:0;
+      // return `₹ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      return "₹" + Number(value).toLocaleString("en-IN", {
+        maximumFractionDigits: + "0",
+        minimumFractionDigits: + "0",
+      })
     });
   }
 

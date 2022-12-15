@@ -10,8 +10,6 @@ export default class FClientLanguageSelectFieldMDP implements FFieldMDP {
   mandatory: boolean;
   parentMDP: FFormChildMDP;
   boundaryClass: string
-  // optionLabel = "nupayBnkName"
-  // optionValue = "nupayBankMasterId"
   returnObject: boolean;
   disabled: boolean
   condition: boolean;
@@ -83,8 +81,6 @@ export default class FClientLanguageSelectFieldMDP implements FFieldMDP {
         dense: this.parentMDP.dense,
         disabled: this.isDisabled(),
         returnObject: this.returnObject,
-        // itemText: this.optionLabel,
-        // itemValue: this.optionValue,
         readonly: this.readonly,
       },
     };

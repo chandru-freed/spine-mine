@@ -104,7 +104,6 @@ export default class FProfileFFormMDP extends FFormMDP {
           dataSelectorKey: "clientLanguage",
           label: "Language",
           boundaryClass: "col-4",
-          mandatory: true,
         })
       )
       .addField(

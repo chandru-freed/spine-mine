@@ -20,7 +20,8 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           }).addColumn({
             label: "Last Date Of Payment",
             dataSelectorKey: "lastDateOfPayment",
-            columnCellMDP: new FCellDateMDP()
+            columnCellMDP: new FCellDateMDP(),
+            align: 'right'
           }).addNumberColumn({
             label: "Days Delinquent",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
@@ -35,7 +36,12 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           }).addColumn({
             label: "Account Number",
             dataSelectorKey: "accountNumber",
-          }).addAction({
+          })
+          .addColumn({
+            label: "Details",
+            dataSelectorKey: "details",
+          })
+          .addAction({
             type: ActionType.DELETE,
             onClick: item => this.deleteCreditorData(item),
             label: "",

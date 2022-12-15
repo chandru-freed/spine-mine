@@ -91,6 +91,14 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           condition: !this.parent.isCreditCard()
         })
+      ).addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "details",
+          label: "Details",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
       )
       .addAction(
         new FBtnMDP({

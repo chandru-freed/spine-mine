@@ -5,6 +5,7 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import Task from "@/section/spineapp/util/Task";
 import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
 
 export default class RMPTStepFFormMDP extends FFormMDP {
@@ -158,6 +159,7 @@ export default class RMPTStepFFormMDP extends FFormMDP {
           label: "Mark Complete",
           onClick: this.saveAndMarkCompleteTask(),
           btnType: BtnType.FILLED,
+          condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
         })
       );
   }

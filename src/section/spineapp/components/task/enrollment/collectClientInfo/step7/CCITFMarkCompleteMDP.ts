@@ -1,6 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FMarkCompleteMDP from "@/components/generic/file/markcomplete/FMarkCompleteMDP";
 import CCITMarkCompleteStepFFormMDP from "./CCITMarkCompleteStepFFormMDP";
+import Task from "@/section/spineapp/util/Task";
 
 export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
   taskRoot: any;
@@ -15,7 +16,7 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
         label: "Mark Complete",
         onClick: this.saveAndMarkCompleteTask(),
         btnType: BtnType.FILLED,
-        condition: this.isStarted(),
+        condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
       })
     ).addForm(new CCITMarkCompleteStepFFormMDP({ taskRoot, parent }));
   }

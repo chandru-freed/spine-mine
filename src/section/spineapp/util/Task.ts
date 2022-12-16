@@ -39,6 +39,18 @@ export default class Task  {
       }
     }
 
+    static isMarkCompleteEnabled(taskDetails: any) {
+      if(taskDetails.isSuspended) {
+        return false
+      }
+      
+      return (
+        taskDetails.taskState === "STARTED" ||
+        taskDetails.taskState === "PARTIALLY_COMPLETED" 
+      )
+
+    }
+
     // getExecutiveTaskDetails(taskId: string) {
     //   ApiAction.TaskList.GetExecutiveTaskDetails.execute1(
     //     taskId,

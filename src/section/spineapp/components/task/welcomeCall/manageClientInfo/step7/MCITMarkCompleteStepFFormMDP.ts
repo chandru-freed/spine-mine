@@ -6,6 +6,7 @@ import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
+import Task from "@/section/spineapp/util/Task";
 
 export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -58,7 +59,7 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
           label: "Mark Complete",
           onClick: this.validateAndMarkComplete(),
           btnType: BtnType.FILLED,
-          condition: this.isStarted(),
+          condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
         })
       );
   }

@@ -5,6 +5,7 @@ import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFiel
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import Task from "@/section/spineapp/util/Task";
 
 export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -108,6 +109,7 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
           label: "Mark Complete",
           onClick: this.saveAndMarkCompleteTask(),
           btnType: BtnType.FILLED,
+          condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
         })
       );
   }

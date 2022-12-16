@@ -1,9 +1,6 @@
 <template>
   <v-app id="inspire">
     <v-main>
-      <div style="visibility: hidden;height: 0;">
-      <AmeyoToolbarDialog />
-    </div>
       <v-container fluid fill-height>
         <v-row class="align-center justify-center">
           <v-col xs="12" sm="8" md="4">

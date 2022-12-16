@@ -15,4 +15,8 @@ export default class AmeyoService {
   static disposeCallByDisposition() {
     ameyo.integration.getDispositionCodes()
   }
+
+  static doForceLogin() {
+    ameyo.integration.doForceLogin();
+  }
 }

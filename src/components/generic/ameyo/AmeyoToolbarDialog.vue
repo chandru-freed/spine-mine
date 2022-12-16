@@ -22,7 +22,7 @@
       loading="lazy"
       id="ameyoIframe"
       allow="geolocation;microphone;camera"
-      height="720"
+      height="650"
       width="320"
       :src="iframeUrl"
       persistent
@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import AmeyoService from "./AmeyoService";
 // import store, * as Store from '@/../src-gen/store';
 // import * as Data from '@/../src-gen/data';
 // import * as ServerData from '@/../src-gen/server-data';
@@ -63,6 +64,7 @@ export default class AmeyoToolbarDialog extends Vue {
     setTimeout(() => {
       window.frames[0].stop();
     }, 1000);
+    // AmeyoService.doForceLogin();
     // this.dragElement(document.getElementById("mydiv"));
   }
 

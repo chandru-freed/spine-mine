@@ -68,12 +68,14 @@ export default class AddBPsEntryFFormMDP extends FFormMDP {
         dataSelectorKey: "spaAmount",
         label: "Spa Amount",
         boundaryClass: "col-4",
-    })).addField(new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "feeAmount",
-        boundaryClass: "col-4",
-        label: "Fee Amount"
-    })).addAction(
+    }))
+    // .addField(new FCurrencyFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "feeAmount",
+    //     boundaryClass: "col-4",
+    //     label: "Fee Amount"
+    // }))
+    .addAction(
       new FBtnMDP({
         label: "Cancel",
         onClick: this.cancel(),

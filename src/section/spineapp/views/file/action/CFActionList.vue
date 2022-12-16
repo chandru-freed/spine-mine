@@ -7,7 +7,7 @@
         dense
         class="mx-0"
         :search-input="searchText"
-        @update:search-input="newVal => searchText=newVal"
+        @update:search-input="(newVal) => (searchText = newVal)"
         :items="actionListForAutoComplete"
         item-text="actionName"
         label="Actions"
@@ -240,6 +240,10 @@ export default class CFActionList extends Vue {
     return [].concat(...flattenedList);
   }
 
+  mounted() {
+    console.log(this.$route.name);
+  }
+
   takeAction(actionItem: any) {
     this.searchText = "";
     if (actionItem.routerName) {
@@ -334,10 +338,21 @@ export default class CFActionList extends Vue {
   }
 
   gotoCFActiveTaskList() {
-    Helper.Router.gotoCFActiveTaskList({
-      router: this.$router,
-      clientFileId: this.clientFileId,
-    });
+    if (this.$route.name === "Root.CFile.CFTask.CFActiveTasks") {
+      this.getCFActiveTaskList();
+    } else {
+      Helper.Router.gotoCFActiveTaskList({
+        router: this.$router,
+        clientFileId: this.clientFileId,
+      });
+    }
+  }
+
+  getCFActiveTaskList() {
+    Action.TaskList.GetTaskListByCid.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {}
+    );
   }
 
   markClientFileAsOnBoarded() {
@@ -372,9 +387,14 @@ export default class CFActionList extends Vue {
     this.actionGroupList.map((item) => {
       actionsList.push(...item.actionList);
     });
-    const filteredValList = this.searchText?.length>1?actionsList.filter((action: any) =>
-      action.actionName.toLowerCase().includes(this.searchText.toLowerCase())
-    ):[];
+    const filteredValList =
+      this.searchText?.length > 1
+        ? actionsList.filter((action: any) =>
+            action.actionName
+              .toLowerCase()
+              .includes(this.searchText.toLowerCase())
+          )
+        : [];
     return filteredValList;
   }
 }

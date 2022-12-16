@@ -19,6 +19,7 @@
 
     <TMOStimulator v-if="modelValue" :value="modelValue"
     :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"
+    :simulatorInput="modelValue"
     />
 
 

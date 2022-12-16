@@ -16,14 +16,15 @@
               >{{ Math.round(result.repaymentAmount) | toINR }}</span
             >
           </v-chip>
-          <v-chip class="mr-2" color="primary" label outlined large>
-            SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-              Math.round(result.monthlyPayment) | toINR
-            }}</span>
-          </v-chip>
+
           <v-chip class="mr-2" color="primary" label outlined large
             >MSF: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
               result.msfAmount | toINR
+            }}</span>
+          </v-chip>
+          <v-chip class="mr-2" color="primary" label outlined large>
+            SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
+              Math.round(result.monthlyPayment) | toINR
             }}</span>
           </v-chip>
           <v-chip
@@ -121,15 +122,17 @@ export default class TMOStimulator extends ModelVue {
   feeGSTPercentage: number = 11.8;
 
   @Prop({
-    default: 45
-  }) percentage: number;
-  
+    default: 45,
+  })
+  percentage: number;
 
   @Watch("percentage") percentageChanged(newVal: any, oldVal: any) {
     console.log(oldVal, newVal);
-    this.resultLocal.settlementPercentage = newVal
-
+    this.resultLocal.settlementPercentage = newVal;
   }
+
+  @Prop()
+  simulatorInput: any;
   // rules = [
   //   (v: number) =>
   //     this.result.tenure <= this.tenureApproval ||
@@ -185,18 +188,30 @@ export default class TMOStimulator extends ModelVue {
   }
   //METADATA
 
-  mounted() {
-    setTimeout(() => {
-      this.resultLocal.tenure =
-        this.modelValue.paymentPlan?.ppCalculator?.tenor || 12;
-      this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
-      this.resultLocal.settlementPercentage =
-        this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
-      this.resultLocal.affordability =
-        this.modelValue.budgetInfo?.proposedDSPayment || 0;
-      this.resultLocal.firstSPADraftDate =
-        this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
-    }, 1000);
+  // mounted() {
+  //   setTimeout(() => {
+  //     this.resultLocal.tenure =
+  //       this.modelValue.paymentPlan?.ppCalculator?.tenor || 12;
+  //     this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
+  //     this.resultLocal.settlementPercentage =
+  //       this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
+  //     this.resultLocal.affordability =
+  //       this.modelValue.budgetInfo?.proposedDSPayment || 0;
+  //     this.resultLocal.firstSPADraftDate =
+  //       this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
+  //   }, 1000);
+  // }
+
+  @Watch("simulatorInput") modelValueChanged(newVal: any, oldVal: any) {
+    this.resultLocal.tenure =
+      this.modelValue.paymentPlan?.ppCalculator?.tenor || 12;
+    this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
+    this.resultLocal.settlementPercentage =
+      this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
+    this.resultLocal.affordability =
+      this.modelValue.budgetInfo?.proposedDSPayment || 0;
+    this.resultLocal.firstSPADraftDate =
+      this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
   }
 
   isPaymentPlanDataAvailable() {
@@ -211,14 +226,6 @@ export default class TMOStimulator extends ModelVue {
   get result() {
     const totalPercentage =
       this.resultLocal.settlementPercentage + this.feeGSTPercentage;
-    this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
-    this.resultLocal.affordability =
-        this.modelValue.budgetInfo?.proposedDSPayment || 0;
-      this.resultLocal.firstSPADraftDate =
-        this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
-      // console.log(this.resultLocal.settlementPercentage,"this.resultLocal.settlementPercentage")
-    // this.resultLocal.settlementPercentage =
-    //     this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
     this.resultLocal.monthlyPayment =
       (this.resultLocal.outstanding * totalPercentage) /
       100 /
@@ -235,7 +242,7 @@ export default class TMOStimulator extends ModelVue {
   }
 
   set result(value: any) {
-    console.log(value,this.resultLocal.settlementPercentage,"Setter")
+    console.log(value, this.resultLocal.settlementPercentage, "Setter");
     this.resultLocal = value;
   }
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{modelValue.taskOutput.paymentPlan}} -->
     <!-- <component
     v-if="modelValue.paymentPlan"
       :is="paymentCalculatorFormMetaData.componentName"
@@ -17,7 +18,9 @@
       "
       v-bind="paymentCalculatorFormMetaData.props"
     ></component> -->
-    <TMOStimulator :percentage="tmosSimulatorInput.paymentPlan.ppCalculator?.settlementPercentage" v-if="tmosSimulatorInput" :value="tmosSimulatorInput" />
+    <TMOStimulator :percentage="tmosSimulatorInput.paymentPlan.ppCalculator?.settlementPercentage" v-if="tmosSimulatorInput" :value="tmosSimulatorInput"
+    :simulatorInput="tmosSimulatorInput"
+    />
 
     <div class="d-flex justify-space-around"></div>
 

@@ -90,6 +90,7 @@ export default class PrepareAmendmentTask extends ModelVue {
   getPSPlanInfo() {
     setTimeout(() => {
       const newPSPlanId = (this.taskDetails.inputJson as any).newPSPlanId;
+      console.log(this.taskDetails.inputJson)
       Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
         console.log(output);
         this.newPaymentPlan = output;
@@ -116,6 +117,7 @@ export default class PrepareAmendmentTask extends ModelVue {
     this.getFiCreditorInfo();
     this.getPSPlanInfo();
     Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfo)
+    Action.ClientFile.ModifyAmountPSEntryList.interested(this.getPSPlanInfo);
   }
 
   destroyed() {

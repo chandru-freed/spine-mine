@@ -32,7 +32,7 @@
         >
       </v-toolbar>
     </template>
-    <template v-slot:item.taskState="{ item }">
+    <template v-slot:[`item.taskState`]="{ item }">
       <!-- <v-btn icon small> -->
 
       <v-icon color="grey" v-if="item.taskState === 'CREATED'"
@@ -65,7 +65,7 @@
       >
       <!-- </v-btn> -->
     </template>
-    <template v-slot:item.taskName="{ item }">
+    <template v-slot:[`item.taskName`]="{ item }">
       <f-btn
         :label="item.taskName"
         text
@@ -73,7 +73,7 @@
         :onClick="() => gotoTask(item)"
       ></f-btn>
     </template>
-    <template v-slot:item.displayId="{ item }">
+    <template v-slot:[`item.displayId`]="{ item }">
       <f-btn
         :label="item.displayId"
         text
@@ -81,13 +81,13 @@
         :onClick="() => gotoFile(item)"
       ></f-btn>
     </template>
-    <template v-slot:item.priority="{ item }">
+    <template v-slot:[`item.priority`]="{ item }">
       <v-chip small outlined>
         {{ item.priority }}
       </v-chip>
     </template>
 
-    <template v-slot:item.allocatedTo="{ item }">
+    <template v-slot:[`item.allocatedTo`]="{ item }">
       <v-chip small class="" v-if="item.allocatedTo" label>
         <v-icon small left> mdi-account-circle-outline </v-icon>
         {{ item.allocatedTo }}
@@ -102,7 +102,7 @@
       ></f-btn>
     </template>
 
-    <template v-slot:item.lastUserActivityTime="{ item }">
+    <template v-slot:[`item.lastUserActivityTime`]="{ item }">
       <span class="grey--text">
         {{ getLastUpdatedTime(item) | fromNow }}
       </span>
@@ -146,7 +146,8 @@ export default class CFActiveTasks extends Vue {
     { text: "", value: "actions" },
   ];
 
-  taskList: Data.TaskList.GetTaskListByCidGrid[] = [];
+  @Store.Getter.TaskList.BenchTaskSummary.cfActiveTaskList
+  cfTaskList: Data.TaskList.GetTaskListByCidGrid[];
 
   get clientFileNumber(): string {
     return this.clientFileBasicInfo.clientFileNumber;
@@ -161,14 +162,14 @@ export default class CFActiveTasks extends Vue {
       Action.TaskList.GetTaskListByCid.execute1(
         this.clientFileNumber,
         (output) => {
-          this.taskList = output;
+          // this.cfTaskList = output;
         }
       );
     }, 1000);
   }
 
   get taskListFiltered() {
-    const activeTaskList = this.taskList.filter((task) => {
+    const activeTaskList = this.cfTaskList.filter((task) => {
       return (
         task.taskState === "CREATED" ||
         task.taskState === "TO_BE_PULLED" ||

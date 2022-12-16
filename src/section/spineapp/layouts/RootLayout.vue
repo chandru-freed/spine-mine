@@ -21,11 +21,8 @@
       v-if="clientFileId"
     >
       <v-btn
-        v-show="!hidden"
         color="green"
         dark
-        v-bind="attrs"
-        v-on="on"
         fab
         @click="openNavShow()"
       >

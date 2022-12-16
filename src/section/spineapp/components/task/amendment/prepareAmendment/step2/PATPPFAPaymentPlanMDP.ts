@@ -10,7 +10,7 @@ export default class  PATPPFAPaymentPlanMDP extends FBPaymentPlanMDP {
           disabled: taskRoot.taskDisabled,
           // dataSelectorKey: "taskOutput",
           hideMSFTab: true,
-          disabledActionBtn: true,
+          disabledActionBtn: taskRoot.taskDisabled,
         });
       }
     

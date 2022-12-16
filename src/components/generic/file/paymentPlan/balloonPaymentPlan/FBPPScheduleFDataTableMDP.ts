@@ -4,6 +4,7 @@ import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
+import FInfoINRMDP from "@/components/generic/table/info/FInfoINRMDP";
 import * as Snackbar from "node-snackbar";
 
 export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
@@ -17,28 +18,32 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             columnCellMDP: new FCellDateMDP()
         }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true }) })
             .addColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true}) })
-            .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellCurrencyMDP({}) })
-            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) });
+            // .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellCurrencyMDP({}) })
+            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) })
+            .addInfo({label:"Total",value: this.parent.modelValue.taskOutput?.paymentPlan?.psEntryTotalAmount,infoMDP: new FInfoINRMDP({rounded: true})})
+            .addInfo({label:"Tenure",value: this.parent.modelValue.taskOutput?.paymentPlan?.ppCalculator.tenor,})
+            ;
 
 
-        this.addAction({
-            label: "Present",
-            onClick: (item) => this.handlePresentClick(item),
-            type: ActionType.OTHERS,
-            confirmation: true,
-            singleSelect: true
-        }).addAction({
-            label: "Skip",
-            onClick: (item) => this.handleSkipClick(item),
-            type: ActionType.OTHERS,
-            confirmation: true,
-            singleSelect: true
-        }).addAction({
-            label: "Remove ",
-            onClick: (itemList) => this.handleRemoveClick(itemList),
-            type: ActionType.OTHERS,
-            confirmation: true,
-        })
+        this
+        // .addAction({
+        //     label: "Present",
+        //     onClick: (item) => this.handlePresentClick(item),
+        //     type: ActionType.OTHERS,
+        //     confirmation: true,
+        //     singleSelect: true
+        // }).addAction({
+        //     label: "Skip",
+        //     onClick: (item) => this.handleSkipClick(item),
+        //     type: ActionType.OTHERS,
+        //     confirmation: true,
+        //     singleSelect: true
+        // }).addAction({
+        //     label: "Remove ",
+        //     onClick: (itemList) => this.handleRemoveClick(itemList),
+        //     type: ActionType.OTHERS,
+        //     confirmation: true,
+        // })
         .addAction({
             label: "Modify",
             onClick: (itemList) => this.handleModifyClick(itemList),

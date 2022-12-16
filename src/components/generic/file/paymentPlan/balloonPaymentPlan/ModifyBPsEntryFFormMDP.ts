@@ -24,21 +24,23 @@ export default class ModifyBPsEntryFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "spaAmount",
         label: "Spa Amount",
-        boundaryClass: "col-6",
+        // boundaryClass: "col-6",
         mandatory: true
-    })).addField(new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "feeAmount",
-        boundaryClass: "col-6",
-        label: "Fee Amount"
-    })).addAction(
+    }))
+    // .addField(new FCurrencyFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "feeAmount",
+    //     boundaryClass: "col-6",
+    //     label: "Fee Amount"
+    // }))
+    .addAction(
       new FBtnMDP({
         label: "Cancel",
         onClick: this.cancel(),
       })
     ).addAction(
       new FBtnMDP({
-        label: "Add Entry",
+        label: "Modify",
         onClick: this.validateAndModifyEntry(),
       })
     );

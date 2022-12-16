@@ -172,7 +172,7 @@ export default class CFTaskDetails extends Vue {
     ],
     ["Enrollment::EMandate", "EMandateTask"],
     ["Enrollment::EMandateFailed", "EMandateFailedTask"],
-    ["Enrollment::Underwritting", "UnderwrittingTask"],
+    ["Underwriting::ManualUnderwriting", "UnderwrittingTask"],
     ["Enrollment::CollectMSF", "CollectMSFTask"],
     ["Enrollment::EnrollmentCompletion", "EnrollmentCompletionTask"],
     ["EMandate::CreateEMandate", "CreateEMandateTask"],

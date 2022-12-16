@@ -10,9 +10,9 @@ import UTUploadStepFDocumentMDP from "./step6/UTUploadStepFDocumentMDP";
 import UTApprovedStepFFormMDP from "./step7/UTApprovedStepFFormMDP";
 
 export default class UTFStepperMDP extends FTaskStepperMDP {
-  taskRoot: ManualTaskIntf;
+  taskRoot: any;
   parent: any;
-  constructor({ taskRoot }: { taskRoot: ManualTaskIntf }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({
       myRefName: "underwrittingStepperRef",
       actionable: !taskRoot.taskDisabled,

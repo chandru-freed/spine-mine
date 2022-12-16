@@ -6,7 +6,7 @@ export default class UTCreditorStepFCreditorFFormMDP extends FCreditorMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "underwrittingCreditorRef",
-      dataSelectorKey: "taskInput.creditorInfo",
+      dataSelectorKey: "taskOutput.creditorInfo",
       disabled: true,
     });
   }

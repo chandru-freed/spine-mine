@@ -7,7 +7,7 @@ export default class UTUploadStepFDocumentMDP extends FDocumentMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "underwrittingDocumentListRef",
-      dataSelectorKey: "taskInput.fileDocumentList",
+      dataSelectorKey: "taskOutput.fileDocumentList",
       disabled: true,
     });
   }

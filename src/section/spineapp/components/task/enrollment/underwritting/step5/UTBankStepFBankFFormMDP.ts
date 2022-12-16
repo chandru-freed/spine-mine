@@ -7,7 +7,7 @@ export default class UTBankStepFBankFFormMDP extends FBankFFormMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "underwrittingBankInfoForm",
-      dataSelectorKey: "taskInput.bankInfo",
+      dataSelectorKey: "taskOutput.bankInfo",
       disabled: true,
     });
   }

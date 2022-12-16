@@ -235,7 +235,7 @@ export default class CFQuickNav extends Vue {
     {
       actionName: "Enrollment Flow",
       icon: "mdi-chevron-right",
-      command: this.createEnrollmentFlow,
+      command: this.createEnrollmentFlowV1,
     },
     // {
     //   actionName: "More Action",
@@ -270,8 +270,21 @@ export default class CFQuickNav extends Vue {
   }
 
   createEnrollmentFlow() {
-    Action.Spine.CreateEnrollment.execute1(
+    Action.Spine.CreateEnrollment.execute2(
       this.clientFileBasicInfo.clientFileNumber,
+      undefined,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+  createEnrollmentFlowV1() {
+    Action.Spine.CreateEnrollment.execute2(
+      this.clientFileBasicInfo.clientFileNumber,
+      "V1Net",
       (output) => {
         setTimeout(() => {
           this.gotoCFActiveTaskList();

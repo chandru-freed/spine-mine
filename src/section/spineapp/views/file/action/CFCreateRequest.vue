@@ -220,8 +220,21 @@ export default class CFCreateRequest extends Vue {
   }
 
   createEnrollmentFlow() {
-    Action.Spine.CreateEnrollment.execute1(
+    Action.Spine.CreateEnrollment.execute2(
       this.clientFileBasicInfo.clientFileNumber,
+      undefined,
+      (output) => {
+        setTimeout(() => {
+          this.gotoTask();
+        }, 400);
+      }
+    );
+  }
+
+  createEnrollmentFlowV1() {
+    Action.Spine.CreateEnrollment.execute2(
+      this.clientFileBasicInfo.clientFileNumber,
+      "V1Net",
       (output) => {
         setTimeout(() => {
           this.gotoTask();

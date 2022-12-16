@@ -8,7 +8,7 @@ export default class UTPaymentPlanStepFPaymentPlanMDP extends FCFPaymentPlanMDP 
       parent: parent,
       myRefName: "paymentPlanRef",
       disabled: true,
-      dataSelectorKey: "taskInput",
+      dataSelectorKey: "taskOutput",
       disabledActionBtn: true,
     });
   }

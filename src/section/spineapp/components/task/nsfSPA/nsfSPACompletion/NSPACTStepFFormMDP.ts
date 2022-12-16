@@ -1,5 +1,6 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import Task from "@/section/spineapp/util/Task";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class NSPACTStepFFormMDP extends FFormMDP {
@@ -19,6 +20,7 @@ export default class NSPACTStepFFormMDP extends FFormMDP {
         label: "Mark Complete",
         onClick: this.validateAndMarkComplete(),
         btnType: BtnType.FILLED,
+        condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
       })
     );
   }

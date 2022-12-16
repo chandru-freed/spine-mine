@@ -2,6 +2,7 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import Task from "@/section/spineapp/util/Task";
 import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
@@ -22,6 +23,7 @@ export default class NMSFTFinalFFormMDP extends FFormMDP {
         label: "Mark Complete",
         onClick: this.saveAndMarkCompleteTask(),
         btnType: BtnType.FILLED,
+        condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
       })
     );
   }

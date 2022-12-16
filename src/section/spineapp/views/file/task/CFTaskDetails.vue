@@ -297,6 +297,9 @@ export default class CFTaskDetails extends Vue {
       this.getTaskDetailsAndFileSummaryWithDelay
     );
 
+    Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
+
     this.getExecutiveTaskDetailsWithDelay();
   }
 
@@ -410,6 +413,9 @@ export default class CFTaskDetails extends Vue {
     Action.ClientFile.MarkClientFileAsOnBoarded.notInterested(
       this.getTaskDetailsAndFileSummaryWithDelay
     );
+
+    Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
+     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
   }
 
   findClientFileSummary() {

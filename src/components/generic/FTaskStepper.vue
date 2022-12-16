@@ -20,6 +20,16 @@
         v-for="(step, stepIndx) in stepMetaDataList"
         :key="stepIndx"
       >
+        <component
+          v-if="suspendTask"
+          :ref="suspendTaskFFormMetaData.myRefName"
+          :is="suspendTaskFFormMetaData.componentName"
+          :value="selectModel(suspendTaskInput, undefined)"
+          @input="
+            (newValue) => updateModel(suspendTaskInput, newValue, undefined)
+          "
+          v-bind="suspendTaskFFormMetaData.props"
+        ></component>
         <v-card color="grey lighten-4" flat min-height="600">
           <v-card-text class="pa-0">
             <div class="d-flex justify-space-around pa-3">
@@ -32,6 +42,24 @@
                 >Previous</v-btn
               >
               <v-spacer></v-spacer>
+              <v-btn
+                v-if="!taskDetails.isSuspended"
+                outlined
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                @click="suspendTaskAdd()"
+                >Suspend</v-btn
+              >
+              <v-btn
+                v-if="taskDetails.isSuspended"
+                outlined
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                @click="resumeTaskOn()"
+                >Resume</v-btn
+              >
               <v-btn
                 class="mr-2 elevation-0"
                 v-if="taskStateNotStarted"
@@ -120,6 +148,7 @@ import FAmendmentPaymentPlan from "./file/amendmentPaymentPlan/FAmendmentPayment
 import FEPaymentPlan from "./file/paymentPlan/enrollmentPaymentPlan/FEPaymentPlan.vue";
 import FCFPaymentPlan from "./file/paymentPlan/cfPaymentPlan/FCFPaymentPlan.vue";
 import FBPaymentPlan from "./file/paymentPlan/balloonPaymentPlan/FBPaymentPlan.vue";
+import FSuspendTaskFFormMDP from "./suspend/FSuspendTaskFFormMDP";
 
 @Component({
   components: {
@@ -136,12 +165,16 @@ import FBPaymentPlan from "./file/paymentPlan/balloonPaymentPlan/FBPaymentPlan.v
     FAmendmentPaymentPlan,
     FEPaymentPlan,
     FCFPaymentPlan,
-    FBPaymentPlan
+    FBPaymentPlan,
   },
 })
 export default class FTaskStepper extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+  suspendTaskInput: Data.TaskList.SuspendTaskInput =
+    new Data.TaskList.SuspendTaskInput();
+
   taskId = this.$route.params.taskId;
 
   get taskStateNotStarted() {
@@ -159,6 +192,7 @@ export default class FTaskStepper extends ModelVue {
   }
 
   selectedStep = 0;
+  suspendTask: boolean = false;
 
   // get selectedStep(): number {
   //   if (this.$route.query.step) {
@@ -186,6 +220,12 @@ export default class FTaskStepper extends ModelVue {
   //     query: { ...this.$route.query, step: val.toString() },
   //   });
   // }
+
+  get suspendTaskFFormMetaData() {
+    return new FSuspendTaskFFormMDP({
+      root: this,
+    }).getMetaData();
+  }
 
   gotoPreviousStep() {
     // this.changeStepQuery(this.selectedStep - 1);
@@ -218,6 +258,10 @@ export default class FTaskStepper extends ModelVue {
     });
   }
 
+  resumeTaskOn() {
+    Action.TaskList.Resume.execute1(this.taskId, (output) => {});
+  }
+
   rescueTask(step: any) {
     step.rescueFunc((taskOutput: any) => {
       Task.Action.rescueTask({
@@ -226,5 +270,18 @@ export default class FTaskStepper extends ModelVue {
       });
     });
   }
+
+  suspendTaskAdd() {
+    this.suspendTask = true;
+  }
+  suspendTaskCancel() {
+    this.suspendTask = false;
+    this.suspendResetForms();
+  }
+
+  suspendResetForms(){
+    this.suspendTaskInput = new Data.TaskList.SuspendTaskInput()
+  }
+  
 }
 </script>

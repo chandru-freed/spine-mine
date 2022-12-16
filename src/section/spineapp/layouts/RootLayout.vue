@@ -10,6 +10,29 @@
       <app-bar-notification-menu/>
       <app-bar-user-menu/>
     </v-app-bar> -->
+    <div
+      :class="['sidenavBar', showHide ? 'right0' : '']"
+      v-if="clientFileId"
+    >
+      <AmeyoToolbarDialog />
+    </div>
+    <div
+      :class="['phoneCall', showHide ? 'right0' : '']"
+      v-if="clientFileId"
+    >
+      <v-btn
+        v-show="!hidden"
+        color="green"
+        dark
+        v-bind="attrs"
+        v-on="on"
+        fab
+        @click="openNavShow()"
+      >
+        <v-icon v-if="!showHide">mdi-phone-in-talk</v-icon>
+        <v-icon v-if="showHide">mdi-close</v-icon>
+      </v-btn>
+    </div>
     <app-bar></app-bar>
 
     <!-- <v-main class="grey lighten-4" style="height: calc(100vh - 48px);"> -->
@@ -36,18 +59,24 @@ import LeftNavigationBar from "@/section/spineapp/views/bar/LeftNavigationBar.vu
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import store, * as Store from "@/../src-gen/store";
+import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 
 @Component({
   components: {
     LeftNavigationBar,
+    AmeyoToolbarDialog,
     AppBar,
   },
 })
 export default class RootLayout extends Vue {
   @Store.Getter.Login.LoginDetails.roleList
   roleList: [];
+  showHide: boolean = false;
+  get clientFileId(){
+    return this.$route.params.clientFileId
+  }
   mounted() {
-    this.getLoggedInUser()
+    this.getLoggedInUser();
   }
   getLoggedInUser() {
     const userName: any = localStorage.getItem("userName");
@@ -56,15 +85,43 @@ export default class RootLayout extends Vue {
     });
   }
   getRoleListForUser() {
-    Action.Login.GetRoleListForUser.execute(new Data.Login.MyAppId(), (output: any) => {
-          
-    })
+    Action.Login.GetRoleListForUser.execute(
+      new Data.Login.MyAppId(),
+      (output: any) => {}
+    );
   }
-  
+
+  openNavShow() {
+    this.showHide = !this.showHide;
+  }
 }
 </script>
 <style scoped>
 .v-application {
-    font-family: "Inter", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
+}
+.sidenavBar {
+  position: fixed;
+  top: 0;
+  right: -500px;
+  bottom: 0;
+  z-index: 999;
+  background: #fff;
+  transition: 0.5s;
+  z-index: 9999;
+}
+.sidenavBar.right0 {
+  right: 0;
+}
+.phoneCall {
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  transition: 0.5s;
+  z-index: 999;
+}
+.phoneCall.right0 {
+  right: 330px;
 }
 </style>
+

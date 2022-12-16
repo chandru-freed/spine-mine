@@ -11,6 +11,8 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
+      
+
     this.addAction(
       new FBtnMDP({
         label: "Mark Complete",

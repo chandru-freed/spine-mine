@@ -18,6 +18,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
   condition: boolean;
   clearable: boolean;
   readonly: boolean;
+  multiple: boolean | undefined;
   constructor({
     parentMDP,
     dataSelectorKey,
@@ -34,6 +35,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
     optionValue,
     clearable=false,
     readonly = false,
+    multiple = false,
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -50,6 +52,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
     optionValue?:string|undefined
     clearable?: boolean;
     readonly?: boolean;
+    multiple?: boolean;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -66,6 +69,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
     this.optionValue = optionValue;
     this.clearable = clearable;
     this.readonly = readonly;
+    this.multiple = multiple;
   }
 
   getRules() {
@@ -99,7 +103,8 @@ export default class FSelectFieldMDP implements FFieldMDP {
         returnObject: this.returnObject,
         itemText: this.optionLabel,
         itemValue: this.optionValue,
-        clearable: this.clearable
+        clearable: this.clearable,
+        multiple: this.multiple
       },
     };
   }

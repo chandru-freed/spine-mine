@@ -215,7 +215,6 @@ export default class TMOStimulator extends ModelVue {
   }
 
   isPaymentPlanDataAvailable() {
-    console.log(this.modelValue, "is payment plan available");
     return this.modelValue.paymentPlan?.psPlanId !== "";
   }
 

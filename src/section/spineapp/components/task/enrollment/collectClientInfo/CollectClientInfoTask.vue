@@ -1,5 +1,6 @@
 <template>
   <div class="collectClientInfoTask">
+    {{taskFormData}}
     <!-- Used in Active State -->
     <template v-if="!taskStateTerminated">
       <component
@@ -120,7 +121,7 @@ export default class CollectClientInfoTask extends ModelVue {
 
   taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
   get taskFormOutput() {
-    console.log(this.fiPaymentPlanInfoStore, "Compiling");
+    
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
@@ -140,7 +141,14 @@ export default class CollectClientInfoTask extends ModelVue {
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
       needVerification: (this.taskDetails.outputJson as any).needVerification,
+      exceptionTakenList: this.taskDetails.isOutputEmpty?
+      this.taskFormOutputLocal.exceptionTakenList
+      :(this.taskDetails.outputJson as any).exceptionTakenList,
+      exceptionApprovedBy:this.taskDetails.isOutputEmpty?
+      this.taskFormOutputLocal.exceptionApprovedBy
+      :(this.taskDetails.outputJson as any).exceptionApprovedBy,
     };
+    console.log(this.taskFormOutputLocal, "Compiling");
     return this.taskFormOutputLocal;
   }
 

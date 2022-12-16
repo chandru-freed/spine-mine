@@ -1,10 +1,7 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
-import FPaymentPlanMDP from "@/components/generic/file/paymentPlan/FPaymentPlanMDP";
-import * as Data from "@/../src-gen/data";
-import * as Action from "@/../src-gen/action";
-import * as Snackbar from "node-snackbar";
 
-export default class MCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP {
+import FCFPaymentPlanMDP from "@/components/generic/file/paymentPlan/cfPaymentPlan/FCFPaymentPlanMDP";
+
+export default class MCITPaymentPlanStepFPaymentPlanMDP extends FCFPaymentPlanMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       taskRoot: taskRoot,
@@ -13,7 +10,7 @@ export default class MCITPaymentPlanStepFPaymentPlanMDP extends FPaymentPlanMDP 
       // disabled: taskRoot.taskDisabled,
       disabled: true,
       dataSelectorKey: "taskOutput",
-      disabledActionBtn: taskRoot.taskDisabled,
+      disabledActionBtn: true,
     });
   }
 

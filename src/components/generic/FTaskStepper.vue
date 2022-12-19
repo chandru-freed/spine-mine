@@ -43,7 +43,7 @@
               taskDetails.exceptionInfo.exceptionSummary
             }}</v-card-text>
             <v-card-text class="pa-1">{{
-              taskDetails.exceptionInfo.exceptionTime | (date - time - duration)
+              taskDetails.exceptionInfo.exceptionTime | date-time-duration
             }}</v-card-text>
           </v-alert>
 

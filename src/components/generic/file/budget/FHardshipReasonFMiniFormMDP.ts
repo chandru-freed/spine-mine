@@ -11,9 +11,9 @@ export default class FHardshipReasonFMiniFormMDP extends FMiniFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      // dataSelectorKey: "hardshipReason",
       disabled: taskRoot.taskDisabled,
       label: "Reason For Hardship",
+      dataSelectorKey: "taskOutput.budgetInfo",
       mandatory: true,
       boundaryClass: "col-5",
     });

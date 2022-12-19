@@ -10,7 +10,7 @@ export default class CCITBudgetStepFBudgetMDP extends FBudgetMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "budgetRef",
-      dataSelectorKey: "taskOutput.budgetInfo",
+      // dataSelectorKey: "taskOutput",
       disabled: taskRoot.taskDisabled,
     });
   }

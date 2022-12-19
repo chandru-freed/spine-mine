@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <v-menu
       ref="menu"
       v-model="menu"
@@ -8,6 +9,7 @@
       transition="scale-transition"
       offset-y
       min-width="auto"
+      :disabled="$props.readonly||$props.disabled"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field

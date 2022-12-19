@@ -41,17 +41,7 @@ export default class CreateEMandateTask extends ModelVue {
   // METADATA
 
   // Parse JSON String => As taskOutput and taskInput comes as Json String
-  get taskDetailsOutput() {
-    return !!this.taskDetailsStore && !!this.taskDetailsStore.taskOutput
-      ? JSON.parse(this.taskDetailsStore.taskOutput)
-      : {};
-  }
-
-  get taskDetailsInput() {
-    return !!this.taskDetailsStore && !!this.taskDetailsStore.taskInput
-      ? JSON.parse(this.taskDetailsStore.taskInput)
-      : {};
-  }
+  
 
   // ModelValue
   taskFormDataLocal: any = {
@@ -61,7 +51,7 @@ export default class CreateEMandateTask extends ModelVue {
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetailsStore.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -70,15 +60,18 @@ export default class CreateEMandateTask extends ModelVue {
     this.taskFormDataLocal = value;
   }
 
-  taskFormOutputLocal: any = new Data.Spine.CreateEMandateTaskOutput();
+  taskFormOutputLocal: Data.Spine.CreateEMandateTaskOutput = new Data.Spine.CreateEMandateTaskOutput();
   get taskFormOutput() {
-    if (
-      this.taskDetailsOutput.eMandateLink &&
-      this.taskDetailsOutput.eMandateId
-    ) {
-      this.taskFormOutputLocal.eMandateLink =
-        this.taskDetailsOutput.eMandateLink;
-      this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
+    // if (
+    //   this.taskDetailsOutput.eMandateLink &&
+    //   this.taskDetailsOutput.eMandateId
+    // ) {
+    //   this.taskFormOutputLocal.eMandateLink =
+    //     this.taskDetailsOutput.eMandateLink;
+    //   this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
+    // }
+    if(!this.taskDetailsStore.isOutputEmpty) {
+      this.taskFormOutputLocal = Data.Spine.CreateEMandateTaskOutput.fromJson(this.taskDetailsStore.outputJson);
     }
 
     return this.taskFormOutputLocal;

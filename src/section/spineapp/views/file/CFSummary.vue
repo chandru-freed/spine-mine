@@ -39,9 +39,8 @@
                 >active</v-chip
               >
             </v-list-item-action>
-            
-          </v-list-item >
-          <v-list-item dense >
+          </v-list-item>
+          <v-list-item dense>
             <v-list-item-icon class="mr-2">
               <v-btn
                 icon
@@ -49,7 +48,7 @@
                 outlined
                 small
                 dense
-                @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
+                @click="openNavShow(clientFileBasicInfo.clientBasicInfo.mobile)"
               >
                 <v-icon small>mdi-phone</v-icon>
               </v-btn>
@@ -250,10 +249,21 @@ export default class CFSummary extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.showAmeyoSideBar
+  showAmeyoSideBar: boolean;
+
   minHeight = 80;
+  showHide: boolean = false;
 
   private callByAmeyo(phoneNumber: string) {
     AmeyoService.dial(phoneNumber);
+  }
+
+  openNavShow(phoneNumber: string) {
+    Store.Mutation.ClientFile.ClientFileSummary.TOGGLE_AMEYO_SIDE_BAR(
+      !this.showAmeyoSideBar
+    );
+    this.callByAmeyo(phoneNumber);
   }
 }
 </script>

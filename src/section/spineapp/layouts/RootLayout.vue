@@ -11,23 +11,18 @@
       <app-bar-user-menu/>
     </v-app-bar> -->
     <div
-      :class="['sidenavBar', showHide ? 'right0' : '']"
+      :class="['sidenavBar', showAmeyoSideBar ? 'right0' : '']"
       v-if="clientFileId"
     >
       <AmeyoToolbarDialog />
     </div>
     <div
-      :class="['phoneCall', showHide ? 'right0' : '']"
+      :class="['phoneCall', showAmeyoSideBar ? 'right0' : '']"
       v-if="clientFileId"
     >
-      <v-btn
-        color="green"
-        dark
-        fab
-        @click="openNavShow()"
-      >
-        <v-icon v-if="!showHide">mdi-phone-in-talk</v-icon>
-        <v-icon v-if="showHide">mdi-close</v-icon>
+      <v-btn color="green" dark fab @click="openNavShow()">
+        <v-icon v-if="!showAmeyoSideBar">mdi-phone-in-talk</v-icon>
+        <v-icon v-if="showAmeyoSideBar">mdi-close</v-icon>
       </v-btn>
     </div>
     <app-bar></app-bar>
@@ -68,9 +63,13 @@ import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vu
 export default class RootLayout extends Vue {
   @Store.Getter.Login.LoginDetails.roleList
   roleList: [];
+
+  @Store.Getter.ClientFile.ClientFileSummary.showAmeyoSideBar
+  showAmeyoSideBar: boolean;
+
   showHide: boolean = false;
-  get clientFileId(){
-    return this.$route.params.clientFileId
+  get clientFileId() {
+    return this.$route.params.clientFileId;
   }
   mounted() {
     this.getLoggedInUser();
@@ -89,7 +88,9 @@ export default class RootLayout extends Vue {
   }
 
   openNavShow() {
-    this.showHide = !this.showHide;
+    Store.Mutation.ClientFile.ClientFileSummary.TOGGLE_AMEYO_SIDE_BAR(
+      !this.showAmeyoSideBar
+    );
   }
 }
 </script>

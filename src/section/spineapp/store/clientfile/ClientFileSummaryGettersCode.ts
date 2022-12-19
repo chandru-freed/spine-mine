@@ -61,6 +61,11 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
   public fiActiveEMandateList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiActiveEMandateList[] {
     return state.fiActiveEMandateList
   }
+
+ public showAmeyoSideBar(state: Data.ClientFile.ClientFileSummary): boolean {
+  return state.showAmeyoSideBar
+  }
+
   
 }
 

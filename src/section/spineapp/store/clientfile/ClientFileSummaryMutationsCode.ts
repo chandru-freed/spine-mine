@@ -59,6 +59,9 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.personalInfo = new Data.ClientFile.ClPersonalInfo();
   }
 
+public  toggleAmeyoSideBar(state: Data.ClientFile.ClientFileSummary, showAmeyoSideBar: boolean): void {
+    state.showAmeyoSideBar = showAmeyoSideBar;
+  }
 
 }
 

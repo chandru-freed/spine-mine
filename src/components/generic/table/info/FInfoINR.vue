@@ -19,7 +19,7 @@ export default class FInfoINR extends ModelVue {
  rounded: boolean;
 
  get inrValue() {
-  return this.rounded? Math.round(this.value): 0
+  return this.rounded? Math.round(this.value): this.value
  }
 }
 </script>

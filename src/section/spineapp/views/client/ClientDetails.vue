@@ -41,7 +41,7 @@
           }}</v-chip>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn
+        <!-- <v-btn
           class="mx-3"
           color="primary"
           outlined
@@ -50,7 +50,7 @@
         >
           <v-icon class="pr-4">mdi-file-document-plus-outline</v-icon>
           Add File to Client
-        </v-btn>
+        </v-btn> -->
       </v-card-actions>
     </v-card>
   </div>

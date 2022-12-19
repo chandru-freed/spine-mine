@@ -12,7 +12,6 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
   constructor(props: { parent: any }) {
     super({
       myRefName: "fCreditorListFDataTableRef",
-      title: "Creditors",
       enableSearch: true,
       itemKey: "fiCreditorId",
     });
@@ -60,6 +59,11 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         onClick: (item) => this.handleMarkSettleClick(item),
         label: "Mark Settle",
         confirmation: true,
+      }).addAction({
+        type: ActionType.OTHERS,
+        onClick: () => this.handleAddCreditScore(),
+        label: "Update Credit Score",
+        noSelect: true,
       })
 
       .addInfo({
@@ -69,7 +73,10 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
       }).addInfo({
         label: "WAD",
         value: this.parent.clientFileSummary.wad,
-      })
+      }).addInfo({
+        label: "Credit Score",
+        value: this.parent.clientFileSummary.creditScore,
+      });
   }
 
   handleMarkSettleClick(item: any) {
@@ -91,5 +98,13 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         (err) => console.log(err)
       );
     });
+  }
+
+  handleAddCreditScore() {
+    return new Promise(resolve => {
+      this.parent.showAddCreditScoreForm();
+      resolve(true);
+    })
+    
   }
 }

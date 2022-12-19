@@ -17,6 +17,15 @@
       @input="(newValue) => updateModel(editCreditorForm, newValue, undefined)"
       v-bind="editCreditorFormMetaData.props"
     ></component>
+
+    <component
+      v-if="addCreditScoreDialog"
+      :is="updateCreditScoreFFormMetaData.componentName"
+      :ref="updateCreditScoreFFormMetaData.myRefName"
+      :value="selectModel(updateCreditScoreForm, undefined)"
+      @input="(newValue) => updateModel(updateCreditScoreForm, newValue, undefined)"
+      v-bind="updateCreditScoreFFormMetaData.props"
+    ></component>
     <v-alert dense outlined text color="error" v-if="deleteCreditorDialog">
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
@@ -142,6 +151,7 @@ import FAddCreditorFFormMDP from "./FAddCreditorFFormMDP";
 import FEditCreditorFFormMDP from "./FEditCreditorFFormMDP";
 import FCreditorListFDataTableMDP from "./FCreditorListFDataTableMDP";
 import FDataTable from "../../table/FDataTable.vue";
+import FUpdateCreditScoreFFormMDP from './FUpdateCreditScoreFFormMDP';
 
 @Component({
   components: {
@@ -153,6 +163,7 @@ import FDataTable from "../../table/FDataTable.vue";
 export default class FCreditor extends ModelVue {
   addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
+  updateCreditScoreForm: Data.ClientFile.UpdateCreditInfoInput = new Data.ClientFile.UpdateCreditInfoInput();
 
   selectedCreditorItem: Data.Spine.Creditor;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
@@ -175,6 +186,7 @@ export default class FCreditor extends ModelVue {
   ];
 
   addCreditorDialog = false;
+  addCreditScoreDialog = false;
   editCreditorDialog = false;
   deleteCreditorDialog = false;
 
@@ -203,6 +215,13 @@ export default class FCreditor extends ModelVue {
     this.addCreditorDialog = true;
   }
 
+  showAddCreditScoreForm() {
+    this.closeDialogs();
+    this.addCreditScoreDialog = true;
+    this.updateCreditScoreForm.creditScore = this.clientFileSummary.creditScore;
+    this.updateCreditScoreForm.creditBureau = this.clientFileSummary.creditBureau;
+  }
+
   showEditForm() {
     this.closeDialogs();
     this.editCreditorDialog = true;
@@ -222,6 +241,7 @@ export default class FCreditor extends ModelVue {
     this.addCreditorDialog = false;
     this.editCreditorDialog = false;
     this.deleteCreditorDialog = false;
+    this.addCreditScoreDialog = false;
   }
   resetForms() {
     this.addCreditorForm = new Data.Spine.Creditor();
@@ -300,6 +320,15 @@ export default class FCreditor extends ModelVue {
       parent: this,
     }).getMetaData();
   }
+
+  get updateCreditScoreFFormMetaData() {
+    return new FUpdateCreditScoreFFormMDP({
+       taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
+  }
+
+  
 
   isCreditCard(): boolean {
     if(this.addCreditorDialog) {

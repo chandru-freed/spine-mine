@@ -67,11 +67,23 @@ export default class CFCreditorInfo extends ModelVue {
 
   mounted() {
     this.getFiCreditorInfo();
+    Action.ClientFile.UpdateCreditInfo.interested(() => {
+      setTimeout(() => {
+        this.getClientFileSummary();
+      }, 1000);
+    });
   }
 
   //ACTION
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getClientFileSummary() {
+    Action.ClientFile.GetClientFileSummary.execute1(
       this.clientFileId,
       (output) => {}
     );

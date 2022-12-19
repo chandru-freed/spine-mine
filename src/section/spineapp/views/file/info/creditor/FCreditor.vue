@@ -1,14 +1,23 @@
 <template>
   <div ref="creditorListRef">
-
     <v-col class="col-12">
-      
       <component
-          :is="creditorListFDataTableMetaData.componentName"
-          :ref="creditorListFDataTableMetaData.myRefName"
-          v-bind="creditorListFDataTableMetaData.props"
-          :value="creditorList"
-        ></component>
+        v-if="addCreditScoreDialog"
+        :is="updateCreditScoreFFormMetaData.componentName"
+        :ref="updateCreditScoreFFormMetaData.myRefName"
+        :value="selectModel(updateCreditScoreForm, undefined)"
+        @input="
+          (newValue) => updateModel(updateCreditScoreForm, newValue, undefined)
+        "
+        v-bind="updateCreditScoreFFormMetaData.props"
+      ></component>
+
+      <component
+        :is="creditorListFDataTableMetaData.componentName"
+        :ref="creditorListFDataTableMetaData.myRefName"
+        v-bind="creditorListFDataTableMetaData.props"
+        :value="creditorList"
+      ></component>
       <!--GRID START-->
       <!-- <v-card flat outlined>
         <v-data-table
@@ -62,7 +71,15 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
+        class="
+          d-flex
+          flex-row
+          align-start
+          flex-wrap
+          justify-space-around
+          pa-2
+          my-5
+        "
         v-if="!disabled"
       >
         <component
@@ -86,13 +103,14 @@ import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
-import CreditorListFDataTableMDP from './CreditorListFDataTableMDP';
+import CreditorListFDataTableMDP from "./CreditorListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
+import CFUpdateCreditScoreFFormMDP from "./CFUpdateCreditScoreFFormMDP";
 @Component({
   components: {
     FForm,
     FBtn,
-    FDataTable
+    FDataTable,
   },
 })
 export default class FCreditor extends ModelVue {
@@ -100,11 +118,15 @@ export default class FCreditor extends ModelVue {
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   settleCreditorInput: Data.ClientFile.SettleCreditorInput =
     new Data.ClientFile.SettleCreditorInput();
+  updateCreditScoreForm: Data.ClientFile.UpdateCreditInfoInput =
+    new Data.ClientFile.UpdateCreditInfoInput();
   selectedCreditorItem: Data.Spine.Creditor;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
 
   clientFileId = this.$route.params.clientFileId;
+
+  addCreditScoreDialog = false;
 
   headers = [
     {
@@ -147,10 +169,19 @@ export default class FCreditor extends ModelVue {
   }
   closeDialogs() {
     this.settleCreditorDialog = false;
+    this.addCreditScoreDialog = false;
   }
   resetForms() {
     this.addCreditorForm = new Data.Spine.Creditor();
     this.editCreditorForm = new Data.Spine.Creditor();
+  }
+
+  showAddCreditScoreForm() {
+    this.closeDialogs();
+    this.addCreditScoreDialog = true;
+    this.updateCreditScoreForm.creditScore = this.clientFileSummary.creditScore;
+    this.updateCreditScoreForm.creditBureau =
+      this.clientFileSummary.creditBureau;
   }
 
   get creditorList() {
@@ -162,8 +193,7 @@ export default class FCreditor extends ModelVue {
   }
 
   settleCreditorData(item: any) {
-    this.settleCreditorInput.fiCreditorId =
-      item.fiCreditorId;
+    this.settleCreditorInput.fiCreditorId = item.fiCreditorId;
     Action.ClientFile.SettleCreditor.execute(
       this.settleCreditorInput,
       (output) => {
@@ -213,7 +243,13 @@ export default class FCreditor extends ModelVue {
   }
 
   get creditorListFDataTableMetaData() {
-    return new CreditorListFDataTableMDP({parent: this}).getMetaData();
+    return new CreditorListFDataTableMDP({ parent: this }).getMetaData();
+  }
+  get updateCreditScoreFFormMetaData() {
+    return new CFUpdateCreditScoreFFormMDP({
+      taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
   }
 }
 </script>

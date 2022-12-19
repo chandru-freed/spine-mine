@@ -181,6 +181,12 @@ export default class CollectClientInfoTask extends ModelVue {
       }, 1000);
     });
 
+    Action.ClientFile.UpdateCreditInfo.interested(() => {
+      setTimeout(() => {
+        this.getClientFileSummary();
+      }, 1000);
+    });
+
     Action.Spine.AddCreditor.interested((output) => {
       setTimeout(() => {
         this.getClientCreditorInfoAndSummary();
@@ -323,6 +329,12 @@ export default class CollectClientInfoTask extends ModelVue {
     Action.Spine.Skip.notInterested(() => {
       setTimeout(() => {
         this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
+    Action.ClientFile.UpdateCreditInfo.notInterested(() => {
+      setTimeout(() => {
+        this.getClientFileSummary();
       }, 1000);
     });
   }

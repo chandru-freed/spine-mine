@@ -9,7 +9,7 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "lifeStyleExpenses",
+      dataSelectorKey: "taskOutput.budgetInfo.lifeStyleExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Life Style",
       mandatory: true,

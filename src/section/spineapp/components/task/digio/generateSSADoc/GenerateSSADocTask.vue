@@ -38,17 +38,17 @@ export default class GenerateSSADocTask extends ModelVue {
 
   // DATA
 
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //METADATA
   get stepperMetaData() {
@@ -65,7 +65,7 @@ export default class GenerateSSADocTask extends ModelVue {
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -76,11 +76,15 @@ export default class GenerateSSADocTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.GenerateSSADocOutput(); // Initialize Task Output
+  taskFormOutputLocal: Data.Spine.GenerateSSADocOutput = new Data.Spine.GenerateSSADocOutput(); // Initialize Task Output
 
   get taskFormOutput() {
-    this.taskFormOutputLocal.docId = this.taskDetailsOutput.docId;
-    this.taskFormOutputLocal.templateCode = this.taskDetailsOutput.templateCode;
+
+    if(!this.taskDetails.isOutputEmpty) {
+    this.taskFormOutputLocal = Data.Spine.GenerateSSADocOutput.fromJson(this.taskDetails.outputJson);
+    }
+    // this.taskFormOutputLocal.docId = this.taskDetailsOutput.docId;
+    // this.taskFormOutputLocal.templateCode = this.taskDetailsOutput.templateCode;
     return this.taskFormOutputLocal;
   }
 

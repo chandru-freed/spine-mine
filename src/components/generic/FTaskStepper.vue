@@ -31,6 +31,22 @@
           v-bind="suspendTaskFFormMetaData.props"
         ></component>
         <v-card color="grey lighten-4" flat min-height="600">
+          <v-alert
+            v-if="taskRescue"
+            dense
+            outlined
+            text
+            color="red"
+            class="ma-2"
+          >
+            <v-card-text class="pa-1">{{
+              taskDetails.exceptionInfo.exceptionSummary
+            }}</v-card-text>
+            <v-card-text class="pa-1">{{
+              taskDetails.exceptionInfo.exceptionTime | date-time-duration
+            }}</v-card-text>
+          </v-alert>
+
           <v-card-text class="pa-0">
             <div class="d-flex justify-space-around pa-3">
               <v-btn
@@ -279,9 +295,8 @@ export default class FTaskStepper extends ModelVue {
     this.suspendResetForms();
   }
 
-  suspendResetForms(){
-    this.suspendTaskInput = new Data.TaskList.SuspendTaskInput()
+  suspendResetForms() {
+    this.suspendTaskInput = new Data.TaskList.SuspendTaskInput();
   }
-  
 }
 </script>

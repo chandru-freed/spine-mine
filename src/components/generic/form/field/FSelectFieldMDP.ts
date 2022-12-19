@@ -100,6 +100,7 @@ export default class FSelectFieldMDP implements FFieldMDP {
         dense: this.parentMDP.dense,
         items: this.options,
         disabled: this.isDisabled(),
+        readonly: this.readonly,
         returnObject: this.returnObject,
         itemText: this.optionLabel,
         itemValue: this.optionValue,

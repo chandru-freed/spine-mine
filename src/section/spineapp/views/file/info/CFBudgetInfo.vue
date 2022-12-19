@@ -3,9 +3,7 @@
     <component
       :ref="budgetInfoFormMetaData.myRefName"
       :is="budgetInfoFormMetaData.componentName"
-      :value="
-        selectModel(budgetInfoForm, budgetInfoFormMetaData.dataSelectorKey)
-      "
+      :value="selectModel(taskFormData, budgetInfoFormMetaData.dataSelectorKey)"
       v-bind="budgetInfoFormMetaData.props"
     ></component>
   </div>
@@ -29,10 +27,32 @@ export default class CFBudgetInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfoStore: Data.ClientFile.BudgetInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfo: Data.ClientFile.ClPersonalInfo;
+
   budgetInfoFormLocal = new Data.ClientFile.BudgetInfo();
 
   get clientFileId() {
     return this.$route.params.clientFileId;
+  }
+  taskFormDataLocal: any = { taskInput: {}, taskOutput: {} };
+
+  get taskFormData() {
+    return {
+      taskInput: {
+        clRegistrationDetails: this.clientFileBasicInfo.clientBasicInfo,
+      },
+      taskOutput: {
+        personalInfo: this.personalInfo,
+        budgetInfo: this.budgetInfoForm,
+      },
+    };
+  }
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
   }
 
   get budgetInfoForm() {
@@ -55,10 +75,15 @@ export default class CFBudgetInfo extends ModelVue {
 
   public mounted() {
     this.getBudgetInfo();
+    this.findClPersonalInfo();
   }
 
   getBudgetInfo() {
-    Action.ClientFile.GetBudgetInfo.execute1(
+    Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
+  }
+
+  findClPersonalInfo() {
+    Action.ClientFile.FindClPersonalInfo.execute1(
       this.clientFileId,
       (output) => {}
     );

@@ -30,28 +30,17 @@ export default class FBudgetFFormMDP extends FFormMDP {
     super({
       myRefName: "budgetFormRef",
       disabled: disabled,
-      // dataSelectorKey: "budgetInfo"
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
-    this
-    // .addField(
-    //     new FTextareaMDP({
-    //       parentMDP: this.childMDP,
-    //       label: "Reason For Hardship",
-    //       dataSelectorKey: "hardshipReason",
-    //       mandatory: true,
-    //     })
-    //   )
-      .addField(
-        new FPersonalFMiniFormMDP({ taskRoot: this.taskRoot, parent: this })
-      )
-      .addField(
-        new FHardshipReasonFMiniFormMDP({
-          taskRoot: this.taskRoot,
-          parent: this,
-        })
-      );
+    this.addField(
+      new FPersonalFMiniFormMDP({ taskRoot: this.taskRoot, parent: this })
+    ).addField(
+      new FHardshipReasonFMiniFormMDP({
+        taskRoot: this.taskRoot,
+        parent: this,
+      })
+    );
 
     this.addField(
       new FIncomeSourcesFBudgetMiniFormMDP({

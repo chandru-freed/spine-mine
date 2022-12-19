@@ -148,6 +148,9 @@ export default class CollectClientInfoTask extends ModelVue {
       exceptionApprovedBy:this.taskDetails.isOutputEmpty?
       this.taskFormOutputLocal.exceptionApprovedBy
       :(this.taskDetails.outputJson as any).exceptionApprovedBy,
+      collectMSFNow: this.taskDetails.isOutputEmpty?
+      this.taskFormOutputLocal.collectMSFNow
+      :(this.taskDetails.outputJson as any).collectMSFNow,
     };
     console.log(this.taskFormOutputLocal, "Compiling");
     return this.taskFormOutputLocal;

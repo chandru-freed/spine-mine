@@ -85,6 +85,7 @@ import FEMandateSelectField from "./field/FEMandateSelectField.vue";
 import FAWSUploadFileField from "./field/FAWSUploadFileField.vue";
 import FRangeSlider from "./field/FRangeSlider.vue";
 import FClientLanguageSelectField from "./field/FClientLanguageSelectField.vue";
+import FAgeField from "./field/FAgeField.vue";
 
 @Component({
   components: {
@@ -116,7 +117,8 @@ import FClientLanguageSelectField from "./field/FClientLanguageSelectField.vue";
     FEMandateSelectField,
     FAWSUploadFileField,
     FRangeSlider,
-    FClientLanguageSelectField
+    FClientLanguageSelectField,
+    FAgeField
   },
 })
 export default class FForm extends ModelVue {

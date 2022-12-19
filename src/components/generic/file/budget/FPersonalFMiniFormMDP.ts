@@ -4,6 +4,8 @@ import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP
 import FMiniFormMDP from "../../form/field/FMiniFormMDP";
 import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 import FTextFieldMDP from "../../form/field/FTextFieldMDP";
+import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
+import FAgeFieldMDP from "../../form/field/FAgeFieldMDP";
 
 export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -12,7 +14,6 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      // dataSelectorKey: "debtRepayments",
       disabled: taskRoot.taskDisabled,
       label: "Personal Info",
       mandatory: true,
@@ -24,16 +25,17 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "fullName",
+        dataSelectorKey: "taskInput.clRegistrationDetails.fullName",
         label: "Name",
         boundaryClass: "col-3",
+        disabled: true,
         readonly: true,
       })
     )
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "gender",
+          dataSelectorKey: "taskOutput.personalInfo.gender",
           label: "Gender",
           options: [
             { id: "FEMALE", name: "Female" },
@@ -43,23 +45,24 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           optionLabel: "name",
           optionValue: "id",
           boundaryClass: "col-3",
-          readonly: true,
+          disabled: true,
+          readonly: true
         })
-      )
-      .addField(
-        new FTextFieldMDP({
+      ).addField(
+        new FAgeFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "age",
+          dataSelectorKey: "taskOutput.personalInfo.dob",
           label: "Age",
-          // mandatory: true,
           boundaryClass: "col-3",
+          mandatory: true,
           readonly: true,
+          disabled: true,
         })
       )
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "hasDependents",
+          dataSelectorKey: "taskOutput.budgetInfo.hasDependents",
           label: "Dependents",
           mandatory: true,
           options: [true, false],
@@ -69,7 +72,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "hasPets",
+          dataSelectorKey: "taskOutput.budgetInfo.hasPets",
           label: "Has Pets",
           mandatory: true,
           options: [true, false],
@@ -79,7 +82,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "maritalStatus",
+          dataSelectorKey: "taskOutput.budgetInfo.maritalStatus",
           label: "Marital Status",
           boundaryClass: "col-3",
           mandatory: true,
@@ -89,7 +92,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "hasKids",
+          dataSelectorKey: "taskOutput.budgetInfo.hasKids",
           label: "Has Kids",
           boundaryClass: "col-3",
           mandatory: true,
@@ -99,7 +102,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "rentedHouse",
+          dataSelectorKey: "taskOutput.budgetInfo.rentedHouse",
           label: "Rented House",
           boundaryClass: "col-3",
           mandatory: true,
@@ -109,7 +112,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "employmentStatus",
+          dataSelectorKey: "taskOutput.budgetInfo.employmentStatus",
           label: "Employment Status",
           boundaryClass: "col-6",
           mandatory: true,
@@ -119,7 +122,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "employeeCompanyName",
+          dataSelectorKey: "taskOutput.budgetInfo.employeeCompanyName",
           label: "Employee Company Name",
           mandatory: true,
           boundaryClass: "col-6",

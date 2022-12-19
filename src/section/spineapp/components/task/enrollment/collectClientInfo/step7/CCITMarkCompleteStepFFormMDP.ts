@@ -41,7 +41,8 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
       multiple: true
     })).addField(new FGompaUserRemoteAutoCompleteFieldMDP({
       parentMDP: this.childMDP,
-      dataSelectorKey: "taskOutput.exceptionApprovedBy"
+      dataSelectorKey: "taskOutput.exceptionApprovedBy",
+      label:"Exception ApprovedBy"
     }))
   }
 

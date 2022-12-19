@@ -9,7 +9,7 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "dependentExpenses",
+      dataSelectorKey: "taskOutput.budgetInfo.dependentExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Dependent Expenses",
       mandatory: true,

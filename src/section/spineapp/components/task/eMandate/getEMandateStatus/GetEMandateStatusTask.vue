@@ -89,7 +89,7 @@ export default class GetEMandateStatusTask extends ModelVue {
   //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);(this.taskDetails.taskState);
   }
 
   //DATA

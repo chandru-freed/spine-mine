@@ -40,7 +40,7 @@ export default class UploadUnSignedDocTask
   taskId = this.$route.params.taskId;
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //METADATA

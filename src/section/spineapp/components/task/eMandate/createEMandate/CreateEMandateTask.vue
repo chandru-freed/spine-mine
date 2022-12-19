@@ -89,7 +89,7 @@ export default class CreateEMandateTask extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetailsStore.taskState);
+    return Task.isTaskNotActionable(this.taskDetailsStore.taskState, this.taskDetailsStore.isSuspended);
   }
 
   mounted() {

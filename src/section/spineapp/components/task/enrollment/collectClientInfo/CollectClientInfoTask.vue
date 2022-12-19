@@ -1,6 +1,7 @@
 <template>
   <div class="collectClientInfoTask">
     <!-- {{taskFormData}} -->
+    {{taskDisabled}}
     <!-- Used in Active State -->
     <template v-if="!taskStateTerminated">
       <component
@@ -163,7 +164,7 @@ export default class CollectClientInfoTask extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   mounted() {

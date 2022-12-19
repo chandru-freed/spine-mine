@@ -97,7 +97,7 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   //METADATA
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //ACTION

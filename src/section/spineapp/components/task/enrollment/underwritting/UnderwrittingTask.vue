@@ -118,9 +118,10 @@ export default class UnderwrittingTask extends ModelVue {
     this.taskFormDataLocal = value;
   }
 
-  taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
+  taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput();
   get taskFormOutput() {
     console.log(this.fiPaymentPlanInfoStore, "Compiling");
+    
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
@@ -139,7 +140,8 @@ export default class UnderwrittingTask extends ModelVue {
         ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
-      needVerification: (this.taskDetails.outputJson as any).needVerification,
+      underwrittingApproved: (this.taskDetails.outputJson as any).underwrittingApproved || true,
+      reasonForUnderwrittingDecline: (this.taskDetails.outputJson as any).reasonForUnderwrittingDecline
     };
     return this.taskFormOutputLocal;
   }
@@ -155,7 +157,7 @@ export default class UnderwrittingTask extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   mounted() {

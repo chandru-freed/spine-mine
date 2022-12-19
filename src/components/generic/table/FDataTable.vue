@@ -118,7 +118,8 @@
             outlined
             rounded
             dense
-            class="shrink ml-3"
+            class="shrink ml-3 "
+            style="width:180px"
           ></v-text-field>
         </v-toolbar>
       </template>
@@ -321,12 +322,13 @@ export default class FDataTable extends ModelVue {
   }
 
   isActionDisabled(action: FTableActionField) {
+    console.log(action.noSelect,"action.noSelect")
     return (
       this.selectedItemList.length == 0 ||
       this.disabled ||
       action.disabled ||
       (this.selectedItemList.length > 1 && action.singleSelect)
-    );
+    ) && !action.noSelect;
   }
 
   handleEditClick(item: any, index: number) {

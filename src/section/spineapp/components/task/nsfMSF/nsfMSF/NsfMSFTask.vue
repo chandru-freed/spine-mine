@@ -106,7 +106,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   //DATA
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //ACTION

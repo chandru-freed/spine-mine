@@ -105,7 +105,7 @@ export default class ReceiveManualPaymentTask extends ModelVue {
   //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //DATA

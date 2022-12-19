@@ -1,6 +1,7 @@
 <template>
   <div class="collectClientInfoTask">
     <!-- {{taskFormData}} -->
+    {{taskDisabled}}
     <!-- Used in Active State -->
     <template v-if="!taskStateTerminated">
       <component
@@ -163,7 +164,7 @@ export default class CollectClientInfoTask extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   mounted() {
@@ -177,6 +178,12 @@ export default class CollectClientInfoTask extends ModelVue {
     Action.Spine.UpdateClPersonalInfo.interested((output) => {
       setTimeout(() => {
         this.findClPersonalInfo();
+      }, 1000);
+    });
+
+    Action.ClientFile.UpdateCreditInfo.interested(() => {
+      setTimeout(() => {
+        this.getClientFileSummary();
       }, 1000);
     });
 
@@ -322,6 +329,12 @@ export default class CollectClientInfoTask extends ModelVue {
     Action.Spine.Skip.notInterested(() => {
       setTimeout(() => {
         this.getFiPaymentPlanInfo();
+      }, 1000);
+    });
+
+    Action.ClientFile.UpdateCreditInfo.notInterested(() => {
+      setTimeout(() => {
+        this.getClientFileSummary();
       }, 1000);
     });
   }

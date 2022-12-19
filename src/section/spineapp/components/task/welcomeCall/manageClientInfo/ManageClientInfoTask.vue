@@ -293,7 +293,7 @@ export default class ManageClientInfoTask
 
   //DATA
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
   //ACTION
   saveAndMarkCompleteTask() {

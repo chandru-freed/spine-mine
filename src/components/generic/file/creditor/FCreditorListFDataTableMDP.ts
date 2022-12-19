@@ -8,7 +8,7 @@ import FCellDateMDP from "../../table/cell/FCellDateMDP";
 export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
-        super({myRefName:"fCreditorListFDataTableRef", title: "Creditors",enableSearch: true, disabled: props.parent.disabled});
+        super({myRefName:"fCreditorListFDataTableRef", enableSearch: true, disabled: props.parent.disabled});
         this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",
@@ -56,6 +56,12 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             onClick: item => this.handleAddClick(),
             label: "Add Creditor",
           })
+          .addAction({
+            type: ActionType.OTHERS,
+            onClick: item => this.handleAddCreditScore(),
+            label: "Update Credit Score",
+            noSelect: true
+          })
           
           .addInfo({
             label: "Total Amount",
@@ -94,4 +100,13 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
       })
       
     }
+
+    handleAddCreditScore() {
+      return new Promise(resolve => {
+        this.parent.showAddCreditScoreForm();
+        resolve(true);
+      })
+      
+    }
+    
 }

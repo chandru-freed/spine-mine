@@ -84,7 +84,7 @@ export default class StepSummary extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.modelValue.taskState);
+    return Task.isTaskNotActionable(this.modelValue.taskState, this.modelValue.isSuspended);
   }
 
   get bankInfo() {

@@ -9,7 +9,7 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "debtRepayments",
+      dataSelectorKey: "taskOutput.budgetInfo.debtRepayments",
       disabled: taskRoot.taskDisabled,
       label: "Debt Repayments",
       mandatory: true,

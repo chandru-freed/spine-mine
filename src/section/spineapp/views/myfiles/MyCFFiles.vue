@@ -92,8 +92,8 @@ export default class MyCFFiles extends ModelVue {
       (output: any) => {
         setTimeout(() => {
           this.showRegisterMyCFForm = false;
+          this.gotoFile(output.clientFileNumber);
         }, 500);
-        this.gotoFile(output.clientFileNumber);
       }
     );
   }

@@ -47,6 +47,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import FNumberTextField from "./FNumberTextField.vue";
 import FNupayBankSelectField from "./FNupayBankSelectField.vue";
 import FDateSelectField from "./FDateSelectField.vue";
+import FRemoteComboBoxField from "./FRemoteComboBoxField.vue";
+import FAgeField from "./FAgeField.vue";
 
 @Component({
   components: {
@@ -66,7 +68,9 @@ import FDateSelectField from "./FDateSelectField.vue";
     FAutoCompleteField,
     FNumberTextField,
     FNupayBankSelectField,
-    FDateSelectField
+    FDateSelectField,
+    FRemoteComboBoxField,
+    FAgeField
   },
 })
 export default class FMiniForm extends ModelVue {

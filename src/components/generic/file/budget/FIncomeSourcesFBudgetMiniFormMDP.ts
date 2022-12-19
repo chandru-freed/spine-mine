@@ -9,7 +9,7 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "incomeSources",
+      dataSelectorKey: "taskOutput.budgetInfo.incomeSources",
       disabled: taskRoot.taskDisabled,
       label: "Income Sources",
       mandatory: true,

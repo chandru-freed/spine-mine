@@ -4,6 +4,7 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FNumberFieldMDP from "./FNumberFieldMDP";
 import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFieldMDP";
+import FRemoteComboBoxFieldMDP from "./FRemoteComboBoxFieldMDP";
 
 export default class AddressFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -47,6 +48,16 @@ export default class AddressFMiniFormMDP extends FMiniFormMDP {
         mandatory: true,
       })
     )
+    // .addField(
+    //   new FRemoteComboBoxFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "city",
+    //     label: "City",
+    //     mandatory: true,
+    //     boundaryClass: "col-3",
+    //     queryUrl: "/spineapi/master/find-city-and-state?cityName=",
+    //   })
+    // )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,

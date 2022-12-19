@@ -23,15 +23,14 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this
-    // .addField(
-    //   new FSwitchMDP({
-    //     parentMDP: this.childMDP,
-    //     dataSelectorKey: "taskOutput.needVerification",
-    //     label: "Need Verification",
-    //     mandatory: true,
-    //     boundaryClass: "col-3",
-    //   })
-    // )
+    .addField(
+      new FSwitchMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.collectMSFNow",
+        label: "Collect MSF Now",
+        boundaryClass: "col-3",
+      })
+    )
     .addField(new FSelectFieldMDP({
       dataSelectorKey: "taskOutput.exceptionTakenList",
       label: "Exception Taken",
@@ -42,7 +41,8 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
       multiple: true
     })).addField(new FGompaUserRemoteAutoCompleteFieldMDP({
       parentMDP: this.childMDP,
-      dataSelectorKey: "taskOutput.exceptionApprovedBy"
+      dataSelectorKey: "taskOutput.exceptionApprovedBy",
+      label:"Exception ApprovedBy"
     }))
   }
 

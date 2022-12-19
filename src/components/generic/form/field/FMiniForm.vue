@@ -49,6 +49,8 @@ import FNupayBankSelectField from "./FNupayBankSelectField.vue";
 import FDateSelectField from "./FDateSelectField.vue";
 import FRemoteComboBoxField from "./FRemoteComboBoxField.vue";
 import FAgeField from "./FAgeField.vue";
+import FRemoteAutoCompleteField from "./FRemoteAutoCompleteField.vue";
+import FCityAutoCompleteField from "./FCityAutoCompleteField.vue";
 
 @Component({
   components: {
@@ -70,7 +72,9 @@ import FAgeField from "./FAgeField.vue";
     FNupayBankSelectField,
     FDateSelectField,
     FRemoteComboBoxField,
-    FAgeField
+    FAgeField,
+    FRemoteAutoCompleteField,
+    FCityAutoCompleteField
   },
 })
 export default class FMiniForm extends ModelVue {

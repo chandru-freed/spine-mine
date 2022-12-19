@@ -1,7 +1,6 @@
 <template>
   <div class="collectClientInfoTask">
     <!-- {{taskFormData}} -->
-    {{taskDisabled}}
     <!-- Used in Active State -->
     <template v-if="!taskStateTerminated">
       <component

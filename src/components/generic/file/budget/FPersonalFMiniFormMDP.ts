@@ -5,6 +5,7 @@ import FMiniFormMDP from "../../form/field/FMiniFormMDP";
 import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 import FTextFieldMDP from "../../form/field/FTextFieldMDP";
 import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
+import FAgeFieldMDP from "../../form/field/FAgeFieldMDP";
 
 export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -48,27 +49,16 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           readonly: true
         })
       ).addField(
-        new FSelectDateFieldMDP({
+        new FAgeFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.personalInfo.dob",
-          label: "Date Of Birth",
+          label: "Age",
           boundaryClass: "col-3",
           mandatory: true,
-          futureDaysDisabled: true,
           readonly: true,
           disabled: true,
         })
       )
-      // .addField(
-      //   new FTextFieldMDP({
-      //     parentMDP: this.childMDP,
-      //     dataSelectorKey: "age",
-      //     label: "Age",
-      //     // mandatory: true,
-      //     boundaryClass: "col-3",
-      //     readonly: true,
-      //   })
-      // )
       .addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,

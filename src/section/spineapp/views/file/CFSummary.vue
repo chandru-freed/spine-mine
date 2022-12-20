@@ -261,9 +261,11 @@ export default class CFSummary extends Vue {
 
   openNavShow(phoneNumber: string) {
     this.callByAmeyo(phoneNumber);
-    Store.Mutation.ClientFile.ClientFileSummary.TOGGLE_AMEYO_SIDE_BAR(
-      !this.showAmeyoSideBar
-    );
+    if (this.showAmeyoSideBar === false) {
+      Store.Mutation.ClientFile.ClientFileSummary.TOGGLE_AMEYO_SIDE_BAR(
+        !this.showAmeyoSideBar
+      );
+    }
   }
 }
 </script>

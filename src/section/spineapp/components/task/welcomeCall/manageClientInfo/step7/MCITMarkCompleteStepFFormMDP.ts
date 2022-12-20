@@ -20,31 +20,31 @@ export default class MCITMarkCompleteStepFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
-      new FSwitchMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.signServiceAgreementNeeded",
-        label: "Sign Service Agreement Needed",
-        boundaryClass: "col-4",
-      })
-    )
-      .addField(
-        new FSwitchMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.amendmentNeeded",
-          label: "Amendment Needed",
-          boundaryClass: "col-4",
-        })
-      )
-      .addField(
-        new FSwitchMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.eMandateNeeded",
-          label: "EMandate Needed",
-          boundaryClass: "col-4",
-        })
-      )
-      .addField(
+    // this.addField(
+    //   new FSwitchMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "taskOutput.signServiceAgreementNeeded",
+    //     label: "Sign Service Agreement Needed",
+    //     boundaryClass: "col-4",
+    //   })
+    // )
+    //   .addField(
+    //     new FSwitchMDP({
+    //       parentMDP: this.childMDP,
+    //       dataSelectorKey: "taskOutput.amendmentNeeded",
+    //       label: "Amendment Needed",
+    //       boundaryClass: "col-4",
+    //     })
+    //   )
+    //   .addField(
+    //     new FSwitchMDP({
+    //       parentMDP: this.childMDP,
+    //       dataSelectorKey: "taskOutput.eMandateNeeded",
+    //       label: "EMandate Needed",
+    //       boundaryClass: "col-4",
+    //     })
+    //   )
+     this.addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.amendmentType",

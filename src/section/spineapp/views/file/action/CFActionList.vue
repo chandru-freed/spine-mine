@@ -164,11 +164,11 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFCreateRequest",
         },
-        {
-          actionName: "Enrollment",
-          icon: "mdi-chevron-right",
-          command: this.createEnrollmentFlowV1,
-        },
+        // {
+        //   actionName: "Enrollment",
+        //   icon: "mdi-chevron-right",
+        //   command: this.createEnrollmentFlowV1,
+        // },
         {
           actionName: "Welcome Call",
           icon: "mdi-chevron-right",
@@ -179,21 +179,21 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           command: this.createCHPPFlow,
         },
-        {
-          actionName: "Nsf MSF",
-          icon: "mdi-chevron-right",
-          command: this.createNsfMSFFlow,
-        },
+        // {
+        //   actionName: "Nsf MSF",
+        //   icon: "mdi-chevron-right",
+        //   command: this.createNsfMSFFlow,
+        // },
         {
           actionName: "Monthly Followup Call",
           icon: "mdi-chevron-right",
           command: this.createMFC,
         },
-        {
-          actionName: "Nsf SPA",
-          icon: "mdi-chevron-right",
-          command: this.createNsfSPA,
-        },
+        // {
+        //   actionName: "Nsf SPA",
+        //   icon: "mdi-chevron-right",
+        //   command: this.createNsfSPA,
+        // },
         {
           actionName: "Amendment",
           icon: "mdi-chevron-right",
@@ -294,16 +294,16 @@ export default class CFActionList extends Vue {
     );
   }
 
-  createNsfMSFFlow() {
-    Action.Spine.CreateNsfMSF.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
+  // createNsfMSFFlow() {
+  //   Action.Spine.CreateNsfMSF.execute1(
+  //     this.clientFileBasicInfo.clientFileNumber,
+  //     (output) => {
+  //       setTimeout(() => {
+  //         this.gotoCFActiveTaskList();
+  //       }, 400);
+  //     }
+  //   );
+  // }
 
   createWelcomeCall() {
     Action.Spine.CreateWelcomeCall.execute1(
@@ -326,17 +326,17 @@ export default class CFActionList extends Vue {
       }
     );
   }
-  createNsfSPA() {
-    Action.Spine.CreateNsfSPA.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.$emit("flowCreated");
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
+  // createNsfSPA() {
+  //   Action.Spine.CreateNsfSPA.execute1(
+  //     this.clientFileBasicInfo.clientFileNumber,
+  //     (output) => {
+  //       setTimeout(() => {
+  //         this.$emit("flowCreated");
+  //         this.gotoCFActiveTaskList();
+  //       }, 400);
+  //     }
+  //   );
+  // }
 
   createAmendmentFlow() {
     Action.Spine.CreateAmendment.execute1(

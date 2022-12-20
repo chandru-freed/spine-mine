@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-12" v-if="cfTaskList.length>0">
+    <div class="col-12" v-if="cfTaskList.length > 0">
       <v-card outlined max-height="200px" class="overflow-y-auto">
         <v-card-text class="py-1 d-flex align-center">
           Active Tasks <v-spacer />
@@ -233,10 +233,15 @@ export default class CFQuickNav extends Vue {
       routerName: "Root.CFile.CFAction.CFDraftPayment",
     },
     {
-      actionName: "Enrollment Flow",
+      actionName: "CHPP",
       icon: "mdi-chevron-right",
-      command: this.createEnrollmentFlowV1,
+      command: this.createCHPPFlow,
     },
+    // {
+    //   actionName: "Enrollment Flow",
+    //   icon: "mdi-chevron-right",
+    //   command: this.createEnrollmentFlowV1,
+    // },
     // {
     //   actionName: "More Action",
     //   icon: "mdi-chevron-right",
@@ -281,10 +286,21 @@ export default class CFQuickNav extends Vue {
     );
   }
 
-  createEnrollmentFlowV1() {
-    Action.Spine.CreateEnrollment.execute2(
+  // createEnrollmentFlowV1() {
+  //   Action.Spine.CreateEnrollment.execute2(
+  //     this.clientFileBasicInfo.clientFileNumber,
+  //     "V1Net",
+  //     (output) => {
+  //       setTimeout(() => {
+  //         this.gotoCFActiveTaskList();
+  //       }, 400);
+  //     }
+  //   );
+  // }
+
+  createCHPPFlow() {
+    Action.Spine.CreateCHPP.execute1(
       this.clientFileBasicInfo.clientFileNumber,
-      "V1Net",
       (output) => {
         setTimeout(() => {
           this.gotoCFActiveTaskList();

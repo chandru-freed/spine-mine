@@ -64,7 +64,7 @@ export default class AmeyoToolbarDialog extends Vue {
     setTimeout(() => {
       window.frames[0].stop();
     }, 1000);
-    // AmeyoService.doForceLogin();
+    AmeyoService.doForceLogin();
     // this.dragElement(document.getElementById("mydiv"));
   }
 

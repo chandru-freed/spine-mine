@@ -51,6 +51,7 @@ import FRemoteComboBoxField from "./FRemoteComboBoxField.vue";
 import FAgeField from "./FAgeField.vue";
 import FRemoteAutoCompleteField from "./FRemoteAutoCompleteField.vue";
 import FCityAutoCompleteField from "./FCityAutoCompleteField.vue";
+import FStateSelectField from "./FStateSelectField.vue";
 
 @Component({
   components: {
@@ -74,7 +75,8 @@ import FCityAutoCompleteField from "./FCityAutoCompleteField.vue";
     FRemoteComboBoxField,
     FAgeField,
     FRemoteAutoCompleteField,
-    FCityAutoCompleteField
+    FCityAutoCompleteField,
+    FStateSelectField
   },
 })
 export default class FMiniForm extends ModelVue {

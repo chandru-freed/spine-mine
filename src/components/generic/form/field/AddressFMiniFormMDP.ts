@@ -7,6 +7,7 @@ import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFiel
 import FRemoteComboBoxFieldMDP from "./FRemoteComboBoxFieldMDP";
 import FRemoteAutoCompleteFieldMDP from "./FRemoteAutoCompleteFieldMDP";
 import FCityAutoCompleteFieldMDP from "./FCityAutoCompleteFieldMDP";
+import FStateSelectFieldMDP from "./FStateSelectFieldMDP";
 
 export default class AddressFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -69,7 +70,7 @@ export default class AddressFMiniFormMDP extends FMiniFormMDP {
       //   })
       // )
       .addField(
-        new FTextFieldMDP({
+        new FStateSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "state",
           label: "State",

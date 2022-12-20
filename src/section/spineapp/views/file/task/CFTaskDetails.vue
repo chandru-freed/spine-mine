@@ -299,6 +299,7 @@ export default class CFTaskDetails extends Vue {
 
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Retry.interested(this.getExecutiveTaskDetailsHandler);
 
     this.getExecutiveTaskDetailsWithDelay();
   }

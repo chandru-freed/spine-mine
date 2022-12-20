@@ -92,6 +92,15 @@
                 @click="rescueTask(step)"
                 >Rescue</v-btn
               >
+
+              <v-btn
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                v-if="taskRescue"
+                @click="retryTask()"
+                >Retry</v-btn
+              >
               <v-spacer></v-spacer>
               <v-btn
                 class="mr-2"
@@ -285,6 +294,10 @@ export default class FTaskStepper extends ModelVue {
         taskOutput: taskOutput,
       });
     });
+  }
+
+  retryTask() {
+    Task.Action.retryTask({taskId: this.taskId});
   }
 
   suspendTaskAdd() {

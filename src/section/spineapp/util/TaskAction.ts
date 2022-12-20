@@ -89,4 +89,11 @@ export default class TaskAction {
     console.log("Proceed task call");
     //TODO: add proceed task to TaskList ads and implement
   }
+
+  static retryTask({taskId}:{
+    taskId: string
+  }) {
+    Action.TaskList.Retry.execute1(taskId,output => {
+    });
+  }
 }

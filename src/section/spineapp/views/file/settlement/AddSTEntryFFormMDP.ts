@@ -88,7 +88,7 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           boundaryClass: "col-3",
-          rules: "min:9|max:18",
+          rules: "min:9|max:20",
         })
       )
       .addField(

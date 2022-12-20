@@ -56,12 +56,12 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             onClick: item => this.handleAddClick(),
             label: "Add Creditor",
           })
-          // .addAction({
-          //   type: ActionType.OTHERS,
-          //   onClick: item => this.handleAddCreditScore(),
-          //   label: "Update Credit Score",
-          //   noSelect: true
-          // })
+          .addAction({
+            type: ActionType.OTHERS,
+            onClick: item => this.handleAddCreditScore(),
+            label: "Update Credit Score",
+            noSelect: true
+          })
           
           .addInfo({
             label: "Total Amount",
@@ -69,8 +69,11 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             infoMDP: new FInfoINRMDP({})
           }).addInfo({
             label: "WAD",
-            value: this.parent.clientFileSummary.wad,
-          })
+            value: this.parent.clientFileBasicInfo.wad || 0,
+          }).addInfo({
+            label: "Credit Score",
+            value: this.parent.clientFileBasicInfo.creditScore,
+          });
         
     }
 

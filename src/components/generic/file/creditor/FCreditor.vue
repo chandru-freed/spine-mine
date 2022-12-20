@@ -169,6 +169,9 @@ export default class FCreditor extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
 
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   headers = [
     {
       text: "Creditor Name",
@@ -218,8 +221,8 @@ export default class FCreditor extends ModelVue {
   showAddCreditScoreForm() {
     this.closeDialogs();
     this.addCreditScoreDialog = true;
-    this.updateCreditScoreForm.creditScore = this.clientFileSummary.creditScore;
-    this.updateCreditScoreForm.creditBureau = this.clientFileSummary.creditBureau;
+    this.updateCreditScoreForm.creditScore = this.clientFileBasicInfo.creditScore || 0;
+    this.updateCreditScoreForm.creditBureau = this.clientFileBasicInfo.creditBureau || "";
   }
 
   showEditForm() {

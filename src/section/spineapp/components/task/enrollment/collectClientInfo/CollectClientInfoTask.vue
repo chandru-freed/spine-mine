@@ -185,23 +185,23 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.ClientFile.UpdateCreditInfo.interested(() => {
       setTimeout(() => {
-        this.getClientFileSummary();
+        this.getClientFileBasicInfo();
       }, 1000);
     });
 
     Action.Spine.AddCreditor.interested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
+        this.getClientCreditorInfoAndInfo();
       }, 1000);
     });
     Action.Spine.UpdateCreditor.interested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
+        this.getClientCreditorInfoAndInfo();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.interested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
+        this.getClientCreditorInfoAndInfo();
       }, 1000);
     });
 
@@ -266,18 +266,18 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.AddCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
+        this.getClientCreditorInfoAndInfo();
       }, 1000);
     });
 
     Action.Spine.UpdateCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
+        this.getClientCreditorInfoAndInfo();
       }, 1000);
     });
     Action.Spine.RemoveCreditor.notInterested((output) => {
       setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
+        this.getClientCreditorInfoAndInfo();
       }, 1000);
     });
 
@@ -369,8 +369,16 @@ export default class CollectClientInfoTask extends ModelVue {
     });
   }
 
-  getClientCreditorInfoAndSummary() {
-    this.getClientFileSummary();
+   getClientFileBasicInfo() {
+    Action.ClientFile.GetClientFileBasicInfo.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+      }
+    );
+  }
+
+  getClientCreditorInfoAndInfo() {
+    this.getClientFileBasicInfo();
     Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
       // this.schedulePaymentPlan();
     });

@@ -11,7 +11,6 @@ export default class MCITBudgetStepFBudgetMDP extends FBudgetMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "wecomeCallBudgetStepRef",
-      dataSelectorKey: "taskOutput.budgetInfo",
       // disabled: taskRoot.taskDisabled,
       disabled: true,
     });

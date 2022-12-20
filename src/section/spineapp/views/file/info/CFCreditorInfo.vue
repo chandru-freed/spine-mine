@@ -38,6 +38,9 @@ export default class CFCreditorInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditor;
 
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   clientFileId = this.$route.params.clientFileId;
   //METADATA
   get creditorInfoMetaData() {
@@ -69,7 +72,15 @@ export default class CFCreditorInfo extends ModelVue {
     this.getFiCreditorInfo();
     Action.ClientFile.UpdateCreditInfo.interested(() => {
       setTimeout(() => {
-        this.getClientFileSummary();
+        this.getClientFileBasicInfo();
+      }, 1000);
+    });
+  }
+
+  destroyed() {
+     Action.ClientFile.UpdateCreditInfo.notInterested(() => {
+      setTimeout(() => {
+        this.getClientFileBasicInfo();
       }, 1000);
     });
   }
@@ -79,6 +90,15 @@ export default class CFCreditorInfo extends ModelVue {
     Action.ClientFile.GetCreditorInfo.execute1(
       this.clientFileId,
       (output) => {}
+    );
+  }
+
+
+   getClientFileBasicInfo() {
+    Action.ClientFile.GetClientFileBasicInfo.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+      }
     );
   }
 

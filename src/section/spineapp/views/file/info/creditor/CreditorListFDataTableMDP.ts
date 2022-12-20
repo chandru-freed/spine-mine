@@ -72,10 +72,10 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         infoMDP: new FInfoINRMDP({})
       }).addInfo({
         label: "WAD",
-        value: this.parent.clientFileSummary.wad,
+        value: this.parent.clientFileBasicInfo.wad,
       }).addInfo({
         label: "Credit Score",
-        value: this.parent.clientFileSummary.creditScore,
+        value: this.parent.clientFileBasicInfo.creditScore,
       });
   }
 

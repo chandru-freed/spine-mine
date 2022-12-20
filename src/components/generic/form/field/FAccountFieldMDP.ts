@@ -19,7 +19,7 @@ export default class FAccountFieldMDP extends FNumberTextFieldMDP {
   }) {
     super({
       ...props,
-      mask: "#### #### #### #### ####",
+      mask: "####################",
       unmask: "####################",
     });
   }

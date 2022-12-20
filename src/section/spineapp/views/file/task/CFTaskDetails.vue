@@ -281,7 +281,7 @@ export default class CFTaskDetails extends Vue {
       this.getExecutiveTaskDetailsHandler
     );
 
-    Action.Spine.UpdatePaymentStatus.interested(
+    Action.Spine.UpdateFirstMSFPaymentStatus.interested(
       this.getExecutiveTaskDetailsHandler
     );
 
@@ -394,7 +394,7 @@ export default class CFTaskDetails extends Vue {
     Action.Spine.ReceiveFirstMSFPayment.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
-    Action.Spine.UpdatePaymentStatus.notInterested(
+    Action.Spine.UpdateFirstMSFPaymentStatus.notInterested(
       this.getExecutiveTaskDetailsHandler
     );
 

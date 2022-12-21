@@ -71,16 +71,16 @@ export default class NMSFTFFormMDP extends FFormMDP {
           condition: this.isReceivePayment(),
         })
       )      
-      // .addField(
-      //   new FSelectDateFieldMDP({
-      //     parentMDP: this.childMDP,
-      //     dataSelectorKey: "taskOutput.msfScheduledDraftDate",
-      //     label: "Msf Scheduled Draft Date",
-      //     mandatory: true,
-      //     pastDaysDisabled: true,
-      //     condition: this.isDraftRescheduled(),
-      //   })
-      // )
+      .addField(
+        new FSelectDateFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.msfScheduledDraftDate",
+          label: "Msf Scheduled Draft Date",
+          mandatory: true,
+          pastDaysDisabled: true,
+          condition: this.isDraftRescheduled(),
+        })
+      )
       .addField(
         new DispositionFMiniFormMDP({
           taskRoot,

@@ -48,14 +48,14 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             label: "Modify",
             onClick: (itemList) => this.handleModifyClick(itemList),
             type: ActionType.OTHERS,
-        })
-        .addAction({
-            label: "Add Entry",
-            onClick: (item) => this.handleAddEntryClick(),
-            type: ActionType.ADD,
-            confirmation: true,
-            disabled: this.disabled,
         });
+        // .addAction({
+        //     label: "Add Entry",
+        //     onClick: (item) => this.handleAddEntryClick(),
+        //     type: ActionType.ADD,
+        //     confirmation: true,
+        //     disabled: this.disabled,
+        // });
 
     }
     handlePresentClick(item: any): Promise<any> {

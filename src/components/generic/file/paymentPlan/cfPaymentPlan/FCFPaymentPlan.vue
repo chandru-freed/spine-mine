@@ -78,10 +78,10 @@
           <v-divider></v-divider>
           <v-card flat class="mt-5">
             <component
-              :is="fPSkipedPresentedTableMetaData.componentName"
-              :ref="fPSkipedPresentedTableMetaData.myRefName"
-              :value="psEntryPresentedList"
-              v-bind="fPSkipedPresentedTableMetaData.props"
+              :is="fcfPaymentTableMetaData.componentName"
+              :ref="fcfPaymentTableMetaData.myRefName"
+              :value="fiPaymentList"
+              v-bind="fcfPaymentTableMetaData.props"
             ></component>
           </v-card>
         </v-tab-item>
@@ -134,10 +134,11 @@ import * as Data from "@/../src-gen/data";
 import * as Store from "@/../src-gen/store";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
-import FCFPPScheduleFDataTableMDP from './FCFPPScheduleFDataTableMDP';
-import FCFPSkipedPresentedFDataTableMDP from './FCFPSkipedPresentedFDataTableMDP';
-import FCFFeeFDataTableMDP from './FCFFeeFDataTableMDP';
-import AddCFPsEntryFFormMDP from './AddCFPsEntryFFormMDP';
+import FCFPPScheduleFDataTableMDP from "./FCFPPScheduleFDataTableMDP";
+import FCFPSkipedPresentedFDataTableMDP from "./FCFPSkipedPresentedFDataTableMDP";
+import FCFFeeFDataTableMDP from "./FCFFeeFDataTableMDP";
+import AddCFPsEntryFFormMDP from "./AddCFPsEntryFFormMDP";
+import FCFPaymentFDataTableMDP from "./FCFPaymentFDataTableMDP";
 
 @Component({
   components: {
@@ -148,6 +149,8 @@ import AddCFPsEntryFFormMDP from './AddCFPsEntryFFormMDP';
   },
 })
 export default class FCFPaymentPlan extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
+  fiPaymentList: Data.ClientFile.FiPayment;
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
@@ -156,10 +159,8 @@ export default class FCFPaymentPlan extends ModelVue {
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
-
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-  
 
   get clientFileId() {
     return this.$route.params.clientFileId;
@@ -220,8 +221,24 @@ export default class FCFPaymentPlan extends ModelVue {
     }).getMetaData();
   }
 
-  get fPSkipedPresentedTableMetaData() {
-    return new FCFPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
+  // get fPSkipedPresentedTableMetaData() {
+  //   return new FCFPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
+  // }
+
+  get fcfPaymentTableMetaData() {
+    return new FCFPaymentFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  mounted() {
+    this.getFiPaymentList();
+  }
+
+  //ACTION
+  getFiPaymentList() {
+    Action.ClientFile.GetFiPaymentList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   get fFeeFDataTableMetaData() {
@@ -233,7 +250,6 @@ export default class FCFPaymentPlan extends ModelVue {
       parent: this,
     }).getMetaData();
   }
-
 
   @Prop()
   paymentCalculatorFormMetaData: any;

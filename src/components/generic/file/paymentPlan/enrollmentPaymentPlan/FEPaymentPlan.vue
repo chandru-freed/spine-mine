@@ -80,14 +80,14 @@
             ></component>
           </v-card>
           <v-divider></v-divider>
-          <v-card flat class="mt-5">
+          <!-- <v-card flat class="mt-5">
             <component
               :is="fPSkipedPresentedTableMetaData.componentName"
               :ref="fPSkipedPresentedTableMetaData.myRefName"
               :value="psEntryPresentedList"
               v-bind="fPSkipedPresentedTableMetaData.props"
             ></component>
-          </v-card>
+          </v-card> -->
         </v-tab-item>
       </v-tabs-items>
     </v-card>

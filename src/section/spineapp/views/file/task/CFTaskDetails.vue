@@ -81,6 +81,7 @@ import PlanSettlementTask from "@/section/spineapp/components/task/settlementPla
 import MFCCompletionTask from "@/section/spineapp/components/task/mfc/MFCCompletion/MFCCompletionTask.vue";
 import PrepareAmendmentTask from "@/section/spineapp/components/task/amendment/prepareAmendment/PrepareAmendmentTask.vue";
 import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFee/RefundFeeTask.vue";
+import CollectMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/CollectMSFThroughCashfreeTask.vue";
 
 @Component({
   components: {
@@ -136,6 +137,7 @@ import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFe
     PlanSettlementTask,
     PrepareAmendmentTask,
     RefundFeeTask,
+    CollectMSFThroughCashfreeTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -173,7 +175,8 @@ export default class CFTaskDetails extends Vue {
     ["Enrollment::EMandate", "EMandateTask"],
     ["Enrollment::EMandateFailed", "EMandateFailedTask"],
     ["Underwriting::ManualUnderwriting", "UnderwrittingTask"],
-    ["Enrollment::CollectMSF", "CollectMSFTask"],
+    ["Enrollment::CollectMSF", "CollectMSFThroughCashfreeTask"],
+    ["Enrollment::CollectMSFThroughCashfree", "CollectMSFThroughCashfreeTask"],
     ["Enrollment::EnrollmentCompletion", "EnrollmentCompletionTask"],
     ["EMandate::CreateEMandate", "CreateEMandateTask"],
     ["EMandate::SendEMandateLink", "SendEMandateLinkTask"],

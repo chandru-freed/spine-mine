@@ -7,7 +7,6 @@ export class UTBudgetStepFBudgetMDP extends FBudgetMDP {
       taskRoot: taskRoot,
       parent: parent,
       myRefName: "underwrittingBudgetStepRef",
-      dataSelectorKey: "taskOutput.budgetInfo",
       disabled: true,
     });
   }

@@ -102,7 +102,7 @@ export default class FProfileFFormMDP extends FFormMDP {
         new FClientLanguageSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "clientLanguage",
-          label: "Language",
+          label: "Preferred Language",
           boundaryClass: "col-4",
         })
       )

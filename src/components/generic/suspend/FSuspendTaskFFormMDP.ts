@@ -8,16 +8,18 @@ import * as Action from "@/../src-gen/action";
 
 export default class FSuspendTaskFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-  root: any;
-  constructor(props: { root: any }) {
+  taskRoot: any;
+  constructor({ taskRoot }: { taskRoot: any; }) {
     super({ myRefName: "fsuspendTaskFFormRef" });
+    this.taskRoot = taskRoot;
     this.addField(
       new FDateTimeSelectFieldMDP({
         dataSelectorKey: "resumeOn",
-        label: "resumeOn",
+        label: "ResumeOn",
         parentMDP: this.childMDP,
         boundaryClass: "col-6",
         pastDaysDisabled: true,
+        mandatory: true,
       })
     )
       .addField(
@@ -38,24 +40,36 @@ export default class FSuspendTaskFFormMDP extends FFormMDP {
       .addAction(
         new FBtnMDP({
           label: "Suspend",
-          onClick: this.handleSuspendClick(),
+          onClick: this.submitSuspendClick(),
         })
       );
-    this.root = props.root;
   }
 
-  handleSuspendClick() {
+  getMyRef() {
+    return this.taskRoot.$refs[this.myRefName][0];
+  }
+
+  submitSuspendClick() {
     return () => {
-      this.root.suspendTaskInput.taskId = this.root.taskId;
-      Action.TaskList.Suspend.execute(this.root.suspendTaskInput, (output) => {
-        this.root.suspendTaskCancel();
+      this.getMyRef().submitForm(() => {
+        this.handleSuspendClick();
       });
     };
   }
 
+  handleSuspendClick() {
+    this.taskRoot.suspendTaskInput.taskId = this.taskRoot.taskId;
+    Action.TaskList.Suspend.execute(
+      this.taskRoot.suspendTaskInput,
+      (output) => {
+        this.taskRoot.suspendTaskCancel();
+      }
+    );
+  }
+
   handleCancelClick() {
     return () => {
-      this.root.suspendTaskCancel();
+      this.taskRoot.suspendTaskCancel();
     };
   }
 }

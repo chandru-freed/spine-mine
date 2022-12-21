@@ -172,7 +172,7 @@ export default class TMOStimulator extends ModelVue {
   }
 
   get tenureLessGreaterThanEqual() {
-    return this.result.tenure >= this.result.tenureApproval;
+    return this.result.tenure > this.result.tenureApproval;
   }
 
   //METADATA
@@ -203,8 +203,9 @@ export default class TMOStimulator extends ModelVue {
   // }
 
   @Watch("simulatorInput") modelValueChanged(newVal: any, oldVal: any) {
-    this.resultLocal.tenure =
-      this.modelValue.paymentPlan?.ppCalculator?.tenor || 12;
+    this.resultLocal.tenure = this.modelValue.paymentPlan?.ppCalculator?.tenor || getTenureWithFreed(this.modelValue.creditorInfo?.totalDebt);
+    // this.resultLocal.tenure =
+    //   this.modelValue.paymentPlan?.ppCalculator?.tenor || 30;
     this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
     this.resultLocal.settlementPercentage =
       this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
@@ -212,6 +213,10 @@ export default class TMOStimulator extends ModelVue {
       this.modelValue.budgetInfo?.proposedDSPayment || 0;
     this.resultLocal.firstSPADraftDate =
       this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
+  }
+
+  maxTenureSlab() {
+    return 35
   }
 
   isPaymentPlanDataAvailable() {
@@ -276,6 +281,7 @@ export default class TMOStimulator extends ModelVue {
       new Data.Spine.DraftPSPlanForPMInput();
     input.clientFileId = this.clientFileId;
     input.outstanding = this.result.outstanding;
+    input.tenor = this.tenorNew;
     input.spaFirstDraftDate = moment()
       .add(2, "days")
       .format(Helper.DATE_FORMAT);
@@ -283,22 +289,30 @@ export default class TMOStimulator extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 }
 
 export const getTenureWithFreed = (amount: number) => {
-  if (amount >= 0 && amount < 75000) return 15;
-  if (amount >= 75000 && amount < 200000) return 23;
-  if (amount >= 200000 && amount < 400000) return 33;
-  if (amount >= 400000 && amount < 600000) return 36;
-  if (amount >= 600000 && amount < 800000) return 41;
-  if (amount >= 800000 && amount < 1000000) return 46;
-  if (amount >= 1000000 && amount < 1200000) return 51;
-  if (amount >= 1200000 && amount < 1500000) return 58;
-  if (amount >= 1500000 && amount < 2000000) return 60;
-  if (amount >= 2000000 && amount < 2500000) return 65;
-  if (amount >= 2500000) return 72;
+  if (amount > 0 && amount <= 75000) return 15;
+  if (amount > 75000 && amount <= 200000) return 23;
+  if (amount > 200000 && amount <= 400000) return 33;
+  if (amount > 400000 && amount <= 600000) return 36;
+  if (amount > 600000 && amount <= 800000) return 41;
+  if (amount > 800000 && amount <= 1000000) return 46;
+  if (amount > 1000000 && amount <= 1200000) return 51;
+  if (amount > 1200000 && amount <= 1500000) return 58;
+  if (amount > 1500000 && amount <= 2000000) return 60;
+  if (amount > 2000000 && amount <= 2500000) return 65;
+  if (amount > 2500000) return 72;
+};
+
+export const getFreedTenure = (months: number): number => {
+  const constant = 2 / 3;
+  return Math.ceil(constant * months);
 };
 
 export const getMSFWithFreed = (amount: number) => {

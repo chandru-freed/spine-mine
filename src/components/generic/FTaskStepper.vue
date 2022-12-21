@@ -248,7 +248,7 @@ export default class FTaskStepper extends ModelVue {
 
   get suspendTaskFFormMetaData() {
     return new FSuspendTaskFFormMDP({
-      root: this,
+      taskRoot: this,
     }).getMetaData();
   }
 

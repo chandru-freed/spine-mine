@@ -17,7 +17,7 @@ export default class SubscribedTicketListFDataTableMDP extends FDataTableMDP {
     super({
       myRefName: "subscribedTicketListFDataTableRef",
       enableSearch: true,
-      title: "My Completed Ticket",
+      title: "My Subscribed Ticket",
     });
     this.parent = props.parent;
     this.addColumn({

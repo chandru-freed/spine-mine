@@ -281,6 +281,7 @@ export default class TMOStimulator extends ModelVue {
       new Data.Spine.DraftPSPlanForPMInput();
     input.clientFileId = this.clientFileId;
     input.outstanding = this.result.outstanding;
+    input.tenor = this.tenorNew;
     input.spaFirstDraftDate = moment()
       .add(2, "days")
       .format(Helper.DATE_FORMAT);

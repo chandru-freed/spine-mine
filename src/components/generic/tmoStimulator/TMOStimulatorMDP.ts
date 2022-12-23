@@ -18,7 +18,7 @@ export default class TMOStimulatorMDP extends FFormMDP {
 
     this.addAction(
       new FBtnMDP({
-        label: this.taskRoot.isPaymentPlanDataAvailable()?"Calculate Payment Schedule":"Draft a Payment",
+        label: this.taskRoot.isPaymentPlanDataAvailable()?"Recacluate Payment Plan":"Calculate Payment Plan",
         onClick: this.calculateOrDraftPaymentSchedule(),
       })
     );

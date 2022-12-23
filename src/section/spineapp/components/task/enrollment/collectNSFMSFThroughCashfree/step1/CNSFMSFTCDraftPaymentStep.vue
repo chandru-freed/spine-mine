@@ -75,7 +75,7 @@ export default class CNSFMSFTCDraftPaymentStep extends ModelVue {
     Action.Spine.DraftAndPresentNSFMSFThroughCashfree.execute(
       this.receiveCashfreePaymentInput,
       (output) => {
-        this.modelValue[this.dataSelectorKey].paymentId = output.paymentId;
+        this.modelValue[this.dataSelectorKey].newPaymentId = output.paymentId;
         this.taskRoot.saveTask();
       }
     );

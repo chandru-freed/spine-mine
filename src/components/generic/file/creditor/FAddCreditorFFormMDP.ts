@@ -98,7 +98,6 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "details",
           label: "Details",
-          mandatory: true,
           boundaryClass: "col-4",
         })
       )

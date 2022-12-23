@@ -212,7 +212,7 @@ export default class CFTaskDetails extends Vue {
       "ManualPayment::PaymentReceivedConfirmation",
       "PaymentReceivedConfirmationTask",
     ],
-    ["WelcomeCall::ManageClientInfo", "ManageClientInfoTask"],
+    ["WelcomeCall::OnBoardingCall", "ManageClientInfoTask"],
     [
       "WelcomeCall::SignServiceAgreementFailed",
       "WelcomeCallSignServiceAgreementFailedTask",

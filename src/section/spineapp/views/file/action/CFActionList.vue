@@ -170,7 +170,7 @@ export default class CFActionList extends Vue {
         //   command: this.createEnrollmentFlowV1,
         // },
         {
-          actionName: "Welcome Call",
+          actionName: "OnBoarding Call",
           icon: "mdi-chevron-right",
           command: this.createWelcomeCall,
         },

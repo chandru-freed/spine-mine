@@ -59,7 +59,7 @@ export default class ModifyBPsEntryFFormMDP extends FFormMDP {
     };
   }
   modifyEntry() {
-    Action.ClientFile.ModifyAmountPSEntryList.execute(this.parent.modifyAmountPSEListInput, output => {
+    Action.ClientFile.ModifyAmountWithFixedTenure.execute(this.parent.modifyAmountPSEListInput, output => {
       this.parent.resetFormsTableAndData();
       Snackbar.show({
         text: "Succesfully added an entry",

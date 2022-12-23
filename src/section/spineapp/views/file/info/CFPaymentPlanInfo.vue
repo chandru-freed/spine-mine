@@ -67,7 +67,7 @@ Action.ClientFile.AddPSEntry.interested(this.getFiPaymentWithDelay);
     Action.Spine.PresentPSEntry.interested(this.getPaymentHandler);
     Action.Spine.Skip.interested(this.getPaymentHandler);
     Action.ClientFile.RemovePSEntryList.interested(this.getFiPaymentWithDelay);
-    Action.ClientFile.ModifyAmountPSEntryList.interested(this.getFiPaymentWithDelay);
+    Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getFiPaymentWithDelay);
   }
 
   public destroyed() {
@@ -75,7 +75,7 @@ Action.ClientFile.AddPSEntry.interested(this.getFiPaymentWithDelay);
     Action.Spine.Skip.notInterested(this.getPaymentHandler);
     Action.ClientFile.AddPSEntry.notInterested(this.getFiPaymentWithDelay);
     Action.ClientFile.RemovePSEntryList.notInterested(this.getFiPaymentWithDelay);
-    Action.ClientFile.ModifyAmountPSEntryList.notInterested(this.getFiPaymentWithDelay);
+    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getFiPaymentWithDelay);
   }
 
   getFiPaymentWithDelay() {

@@ -173,8 +173,8 @@ export default class FPaymentPlan extends ModelVue {
   showModifyForm: boolean = false;
   addPsEntryInput: Data.ClientFile.AddPSEntryInput =
     new Data.ClientFile.AddPSEntryInput();
-  modifyAmountPSEListInput: Data.ClientFile.ModifyAmountPSEListInput =
-    new Data.ClientFile.ModifyAmountPSEListInput();
+  modifyAmountPSEListInput: Data.ClientFile.ModifyAmountWithFixedTenureInput =
+    new Data.ClientFile.ModifyAmountWithFixedTenureInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
@@ -232,7 +232,7 @@ export default class FPaymentPlan extends ModelVue {
     this.showModifyForm = false;
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
     this.modifyAmountPSEListInput =
-      new Data.ClientFile.ModifyAmountPSEListInput();
+      new Data.ClientFile.ModifyAmountWithFixedTenureInput();
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();

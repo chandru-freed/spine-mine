@@ -82,6 +82,7 @@ import MFCCompletionTask from "@/section/spineapp/components/task/mfc/MFCComplet
 import PrepareAmendmentTask from "@/section/spineapp/components/task/amendment/prepareAmendment/PrepareAmendmentTask.vue";
 import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFee/RefundFeeTask.vue";
 import CollectMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/CollectMSFThroughCashfreeTask.vue";
+import CollectNSFMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/CollectNSFMSFThroughCashfreeTask.vue";
 
 @Component({
   components: {
@@ -137,7 +138,8 @@ import CollectMSFThroughCashfreeTask from "@/section/spineapp/components/task/en
     PlanSettlementTask,
     PrepareAmendmentTask,
     RefundFeeTask,
-    CollectMSFThroughCashfreeTask
+    CollectMSFThroughCashfreeTask,
+    CollectNSFMSFThroughCashfreeTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -199,6 +201,7 @@ export default class CFTaskDetails extends Vue {
     ["NsfMSF::NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
     ["NsfMSF::ReceiveManualPayment", "ReceiveManualPaymentTask"],
     ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
+    ["NsfMSF::CollectNSFMSFThroughCashfree", "CollectNSFMSFThroughCashfreeTask"],
     ["ManualPayment::GenerateLink", "GenerateLinkTask"],
     ["ManualPayment::SendLink", "SendLinkTask"],
     [

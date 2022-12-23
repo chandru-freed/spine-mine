@@ -1,3 +1,5 @@
+import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import FCellCurrencyBtnMDP from "@/components/generic/table/cell/FCellCurrencyBtnMDP";
 import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
@@ -21,7 +23,12 @@ export default class FCFPaymentFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Total Amount",
         dataSelectorKey: "totalAmount",
-        columnCellMDP: new FCellCurrencyMDP({}),
+        columnCellMDP: new FCellCurrencyBtnMDP({
+          color: "secondary",
+          onClick: (item) => {
+            this.parent.openPaymentDetails(item);
+          },
+        }),
       })
       .addColumn({
         label: "Account Holder Name",
@@ -35,7 +42,7 @@ export default class FCFPaymentFDataTableMDP extends FDataTableMDP {
       })
       .addColumn({
         label: "Status",
-        dataSelectorKey: "status",
+        dataSelectorKey: "status.name",
         columnCellMDP: new FCellStatusMDP({}),
       }).addColumn({
         label: "Presented Date",

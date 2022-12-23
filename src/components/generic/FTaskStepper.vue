@@ -175,6 +175,7 @@ import FCFPaymentPlan from "./file/paymentPlan/cfPaymentPlan/FCFPaymentPlan.vue"
 import FBPaymentPlan from "./file/paymentPlan/balloonPaymentPlan/FBPaymentPlan.vue";
 import FSuspendTaskFFormMDP from "./suspend/FSuspendTaskFFormMDP";
 import CMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/step1/CMSFTCDraftPaymentStep.vue";
+import CNSFMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/step1/CNSFMSFTCDraftPaymentStep.vue";
 
 @Component({
   components: {
@@ -192,7 +193,8 @@ import CMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollmen
     FEPaymentPlan,
     FCFPaymentPlan,
     FBPaymentPlan,
-    CMSFTCDraftPaymentStep
+    CMSFTCDraftPaymentStep,
+    CNSFMSFTCDraftPaymentStep
   },
 })
 export default class FTaskStepper extends ModelVue {

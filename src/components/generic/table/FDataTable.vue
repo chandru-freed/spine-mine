@@ -188,6 +188,7 @@ import FCellName from "./cell/FCellName.vue";
 import FCellUppercase from "./cell/FCellUppercase.vue";
 import FCellDayPastDue from "./cell/FCellDayPastDue.vue";
 import FCellSLA from "./cell/FCellSLA.vue";
+import FCellCurrencyBtn from "./cell/FCellCurrencyBtn.vue";
 
 @Component({
   components: {
@@ -212,6 +213,7 @@ import FCellSLA from "./cell/FCellSLA.vue";
     FCellUppercase,
     FCellDayPastDue,
     FCellSLA,
+    FCellCurrencyBtn
   },
 })
 export default class FDataTable extends ModelVue {

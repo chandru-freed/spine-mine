@@ -5,6 +5,8 @@ import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFiel
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import * as Data from "@/../src-gen/data";
+
 
 export default class CFRecordPaymentFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -24,11 +26,7 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         mandatory: true,
         returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
       })

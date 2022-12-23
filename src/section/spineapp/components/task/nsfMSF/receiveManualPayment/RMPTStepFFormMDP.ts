@@ -7,6 +7,7 @@ import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import Task from "@/section/spineapp/util/Task";
 import FlowTaskIntf from "@/section/spineapp/util/task_intf/FlowTaskIntf";
+import * as Data from "@/../src-gen/data";
 
 export default class RMPTStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -90,11 +91,7 @@ export default class RMPTStepFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           returnObject: true,
           disabled: true,
-          options: [
-            { id: "NUPAY", name: "NUPAY" },
-            { id: "ESCROWPAY", name: "ESCROWPAY" },
-            { id: "CASHFREE", name: "CASHFREE" },
-          ],
+          options: Data.ClientFile.PAYMENT_PROVIDER.list(),
           optionLabel: "name",
           optionValue: "id",
         })

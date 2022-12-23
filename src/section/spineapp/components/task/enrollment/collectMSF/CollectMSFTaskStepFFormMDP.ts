@@ -6,6 +6,7 @@ import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/fiel
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import Task from "@/section/spineapp/util/Task";
+import * as Data from "@/../src-gen/data";
 
 export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -28,11 +29,7 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         label: "Payment Provider",
         boundaryClass: "col-4",
         returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
       })

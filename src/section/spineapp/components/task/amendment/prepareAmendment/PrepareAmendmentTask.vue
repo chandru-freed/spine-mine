@@ -74,9 +74,12 @@ export default class PrepareAmendmentTask extends ModelVue {
         this.taskDetails.inputJson as any
       ).existingCreditorInfo;
     } else {
+      console.log(this.taskDetails.outputJson,"this.taskDetails.outputJson")
       this.taskFormOutputLocal = Data.Spine.AmendmentTaskOutput.fromJson(
         this.taskDetails.outputJson
       );
+
+      // this.taskFormOutputLocal.creditorInfo.totalDebt =
     }
     this.taskFormOutputLocal.paymentPlan = this.newPaymentPlan;
     return this.taskFormOutputLocal;
@@ -117,7 +120,7 @@ export default class PrepareAmendmentTask extends ModelVue {
     this.getFiCreditorInfo();
     this.getPSPlanInfo();
     Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfo)
-    Action.ClientFile.ModifyAmountPSEntryList.interested(this.getPSPlanInfo);
+    Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getPSPlanInfo);
   }
 
   destroyed() {

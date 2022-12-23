@@ -135,10 +135,34 @@ export default class FAmendmentCreditor extends ModelVue {
   }
 
   updateCreditor() {
-    console.log(this.selectedCreditorIndex,this.editCreditorForm,"Index is this");
+    // console.log(this.selectedCreditorIndex,this.editCreditorForm,"Index is this");
     this.editCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(this.editCreditorForm);
     this.modelValue.creditorList[this.selectedCreditorIndex] = this.editCreditorForm;
+    this.modelValue.totalDebt = this.calculateTotadDebt();
     this.saveTask();
+  }
+
+  calculateTotadDebt() {
+    return this.modelValue.creditorList.reduce((accumulator: number, curVal: any) => {
+        return accumulator + curVal.creditorBalance;
+      },
+      0);
+  }
+
+
+   getWAD() {
+    const totalCreditorBalance = this.calculateTotadDebt();
+    return this.modelValue.creditorList.reduce((accumulator: number, curCreditorVal: Data.ClientFile.FiCreditor) => {
+      const creditorPercentage = curCreditorVal.creditorBalance / totalCreditorBalance
+      const indWad = creditorPercentage * curCreditorVal.daysDelinquentAsOnOnboarding;
+      return accumulator + indWad;
+    },0);
+    // let totalCreditorBalance = fiCreditorList.map(_.creditorBalance).sum
+    // fiCreditorList.map {
+    //   fiCreditor =>
+    //     val creditorPercentage = (fiCreditor.creditorBalance / totalCreditorBalance).toDouble
+    //     creditorPercentage * fiCreditor.daysDelinquentAsOnOnboarding
+    // }.sum.toInt
   }
 
   addCreditor() {
@@ -147,6 +171,7 @@ export default class FAmendmentCreditor extends ModelVue {
     this.addCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(this.addCreditorForm);
     creditorList.push(this.addCreditorForm.toJson());
     console.log(this.modelValue.creditorList);
+    this.modelValue.totalDebt = this.calculateTotadDebt();
     this.saveTask();
     // this.updateModel()
   }
@@ -160,6 +185,7 @@ export default class FAmendmentCreditor extends ModelVue {
       const creditorList: any[] = this.modelValue.creditorList || [];
       this.modelValue.creditorList.splice(index, 1);
       console.log(this.modelValue.creditorList, index);
+      this.modelValue.totalDebt = this.calculateTotadDebt();
       this.saveTask();
     });
   }
@@ -203,6 +229,7 @@ export default class FAmendmentCreditor extends ModelVue {
       return this.editCreditorForm.debtType === "Credit Card";
     }
   }
+
 
   get fCreditorListFDataTableMetaData() {
     return new FACreditorListFDataTableMDP({ parent: this }).getMetaData();

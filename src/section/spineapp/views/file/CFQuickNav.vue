@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-12" v-if="cfTaskList.length > 0">
+    <div class="col-12">
       <v-card outlined max-height="200px" class="overflow-y-auto">
         <v-card-text class="py-1 d-flex align-center">
           Active Tasks <v-spacer />
@@ -9,7 +9,14 @@
           >
         </v-card-text>
         <v-divider />
-        <v-list dense class="py-0">
+        <v-card
+          height="150px"
+          class="d-flex align-center"
+          v-if="cfTaskList.length == 0"
+        >
+          <v-card-text class="d-flex justify-center"> No Task to display </v-card-text>
+        </v-card>
+        <v-list dense class="py-0" v-if="cfTaskList.length > 0">
           <v-list-item v-for="(cfTask, j) in cfTaskList" :key="j">
             <v-list-item-content class="pa-0">
               <v-list-item-title>

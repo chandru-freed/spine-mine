@@ -61,6 +61,7 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
         label: "Draft Date",
         mandatory: true,
         boundaryClass: "col-4",
+        pastDaysDisabled: true,
       })
     ).addField(new FCurrencyFieldMDP({
         parentMDP: this.childMDP,

@@ -1,7 +1,7 @@
 
 <template>
   <span :class="[slaStatus ? 'grey--text' : 'red--text']" v-if="modelValue.sla">
-    {{ selectModel(modelValue, dataSelectorKey) | datetime }}
+    {{ selectModel(modelValue, dataSelectorKey) | date }}
   </span>
 </template>
 <script lang="ts">

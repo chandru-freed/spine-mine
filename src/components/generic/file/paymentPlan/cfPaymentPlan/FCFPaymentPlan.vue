@@ -170,9 +170,10 @@ export default class FCFPaymentPlan extends ModelVue {
   }
 
   get psEntrySchelduledList() {
-    return this.paymentPlan.paymentScheduleList.filter(
-      (psEntry: any) => psEntry.status === "SCHEDULED"
-    );
+    return this.paymentPlan.paymentScheduleList;
+    // return this.paymentPlan.paymentScheduleList.filter(
+    //   (psEntry: any) => psEntry.status === "SCHEDULED" || psEntry.status === "SKIPPED" 
+    // );
   }
 
   get psEntryPresentedList() {

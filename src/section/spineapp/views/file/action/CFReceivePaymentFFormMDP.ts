@@ -3,6 +3,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class CFReceivePaymentFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -22,11 +23,7 @@ export default class CFReceivePaymentFFormMDP extends FFormMDP {
         boundaryClass: "col-3",
         mandatory: true,
         returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
       })

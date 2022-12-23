@@ -2,6 +2,7 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -23,11 +24,7 @@ export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
         label: "Payment Provider",
         boundaryClass: "col-6",
         returnObject: true,
-        options: [
-          { id: "NUPAY", name: "NUPAY" },
-          { id: "ESCROWPAY", name: "ESCROWPAY" },
-          { id: "CASHFREE", name: "CASHFREE" },
-        ],
+        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
         optionLabel: "name",
         optionValue: "id",
         disabled: true,

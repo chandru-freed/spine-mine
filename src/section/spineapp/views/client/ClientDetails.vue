@@ -37,7 +37,7 @@
           <v-icon size="30" class="pr-4">mdi-file-account</v-icon>
           {{ clientFileBasicInfo.clientFileNumber }}
           <v-chip x-small class="mx-2">{{
-            clientFileBasicInfo.cilentFileStatus.name
+            clientFileBasicInfo.clientFileStatus.name
           }}</v-chip>
         </v-btn>
         <v-spacer></v-spacer>

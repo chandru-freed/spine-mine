@@ -299,10 +299,6 @@ export default class CFTaskDetails extends Vue {
       this.getExecutiveTaskDetailsHandler
     );
 
-    Action.ClientFile.MarkClientFileAsOnBoarded.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Retry.interested(this.getExecutiveTaskDetailsHandler);
@@ -415,10 +411,6 @@ export default class CFTaskDetails extends Vue {
 
     Action.Spine.SchedulePaymentPlan.notInterested(
       this.getFindClientFileSummaryWithDelay
-    );
-
-    Action.ClientFile.MarkClientFileAsOnBoarded.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
     );
 
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);

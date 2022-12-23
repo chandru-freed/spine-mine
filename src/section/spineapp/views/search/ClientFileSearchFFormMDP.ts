@@ -54,7 +54,7 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           dataSelectorKey: "clientFileStatus",
           label: "Client File Status",
           boundaryClass: "col-4",
-          options: Data.ClientFile.ClientFileStatus.list(),
+          options: Data.ClientFile.CLIENT_FILE_STATUS.list(),
           optionLabel:"name",
           clearable: true
         })

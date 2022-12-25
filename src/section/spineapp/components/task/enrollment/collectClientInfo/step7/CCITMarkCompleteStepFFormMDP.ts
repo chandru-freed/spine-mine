@@ -28,7 +28,7 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.collectMSFNow",
         label: "Collect MSF Now",
-        boundaryClass: "col-3",
+        boundaryClass: "col-4",
       })
     )
     .addField(new FSelectFieldMDP({
@@ -38,11 +38,13 @@ export default class CCITMarkCompleteStepFFormMDP extends FFormMDP {
       optionLabel: "name",
       optionValue: "id",
       parentMDP: this.childMDP,
-      multiple: true
+      multiple: true,
+      boundaryClass: "col-4",
     })).addField(new FGompaUserRemoteAutoCompleteFieldMDP({
       parentMDP: this.childMDP,
       dataSelectorKey: "taskOutput.exceptionApprovedBy",
-      label:"Exception ApprovedBy"
+      label:"Exception ApprovedBy",
+      boundaryClass: "col-4",
     }))
   }
 

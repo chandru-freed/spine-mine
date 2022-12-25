@@ -34,11 +34,13 @@ export default class DispositionFMiniFormMDP extends FMiniFormMDP {
             options: dispositionTypeList,
             itemText: "label",
             itemValue: "value",
+            mandatory: true,
+            boundaryClass:"col-6"
         })).addField(new FTextareaMDP({
             parentMDP: this.childMDP,
-            dataSelectorKey: "dispositionDescription",
+            dataSelectorKey: "dispositionDetails",
             label: "Disposition Descritpion",
-            
+            boundaryClass:"col-6"
         }))
     }
 }

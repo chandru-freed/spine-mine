@@ -223,9 +223,29 @@ export default class CFActionList extends Vue {
       groupName: "Other Action",
       actionList: [
         {
-          actionName: "Mark File As Onboarded",
+          actionName: "Mark File As Activate",
           icon: "mdi-chevron-right",
-          command: this.markClientFileAsOnBoarded,
+          command: this.activate,
+        },
+        {
+          actionName: "Mark File As Hold",
+          icon: "mdi-chevron-right",
+          command: this.hold,
+        },
+        {
+          actionName: "Mark File As Resume",
+          icon: "mdi-chevron-right",
+          command: this.resume,
+        },
+        {
+          actionName: "Mark File As Graduate",
+          icon: "mdi-chevron-right",
+          command: this.graduate,
+        },
+        {
+          actionName: "Mark File As Cancel",
+          icon: "mdi-chevron-right",
+          command: this.cancel,
         },
       ],
     },
@@ -368,16 +388,56 @@ export default class CFActionList extends Vue {
     );
   }
 
-  markClientFileAsOnBoarded() {
-    Action.ClientFile.MarkClientFileAsOnBoarded.execute1(
-      this.clientFileId,
-      (output) => {
-        Snackbar.show({
-          text: "Succesfully update.",
-          pos: "bottom-center",
-        });
-      }
-    );
+  // markClientFileAsOnBoarded() {
+  //   Action.ClientFile.MarkClientFileAsOnBoarded.execute1(
+  //     this.clientFileId,
+  //     (output) => {
+  //       Snackbar.show({
+  //         text: "Succesfully update.",
+  //         pos: "bottom-center",
+  //       });
+  //     }
+  //   );
+  // }
+
+  activate() {
+    Action.ClientFile.Activate.execute1(this.clientFileId, (ootput) => {
+      setTimeout(() => {
+        this.gotoCFActiveTaskList();
+      }, 400);
+    });
+  }
+
+  hold() {
+    Action.ClientFile.Hold.execute1(this.clientFileId, (output) => {
+      setTimeout(() => {
+        this.gotoCFActiveTaskList();
+      }, 400);
+    });
+  }
+
+  resume() {
+    Action.ClientFile.Resume.execute1(this.clientFileId, (output) => {
+      setTimeout(() => {
+        this.gotoCFActiveTaskList();
+      }, 400);
+    });
+  }
+
+  graduate() {
+    Action.ClientFile.Graduate.execute1(this.clientFileId, (output) => {
+      setTimeout(() => {
+        this.gotoCFActiveTaskList();
+      }, 400);
+    });
+  }
+
+  cancel() {
+    Action.ClientFile.Cancel.execute1(this.clientFileId, (output) => {
+      setTimeout(() => {
+        this.gotoCFActiveTaskList();
+      }, 400);
+    });
   }
 
   get filteredActionGroupList() {

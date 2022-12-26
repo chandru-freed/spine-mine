@@ -139,7 +139,7 @@ import CollectNSFMSFThroughCashfreeTask from "@/section/spineapp/components/task
     PrepareAmendmentTask,
     RefundFeeTask,
     CollectMSFThroughCashfreeTask,
-    CollectNSFMSFThroughCashfreeTask
+    CollectNSFMSFThroughCashfreeTask,
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -201,7 +201,10 @@ export default class CFTaskDetails extends Vue {
     ["NsfMSF::NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
     ["NsfMSF::ReceiveManualPayment", "ReceiveManualPaymentTask"],
     ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
-    ["NsfMSF::CollectNSFMSFThroughCashfree", "CollectNSFMSFThroughCashfreeTask"],
+    [
+      "NsfMSF::CollectNSFMSFThroughCashfree",
+      "CollectNSFMSFThroughCashfreeTask",
+    ],
     ["ManualPayment::GenerateLink", "GenerateLinkTask"],
     ["ManualPayment::SendLink", "SendLinkTask"],
     [
@@ -302,6 +305,23 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Retry.interested(this.getExecutiveTaskDetailsHandler);
+
+    // Ohter Action list
+    Action.ClientFile.Activate.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Hold.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Resume.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Graduate.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Cancel.interested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
 
     this.getExecutiveTaskDetailsWithDelay();
   }
@@ -414,7 +434,24 @@ export default class CFTaskDetails extends Vue {
     );
 
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
-     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
+
+    // Ohter Action list
+    Action.ClientFile.Activate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Hold.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Resume.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Graduate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Cancel.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
   }
 
   findClientFileSummary() {

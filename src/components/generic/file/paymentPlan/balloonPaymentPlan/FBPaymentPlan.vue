@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{modelValue.taskOutput.paymentPlan}} -->
     <!-- <component
     v-if="modelValue.paymentPlan"
       :is="paymentCalculatorFormMetaData.componentName"
@@ -294,7 +293,7 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   uploadExcel() {
-    this.uploadPSPlanExcelInput.newPSPlanId = this.modelValue.taskInput.existingPaymentPlan.psPlanId;
+    this.uploadPSPlanExcelInput.newPSPlanId =  this.modelValue.taskInput.newPSPlanId;
     Action.Spine.UploadPaymentSchedulePlanExcel.execute(this.uploadPSPlanExcelInput, output => {
       this.resetFormsTableAndData();
     });

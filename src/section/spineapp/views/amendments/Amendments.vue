@@ -4,7 +4,7 @@
       v-if="!!amendmentFDataTableMetaData"
       :ref="amendmentFDataTableMetaData.myRefName"
       :is="amendmentFDataTableMetaData.componentName"
-      :value="selectModel(myClientFileList, undefined)"
+      :value="selectModel(amendmentList, undefined)"
       v-bind="amendmentFDataTableMetaData.props"
     ></component>
   </v-card>
@@ -34,17 +34,27 @@ export default class Amendment extends ModelVue {
     { text: "Created Date", value: "createdDate" },
     { text: "Cancel", value: "amndToken" },
   ];
-  activeAendmentList: Data.ClientFile.AmendmentList[] = [];
-  search: string = "";
+
+  amendmentList: Data.ClientFile.Amendment[] = [];
+  activeAendmentListOutput: Data.ClientFile.AmendmentListOutput =
+    new Data.ClientFile.AmendmentListOutput();
+  activeAendmentListInput: Data.ClientFile.ActiveAmendmentListInput =
+    new Data.ClientFile.ActiveAmendmentListInput();
 
   mounted() {
     this.getActiveAmendmentList();
   }
 
   getActiveAmendmentList() {
-    Action.ClientFile.GetActiveAmendmentList.execute((output) => {
-      this.activeAendmentList = output.AmendmentList;
-    });
+    this.activeAendmentListInput.offset = 0;
+    this.activeAendmentListInput.count = 100;
+    Action.ClientFile.GetActiveAmendmentList.execute(
+      this.activeAendmentListInput,
+      (output) => {
+        this.activeAendmentListOutput = output;
+        this.amendmentList = output.amendmentList;
+      }
+    );
   }
 
   get amendmentFDataTableMetaData() {

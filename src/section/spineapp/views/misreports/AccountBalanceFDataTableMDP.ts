@@ -13,7 +13,7 @@ export default class MISReportsFDataTableMDP extends FDataTableMDP {
     super({
       myRefName: props.myRefName,
       enableSearch: true,
-      title: "Upcoming Payment List",
+      title: "Account Balance Status",
       itemKey: "taskId",
     });
     this.parent = props.parent;

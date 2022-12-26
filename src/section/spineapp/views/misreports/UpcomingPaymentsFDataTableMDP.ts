@@ -3,6 +3,7 @@ import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 import FCellNameMDP from "@/components/generic/table/cell/FCellNameMDP";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
+import FCellTextMDP from "@/components/generic/table/cell/FCellTextMDP";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
@@ -19,19 +20,13 @@ export default class MISReportsFDataTableMDP extends FDataTableMDP {
     this.parent = props.parent;
     this.addColumn({
       label: "Client File Number",
-      dataSelectorKey: "cid",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-file-account",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
+      dataSelectorKey: "clientFileNumber",
+      columnCellMDP: new FCellTextMDP({}),
     })
       .addColumn({
         label: "Client Name",
-        dataSelectorKey: "displayId",
-        columnCellMDP: new FCellNameMDP({}),
+        dataSelectorKey: "clientName",
+        columnCellMDP: new FCellTextMDP({}),
       })
       .addColumn({
         label: "Amount",

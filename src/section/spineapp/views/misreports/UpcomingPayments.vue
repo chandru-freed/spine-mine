@@ -8,7 +8,7 @@
         v-if="!!upcomingPaymentsFDataTableMetaData"
         :ref="upcomingPaymentsFDataTableMetaData.myRefName"
         :is="upcomingPaymentsFDataTableMetaData.componentName"
-        :value="selectModel(allocatedTaskList, undefined)"
+        :value="selectModel(misFiPSEntryList, undefined)"
         v-bind="upcomingPaymentsFDataTableMetaData.props"
       ></component>
     </v-card>
@@ -45,27 +45,32 @@ export default class UpcomingPayments extends ModelVue {
   selected = [];
   search = "";
 
+  misFiPSEntryListOutput: Data.ClientFile.MISFiPSEntryListOutput =
+    new Data.ClientFile.MISFiPSEntryListOutput();
   misFiPSEntryList: Data.ClientFile.MISFiPSEntry[] = [];
+  misFiPSEntryListInput: Data.ClientFile.MISFiPSEntryListInput =
+    new Data.ClientFile.MISFiPSEntryListInput();
 
-  taskTableRefName: string = "taskAssignedToMeFDataTableRef";
   mounted() {
-    Action.TaskList.Suspend.interested(this.getActiveTLAllocatedWithDelay);
-    this.getActiveTaskListAllocatedGrid();
+    this.getSceheduledPaymentList();
   }
 
   destroyed() {
-    Action.TaskList.Suspend.notInterested(this.getActiveTLAllocatedWithDelay);
+    Action.TaskList.Suspend.notInterested(this.getSceheduledPaymentList);
   }
 
-  getActiveTLAllocatedWithDelay() {
-    setTimeout(() => {
-      this.getActiveTaskListAllocatedGrid();
-    }, 1000);
-  }
-  getActiveTaskListAllocatedGrid() {
-    Action.ClientFile.GetSceheduledPaymentList.execute((output) => {
-      this.misFiPSEntryList = output.misFiPSEntryList;
-    });
+  getSceheduledPaymentList() {
+    this.misFiPSEntryListInput.fromDate = "2022-12-01";
+    this.misFiPSEntryListInput.toDate = "2022-12-31";
+    this.misFiPSEntryListInput.offset = 0;
+    this.misFiPSEntryListInput.count = 100;
+    Action.ClientFile.GetSceheduledPaymentList.execute(
+      this.misFiPSEntryListInput,
+      (output) => {
+        this.misFiPSEntryListOutput = output;
+        this.misFiPSEntryList = output.misFiPSEntryList;
+      }
+    );
   }
 
   gotoFile(item: any) {

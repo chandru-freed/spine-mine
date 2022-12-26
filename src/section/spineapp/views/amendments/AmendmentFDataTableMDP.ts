@@ -1,5 +1,7 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
+import FCellTextMDP from "@/components/generic/table/cell/FCellTextMDP";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
@@ -21,15 +23,15 @@ export default class AmendmentsFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Amendment Token",
         dataSelectorKey: "amndToken",
-        columnCellMDP: new FCellStatusMDP({}),
+        columnCellMDP: new FCellTextMDP({}),
       })
       .addColumn({
         label: "Created Date",
-        dataSelectorKey: "createdDate",
-        columnCellMDP: new FCellStatusMDP({}),
+        dataSelectorKey: "createdOn",
+        columnCellMDP: new FCellDateMDP(),
       })
       .addColumn({
-        label: "Cancel",
+        label: "Action",
         dataSelectorKey: "amndToken",
         columnCellMDP: new FCellBtnMDP({
           color: "deep-purple",

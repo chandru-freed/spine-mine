@@ -34,7 +34,7 @@ export default class Amendment extends ModelVue {
     { text: "Created Date", value: "createdDate" },
     { text: "Cancel", value: "amndToken" },
   ];
-  activeAendmentList: Data.AmendmentList.GetActiveAmendmentList[] = [];
+  activeAendmentList: Data.ClientFile.AmendmentList[] = [];
   search: string = "";
 
   mounted() {
@@ -42,8 +42,8 @@ export default class Amendment extends ModelVue {
   }
 
   getActiveAmendmentList() {
-    Action.Amendment.getActiveAmendmentList.execute((output) => {
-      this.activeAendmentList = output;
+    Action.ClientFile.GetActiveAmendmentList.execute((output) => {
+      this.activeAendmentList = output.AmendmentList;
     });
   }
 

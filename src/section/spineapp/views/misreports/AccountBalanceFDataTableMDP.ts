@@ -1,8 +1,8 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
-import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
-import FCellTaskMDP from "@/components/generic/table/cell/FCellTaskMDP";
-import FCellTaskStatusMDP from "@/components/generic/table/cell/FCellTaskStatusMDP";
+import FCellNameMDP from "@/components/generic/table/cell/FCellNameMDP";
+import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
@@ -29,22 +29,14 @@ export default class MISReportsFDataTableMDP extends FDataTableMDP {
       }),
     })
       .addColumn({
-        label: "Client",
+        label: "Client Name",
         dataSelectorKey: "displayId",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
+        columnCellMDP: new FCellNameMDP({}),
       })
       .addColumn({
         label: "Amount",
         dataSelectorKey: "spaAmount",
-        columnCellMDP: new FCellTaskMDP({
-          color: "primary",
-        }),
+        columnCellMDP: new FCellCurrencyMDP({}),
       })
       .addColumn({
         label: "Payment Date",
@@ -52,35 +44,13 @@ export default class MISReportsFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellDateTimeMDP(),
       })
       .addColumn({
-        label: "Status",
-        dataSelectorKey: "taskState",
-        columnCellMDP: new FCellTaskStatusMDP(),
-      })
-      .addColumn({
-        label: "Allocated On",
-        dataSelectorKey: "allocatedTime",
-        columnCellMDP: new FCellDateTimeMDP(),
+        label: "Mobile No",
+        dataSelectorKey: "mobile",
+        columnCellMDP: new FCellPhoneMDP(),
       });
   }
 
   handleClientFileClick(item: any) {
     this.parent.gotoFile(item);
-  }
-
-  handleSuspendClick(item: any) {
-    return new Promise((resolve) => {
-      console.log(item);
-      this.parent.handleSuspendClick(item);
-    });
-  }
-
-  addMyClientFile(item: any) {
-    return new Promise((res) => {
-      this.parent.showRegisterMyCFForm = true;
-    });
-  }
-
-  handleClientClick(item: any) {
-    this.parent.gotoClient(item.taskInput.clRegistrationDetails.clientId);
   }
 }

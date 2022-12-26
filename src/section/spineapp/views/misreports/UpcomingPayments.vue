@@ -5,11 +5,11 @@
     <!-- MIS REPORTS TAB -->
     <v-card>
       <component
-        v-if="!!misReportsFDataTableMetaData"
-        :ref="misReportsFDataTableMetaData.myRefName"
-        :is="misReportsFDataTableMetaData.componentName"
+        v-if="!!upcomingPaymentsFDataTableMetaData"
+        :ref="upcomingPaymentsFDataTableMetaData.myRefName"
+        :is="upcomingPaymentsFDataTableMetaData.componentName"
         :value="selectModel(allocatedTaskList, undefined)"
-        v-bind="misReportsFDataTableMetaData.props"
+        v-bind="upcomingPaymentsFDataTableMetaData.props"
       ></component>
     </v-card>
   </div>
@@ -26,7 +26,7 @@ import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
 import moment from "moment";
 import FBtn from "@/components/generic/FBtn.vue";
 import Helper from "../../util/Helper";
-import MISReportsFDataTableMDP from "./MISReportsFDataTableMDP";
+import UpcomingPaymentsFDataTableMDP from "./UpcomingPaymentsFDataTableMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FForm from "@/components/generic/form/FForm.vue";
@@ -39,16 +39,14 @@ import FForm from "@/components/generic/form/FForm.vue";
     FForm,
   },
 })
-export default class MISReports extends ModelVue {
+export default class UpcomingPayments extends ModelVue {
   tab = 0;
 
   selected = [];
   search = "";
 
-  allocatedTaskList: Data.TaskList.GetActiveTaskListAllocatedGrid[] = [];
-  suspendTaskInput: Data.TaskList.SuspendTaskInput =
-    new Data.TaskList.SuspendTaskInput();
-  showSuspendForm: boolean = false;
+  misFiPSEntryList: Data.ClientFile.MISFiPSEntry[] = [];
+
   taskTableRefName: string = "taskAssignedToMeFDataTableRef";
   mounted() {
     Action.TaskList.Suspend.interested(this.getActiveTLAllocatedWithDelay);
@@ -65,8 +63,8 @@ export default class MISReports extends ModelVue {
     }, 1000);
   }
   getActiveTaskListAllocatedGrid() {
-    Action.TaskList.GetActiveTaskListAllocated.execute((output) => {
-      this.allocatedTaskList = output;
+    Action.ClientFile.GetSceheduledPaymentList.execute((output) => {
+      this.misFiPSEntryList = output.misFiPSEntryList;
     });
   }
 
@@ -77,13 +75,6 @@ export default class MISReports extends ModelVue {
     });
   }
 
-  gotoTask(item: any) {
-    this.$router.push({
-      name: "Root.CFTaskRedirect",
-      params: { clientFileNumber: item.cid, taskId: item.taskId },
-    });
-  }
-
   gotoClient(clientId: string) {
     this.$router.push({
       name: "Root.Client.ClientDetails",
@@ -91,21 +82,11 @@ export default class MISReports extends ModelVue {
     });
   }
 
-  handleSuspendClick(item: any) {
-    this.showSuspendForm = true;
-    this.suspendTaskInput.taskId = item.taskId;
-  }
-
-  get misReportsFDataTableMetaData() {
-    return new MISReportsFDataTableMDP({
+  get upcomingPaymentsFDataTableMetaData() {
+    return new UpcomingPaymentsFDataTableMDP({
       parent: this,
       myRefName: this.taskTableRefName,
     }).getMetaData();
-  }
-
-  clearTableAndForm() {
-    this.showSuspendForm = false;
-    (this.$refs[this.taskTableRefName] as any).clearSelectedItems();
   }
 }
 </script>

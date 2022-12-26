@@ -10,11 +10,11 @@ export default class MISReportsFTabMDP extends FTabMDP {
     this.taskRoot = taskRoot;
 
     this.addTab({
-      tabName: "Payments",
-      routerName: "Root.TaskList.TaskAssignedToMe",
+      tabName: "Upcoming Payments",
+      routerName: "Root.MISReports.UpcomingPayments",
     }).addTab({
-      tabName: "Accounts",
-      routerName: "Root.TaskList.TaskPool",
+      tabName: "Account Balance",
+      routerName: "Root.MISReports.AccountBalance",
     });
   }
 

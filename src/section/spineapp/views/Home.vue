@@ -124,7 +124,7 @@
       </div>
 
        <div class="col-4">
-        <v-card class="mx-auto" outlined @click="gotoRouter('Root.MISReports')">
+        <v-card class="mx-auto" outlined @click="gotoRouter('Root.MISReports.UpcomingPayments')">
           <v-list-item three-line>
             <v-list-item-content>
               <div class="text-overline mb-4">MIS Reports</div>

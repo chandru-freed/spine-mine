@@ -306,6 +306,14 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Retry.interested(this.getExecutiveTaskDetailsHandler);
 
+        Action.TaskList.CancelFlow.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+      Action.TaskList.CancelTask.interested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+
     // Ohter Action list
     Action.ClientFile.Activate.interested(
       this.getTaskDetailsAndFileSummaryWithDelay
@@ -435,6 +443,13 @@ export default class CFTaskDetails extends Vue {
 
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
+
+    Action.TaskList.CancelFlow.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+      Action.TaskList.CancelTask.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
 
     // Ohter Action list
     Action.ClientFile.Activate.notInterested(

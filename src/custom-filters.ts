@@ -10,6 +10,7 @@ export default class CustomFilters {
     this.duration();
     this.toDateTime();
     this.toDateTimeWithDuration();
+    this.toDateTimeAndDuration();
     this.toDateWithDuration();
     this.parseJson();
     this.emptyObject();
@@ -91,6 +92,17 @@ export default class CustomFilters {
 
   private static toDateTimeWithDuration() {
     Vue.filter("date-time-duration", (value: any) => {
+      return (
+        Moment(new Date(value)).format("MMMM Do YYYY, h:mm:ss a") +
+        " ( " +
+        Moment(new Date(value)).fromNow() +
+        " ) "
+      );
+    });
+  }
+
+  private static toDateTimeAndDuration() {
+    Vue.filter("dateTimeDuration", (value: any) => {
       return (
         Moment(new Date(value)).format("MMMM Do YYYY, h:mm:ss a") +
         " ( " +

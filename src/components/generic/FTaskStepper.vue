@@ -30,6 +30,26 @@
           "
           v-bind="suspendTaskFFormMetaData.props"
         ></component>
+        <component
+          v-if="cancelTaskForm"
+          :ref="cancelTaskFFormMetaData.myRefName"
+          :is="cancelTaskFFormMetaData.componentName"
+          :value="selectModel(cancelTaskInput, undefined)"
+          @input="
+            (newValue) => updateModel(cancelTaskInput, newValue, undefined)
+          "
+          v-bind="cancelTaskFFormMetaData.props"
+        ></component>
+        <component
+          v-if="cancelFlowForm"
+          :ref="cancelFlowFFormMetaData.myRefName"
+          :is="cancelFlowFFormMetaData.componentName"
+          :value="selectModel(cancelTaskInput, undefined)"
+          @input="
+            (newValue) => updateModel(cancelTaskInput, newValue, undefined)
+          "
+          v-bind="cancelFlowFFormMetaData.props"
+        ></component>
         <v-card color="grey lighten-4" flat min-height="600">
           <v-alert
             v-if="taskRescue"
@@ -43,7 +63,7 @@
               taskDetails.exceptionInfo.exceptionSummary
             }}</v-card-text>
             <v-card-text class="pa-1">{{
-              taskDetails.exceptionInfo.exceptionTime | date-time-duration
+              taskDetails.exceptionInfo.exceptionTime | dateTimeDuration
             }}</v-card-text>
           </v-alert>
 
@@ -59,7 +79,7 @@
               >
               <v-spacer></v-spacer>
               <v-btn
-                v-if="!taskDetails.isSuspended"
+                v-if="isTaskActionable() && !taskDetails.isSuspended"
                 outlined
                 class="mr-2 elevation-0"
                 color="primary"
@@ -68,7 +88,7 @@
                 >Suspend</v-btn
               >
               <v-btn
-                v-if="taskDetails.isSuspended"
+                v-if="isTaskActionable() && taskDetails.isSuspended"
                 outlined
                 class="mr-2 elevation-0"
                 color="primary"
@@ -92,14 +112,23 @@
                 @click="rescueTask(step)"
                 >Rescue</v-btn
               >
-
               <v-btn
                 class="mr-2 elevation-0"
                 color="primary"
                 small
-                v-if="taskRescue"
-                @click="retryTask()"
-                >Retry</v-btn
+                outlined
+                v-if="isTaskActionable()"
+                @click="cancelFlow()"
+                >Cancel Flow</v-btn
+              >
+              <v-btn
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                outlined
+                v-if="isTaskActionable()"
+                @click="cancelTask()"
+                >Cancel Task</v-btn
               >
               <v-spacer></v-spacer>
               <v-btn
@@ -176,6 +205,8 @@ import FBPaymentPlan from "./file/paymentPlan/balloonPaymentPlan/FBPaymentPlan.v
 import FSuspendTaskFFormMDP from "./suspend/FSuspendTaskFFormMDP";
 import CMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/step1/CMSFTCDraftPaymentStep.vue";
 import CNSFMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/step1/CNSFMSFTCDraftPaymentStep.vue";
+import FCancelFlowFFormMDP from "./cancelTask/FCancelFlowFFormMDP";
+import FCancelTaskFFormMDP from "./cancelTask/FCancelTaskFFormMDP";
 
 @Component({
   components: {
@@ -194,7 +225,7 @@ import CNSFMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enroll
     FCFPaymentPlan,
     FBPaymentPlan,
     CMSFTCDraftPaymentStep,
-    CNSFMSFTCDraftPaymentStep
+    CNSFMSFTCDraftPaymentStep,
   },
 })
 export default class FTaskStepper extends ModelVue {
@@ -203,6 +234,9 @@ export default class FTaskStepper extends ModelVue {
 
   suspendTaskInput: Data.TaskList.SuspendTaskInput =
     new Data.TaskList.SuspendTaskInput();
+
+  cancelTaskInput: Data.TaskList.CancelFlowAndCancelTaskInput =
+    new Data.TaskList.CancelFlowAndCancelTaskInput();
 
   taskId = this.$route.params.taskId;
 
@@ -222,6 +256,8 @@ export default class FTaskStepper extends ModelVue {
 
   selectedStep = 0;
   suspendTask: boolean = false;
+  cancelTaskForm: boolean = false;
+  cancelFlowForm: boolean = false;
 
   // get selectedStep(): number {
   //   if (this.$route.query.step) {
@@ -252,6 +288,17 @@ export default class FTaskStepper extends ModelVue {
 
   get suspendTaskFFormMetaData() {
     return new FSuspendTaskFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
+
+  get cancelTaskFFormMetaData() {
+    return new FCancelTaskFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
+  get cancelFlowFFormMetaData() {
+    return new FCancelFlowFFormMDP({
       taskRoot: this,
     }).getMetaData();
   }
@@ -301,7 +348,45 @@ export default class FTaskStepper extends ModelVue {
   }
 
   retryTask() {
-    Task.Action.retryTask({taskId: this.taskId});
+    return Task.Action.retryTask({ taskId: this.taskId });
+  }
+
+  isTaskActionable() {
+    return Task.isTaskActionable(this.taskDetails.taskState);
+  }
+
+  cancelFlowRestForm() {
+    this.cancelTaskInput = new Data.TaskList.CancelFlowAndCancelTaskInput();
+  }
+
+  cancelFlow() {
+    this.cancelFlowForm = true;
+  }
+
+  closeCancelFlow() {
+    this.cancelFlowForm = false;
+  }
+
+  handleCancelFlowClick() {
+    this.cancelTaskInput.taskId = this.taskId;
+    Action.TaskList.CancelFlow.execute(this.cancelTaskInput, (output) => {
+      this.closeCancelFlow();
+      this.cancelFlowRestForm();
+    });
+  }
+
+  cancelTask() {
+    this.cancelTaskForm = true;
+  }
+  closeCancelTask() {
+    this.cancelTaskForm = false;
+  }
+  handleCancelTaskClick() {
+    this.cancelTaskInput.taskId = this.taskId;
+    Action.TaskList.CancelTask.execute(this.cancelTaskInput, (output) => {
+      this.closeCancelTask();
+      this.cancelFlowRestForm();
+    });
   }
 
   suspendTaskAdd() {

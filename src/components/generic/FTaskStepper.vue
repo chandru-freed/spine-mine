@@ -78,7 +78,7 @@
                 >Previous</v-btn
               >
               <v-spacer></v-spacer>
-              <v-btn
+              <!-- <v-btn
                 v-if="isTaskActionable() && !taskDetails.isSuspended"
                 outlined
                 class="mr-2 elevation-0"
@@ -95,7 +95,7 @@
                 small
                 @click="resumeTaskOn()"
                 >Resume</v-btn
-              >
+              > -->
               <v-btn
                 class="mr-2 elevation-0"
                 v-if="taskStateNotStarted"
@@ -112,7 +112,7 @@
                 @click="rescueTask(step)"
                 >Rescue</v-btn
               >
-              <v-btn
+              <!-- <v-btn
                 class="mr-2 elevation-0"
                 color="primary"
                 small
@@ -129,8 +129,36 @@
                 v-if="isTaskActionable()"
                 @click="cancelTask()"
                 >Cancel Task</v-btn
-              >
+              > -->
               <v-spacer></v-spacer>
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    dense
+                    small
+                    outlined
+                    class="mr-2"
+                  >
+                    Actions
+                    <v-icon small>mdi-chevron-down</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(action, index) in filteredActions"
+                    :key="index"
+                    link
+                    :disabled="!action.condition()"
+                    @click="() => action.handleOtherActionClick()"
+                  >
+                    <v-list-item-title>{{ action.label }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
               <v-btn
                 class="mr-2"
                 small
@@ -207,6 +235,7 @@ import CMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollmen
 import CNSFMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/step1/CNSFMSFTCDraftPaymentStep.vue";
 import FCancelFlowFFormMDP from "./cancelTask/FCancelFlowFFormMDP";
 import FCancelTaskFFormMDP from "./cancelTask/FCancelTaskFFormMDP";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -258,6 +287,44 @@ export default class FTaskStepper extends ModelVue {
   suspendTask: boolean = false;
   cancelTaskForm: boolean = false;
   cancelFlowForm: boolean = false;
+  filteredActionsLocal: any = [];
+
+  get filteredActions() {
+    this.filteredActionsLocal = [
+      {
+        label: "Suspend",
+        handleOtherActionClick: this.suspendTaskAdd,
+        condition: this.suspendStatus,
+      },
+      {
+        label: "Resume",
+        handleOtherActionClick: this.resumeTaskOn,
+        condition: this.resumeStatus,
+      },
+      {
+        label: "Cancel Flow",
+        handleOtherActionClick: this.cancelFlow,
+        condition: this.isTaskActionable,
+      },
+      {
+        label: "Cancel Task",
+        handleOtherActionClick: this.cancelTask,
+        condition: this.isTaskActionable,
+      },
+    ];
+    return this.filteredActionsLocal;
+  }
+
+  set filteredActions(value: any) {
+    this.filteredActions = value;
+  }
+
+  suspendStatus() {
+    return this.isTaskActionable() && !this.taskDetails.isSuspended;
+  }
+  resumeStatus() {
+    return this.isTaskActionable() && this.taskDetails.isSuspended;
+  }
 
   // get selectedStep(): number {
   //   if (this.$route.query.step) {
@@ -335,7 +402,9 @@ export default class FTaskStepper extends ModelVue {
   }
 
   resumeTaskOn() {
-    Action.TaskList.Resume.execute1(this.taskId, (output) => {});
+    Action.TaskList.Resume.execute1(this.taskId, (output) => {
+      FSnackbar.success("Succesfully assigned");
+    });
   }
 
   rescueTask(step: any) {
@@ -372,6 +441,7 @@ export default class FTaskStepper extends ModelVue {
     Action.TaskList.CancelFlow.execute(this.cancelTaskInput, (output) => {
       this.closeCancelFlow();
       this.cancelFlowRestForm();
+      FSnackbar.success("Succesfully assigned");
     });
   }
 
@@ -386,6 +456,7 @@ export default class FTaskStepper extends ModelVue {
     Action.TaskList.CancelTask.execute(this.cancelTaskInput, (output) => {
       this.closeCancelTask();
       this.cancelFlowRestForm();
+      FSnackbar.success("Succesfully assigned");
     });
   }
 

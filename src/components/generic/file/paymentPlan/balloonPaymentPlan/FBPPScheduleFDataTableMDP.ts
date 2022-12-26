@@ -48,6 +48,19 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             label: "Modify",
             onClick: (itemList) => this.handleModifyClick(itemList),
             type: ActionType.OTHERS,
+        })
+        
+        .addAction({
+            label: "Download Excel",
+            onClick: (item) => this.handleDownloadExcel(),
+            type: ActionType.OTHERS,
+            noSelect: true
+        })
+        .addAction({
+            label: "Upload Excel",
+            onClick: (itemList) => this.handleUploadExcel(),
+            type: ActionType.OTHERS,
+            noSelect: true
         });
         // .addAction({
         //     label: "Add Entry",
@@ -105,7 +118,19 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             this.parent.showModifyForm = true;
         });
     }
+    handleDownloadExcel() {
+        return new Promise(res => {
+            this.parent.downloadExcel();
+        })
+    }
 
+    handleUploadExcel() {
+        return new Promise(res => {
+            this.parent.handleUploadClick();
+        })
+    }
+
+    
     handleAddEntryClick() {
         return new Promise(resolve => {
             this.parent.showAddPsEntryForm = true;

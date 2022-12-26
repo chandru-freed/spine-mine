@@ -121,6 +121,7 @@ export default class PrepareAmendmentTask extends ModelVue {
     this.getPSPlanInfo();
     Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfo)
     Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getPSPlanInfo);
+    Action.Spine.UploadPaymentSchedulePlanExcel.interested(this.getPSPlanInfo);
   }
 
   destroyed() {

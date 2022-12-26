@@ -72,6 +72,27 @@
             ></component>
 
             <component
+              v-if="showUploadForm"
+              :is="uploadExcelFFormMetaData.componentName"
+              :ref="uploadExcelFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  uploadPSPlanExcelInput,
+                  uploadExcelFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    uploadPSPlanExcelInput,
+                    newValue,
+                    uploadExcelFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="uploadExcelFFormMetaData.props"
+            ></component>
+
+            <component
               v-if="showModifyForm"
               :is="modifyPsEntryFFormMetaData.componentName"
               :ref="modifyPsEntryFFormMetaData.myRefName"
@@ -164,6 +185,8 @@ import FBPPScheduleFDataTableMDP from './FBPPScheduleFDataTableMDP';
 import AddBPsEntryFFormMDP from './AddBPsEntryFFormMDP';
 import ModifyBPsEntryFFormMDP from './ModifyBPsEntryFFormMDP';
 import FBFeeFDataTableMDP from './FBFeeFDataTableMDP';
+import Helper from "@/section/spineapp/util/Helper";
+import UploadExcelFFormMDP from './UploadExcelFFormMDP';
 @Component({
   components: {
     FForm,
@@ -187,6 +210,9 @@ export default class FBPaymentPlan extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  showUploadForm: boolean = false;
+  uploadPSPlanExcelInput: Data.Spine.UploadPSPlanExcelInput = new Data.Spine.UploadPSPlanExcelInput();
   
 
   get clientFileId() {
@@ -248,12 +274,35 @@ export default class FBPaymentPlan extends ModelVue {
   resetFormsTableAndData() {
     this.showAddPsEntryForm = false;
     this.showModifyForm = false;
+    this.showUploadForm = false;
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
     this.modifyAmountPSEListInput =
       new Data.ClientFile.ModifyAmountWithFixedTenureInput();
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();
+
+    this.uploadPSPlanExcelInput = new Data.Spine.UploadPSPlanExcelInput();
+  }
+
+  downloadExcel() {
+    
+    const {psPlanId} = this.modelValue.taskInput.existingPaymentPlan;
+    const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${psPlanId}`
+    const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`
+    Helper.downloadFile(url, fileName);
+  }
+
+  uploadExcel() {
+    this.uploadPSPlanExcelInput.newPSPlanId = this.modelValue.taskInput.existingPaymentPlan.psPlanId;
+    Action.Spine.UploadPaymentSchedulePlanExcel.execute(this.uploadPSPlanExcelInput, output => {
+      this.resetFormsTableAndData();
+    });
+    // Action.Spine.UploadPaymentPlanExcel.execute1()
+  }
+
+  handleUploadClick() {
+    this.showUploadForm = true;
   }
 
   get fPaymentScheduleFDataTableMetaData() {
@@ -279,6 +328,10 @@ export default class FBPaymentPlan extends ModelVue {
 
   get modifyPsEntryFFormMetaData() {
     return new ModifyBPsEntryFFormMDP({ parent: this }).getMetaData();
+  }
+
+  get uploadExcelFFormMetaData() {
+    return new UploadExcelFFormMDP({parent: this}).getMetaData();
   }
 
   @Prop()

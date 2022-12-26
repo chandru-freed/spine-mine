@@ -16,7 +16,7 @@
 
             <v-list-item-action>
               <!-- <v-list-item-action-text >{{fileSummary.clientFileStatus}} </v-list-item-action-text> -->
-              <v-chip x-small class="mx-2">{{ fileSummary.clientFileStatus }}</v-chip>
+              <v-chip x-small class="mx-2">{{ fileSummary.clientFileStatus.name }}</v-chip>
             </v-list-item-action>
           </v-list-item>
           <v-divider></v-divider>

@@ -80,7 +80,7 @@
             <component
               :is="fcfPaymentTableMetaData.componentName"
               :ref="fcfPaymentTableMetaData.myRefName"
-              :value="fiPaymentList"
+              :value="fiPaymentSPAList"
               v-bind="fcfPaymentTableMetaData.props"
             ></component>
           </v-card>
@@ -92,6 +92,15 @@
               :ref="fFeeFDataTableMetaData.myRefName"
               :value="subscriptionFeeScheduleList"
               v-bind="fFeeFDataTableMetaData.props"
+            ></component>
+          </v-card>
+          <v-divider></v-divider>
+          <v-card flat class="mt-5">
+            <component
+              :is="fcfPaymentTableMetaData.componentName"
+              :ref="fcfPaymentTableMetaData.myRefName"
+              :value="fiPaymentMSFList"
+              v-bind="fcfPaymentTableMetaData.props"
             ></component>
           </v-card>
         </v-tab-item>
@@ -151,6 +160,9 @@ import FCFPaymentFDataTableMDP from "./FCFPaymentFDataTableMDP";
 export default class FCFPaymentPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
   fiPaymentList: Data.ClientFile.FiPayment;
+
+  spaList: any = [];
+  msfList: any = [];
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
@@ -172,7 +184,7 @@ export default class FCFPaymentPlan extends ModelVue {
   get psEntrySchelduledList() {
     return this.paymentPlan.paymentScheduleList;
     // return this.paymentPlan.paymentScheduleList.filter(
-    //   (psEntry: any) => psEntry.status === "SCHEDULED" || psEntry.status === "SKIPPED" 
+    //   (psEntry: any) => psEntry.status === "SCHEDULED" || psEntry.status === "SKIPPED"
     // );
   }
 
@@ -236,10 +248,21 @@ export default class FCFPaymentPlan extends ModelVue {
 
   //ACTION
   getFiPaymentList() {
-    Action.ClientFile.GetFiPaymentList.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetFiPaymentList.execute1(this.clientFileId, (output) => {
+      this.spaList = output.filter(
+        (psEntry: any) =>(psEntry.spaAmount+psEntry.feeAmount) > psEntry.msfAmount 
+      );
+      this.msfList = output.filter(
+        (psEntry: any) =>  psEntry.msfAmount > psEntry.spaAmount
+      );
+    });
+  }
+
+  get fiPaymentSPAList() {
+    return this.spaList;
+  }
+  get fiPaymentMSFList() {
+    return this.msfList;
   }
 
   get fFeeFDataTableMetaData() {

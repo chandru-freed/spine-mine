@@ -161,8 +161,6 @@ export default class FCFPaymentPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
   fiPaymentList: Data.ClientFile.FiPayment;
 
-  spaList: any = [];
-  msfList: any = [];
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
@@ -170,6 +168,8 @@ export default class FCFPaymentPlan extends ModelVue {
     new Data.ClientFile.AddPSEntryInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
+
+  getFiPaymentListLocal: any = [];
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
@@ -225,6 +225,7 @@ export default class FCFPaymentPlan extends ModelVue {
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();
+    this.getFiPaymentList();
   }
 
   get fPaymentScheduleFDataTableMetaData() {
@@ -244,25 +245,39 @@ export default class FCFPaymentPlan extends ModelVue {
 
   mounted() {
     this.getFiPaymentList();
+
+    Action.Spine.PresentPSEntry.interested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentList();
+      }, 1000);
+    });
+  }
+
+  public destroyed() {
+    Action.Spine.PresentPSEntry.notInterested((output) => {
+      setTimeout(() => {
+        this.getFiPaymentList();
+      }, 1000);
+    });
   }
 
   //ACTION
   getFiPaymentList() {
     Action.ClientFile.GetFiPaymentList.execute1(this.clientFileId, (output) => {
-      this.spaList = output.filter(
-        (psEntry: any) =>(psEntry.spaAmount+psEntry.feeAmount) > psEntry.msfAmount 
-      );
-      this.msfList = output.filter(
-        (psEntry: any) =>  psEntry.msfAmount > psEntry.spaAmount
-      );
+      this.getFiPaymentListLocal = output;
     });
   }
 
   get fiPaymentSPAList() {
-    return this.spaList;
+    return this.getFiPaymentListLocal.filter(
+      (psEntry: any) =>
+        psEntry.spaAmount + psEntry.feeAmount > psEntry.msfAmount
+    );
   }
   get fiPaymentMSFList() {
-    return this.msfList;
+    return this.getFiPaymentListLocal.filter(
+      (psEntry: any) => psEntry.msfAmount > psEntry.spaAmount
+    );
   }
 
   get fFeeFDataTableMetaData() {

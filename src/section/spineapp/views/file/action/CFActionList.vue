@@ -170,6 +170,11 @@ export default class CFActionList extends Vue {
         //   command: this.createEnrollmentFlowV1,
         // },
         {
+          actionName: "Collect First MSF",
+          icon: "mdi-chevron-right",
+          command: this.createCollectFirstMSF,
+        },
+        {
           actionName: "OnBoarding Call",
           icon: "mdi-chevron-right",
           command: this.createWelcomeCall,
@@ -293,6 +298,18 @@ export default class CFActionList extends Vue {
 
   createEnrollmentFlowV1() {
     Action.Spine.CreateEnrollment.execute2(
+      this.clientFileBasicInfo.clientFileNumber,
+      "V1Net",
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+   createCollectFirstMSF() {
+    Action.Spine.CreateCollectFirstMSF.execute2(
       this.clientFileBasicInfo.clientFileNumber,
       "V1Net",
       (output) => {

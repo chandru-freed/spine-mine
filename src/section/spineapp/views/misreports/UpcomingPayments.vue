@@ -82,8 +82,9 @@ export default class UpcomingPayments extends ModelVue {
   }
 
   getSceheduledPaymentList() {
-    this.misFiPSEntryListInput.fromDate = "2022-12-01";
-    this.misFiPSEntryListInput.toDate = "2022-12-31";
+    this.misFiPSEntryListInput.fromDate =
+      this.misFiPSEntrySearchFormLocal.fromDate;
+    this.misFiPSEntryListInput.toDate = this.misFiPSEntrySearchFormLocal.toDate;
     this.misFiPSEntryListInput.offset = 0;
     this.misFiPSEntryListInput.count = 100;
     Action.ClientFile.GetSceheduledPaymentList.execute(

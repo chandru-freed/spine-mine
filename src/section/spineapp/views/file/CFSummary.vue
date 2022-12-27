@@ -16,7 +16,11 @@
 
             <v-list-item-action>
               <!-- <v-list-item-action-text >{{fileSummary.clientFileStatus}} </v-list-item-action-text> -->
+              <div class="d-flex">
+              <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
+              <v-chip x-small class="mx-2" v-if="clientFileBasicInfo.isFirstMSFPaid" color="green" outlined>FMSF Paid</v-chip>
               <v-chip x-small class="mx-2">{{ fileSummary.clientFileStatus.name }}</v-chip>
+              </div>
             </v-list-item-action>
           </v-list-item>
           <v-divider></v-divider>

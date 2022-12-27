@@ -1,6 +1,5 @@
 <template>
   <div>
-    jello
     <template v-if="!taskStateTerminated">
       <component
         :ref="stepperMetaData.myRefName"

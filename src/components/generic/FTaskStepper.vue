@@ -30,6 +30,26 @@
           "
           v-bind="suspendTaskFFormMetaData.props"
         ></component>
+        <component
+          v-if="cancelTaskForm"
+          :ref="cancelTaskFFormMetaData.myRefName"
+          :is="cancelTaskFFormMetaData.componentName"
+          :value="selectModel(cancelTaskInput, undefined)"
+          @input="
+            (newValue) => updateModel(cancelTaskInput, newValue, undefined)
+          "
+          v-bind="cancelTaskFFormMetaData.props"
+        ></component>
+        <component
+          v-if="cancelFlowForm"
+          :ref="cancelFlowFFormMetaData.myRefName"
+          :is="cancelFlowFFormMetaData.componentName"
+          :value="selectModel(cancelTaskInput, undefined)"
+          @input="
+            (newValue) => updateModel(cancelTaskInput, newValue, undefined)
+          "
+          v-bind="cancelFlowFFormMetaData.props"
+        ></component>
         <v-card color="grey lighten-4" flat min-height="600">
           <v-alert
             v-if="taskRescue"
@@ -43,7 +63,7 @@
               taskDetails.exceptionInfo.exceptionSummary
             }}</v-card-text>
             <v-card-text class="pa-1">{{
-              taskDetails.exceptionInfo.exceptionTime | date-time-duration
+              taskDetails.exceptionInfo.exceptionTime | dateTimeDuration
             }}</v-card-text>
           </v-alert>
 
@@ -58,8 +78,8 @@
                 >Previous</v-btn
               >
               <v-spacer></v-spacer>
-              <v-btn
-                v-if="!taskDetails.isSuspended"
+              <!-- <v-btn
+                v-if="isTaskActionable() && !taskDetails.isSuspended"
                 outlined
                 class="mr-2 elevation-0"
                 color="primary"
@@ -68,14 +88,14 @@
                 >Suspend</v-btn
               >
               <v-btn
-                v-if="taskDetails.isSuspended"
+                v-if="isTaskActionable() && taskDetails.isSuspended"
                 outlined
                 class="mr-2 elevation-0"
                 color="primary"
                 small
                 @click="resumeTaskOn()"
                 >Resume</v-btn
-              >
+              > -->
               <v-btn
                 class="mr-2 elevation-0"
                 v-if="taskStateNotStarted"
@@ -92,16 +112,53 @@
                 @click="rescueTask(step)"
                 >Rescue</v-btn
               >
-
+              <!-- <v-btn
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                outlined
+                v-if="isTaskActionable()"
+                @click="cancelFlow()"
+                >Cancel Flow</v-btn
+              >
               <v-btn
                 class="mr-2 elevation-0"
                 color="primary"
                 small
-                v-if="taskRescue"
-                @click="retryTask()"
-                >Retry</v-btn
-              >
+                outlined
+                v-if="isTaskActionable()"
+                @click="cancelTask()"
+                >Cancel Task</v-btn
+              > -->
               <v-spacer></v-spacer>
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    dense
+                    small
+                    outlined
+                    class="mr-2"
+                  >
+                    Actions
+                    <v-icon small>mdi-chevron-down</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(action, index) in filteredActions"
+                    :key="index"
+                    link
+                    :disabled="!action.condition()"
+                    @click="() => action.handleOtherActionClick()"
+                  >
+                    <v-list-item-title>{{ action.label }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
               <v-btn
                 class="mr-2"
                 small
@@ -176,6 +233,9 @@ import FBPaymentPlan from "./file/paymentPlan/balloonPaymentPlan/FBPaymentPlan.v
 import FSuspendTaskFFormMDP from "./suspend/FSuspendTaskFFormMDP";
 import CMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/step1/CMSFTCDraftPaymentStep.vue";
 import CNSFMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/step1/CNSFMSFTCDraftPaymentStep.vue";
+import FCancelFlowFFormMDP from "./cancelTask/FCancelFlowFFormMDP";
+import FCancelTaskFFormMDP from "./cancelTask/FCancelTaskFFormMDP";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -194,7 +254,7 @@ import CNSFMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enroll
     FCFPaymentPlan,
     FBPaymentPlan,
     CMSFTCDraftPaymentStep,
-    CNSFMSFTCDraftPaymentStep
+    CNSFMSFTCDraftPaymentStep,
   },
 })
 export default class FTaskStepper extends ModelVue {
@@ -203,6 +263,9 @@ export default class FTaskStepper extends ModelVue {
 
   suspendTaskInput: Data.TaskList.SuspendTaskInput =
     new Data.TaskList.SuspendTaskInput();
+
+  cancelTaskInput: Data.TaskList.CancelFlowAndCancelTaskInput =
+    new Data.TaskList.CancelFlowAndCancelTaskInput();
 
   taskId = this.$route.params.taskId;
 
@@ -222,6 +285,46 @@ export default class FTaskStepper extends ModelVue {
 
   selectedStep = 0;
   suspendTask: boolean = false;
+  cancelTaskForm: boolean = false;
+  cancelFlowForm: boolean = false;
+  filteredActionsLocal: any = [];
+
+  get filteredActions() {
+    this.filteredActionsLocal = [
+      {
+        label: "Suspend",
+        handleOtherActionClick: this.suspendTaskAdd,
+        condition: this.suspendStatus,
+      },
+      {
+        label: "Resume",
+        handleOtherActionClick: this.resumeTaskOn,
+        condition: this.resumeStatus,
+      },
+      {
+        label: "Cancel Flow",
+        handleOtherActionClick: this.cancelFlow,
+        condition: this.isTaskActionable,
+      },
+      {
+        label: "Cancel Task",
+        handleOtherActionClick: this.cancelTask,
+        condition: this.isTaskActionable,
+      },
+    ];
+    return this.filteredActionsLocal;
+  }
+
+  set filteredActions(value: any) {
+    this.filteredActions = value;
+  }
+
+  suspendStatus() {
+    return this.isTaskActionable() && !this.taskDetails.isSuspended;
+  }
+  resumeStatus() {
+    return this.isTaskActionable() && this.taskDetails.isSuspended;
+  }
 
   // get selectedStep(): number {
   //   if (this.$route.query.step) {
@@ -252,6 +355,17 @@ export default class FTaskStepper extends ModelVue {
 
   get suspendTaskFFormMetaData() {
     return new FSuspendTaskFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
+
+  get cancelTaskFFormMetaData() {
+    return new FCancelTaskFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
+  get cancelFlowFFormMetaData() {
+    return new FCancelFlowFFormMDP({
       taskRoot: this,
     }).getMetaData();
   }
@@ -288,7 +402,9 @@ export default class FTaskStepper extends ModelVue {
   }
 
   resumeTaskOn() {
-    Action.TaskList.Resume.execute1(this.taskId, (output) => {});
+    Action.TaskList.Resume.execute1(this.taskId, (output) => {
+      FSnackbar.success("Succesfully assigned");
+    });
   }
 
   rescueTask(step: any) {
@@ -301,7 +417,47 @@ export default class FTaskStepper extends ModelVue {
   }
 
   retryTask() {
-    Task.Action.retryTask({taskId: this.taskId});
+    return Task.Action.retryTask({ taskId: this.taskId });
+  }
+
+  isTaskActionable() {
+    return Task.isTaskActionable(this.taskDetails.taskState);
+  }
+
+  cancelFlowRestForm() {
+    this.cancelTaskInput = new Data.TaskList.CancelFlowAndCancelTaskInput();
+  }
+
+  cancelFlow() {
+    this.cancelFlowForm = true;
+  }
+
+  closeCancelFlow() {
+    this.cancelFlowForm = false;
+  }
+
+  handleCancelFlowClick() {
+    this.cancelTaskInput.taskId = this.taskId;
+    Action.TaskList.CancelFlow.execute(this.cancelTaskInput, (output) => {
+      this.closeCancelFlow();
+      this.cancelFlowRestForm();
+      FSnackbar.success("Succesfully assigned");
+    });
+  }
+
+  cancelTask() {
+    this.cancelTaskForm = true;
+  }
+  closeCancelTask() {
+    this.cancelTaskForm = false;
+  }
+  handleCancelTaskClick() {
+    this.cancelTaskInput.taskId = this.taskId;
+    Action.TaskList.CancelTask.execute(this.cancelTaskInput, (output) => {
+      this.closeCancelTask();
+      this.cancelFlowRestForm();
+      FSnackbar.success("Succesfully assigned");
+    });
   }
 
   suspendTaskAdd() {

@@ -6,6 +6,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import DispositionFMiniFormMDP, { DispositionType } from "../form/field/DispositionFMiniFormMDP";
+import FSnackbar from "@/fsnackbar";
 
 export default class FSuspendTaskFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -80,6 +81,7 @@ export default class FSuspendTaskFFormMDP extends FFormMDP {
     Action.TaskList.Suspend.execute(
       this.taskRoot.suspendTaskInput,
       (output) => {
+        FSnackbar.success("Succesfully assigned");
         this.taskRoot.suspendTaskCancel();
       }
     );

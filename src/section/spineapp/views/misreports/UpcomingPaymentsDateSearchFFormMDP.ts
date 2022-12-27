@@ -5,7 +5,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 export default class UpcomingPaymentsDateSearchFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
-  constructor({taskRoot}: {taskRoot: any}) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({
       myRefName: "upcoumingPaymentsDateSearch",
     });
@@ -18,7 +18,7 @@ export default class UpcomingPaymentsDateSearchFFormMDP extends FFormMDP {
         label: "From Date",
         boundaryClass: "col-2",
         mandatory: true,
-        futureDaysDisabled: true,
+        futureDaysDisabled: false,
       })
     )
       .addField(
@@ -28,7 +28,7 @@ export default class UpcomingPaymentsDateSearchFFormMDP extends FFormMDP {
           label: "To Date",
           boundaryClass: "col-2",
           mandatory: true,
-          futureDaysDisabled: true,
+          futureDaysDisabled: false,
         })
       )
       .addAction(

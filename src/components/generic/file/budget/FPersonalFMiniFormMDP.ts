@@ -65,7 +65,12 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           dataSelectorKey: "taskOutput.budgetInfo.hasDependents",
           label: "Dependents",
           mandatory: true,
-          options: [true, false],
+          options: [
+            { id: true, name: "Yes" },
+            { id: false, name: "No" },
+          ],
+          optionLabel: "name",
+          optionValue: "id",
           boundaryClass: "col-3",
         })
       )
@@ -75,7 +80,12 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           dataSelectorKey: "taskOutput.budgetInfo.hasPets",
           label: "Has Pets",
           mandatory: true,
-          options: [true, false],
+          options: [
+            { id: true, name: "Yes" },
+            { id: false, name: "No" },
+          ],
+          optionLabel: "name",
+          optionValue: "id",
           boundaryClass: "col-3",
         })
       )
@@ -96,7 +106,12 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           label: "Has Kids",
           boundaryClass: "col-3",
           mandatory: true,
-          options: [true, false],
+          options: [
+            { id: true, name: "Yes" },
+            { id: false, name: "No" },
+          ],
+          optionLabel: "name",
+          optionValue: "id",
         })
       )
       .addField(

@@ -4,11 +4,12 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 
 export default class UpcomingPaymentsDateSearchFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
-
-  constructor({}: {}) {
+  taskRoot: any;
+  constructor({taskRoot}: {taskRoot: any}) {
     super({
       myRefName: "upcoumingPaymentsDateSearch",
     });
+    this.taskRoot = taskRoot;
 
     this.addField(
       new FSelectDateFieldMDP({
@@ -40,7 +41,7 @@ export default class UpcomingPaymentsDateSearchFFormMDP extends FFormMDP {
 
   searchClientFile() {
     return () => {
-      // this.taskRoot.searchClientFile();
+      this.taskRoot.getSceheduledPaymentList();
     };
   }
 }

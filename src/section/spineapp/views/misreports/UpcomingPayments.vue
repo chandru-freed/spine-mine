@@ -9,9 +9,9 @@
         v-if="!!upcomingPaymentsDateSearchFormMetaData"
         :ref="upcomingPaymentsDateSearchFormMetaData.myRefName"
         :is="upcomingPaymentsDateSearchFormMetaData.componentName"
-        :value="selectModel(misFiPSEntrySearchForm, undefined)"
+        :value="selectModel(misFiPSEntryListInput, undefined)"
         @input="
-          (newValue) => updateModel(misFiPSEntrySearchForm, newValue, undefined)
+          (newValue) => updateModel(misFiPSEntryListInput, newValue, undefined)
         "
         v-bind="upcomingPaymentsDateSearchFormMetaData.props"
       ></component>
@@ -65,16 +65,18 @@ export default class UpcomingPayments extends ModelVue {
   misFiPSEntryListInput: Data.ClientFile.MISFiPSEntryListInput =
     new Data.ClientFile.MISFiPSEntryListInput();
 
-  misFiPSEntrySearchFormLocal: any =
-    new Data.ClientFile.MISFiPSEntryListInput();
-  searchCriteria: Data.ClientFile.MISFiPSEntryListInput;
-  get misFiPSEntrySearchForm() {
-    this.misFiPSEntrySearchFormLocal = this.searchCriteria;
-    return this.misFiPSEntrySearchFormLocal;
-  }
+  // misFiPSEntrySearchFormLocal: Data.ClientFile.MISFiPSEntryListInput =
+  //   new Data.ClientFile.MISFiPSEntryListInput();
+
+  // searchCriteria: Data.ClientFile.MISFiPSEntryListInput;
+
+  // get misFiPSEntrySearchForm() {
+  //   // this.misFiPSEntrySearchFormLocal = this.searchCriteria;
+  //   return this.misFiPSEntrySearchFormLocal;
+  // }
 
   mounted() {
-    this.getSceheduledPaymentList();
+    // this.getSceheduledPaymentList();
   }
 
   destroyed() {
@@ -82,9 +84,9 @@ export default class UpcomingPayments extends ModelVue {
   }
 
   getSceheduledPaymentList() {
-    this.misFiPSEntryListInput.fromDate =
-      this.misFiPSEntrySearchFormLocal.fromDate;
-    this.misFiPSEntryListInput.toDate = this.misFiPSEntrySearchFormLocal.toDate;
+      // this.misFiPSEntryListInput.fromDate =
+      //   this.misFiPSEntrySearchFormLocal.fromDate;
+      // this.misFiPSEntryListInput.toDate = this.misFiPSEntrySearchFormLocal.toDate;
     this.misFiPSEntryListInput.offset = 0;
     this.misFiPSEntryListInput.count = 100;
     Action.ClientFile.GetSceheduledPaymentList.execute(
@@ -118,7 +120,7 @@ export default class UpcomingPayments extends ModelVue {
   get upcomingPaymentsFDataTableMetaData() {
     return new UpcomingPaymentsFDataTableMDP({
       parent: this,
-      myRefName: this.upcomingPaymentsRefName,
+      myRefName: "upcomingPaymentsFDataTableRef",
     }).getMetaData();
   }
 }

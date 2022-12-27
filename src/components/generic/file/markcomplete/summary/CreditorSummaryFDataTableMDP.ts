@@ -25,7 +25,7 @@ export default class CreditorSummaryFDataTableMDP extends FDataTableMDP {
         })
         .addInfo({
             label:`WAD`,
-            value:`${props.taskRoot.clientFileSummary.wad}`
+            value:`${props.taskRoot.clientFileBasicInfo.wad}`
         })
         
         ;

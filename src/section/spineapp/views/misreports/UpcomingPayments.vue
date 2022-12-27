@@ -1,8 +1,21 @@
 <template>
-  <div class="TaskAssignedToMe">
+  <div class="UpcomingPayments">
     <!-- MIS REPORTS TAB -->
     <misreports-tab v-model="tab"></misreports-tab>
     <!-- MIS REPORTS TAB -->
+
+    <v-card class="pa-0 ma-0" color="transparent">
+      <component
+        v-if="!!upcomingPaymentsDateSearchFormMetaData"
+        :ref="upcomingPaymentsDateSearchFormMetaData.myRefName"
+        :is="upcomingPaymentsDateSearchFormMetaData.componentName"
+        :value="selectModel(misFiPSEntrySearchForm, undefined)"
+        @input="
+          (newValue) => updateModel(misFiPSEntrySearchForm, newValue, undefined)
+        "
+        v-bind="upcomingPaymentsDateSearchFormMetaData.props"
+      ></component>
+    </v-card>
     <v-card>
       <component
         v-if="!!upcomingPaymentsFDataTableMetaData"
@@ -30,6 +43,7 @@ import UpcomingPaymentsFDataTableMDP from "./UpcomingPaymentsFDataTableMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FForm from "@/components/generic/form/FForm.vue";
+import UpcomingPaymentsDateSearchFFormMDP from "./UpcomingPaymentsDateSearchFFormMDP";
 
 @Component({
   components: {
@@ -50,6 +64,14 @@ export default class UpcomingPayments extends ModelVue {
   misFiPSEntryList: Data.ClientFile.MISFiPSEntry[] = [];
   misFiPSEntryListInput: Data.ClientFile.MISFiPSEntryListInput =
     new Data.ClientFile.MISFiPSEntryListInput();
+
+  misFiPSEntrySearchFormLocal: any =
+    new Data.ClientFile.MISFiPSEntryListInput();
+  searchCriteria: Data.ClientFile.MISFiPSEntryListInput;
+  get misFiPSEntrySearchForm() {
+    this.misFiPSEntrySearchFormLocal = this.searchCriteria;
+    return this.misFiPSEntrySearchFormLocal;
+  }
 
   mounted() {
     this.getSceheduledPaymentList();
@@ -87,10 +109,15 @@ export default class UpcomingPayments extends ModelVue {
     });
   }
 
+  get upcomingPaymentsDateSearchFormMetaData(): any {
+    return new UpcomingPaymentsDateSearchFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
   get upcomingPaymentsFDataTableMetaData() {
     return new UpcomingPaymentsFDataTableMDP({
       parent: this,
-      myRefName: this.taskTableRefName,
+      myRefName: this.upcomingPaymentsRefName,
     }).getMetaData();
   }
 }

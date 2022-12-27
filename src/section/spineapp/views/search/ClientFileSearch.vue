@@ -86,10 +86,8 @@ export default class ClientFileSearch
     this.searchClientFile();
   }
   resetClientSearchInput() {
-    
     this.clientFileSearchForm = new Data.ClientFile.SearchClientFileInput();
   }
-  
 
   searchClientFile() {
     Action.ClientFile.SearchClientFile.execute(

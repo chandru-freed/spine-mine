@@ -12,7 +12,6 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
       dataSelectorKey: "taskOutput.budgetInfo.incidentalExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Incidental Expenses",
-      mandatory: true,
       boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
@@ -23,7 +22,6 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
         parentMDP: this.childMDP,
         dataSelectorKey: "healthInsuranceExpense",
         label: "Health Insurance",
-        mandatory: true,
         boundaryClass: "col",
         hideDetails: true
       })
@@ -33,7 +31,6 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           parentMDP: this.childMDP,
           dataSelectorKey: "vehicleInsuranceExpense",
           label: "Vehicle Insurance",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -43,7 +40,6 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           parentMDP: this.childMDP,
           dataSelectorKey: "sipExpense",
           label: "SIP",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -53,7 +49,6 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           parentMDP: this.childMDP,
           dataSelectorKey: "stockTradesExpense",
           label: "Stock Trades",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -62,7 +57,6 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
           parentMDP: this.childMDP,
           dataSelectorKey: "otherExpense",
           label: "Other",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })

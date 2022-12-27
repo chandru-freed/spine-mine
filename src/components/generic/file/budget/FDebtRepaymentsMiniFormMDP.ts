@@ -12,7 +12,6 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
       dataSelectorKey: "taskOutput.budgetInfo.debtRepayments",
       disabled: taskRoot.taskDisabled,
       label: "Debt Repayments",
-      mandatory: true,
       boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
@@ -23,7 +22,6 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "autoLoan",
         label: "Auto Loan",
-        mandatory: true,
         boundaryClass: "col",
         hideDetails: true
       })
@@ -33,7 +31,6 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "housingLoan",
           label: "Housing Loan",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -43,7 +40,6 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "loansAgainstSecurity",
           label: "Loan Against Security",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -53,7 +49,6 @@ export default class FDebtRepaymentsMiniFormMDP extends FBudgetMiniFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "collateralizedBussinessLoan",
           label: "Collateralized Bussiness Loan",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })

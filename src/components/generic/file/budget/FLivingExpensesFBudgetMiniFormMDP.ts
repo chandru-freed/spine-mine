@@ -12,7 +12,6 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
       dataSelectorKey: "taskOutput.budgetInfo.livingExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Living Expenses",
-      mandatory: true,
       boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
@@ -23,7 +22,6 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
         parentMDP: this.childMDP,
         dataSelectorKey: "rentMaintenance",
         label: "Rent / Maintenance",
-        mandatory: true,
         boundaryClass: "col",
         hideDetails: true
       })
@@ -33,7 +31,6 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "groceryExpense",
           label: "Grocery Expense",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -43,7 +40,6 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "electricityBill",
           label: "Electricity Bill",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -53,7 +49,6 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "gasBill",
           label: "Gas Bill",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -62,7 +57,6 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "phoneBill",
           label: "Phone Bill",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -71,7 +65,6 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "otherUtilities",
           label: "Other Utilities",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })

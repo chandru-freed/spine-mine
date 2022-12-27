@@ -5,6 +5,9 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
+import FAutoCompleteFieldMDP from "@/components/generic/form/field/FAutoCompleteFieldMDP";
+import { DispositionType } from "@/components/generic/form/field/DispositionFMiniFormMDP";
+import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 
 export default class SuspendTaskFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -17,17 +20,47 @@ export default class SuspendTaskFFormMDP extends FFormMDP {
         dataSelectorKey: "resumeOn",
         label: "resumeOn",
         parentMDP: this.childMDP,
-        boundaryClass: "col-6",
+        boundaryClass: "col-4",
         pastDaysDisabled: true,
         mandatory: true,
       })
     )
+      // .addField(
+      //   new FTextFieldMDP({
+      //     dataSelectorKey: "reason",
+      //     label: "Reason",
+      //     parentMDP: this.childMDP,
+      //     boundaryClass: "col-6",
+      //   })
+      // )
       .addField(
-        new FTextFieldMDP({
-          dataSelectorKey: "reason",
-          label: "Reason",
+        new FAutoCompleteFieldMDP({
           parentMDP: this.childMDP,
-          boundaryClass: "col-6",
+          dataSelectorKey: "disposition.dispositionType",
+          label: "Disposition Type",
+          options: [
+            new DispositionType({
+              label: "Callback Requested",
+              value: "Callback Requested",
+            }),
+
+            new DispositionType({
+              label: "Followup Required",
+              value: "FollowupRequired",
+            }),
+          ],
+          itemText: "label",
+          itemValue: "value",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      .addField(
+        new FTextareaMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "disposition.dispositionDetails",
+          label: "Disposition Descritpion",
+          boundaryClass: "col-4",
         })
       )
       .addAction(

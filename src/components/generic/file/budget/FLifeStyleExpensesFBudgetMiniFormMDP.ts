@@ -12,7 +12,6 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       dataSelectorKey: "taskOutput.budgetInfo.lifeStyleExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Life Style",
-      mandatory: true,
       boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
@@ -23,7 +22,6 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
         parentMDP: this.childMDP,
         dataSelectorKey: "travelExpense",
         label: "Travel/Fuel",
-        mandatory: true,
         boundaryClass: "col",
         hideDetails: true
       })
@@ -33,7 +31,6 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "digitalSubscriptionsExpense",
           label: "Digital Subscriptions",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -43,7 +40,6 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "diningOutExpense",
           label: "Dining Out",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -53,7 +49,6 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "houseHelpExpense",
           label: "House Help",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -62,7 +57,6 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "outingExpense",
           label: "Outing",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })

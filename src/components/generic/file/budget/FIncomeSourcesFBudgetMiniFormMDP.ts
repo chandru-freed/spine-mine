@@ -33,7 +33,6 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           parentMDP: this.childMDP,
           dataSelectorKey: "businessIncome",
           label: "Business Income",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -43,7 +42,6 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           parentMDP: this.childMDP,
           dataSelectorKey: "otherIncome",
           label: "Other Income",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -53,7 +51,6 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           parentMDP: this.childMDP,
           dataSelectorKey: "familySupport",
           label: "Family Support",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })

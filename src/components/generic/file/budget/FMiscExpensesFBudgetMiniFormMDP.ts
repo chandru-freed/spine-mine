@@ -12,7 +12,6 @@ export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP 
       dataSelectorKey: "taskOutput.budgetInfo.miscellaneousExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Miscellaneous Expenses",
-      mandatory: true,
       boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
@@ -23,7 +22,6 @@ export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP 
         parentMDP: this.childMDP,
         dataSelectorKey: "miscellaneousExpense",
         label: "Miscellaneous",
-        mandatory: true,
         boundaryClass: "col",
         hideDetails: true
       })

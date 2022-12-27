@@ -5,13 +5,17 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import DispositionFMiniFormMDP, { DispositionType } from "../form/field/DispositionFMiniFormMDP";
+import DispositionFMiniFormMDP, {
+  DispositionType,
+} from "../form/field/DispositionFMiniFormMDP";
 import FSnackbar from "@/fsnackbar";
+import FAutoCompleteFieldMDP from "../form/field/FAutoCompleteFieldMDP";
+import FTextareaMDP from "../form/field/FTextareaMDP";
 
 export default class FSuspendTaskFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
-  constructor({ taskRoot }: { taskRoot: any; }) {
+  constructor({ taskRoot }: { taskRoot: any }) {
     super({ myRefName: "fsuspendTaskFFormRef" });
     this.taskRoot = taskRoot;
     this.addField(
@@ -19,36 +23,68 @@ export default class FSuspendTaskFFormMDP extends FFormMDP {
         dataSelectorKey: "resumeOn",
         label: "ResumeOn",
         parentMDP: this.childMDP,
-        boundaryClass: "col-6",
+        boundaryClass: "col-4",
         pastDaysDisabled: true,
         mandatory: true,
       })
     )
+      // .addField(
+      //   new FTextFieldMDP({
+      //     dataSelectorKey: "reason",
+      //     label: "Reason",
+      //     parentMDP: this.childMDP,
+      //     boundaryClass: "col-6",
+      //   })
+      // )
       .addField(
-        new FTextFieldMDP({
-          dataSelectorKey: "reason",
-          label: "Reason",
+        new FAutoCompleteFieldMDP({
           parentMDP: this.childMDP,
-          boundaryClass: "col-6",
+          dataSelectorKey: "disposition.dispositionType",
+          label: "Disposition Type",
+          options: [
+            new DispositionType({
+              label: "Callback Requested",
+              value: "Callback Requested",
+            }),
+
+            new DispositionType({
+              label: "Followup Required",
+              value: "FollowupRequired",
+            }),
+          ],
+          itemText: "label",
+          itemValue: "value",
+          mandatory: true,
+          boundaryClass: "col-4",
         })
       )
-      .addField(new DispositionFMiniFormMDP({
-        condition: true,
-        dataSelectorKey: "disposition",
-        parent: this,
-        taskRoot: this.taskRoot,
-        dispositionTypeList: [
-          new DispositionType({
-            label: "Callback Requested",
-            value: "Callback Requested",
-          }),
+      .addField(
+        new FTextareaMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "disposition.dispositionDetails",
+          label: "Disposition Descritpion",
+          boundaryClass: "col-4",
+        })
+      )
+      // .addField(
+      //   new DispositionFMiniFormMDP({
+      //     condition: true,
+      //     dataSelectorKey: "disposition",
+      //     parent: this,
+      //     taskRoot: this.taskRoot,
+      //     dispositionTypeList: [
+      //       new DispositionType({
+      //         label: "Callback Requested",
+      //         value: "Callback Requested",
+      //       }),
 
-          new DispositionType({
-            label: "Followup Required",
-            value: "FollowupRequired",
-          }),
-        ]
-      }))
+      //       new DispositionType({
+      //         label: "Followup Required",
+      //         value: "FollowupRequired",
+      //       }),
+      //     ],
+      //   })
+      // )
       .addAction(
         new FBtnMDP({
           label: "Cancel",

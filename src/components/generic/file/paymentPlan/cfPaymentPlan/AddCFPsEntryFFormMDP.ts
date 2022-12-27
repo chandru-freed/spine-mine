@@ -25,34 +25,35 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
     });
     this.parent = parent;
 
+    // this.addField(
+    //   new FSelectFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "paymentProvider",
+    //     label: "Payment Provider",
+    //     mandatory: true,
+    //     options: Data.ClientFile.PAYMENT_PROVIDER.list(),
+    //     boundaryClass: "col-4",
+    //     optionLabel: "name",
+    //     optionValue: "id"
+    //   })
+    // ).addField(
+    //   new FSelectFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "paymentMode",
+    //     label: "Payment Mode",
+    //     mandatory: true,
+    //     options: Data.ClientFile.PAYMENT_MODE.list(),
+    //     boundaryClass: "col-4",
+    //     optionLabel: "name",
+    //     optionValue: "id"
+    //   })
+    // )
     this.addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentProvider",
-        label: "Payment Provider",
-        mandatory: true,
-        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
-        boundaryClass: "col-4",
-        optionLabel: "name",
-        optionValue: "id"
-      })
-    ).addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentMode",
-        label: "Payment Mode",
-        mandatory: true,
-        options: Data.ClientFile.PAYMENT_MODE.list(),
-        boundaryClass: "col-4",
-        optionLabel: "name",
-        optionValue: "id"
-      })
-    ).addField(
       new FEMandateSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "eMandateId",
         label: "E-Mandate",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
       })
     ).addField(
       new FSelectDateFieldMDP({
@@ -60,18 +61,18 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
         dataSelectorKey: "draftDate",
         label: "Draft Date",
         mandatory: true,
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         pastDaysDisabled: true,
       })
     ).addField(new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "spaAmount",
         label: "Spa Amount",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
     })).addField(new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "feeAmount",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         label: "Fee Amount"
     })).addAction(
       new FBtnMDP({
@@ -99,6 +100,8 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
     };
   }
   addEntry() {
+    this.parent.addPsEntryInput.paymentProvider = 'NUPAY'
+    this.parent.addPsEntryInput.paymentMode = 'ENACH'
     this.parent.addPsEntryInput.clientFileId = this.parent.clientFileId;
     this.parent.addPsEntryInput.psPlanId = this.parent.modelValue.paymentPlan.psPlanId;
     Action.ClientFile.AddPSEntry.execute(this.parent.addPsEntryInput, output => {

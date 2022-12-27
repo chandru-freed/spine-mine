@@ -12,7 +12,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       dataSelectorKey: "taskOutput.budgetInfo.dependentExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Dependent Expenses",
-      mandatory: true,
       boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
@@ -23,7 +22,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
         parentMDP: this.childMDP,
         dataSelectorKey: "medicalExpense",
         label: "Medical",
-        mandatory: true,
         boundaryClass: "col",
         hideDetails: true
       })
@@ -33,7 +31,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "essentialCareExpense",
           label: "Essential Care",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -43,7 +40,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "schoolFeeExpense",
           label: "School Fee",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -53,7 +49,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "schoolBusExpense",
           label: "School Bus",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -62,7 +57,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "booksAndProjectsExpense",
           label: "Books And Projects",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -71,7 +65,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "nursingAttendExpense",
           label: "Nursing Attend",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })
@@ -80,7 +73,6 @@ export default class FDependentExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
           parentMDP: this.childMDP,
           dataSelectorKey: "petCareExpense",
           label: "Pet Care",
-          mandatory: true,
           boundaryClass: "col",
           hideDetails: true
         })

@@ -1,9 +1,10 @@
 <template>
   <div>
+    <!-- :rules="sliderRules()" -->
     <v-slider
       v-bind="$props"
       :value="modelValue.tenure"
-      :rules="sliderRules"
+      
       thumb-label="always"
       @input="(newValue) => (modelValue.tenure = newValue)"
     />
@@ -31,14 +32,14 @@ export default class FRangeSlider extends VSlider {
   }
   // MODEL VALUE - END
 
-  get sliderRules() {
-    return [
-      (v: number) => this.modelValue.tenure <= this.modelValue.tenureApproval,
-      (v: number) =>
-        Math.round(this.modelValue.monthlyObligation) <=
-        Math.round(this.modelValue.affordability),
-    ];
-  }
+// sliderRules() {
+//     return [
+//       (v: number) => this.modelValue.tenure <= this.modelValue.tenureApproval,
+//       (v: number) =>
+//         Math.round(this.modelValue.monthlyObligation) <=
+//         Math.round(this.modelValue.affordability),
+//     ];
+//   }
 }
 </script>
 

@@ -6,6 +6,7 @@ import FNumberFieldMDP from "./FNumberFieldMDP";
 import FNumberTextFieldMDP from "@/components/generic/form/field/FNumberTextFieldMDP";
 import FSelectFieldMDP from "./FSelectFieldMDP";
 import FNupayBankSelectFieldMDP from "./FNupayBankSelectFieldMDP";
+import FAccountFieldMDP from "./FAccountFieldMDP";
 
 export default class AccountFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -47,7 +48,7 @@ export default class AccountFMiniFormMDP extends FMiniFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Account Number",

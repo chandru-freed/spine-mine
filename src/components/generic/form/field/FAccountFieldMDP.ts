@@ -21,6 +21,7 @@ export default class FAccountFieldMDP extends FNumberTextFieldMDP {
       ...props,
       mask: "####################",
       unmask: "####################",
+      rules: "min:9|max:20",
     });
   }
 }

@@ -83,7 +83,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
       )
 
       .addField(
-        new FTextFieldMDP({
+        new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Account Number",

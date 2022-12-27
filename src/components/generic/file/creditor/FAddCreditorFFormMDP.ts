@@ -79,21 +79,21 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-4",
           condition: this.parent.isCreditCard(),
-          rules:"min:9|max:20"
+          rules: "min:9|max:20",
         })
       )
 
       .addField(
-        new FTextFieldMDP({
+        new FAccountFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           mandatory: true,
           boundaryClass: "col-4",
-          rules:"min:9|max:20",
           condition: !this.parent.isCreditCard(),
         })
-      ).addField(
+      )
+      .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "details",

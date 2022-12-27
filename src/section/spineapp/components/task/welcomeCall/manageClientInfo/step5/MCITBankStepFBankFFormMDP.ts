@@ -11,7 +11,7 @@ export default class MCITBankStepFBankFFormMDP extends FBankFFormMDP {
       parent: parent,
       myRefName: "welcomeCallBankInfoForm",
       dataSelectorKey: "taskOutput.bankInfo",
-      disabled: taskRoot.taskDisabled,
+      disabled: true,
     });
     this.taskRoot.setConfirmAccountNumber();
   }

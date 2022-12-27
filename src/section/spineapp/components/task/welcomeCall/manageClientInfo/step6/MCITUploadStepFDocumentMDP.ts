@@ -8,7 +8,7 @@ export default class MCITUploadStepFDocumentMDP extends FDocumentMDP {
       parent: parent,
       myRefName: "welcomeCallDocumentListRef",
       dataSelectorKey: "taskOutput.fileDocumentList",
-      disabled: taskRoot.taskDisabled,
+      disabled: true,
     });
   }
   getMyRef() {

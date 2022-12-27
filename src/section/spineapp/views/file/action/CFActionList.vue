@@ -159,11 +159,11 @@ export default class CFActionList extends Vue {
     {
       groupName: "Flow",
       actionList: [
-        {
-          actionName: "Create Flow",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFCreateRequest",
-        },
+        // {
+        //   actionName: "Create Flow",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.CFCreateRequest",
+        // },
         // {
         //   actionName: "Enrollment",
         //   icon: "mdi-chevron-right",

@@ -18,7 +18,7 @@ export default class UpcomingPaymentsDateSearchFFormMDP extends FFormMDP {
         label: "From Date",
         boundaryClass: "col-2",
         mandatory: true,
-        futureDaysDisabled: false,
+        futureDaysDisabled: true,
       })
     )
       .addField(
@@ -28,7 +28,7 @@ export default class UpcomingPaymentsDateSearchFFormMDP extends FFormMDP {
           label: "To Date",
           boundaryClass: "col-2",
           mandatory: true,
-          futureDaysDisabled: false,
+          futureDaysDisabled: true,
         })
       )
       .addAction(

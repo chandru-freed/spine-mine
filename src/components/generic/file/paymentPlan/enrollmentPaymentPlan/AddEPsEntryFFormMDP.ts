@@ -22,29 +22,30 @@ export default class AddEPsEntryFFormMDP extends FFormMDP {
     });
     this.parent = parent;
 
+    // this.addField(
+    //   new FSelectFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "paymentProvider",
+    //     label: "Payment Provider",
+    //     mandatory: true,
+    //     options: Data.ClientFile.PAYMENT_PROVIDER.list(),
+    //     boundaryClass: "col-4",
+    //     optionLabel: "name",
+    //     optionValue: "id"
+    //   })
+    // ).addField(
+    //   new FSelectFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "paymentMode",
+    //     label: "Payment Mode",
+    //     mandatory: true,
+    //     options: Data.ClientFile.PAYMENT_MODE.list(),
+    //     boundaryClass: "col-4",
+    //     optionLabel: "name",
+    //     optionValue: "id"
+    //   })
+    // )
     this.addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentProvider",
-        label: "Payment Provider",
-        mandatory: true,
-        options: Data.ClientFile.PAYMENT_PROVIDER.list(),
-        boundaryClass: "col-4",
-        optionLabel: "name",
-        optionValue: "id"
-      })
-    ).addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "paymentMode",
-        label: "Payment Mode",
-        mandatory: true,
-        options: Data.ClientFile.PAYMENT_MODE.list(),
-        boundaryClass: "col-4",
-        optionLabel: "name",
-        optionValue: "id"
-      })
-    ).addField(
       new FEMandateSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "eMandateId",
@@ -97,8 +98,9 @@ export default class AddEPsEntryFFormMDP extends FFormMDP {
     };
   }
   addEntry() {
+    this.parent.addPsEntryInput.paymentProvider = 'NUPAY';
+    this.parent.addPsEntryInput.paymentMode = 'ENACH';
     this.parent.addPsEntryInput.clientFileId = this.parent.clientFileId;
-    console.log(this.parent.modelValue,"Model value is this");
     this.parent.addPsEntryInput.psPlanId = this.parent.modelValue.paymentPlan.psPlanId;
     Action.ClientFile.AddPSEntry.execute(this.parent.addPsEntryInput, output => {
       this.parent.resetFormsTableAndData();

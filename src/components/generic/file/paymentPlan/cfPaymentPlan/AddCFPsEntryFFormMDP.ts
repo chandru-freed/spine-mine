@@ -100,8 +100,8 @@ export default class AddCFPsEntryFFormMDP extends FFormMDP {
     };
   }
   addEntry() {
-    this.parent.addPsEntryInput.paymentProvider = 'NUPAY'
-    this.parent.addPsEntryInput.paymentMode = 'ENACH'
+    this.parent.addPsEntryInput.paymentProvider = 'NUPAY';
+    this.parent.addPsEntryInput.paymentMode = 'ENACH';
     this.parent.addPsEntryInput.clientFileId = this.parent.clientFileId;
     this.parent.addPsEntryInput.psPlanId = this.parent.modelValue.paymentPlan.psPlanId;
     Action.ClientFile.AddPSEntry.execute(this.parent.addPsEntryInput, output => {

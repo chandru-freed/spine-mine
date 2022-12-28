@@ -81,7 +81,6 @@ export default class NSPATFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.spaScheduledDraftDate",
           label: "NsfSPA Scheduled Draft Date",
-          mandatory: true,
           pastDaysDisabled: true,
           boundaryClass: "col-6",
           // condition: this.isDraftRescheduled(),

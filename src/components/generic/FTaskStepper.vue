@@ -306,11 +306,11 @@ export default class FTaskStepper extends ModelVue {
         handleOtherActionClick: this.cancelFlow,
         condition: this.isTaskActionable,
       },
-      {
-        label: "Cancel Task",
-        handleOtherActionClick: this.cancelTask,
-        condition: this.isTaskActionable,
-      },
+      // {
+      //   label: "Cancel Task",
+      //   handleOtherActionClick: this.cancelTask,
+      //   condition: this.isTaskActionable,
+      // },
     ];
     return this.filteredActionsLocal;
   }

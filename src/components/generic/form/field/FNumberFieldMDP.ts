@@ -12,6 +12,7 @@ export default class FNumberFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
+  readonly: boolean;
   // defaultValue?: string;
 
   constructor({
@@ -23,6 +24,7 @@ export default class FNumberFieldMDP implements FFieldMDP {
     boundaryClass = "col-12",
     disabled = false,
     condition = true,
+    readonly = false,
   }: // defaultValue
   {
     parentMDP: FFormChildMDP;
@@ -33,6 +35,7 @@ export default class FNumberFieldMDP implements FFieldMDP {
     boundaryClass?: string;
     disabled?: boolean;
     condition?: boolean;
+    readonly?: boolean;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -43,6 +46,7 @@ export default class FNumberFieldMDP implements FFieldMDP {
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
     this.condition = condition;
+    this.readonly = readonly;
     // this.defaultValue = defaultValue;
   }
 
@@ -53,6 +57,10 @@ export default class FNumberFieldMDP implements FFieldMDP {
 
   getBoundaryClass() {
     return `${this.boundaryClass} py-0 px-2`;
+  }
+
+  isDisabled() {
+    return this.disabled || this.readonly;
   }
 
   getMetaData(): object {
@@ -68,7 +76,8 @@ export default class FNumberFieldMDP implements FFieldMDP {
         type: this.type,
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
-        disabled: this.disabled,
+        disabled: this.isDisabled(),
+        readonly: this.readonly,
         // defaultValue: this.defaultValue
       },
     };

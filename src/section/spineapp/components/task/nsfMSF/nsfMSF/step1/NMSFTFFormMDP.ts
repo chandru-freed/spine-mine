@@ -33,25 +33,25 @@ export default class NMSFTFFormMDP extends FFormMDP {
         mandatory: true,
       })
     )
-      .addField(
-        new FDateTimeSelectFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.clientDeferredTime",
-          label: "Client Deferred Time",
-          condition: this.isClientDeffered(),
-          mandatory: true,
-          pastDaysDisabled: true
-        })
-      )
-      .addField(
-        new FDateTimeSelectFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.systemDeferredTime",
-          label: "System Deferred Time",
-          condition: this.isSystemDeffered(),
-          pastDaysDisabled: true
-        })
-      )
+      // .addField(
+      //   new FDateTimeSelectFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.clientDeferredTime",
+      //     label: "Client Deferred Time",
+      //     condition: this.isClientDeffered(),
+      //     mandatory: true,
+      //     pastDaysDisabled: true
+      //   })
+      // )
+      // .addField(
+      //   new FDateTimeSelectFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.systemDeferredTime",
+      //     label: "System Deferred Time",
+      //     condition: this.isSystemDeffered(),
+      //     pastDaysDisabled: true
+      //   })
+      // )
       // .addField(
       //   new FTextFieldMDP({
       //     parentMDP: this.childMDP,
@@ -65,10 +65,11 @@ export default class NMSFTFFormMDP extends FFormMDP {
       .addField(
         new FNumberFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.amountToBeReceived",
+          dataSelectorKey: "taskInput.paymentDetails.msfAmount",
           label: "Amount To Be Received",
           disabled: true,
-          condition: this.isReceivePayment(),
+          boundaryClass: this.isDraftRescheduled() ? "col-6" : "col-12",
+          condition: this.isReceivePayment() || this.isDraftRescheduled(),
         })
       )      
       .addField(
@@ -78,41 +79,42 @@ export default class NMSFTFFormMDP extends FFormMDP {
           label: "Msf Scheduled Draft Date",
           mandatory: true,
           pastDaysDisabled: true,
+          boundaryClass: "col-6",
           condition: this.isDraftRescheduled(),
         })
       )
-      .addField(
-        new DispositionFMiniFormMDP({
-          taskRoot,
-          parent,
-          dataSelectorKey: "taskOutput.disposition",
-          condition: this.isSystemDeffered(),
-          dispositionTypeList: [
-            new DispositionType({
-              label: "Not Answered",
-              value: "NotAnswered",
-            }),
-          ],
-        })
-      )
-      .addField(
-        new DispositionFMiniFormMDP({
-          taskRoot,
-          parent,
-          dataSelectorKey: "taskOutput.disposition",
-          condition: this.isClientDeffered(),
-          dispositionTypeList: [
-            new DispositionType({
-              label: "Client Busy",
-              value: "ClientBusy",
-            }),
-            new DispositionType({
-              label: "No Enough Funds",
-              value: "NoEnoughFunds",
-            }),
-          ],
-        })
-      )
+      // .addField(
+      //   new DispositionFMiniFormMDP({
+      //     taskRoot,
+      //     parent,
+      //     dataSelectorKey: "taskOutput.disposition",
+      //     condition: this.isSystemDeffered(),
+      //     dispositionTypeList: [
+      //       new DispositionType({
+      //         label: "Not Answered",
+      //         value: "NotAnswered",
+      //       }),
+      //     ],
+      //   })
+      // )
+      // .addField(
+      //   new DispositionFMiniFormMDP({
+      //     taskRoot,
+      //     parent,
+      //     dataSelectorKey: "taskOutput.disposition",
+      //     condition: this.isClientDeffered(),
+      //     dispositionTypeList: [
+      //       new DispositionType({
+      //         label: "Client Busy",
+      //         value: "ClientBusy",
+      //       }),
+      //       new DispositionType({
+      //         label: "No Enough Funds",
+      //         value: "NoEnoughFunds",
+      //       }),
+      //     ],
+      //   })
+      // )
       .addAction(
         new FBtnMDP({
           label: "Rescue",
@@ -159,17 +161,17 @@ export default class NMSFTFFormMDP extends FFormMDP {
     };
   }
 
-  isClientDeffered(): boolean {
-    return (
-      this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ClientDeferred
-    );
-  }
+  // isClientDeffered(): boolean {
+  //   return (
+  //     this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.ClientDeferred
+  //   );
+  // }
 
-  isSystemDeffered(): boolean {
-    return (
-      this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.SystemDeferred
-    );
-  }
+  // isSystemDeffered(): boolean {
+  //   return (
+  //     this.taskRoot.selectedNMSFTaskOption() === NsfMSFOptions.SystemDeferred
+  //   );
+  // }
 
   isReceivePayment(): boolean {
     return (
@@ -202,8 +204,8 @@ export default class NMSFTFFormMDP extends FFormMDP {
 }
 
 export enum NsfMSFOptions {
-  ClientDeferred = "Call Back Requested",
-  SystemDeferred = "Follow Up Required",
+  // ClientDeferred = "Call Back Requested",
+  // SystemDeferred = "Follow Up Required",
   ReceivePayment = "Receive Payment",
   DraftRescheduled = "Draft Rescheduled",
 }

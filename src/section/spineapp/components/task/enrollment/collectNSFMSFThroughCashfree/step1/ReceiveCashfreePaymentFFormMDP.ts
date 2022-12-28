@@ -4,7 +4,7 @@ import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import * as Data from "@/../src-gen/data";
 
-export default class CollectMSFTaskStepFFormMDP extends FFormMDP {
+export default class ReceiveCashfreePaymentFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;

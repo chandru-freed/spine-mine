@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Root Data : {{ taskFormData }} -->
+    <!-- Root Data : {{ taskFormData}} -->
 
     <component
       :ref="stepperMetaData.myRefName"
@@ -53,17 +53,17 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   }
 
   // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //FORM
 
@@ -74,7 +74,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -88,13 +88,12 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
 
   get taskFormOutput() {
-    if (Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
-      this.taskFormOutputLocal = { ...this.taskDetailsOutput };
-    } else {
-      this.taskFormOutputLocal = new Data.Spine.NsfMSFTaskOutput();
-      this.taskFormOutputLocal.amountToBeReceived = this.fileSummary.msfAmount;
-    }
-
+    // if (Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
+    //   this.taskFormOutputLocal = { ...this.taskDetailsOutput };
+    // } else {
+    //   this.taskFormOutputLocal = new Data.Spine.NsfMSFTaskOutput();
+    //   this.taskFormOutputLocal.amountToBeReceived = this.fileSummary.msfAmount;
+    // }
     return this.taskFormOutputLocal;
   }
 
@@ -120,9 +119,9 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   saveTask(successCallBack = () => {}) {
     this.taskFormOutput.manualPayment =
       this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
-    this.taskFormOutput.answered = !(
-      this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
-    );
+    // this.taskFormOutput.answered = !(
+    //   this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
+    // );
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

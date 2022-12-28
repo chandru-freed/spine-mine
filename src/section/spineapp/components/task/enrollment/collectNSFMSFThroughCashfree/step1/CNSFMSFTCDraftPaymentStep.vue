@@ -1,7 +1,6 @@
 
 <template>
   <div>
-    <!-- {{modelValue}} -->
     <component
       v-if="modelValue.taskOutput.newPaymentId"
       :ref="fPaymentDetailsMetaData.myRefName"
@@ -53,8 +52,7 @@ export default class CNSFMSFTCDraftPaymentStep extends ModelVue {
   receiveCashfreePaymentInput: Data.Spine.CollectNSFMSFThroughCashfreeInput =
     new Data.Spine.CollectNSFMSFThroughCashfreeInput();
   mounted() {
-    this.receiveCashfreePaymentInput.msfAmount =
-      this.modelValue.taskInput?.amountToBeReceived
+    this.receiveCashfreePaymentInput.msfAmount = this.modelValue.taskInput.paymentDetails.msfAmount;
   }
 
   get receiveCashfreePaymentFFormMetaData() {

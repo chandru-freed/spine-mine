@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{ taskFormData }} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -34,6 +33,7 @@ import NSPAFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPA/NS
 export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
 
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
@@ -87,25 +87,27 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
 
   get taskFormOutput() {
     if (this.taskDetails.isOutputEmpty) {
-      this.taskFormOutputLocal = new Data.Spine.NsfSPATaskOutput();
-      this.taskFormOutputLocal.amountToBeReceived = Math.round(this.fileSummary.totalMonthlyObligation - this.fileSummary.msfAmount);
-       
+      this.taskFormOutputLocal.spaAmount = this.taskDetails.inputJson.paymentDetails.spaAmount
     } else {
-      this.taskFormOutputLocal = { ...this.taskDetails.outputJson };
+      
+      this.taskFormOutputLocal = { ...this.taskDetails.outputJson};
     }
-
     return this.taskFormOutputLocal;
   }
 
   set taskFormOutput(newValue) {
     this.taskFormOutputLocal = newValue;
   }
+
   //Task Output
 
   //DATA
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 
   //ACTION

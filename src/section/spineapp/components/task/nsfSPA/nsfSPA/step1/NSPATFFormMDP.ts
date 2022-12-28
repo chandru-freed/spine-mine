@@ -2,6 +2,7 @@ import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import DispositionFMiniFormMDP, {
   DispositionType,
 } from "@/components/generic/form/field/DispositionFMiniFormMDP";
+import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FDateTimeSelectFieldMDP from "@/components/generic/form/field/FDateTimeSelectFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
@@ -22,34 +23,34 @@ export default class NSPATFFormMDP extends FFormMDP {
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
-    this.addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskOutput.selectedNSPATaskOption",
-        label: "Select Option",
-        options: Object.values(NsfSPAOptions),
-        mandatory: true,
-      })
-    )
-      .addField(
-        new FDateTimeSelectFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.clientDeferredTime",
-          label: "Client Deferred Time",
-          condition: this.isClientDeffered(),
-          mandatory: true,
-          pastDaysDisabled: true
-        })
-      )
-      .addField(
-        new FDateTimeSelectFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.systemDeferredTime",
-          label: "System Deferred Time",
-          condition: this.isSystemDeffered(),
-          pastDaysDisabled: true
-        })
-      )
+    // this.addField(
+    //   new FSelectFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "taskOutput.selectedNSPATaskOption",
+    //     label: "Select Option",
+    //     options: Object.values(NsfSPAOptions),
+    //     mandatory: true,
+    //   })
+    // )
+      // .addField(
+      //   new FDateTimeSelectFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.clientDeferredTime",
+      //     label: "Client Deferred Time",
+      //     condition: this.isClientDeffered(),
+      //     mandatory: true,
+      //     pastDaysDisabled: true
+      //   })
+      // )
+      // .addField(
+      //   new FDateTimeSelectFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.systemDeferredTime",
+      //     label: "System Deferred Time",
+      //     condition: this.isSystemDeffered(),
+      //     pastDaysDisabled: true
+      //   })
+      // )
 
       // .addField(
       //   new FNumberFieldMDP({
@@ -75,48 +76,57 @@ export default class NSPATFFormMDP extends FFormMDP {
       //     condition: this.isReceivePayment(),
       //   })
       // )
-      .addField(
+      this.addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.spaScheduledDraftDate",
           label: "NsfSPA Scheduled Draft Date",
           mandatory: true,
           pastDaysDisabled: true,
-          condition: this.isDraftRescheduled(),
+          boundaryClass: "col-6",
+          // condition: this.isDraftRescheduled(),
         })
       )
       .addField(
-        new DispositionFMiniFormMDP({
-          taskRoot,
-          parent,
-          dataSelectorKey: "taskOutput.disposition",
-          condition: this.isSystemDeffered(),
-          dispositionTypeList: [
-            new DispositionType({
-              label: "Not Answered",
-              value: "NotAnswered",
-            }),
-          ],
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.spaAmount",
+          label: "SPA Amount",
+          boundaryClass: "col-6",
         })
       )
-      .addField(
-        new DispositionFMiniFormMDP({
-          taskRoot,
-          parent,
-          dataSelectorKey: "taskOutput.disposition",
-          condition: this.isClientDeffered(),
-          dispositionTypeList: [
-            new DispositionType({
-              label: "Client Busy",
-              value: "ClientBusy",
-            }),
-            new DispositionType({
-              label: "No Enough Funds",
-              value: "NoEnoughFunds",
-            }),
-          ],
-        })
-      );
+      // .addField(
+      //   new DispositionFMiniFormMDP({
+      //     taskRoot,
+      //     parent,
+      //     dataSelectorKey: "taskOutput.disposition",
+      //     condition: this.isSystemDeffered(),
+      //     dispositionTypeList: [
+      //       new DispositionType({
+      //         label: "Not Answered",
+      //         value: "NotAnswered",
+      //       }),
+      //     ],
+      //   })
+      // )
+      // .addField(
+      //   new DispositionFMiniFormMDP({
+      //     taskRoot,
+      //     parent,
+      //     dataSelectorKey: "taskOutput.disposition",
+      //     condition: this.isClientDeffered(),
+      //     dispositionTypeList: [
+      //       new DispositionType({
+      //         label: "Client Busy",
+      //         value: "ClientBusy",
+      //       }),
+      //       new DispositionType({
+      //         label: "No Enough Funds",
+      //         value: "NoEnoughFunds",
+      //       }),
+      //     ],
+      //   })
+      // );
     // .addAction(
     //   new FBtnMDP({
     //     label: "Save",
@@ -162,17 +172,17 @@ export default class NSPATFFormMDP extends FFormMDP {
     this.taskRoot.saveTask(() => successCallBack());
   }
 
-  isClientDeffered(): boolean {
-    return (
-      this.taskRoot.selectedNSPATaskOption() === NsfSPAOptions.ClientDeferred
-    );
-  }
+  // isClientDeffered(): boolean {
+  //   return (
+  //     this.taskRoot.selectedNSPATaskOption() === NsfSPAOptions.ClientDeferred
+  //   );
+  // }
 
-  isSystemDeffered(): boolean {
-    return (
-      this.taskRoot.selectedNSPATaskOption() === NsfSPAOptions.SystemDeferred
-    );
-  }
+  // isSystemDeffered(): boolean {
+  //   return (
+  //     this.taskRoot.selectedNSPATaskOption() === NsfSPAOptions.SystemDeferred
+  //   );
+  // }
 
   // isReceivePayment(): boolean {
   //   return (
@@ -187,8 +197,8 @@ export default class NSPATFFormMDP extends FFormMDP {
 }
 
 export enum NsfSPAOptions {
-  ClientDeferred = "Call Back Requested",
-  SystemDeferred = "Follow Up Required",
+  // ClientDeferred = "Call Back Requested",
+  // SystemDeferred = "Follow Up Required",
   // ReceivePayment = "Receive Payment",
   DraftRescheduled = "Draft Rescheduled",
 }

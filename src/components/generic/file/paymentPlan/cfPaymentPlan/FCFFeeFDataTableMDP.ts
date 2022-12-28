@@ -6,7 +6,7 @@ import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 export default class FCFFeeFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor({ parent }: { parent: any }) {
-    super({ title: "Fee Payment Schedule", myRefName: "fFeeFDataTableMDP" });
+    super({ title: "MSF Payment Schedule", myRefName: "fFeeFDataTableMDP" });
     this.parent = parent;
     this.addColumn({
       label: "Draft Date",
@@ -34,8 +34,8 @@ export default class FCFFeeFDataTableMDP extends FDataTableMDP {
     //     columnCellMDP: new FCellStatusMDP({}),
     //   })
       .addColumn({
-        label: "Payment Status",
-        dataSelectorKey: "paymentStatus",
+        label: "Status",
+        dataSelectorKey: "status",
         columnCellMDP: new FCellStatusMDP({}),
       });
   }

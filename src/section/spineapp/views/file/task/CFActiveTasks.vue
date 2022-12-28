@@ -1,114 +1,126 @@
 <template>
-  <v-data-table
-    dense
-    :headers="headers"
-    :items="taskListFiltered"
-    sort-by="taskId"
-    class="elevation-0"
-    :search="search"
-    item-key="taskId"
-    :disable-pagination="true"
-    hide-default-footer
-  >
-    <template v-slot:top>
-      <v-toolbar flat dense class="mt-1">
-        <v-col class="col-2"> </v-col>
-        <v-col class="col-5"> </v-col>
-        <v-col>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search Item"
-            single-line
-            hide-details
-            outlined
-            rounded
-            dense
-            class="shrink"
-          ></v-text-field>
-        </v-col>
-        <v-btn icon class="mr-3" small text @click="getTaskListForClientFile()"
-          ><v-icon>mdi-refresh</v-icon></v-btn
+  <div>
+    <v-data-table
+      dense
+      :headers="headers"
+      :items="taskActiveList"
+      sort-by="taskId"
+      class="elevation-0"
+      :search="search"
+      item-key="taskId"
+      :disable-pagination="true"
+      hide-default-footer
+    >
+      <template v-slot:top>
+        <v-toolbar flat dense class="mt-1">
+          <v-col class="col-2">
+            <v-btn-toggle v-model="selectedToggleType" mandatory dense>
+              <v-btn small> Manual Tasks </v-btn>
+              <v-btn small>All Tasks </v-btn>
+            </v-btn-toggle>
+          </v-col>
+          <v-col class="col-5"> </v-col>
+          <v-col>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search Item"
+              single-line
+              hide-details
+              outlined
+              rounded
+              dense
+              class="shrink"
+            ></v-text-field>
+          </v-col>
+          <v-btn
+            icon
+            class="mr-3"
+            small
+            text
+            @click="getTaskListForClientFile()"
+            ><v-icon>mdi-refresh</v-icon></v-btn
+          >
+        </v-toolbar>
+      </template>
+      <template v-slot:[`item.taskState`]="{ item }">
+        <!-- <v-btn icon small> -->
+
+        <v-icon color="grey" v-if="item.taskState === 'CREATED'"
+          >mdi-plus-circle-outline</v-icon
         >
-      </v-toolbar>
-    </template>
-    <template v-slot:[`item.taskState`]="{ item }">
-      <!-- <v-btn icon small> -->
+        <v-icon color="grey" v-if="item.taskState === 'TO_BE_PULLED'"
+          >mdi-account-cancel-outline</v-icon
+        >
+        <v-icon color="secondary" v-if="item.taskState === 'ALLOCATED'"
+          >mdi-account-circle-outline</v-icon
+        >
+        <v-icon color="primary" v-if="item.taskState === 'STARTED'"
+          >mdi-pencil-circle-outline</v-icon
+        >
+        <v-icon color="primary" v-if="item.taskState === 'SAVED'"
+          >mdi-progress-pencil</v-icon
+        >
 
-      <v-icon color="grey" v-if="item.taskState === 'CREATED'"
-        >mdi-plus-circle-outline</v-icon
-      >
-      <v-icon color="grey" v-if="item.taskState === 'TO_BE_PULLED'"
-        >mdi-account-cancel-outline</v-icon
-      >
-      <v-icon color="secondary" v-if="item.taskState === 'ALLOCATED'"
-        >mdi-account-circle-outline</v-icon
-      >
-      <v-icon color="primary" v-if="item.taskState === 'STARTED'"
-        >mdi-pencil-circle-outline</v-icon
-      >
-      <v-icon color="primary" v-if="item.taskState === 'SAVED'"
-        >mdi-progress-pencil</v-icon
-      >
+        <v-icon color="success" v-if="item.taskState === 'COMPLETED'"
+          >mdi-check-circle-outline</v-icon
+        >
 
-      <v-icon color="success" v-if="item.taskState === 'COMPLETED'"
-        >mdi-check-circle-outline</v-icon
-      >
+        <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
+          >mdi-cancel</v-icon
+        >
+        <v-icon
+          color="red"
+          v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
+          >mdi-alert-circle</v-icon
+        >
+        <!-- </v-btn> -->
+      </template>
+      <template v-slot:[`item.taskName`]="{ item }">
+        <f-btn
+          :label="item.taskName"
+          text
+          color="primary"
+          :onClick="() => gotoTask(item)"
+        ></f-btn>
+      </template>
+      <template v-slot:[`item.displayId`]="{ item }">
+        <f-btn
+          :label="item.displayId"
+          text
+          color="secondary"
+          :onClick="() => gotoFile(item)"
+        ></f-btn>
+      </template>
+      <template v-slot:[`item.priority`]="{ item }">
+        <v-chip small outlined>
+          {{ item.priority }}
+        </v-chip>
+      </template>
 
-      <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
-        >mdi-cancel</v-icon
-      >
-      <v-icon
-        color="red"
-        v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
-        >mdi-alert-circle</v-icon
-      >
-      <!-- </v-btn> -->
-    </template>
-    <template v-slot:[`item.taskName`]="{ item }">
-      <f-btn
-        :label="item.taskName"
-        text
-        color="primary"
-        :onClick="() => gotoTask(item)"
-      ></f-btn>
-    </template>
-    <template v-slot:[`item.displayId`]="{ item }">
-      <f-btn
-        :label="item.displayId"
-        text
-        color="secondary"
-        :onClick="() => gotoFile(item)"
-      ></f-btn>
-    </template>
-    <template v-slot:[`item.priority`]="{ item }">
-      <v-chip small outlined>
-        {{ item.priority }}
-      </v-chip>
-    </template>
+      <template v-slot:[`item.allocatedTo`]="{ item }">
+        <v-chip small class="" v-if="item.allocatedTo" label>
+          <v-icon small left> mdi-account-circle-outline </v-icon>
+          {{ item.allocatedTo }}
+        </v-chip>
+        <f-btn
+          label="START"
+          outlined
+          small
+          color="primary"
+          v-if="!item.allocatedTo && item.taskType === 'MANUAL'"
+          :onClick="() => pullStartAndMerge(item)"
+        ></f-btn>
+      </template>
 
-    <template v-slot:[`item.allocatedTo`]="{ item }">
-      <v-chip small class="" v-if="item.allocatedTo" label>
-        <v-icon small left> mdi-account-circle-outline </v-icon>
-        {{ item.allocatedTo }}
-      </v-chip>
-      <f-btn
-        label="START"
-        outlined
-        small
-        color="primary"
-        v-if="!item.allocatedTo && item.taskType === 'MANUAL'"
-        :onClick="() => pullStartAndMerge(item)"
-      ></f-btn>
-    </template>
-
-    <template v-slot:[`item.lastUserActivityTime`]="{ item }">
-      <span class="grey--text">
-        {{ getLastUpdatedTime(item) | fromNow }}
-      </span>
-    </template>
-    <template v-slot:no-data> No Tasks Available </template>
-  </v-data-table>
+      <template v-slot:[`item.lastUserActivityTime`]="{ item }">
+        <span class="grey--text">
+          {{ getLastUpdatedTime(item) | fromNow }}
+        </span>
+      </template>
+      <template v-slot:no-data> No Tasks Available </template>
+    </v-data-table>
+  </div>
   <!-- </v-card> -->
   <!--  TASK TAB -->
 </template>
@@ -131,6 +143,10 @@ import Helper from "@/section/spineapp/util/Helper";
 export default class CFActiveTasks extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  @Store.Getter.TaskList.BenchTaskSummary.cfActiveTaskList
+  cfTaskList: Data.TaskList.GetTaskListByCidGrid[];
+
   search = "";
   headers = [
     {
@@ -145,9 +161,22 @@ export default class CFActiveTasks extends Vue {
     { text: "", value: "lastUserActivityTime" },
     { text: "", value: "actions" },
   ];
+  selectedToggleType: any = 0;
 
-  @Store.Getter.TaskList.BenchTaskSummary.cfActiveTaskList
-  cfTaskList: Data.TaskList.GetTaskListByCidGrid[];
+  get taskActiveList() {
+    if (this.selectedToggleType === 0) {
+      return this.manualTaskList;
+    } else {
+      return this.taskListFiltered;
+    }
+  }
+
+  get manualTaskList() {
+    const activeManualTaskList = this.taskListFiltered.filter((task) => {
+      return task.taskType === "MANUAL";
+    });
+    return activeManualTaskList;
+  }
 
   get clientFileNumber(): string {
     return this.clientFileBasicInfo.clientFileNumber;

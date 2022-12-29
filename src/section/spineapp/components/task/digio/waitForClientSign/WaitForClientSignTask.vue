@@ -84,8 +84,8 @@ export default class WaitForClientSignTask
   taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
-    // this.taskFormOutputLocal.templateCode = this.taskDetailsInput.templateCode;
-    // this.taskFormOutputLocal.docId = this.taskDetailsInput.docId;
+    this.taskFormOutputLocal.templateCode = this.taskDetailsInput.templateCode;
+    this.taskFormOutputLocal.docId = this.taskDetailsInput.docId;
     return this.taskFormOutputLocal;
   }
 

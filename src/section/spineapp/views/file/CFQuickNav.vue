@@ -218,6 +218,7 @@ export default class CFQuickNav extends Vue {
 
   mounted() {
     this.getFiNoteList();
+    this.getTaskListForClientFile();
   }
 
   getFiNoteList() {
@@ -226,6 +227,15 @@ export default class CFQuickNav extends Vue {
         // console.log(output);
       });
     }, 700);
+  }
+
+  getTaskListForClientFile() {
+      Action.TaskList.GetTaskListByCid.execute1(
+        this.clientFileId,
+        (output) => {
+          // this.cfTaskList = output;
+        }
+      );
   }
 
   actionList = [

@@ -11,9 +11,16 @@ export default class WFCSTFStepperMDP extends FTaskStepperMDP {
     super({ myRefName: "waitForClientSignStepperRef", actionable: false });
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
+    // this.addStep({
+    //   name: "Wait For Client Sign",
+    //   stepContent: new WFCSTStepFFormMDP({ taskRoot: taskRoot, parent: this }),
+    // });
+
+    const wfCSTStepFFormMDP =  new WFCSTStepFFormMDP({ taskRoot: taskRoot, parent: this })
     this.addStep({
-      name: "Wait For Client Sign",
-      stepContent: new WFCSTStepFFormMDP({ taskRoot: taskRoot, parent: this }),
+      name: "Download Client Sign Doc",
+      stepContent: wfCSTStepFFormMDP,
+      rescueFunc: wfCSTStepFFormMDP.validateAndSubmit()
     });
   }
   getMyRef() {

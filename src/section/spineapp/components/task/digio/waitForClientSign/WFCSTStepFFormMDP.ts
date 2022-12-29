@@ -41,22 +41,32 @@ export default class WFCSTStepFFormMDP extends FFormMDP {
           boundaryClass: "col-6",
           readonly: true,
         })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Rescue",
-          onClick: this.rescueTask(),
-        })
       );
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Rescue",
+      //     onClick: this.rescueTask(),
+      //   })
+      // );
   }
 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
 
-  rescueTask() {
-    return () => {
-      this.taskRoot.rescueTask();
+  // rescueTask() {
+  //   return () => {
+  //     this.taskRoot.rescueTask();
+  //   };
+  // }
+   // new implement
+   validateAndSubmit() {
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
     };
   }
 }

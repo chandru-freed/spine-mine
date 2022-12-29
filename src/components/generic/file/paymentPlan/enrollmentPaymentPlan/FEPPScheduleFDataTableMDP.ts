@@ -42,6 +42,14 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
         label: "Total",
         value: this.parent.modelValue.paymentPlan.psEntryTotalAmount,
         infoMDP: new FInfoINRMDP({ rounded: true }),
+      }).addInfo({
+        label: "Total Presented",
+        value: this.parent.modelValue.paymentPlan.psEntryTotalPresentedAmount,
+        infoMDP: new FInfoINRMDP({ rounded: true }),
+      }).addInfo({
+        label: "Total Paid",
+        value: this.parent.modelValue.paymentPlan.psEntryTotalPaidAmount,
+        infoMDP: new FInfoINRMDP({ rounded: true }),
       })
       .addInfo({
         label: "Tenure",

@@ -152,7 +152,7 @@ export default class FAmendmentCreditor extends ModelVue {
 
    getWAD() {
     const totalCreditorBalance = this.calculateTotadDebt();
-    return this.modelValue.creditorList.reduce((accumulator: number, curCreditorVal: Data.ClientFile.FiCreditor) => {
+    const wad = this.modelValue.creditorList.reduce((accumulator: number, curCreditorVal: Data.ClientFile.FiCreditor) => {
       const creditorPercentage = curCreditorVal.creditorBalance / totalCreditorBalance
       const indWad = creditorPercentage * curCreditorVal.daysDelinquentAsOnOnboarding;
       return accumulator + indWad;
@@ -163,6 +163,8 @@ export default class FAmendmentCreditor extends ModelVue {
     //     val creditorPercentage = (fiCreditor.creditorBalance / totalCreditorBalance).toDouble
     //     creditorPercentage * fiCreditor.daysDelinquentAsOnOnboarding
     // }.sum.toInt
+
+    return Math.round(wad);
   }
 
   addCreditor() {

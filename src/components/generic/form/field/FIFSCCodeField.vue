@@ -15,6 +15,7 @@
   </div>
 </template>
 <script lang="ts">
+import FSnackbar from "@/fsnackbar";
 import axios from "axios";
 import { Component, Prop } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib/components";
@@ -58,6 +59,7 @@ export default class FIFSCCodeField extends VTextField {
       this.onSelect(axiosResponse.data);
     } catch (e) {
       console.log(e);
+      FSnackbar.error("Ifsc code not found")
     }
   }
 }

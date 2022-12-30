@@ -59,6 +59,7 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         onClick: (item) => this.handleMarkSettleClick(item),
         label: "Mark Settle",
         confirmation: true,
+        disabled: this.parent.isClientFileLead(),
       }).addAction({
         type: ActionType.OTHERS,
         onClick: () => this.handleAddCreditScore(),

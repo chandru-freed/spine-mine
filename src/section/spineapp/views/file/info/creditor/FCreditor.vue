@@ -245,6 +245,10 @@ export default class FCreditor extends ModelVue {
     );
   }
 
+  isClientFileLead(): boolean {
+    return this.clientFileBasicInfo.clientFileStatus.id === 'LEAD'
+  }
+
   get creditorListFDataTableMetaData() {
     return new CreditorListFDataTableMDP({ parent: this }).getMetaData();
   }

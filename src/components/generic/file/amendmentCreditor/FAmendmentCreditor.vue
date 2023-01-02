@@ -67,6 +67,7 @@ import FEditCreditorFFormMDP from "./FEditCreditorFFormMDP";
 import FACreditorListFDataTableMDP from "./FACreditorListFDataTableMDP";
 import FDataTable from "../../table/FDataTable.vue";
 import moment from "moment";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -111,7 +112,6 @@ export default class FAmendmentCreditor extends ModelVue {
     this.editCreditorDialog = true;
   }
 
-
   closeAndClearAllForms() {
     this.closeDialogs();
     this.resetForms();
@@ -136,27 +136,36 @@ export default class FAmendmentCreditor extends ModelVue {
 
   updateCreditor() {
     // console.log(this.selectedCreditorIndex,this.editCreditorForm,"Index is this");
-    this.editCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(this.editCreditorForm);
-    this.modelValue.creditorList[this.selectedCreditorIndex] = this.editCreditorForm;
+    this.editCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(
+      this.editCreditorForm
+    );
+    this.modelValue.creditorList[this.selectedCreditorIndex] =
+      this.editCreditorForm;
     this.modelValue.totalDebt = this.calculateTotadDebt();
     this.saveTask();
   }
 
   calculateTotadDebt() {
-    return this.modelValue.creditorList.reduce((accumulator: number, curVal: any) => {
+    return this.modelValue.creditorList.reduce(
+      (accumulator: number, curVal: any) => {
         return accumulator + curVal.creditorBalance;
       },
-      0);
+      0
+    );
   }
 
-
-   getWAD() {
+  getWAD() {
     const totalCreditorBalance = this.calculateTotadDebt();
-    const wad = this.modelValue.creditorList.reduce((accumulator: number, curCreditorVal: Data.ClientFile.FiCreditor) => {
-      const creditorPercentage = curCreditorVal.creditorBalance / totalCreditorBalance
-      const indWad = creditorPercentage * curCreditorVal.daysDelinquentAsOnOnboarding;
-      return accumulator + indWad;
-    },0);
+    const wad = this.modelValue.creditorList.reduce(
+      (accumulator: number, curCreditorVal: Data.ClientFile.FiCreditor) => {
+        const creditorPercentage =
+          curCreditorVal.creditorBalance / totalCreditorBalance;
+        const indWad =
+          creditorPercentage * curCreditorVal.daysDelinquentAsOnOnboarding;
+        return accumulator + indWad;
+      },
+      0
+    );
     // let totalCreditorBalance = fiCreditorList.map(_.creditorBalance).sum
     // fiCreditorList.map {
     //   fiCreditor =>
@@ -170,7 +179,10 @@ export default class FAmendmentCreditor extends ModelVue {
   addCreditor() {
     const creditorList: any[] = this.modelValue.creditorList || [];
     this.addCreditorForm.fiCreditorId = undefined;
-    this.addCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(this.addCreditorForm);
+    this.addCreditorForm.settlementStatus = "ACTIVE";
+    this.addCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(
+      this.addCreditorForm
+    );
     creditorList.push(this.addCreditorForm.toJson());
     console.log(this.modelValue.creditorList);
     this.modelValue.totalDebt = this.calculateTotadDebt();
@@ -179,27 +191,43 @@ export default class FAmendmentCreditor extends ModelVue {
   }
 
   getDaysDelinquent(creditor: Data.Spine.Creditor) {
-  return moment().diff(creditor.lastDateOfPayment,"days");
+    return moment().diff(creditor.lastDateOfPayment, "days");
   }
 
   removeCreditor(item: any, index: number) {
     return new Promise((resolve) => {
-      const creditorList: any[] = this.modelValue.creditorList || [];
-      this.modelValue.creditorList.splice(index, 1);
-      console.log(this.modelValue.creditorList, index);
-      this.modelValue.totalDebt = this.calculateTotadDebt();
-      this.saveTask();
+      console.log(item, "Item is");
+      if (this.isCreditorSettled(item.settlementStatus)) {
+        FSnackbar.error("Creditor status should not be settled or partialy settled");
+      } else {
+        // const creditorList: any[] = this.modelValue.creditorList || [];
+        this.modelValue.creditorList.splice(index, 1);
+        console.log(this.modelValue.creditorList, index);
+        this.modelValue.totalDebt = this.calculateTotadDebt();
+        this.saveTask();
+      }
     });
   }
 
-  selectEditCreditor(item: any,index: number) {
-    this.selectedCreditorItem = item;
-    this.selectedCreditorIndex = index;
-    index
-    this.editCreditorForm = {
-      ...item,
-    };
-    this.showEditForm();
+  selectEditCreditor(item: any, index: number) {
+    if (this.isCreditorSettled(item.settlementStatus)) {
+      FSnackbar.error("Creditor status should not be settled or partialy settled");
+    } else {
+      this.selectedCreditorItem = item;
+      this.selectedCreditorIndex = index;
+      index;
+      this.editCreditorForm = {
+        ...item,
+      };
+      this.showEditForm();
+    }
+  }
+
+  isCreditorSettled(settlementStatus: string): boolean {
+    return (
+      settlementStatus === Data.Spine.FICREDITOR_STATUS.SETTLED.id ||
+      settlementStatus === Data.Spine.FICREDITOR_STATUS.PARTIALLY_SETTLED.id
+    );
   }
 
   get actionMetaDataListFiltered() {
@@ -231,7 +259,6 @@ export default class FAmendmentCreditor extends ModelVue {
       return this.editCreditorForm.debtType === "Credit Card";
     }
   }
-
 
   get fCreditorListFDataTableMetaData() {
     return new FACreditorListFDataTableMDP({ parent: this }).getMetaData();

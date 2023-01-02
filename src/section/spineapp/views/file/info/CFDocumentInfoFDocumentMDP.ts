@@ -6,7 +6,7 @@ export default class CFDocumentInfoFDocumentMDP extends FDocumentMDP {
             taskRoot: taskRoot,
             parent: parent,
             myRefName: "cfDocumentInfoRef",
-            disabled: false,
+            disabled: true,
         });
 
     }

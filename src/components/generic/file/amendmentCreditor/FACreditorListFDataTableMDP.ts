@@ -5,6 +5,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
 import FCellDateMDP from "../../table/cell/FCellDateMDP";
+import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
@@ -30,7 +31,14 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           }).addColumn({
             label: "Account Number",
             dataSelectorKey: "accountNumber",
-          }).addAction({
+          })
+          .addColumn({
+            label: "Settlement Status",
+            dataSelectorKey: "settlementStatus",
+            columnCellMDP:new  FCellStatusMDP({})
+          })
+          
+          .addAction({
             type: ActionType.DELETE,
             onClick: (item, index) => this.deleteCreditorData(item,index),
             label: "",

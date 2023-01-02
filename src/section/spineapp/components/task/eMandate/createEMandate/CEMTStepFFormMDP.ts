@@ -1,5 +1,6 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
@@ -32,6 +33,12 @@ export default class CEMTStepFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-6",
         disabled: this.disabled,
+      })
+    ).addField(
+      new FSwitchMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.skipEMandateSign",
+        label: "Skip EMandate Sign",
       })
     );
   }

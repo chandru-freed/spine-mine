@@ -106,6 +106,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import store, * as Store from "@/../src-gen/store";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
@@ -119,6 +120,9 @@ import axios from "axios";
   },
 })
 export default class FDocument extends ModelVue {
+    @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
   uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
   selectedCreditorIndex: number;
@@ -209,7 +213,7 @@ export default class FDocument extends ModelVue {
   getPresignedURLAndUpload() {
     const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
     Action.Spine.GetFiPresignedURLForUpload.execute2(
-      this.clientFileNumber,
+      this.clientFileBasicInfo.clientFileNumber,
       fileName,
       (output) => {
         this.presignedUrl = output.url;

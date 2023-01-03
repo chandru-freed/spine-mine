@@ -2,7 +2,6 @@
   <div>
     <!-- <h4>CHPP</h4>
     Root Data : {{ taskFormData }} -->
-
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -14,8 +13,9 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
-import store, * as Store from "@/../src-gen/store";
+import * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -35,7 +35,12 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
+  // Document List
+  @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
+  fiDocumentListStoreLocal: Data.ClientFile.FiDocument[];
+
   taskId = this.$route.params.taskId;
+  clientFileId = this.$route.params.clientFileId;
 
   // DATA
   get taskDetailsOutput() {
@@ -73,12 +78,15 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.CHPPTaskOutput();
 
   get taskFormOutput() {
+    const fiDocumentListCHPP = this.fiDocumentListStoreLocal.filter((task) => {
+      return task.documentType === "CHPP";
+    });
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
       creditorInfo:
         this.taskDetailsOutput.creditorInfo ||
         new Data.Spine.CHPPCreditorInfo(),
-      fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
+      fileDocumentList: fiDocumentListCHPP || [],
     };
     return this.taskFormOutputLocal;
   }
@@ -97,7 +105,10 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
   //METADATA
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 
   //ACTION
@@ -156,6 +167,17 @@ export default class CHPPTask extends ModelVue implements ManualTaskIntf {
 
   get currentStep(): number {
     return this.$route.query.step ? Number(this.$route.query.step) : 0;
+  }
+
+  mounted() {
+    this.getFiDocumentList();
+  }
+
+  getFiDocumentList() {
+    Action.ClientFile.GetDocumentList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 }
 </script>

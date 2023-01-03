@@ -236,6 +236,7 @@ import CNSFMSFTCDraftPaymentStep from "@/section/spineapp/components/task/enroll
 import FCancelFlowFFormMDP from "./cancelTask/FCancelFlowFFormMDP";
 import FCancelTaskFFormMDP from "./cancelTask/FCancelTaskFFormMDP";
 import FSnackbar from "@/fsnackbar";
+import FDocumentCHPP from "./file/documentUploadCHPP/FDocumentCHPP.vue";
 
 @Component({
   components: {
@@ -255,6 +256,7 @@ import FSnackbar from "@/fsnackbar";
     FBPaymentPlan,
     CMSFTCDraftPaymentStep,
     CNSFMSFTCDraftPaymentStep,
+    FDocumentCHPP
   },
 })
 export default class FTaskStepper extends ModelVue {

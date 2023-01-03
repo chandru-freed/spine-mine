@@ -1,7 +1,6 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
-import FDocumentMDP from "@/components/generic/file/documentUpload/FDocumentMDP";
+import FDocumentCHPPMDP from "@/components/generic/file/documentUploadCHPP/FDocumentCHPPMDP";
 
-export default class CHPPTProofStepFDocumentMDP extends FDocumentMDP {
+export default class CHPPTProofStepFDocumentMDP extends FDocumentCHPPMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       taskRoot: taskRoot,

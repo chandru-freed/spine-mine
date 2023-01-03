@@ -14,7 +14,9 @@
           class="d-flex align-center"
           v-if="cfTaskList.length == 0"
         >
-          <v-card-text class="d-flex justify-center"> No Task to display </v-card-text>
+          <v-card-text class="d-flex justify-center">
+            No Task to display
+          </v-card-text>
         </v-card>
         <v-list dense class="py-0" v-if="cfTaskList.length > 0">
           <v-list-item v-for="(cfTask, j) in cfTaskList" :key="j">
@@ -230,12 +232,9 @@ export default class CFQuickNav extends Vue {
   }
 
   getTaskListForClientFile() {
-      Action.TaskList.GetTaskListByCid.execute1(
-        this.clientFileId,
-        (output) => {
-          // this.cfTaskList = output;
-        }
-      );
+    Action.TaskList.GetTaskListByCid.execute1(this.clientFileId, (output) => {
+      // this.cfTaskList = output;
+    });
   }
 
   actionList = [
@@ -326,16 +325,26 @@ export default class CFQuickNav extends Vue {
     );
   }
 
+  getCFActiveTaskList() {
+    Action.TaskList.GetTaskListByCid.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {}
+    );
+  }
+
   gotoCFActiveTaskList() {
-    Helper.Router.gotoCFActiveTaskList({
-      router: this.$router,
-      clientFileId: this.clientFileId,
-    });
+    if (this.$route.name === "Root.CFile.CFTask.CFActiveTasks") {
+      this.getCFActiveTaskList();
+    } else {
+      Helper.Router.gotoCFActiveTaskList({
+        router: this.$router,
+        clientFileId: this.clientFileId,
+      });
+    }
   }
 
   gotoTaskDetails(item: any) {
     const params = { ...this.$route.params, taskId: item.taskId };
-
     this.$router.push({
       name: "Root.CFile.CFTask.CFTaskDetails.CFTaskDetails",
       params: params,

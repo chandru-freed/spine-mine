@@ -224,7 +224,7 @@ export default class CFPaymentDetails extends Vue {
   }
 
   updateFundSplitStatus() {
-    Action.ClientFile.UpdateFundSplitStatus.execute2(this.paymentId, "", (output) => {
+    Action.ClientFile.UpdateFundSplitStatus.execute1(this.paymentId, (output) => {
       setTimeout(this.loadPaymentDetails, 1000)
     });
   }

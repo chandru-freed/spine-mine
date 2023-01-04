@@ -89,7 +89,8 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           label: "Account Number",
           mandatory: true,
           boundaryClass: "col-4",
-          condition: !this.parent.isCreditCard()
+          condition: !this.parent.isCreditCard(),
+          rules: "min:9|max:20",
         })
       )
       .addAction(

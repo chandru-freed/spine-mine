@@ -306,13 +306,8 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Retry.interested(this.getExecutiveTaskDetailsHandler);
 
-        Action.TaskList.CancelFlow.interested(
-      this.getExecutiveTaskDetailsHandler
-    );
-      Action.TaskList.CancelTask.interested(
-      this.getExecutiveTaskDetailsHandler
-    );
-
+    Action.TaskList.CancelFlow.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.CancelTask.interested(this.getExecutiveTaskDetailsHandler);
 
     // Ohter Action list
     Action.ClientFile.Activate.interested(
@@ -332,6 +327,68 @@ export default class CFTaskDetails extends Vue {
     );
 
     this.getExecutiveTaskDetailsWithDelay();
+  }
+
+  public destroyed() {
+    Action.TaskList.PullTask.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.PullStartAndMerge.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.SaveAndComplete.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Retry.notInterested(this.getExecutiveTaskDetailsHandler);
+
+    //Commands
+    Action.Spine.ReceiveFirstMSFPayment.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.Spine.UpdateFirstMSFPaymentStatus.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.Spine.ReceiveMSFPayment.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.Spine.UpdateMsfPaymentStatus.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    Action.Spine.SchedulePaymentPlan.notInterested(
+      this.getFindClientFileSummaryWithDelay
+    );
+
+    Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
+
+    Action.TaskList.CancelFlow.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+    Action.TaskList.CancelTask.notInterested(
+      this.getExecutiveTaskDetailsHandler
+    );
+
+    // Ohter Action list
+    Action.ClientFile.Activate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Hold.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Resume.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Graduate.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
+    Action.ClientFile.Cancel.notInterested(
+      this.getTaskDetailsAndFileSummaryWithDelay
+    );
   }
 
   getExecutiveTaskDetailsWithDelay() {
@@ -406,67 +463,6 @@ export default class CFTaskDetails extends Vue {
         ...this.$route.query,
       },
     });
-  }
-
-  public destroyed() {
-    Action.TaskList.PullTask.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.PullStartAndMerge.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.SaveAndComplete.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
-
-    //Commands
-    Action.Spine.ReceiveFirstMSFPayment.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-    Action.Spine.UpdateFirstMSFPaymentStatus.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-
-    Action.Spine.ReceiveMSFPayment.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-
-    Action.Spine.UpdateMsfPaymentStatus.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-
-    Action.Spine.SchedulePaymentPlan.notInterested(
-      this.getFindClientFileSummaryWithDelay
-    );
-
-    Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
-    Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
-
-    Action.TaskList.CancelFlow.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-      Action.TaskList.CancelTask.notInterested(
-      this.getExecutiveTaskDetailsHandler
-    );
-
-    // Ohter Action list
-    Action.ClientFile.Activate.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.ClientFile.Hold.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.ClientFile.Resume.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.ClientFile.Graduate.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
-    Action.ClientFile.Cancel.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
-    );
   }
 
   findClientFileSummary() {

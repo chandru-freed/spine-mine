@@ -87,6 +87,7 @@ export default class FAmendmentCreditor extends ModelVue {
 
   addCreditorDialog = false;
   editCreditorDialog = false;
+  
 
   taskId = this.$route.params.taskId;
 

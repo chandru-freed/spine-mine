@@ -80,6 +80,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import Helper from "@/section/spineapp/util/Helper";
 import * as Snackbar from "node-snackbar";
+import FSnackbar from "@/fsnackbar";
 
 @Component
 export default class CFActionList extends Vue {
@@ -96,66 +97,6 @@ export default class CFActionList extends Vue {
   searchText: string = "";
 
   actionGroupList = [
-    {
-      groupName: "Communication",
-      actionList: [
-        {
-          actionName: "Send Email",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFSendEmail",
-        },
-        {
-          actionName: "Send SMS",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFSendSMS",
-        },
-        {
-          actionName: "Send Whatsapp",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFSendWhatsapp",
-        },
-      ],
-    },
-    {
-      groupName: "Assign",
-      actionList: [
-        {
-          actionName: "Assign RM (Relationship Manager)",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFAssignRM",
-        },
-        {
-          actionName: "Assign Sales Rep",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFAssignSalesRep",
-        },
-      ],
-    },
-    {
-      groupName: "Payment",
-      actionList: [
-        {
-          actionName: "Record Payment",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFRecordPayment",
-        },
-        {
-          actionName: "Receive Payment",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFReceivePayment",
-        },
-        {
-          actionName: "Receive MSF",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
-        },
-        {
-          actionName: "Draft Payment",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFDraftPayment",
-        },
-      ],
-    },
     {
       groupName: "Flow",
       actionList: [
@@ -210,12 +151,12 @@ export default class CFActionList extends Vue {
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: { flowName: "EMandate" },
         },
-        {
-          actionName: "Settlement Plan",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFCreateRequest",
-          query: { flowName: "Settlement Plan" },
-        },
+        // {
+        //   actionName: "Settlement Plan",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.CFCreateRequest",
+        //   query: { flowName: "Settlement Plan" },
+        // },
         {
           actionName: "Refund Fee",
           icon: "mdi-chevron-right",
@@ -224,6 +165,67 @@ export default class CFActionList extends Vue {
         },
       ],
     },
+    {
+      groupName: "Communication",
+      actionList: [
+        {
+          actionName: "Send Email",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFSendEmail",
+        },
+        {
+          actionName: "Send SMS",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFSendSMS",
+        },
+        {
+          actionName: "Send Whatsapp",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFSendWhatsapp",
+        },
+      ],
+    },
+    {
+      groupName: "Assign",
+      actionList: [
+        {
+          actionName: "Assign RM (Relationship Manager)",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFAssignRM",
+        },
+        {
+          actionName: "Assign Sales Rep",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFAssignSalesRep",
+        },
+      ],
+    },
+    {
+      groupName: "Payment",
+      actionList: [
+        // {
+        //   actionName: "Record Payment",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.CFRecordPayment",
+        // },
+        // {
+        //   actionName: "Receive Payment",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.CFReceivePayment",
+        // },
+        // {
+        //   actionName: "Receive MSF",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
+        // },
+        // {
+        //   actionName: "Draft Payment",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.CFDraftPayment",
+        // },
+      ],
+    },
+
     {
       groupName: "Other Action",
       actionList: [
@@ -242,16 +244,16 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           command: this.resume,
         },
-        {
-          actionName: "Mark File As Graduate",
-          icon: "mdi-chevron-right",
-          command: this.graduate,
-        },
-        {
-          actionName: "Mark File As Cancel",
-          icon: "mdi-chevron-right",
-          command: this.cancel,
-        },
+        // {
+        //   actionName: "Mark File As Graduate",
+        //   icon: "mdi-chevron-right",
+        //   command: this.graduate,
+        // },
+        // {
+        //   actionName: "Mark File As Cancel",
+        //   icon: "mdi-chevron-right",
+        //   command: this.cancel,
+        // },
       ],
     },
   ];
@@ -308,7 +310,7 @@ export default class CFActionList extends Vue {
     );
   }
 
-   createCollectFirstMSF() {
+  createCollectFirstMSF() {
     Action.Spine.CreateCollectFirstMSF.execute2(
       this.clientFileBasicInfo.clientFileNumber,
       "V1Net",
@@ -420,6 +422,7 @@ export default class CFActionList extends Vue {
   activate() {
     Action.ClientFile.Activate.execute1(this.clientFileId, (ootput) => {
       setTimeout(() => {
+        FSnackbar.success("Succesfully assigned");
         this.gotoCFActiveTaskList();
       }, 400);
     });
@@ -428,6 +431,7 @@ export default class CFActionList extends Vue {
   hold() {
     Action.ClientFile.Hold.execute1(this.clientFileId, (output) => {
       setTimeout(() => {
+        FSnackbar.success("Succesfully assigned");
         this.gotoCFActiveTaskList();
       }, 400);
     });
@@ -436,6 +440,7 @@ export default class CFActionList extends Vue {
   resume() {
     Action.ClientFile.Resume.execute1(this.clientFileId, (output) => {
       setTimeout(() => {
+        FSnackbar.success("Succesfully assigned");
         this.gotoCFActiveTaskList();
       }, 400);
     });

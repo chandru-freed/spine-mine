@@ -27,15 +27,15 @@
 
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn
-            v-if="item.isDefault"
+            v-if="!item.isDefault"
               small
               outlined
               color="primary"
               @click="markDefault(item.eMandateId)"
             >
-              Mark Default{{item.isDefault}}
+              Mark Default
             </v-btn>
-            <v-chip small v-if="!item.isDefault">Default</v-chip>
+            <v-chip small v-if="item.isDefault">Default</v-chip>
           </template>
         </v-data-table>
       </v-card>

@@ -17,11 +17,12 @@
       v-bind="paymentCalculatorFormMetaData.props"
     ></component> -->
 
-    <TMOStimulator v-if="modelValue" :value="modelValue"
-    :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"
-    :simulatorInput="modelValue"
+    <TMOStimulator
+      v-if="modelValue"
+      :value="modelValue"
+      :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"
+      :simulatorInput="modelValue"
     />
-
 
     <div class="d-flex justify-space-around"></div>
 
@@ -43,9 +44,15 @@
     </v-alert>
 
     <v-card flat outlined class="row ma-2">
-      <v-tabs v-model="tab" background-color="transparent" color="secondary">
-        <v-tab> Payment Schedule </v-tab>
-      </v-tabs>
+      <v-toolbar>
+        <v-tabs v-model="tab" background-color="transparent" color="secondary">
+          <v-tab> Payment Schedule </v-tab>
+        </v-tabs>
+        <div class="d-flex col-3 justify-end">
+          <span class="mx-2">Ps Plan Status: </span>
+          <v-chip outlined>{{ modelValue.paymentPlan.psPlanStatus }}</v-chip>
+        </div>
+      </v-toolbar>
 
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>
@@ -70,7 +77,6 @@
               "
               v-bind="addPsEntryFFormMetaData.props"
             ></component>
-
 
             <component
               :is="fPaymentScheduleFDataTableMetaData.componentName"
@@ -130,7 +136,6 @@ import FEnrollmentPPScheduleFDataTableMDP from "./FEPPScheduleFDataTableMDP";
 import FEPSkipedPresentedFDataTableMDP from "./FEPSkipedPresentedFDataTableMDP";
 import AddEPsEntryFFormMDP from "./AddEPsEntryFFormMDP";
 
-
 import * as Store from "@/../src-gen/store";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
@@ -153,10 +158,8 @@ export default class FEPaymentPlan extends ModelVue {
   fPaymentScheduleFDataTableRefName: string = "fEPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
-
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-  
 
   get clientFileId() {
     return this.$route.params.clientFileId;

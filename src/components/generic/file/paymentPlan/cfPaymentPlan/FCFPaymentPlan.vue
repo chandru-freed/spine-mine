@@ -39,10 +39,16 @@
     </v-alert>
 
     <v-card flat outlined class="row ma-2">
+      <v-toolbar>
       <v-tabs v-model="tab" background-color="transparent" color="secondary">
         <v-tab> Payment Schedule </v-tab>
         <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
       </v-tabs>
+      <div class="d-flex col-3 justify-end">
+      <span  class="mx-2">Ps Plan Status: </span>
+      <v-chip  small>{{modelValue.paymentPlan.psPlanStatus}}</v-chip>
+      </div>
+      </v-toolbar>
 
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>

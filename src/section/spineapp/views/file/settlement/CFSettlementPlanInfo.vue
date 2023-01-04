@@ -206,6 +206,32 @@ export default class CFSettlementPlanInfo extends ModelVue {
     });
   }
 
+    public destroyed() {
+          Action.ClientFile.AddSTEntry.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.RemoveSTEntry.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.PresentSTEntry.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+
+    Action.ClientFile.UpdateSTEntryAccountDetails.notInterested(() => {
+      setTimeout(() => {
+        this.getSTPaymentPlanDetails();
+      }, 1000);
+    });
+    }
+
   resetForms() {
     this.addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
   }

@@ -67,6 +67,7 @@ export default class UpcomingPayments extends ModelVue {
 
   mounted() {
     this.getSceheduledPaymentList();
+    Action.TaskList.Suspend.interested(this.getSceheduledPaymentList);
   }
 
   destroyed() {

@@ -59,6 +59,10 @@ export default class TaskSuspended extends ModelVue {
     this.getSuspendedTaskList();
     Action.TaskList.Resume.interested(this.getSuspendedTaskListWithDelay);
   }
+
+    destroyed() {
+    Action.TaskList.Resume.notInterested(this.getSuspendedTaskListWithDelay);
+  }
   getSuspendedTaskListWithDelay() {
     setTimeout(() => {
       this.getSuspendedTaskList();

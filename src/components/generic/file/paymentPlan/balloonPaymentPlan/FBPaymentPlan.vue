@@ -17,8 +17,13 @@
       "
       v-bind="paymentCalculatorFormMetaData.props"
     ></component> -->
-    <TMOStimulator :percentage="tmosSimulatorInput.paymentPlan.ppCalculator?.settlementPercentage" v-if="tmosSimulatorInput" :value="tmosSimulatorInput"
-    :simulatorInput="tmosSimulatorInput"
+    <TMOStimulator
+      :percentage="
+        tmosSimulatorInput.paymentPlan.ppCalculator?.settlementPercentage
+      "
+      v-if="tmosSimulatorInput"
+      :value="tmosSimulatorInput"
+      :simulatorInput="tmosSimulatorInput"
     />
 
     <div class="d-flex justify-space-around"></div>
@@ -41,10 +46,16 @@
     </v-alert> -->
 
     <v-card flat outlined class="row ma-2">
-      <v-tabs v-model="tab" background-color="transparent" color="secondary">
-        <v-tab> Payment Schedule </v-tab>
-        <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
-      </v-tabs>
+      <v-toolbar>
+        <v-tabs v-model="tab" background-color="transparent" color="secondary">
+          <v-tab> Payment Schedule </v-tab>
+          <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
+        </v-tabs>
+        <div class="d-flex col-3 justify-end">
+          <span>Ps Plan Status: </span>
+          <v-chip small>{{ paymentPlan.psPlanStatus }}</v-chip>
+        </div>
+      </v-toolbar>
 
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>
@@ -179,13 +190,13 @@ import * as Store from "@/../src-gen/store";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
 
-import FBPSkipedPresentedFDataTableMDP from './FBPSkipedPresentedFDataTableMDP';
-import FBPPScheduleFDataTableMDP from './FBPPScheduleFDataTableMDP';
-import AddBPsEntryFFormMDP from './AddBPsEntryFFormMDP';
-import ModifyBPsEntryFFormMDP from './ModifyBPsEntryFFormMDP';
-import FBFeeFDataTableMDP from './FBFeeFDataTableMDP';
+import FBPSkipedPresentedFDataTableMDP from "./FBPSkipedPresentedFDataTableMDP";
+import FBPPScheduleFDataTableMDP from "./FBPPScheduleFDataTableMDP";
+import AddBPsEntryFFormMDP from "./AddBPsEntryFFormMDP";
+import ModifyBPsEntryFFormMDP from "./ModifyBPsEntryFFormMDP";
+import FBFeeFDataTableMDP from "./FBFeeFDataTableMDP";
 import Helper from "@/section/spineapp/util/Helper";
-import UploadExcelFFormMDP from './UploadExcelFFormMDP';
+import UploadExcelFFormMDP from "./UploadExcelFFormMDP";
 @Component({
   components: {
     FForm,
@@ -206,13 +217,12 @@ export default class FBPaymentPlan extends ModelVue {
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
-
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
   showUploadForm: boolean = false;
-  uploadPSPlanExcelInput: Data.Spine.UploadPSPlanExcelInput = new Data.Spine.UploadPSPlanExcelInput();
-  
+  uploadPSPlanExcelInput: Data.Spine.UploadPSPlanExcelInput =
+    new Data.Spine.UploadPSPlanExcelInput();
 
   get clientFileId() {
     return this.$route.params.clientFileId;
@@ -222,22 +232,22 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   get tmosSimulatorInput() {
-    console.log(this.modelValue,"TMOs")
+    console.log(this.modelValue, "TMOs");
     return {
-      paymentPlan : this.paymentPlan,
+      paymentPlan: this.paymentPlan,
       creditorInfo: this.modelValue.taskOutput.creditorInfo,
-      budgetInfo: this.modelValue.taskInput.existingBudgetInfo
-    }
+      budgetInfo: this.modelValue.taskInput.existingBudgetInfo,
+    };
   }
 
   get psEntrySchelduledList() {
-    console.log("this.paymentPlan",this.modelValue)
-    return this.paymentPlan?.paymentScheduleList.filter(
-      (psEntry: any) => psEntry.status === "SCHEDULED"
-    )||[];
+    console.log("this.paymentPlan", this.modelValue);
+    return (
+      this.paymentPlan?.paymentScheduleList.filter(
+        (psEntry: any) => psEntry.status === "SCHEDULED"
+      ) || []
+    );
   }
-
-  
 
   get psEntryPresentedList() {
     return this.paymentPlan?.paymentScheduleList.filter(
@@ -285,18 +295,21 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   downloadExcel() {
-    
-    const {psPlanId} = this.modelValue.taskInput.existingPaymentPlan;
-    const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${psPlanId}`
-    const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`
+    const { psPlanId } = this.modelValue.taskInput.existingPaymentPlan;
+    const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${psPlanId}`;
+    const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`;
     Helper.downloadFile(url, fileName);
   }
 
   uploadExcel() {
-    this.uploadPSPlanExcelInput.newPSPlanId =  this.modelValue.taskInput.newPSPlanId;
-    Action.Spine.UploadPaymentSchedulePlanExcel.execute(this.uploadPSPlanExcelInput, output => {
-      this.resetFormsTableAndData();
-    });
+    this.uploadPSPlanExcelInput.newPSPlanId =
+      this.modelValue.taskInput.newPSPlanId;
+    Action.Spine.UploadPaymentSchedulePlanExcel.execute(
+      this.uploadPSPlanExcelInput,
+      (output) => {
+        this.resetFormsTableAndData();
+      }
+    );
     // Action.Spine.UploadPaymentPlanExcel.execute1()
   }
 
@@ -330,7 +343,7 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   get uploadExcelFFormMetaData() {
-    return new UploadExcelFFormMDP({parent: this}).getMetaData();
+    return new UploadExcelFFormMDP({ parent: this }).getMetaData();
   }
 
   @Prop()

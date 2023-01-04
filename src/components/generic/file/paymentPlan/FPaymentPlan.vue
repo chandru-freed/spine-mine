@@ -32,15 +32,19 @@
       Monthly Obligation ({{
         paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2) | toINR
       }}) greater than Affordability ({{
-        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)| toINR
+        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2) | toINR
       }}).
     </v-alert>
 
     <v-card flat outlined class="row ma-2">
-      <v-tabs v-model="tab" background-color="transparent" color="secondary">
-        <v-tab> Payment Schedule </v-tab>
-        <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
-      </v-tabs>
+      <v-toolbar>
+        <v-tabs v-model="tab" background-color="transparent" color="secondary">
+          <v-tab> Payment Schedule </v-tab>
+          <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
+        </v-tabs>
+        <span class="mx-2">Status: </span>
+        <v-chip >{{ paymentPlan.psPlanStatus }}</v-chip>
+      </v-toolbar>
 
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>
@@ -178,10 +182,8 @@ export default class FPaymentPlan extends ModelVue {
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
-
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
-  
 
   get clientFileId() {
     return this.$route.params.clientFileId;

@@ -8,7 +8,7 @@ import FDataTableMDP, {
 } from "@/components/generic/table/FDataTableMDP";
 import * as Snackbar from "node-snackbar";
 
-export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
+export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor({ parent, refName }: { parent: any; refName: string }) {
     super({

@@ -126,6 +126,8 @@ export default class PrepareAmendmentTask extends ModelVue {
 
   destroyed() {
     Action.Spine.RecalculatePSPlanForPM.notInterested(this.getPSPlanInfo)
+    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getPSPlanInfo);
+    Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(this.getPSPlanInfo);
   }
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({

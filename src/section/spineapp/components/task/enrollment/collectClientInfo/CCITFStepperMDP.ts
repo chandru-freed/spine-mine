@@ -59,10 +59,8 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Payment Plan",
-        stepContent: new CCITPaymentPlanStepFPaymentPlanMDP({
-          taskRoot: this.taskRoot,
-          parent: this,
-        }),
+        stepContent: ccitPPStepFPaymentPlanMDP,
+        submitFunc: ccitPPStepFPaymentPlanMDP.validateEntries()
       })
       .addStep({
         name: "Bank",

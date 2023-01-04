@@ -1,6 +1,7 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
+import FSnackbar from "@/fsnackbar";
 import FPaymentCalculatorFFormMDP from "./FEPaymentCalculatorFFormMDP";
 
 
@@ -47,6 +48,18 @@ export default class FEPaymentPlanMDP implements MDP {
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);
     return this;
+  }
+
+  validateEntries() {
+    return (nextCallback: () => void) => {
+      const paymentScheduleList = this.taskRoot.taskFormOutput?.paymentPlan?.paymentScheduleList || [];
+      
+      if(paymentScheduleList.length>0) {
+      nextCallback()
+      } else {
+        FSnackbar.error("There should be atleast one entry")
+      }
+    };
   }
 
 

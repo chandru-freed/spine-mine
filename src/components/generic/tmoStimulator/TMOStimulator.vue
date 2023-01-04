@@ -212,7 +212,9 @@ export default class TMOStimulator extends ModelVue {
     this.resultLocal.affordability =
       this.modelValue.budgetInfo?.proposedDSPayment || 0;
     this.resultLocal.firstSPADraftDate =
-      this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || 0;
+      this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || moment()
+      .add(2, "days")
+      .format(Helper.DATE_FORMAT);;
   }
 
   maxTenureSlab() {
@@ -282,9 +284,11 @@ export default class TMOStimulator extends ModelVue {
     input.clientFileId = this.clientFileId;
     input.outstanding = this.result.outstanding;
     input.tenor = this.tenorNew;
-    input.spaFirstDraftDate = moment()
-      .add(2, "days")
-      .format(Helper.DATE_FORMAT);
+    input.settlementPercentage = this.result.settlementPercentage;
+    // input.spaFirstDraftDate = moment()
+    //   .add(2, "days")
+    //   .format(Helper.DATE_FORMAT);
+    input.spaFirstDraftDate = this.result.firstSPADraftDate;
     Action.Spine.DraftPSPlanForPM.execute(input, (output) => {});
   }
 

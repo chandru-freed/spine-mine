@@ -2,6 +2,30 @@
   <div class="row">
     <div class="col-12">
       <v-card outlined max-height="200px" class="overflow-y-auto">
+        <v-card-text class="py-1"> Assigned </v-card-text>
+        <v-divider />
+        <v-card-text class="py-2 d-flex align-center">
+          <v-chip
+            class="mr-1"
+            color="secondary"
+            outlined
+            small
+            v-if="clientFileBasicInfo.assignedRM"
+            >{{ clientFileBasicInfo.assignedRM }}</v-chip
+          >
+          <v-chip
+            class="mr-1"
+            color="secondary"
+            outlined
+            small
+            v-if="clientFileBasicInfo.assignedSalesRep"
+            >{{ clientFileBasicInfo.assignedSalesRep }}</v-chip
+          >
+        </v-card-text>
+      </v-card>
+    </div>
+    <div class="col-12">
+      <v-card outlined max-height="200px" class="overflow-y-auto">
         <v-card-text class="py-1 d-flex align-center">
           Active Tasks <v-spacer />
           <v-btn icon @click="gotoTaskList"
@@ -9,16 +33,13 @@
           >
         </v-card-text>
         <v-divider />
-        <v-card
-          height="150px"
-          class="d-flex align-center"
+        <v-card-text
+          class="d-flex justify-center"
           v-if="cfTaskList.length == 0"
         >
-          <v-card-text class="d-flex justify-center">
-            No Task to display
-          </v-card-text>
-        </v-card>
-        <v-list dense class="py-0" v-if="cfTaskList.length > 0">
+          No Task to display
+        </v-card-text>
+        <v-list dense class="py-0" v-if="cfTaskList.length">
           <v-list-item v-for="(cfTask, j) in cfTaskList" :key="j">
             <v-list-item-content class="pa-0">
               <v-list-item-title>
@@ -94,6 +115,10 @@
       <v-card outlined>
         <v-card-text class="py-1 d-flex align-center">
           Notes <v-spacer />
+          <v-btn-toggle v-model="selectedToggleType" mandatory dense>
+            <v-btn x-small> All </v-btn>
+            <v-btn x-small> Highlighted </v-btn>
+          </v-btn-toggle>
           <v-btn icon @click="gotoNotes"
             ><v-icon small> mdi-open-in-new</v-icon></v-btn
           >
@@ -115,15 +140,7 @@
             hint="Press CTRL + ENTER"
           ></v-textarea>
           <div>
-            <div class="d-flex mt-4">
-              <v-spacer />
-              <v-btn-toggle v-model="selectedToggleType" mandatory dense>
-                <v-btn> All </v-btn>
-                <v-btn> Highlighted </v-btn>
-              </v-btn-toggle>
-            </div>
-
-            <v-list max-height="200px" class="overflow-y-auto">
+            <v-list max-height="140px" class="overflow-y-auto">
               <template v-for="(note, index) in fiNoteListQuick">
                 <v-list-item :key="'note' + index" dense>
                   <template>
@@ -146,8 +163,60 @@
       </v-card>
     </div>
     <div class="col-12">
-      <v-card outlined height="200px">
-        <!-- <AmeyoToolbarDialog :ameyoToolbar="false" /> -->
+      <v-card outlined>
+        <v-card-text class="py-1 d-flex align-center">
+          Tickets <v-spacer />
+          <v-btn-toggle v-model="selectedToggleTypeTicket" mandatory dense>
+            <v-btn x-small> Active </v-btn>
+            <v-btn x-small> Completed </v-btn>
+          </v-btn-toggle>
+          <v-btn icon @click="gotoTicket"
+            ><v-icon small> mdi-open-in-new</v-icon></v-btn
+          >
+        </v-card-text>
+        <v-divider />
+        <v-card-text class="pa-1">
+          <div>
+            <v-card-text
+              class="d-flex justify-center"
+              v-if="myTicketList.length == 0"
+            >
+              No Tickets to display
+            </v-card-text>
+            <v-list
+              max-height="140px"
+              class="overflow-y-auto"
+              v-if="myTicketList.length"
+            >
+              <template v-for="(myTicket, index) in myTicketList">
+                <v-list-item :key="'myTicket' + index" dense class="px-0">
+                  <v-list-item-content>
+                    <div class="d-flex justify-space-between align-center pa-0">
+                      <f-btn
+                        :label="myTicket.cid"
+                        text
+                        color="secondary"
+                        small
+                        :onClick="() => gotoTicketDetails(myTicket)"
+                      ></f-btn>
+                      <v-card-subtitle class="grey--text pa-0">
+                        {{ myTicket.sla | date }}
+                      </v-card-subtitle>
+                      <v-chip outlined circle class="grey--text">{{
+                        myTicket.priority
+                      }}</v-chip>
+                    </div>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-divider
+                  v-if="index < fiNoteListQuick.length - 1"
+                  :key="index"
+                ></v-divider>
+              </template>
+            </v-list>
+          </div>
+        </v-card-text>
       </v-card>
     </div>
   </div>
@@ -161,11 +230,13 @@ import * as Action from "@/../src-gen/action";
 import Helper from "../../util/Helper";
 import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 import CFActionList from "./action/CFActionList.vue";
+import FBtn from "@/components/generic/FBtn.vue";
 
 @Component({
   components: {
     AmeyoToolbarDialog,
     CFActionList,
+    "f-btn": FBtn,
   },
 })
 export default class CFQuickNav extends Vue {
@@ -184,8 +255,15 @@ export default class CFQuickNav extends Vue {
   @Store.Getter.TaskList.BenchTaskSummary.cfActiveTaskList
   cfTaskList: Data.TaskList.GetTaskListByCidGrid[];
 
+  @Store.Getter.Ticket.TicketSummary.myTicketActiveList
+  myTicketActiveList: Data.Ticket.MyTicketTaskDetailsGet;
+
+  @Store.Getter.Ticket.TicketSummary.myTicketCompletedList
+  myTicketCompletedList: Data.Ticket.MyTicketTaskDetailsGet;
+
   clientFileId = this.$route.params.clientFileId;
   selectedToggleType: any = 0;
+  selectedToggleTypeTicket: any = 0;
   taskStateIconMap: any = {
     CREATED: { icon: "mdi-plus-circle-outline", color: "grey" },
     TO_BE_PULLED: { icon: "mdi-account-cancel-outline", color: "grey" },
@@ -218,9 +296,19 @@ export default class CFQuickNav extends Vue {
     }
   }
 
+  get myTicketList() {
+    if (this.selectedToggleTypeTicket === 0) {
+      return this.myTicketActiveList;
+    } else {
+      return this.myTicketCompletedList;
+    }
+  }
+
   mounted() {
     this.getFiNoteList();
     this.getTaskListForClientFile();
+    this.getMyCFTicketActiveList();
+    this.getMyCFTicketCompletedList();
   }
 
   getFiNoteList() {
@@ -231,9 +319,29 @@ export default class CFQuickNav extends Vue {
     }, 700);
   }
 
+  getMyCFTicketActiveList() {
+    Action.Ticket.GetMyCFTicketActiveList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+  getMyCFTicketCompletedList() {
+    Action.Ticket.GetMyCFTicketCompletedList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
   getTaskListForClientFile() {
     Action.TaskList.GetTaskListByCid.execute1(this.clientFileId, (output) => {
       // this.cfTaskList = output;
+    });
+  }
+
+  gotoTicketDetails(item: any) {
+    this.$router.push({
+      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketCommentList",
+      params: { myTicketId: item.taskId },
     });
   }
 
@@ -244,9 +352,9 @@ export default class CFQuickNav extends Vue {
       routerName: "Root.CFile.CFAction.CFSendEmail",
     },
     {
-      actionName: "Draft Payment ",
+      actionName: "Send SMS",
       icon: "mdi-chevron-right",
-      routerName: "Root.CFile.CFAction.CFDraftPayment",
+      routerName: "Root.CFile.CFAction.CFSendSMS",
     },
     {
       actionName: "CHPP",
@@ -288,6 +396,9 @@ export default class CFQuickNav extends Vue {
 
   gotoNotes() {
     this.$router.push({ name: "Root.CFile.CFNote.CFNoteHighlightList" });
+  }
+  gotoTicket() {
+    this.$router.push({ name: "Root.CFile.CFTicket.CFActiveTickets" });
   }
 
   createEnrollmentFlow() {

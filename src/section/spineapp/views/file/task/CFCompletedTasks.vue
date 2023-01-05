@@ -14,8 +14,8 @@
       <v-toolbar flat dense class="mt-1">
         <v-col class="col-2">
           <v-btn-toggle v-model="selectedToggleType" mandatory dense>
-            <v-btn small> Manual Tasks </v-btn>
             <v-btn small>All Tasks </v-btn>
+            <v-btn small> Manual Tasks </v-btn>
           </v-btn-toggle>
         </v-col>
         <v-col class="col-5"> </v-col>
@@ -158,9 +158,9 @@ export default class CFCompletedTasks extends Vue {
 
   get taskActiveList() {
     if (this.selectedToggleType === 0) {
-      return this.manualTaskList;
-    } else {
       return this.taskListFiltered;
+    } else {
+      return this.manualTaskList;
     }
   }
 

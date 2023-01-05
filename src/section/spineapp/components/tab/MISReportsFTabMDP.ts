@@ -15,6 +15,9 @@ export default class MISReportsFTabMDP extends FTabMDP {
     }).addTab({
       tabName: "Account Balance",
       routerName: "Root.MISReports.AccountBalance",
+    }).addTab({
+      tabName: "Day Wise Payment",
+      routerName: "Root.Operation.PaymentOperation",
     });
   }
 

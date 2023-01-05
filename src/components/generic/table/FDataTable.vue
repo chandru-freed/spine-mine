@@ -15,11 +15,39 @@
       color="red"
     />
 
+    <!-- Filters -->
+    <v-toolbar v-if="showFilterForm">
+      <div v-for="(filter, index) in filterList" :key="filter.dataSelectorKey">
+        <v-row class="mx-2">
+          <v-select
+            v-if="columnFilterListWithValues.length > 0"
+            outlined
+            dense
+            hide-details
+            multiple
+            :items="filter.filterItems"
+            class="mx-2"
+            :label="filter.label"
+            v-model="columnFilterListWithValues[index].value"
+            :itemValue="filter.itemKey"
+            :item-text="filter.itemText"
+          >
+          </v-select>
+        </v-row>
+      </div>
+      <v-btn @click="applyTableFilter()">Search</v-btn>
+    </v-toolbar>
+
+    <!-- Filters -->
+
     <v-data-table
       :value="selectedItemList"
       @input="handleSelectChange"
       :headers="filteredHeaders"
-      :items="selectModel(modelValue, dataSelectorKey)"
+      :items="selectModel(
+      modelValue,
+      dataSelectorKey
+    )"
       class="elevation-0"
       :show-select="showCheckbox"
       :single-select="!multiSelect"
@@ -54,6 +82,45 @@
             ></component>
           </div>
           <v-spacer />
+          <v-btn
+            v-if="enableExport"
+            outlined
+            color="primary"
+            class="mx-2"
+            small
+            @click="exportAsCsv"
+            >Export To Csv</v-btn
+          >
+
+          <!-- Show and Hide Headers -->
+          <div v-if="enableShowHideColumns">
+            <v-select
+              outlined
+              dense
+              hide-details
+              multiple
+              :items="columnList"
+              item-text="text"
+              class="mx-2"
+              label="Show and hide headers"
+              return-object
+              v-model="selectedColumnListToView"
+            >
+              <template v-slot:selection="{ item, index }">
+                <span v-if="index === 0">{{ item.text }}</span>
+
+                <span v-if="index === 1" class="grey--text text-caption">
+                  (+{{ selectedColumnListToView.length - 1 }} others)
+                </span>
+              </template>
+            </v-select>
+          </div>
+          <!-- Show and Hide Headers -->
+
+          <v-btn v-if="filterList.length>0" class="mx-2" outlined small @click="showFilterForm=true" color="primary">
+            <v-icon > mdi-filter-outline </v-icon>
+          </v-btn>
+
           <div v-if="filteredActions.length > 0">
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
@@ -118,8 +185,8 @@
             outlined
             rounded
             dense
-            class="shrink ml-3 "
-            style="width:180px"
+            class="shrink ml-3"
+            style="width: 180px"
           ></v-text-field>
         </v-toolbar>
       </template>
@@ -141,22 +208,22 @@
 
       <template v-slot:[`item.actions`]="{ item, index }">
         <div class="d-flex">
-        <v-btn
-          :disabled="disabled"
-          icon
-          @click="handleEditClick(item, index)"
-          v-if="editBtnData"
-        >
-          <v-icon small > mdi-pencil </v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          :disabled="disabled"
-          @click="handleDeleteClick(item, index)"
-          v-if="deleteBtnData"
-        >
-          <v-icon small > mdi-delete </v-icon>
-        </v-btn>
+          <v-btn
+            :disabled="disabled"
+            icon
+            @click="handleEditClick(item, index)"
+            v-if="editBtnData"
+          >
+            <v-icon small> mdi-pencil </v-icon>
+          </v-btn>
+          <v-btn
+            icon
+            :disabled="disabled"
+            @click="handleDeleteClick(item, index)"
+            v-if="deleteBtnData"
+          >
+            <v-icon small> mdi-delete </v-icon>
+          </v-btn>
         </div>
       </template>
     </v-data-table>
@@ -189,6 +256,8 @@ import FCellUppercase from "./cell/FCellUppercase.vue";
 import FCellDayPastDue from "./cell/FCellDayPastDue.vue";
 import FCellSLA from "./cell/FCellSLA.vue";
 import FCellCurrencyBtn from "./cell/FCellCurrencyBtn.vue";
+import * as Json2csv from "json2csv";
+import { filter } from "vue/types/umd";
 
 @Component({
   components: {
@@ -213,7 +282,7 @@ import FCellCurrencyBtn from "./cell/FCellCurrencyBtn.vue";
     FCellUppercase,
     FCellDayPastDue,
     FCellSLA,
-    FCellCurrencyBtn
+    FCellCurrencyBtn,
   },
 })
 export default class FDataTable extends ModelVue {
@@ -221,6 +290,10 @@ export default class FDataTable extends ModelVue {
     default: () => [],
   })
   columnList: any[];
+
+  selectedColumnListToView: any[] = [];
+
+  filteredTableData: any = [];
 
   @Prop()
   myRefName: string;
@@ -250,6 +323,16 @@ export default class FDataTable extends ModelVue {
   disabled: boolean;
 
   @Prop({
+    default: false,
+  })
+  enableExport: boolean;
+
+  @Prop({
+    default: false,
+  })
+  enableShowHideColumns: boolean;
+
+  @Prop({
     default: null,
   })
   title: string;
@@ -259,6 +342,11 @@ export default class FDataTable extends ModelVue {
   })
   itemKey: string;
 
+  @Prop({
+    default: () => [],
+  })
+  filterList: any[];
+
   search = "";
   showConfirmation: boolean = false;
   showDeleteConfirmation: boolean = false;
@@ -266,6 +354,8 @@ export default class FDataTable extends ModelVue {
   selectedItemForDelete: any;
   selectedAction: FTableActionField;
   selectedRowIndex: number | undefined;
+  columnFilterListWithValues: any[] = [];
+  showFilterForm: boolean = false;
 
   getValue(item: any, path: any) {
     return path.split(".").reduce((res: any, prop: any) => res[prop], item);
@@ -324,13 +414,14 @@ export default class FDataTable extends ModelVue {
   }
 
   isActionDisabled(action: FTableActionField) {
-    console.log(action.noSelect,"action.noSelect")
+    console.log(action.noSelect, "action.noSelect");
     return (
-      this.selectedItemList.length == 0 ||
-      this.disabled ||
-      action.disabled ||
-      (this.selectedItemList.length > 1 && action.singleSelect)
-    ) && !action.noSelect;
+      (this.selectedItemList.length == 0 ||
+        this.disabled ||
+        action.disabled ||
+        (this.selectedItemList.length > 1 && action.singleSelect)) &&
+      !action.noSelect
+    );
   }
 
   handleEditClick(item: any, index: number) {
@@ -351,7 +442,12 @@ export default class FDataTable extends ModelVue {
   }
 
   get filteredHeaders() {
-    const headers = [...this.columnList];
+    let headers = [...this.columnList];
+    headers = headers.filter((item) => {
+      return this.selectedColumnListToView.find((viewItem) => {
+        return item.value === viewItem.value;
+      });
+    });
     if (this.deleteBtnData || this.editBtnData) {
       headers.push({ text: "", value: "actions", align: "right" });
     }
@@ -382,6 +478,56 @@ export default class FDataTable extends ModelVue {
 
   clearSelectedItems() {
     this.selectedItemList = [];
+  }
+
+  private exportAsCsv() {
+    const fields = this.filteredHeaders.map((obj) => {
+      return { value: obj.value, label: obj.text };
+    });
+    const json2csvParser = new Json2csv.Parser({ fields });
+    const csv = json2csvParser.parse(this.modelValue);
+
+    const filename = "Export_" + new Date().getTime() + ".csv";
+    const charset = "utf-8";
+    const blob = new Blob([csv], {
+      type: "text/csv;charset=" + charset + ";",
+    });
+    if ((window.navigator as any).msSaveOrOpenBlob) {
+      (window.navigator as any).msSaveBlob(blob, filename);
+    } else {
+      const link = document.createElement("a");
+      link.setAttribute("href", window.URL.createObjectURL(blob));
+      link.setAttribute("download", `${filename}`);
+      link.setAttribute("target", "_blank");
+      document.body.appendChild(link); // Required for FF
+      link.click();
+    }
+  }
+
+  applyTableFilter() {
+    this.showFilterForm = false;
+    let filteredData = [...this.value];
+    this.columnFilterListWithValues.forEach((item) => {
+      filteredData = filteredData.filter((model: any) => {
+        if (item.value.length > 0) {
+          return item.value.includes(
+            this.selectModel(model, item.dataSelectorKey)
+          );
+        } else {
+          return true;
+        }
+      });
+    });
+    this.value = this.selectModel(
+      filteredData,
+      this.dataSelectorKey
+    );
+  }
+  mounted() {
+    this.selectedColumnListToView = this.columnList;
+    this.columnFilterListWithValues = this.filterList.map((filter) => {
+      return { ...filter, value: [] };
+    });
   }
 }
 

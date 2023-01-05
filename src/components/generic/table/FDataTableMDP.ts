@@ -3,12 +3,14 @@ import FCellCurrencyMDP from "./cell/FCellCurrencyMDP";
 import FCellNameMDP from "./cell/FCellNameMDP";
 import FColumnCellMDP from "./FColumnCellMDP";
 import FColumnMDP from "./FColumnMDP";
+import FTableFilterMDP from "./FTableFilterMDP";
 import FTabelInfoMDP from "./FTableInfoMDP";
 export default class FDataTableMDP implements MDP {
   componentName = "FDataTable";
   columnList: FColumnMDP[] = [];
   actionList: any[] = [];
   infoList: any[] = [];
+  filterList: FTableFilterMDP[] = [];
   myRefName: string;
   dataSelectorKey: string | undefined;
   itemKey: string | undefined;
@@ -16,6 +18,8 @@ export default class FDataTableMDP implements MDP {
   title: string | undefined;
   enableSearch: boolean | undefined;
   multiSelect: boolean | undefined;
+  enableExport: boolean | undefined;
+  enableShowHideColumns: boolean | undefined;
   constructor({
     dataSelectorKey,
     myRefName,
@@ -24,6 +28,8 @@ export default class FDataTableMDP implements MDP {
     title,
     enableSearch=false,
     multiSelect=false,
+    enableExport=false,
+    enableShowHideColumns=false
     
   }:{
     dataSelectorKey?: string;
@@ -32,7 +38,10 @@ export default class FDataTableMDP implements MDP {
     title?: string;
     enableSearch?: boolean;
     multiSelect?: boolean;
+    enableExport?: boolean;
+    enableShowHideColumns?: boolean;
     myRefName: string;
+    
   }) {
     this.dataSelectorKey = dataSelectorKey;
     this.itemKey = itemKey;
@@ -41,6 +50,8 @@ export default class FDataTableMDP implements MDP {
     this.enableSearch = enableSearch;
     this.multiSelect = multiSelect;
     this.myRefName = myRefName;
+    this.enableExport = enableExport;
+    this.enableShowHideColumns = enableShowHideColumns;
   }
 
 
@@ -56,6 +67,20 @@ export default class FDataTableMDP implements MDP {
     );
     return this;
   }
+
+  addFilter(newField: {
+    label: string;
+    dataSelectorKey: any ;
+    filterItems: any[];
+    itemKey?: string;
+    itemText?: string;
+  }) {
+    this.filterList.push(
+      new FTableFilterMDP(newField)
+    );
+    return this;
+  }
+
 
 
   addCurrencyColumn(newField: {
@@ -123,6 +148,9 @@ export default class FDataTableMDP implements MDP {
         multiSelect: this.multiSelect,
         myRefName: this.myRefName,
         infoMetaDataList: this.infoList.map(item => item.getMetaData()),
+        enableExport: this.enableExport,
+        enableShowHideColumns: this.enableShowHideColumns,
+        filterList: this.filterList.map(item => item.getMetaData()),
       }
     }
   }

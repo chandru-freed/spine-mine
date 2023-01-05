@@ -44,10 +44,7 @@
       :value="selectedItemList"
       @input="handleSelectChange"
       :headers="filteredHeaders"
-      :items="selectModel(
-      modelValue,
-      dataSelectorKey
-    )"
+      :items="selectModel(modelValue, dataSelectorKey)"
       class="elevation-0"
       :show-select="showCheckbox"
       :single-select="!multiSelect"
@@ -117,8 +114,15 @@
           </div>
           <!-- Show and Hide Headers -->
 
-          <v-btn v-if="filterList.length>0" class="mx-2" outlined small @click="showFilterForm=true" color="primary">
-            <v-icon > mdi-filter-outline </v-icon>
+          <v-btn
+            v-if="filterList.length > 0"
+            class="mx-2"
+            outlined
+            small
+            @click="filterButtonPressed()"
+            color="primary"
+          >
+            <v-icon> mdi-filter-outline </v-icon>
           </v-btn>
 
           <div v-if="filteredActions.length > 0">
@@ -230,7 +234,7 @@
   </v-card>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { VBtn, VDataTable } from "vuetify/lib/components";
 import FAddBtn from "../FAddBtn.vue";
 import * as Snackbar from "node-snackbar";
@@ -293,8 +297,6 @@ export default class FDataTable extends ModelVue {
 
   selectedColumnListToView: any[] = [];
 
-  filteredTableData: any = [];
-
   @Prop()
   myRefName: string;
 
@@ -356,6 +358,7 @@ export default class FDataTable extends ModelVue {
   selectedRowIndex: number | undefined;
   columnFilterListWithValues: any[] = [];
   showFilterForm: boolean = false;
+  filteredTableData: any = [];
 
   getValue(item: any, path: any) {
     return path.split(".").reduce((res: any, prop: any) => res[prop], item);
@@ -470,6 +473,7 @@ export default class FDataTable extends ModelVue {
 
   get modelValue(): any {
     return this.value || [];
+    // return this.filteredTableData || [];
   }
 
   set modelValue(newModelValue: any) {
@@ -504,8 +508,11 @@ export default class FDataTable extends ModelVue {
     }
   }
 
+  filterButtonPressed() {
+    this.showFilterForm = true;
+  } 
+
   applyTableFilter() {
-    this.showFilterForm = false;
     let filteredData = [...this.value];
     this.columnFilterListWithValues.forEach((item) => {
       filteredData = filteredData.filter((model: any) => {
@@ -518,11 +525,12 @@ export default class FDataTable extends ModelVue {
         }
       });
     });
-    this.value = this.selectModel(
+    this.filteredTableData = this.selectModel(
       filteredData,
       this.dataSelectorKey
     );
   }
+  
   mounted() {
     this.selectedColumnListToView = this.columnList;
     this.columnFilterListWithValues = this.filterList.map((filter) => {

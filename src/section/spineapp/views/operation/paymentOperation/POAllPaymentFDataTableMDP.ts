@@ -62,7 +62,7 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
                 itemKey: "id",
                 itemText: "name",
             }).addFilter({
-                label:"Status",
+                label:"Payment Provider",
                 dataSelectorKey:"paymentProvider.name",
                 filterItems: Data.Spine.PAYMENT_PROVIDER.list(),
                 itemKey: "id",

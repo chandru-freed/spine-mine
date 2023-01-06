@@ -83,6 +83,7 @@ import PrepareAmendmentTask from "@/section/spineapp/components/task/amendment/p
 import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFee/RefundFeeTask.vue";
 import CollectMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/CollectMSFThroughCashfreeTask.vue";
 import CollectNSFMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/CollectNSFMSFThroughCashfreeTask.vue";
+import RefundSPATask from "@/section/spineapp/components/task/refundspa/refundSPA/RefundSPATask.vue";
 
 @Component({
   components: {
@@ -140,6 +141,7 @@ import CollectNSFMSFThroughCashfreeTask from "@/section/spineapp/components/task
     RefundFeeTask,
     CollectMSFThroughCashfreeTask,
     CollectNSFMSFThroughCashfreeTask,
+    RefundSPATask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -242,6 +244,7 @@ export default class CFTaskDetails extends Vue {
     ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
     ["Amendment::PrepareAmendment", "PrepareAmendmentTask"],
     ["RefundFee::RefundFee", "RefundFeeTask"],
+    ["RefundSPA::RefundSPA", "RefundSPATask"],
   ]);
 
   taskId = this.$route.params.taskId;

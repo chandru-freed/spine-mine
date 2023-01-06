@@ -163,6 +163,13 @@ export default class CFActionList extends Vue {
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: { flowName: "Refund Fee" },
         },
+
+         {
+          actionName: "Refund SPA",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFCreateRequest",
+          query: { flowName: "Refund SPA" },
+        },
       ],
     },
     {
@@ -466,7 +473,7 @@ export default class CFActionList extends Vue {
     const filteredValList = this.actionGroupList
       .map((actionGroup) => {
         let ag = { ...actionGroup };
-        ag.actionList = ag.actionList.filter((action: any) =>
+        ag.actionList = (ag.actionList as any).filter((action: any) =>
           action.actionName
             .toLowerCase()
             .includes(this.searchText.toLowerCase())

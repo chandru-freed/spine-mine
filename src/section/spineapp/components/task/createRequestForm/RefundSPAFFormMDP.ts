@@ -10,13 +10,13 @@ import FNupayBankSelectFieldMDP from "@/components/generic/form/field/FNupayBank
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
-export default class RefundFeeFFormMDP extends FFormMDP {
+export default class RefundSPAFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
-      myRefName: "refundFeeFFormRef",
+      myRefName: "refundSPAFFormRef",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
@@ -26,8 +26,8 @@ export default class RefundFeeFFormMDP extends FFormMDP {
     . addField(new FCurrencyFieldMDP(
       {
         parentMDP: this.childMDP,
-        dataSelectorKey: "createRefundFeeInput.feeAmount",
-        label: "Fee Amount",
+        dataSelectorKey: "createRefundSPAInput.spaAmount",
+        label: "SPA Amount",
         mandatory: true,
         boundaryClass: "col-4",
         disabled: this.disabled,
@@ -43,7 +43,7 @@ export default class RefundFeeFFormMDP extends FFormMDP {
       onSelect: (details: any) => {this.handleSelectedEmandate(details)}
   }))
     .addField(new AccountFMiniFormMDP({
-      dataSelectorKey:"createRefundFeeInput.accountDetails",
+      dataSelectorKey:"createRefundSPAInput.accountDetails",
       disabled:this.disabled,
       label: "Account Details",
       parent:this.parent,
@@ -67,18 +67,18 @@ export default class RefundFeeFFormMDP extends FFormMDP {
 
   validateAndSubmit() {
     return () => {
-      this.getMyRef().submitForm(this.createRefundFeeFlow());
+      this.getMyRef().submitForm(this.createRefundSPAFlow());
     };
   }
 
   handleSelectedEmandate(details: any) {
     console.log(details);
-    this.taskRoot.populateAccountDetailsRefundFee(details);
+    this.taskRoot.populateAccountDetailsRefundSPA(details);
   }
 
-  createRefundFeeFlow() {
+  createRefundSPAFlow() {
     return () => {
-      this.taskRoot.createRefundFeeFlow();
+      this.taskRoot.createRefundSPAFlow();
     };
   }
 }

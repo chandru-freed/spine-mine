@@ -61,6 +61,8 @@ import NsfSPAFFormMDP from "@/section/spineapp/components/task/createRequestForm
 import EMandateFFormMDP from "@/section/spineapp/components/task/createRequestForm/EMandateFFormMDP";
 import SettlementPlanFFormMDP from "@/section/spineapp/components/task/createRequestForm/SettlementPlanFFormMDP";
 import RefundFeeFFormMDP from "@/section/spineapp/components/task/createRequestForm/RefundFeeFFormMDP";
+import RefundSPAFFormMDP from "@/section/spineapp/components/task/createRequestForm/RefundSPAFFormMDP";
+
 
 @Component({
   components: {
@@ -86,6 +88,8 @@ export default class CFCreateRequest extends Vue {
 
   createRefundFeeInput: Data.Spine.CreateRefundFeeInput =
     new Data.Spine.CreateRefundFeeInput();
+  createRefundSPAInput: Data.Spine.CreateRefundSPAInput =
+    new Data.Spine.CreateRefundSPAInput();
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
   
 
@@ -112,7 +116,8 @@ export default class CFCreateRequest extends Vue {
     return {
       createEMandateInput: this.createEMandateInput,
       createSettlementPlanInput: this.createSettlementPlanInput,
-      createRefundFeeInput: this.createRefundFeeInput
+      createRefundFeeInput: this.createRefundFeeInput,
+      createRefundSPAInput: this.createRefundSPAInput
     };
   }
   get requestTypeFlowMapList() {
@@ -180,6 +185,13 @@ export default class CFCreateRequest extends Vue {
           parent: this,
         }).getMetaData(),
       },
+        {
+        key: "Refund SPA",
+        contentMetaData: new RefundSPAFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
     ];
   }
 
@@ -202,6 +214,7 @@ export default class CFCreateRequest extends Vue {
   mounted() {
     // this.getNupayBankMasterList();
     this.createRefundFeeInput.accountDetails = new Data.Spine.AccountDetails();
+    this.createRefundSPAInput.accountDetails = new Data.Spine.AccountDetails();
     this.getFiCreditorInfo();
   }
 
@@ -255,14 +268,14 @@ export default class CFCreateRequest extends Vue {
   }
 
   createNsfMSFFlow() {
-    Action.Spine.CreateNsfMSF.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.gotoTask();
-        }, 400);
-      }
-    );
+    // Action.Spine.CreateNsfMSF.execute1(
+    //   this.clientFileBasicInfo.clientFileNumber,
+    //   (output) => {
+    //     setTimeout(() => {
+    //       this.gotoTask();
+    //     }, 400);
+    //   }
+    // );
   }
   createAmendment() {
     Action.Spine.CreateAmendment.execute1(
@@ -297,14 +310,14 @@ export default class CFCreateRequest extends Vue {
     );
   }
   createNsfSPA() {
-    Action.Spine.CreateNsfSPA.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.$emit("flowCreated");
-        }, 400);
-      }
-    );
+    // Action.Spine.CreateNsfSPA.execute1(
+    //   this.clientFileBasicInfo.clientFileNumber,
+    //   (output) => {
+    //     setTimeout(() => {
+    //       this.$emit("flowCreated");
+    //     }, 400);
+    //   }
+    // );
   }
 
   createEMandate() {
@@ -348,6 +361,18 @@ export default class CFCreateRequest extends Vue {
     })
   }
 
+  createRefundSPAFlow() {
+    if(this.createRefundSPAInput.accountDetails?.nupayBankMasterId === "") {
+      this.createRefundSPAInput.accountDetails = undefined;
+    }
+    this.createRefundSPAInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
+    Action.Spine.CreateRefundSPA.execute(this.createRefundSPAInput, output => {
+       setTimeout(() => {
+          this.gotoTask();
+        }, 400);
+    })
+  }
+
   populateBankDetails(details: any) {
     this.fileCreateRequestInput.createEMandateInput.eMandateBankInfo.bankAddress.addressLine1 =
       details.ADDRESS;
@@ -359,8 +384,12 @@ export default class CFCreateRequest extends Vue {
       "India";
   }
 
-  populateAccountDetailsRefund(details: any) {
+  populateAccountDetailsRefundFee(details: any) {
     this.fileCreateRequestInput.createRefundFeeInput.accountDetails = details;
+  }
+
+  populateAccountDetailsRefundSPA(details: any) {
+    this.fileCreateRequestInput.createRefundSPAInput.accountDetails = details;
   }  
 
   // getNupayBankMasterList() {

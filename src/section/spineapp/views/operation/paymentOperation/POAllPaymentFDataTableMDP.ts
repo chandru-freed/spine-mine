@@ -15,8 +15,6 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
             title: "Payment List",
             myRefName: "poAllPaymentFDataTableRef",
             enableExport: true,
-            enableShowHideColumns: true,
-            enableSearch: true
         });
         this.parent = parent;
         this.addColumn({

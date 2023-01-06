@@ -2,35 +2,44 @@
   <div class="row">
     <div class="col-12">
       <v-card outlined max-height="200px" class="overflow-y-auto">
-        <v-card-text class="py-1"> Assigned </v-card-text>
-        <v-divider />
-        <v-card-text class="py-2 d-flex align-center">
+        <v-card-text class="py-1">
+          Sales Rep :
           <v-chip
-            class="mr-1"
+            class="ml-1"
             color="secondary"
             outlined
-            small
-            v-if="clientFileBasicInfo.assignedRM"
-            >{{ clientFileBasicInfo.assignedRM }}</v-chip
-          >
-          <v-chip
-            class="mr-1"
-            color="secondary"
-            outlined
-            small
+            x-small
+            label
             v-if="clientFileBasicInfo.assignedSalesRep"
             >{{ clientFileBasicInfo.assignedSalesRep }}</v-chip
-          >
-        </v-card-text>
+          ></v-card-text
+        >
+        <v-divider class="" />
+        <v-card-text class="py-1">
+          RM :
+          <v-chip
+            class="mr-1"
+            color="secondary"
+            outlined
+            x-small
+            label
+            v-if="clientFileBasicInfo.assignedRM"
+            >{{ clientFileBasicInfo.assignedRM }}</v-chip
+          ></v-card-text
+        >
       </v-card>
     </div>
     <div class="col-12">
       <v-card outlined max-height="200px" class="overflow-y-auto">
         <v-card-text class="py-1 d-flex align-center">
           Active Tasks <v-spacer />
-          <v-btn icon @click="gotoTaskList"
+          <v-btn-toggle mandatory dense>
+            <v-btn x-small @click="gotoTaskActiveList"> Active </v-btn>
+            <v-btn x-small @click="gotoTaskCompletedList"> Completed </v-btn>
+          </v-btn-toggle>
+          <!-- <v-btn icon @click="gotoTaskList"
             ><v-icon small> mdi-open-in-new</v-icon></v-btn
-          >
+          > -->
         </v-card-text>
         <v-divider />
         <v-card-text
@@ -85,9 +94,12 @@
       <v-card outlined max-height="200px" class="overflow-y-auto">
         <v-card-text class="py-1 d-flex align-center">
           <CFActionList :useAsDropDown="true" /> <v-spacer />
-          <v-btn icon @click="gotoActionList"
+          <v-btn-toggle mandatory dense>
+            <v-btn x-small @click="gotoActionList"> All </v-btn>
+          </v-btn-toggle>
+          <!-- <v-btn icon @click="gotoActionList"
             ><v-icon small> mdi-open-in-new</v-icon></v-btn
-          >
+          > -->
         </v-card-text>
         <v-divider />
         <v-list dense class="py-0">
@@ -115,13 +127,13 @@
       <v-card outlined>
         <v-card-text class="py-1 d-flex align-center">
           Notes <v-spacer />
-          <v-btn-toggle v-model="selectedToggleType" mandatory dense>
-            <v-btn x-small> All </v-btn>
-            <v-btn x-small> Highlighted </v-btn>
+          <v-btn-toggle mandatory dense>
+            <v-btn x-small @click="gotoNotes"> Notes </v-btn>
+            <v-btn x-small @click="gotoNotesHighlight"> Highlighted </v-btn>
           </v-btn-toggle>
-          <v-btn icon @click="gotoNotes"
+          <!-- <v-btn icon @click="gotoNotes"
             ><v-icon small> mdi-open-in-new</v-icon></v-btn
-          >
+          > -->
         </v-card-text>
         <v-divider />
         <v-card-text class="pa-1">
@@ -141,7 +153,7 @@
           ></v-textarea>
           <div>
             <v-list max-height="140px" class="overflow-y-auto">
-              <template v-for="(note, index) in fiNoteListQuick">
+              <template v-for="(note, index) in fiNoteList">
                 <v-list-item :key="'note' + index" dense>
                   <template>
                     <v-list-item-content disabled>
@@ -153,7 +165,7 @@
                 </v-list-item>
 
                 <v-divider
-                  v-if="index < fiNoteListQuick.length - 1"
+                  v-if="index < fiNoteList.length - 1"
                   :key="index"
                 ></v-divider>
               </template>
@@ -166,29 +178,30 @@
       <v-card outlined>
         <v-card-text class="py-1 d-flex align-center">
           Tickets <v-spacer />
-          <v-btn-toggle v-model="selectedToggleTypeTicket" mandatory dense>
-            <v-btn x-small> Active </v-btn>
-            <v-btn x-small> Completed </v-btn>
+          <v-btn-toggle mandatory dense>
+            <v-btn x-small @click="gotoActiveTicket"> Active </v-btn>
+            <v-btn x-small @click="gotoCompletedTicket"> Completed </v-btn>
+            <v-btn x-small @click="gotoSubscribedTicket"> Subscribed </v-btn>
           </v-btn-toggle>
-          <v-btn icon @click="gotoTicket"
+          <!-- <v-btn icon @click="gotoTicket"
             ><v-icon small> mdi-open-in-new</v-icon></v-btn
-          >
+          > -->
         </v-card-text>
         <v-divider />
         <v-card-text class="pa-1">
           <div>
             <v-card-text
               class="d-flex justify-center"
-              v-if="myTicketList.length == 0"
+              v-if="myTicketActiveList.length == 0"
             >
               No Tickets to display
             </v-card-text>
             <v-list
               max-height="140px"
               class="overflow-y-auto"
-              v-if="myTicketList.length"
+              v-if="myTicketActiveList.length"
             >
-              <template v-for="(myTicket, index) in myTicketList">
+              <template v-for="(myTicket, index) in myTicketActiveList">
                 <v-list-item :key="'myTicket' + index" dense class="px-0">
                   <v-list-item-content>
                     <div class="d-flex justify-space-between align-center pa-0">
@@ -210,7 +223,7 @@
                 </v-list-item>
 
                 <v-divider
-                  v-if="index < fiNoteListQuick.length - 1"
+                  v-if="index < myTicketActiveList.length - 1"
                   :key="index"
                 ></v-divider>
               </template>
@@ -288,21 +301,19 @@ export default class CFQuickNav extends Vue {
   //   return this.fiHighlightedNoteList.slice(0, 5);
   // }
 
-  get fiNoteListQuick() {
-    if (this.selectedToggleType === 0) {
-      return this.fiNoteList;
-    } else {
-      return this.fiHighlightedNoteList;
-    }
-  }
+  // get fiNoteListQuick() {
+  //   if (this.selectedToggleType === 0) {
+  //     return this.fiNoteList;
+  //   } else {
+  //     return this.fiHighlightedNoteList;
+  //   }
+  // }
 
-  get myTicketList() {
-    if (this.selectedToggleTypeTicket === 0) {
-      return this.myTicketActiveList;
-    } else {
-      return this.myTicketCompletedList;
-    }
-  }
+  // get myTicketList() {
+  //   if (this.selectedToggleTypeTicket === 0) {
+  //     return this.myTicketActiveList;
+  //   }
+  // }
 
   mounted() {
     this.getFiNoteList();
@@ -335,13 +346,6 @@ export default class CFQuickNav extends Vue {
   getTaskListForClientFile() {
     Action.TaskList.GetTaskListByCid.execute1(this.clientFileId, (output) => {
       // this.cfTaskList = output;
-    });
-  }
-
-  gotoTicketDetails(item: any) {
-    this.$router.push({
-      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketCommentList",
-      params: { myTicketId: item.taskId },
     });
   }
 
@@ -386,8 +390,12 @@ export default class CFQuickNav extends Vue {
     this.$router.push({ name: routerName, query: query });
   }
 
-  gotoTaskList() {
+  gotoTaskActiveList() {
     this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
+  }
+
+  gotoTaskCompletedList() {
+    this.$router.push({ name: "Root.CFile.CFTask.CFCompletedTasks" });
   }
 
   gotoActionList() {
@@ -395,10 +403,25 @@ export default class CFQuickNav extends Vue {
   }
 
   gotoNotes() {
+    this.$router.push({ name: "Root.CFile.CFNote.CFNoteAllList" });
+  }
+  gotoNotesHighlight() {
     this.$router.push({ name: "Root.CFile.CFNote.CFNoteHighlightList" });
   }
-  gotoTicket() {
+  gotoActiveTicket() {
     this.$router.push({ name: "Root.CFile.CFTicket.CFActiveTickets" });
+  }
+  gotoCompletedTicket() {
+    this.$router.push({ name: "Root.CFile.CFTicket.CFCompletedTickets" });
+  }
+  gotoSubscribedTicket() {
+    this.$router.push({ name: "Root.CFile.CFTicket.CFSubscribedTickets" });
+  }
+  gotoTicketDetails(item: any) {
+    this.$router.push({
+      name: "Root.CFile.CFTicket.CFTicketDetails.CFTicketCommentList",
+      params: { myTicketId: item.taskId },
+    });
   }
 
   createEnrollmentFlow() {

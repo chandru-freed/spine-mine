@@ -10,7 +10,7 @@
         @update:search-input="(newVal) => (searchText = newVal)"
         :items="actionListForAutoComplete"
         item-text="actionName"
-        label="Actions"
+        label="Select Actions"
         :hide-no-data="true"
       >
         <template v-slot:item="data">

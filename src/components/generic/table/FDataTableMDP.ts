@@ -10,7 +10,7 @@ export default class FDataTableMDP implements MDP {
   columnList: FColumnMDP[] = [];
   actionList: any[] = [];
   infoList: any[] = [];
-  filterList: FTableFilterMDP[] = [];
+  columnFilterList: FTableFilterMDP[] = [];
   myRefName: string;
   dataSelectorKey: string | undefined;
   itemKey: string | undefined;
@@ -75,7 +75,7 @@ export default class FDataTableMDP implements MDP {
     itemKey?: string;
     itemText?: string;
   }) {
-    this.filterList.push(
+    this.columnFilterList.push(
       new FTableFilterMDP(newField)
     );
     return this;
@@ -150,7 +150,7 @@ export default class FDataTableMDP implements MDP {
         infoMetaDataList: this.infoList.map(item => item.getMetaData()),
         enableExport: this.enableExport,
         enableShowHideColumns: this.enableShowHideColumns,
-        filterList: this.filterList.map(item => item.getMetaData()),
+        columnFilterList: this.columnFilterList.map(item => item.getMetaData()),
       }
     }
   }

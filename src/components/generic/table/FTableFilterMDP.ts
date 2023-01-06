@@ -20,8 +20,8 @@ export default class FTableFilterMDP implements MDP {
         this.label = props.label;
         this.dataSelectorKey = props.dataSelectorKey;
         this.filterItems = props.filterItems || [];
-        this.itemKey = props.itemKey;
-        this.itemText = props.itemText;
+        this.itemKey = props.itemKey || "id";
+        this.itemText = props.itemText || "name";
     }
 
     getMetaData(): object {

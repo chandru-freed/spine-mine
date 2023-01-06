@@ -15,36 +15,11 @@
       color="red"
     />
 
-    <!-- Filters -->
-    <v-toolbar v-if="showFilterForm">
-      <div v-for="(filter, index) in filterList" :key="filter.dataSelectorKey">
-        <v-row class="mx-2">
-          <v-select
-            v-if="columnFilterListWithValues.length > 0"
-            outlined
-            dense
-            hide-details
-            multiple
-            :items="filter.filterItems"
-            class="mx-2"
-            :label="filter.label"
-            v-model="columnFilterListWithValues[index].value"
-            :itemValue="filter.itemKey"
-            :item-text="filter.itemText"
-          >
-          </v-select>
-        </v-row>
-      </div>
-      <v-btn @click="applyTableFilter()">Search</v-btn>
-    </v-toolbar>
-
-    <!-- Filters -->
-
     <v-data-table
       :value="selectedItemList"
       @input="handleSelectChange"
       :headers="filteredHeaders"
-      :items="selectModel(modelValue, dataSelectorKey)"
+      :items="tableData()"
       class="elevation-0"
       :show-select="showCheckbox"
       :single-select="!multiSelect"
@@ -63,7 +38,7 @@
         "
         v-slot:top
       >
-        <v-toolbar class="mx-1" flat>
+        <v-toolbar class="mx-1 py-0" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-divider v-if="title" vertical class="mx-3" inset />
           <div
@@ -79,51 +54,6 @@
             ></component>
           </div>
           <v-spacer />
-          <v-btn
-            v-if="enableExport"
-            outlined
-            color="primary"
-            class="mx-2"
-            small
-            @click="exportAsCsv"
-            >Export To Csv</v-btn
-          >
-
-          <!-- Show and Hide Headers -->
-          <div v-if="enableShowHideColumns">
-            <v-select
-              outlined
-              dense
-              hide-details
-              multiple
-              :items="columnList"
-              item-text="text"
-              class="mx-2"
-              label="Show and hide headers"
-              return-object
-              v-model="selectedColumnListToView"
-            >
-              <template v-slot:selection="{ item, index }">
-                <span v-if="index === 0">{{ item.text }}</span>
-
-                <span v-if="index === 1" class="grey--text text-caption">
-                  (+{{ selectedColumnListToView.length - 1 }} others)
-                </span>
-              </template>
-            </v-select>
-          </div>
-          <!-- Show and Hide Headers -->
-
-          <v-btn
-            v-if="filterList.length > 0"
-            class="mx-2"
-            outlined
-            small
-            @click="filterButtonPressed()"
-            color="primary"
-          >
-            <v-icon> mdi-filter-outline </v-icon>
-          </v-btn>
 
           <div v-if="filteredActions.length > 0">
             <v-menu offset-y>
@@ -179,6 +109,7 @@
             @click="addBtnData.onClick"
             :disabled="disabled || addBtnData.disabled"
           />
+
           <v-text-field
             v-if="enableSearch"
             v-model="search"
@@ -192,7 +123,84 @@
             class="shrink ml-3"
             style="width: 180px"
           ></v-text-field>
+
+          <v-btn
+            v-if="enableExport"
+            icon
+            color="primary"
+            toas="Export as csv"
+            @click="exportAsCsv"
+          >
+            <v-icon>mdi-file-excel-outline</v-icon>
+          </v-btn>
+
+          <!-- Show and Hide Headers -->
+          <div v-if="enableShowHideColumns">
+            <v-menu z-index="99999" offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on }">
+                <v-icon color="primary" v-on="on" >
+                  mdi-eye-outline
+                </v-icon>
+              </template>
+              <v-list max-height="400px"  class="pa-3 " dense>
+                <v-list-tile v-for="(item, index) in columnList" :key="index">
+                  <!-- <v-list-tile-action> -->
+                    <v-checkbox
+                      v-model="selectedColumnListToView"
+                      :value="item"
+                      :label="item.text"
+                    ></v-checkbox>
+                  <!-- </v-list-tile-action> -->
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </div>
+          <!-- Show and Hide Headers -->
+
+          <v-btn
+            v-if="columnFilterList.length > 0"
+            icon
+            @click="filterButtonPressed()"
+            color="primary"
+          >
+            <v-icon>
+              {{ showFilterForm ? "mdi-filter" : "mdi-filter-outline" }}
+            </v-icon>
+          </v-btn>
         </v-toolbar>
+
+        <!-- Filters -->
+        <v-toolbar flat class="align-right" v-if="showFilterForm">
+          <v-spacer />
+          <div
+            v-for="(filter, index) in columnFilterList"
+            :key="filter.dataSelectorKey"
+          >
+            <v-row class="mx-1">
+              <v-select
+                v-if="columnFilterListWithValues.length > 0"
+                outlined
+                dense
+                hide-details
+                multiple
+                :items="filter.filterItems"
+                class="mx-2"
+                :label="filter.label"
+                v-model="columnFilterListWithValues[index].value"
+                :itemValue="filter.itemKey"
+                :item-text="filter.itemText"
+                @input="applyTableFilter()"
+              >
+              </v-select>
+            </v-row>
+          </div>
+
+          <!-- <v-btn class="mx-2" outlined @click="clearTableFilter()"
+            >Clear Filter</v-btn
+          > -->
+        </v-toolbar>
+
+        <!-- Filters -->
       </template>
 
       <template
@@ -347,7 +355,7 @@ export default class FDataTable extends ModelVue {
   @Prop({
     default: () => [],
   })
-  filterList: any[];
+  columnFilterList: any[];
 
   search = "";
   showConfirmation: boolean = false;
@@ -485,11 +493,12 @@ export default class FDataTable extends ModelVue {
   }
 
   private exportAsCsv() {
+    const filteredValue = this.showFilterForm?this.filteredTableData:this.modelValue;
     const fields = this.filteredHeaders.map((obj) => {
       return { value: obj.value, label: obj.text };
     });
     const json2csvParser = new Json2csv.Parser({ fields });
-    const csv = json2csvParser.parse(this.modelValue);
+    const csv = json2csvParser.parse(filteredValue);
 
     const filename = "Export_" + new Date().getTime() + ".csv";
     const charset = "utf-8";
@@ -509,8 +518,16 @@ export default class FDataTable extends ModelVue {
   }
 
   filterButtonPressed() {
-    this.showFilterForm = true;
-  } 
+    if (this.showFilterForm === true) {
+      this.clearTableFilter();
+    } else {
+      this.showFilterForm = true;
+      this.filteredTableData = this.selectModel(
+        this.modelValue,
+        this.dataSelectorKey
+      );
+    }
+  }
 
   applyTableFilter() {
     let filteredData = [...this.value];
@@ -530,12 +547,27 @@ export default class FDataTable extends ModelVue {
       this.dataSelectorKey
     );
   }
-  
+
+  clearTableFilter() {
+    this.showFilterForm = false;
+    this.filteredTableData = this.selectModel(
+      this.modelValue,
+      this.dataSelectorKey
+    );
+    this.columnFilterListWithValues = this.columnFilterList;
+  }
+
   mounted() {
     this.selectedColumnListToView = this.columnList;
-    this.columnFilterListWithValues = this.filterList.map((filter) => {
+    this.columnFilterListWithValues = this.columnFilterList.map((filter) => {
       return { ...filter, value: [] };
     });
+  }
+
+  tableData(): any {
+    return this.showFilterForm
+      ? this.filteredTableData
+      : this.selectModel(this.modelValue, this.dataSelectorKey);
   }
 }
 

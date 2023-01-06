@@ -11,8 +11,9 @@
       "
       v-bind="poFilterFFormMetaData.props"
     ></component>
-    <v-card>
+    
       <component
+      class="my-2"
         :is="poPaymentScheduleFDataTableMetaData.componentName"
         :ref="poPaymentScheduleFDataTableMetaData.myRefName"
         :value="psEntryList"
@@ -20,18 +21,20 @@
       ></component>
 
       <component
+      class="my-2"
         :is="poMSFFDataTableMetaData.componentName"
         :ref="poMSFFDataTableMetaData.myRefName"
         :value="msfEntryList"
         v-bind="poMSFFDataTableMetaData.props"
       ></component>
       <component
+      class="my-2"
         :is="poAllPaymentFDataTableMetaData.componentName"
         :ref="poAllPaymentFDataTableMetaData.myRefName"
         :value="allPaymentList"
         v-bind="poAllPaymentFDataTableMetaData.props"
       ></component>
-    </v-card>
+    
   </div>
 </template>
 

@@ -14,7 +14,9 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
             disabled: parent.disabledActionBtn,
             title: "Payment List",
             myRefName: "poAllPaymentFDataTableRef",
-            enableExport: true
+            enableExport: true,
+            enableShowHideColumns: true,
+            enableSearch: true
         });
         this.parent = parent;
         this.addColumn({
@@ -59,14 +61,10 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
                 label:"Status",
                 dataSelectorKey:"status.name",
                 filterItems: Data.Spine.PAYMENT_STATUS.list(),
-                itemKey: "id",
-                itemText: "name",
             }).addFilter({
                 label:"Payment Provider",
                 dataSelectorKey:"paymentProvider.name",
                 filterItems: Data.Spine.PAYMENT_PROVIDER.list(),
-                itemKey: "id",
-                itemText: "name",
             });
     }
 }

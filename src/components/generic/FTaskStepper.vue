@@ -475,3 +475,11 @@ export default class FTaskStepper extends ModelVue {
   }
 }
 </script>
+<style scoped>
+.v-stepper__header {
+    height: 48px !important;
+}
+.v-stepper__step {
+    padding: 0px 12px !important;
+}
+</style>

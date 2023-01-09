@@ -112,89 +112,104 @@
         </v-card>
       </v-sheet>
     </div> -->
-
-     <div class="col">
-      <v-card outlined color="secondary" @click="gotoPaymentPlan">
-        <v-list class="py-0">
-          <v-list-item dense >
-            <v-list-item-content >
-              <v-list-item-title
-                class=" secondary--text text-subtitle-1"
-                >MSF
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="py-0 my-0">
-              <div class="d-flex secondary--text text-h6 font-weight-semibold">
-              {{ fileSummary.msfSummary.msfAmount | toINR }}
-              </div>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider/>
-          
-          <v-list-item dense >
-            <v-list-item-subtitle
-                class="caption d-flex justify-space-between align-center"
-                >
-                <div class=" font-weight-bold">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount | toINR}}</div>
-                <div >{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id}}</div>    
-              </v-list-item-subtitle> 
-          </v-list-item>
-          <v-list-item dense >
-           <v-list-item-subtitle
+  <div class="col" v-if="!fileSummary.msfSummary">
+    <v-sheet outlined color="secondary" rounded>
+      <v-card outlined elevation="0" @click="gotoPaymentPlan" min-height="123" >
+          <v-list class="py-0">
+            <v-list-item dense >
+              <v-list-item-content >
+                <v-list-item-title
+                  class=" secondary--text text-subtitle-1"
+                  >MSF 
+                </v-list-item-title>
                 
-                class="caption d-flex justify-space-between align-center"
-                >
-                <template v-if="fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
-                <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
-                <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
-                </template>  
-              </v-list-item-subtitle> 
-        </v-list-item>
-        </v-list>
-        
-      </v-card>
+              </v-list-item-content>
+
+              <v-list-item-action class="py-0 my-0">
+                <div class="d-flex secondary--text text-h6 font-weight-semibold">
+                -
+                </div>
+              </v-list-item-action>
+            </v-list-item>
+            <v-divider/>
+          </v-list>
+        </v-card>
+      </v-sheet>
+    </div>
+
+     <div class="col" v-if="fileSummary.msfSummary">
+      <v-sheet outlined color="secondary" rounded>
+        <v-card outlined elevation="0" color="secondary" @click="gotoPaymentPlan">
+          <v-list class="py-0">
+            <v-list-item dense >
+              <v-list-item-content >
+                <v-list-item-title
+                  class=" secondary--text text-subtitle-1"
+                  >MSF
+                </v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action class="py-0 my-0">
+                <div class="d-flex secondary--text text-h6 font-weight-semibold">
+                {{ fileSummary.msfSummary.msfAmount | toINR }}
+                </div>
+              </v-list-item-action>
+            </v-list-item>
+            <v-divider/>
+            
+            <v-list-item dense >
+              <v-list-item-subtitle
+                  class="caption d-flex justify-space-between align-center"
+                  >
+                  <div class=" font-weight-bold">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate | monthday}} </div>
+                  <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount | toINR}}</div>
+                  <div >{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id}}</div>    
+                </v-list-item-subtitle> 
+            </v-list-item>
+            <v-list-item dense >
+            <v-list-item-subtitle
+                  
+                  class="caption d-flex justify-space-between align-center"
+                  >
+                  <template v-if="fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
+                  <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].draftDate | monthday}} </div>
+                  <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
+                  <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
+                  </template>  
+                </v-list-item-subtitle> 
+          </v-list-item>
+          </v-list>
+          
+        </v-card>
+      </v-sheet>
     </div>
     <!-- MSF -->
     <!-- SPA -->
-    <!-- <div class="col" v-if="fileSummary">
-      <v-sheet color="secondary" outlined rounded v-if="fileSummary.spaSummary">
-        <v-card flat min-height="75px">
-          <v-list-item class="pa-1" dense>
-            <v-list-item-content class="pa-0 px-1">
-              <div class="text-caption mb-0 secondary--text">SPA</div>
-              <v-list-item-title
-                class="text-h6 mb-1 font-weight-semibold secondary--text"
-              >
-                {{ fileSummary.spaSummary.spaAmount | toINR }}
-                <span class="text-caption pl-1 pt-2">/ mth</span>
-              </v-list-item-title>
-              <v-list-item-subtitle
-                class="caption d-flex justify-space-between "
-                >
-                <div class=" font-weight-bold">{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount | toINR}}</div>
-                <div >{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id}}</div>    
-              </v-list-item-subtitle> 
-              <v-list-item-subtitle
-                
-                class="caption d-flex justify-space-between "
-                >
-                <template v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]">
-                <div class=" font-weight-bold" >{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].totalAmount | toINR}}</div>
-                <div >{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].status.id}}</div>  
-                </template>  
-              </v-list-item-subtitle> 
-              
-            </v-list-item-content>
-          </v-list-item>
+    <div class="col" v-if="!fileSummary.spaSummary">
+      <v-sheet outlined color="secondary" rounded>
+        <v-card outlined elevation="0" @click="gotoPaymentPlan" min-height="123" >
+          <v-list class="py-0">
+            <v-list-item dense >
+              <v-list-item-content >
+                <v-list-item-title
+                  class=" secondary--text text-subtitle-1"
+                  >SPA
+                </v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action class="py-0 my-0">
+                <div class="d-flex secondary--text text-h6 font-weight-semibold">
+                -
+                </div>
+              </v-list-item-action>
+            </v-list-item>
+            <v-divider/>
+          </v-list>
         </v-card>
       </v-sheet>
-    </div> -->
-    <div class="col">
+    </div>
+
+    <div class="col"  v-if="fileSummary.spaSummary">
       <v-card outlined color="secondary"  @click="gotoPaymentPlan">
         <v-list class="py-0">
           <v-list-item dense >

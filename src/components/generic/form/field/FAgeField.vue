@@ -1,9 +1,11 @@
 <template>
+<div>
   <v-text-field
     v-bind="$props"
     :value="modelValue"
     @input="(newValue) => (modelValue = newValue)"
   ></v-text-field>
+</div>
 </template>
 <script lang="ts">
 import moment from "moment";
@@ -22,28 +24,13 @@ export default class FAgeField extends VTextField {
 
 
   get modelValue() {
-    // return this.value;
-    return moment
-      .duration({
-        years: moment(Date.now()).diff(this.value, "years", false),
-      })
-      .humanize();
+    const age = moment().year() - moment(new Date(this.value)).year()
+    return age.toString() + ' years'
   }
 
   set modelValue(newModelValue: string) {
     this.$emit("input", newModelValue);
   }
-
-    get dobAge() {
-    // return moment(this.modelValue).month(0).from(moment().month(0))
-    return moment
-      .duration({
-        years: moment(Date.now()).diff(this.modelValue, "years", false),
-      })
-      .humanize();
-  }
-
-
   // MODEL VALUE - END
 }
 </script>

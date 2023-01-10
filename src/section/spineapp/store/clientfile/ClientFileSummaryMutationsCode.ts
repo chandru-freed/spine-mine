@@ -57,6 +57,10 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
   public resetCFSummary(state: Data.ClientFile.ClientFileSummary): void {
     state.clientFileBasicInfo = new Data.ClientFile.ClientFileBasicInfo();
     state.personalInfo = new Data.ClientFile.ClPersonalInfo();
+    state.fiCreditorInfo = new Data.ClientFile.FiCreditorInfo();
+    state.budgetInfo = new Data.ClientFile.BudgetInfo();
+    state.fiPaymentPlanInfo = new Data.ClientFile.FiPaymentPlanInfo();
+    state.fileSummary = new Data.ClientFile.FileSummary();
   }
 
 public  toggleAmeyoSideBar(state: Data.ClientFile.ClientFileSummary, showAmeyoSideBar: boolean): void {

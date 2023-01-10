@@ -53,6 +53,7 @@ import POMSFFDataTableMDP from "./POMSFFDataTableMDP";
 import POPaymentScheduleFDataTableMDP from "./POPaymentScheduleFDataTableMDP";
 import POAllPaymentFDataTableMDP from "./POAllPaymentFDataTableMDP";
 import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
+import Helper from "@/section/spineapp/util/Helper";
 @Component({
   components: {
     FForm,
@@ -126,6 +127,13 @@ export default class PaymentOperation extends ModelVue {
 
   get poAllPaymentFDataTableMetaData() {
     return new POAllPaymentFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+   gotoFile(item: any) {
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: item,
+    });
   }
 }
 </script>

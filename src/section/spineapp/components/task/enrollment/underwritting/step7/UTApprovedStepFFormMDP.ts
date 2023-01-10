@@ -1,5 +1,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
+import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -18,7 +20,23 @@ export default class UTApprovedStepFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
+    this
+    // .addField(new FSelectFieldMDP({
+    //   dataSelectorKey: "taskOutput.exceptionTakenList",
+    //   label: "Exception Taken",
+    //   options: Data.Spine.EXCEPTION_TAKEN.list(),
+    //   optionLabel: "name",
+    //   optionValue: "id",
+    //   parentMDP: this.childMDP,
+    //   multiple: true,
+    //   boundaryClass: "col-4",
+    // })).addField(new FGompaUserRemoteAutoCompleteFieldMDP({
+    //   parentMDP: this.childMDP,
+    //   dataSelectorKey: "taskOutput.exceptionApprovedBy",
+    //   label:"Exception ApprovedBy",
+    //   boundaryClass: "col-4",
+    // }))
+    .addField(
       new FSwitchMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.underwrittingApproved",

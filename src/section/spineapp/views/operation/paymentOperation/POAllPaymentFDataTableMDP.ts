@@ -18,10 +18,21 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
         });
         this.parent = parent;
         this.addColumn({
+            label: "ClientFile Number",
+            dataSelectorKey: "clientFileNumber",
+            columnCellMDP: new FCellBtnMDP({
+                color: "secondary",
+                icon: "mdi-file-account",
+                onClick: (item) => {
+                  this.handleClientFileClick(item);
+                },
+              }),
+        }).addColumn({
             label: "Payment Type",
             dataSelectorKey: "paymentType.name",
             //   columnCellMDP: new FCellDateMDP(),
         })
+        
             .addColumn({
                 label: "Total Amount",
                 dataSelectorKey: "totalAmount",
@@ -53,8 +64,8 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
             })
             .addColumn({
                 label: "Received By",
-                dataSelectorKey: "Received By",
-                columnCellMDP: new FCellStatusMDP({}),
+                dataSelectorKey: "receivedBy",
+                
             }).addFilter({
                 label:"Status",
                 dataSelectorKey:"status.name",
@@ -65,4 +76,9 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
                 filterItems: Data.Spine.PAYMENT_PROVIDER.list(),
             });
     }
+
+    handleClientFileClick(item: any) {
+        console.log(item,"Client file nyumber")
+        this.parent.gotoFile(item.clientFileNumber);
+      }
 }

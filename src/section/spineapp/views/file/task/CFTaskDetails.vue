@@ -84,6 +84,7 @@ import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFe
 import CollectMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/CollectMSFThroughCashfreeTask.vue";
 import CollectNSFMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/CollectNSFMSFThroughCashfreeTask.vue";
 import RefundSPATask from "@/section/spineapp/components/task/refundspa/refundSPA/RefundSPATask.vue";
+import GenericTask from "@/section/spineapp/components/task/genericTask/GenericTask.vue";
 
 @Component({
   components: {
@@ -141,7 +142,8 @@ import RefundSPATask from "@/section/spineapp/components/task/refundspa/refundSP
     RefundFeeTask,
     CollectMSFThroughCashfreeTask,
     CollectNSFMSFThroughCashfreeTask,
-    RefundSPATask
+    RefundSPATask,
+    GenericTask,
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -254,7 +256,8 @@ export default class CFTaskDetails extends Vue {
   }
 
   get selectedComponent() {
-    return this.TASK_COMPONENT_MAP.get(this.fqTaskName);
+    let selectedComponentTemp = this.TASK_COMPONENT_MAP.get(this.fqTaskName);
+    return !selectedComponentTemp ? "GenericTask" : selectedComponentTemp;
   }
 
   get taskFormDisabled() {

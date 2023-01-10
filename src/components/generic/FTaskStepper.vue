@@ -51,22 +51,6 @@
           v-bind="cancelFlowFFormMetaData.props"
         ></component>
         <v-card color="grey lighten-4" flat min-height="600">
-          <v-alert
-            v-if="taskRescue"
-            dense
-            outlined
-            text
-            color="red"
-            class="ma-2"
-          >
-            <v-card-text class="pa-1">{{
-              taskDetails.exceptionInfo.exceptionSummary
-            }}</v-card-text>
-            <v-card-text class="pa-1">{{
-              taskDetails.exceptionInfo.exceptionTime | dateTimeDuration
-            }}</v-card-text>
-          </v-alert>
-
           <v-card-text class="pa-0">
             <div class="d-flex justify-space-around pa-3">
               <v-btn
@@ -188,7 +172,21 @@
                 >Save & Next</v-btn
               >
             </div>
-
+            <v-alert
+              v-if="taskRescue"
+              dense
+              outlined
+              text
+              color="red"
+              class="ma-2"
+            >
+              <v-card-text class="pa-1">{{
+                taskDetails.exceptionInfo.exceptionSummary
+              }}</v-card-text>
+              <v-card-text class="pa-1">{{
+                taskDetails.exceptionInfo.exceptionTime | dateTimeDuration
+              }}</v-card-text>
+            </v-alert>
             <component
               :ref="step.stepContent.myRefName"
               :is="step.stepContent.componentName"
@@ -256,7 +254,7 @@ import FDocumentCHPP from "./file/documentUploadCHPP/FDocumentCHPP.vue";
     FBPaymentPlan,
     CMSFTCDraftPaymentStep,
     CNSFMSFTCDraftPaymentStep,
-    FDocumentCHPP
+    FDocumentCHPP,
   },
 })
 export default class FTaskStepper extends ModelVue {
@@ -477,9 +475,9 @@ export default class FTaskStepper extends ModelVue {
 </script>
 <style scoped>
 .v-stepper__header {
-    height: 48px !important;
+  height: 48px !important;
 }
 .v-stepper__step {
-    padding: 0px 12px !important;
+  padding: 0px 12px !important;
 }
 </style>

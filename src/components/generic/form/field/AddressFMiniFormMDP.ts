@@ -59,6 +59,7 @@ export default class AddressFMiniFormMDP extends FMiniFormMDP {
       itemText: "cityName",
       itemValue: "cityName",
       boundaryClass:"col-3",
+      mandatory: true
   }))
       // .addField(
       //   new FTextFieldMDP({

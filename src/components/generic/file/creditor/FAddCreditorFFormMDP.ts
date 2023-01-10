@@ -65,7 +65,6 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           options: [
             "Credit Card",
             "Personal Loans",
-            "Secured",
             "Others (Unsecured)",
           ],
         })

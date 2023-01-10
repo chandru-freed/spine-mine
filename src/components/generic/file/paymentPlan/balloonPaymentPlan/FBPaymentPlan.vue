@@ -17,7 +17,7 @@
       "
       v-bind="paymentCalculatorFormMetaData.props"
     ></component> -->
-    <TMOStimulator
+    <TMOStimulatorWithPsPlanId
       :percentage="
         tmosSimulatorInput.paymentPlan.ppCalculator?.settlementPercentage
       "
@@ -188,7 +188,7 @@ import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
 import * as Store from "@/../src-gen/store";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
-import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
+import TMOStimulatorWithPsPlanId from "@/components/generic/tmoStimulator/TMOStimulatorWithPsPlanId.vue";
 
 import FBPSkipedPresentedFDataTableMDP from "./FBPSkipedPresentedFDataTableMDP";
 import FBPPScheduleFDataTableMDP from "./FBPPScheduleFDataTableMDP";
@@ -202,7 +202,7 @@ import UploadExcelFFormMDP from "./UploadExcelFFormMDP";
     FForm,
     FBtn,
     FDataTable,
-    TMOStimulator,
+    TMOStimulatorWithPsPlanId,
   },
 })
 export default class FBPaymentPlan extends ModelVue {

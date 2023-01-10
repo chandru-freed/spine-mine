@@ -132,14 +132,22 @@
               </v-list-item-action>
             </v-list-item>
             <v-divider/>
+            <v-list-item dense >
+              <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
+                <!-- <template v-if="fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
+                <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].draftDate | monthday}} </div>
+                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
+                <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
+                </template>   -->
+              </v-list-item-subtitle> 
+            </v-list-item>
           </v-list>
         </v-card>
       </v-sheet>
     </div>
 
      <div class="col" v-if="fileSummary.msfSummary">
-      <v-sheet outlined color="secondary" rounded>
-        <v-card outlined elevation="0" color="secondary" @click="gotoPaymentPlan">
+        <v-card outlined  color="secondary" @click="gotoPaymentPlan">
           <v-list class="py-0">
             <v-list-item dense >
               <v-list-item-content >
@@ -167,21 +175,16 @@
                 </v-list-item-subtitle> 
             </v-list-item>
             <v-list-item dense >
-            <v-list-item-subtitle
-                  
-                  class="caption d-flex justify-space-between align-center"
-                  >
-                  <template v-if="fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
-                  <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].draftDate | monthday}} </div>
-                  <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
-                  <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
-                  </template>  
-                </v-list-item-subtitle> 
+              <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
+                <template v-if="!!fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
+                <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].draftDate | monthday}} </div>
+                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
+                <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
+                </template>  
+              </v-list-item-subtitle> 
           </v-list-item>
           </v-list>
-          
         </v-card>
-      </v-sheet>
     </div>
     <!-- MSF -->
     <!-- SPA -->

@@ -19,7 +19,7 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
         this.parent = parent;
         this.addColumn({
             label: "ClientFile Number",
-            dataSelectorKey: "clientFileNumber",
+            dataSelectorKey: "clientFileBasicInfo.clientFileNumber",
             columnCellMDP: new FCellBtnMDP({
                 color: "secondary",
                 icon: "mdi-file-account",
@@ -28,9 +28,19 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
                 },
               }),
         }).addColumn({
+            label: "Mobile Number",
+            dataSelectorKey: "clientBasicInfo.mobile",
+            columnCellMDP: new FCellBtnMDP({
+                color: "deep-purple",
+                onClick: (item) => {
+                    this.handleClientClick(item);
+                },
+            }),
+        })
+        .addColumn({
             label: "Payment Type",
             dataSelectorKey: "paymentType.name",
-            //   columnCellMDP: new FCellDateMDP(),
+              columnCellMDP: new FCellStatusMDP({}),
         })
         
             .addColumn({
@@ -42,6 +52,7 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
                         this.parent.openPaymentDetails(item);
                     },
                 }),
+                align:'right'
             })
             .addColumn({
                 label: "Account Holder Name",
@@ -81,4 +92,8 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
         console.log(item,"Client file nyumber")
         this.parent.gotoFile(item.clientFileNumber);
       }
+
+      handleClientClick(item: any) {
+        this.parent.gotoClient(item.clientBasicInfo.clientId);
+    }
 }

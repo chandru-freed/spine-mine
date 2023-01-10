@@ -11,30 +11,29 @@
       "
       v-bind="poFilterFFormMetaData.props"
     ></component>
-    
-      <component
-      class="my-2"
-        :is="poPaymentScheduleFDataTableMetaData.componentName"
-        :ref="poPaymentScheduleFDataTableMetaData.myRefName"
-        :value="psEntryList"
-        v-bind="poPaymentScheduleFDataTableMetaData.props"
-      ></component>
 
-      <component
+    <component
       class="my-2"
-        :is="poMSFFDataTableMetaData.componentName"
-        :ref="poMSFFDataTableMetaData.myRefName"
-        :value="msfEntryList"
-        v-bind="poMSFFDataTableMetaData.props"
-      ></component>
-      <component
+      :is="poPaymentScheduleFDataTableMetaData.componentName"
+      :ref="poPaymentScheduleFDataTableMetaData.myRefName"
+      :value="psEntryList"
+      v-bind="poPaymentScheduleFDataTableMetaData.props"
+    ></component>
+
+    <component
       class="my-2"
-        :is="poAllPaymentFDataTableMetaData.componentName"
-        :ref="poAllPaymentFDataTableMetaData.myRefName"
-        :value="allPaymentList"
-        v-bind="poAllPaymentFDataTableMetaData.props"
-      ></component>
-    
+      :is="poMSFFDataTableMetaData.componentName"
+      :ref="poMSFFDataTableMetaData.myRefName"
+      :value="msfEntryList"
+      v-bind="poMSFFDataTableMetaData.props"
+    ></component>
+    <component
+      class="my-2"
+      :is="poAllPaymentFDataTableMetaData.componentName"
+      :ref="poAllPaymentFDataTableMetaData.myRefName"
+      :value="allPaymentList"
+      v-bind="poAllPaymentFDataTableMetaData.props"
+    ></component>
   </div>
 </template>
 
@@ -129,11 +128,32 @@ export default class PaymentOperation extends ModelVue {
     return new POAllPaymentFDataTableMDP({ parent: this }).getMetaData();
   }
 
-   gotoFile(item: any) {
+  gotoFile(item: any) {
     Helper.Router.gotoFile({
       router: this.$router,
       clientFileNumber: item,
     });
+  }
+  gotoClient(clientId: string) {
+    this.$router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
+    });
+  }
+
+
+  openPaymentDetails(item: any) {
+    console.log(item.paymentId);
+    if (item.paymentId) {
+      this.$router.push({
+        name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
+        params: {
+          clientFileNumber: item.clientFileNumber,
+          clientFileId:item.clientFileBasicInfo.clientFileId,
+          paymentId: item.paymentId,
+        },
+      });
+    }
   }
 }
 </script>

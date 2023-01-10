@@ -61,6 +61,12 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.budgetInfo = new Data.ClientFile.BudgetInfo();
     state.fiPaymentPlanInfo = new Data.ClientFile.FiPaymentPlanInfo();
     state.fileSummary = new Data.ClientFile.FileSummary();
+    state.fiBankInfo = new Data.ClientFile.FiBankInfo();
+    state.fiActiveEMandateList = [];
+    state.fiPaymentTransactionList = [];
+    state.fiPaymentList = [];
+    state.fiEMandateList = [];
+    state.fiDocumentList = [];
   }
 
 public  toggleAmeyoSideBar(state: Data.ClientFile.ClientFileSummary, showAmeyoSideBar: boolean): void {

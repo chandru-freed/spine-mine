@@ -27,7 +27,7 @@ import * as Action from "@/../src-gen/action";
 export default class PlanSettlementTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-  
+
   @Store.Getter.ClientFile.SettlementDetails.stPlanDetails
   stPlanDetails: Data.ClientFile.STPlanDetails;
   taskId = this.$route.params.taskId;
@@ -70,7 +70,8 @@ export default class PlanSettlementTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: Data.Spine.STPlanDetails = new Data.Spine.STPlanDetails();
+  taskFormOutputLocal: Data.Spine.STPlanDetails =
+    new Data.Spine.STPlanDetails();
 
   get taskFormOutput() {
     this.taskFormOutputLocal.stSpaEntryList = this.stPlanDetails.stSpaEntryList;
@@ -90,71 +91,48 @@ export default class PlanSettlementTask extends ModelVue {
 
   //DATA
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 
   get stPlanId() {
     return this.taskDetailsInput.stPlanInfo?.fiSettlementPlanId;
   }
 
+  public getSTPaymentPlanDetailsHandler = (output: any) => {
+    setTimeout(() => {
+      this.getSTPaymentPlanDetails();
+    }, 1000);
+  };
+
   mounted() {
     this.getSTPaymentPlanDetails();
-    Action.ClientFile.AddSTEntry.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.AddSTEntry.interested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.RemoveSTEntry.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.RemoveSTEntry.interested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.PresentSTEntry.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.PresentSTEntry.interested(this.getSTPaymentPlanDetailsHandler);
 
-     Action.ClientFile.UpdateSTEntryAccountDetails.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.UpdateSTEntryAccountDetails.interested(this.getSTPaymentPlanDetailsHandler);
   }
 
   destroyed() {
-    Action.ClientFile.AddSTEntry.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.AddSTEntry.notInterested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.RemoveSTEntry.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.RemoveSTEntry.notInterested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.PresentSTEntry.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.PresentSTEntry.notInterested(this.getSTPaymentPlanDetailsHandler);
 
-     Action.ClientFile.UpdateSTEntryAccountDetails.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.UpdateSTEntryAccountDetails.notInterested(this.getSTPaymentPlanDetailsHandler);
   }
 
   getSTPaymentPlanDetails() {
     Action.ClientFile.GetSTPlanDetails.execute1(this.stPlanId, (output) => {});
   }
 
-    getFiCreditorInfo() {
+  getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
       this.clientFileId,
       (output) => {}

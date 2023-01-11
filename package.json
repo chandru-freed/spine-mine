@@ -6,7 +6,10 @@
     "serve": "vue-cli-service serve --mode ${MODE:-playdev} --ignore client",
     "build": "vue-cli-service build --mode ${MODE:-playdev}",
     "lint": "vue-cli-service lint",
-    "build-prod": "vue-cli-service build --mode ${MODE:-playprod} --dest ../spine/public/spine/modules/spine/spineapp"
+    "build-dev": "vue-cli-service build --mode ${MODE:-playdev} --dest ../spine/public/spine/modules/spine/spineapp/",
+    "build-stage": "vue-cli-service build --mode ${MODE:-playstage} --dest ../spine/public/spine/modules/spine/spineapp/",
+    "build-preprod": "vue-cli-service build --mode ${MODE:-playpreprod} --dest ../spine/public/spine/modules/spine/spineapp/",
+    "build-prod": "vue-cli-service build --mode ${MODE:-playprod} --dest ../spine/public/spine/modules/spine/spineapp/"
   },
   "dependencies": {
     "@types/json2csv": "^5.0.3",

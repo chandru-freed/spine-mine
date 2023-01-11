@@ -11,6 +11,7 @@ import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
 import * as Snackbar from "node-snackbar";
 import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
+import FCreditCardFieldMDP from "../../form/field/FCreditCardFieldMDP";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -64,18 +65,39 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           options: [
             "Credit Card",
             "Personal Loans",
-            "Secured",
             "Others (Unsecured)",
           ],
         })
       )
 
       .addField(
-        new FAccountFieldMDP({
+        new FCreditCardFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "accountNumber",
+          label: "Credit Card Number",
+          mandatory: true,
+          boundaryClass: "col-4",
+          condition: this.parent.isCreditCard(),
+          rules: "min:9|max:20",
+        })
+      )
+
+      .addField(
+        new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           mandatory: true,
+          boundaryClass: "col-4",
+          condition: !this.parent.isCreditCard(),
+          rules: "min:9|max:20",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "details",
+          label: "Details",
           boundaryClass: "col-4",
         })
       )
@@ -98,7 +120,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    return this.parent.getMyRef()[0].$refs[this.myRefName];
+    return this.parent.$refs[this.myRefName];
   }
 
   submitAddCreditor() {
@@ -110,19 +132,19 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
   }
 
   closeAddForm() {
-    this.parent.getMyRef()[0].closeAndClearAllForms();
+    this.parent.closeAndClearAllForms();
   }
 
   addCreditor() {
     const input = Data.Spine.AddCreditorInput.fromJson(
-      this.parent.getMyRef()[0].addCreditorForm
+      this.parent.addCreditorForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.AddCreditor.execute(input, (output) => {
-      this.parent.getMyRef()[0].closeAndClearAllForms();
+      this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",
         pos: "bottom-center",

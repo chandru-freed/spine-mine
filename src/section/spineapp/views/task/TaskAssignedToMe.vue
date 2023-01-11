@@ -3,92 +3,26 @@
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
     <!-- TASK TAB -->
-    <v-card flat class="pa-0 ma-0" height="calc(100vh - 96px)">
-      <v-data-table
-        :headers="allocatedTaskGridHeaderList"
-        :items="allocatedTaskList"
-        sort-by="calories"
-        class="elevation-0"
-        :search="search"
-        item-key="taskId"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-card-title>My Assigned Task</v-card-title>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.taskState="{ item }">
+    <v-card>
+      <component
+        v-if="!!showSuspendForm"
+        :ref="suspendTaskFFormMetaData.myRefName"
+        :is="suspendTaskFFormMetaData.componentName"
+        :value="selectModel(suspendTaskInput, undefined)"
+        @input="
+          (newValue) => updateModel(suspendTaskInput, newValue, undefined)
+        "
+        v-bind="suspendTaskFFormMetaData.props"
+      ></component>
 
-        <v-icon color="grey" v-if="item.taskState === 'CREATED'"
-          >mdi-plus-circle-outline</v-icon
-        >
-        <v-icon color="secondary" v-if="item.taskState === 'ALLOCATED'"
-          >mdi-account-circle-outline</v-icon
-        >
-        <v-icon color="primary" v-if="item.taskState === 'STARTED'"
-          >mdi-pencil-circle-outline</v-icon
-        >
-        <v-icon color="primary" v-if="item.taskState === 'SAVED'"
-          >mdi-progress-pencil</v-icon
-        >
-
-        <v-icon color="success" v-if="item.taskState === 'COMPLETED'"
-          >mdi-check-circle-outline</v-icon
-        >
-
-        <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
-          >mdi-cancel</v-icon
-        >
-        <v-icon color="red" v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
-          >mdi-alert-circle</v-icon
-        >
-      </template>
-      <template v-slot:item.priority="{ item }">
-        <v-chip  small outlined>
-          {{ item.priority }}
-        </v-chip>
-      </template>
-        <template v-slot:item.taskName="{ item }">
-          <f-btn :label="item.taskName" text color="primary" :onClick="()=>gotoTask(item)"></f-btn>
-        </template>
-        <template v-slot:item.cid="{ item }">
-          <f-btn :label="item.cid" text color="secondary" :onClick="()=>gotoFile(item)"></f-btn>
-        </template>
-        <template v-slot:item.displayId="{ item }">
-          <span class="overline">
-            {{ item.displayId }}
-          </span>
-        </template>
-
-        <template v-slot:item.allocatedTime="{ item }">
-          <span class="grey--text">
-            {{ item.allocatedTime | date-time }} ({{
-              item.allocatedTime | fromNow
-            }})
-          </span>
-        </template>
-
-        <template v-slot:item.action="{ item }" >
-          <f-btn label="START" v-if="item.taskState === 'ALLOCATED'" outlined small color="primary" :onClick="()=>startTask('', item)">   
-          </f-btn>
-        </template>
-      </v-data-table>
+      <component
+        v-if="!!taskAssignedToMeFDataTableMetaData"
+        :ref="taskAssignedToMeFDataTableMetaData.myRefName"
+        :is="taskAssignedToMeFDataTableMetaData.componentName"
+        :value="selectModel(allocatedTaskList, undefined)"
+        v-bind="taskAssignedToMeFDataTableMetaData.props"
+      ></component>
     </v-card>
-    <!--  TASK TAB -->
   </div>
 </template>
 
@@ -98,73 +32,97 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import TaskTab from "@/section/spineapp/components/task/TaskTab.vue";
+import TaskTab from "@/section/spineapp/components/tab/TaskTab.vue";
 
 import moment from "moment";
 import FBtn from "@/components/generic/FBtn.vue";
-
+import Helper from "../../util/Helper";
+import TaskAssignedToMeFDataTableMDP from "./TaskAssignedToMeFDataTableMDP";
+import ModelVue from "@/components/generic/ModelVue";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import FForm from "@/components/generic/form/FForm.vue";
+import SuspendTaskFFormMDP from "./SuspendTaskFFormMDP";
 @Component({
   components: {
     "task-tab": TaskTab,
-    "f-btn":FBtn
+    "f-btn": FBtn,
+    FDataTable,
+    FForm,
   },
 })
-export default class TaskAssignedToMe extends Vue {
+export default class TaskAssignedToMe extends ModelVue {
   tab = 0;
 
   selected = [];
   search = "";
 
   allocatedTaskList: Data.TaskList.GetActiveTaskListAllocatedGrid[] = [];
+  suspendTaskInput: Data.TaskList.SuspendTaskInput =
+    new Data.TaskList.SuspendTaskInput();
+  showSuspendForm: boolean = false;
+  taskTableRefName: string = "taskAssignedToMeFDataTableRef";
 
-  allocatedTaskGridHeaderList = [
-    // { text: "Task Id", value: "taskId" },
-    { text: "File Number", value: "cid", align: "start" },
-    { text: "Client", value: "displayId", align: "start" },
-    { text: "Task", value: "taskName", align: "start" },
-    { text: "", value: "priority" },
-    { text: "Status", value: "taskState" },
-    { text: "Allocated On", value: "allocatedTime" },
-    //{ text: "Last Updated On", value: "lastUpdatedTime" },
-    // { text: "Suspended", value: "isSuspended" },
-    { text: "", value: "action", sortable: false },
-  ];
-
+  public getActiveTLAllocatedWithDelayHandler = (output: any) => {
+    setTimeout(() => {
+      this.getActiveTaskListAllocatedGrid();
+    }, 1000);
+  };
   mounted() {
-    // this.getAllocatedTaskList();
+    Action.TaskList.Suspend.interested(this.getActiveTLAllocatedWithDelayHandler);
     this.getActiveTaskListAllocatedGrid();
   }
 
-
-  getActiveTaskListAllocatedGrid() {
-    Action.TaskList.GetActiveTaskListAllocated.execute(
-      (output) => {
-        this.allocatedTaskList = output;
-      }
-    );
+  destroyed() {
+    Action.TaskList.Suspend.notInterested(this.getActiveTLAllocatedWithDelayHandler);
   }
 
-  startTask(value: any, item: Data.TaskList.AllocatedTaskGrid) {
-    Action.TaskList.Start.execute1(
-      item.taskId,
-      (output) => {
-        this.gotoTask(item);
-      }
-    );
+  getActiveTaskListAllocatedGrid() {
+    Action.TaskList.GetActiveTaskListAllocated.execute((output) => {
+      this.allocatedTaskList = output;
+    });
   }
 
   gotoFile(item: any) {
-    this.$router.push({
-      name: "Root.ClientFile.Workarea",
-      params: { clientFileNumber: item.cid },
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: item.cid,
     });
   }
 
   gotoTask(item: any) {
     this.$router.push({
-      name: "Root.ClientFile.FileTask.FileTaskDetails",
+      name: "Root.CFTaskRedirect",
       params: { clientFileNumber: item.cid, taskId: item.taskId },
     });
+  }
+
+  gotoClient(clientId: string) {
+    this.$router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
+    });
+  }
+
+  handleSuspendClick(item: any) {
+    this.showSuspendForm = true;
+    this.suspendTaskInput.taskId = item.taskId;
+  }
+
+  get taskAssignedToMeFDataTableMetaData() {
+    return new TaskAssignedToMeFDataTableMDP({
+      parent: this,
+      myRefName: this.taskTableRefName,
+    }).getMetaData();
+  }
+  get suspendTaskFFormMetaData() {
+    return new SuspendTaskFFormMDP({
+      root: this,
+    }).getMetaData();
+  }
+
+  clearTableAndForm() {
+    this.showSuspendForm = false;
+    (this.$refs[this.taskTableRefName] as any).clearSelectedItems();
   }
 }
 </script>

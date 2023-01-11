@@ -7,7 +7,6 @@ export class ClientFileSummaryInit {
 }
 
 export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
-  
 
    public fiCreditorInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditorInfo | undefined {
       return state.fiCreditorInfo
@@ -54,6 +53,20 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
   public fiEnrollmentDetails(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiEnrollmentDetails {
     return new Data.ClientFile.FiEnrollmentDetails(state.personalInfo, state.fiBankInfo, state.fiCreditorInfo, state.fiDocumentList, state.fiPaymentPlanInfo, state.budgetInfo)
   }
+
+  public fiEMandateList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiEMandateList[] {
+    return state.fiEMandateList
+  }
+
+  public fiActiveEMandateList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiActiveEMandateList[] {
+    return state.fiActiveEMandateList
+  }
+
+ public showAmeyoSideBar(state: Data.ClientFile.ClientFileSummary): boolean {
+  return state.showAmeyoSideBar
+  }
+
+  
 }
 
 

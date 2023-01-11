@@ -54,11 +54,11 @@
             class="mx-2"
             @click="reAssignClicked()"
             outlined
-            :disabled="taskCompleted"
+            :disabled="ticketCompleted"
             >Assign</v-btn
           >
           <v-btn
-            :disabled="taskCompleted"
+            :disabled="ticketCompleted"
             color="primary"
             class="mx-2"
             @click="closeTicketDialog = true"
@@ -74,7 +74,7 @@
           v-bind="ticketSummaryFormMetaData.props"
         ></component>
       </v-card-text>
-      <ticket-comment />
+      <ticket-comment :ticketCompleted="ticketCompleted" />
     </v-card>
   </div>
 </template>
@@ -88,10 +88,10 @@ import store, * as Store from "@/../src-gen/store";
 // import AddCommentFFormMDP from './AddCommentFFormMDP';
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Snackbar from "node-snackbar";
-import TicketSummaryFFormMDP from "./TicketSummaryFFormMDP";
+import TicketSummaryFFormMDP from "./details/TicketSummaryFFormMDP";
 import FBtn from "@/components/generic/FBtn.vue";
-import TicketComment from "./TicketComment.vue";
-import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
+import TicketComment from "./details/TicketComment.vue";
+import ReAssignTicketFFormMDP from "./details/ReAssignTicketFFormMDP";
 @Component({
   components: {
     FForm,
@@ -127,19 +127,26 @@ export default class TicketDetails extends Vue {
     return this.ticketTaskDetails.taskInput;
   }
 
-  get taskCompleted() {
+  get ticketCompleted() {
     return this.ticketTaskDetails.taskState === "COMPLETED";
   }
+
+  public getMyTicketTaskDetailsWithDelayHandler = (output: any) => {
+    setTimeout(() => {
+      this.getMyTicketTaskDetails();
+    }, 500);
+  };
+
   mounted() {
     this.getMyTicketTaskDetails();
     Action.Ticket.CloseTicket.interested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
   }
 
   public destroyed() {
     Action.Ticket.CloseTicket.notInterested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
   }
 
@@ -147,13 +154,7 @@ export default class TicketDetails extends Vue {
     Action.Ticket.GetMyTicketTaskDetails.execute1(this.taskId, (output) => {});
   }
 
-  getMyTicketTaskDetailsWithDelay() {
-    return () => {
-      setTimeout(() => {
-        this.getMyTicketTaskDetails();
-      }, 500);
-    };
-  }
+
 
   reAssignTicket() {
     this.reAssignTicketInput.taskId = this.taskId;

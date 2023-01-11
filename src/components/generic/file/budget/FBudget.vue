@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{modelValue}} -->
     <component
       style="height: 100%"
       :ref="budgetFormMetaData.myRefName"
@@ -39,7 +40,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn text> {{ totalSecuredDebtAmount  | toINR }} </v-btn>
+              <v-btn text> {{ totalSecuredDebtAmount | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -130,6 +131,8 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
+import store, * as Store from "@/../src-gen/store";
+
 @Component({
   components: {
     FForm,
@@ -137,46 +140,73 @@ import * as Data from "@/../src-gen/data";
   },
 })
 export default class FBudget extends ModelVue {
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfo: Data.ClientFile.ClPersonalInfo;
+
   affordabilityPercentage = 85;
 
+  //FORM
+
+  taskFormDataLocal: any = {
+    taskInput: {},
+    taskOutput: {},
+  };
+
+  get taskFormData() {
+    return {
+      taskInput: this.personalInfo,
+      taskOutput: this.modelValue,
+    };
+  }
+
+  set taskFormData(value: any) {
+    this.taskFormDataLocal = value;
+  }
+  //FORM
+
+  get modelValueLocal (){
+    return this.modelValue.taskOutput.budgetInfo
+  }
+
   get incomeSources() {
-    return this.modelValue.incomeSources;
+    return this.modelValueLocal.incomeSources;
   }
 
   get debtRepayments() {
-    return this.modelValue.debtRepayments;
+    return this.modelValueLocal.debtRepayments;
   }
 
   get livingExpenses() {
-    return this.modelValue.livingExpenses;
+    return this.modelValueLocal.livingExpenses;
   }
 
   get lifeStyleExpenses() {
-    return this.modelValue.lifeStyleExpenses;
+    return this.modelValueLocal.lifeStyleExpenses;
   }
 
   get dependentExpenses() {
-    return this.modelValue.dependentExpenses;
+    return this.modelValueLocal.dependentExpenses;
   }
 
   get incidentalExpenses() {
-    return this.modelValue.incidentalExpenses;
+    return this.modelValueLocal.incidentalExpenses;
   }
 
   get miscellaneousExpenses() {
-    return this.modelValue.miscellaneousExpenses;
+    return this.modelValueLocal.miscellaneousExpenses;
   }
 
   get totalIncomeAmount() {
     const totalIncome = this.sumMiniBudgetAmount(this.incomeSources);
-    this.modelValue.totalIncome = totalIncome;
+    this.modelValueLocal.totalIncome = totalIncome;
     return totalIncome;
   }
 
   sumMiniBudgetAmount(budgetObj: any) {
     return Object.values(budgetObj).reduce(
       (accumulator: number, objValue: any) => {
-        return accumulator + objValue;
+        const val = isNaN(objValue) ? 0 : objValue;
+        return accumulator + val;
       },
       0
     );
@@ -184,7 +214,7 @@ export default class FBudget extends ModelVue {
 
   get totalLivingExpenses() {
     const totalLivingExpenses = this.sumMiniBudgetAmount(this.livingExpenses);
-    this.modelValue.totalLivingExpenses = totalLivingExpenses;
+    this.modelValueLocal.totalLivingExpenses = totalLivingExpenses;
     return totalLivingExpenses;
   }
 
@@ -192,7 +222,7 @@ export default class FBudget extends ModelVue {
     const totalLifeStyleExpenses = this.sumMiniBudgetAmount(
       this.lifeStyleExpenses
     );
-    this.modelValue.totalLifeStyleExpenses = totalLifeStyleExpenses;
+    this.modelValueLocal.totalLifeStyleExpenses = totalLifeStyleExpenses;
     return totalLifeStyleExpenses;
   }
 
@@ -200,7 +230,7 @@ export default class FBudget extends ModelVue {
     const totalDependentExpenses = this.sumMiniBudgetAmount(
       this.dependentExpenses
     );
-    this.modelValue.totalDependentExpenses = totalDependentExpenses;
+    this.modelValueLocal.totalDependentExpenses = totalDependentExpenses;
     return totalDependentExpenses;
   }
 
@@ -208,7 +238,7 @@ export default class FBudget extends ModelVue {
     const totalIncidentalExpenses = this.sumMiniBudgetAmount(
       this.incidentalExpenses
     );
-    this.modelValue.totalIncidentalExpenses = totalIncidentalExpenses;
+    this.modelValueLocal.totalIncidentalExpenses = totalIncidentalExpenses;
     return totalIncidentalExpenses;
   }
 
@@ -216,7 +246,7 @@ export default class FBudget extends ModelVue {
     const totalMiscellaneousExpenses = this.sumMiniBudgetAmount(
       this.miscellaneousExpenses
     );
-    this.modelValue.totalMiscellaneousExpenses = totalMiscellaneousExpenses;
+    this.modelValueLocal.totalMiscellaneousExpenses = totalMiscellaneousExpenses;
     return totalMiscellaneousExpenses;
   }
   get allExpensesAmount() {
@@ -227,13 +257,13 @@ export default class FBudget extends ModelVue {
       this.totalIncidentalExpenses +
       this.totalMiscellaneousExpenses;
 
-    this.modelValue.totalMonthlyExpense = allExpenseList;
+    this.modelValueLocal.totalMonthlyExpense = allExpenseList;
     return allExpenseList;
   }
 
   get totalSecuredDebtAmount() {
     const totalDebtRepayments = this.sumMiniBudgetAmount(this.debtRepayments);
-    this.modelValue.totalDebtRepayments = totalDebtRepayments;
+    this.modelValueLocal.totalDebtRepayments = totalDebtRepayments;
     return totalDebtRepayments;
   }
 
@@ -242,14 +272,14 @@ export default class FBudget extends ModelVue {
       this.totalIncomeAmount -
       this.totalSecuredDebtAmount -
       this.allExpensesAmount;
-    this.modelValue.availableIncome = availableIncome;
+    this.modelValueLocal.availableIncome = availableIncome;
     return availableIncome;
   }
 
   get proposedDSPayment() {
     const proposedDSPayment =
       (this.availableIncome * this.affordabilityPercentage) / 100;
-    this.modelValue.proposedDSPayment = proposedDSPayment;
+    this.modelValueLocal.proposedDSPayment = proposedDSPayment;
     return proposedDSPayment;
   }
 
@@ -258,7 +288,7 @@ export default class FBudget extends ModelVue {
       this.totalIncomeAmount !== 0
         ? (this.totalSecuredDebtAmount / this.totalIncomeAmount) * 100
         : 0;
-    this.modelValue.stdiPercentage = stdiPercentage;
+    this.modelValueLocal.stdiPercentage = stdiPercentage;
     return stdiPercentage;
   }
 

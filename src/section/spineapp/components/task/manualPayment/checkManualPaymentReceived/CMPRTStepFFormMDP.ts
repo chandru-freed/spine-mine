@@ -4,29 +4,35 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 
 export default class CMPRTStepFFormMDP extends FFormMDP {
-    childMDP = new FFormChildMDP();
+  childMDP = new FFormChildMDP();
+  taskRoot: DeferredTaskIntf;
+  parent: any;
+  constructor({
+    taskRoot,
+    parent,
+  }: {
     taskRoot: DeferredTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: DeferredTaskIntf; parent: any }) {
-        super({
-            myRefName: "checkManualPaymentReceivedFormRef",
-            disabled: taskRoot.taskDisabled,
-        });
-        this.taskRoot = taskRoot;
-        this.parent = parent;
+  }) {
+    super({
+      myRefName: "checkManualPaymentReceivedFormRef",
+      disabled: taskRoot.taskDisabled,
+    });
+    this.taskRoot = taskRoot;
+    this.parent = parent;
 
-        this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.upiLink",
-                label: "UPI Link",
-                mandatory: true,
-                boundaryClass: "col-6",
-                disabled: true
-            })
-        )
-    }
-    getMyRef(): any {
-        return this.parent.getMyRef().$refs[this.myRefName][0];
-    }
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskInput.upiLink",
+        label: "UPI Link",
+        mandatory: true,
+        boundaryClass: "col-6",
+        disabled: true,
+      })
+    );
+  }
+  getMyRef(): any {
+    return this.parent.getMyRef().$refs[this.myRefName][0];
+  }
 }

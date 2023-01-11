@@ -4,8 +4,7 @@ import { TicketSummaryMutations } from '@/../src-gen/store/ticket-store-support'
 
 export class TicketSummaryMutationsCode implements TicketSummaryMutations {
 
-
-  public setTicketTaskDetails(state: Data.Ticket.TicketTaskSummary, ticketTaskDetails: Data.Ticket.MyTicketTaskDetails): void {
+  public setTicketTaskDetails(state: Data.Ticket.TicketTaskSummary, ticketTaskDetails: Data.Ticket.MyTicketDetails): void {
     state.ticketTaskDetails = ticketTaskDetails;
   }
 
@@ -13,6 +12,16 @@ export class TicketSummaryMutationsCode implements TicketSummaryMutations {
     state.ticketCommentsList = ticketCommentsList;
   }
 
+  public updateMyTicketActiveList(state: Data.Ticket.TicketTaskSummary, myTicketActiveList: Data.Ticket.MyTicketDetails[]): void {
+    state.myTicketActiveList = myTicketActiveList;
+  }
 
+  public updateMyTicketCompletedList(state: Data.Ticket.TicketTaskSummary, myTicketCompletedList: Data.Ticket.MyTicketDetails[]): void {
+    state.myTicketCompletedList = myTicketCompletedList;
+  }
+
+  public updateMyTicketSubscribedList(state: Data.Ticket.TicketTaskSummary, myTicketSubscribedList: Data.Ticket.MyTicketDetails[]): void {
+    state.myTicketSubscribedList = myTicketSubscribedList;
+  }
 }
 

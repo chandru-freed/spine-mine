@@ -2,71 +2,13 @@
   <div class="ActiveTicket">
     <!-- TASK TAB -->
     <my-ticket-tab v-model="tab"></my-ticket-tab>
-    <!-- TASK TAB -->
-    <v-card class="pa-0 ma-0" flat height="calc(100vh - 96px)">
-      <v-data-table
-        :headers="allocatedTicketTaskGridHeaderList"
-        :items="myTicketTaskList"
-        class="elevation-0"
-        item-key="taskId"
-        :search="search"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-card-title>My Active Ticket</v-card-title>
-            <v-col class="col-7"></v-col>
-            <v-col>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search Item"
-                single-line
-                hide-details
-                outlined
-                rounded
-                dense
-                class="shrink"
-              ></v-text-field>
-            </v-col>
-          </v-toolbar>
-        </template>
-
-        <template v-slot:[`item.priority`]="{ item }">
-          <v-chip small outlined>
-            {{ item.priority }}
-          </v-chip>
-        </template>
-        <template v-slot:[`item.taskName`]="{ item }">
-          <f-btn
-            :label="item.taskName"
-            text
-            color="primary"
-            :onClick="() => gotoTask(item)"
-          ></f-btn>
-        </template>
-        <template v-slot:[`item.cid`]="{ item }">
-          <f-btn
-            :label="item.cid"
-            text
-            color="secondary"
-            :onClick="() => gotoTask(item)"
-          ></f-btn>
-        </template>
-        <template v-slot:[`item.displayId`]="{ item }">
-          <span class="overline">
-            {{ item.displayId }}
-          </span>
-        </template>
-
-        <template v-slot:[`item.allocatedTime`]="{ item }">
-          <span class="grey--text">
-            {{ item.allocatedTime | (date - time) }} ({{
-              item.allocatedTime | fromNow
-            }})
-          </span>
-        </template>
-      </v-data-table>
-    </v-card>
+    <component
+      v-if="!!activeTicketListFDataTableMDP"
+      :ref="activeTicketListFDataTableMDP.myRefName"
+      :is="activeTicketListFDataTableMDP.componentName"
+      :value="selectModel(myTicketTaskList, undefined)"
+      v-bind="activeTicketListFDataTableMDP.props"
+    ></component>
   </div>
 </template>
 
@@ -74,50 +16,44 @@
 import Vue from "vue";
 import { Prop, Component } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
+import store, * as Store from "@/../src-gen/store";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
-import MyTicketTab from "../../components/task/MyTicketTab.vue";
+import MyTicketTab from "../../components/tab/MyTicketTab.vue";
 import FBtn from "@/components/generic/FBtn.vue";
+import ActiveTicketListFDataTableMDP from "./ActiveTicketListFDataTableMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
 @Component({
   components: {
     "my-ticket-tab": MyTicketTab,
     "f-btn": FBtn,
+    FDataTable,
+    FForm,
   },
 })
-export default class ActiveTicketList extends Vue {
+export default class ActiveTicketList extends ModelVue {
   tab: number = 0;
   search: string = "";
+  @Store.Getter.Ticket.TicketSummary.myTicketActiveList
+  myTicketTaskList: Data.Ticket.MyTicketDetails[];
 
-  myTicketTaskList: Data.Ticket.MyTicketTaskDetails[] = [];
-
-  allocatedTicketTaskGridHeaderList = [
-    // { text: "Task Id", value: "taskId" },
-    { text: "Ticket Number", value: "cid", align: "start" },
-    { text: "Subject", value: "displayId", align: "start" },
-    // { text: "Task", value: "taskName", align: "start" },
-    { text: "Priority", value: "priority" },
-    { text: "Raised By", value: "raisedBy" },
-    { text: "Allocated To", value: "allocatedTo" },
-    { text: "Allocated On", value: "allocatedTime" },
-    //{ text: "Last Updated On", value: "lastUpdatedTime" },
-    // { text: "Suspended", value: "isSuspended" },
-    // { text: "", value: "action", sortable: false },
-  ];
+  get activeTicketListFDataTableMDP() {
+    return new ActiveTicketListFDataTableMDP({ parent: this }).getMetaData();
+  }
 
   mounted() {
     this.getMyTicketTaskList();
   }
   getMyTicketTaskList() {
-    Action.Ticket.GetMyTicketActiveList.execute((output) => {
-      this.myTicketTaskList = output;
-    });
+    Action.Ticket.GetMyTicketActiveList.execute((output) => {});
   }
 
   gotoTask(item: any) {
-    console.log(item);
     this.$router.push({
-      name: "Root.MyTicket.MyTicketDetails.MyTicketTaskDetails",
+      name: "Root.MyTicket.MyTicketDetails.MyTicketCommentList",
       params: { myTicketId: item.taskId, ticketNumber: item.cid },
     });
   }

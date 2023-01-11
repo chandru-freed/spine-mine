@@ -9,8 +9,10 @@
     "build-prod": "vue-cli-service build --mode ${MODE:-playprod} --dest ../spine/public/spine/modules/spine/spineapp"
   },
   "dependencies": {
+    "@types/json2csv": "^5.0.3",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "json2csv": "^5.0.7",
     "moment": "^2.29.3",
     "node-snackbar": "^0.1.16",
     "vee-validate": "^3.4.14",

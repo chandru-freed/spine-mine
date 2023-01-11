@@ -11,6 +11,7 @@ import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
 import * as Snackbar from "node-snackbar";
 import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
+import FCreditCardFieldMDP from "../../form/field/FCreditCardFieldMDP";
 
 export default class FEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -71,11 +72,31 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
       )
 
       .addField(
-        new FAccountFieldMDP({
+        new FCreditCardFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "accountNumber",
+          label: "Credit Card Number",
+          mandatory: true,
+          boundaryClass: "col-4",
+          condition: this.parent.isCreditCard()
+        })
+      )
+
+      .addField(
+        new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "accountNumber",
           label: "Account Number",
           mandatory: true,
+          boundaryClass: "col-4",
+          condition: !this.parent.isCreditCard(),
+          rules: "min:9|max:20",
+        })
+      ).addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "details",
+          label: "Details",
           boundaryClass: "col-4",
         })
       )
@@ -97,7 +118,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
   }
 
   getMyRef(): any {
-    return this.parent.getMyRef()[0].$refs[this.myRefName];
+    return this.parent.$refs[this.myRefName];
   }
 
   submitEditCreditor() {
@@ -110,19 +131,19 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
   }
 
   closeEditForm() {
-    this.parent.getMyRef()[0].closeAndClearAllForms();
+    this.parent.closeAndClearAllForms();
   }
 
   updateCreditor() {
     const input = Data.Spine.UpdateCreditorInput.fromJson(
-      this.parent.getMyRef()[0].editCreditorForm
+      this.parent.editCreditorForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateCreditor.execute(input, (output) => {
-      this.parent.getMyRef()[0].closeAndClearAllForms();
+      this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully Updated",
         pos: "bottom-center",

@@ -8,17 +8,26 @@
     v-bind="this.$props"
   >
     <template v-slot:item="data">
-      <div class="d-flex flex-row align-center ">
+      <v-list-item-avatar>
+                    <v-icon>mdi-account-circle</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title v-html="data.item.firstName"></v-list-item-title>
+                    <v-list-item-subtitle v-html="`${data.item.mobile}, ${data.item.emailId}`"></v-list-item-subtitle>
+                  </v-list-item-content>
+      <!-- <div class="d-flex flex-row  ">
         <v-list-item>
             <v-icon>mdi-account-circle-outline</v-icon>
         </v-list-item>
+        <div class="col">
         <v-list-item>
           {{ data.item.firstName }}
         </v-list-item>
         <v-list-item>
           {{ data.item.mobile }}
         </v-list-item>
-      </div>
+        </div>
+      </div> -->
     </template>
   </v-autocomplete>
 </template>
@@ -55,7 +64,9 @@ export default class FGompaUserRemoteAutoCompleteField extends VAutocomplete {
     if (value?.length >= this.minSearchValueLength) {
       this.fetchItems();
     } else {
+      if(!this.$props.multiple) {
       this.fetchedItems = [];
+      }
     }
   }
 

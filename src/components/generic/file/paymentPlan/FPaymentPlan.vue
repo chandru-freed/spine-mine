@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{modelValue.paymentPlan}} -->
     <component
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
@@ -24,151 +23,98 @@
       dense
       type="warning"
       outlined
-      class="col-5 ma-auto mb-5"
+      class="col-8 ma-auto mb-5"
       v-if="
         paymentPlan.ppCalculator.totalMonthlyObligation >
         this.modelValue.budgetInfo.proposedDSPayment
       "
     >
       Monthly Obligation ({{
-        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2)
+        paymentPlan.ppCalculator.totalMonthlyObligation.toFixed(2) | toINR
       }}) greater than Affordability ({{
-        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2)
+        this.modelValue.budgetInfo.proposedDSPayment.toFixed(2) | toINR
       }}).
     </v-alert>
 
     <v-card flat outlined class="row ma-2">
-      <v-tabs v-model="tab" background-color="transparent" color="secondary">
-        <v-tab> Payment Schedule </v-tab>
-        <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
-      </v-tabs>
+      <v-toolbar>
+        <v-tabs v-model="tab" background-color="transparent" color="secondary">
+          <v-tab> Payment Schedule </v-tab>
+          <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
+        </v-tabs>
+        <span class="mx-2">Status: </span>
+        <v-chip >{{ paymentPlan.psPlanStatus }}</v-chip>
+      </v-toolbar>
 
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>
           <v-card flat>
-            <v-data-table
-              :headers="psEntrySchelduledHeaders"
-              :items="psEntrySchelduledList"
-              sort-by="draftDate"
-              class="elevation-0"
-            >
-              <template v-slot:top>
-                <v-toolbar flat>
-                  <v-toolbar-title>Payment Schedule</v-toolbar-title>
-                  <v-divider class="mx-4" inset vertical></v-divider>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-              </template>
+            <component
+              v-if="showAddPsEntryForm"
+              :is="addPsEntryFFormMetaData.componentName"
+              :ref="addPsEntryFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  addPsEntryInput,
+                  addPsEntryFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    addPsEntryInput,
+                    newValue,
+                    addPsEntryFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="addPsEntryFFormMetaData.props"
+            ></component>
 
-              <template v-slot:[`item.draftDate`]="{ item }">
-                <span class="grey--text">
-                  {{ item.draftDate | date }}
-                </span>
-              </template>
+            <component
+              v-if="showModifyForm"
+              :is="modifyPsEntryFFormMetaData.componentName"
+              :ref="modifyPsEntryFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  modifyAmountPSEListInput,
+                  modifyPsEntryFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    addPsEntryInput,
+                    newValue,
+                    modifyPsEntryFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="modifyPsEntryFFormMetaData.props"
+            ></component>
 
-              <template v-slot:[`item.totalAmount`]="{ item }">
-                {{ item.totalAmount | toINR }}
-              </template>
-              <template v-slot:[`item.settlementReserve`]="{ item }">
-                {{ item.settlementReserve | toINR }}
-              </template>
-              <template v-slot:[`item.feeAmount`]="{ item }">
-                {{ item.feeAmount | toINR }}
-              </template>
-
-              <template v-slot:[`item.status`]="{ item }">
-                <v-chip small outlined>{{ item.status }}</v-chip>
-              </template>
-
-              <template v-slot:item.action="{ item }">
-                <div class="d-flex">
-                  <f-btn
-                    class="mr-2"
-                    label="Present"
-                    outlined
-                    small
-                    color="primary"
-                    :onClick="() => presentPSEntry(item.psEntryId)"
-                    :disabled="disabledActionBtn == true"
-                  ></f-btn>
-                  <f-btn
-                    label="Skip"
-                    outlined
-                    small
-                    color="primary"
-                    :onClick="() => skip(item.psEntryId)"
-                    :disabled="disabledActionBtn == true"
-                  ></f-btn>
-                </div>
-              </template>
-            </v-data-table>
+            <component
+              :is="fPaymentScheduleFDataTableMetaData.componentName"
+              :ref="fPaymentScheduleFDataTableMetaData.myRefName"
+              :value="psEntrySchelduledList"
+              v-bind="fPaymentScheduleFDataTableMetaData.props"
+            ></component>
           </v-card>
-          <v-divider></v-divider>
           <v-card flat class="mt-5">
-            <v-data-table
-              :headers="psEntryPresentedHeaders"
-              :items="psEntryPresentedList"
-              sort-by="draftDate"
-              class="elevation-0"
-            >
-              <template v-slot:top>
-                <v-toolbar flat>
-                  <v-toolbar-title>Payment Presented</v-toolbar-title>
-                  <v-divider class="mx-4" inset vertical></v-divider>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-              </template>
-              <template v-slot:[`item.draftDate`]="{ item }">
-                <span class="grey--text">
-                  {{ item.draftDate | date }}
-                </span>
-              </template>
-
-              <template v-slot:[`item.totalAmount`]="{ item }">
-                {{ item.totalAmount | toINR }}
-              </template>
-              <template v-slot:[`item.settlementReserve`]="{ item }">
-                {{ item.settlementReserve | toINR }}
-              </template>
-              <template v-slot:[`item.feeAmount`]="{ item }">
-                {{ item.feeAmount | toINR }}
-              </template>
-              <template v-slot:[`item.status`]="{ item }">
-                <v-chip small color="green" text-color="green" outlined>{{
-                  item.status
-                }}</v-chip>
-              </template>
-
-              <template v-slot:[`item.paymentStatus`]="{ item }">
-                <v-btn
-                  @click="openPaymentDetails(item)"
-                  rounded
-                  small
-                  color="grey"
-                  text-color="grey"
-                  outlined
-                  >{{ item.paymentStatus }}</v-btn
-                >
-              </template>
-            </v-data-table>
+            <component
+              :is="fPSkipedPresentedTableMetaData.componentName"
+              :ref="fPSkipedPresentedTableMetaData.myRefName"
+              :value="psEntryPresentedList"
+              v-bind="fPSkipedPresentedTableMetaData.props"
+            ></component>
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-data-table
-              :headers="feeHeaders"
-              :items="subscriptionFeeSchedule"
-              sort-by="draftDate"
-              class="elevation-0"
-            >
-              <template v-slot:top>
-                <v-toolbar flat>
-                  <v-toolbar-title>MSF Schedule</v-toolbar-title>
-                  <v-divider class="mx-4" inset vertical></v-divider>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-              </template>
-            </v-data-table>
+            <component
+              :is="fFeeFDataTableMetaData.componentName"
+              :ref="fFeeFDataTableMetaData.myRefName"
+              :value="subscriptionFeeScheduleList"
+              v-bind="fFeeFDataTableMetaData.props"
+            ></component>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -206,75 +152,60 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
 import * as Action from "@/../src-gen/action";
+import * as Data from "@/../src-gen/data";
+import FPaymentScheduleFDataTableMDP from "./FPaymentScheduleFDataTableMDP";
+import FDataTable from "../../table/FDataTable.vue";
+import FPSkipedPresentedFDataTableMDP from "./FPSkipedPresentedFDataTableMDP";
+import FFeeFDataTableMDP from "./FFeeFDataTableMDP";
+import AddPsEntryFFormMDP from "./AddPsEntryFFormMDP";
+import ModifyPsEntryFFormMDP from "./ModifyPsEntryFFormMDP";
+import TMOStimulator from "../../tmoStimulator/TMOStimulator.vue";
+import * as Store from "@/../src-gen/store";
 
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable,
+    TMOStimulator,
   },
 })
 export default class FPaymentPlan extends ModelVue {
   tab = 0;
-  psEntryPresentedHeaders = [
-    {
-      text: "Draft Date",
-      align: "start",
-      sortable: false,
-      value: "draftDate",
-    },
-    { text: "Total Amount", value: "totalAmount" },
-    { text: "Settlement Amount", value: "settlementReserve" },
-    { text: "Fee Amount", value: "feeAmount" },
-    { text: "Status", value: "status" },
-    { text: "Payment Status", value: "paymentStatus" },
-  ];
 
-  psEntrySchelduledHeaders = [
-    {
-      text: "Draft Date",
-      align: "start",
-      sortable: false,
-      value: "draftDate",
-    },
-    { text: "Total Amount", value: "totalAmount" },
-    { text: "Settlement Amount", value: "settlementReserve" },
-    { text: "Fee Amount", value: "feeAmount" },
-    { text: "Status", value: "status" },
-    { text: "Action ", value: "action" },
-  ];
+  showAddPsEntryForm: boolean = false;
+  showModifyForm: boolean = false;
+  addPsEntryInput: Data.ClientFile.AddPSEntryInput =
+    new Data.ClientFile.AddPSEntryInput();
+  modifyAmountPSEListInput: Data.ClientFile.ModifyAmountWithFixedTenureInput =
+    new Data.ClientFile.ModifyAmountWithFixedTenureInput();
+  fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
+  taskId = this.$route.params.taskId;
 
-  feeHeaders = [
-    {
-      text: "Draft Date",
-      align: "start",
-      sortable: false,
-      value: "draftDate",
-    },
-    { text: "Fee Code", value: "feeCode" },
-    // { text: "Collection Order", value: "collectionOrder" },
-    { text: "Amount", value: "amount" },
-    { text: "Tax Amount", value: "taxAmount" },
-    { text: "Total Amount", value: "totalAmount" },
-  ];
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  get paymentPlan() {
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+  get paymentPlan(): Data.ClientFile.FiPaymentPlanInfo {
     return this.modelValue.paymentPlan;
   }
 
   get psEntrySchelduledList() {
-    return this.paymentPlan.paymentSchedule.filter(
+    return this.paymentPlan.paymentScheduleList.filter(
       (psEntry: any) => psEntry.status === "SCHEDULED"
     );
   }
 
   get psEntryPresentedList() {
-    return this.paymentPlan.paymentSchedule.filter(
-      (psEntry: any) => psEntry.status === "PRESENTED"
+    return this.paymentPlan.paymentScheduleList.filter(
+      (psEntry: any) => psEntry.status !== "SCHEDULED"
     );
   }
 
-  get subscriptionFeeSchedule() {
-    return this.paymentPlan.subscriptionFeeSchedule;
+  get subscriptionFeeScheduleList() {
+    return this.paymentPlan.subscriptionFeeScheduleList;
   }
 
   get actionMetaDataListFiltered() {
@@ -285,34 +216,53 @@ export default class FPaymentPlan extends ModelVue {
     );
   }
 
-  presentPSEntry(psEntryId: string) {
-    Action.Spine.PresentPSEntry.execute1(psEntryId, (output) => {
-      Snackbar.show({
-        text: "Succesfully update.",
-        pos: "bottom-center",
-      });
-    });
-  }
-
-  skip(psEntryId: string) {
-    Action.Spine.Skip.execute1(psEntryId, (output) => {
-      Snackbar.show({
-        text: "Succesfully update.",
-        pos: "bottom-center",
-      });
-    });
-  }
   openPaymentDetails(item: any) {
     console.log(item);
     if (item.paymentId) {
       this.$router.push({
-        name: "Root.ClientFile.PaymentDetails",
+        name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
         params: {
           clientFileNumber: this.$route.params.clientFileNumber,
           paymentId: item.paymentId,
         },
       });
     }
+  }
+
+  resetFormsTableAndData() {
+    this.showAddPsEntryForm = false;
+    this.showModifyForm = false;
+    this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
+    this.modifyAmountPSEListInput =
+      new Data.ClientFile.ModifyAmountWithFixedTenureInput();
+    (
+      this.$refs[this.fPaymentScheduleFDataTableRefName] as any
+    ).clearSelectedItems();
+  }
+
+  get fPaymentScheduleFDataTableMetaData() {
+    return new FPaymentScheduleFDataTableMDP({
+      parent: this,
+      refName: this.fPaymentScheduleFDataTableRefName,
+    }).getMetaData();
+  }
+
+  get fPSkipedPresentedTableMetaData() {
+    return new FPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get fFeeFDataTableMetaData() {
+    return new FFeeFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get addPsEntryFFormMetaData() {
+    return new AddPsEntryFFormMDP({
+      parent: this,
+    }).getMetaData();
+  }
+
+  get modifyPsEntryFFormMetaData() {
+    return new ModifyPsEntryFFormMDP({ parent: this }).getMetaData();
   }
 
   @Prop()

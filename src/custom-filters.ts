@@ -10,12 +10,16 @@ export default class CustomFilters {
     this.duration();
     this.toDateTime();
     this.toDateTimeWithDuration();
+    this.toDateTimeAndDuration();
     this.toDateWithDuration();
     this.parseJson();
     this.emptyObject();
     this.withBase();
     this.toDateAndTime();
     this.maskPhone();
+    this.toMonthDay();
+    this.toMaskedAccountNumber();
+    this.toRoundedINR();
   }
 
   private static toUSD() {
@@ -27,19 +31,45 @@ export default class CustomFilters {
 
   private static toINR() {
     Vue.filter("toINR", (value: any) => {
-      return `₹ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      // return `₹ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+      return "₹" + Number(value).toLocaleString("en-IN", {
+        maximumFractionDigits: + "0",
+        minimumFractionDigits: + "0",
+      })
     });
   }
 
+  private static toRoundedINR() {
+    Vue.filter("toRoundedINR", (value: number = 0) => {
+      return `${Math.round(value).toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0
+     })}`;
+    });
+  }  
+  
+  private static toMaskedAccountNumber() {
+    Vue.filter("masked-account-number", (value: string) => {
+      return `XXXX ${value.substring(value.length - 4)}`;
+    });
+  }
   private static toDate() {
     Vue.filter("date", (value: any) => {
+      if (!value) { return "-"}
       return Moment(new Date(value)).format("Do MMM YY");
+    });
+  }
+
+  private static toMonthDay() {
+    Vue.filter("monthday", (value: any) => {
+      return Moment(new Date(value)).format("Do MMM");
     });
   }
 
   private static fromNow() {
     Vue.filter("fromNow", (value: any) => {
-      return Moment(new Date(value)).fromNow();
+      return value?Moment(new Date(value)).fromNow():'--';
     });
   }
 
@@ -51,17 +81,28 @@ export default class CustomFilters {
 
   private static toDateTime() {
     Vue.filter("date-time", (value: any) => {
-      return Moment(new Date(value)).format("MMM Do, h:mm a");
+      return value?Moment(new Date(value)).format("MMM Do, h:mm a"):'--';
     });
   }
   private static toDateAndTime() {
     Vue.filter("datetime", (value: any) => {
-      return Moment(new Date(value)).format("MMM Do, h:mm a");
+      return value?Moment(new Date(value)).format("MMM Do, h:mm a"):'--';
     });
   }
 
   private static toDateTimeWithDuration() {
     Vue.filter("date-time-duration", (value: any) => {
+      return (
+        Moment(new Date(value)).format("MMMM Do YYYY, h:mm:ss a") +
+        " ( " +
+        Moment(new Date(value)).fromNow() +
+        " ) "
+      );
+    });
+  }
+
+  private static toDateTimeAndDuration() {
+    Vue.filter("dateTimeDuration", (value: any) => {
       return (
         Moment(new Date(value)).format("MMMM Do YYYY, h:mm:ss a") +
         " ( " +

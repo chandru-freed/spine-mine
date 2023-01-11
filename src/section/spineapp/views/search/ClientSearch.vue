@@ -40,7 +40,7 @@
             </v-col>
           </v-toolbar>
         </template>
-         <template v-slot:item.fullName="{ item }">
+         <template v-slot:[`item.fullName`]="{ item }">
            <f-btn :label="item.fullName" text color="green"  :onClick="()=>gotoClient(item.clientId)"></f-btn>
         </template>
       </v-data-table>
@@ -99,6 +99,10 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
 
   get clientSearchFormMetaData(): any {
     return new ClientSearchFFormMDP({ taskRoot: this }).getMetaData();
+  }
+
+  mounted() {
+    this.searchClient();
   }
 
   searchClient() {

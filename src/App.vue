@@ -14,22 +14,26 @@
     </v-main>
   </v-app> -->
   <v-app>
-    <router-view/>
+    <!-- <div style="visibility: hidden; height: 0">
+      <AmeyoToolbarDialog />
+    </div> -->
+    <router-view />
   </v-app>
-
 </template>
 
 <script >
+import AmeyoToolbarDialog from "./components/generic/ameyo/AmeyoToolbarDialog.vue";
 // import HelloWorld from '@/components/HelloWorld';
 // import AppBar from '@/section/spineapp/views/bar/AppBar.vue';
 // import LeftNavigationBar from '@/section/spineapp/views/bar/LeftNavigationBar.vue';
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     // LeftNavigationBar,
     // AppBar,
+    AmeyoToolbarDialog
   },
 
   data: () => ({
@@ -39,6 +43,5 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>
 

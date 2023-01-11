@@ -9,12 +9,11 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "incomeSources",
+      dataSelectorKey: "taskOutput.budgetInfo.incomeSources",
       disabled: taskRoot.taskDisabled,
       label: "Income Sources",
       mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "575"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -25,6 +24,8 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
         dataSelectorKey: "salary",
         label: "Salary",
         mandatory: true,
+        boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -32,7 +33,8 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           parentMDP: this.childMDP,
           dataSelectorKey: "businessIncome",
           label: "Business Income",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -40,7 +42,8 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           parentMDP: this.childMDP,
           dataSelectorKey: "otherIncome",
           label: "Other Income",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -48,7 +51,8 @@ export default class FIncomeSourcesFBudgetMiniFormMDP extends FBudgetMiniFormMDP
           parentMDP: this.childMDP,
           dataSelectorKey: "familySupport",
           label: "Family Support",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       );
   }

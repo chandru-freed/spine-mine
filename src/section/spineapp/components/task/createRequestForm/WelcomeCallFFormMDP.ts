@@ -34,7 +34,7 @@ export default class WelcomeCallFFormMDP extends FFormMDP {
 
   createWelcomeCall() {
     return () => {
-      this.taskRoot.createWelcomeCall();
+      this.taskRoot.createAmendment();
     };
   }
 }

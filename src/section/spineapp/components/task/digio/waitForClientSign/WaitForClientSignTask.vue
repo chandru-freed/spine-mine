@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="waitForClientSignTask">
+    <!-- Root Data : {{ taskFormData }} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -15,7 +16,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -28,7 +29,7 @@ import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
@@ -83,6 +84,8 @@ export default class WaitForClientSignTask
   taskFormOutputLocal: any = {};
 
   get taskFormOutput() {
+    this.taskFormOutputLocal.templateCode = this.taskDetailsInput.templateCode;
+    this.taskFormOutputLocal.docId = this.taskDetailsInput.docId;
     return this.taskFormOutputLocal;
   }
 
@@ -92,7 +95,7 @@ export default class WaitForClientSignTask
   //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //DATA

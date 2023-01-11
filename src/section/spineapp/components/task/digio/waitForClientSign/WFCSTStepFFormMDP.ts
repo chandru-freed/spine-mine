@@ -4,55 +4,69 @@ import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 
 import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf";
 
-
 export default class WFCSTStepFFormMDP extends FFormMDP {
-    childMDP = new FFormChildMDP();
+  childMDP = new FFormChildMDP();
+  taskRoot: DeferredTaskIntf;
+  parent: any;
+  constructor({
+    taskRoot,
+    parent,
+  }: {
     taskRoot: DeferredTaskIntf;
     parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: DeferredTaskIntf; parent: any }) {
-        super({
-            myRefName: "waitForClientSignFormRef",
-            disabled: taskRoot.taskDisabled,
-        });
-        this.taskRoot = taskRoot;
-        this.parent = parent;
+  }) {
+    super({
+      myRefName: "waitForClientSignFormRef",
+      disabled: taskRoot.taskDisabled,
+    });
+    this.taskRoot = taskRoot;
+    this.parent = parent;
 
-        this.addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.templateCode",
-                label: "Template Code",
-                mandatory: true,
-                boundaryClass: "col-6",
-                readonly: true
-            })
-        ).addField(
-            new FTextFieldMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskInput.docId",
-                label: "Doc Id",
-                mandatory: true,
-                boundaryClass: "col-6",
-                readonly: true
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Rescue",
-                onClick: this.rescueTask(),
-            })
-        )
-    }
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskInput.templateCode",
+        label: "Template Code",
+        mandatory: true,
+        boundaryClass: "col-6",
+        readonly: true,
+      })
+    )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskInput.docId",
+          label: "Doc Id",
+          mandatory: true,
+          boundaryClass: "col-6",
+          readonly: true,
+        })
+      );
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Rescue",
+      //     onClick: this.rescueTask(),
+      //   })
+      // );
+  }
 
-    getMyRef(): any {
-        return this.parent.getMyRef().$refs[this.myRefName][0];
-    }
+  getMyRef(): any {
+    return this.parent.getMyRef().$refs[this.myRefName][0];
+  }
 
-   
-
-    rescueTask() {
-        return () => {
-            this.taskRoot.rescueTask();
-        };
-    }
-
+  // rescueTask() {
+  //   return () => {
+  //     this.taskRoot.rescueTask();
+  //   };
+  // }
+   // new implement
+   validateAndSubmit() {
+    return (nextCallback?: (output: any) => void) => {
+      this.getMyRef().submitForm(() => {
+        if (nextCallback) {
+          nextCallback(this.taskRoot.taskFormData.taskOutput);
+        }
+      });
+    };
+  }
 }

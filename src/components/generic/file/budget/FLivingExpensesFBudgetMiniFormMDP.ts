@@ -9,12 +9,10 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "livingExpenses",
+      dataSelectorKey: "taskOutput.budgetInfo.livingExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Living Expenses",
-      mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "575"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -24,7 +22,8 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
         parentMDP: this.childMDP,
         dataSelectorKey: "rentMaintenance",
         label: "Rent / Maintenance",
-        mandatory: true,
+        boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
@@ -32,7 +31,8 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "groceryExpense",
           label: "Grocery Expense",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -40,7 +40,8 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "electricityBill",
           label: "Electricity Bill",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
@@ -48,21 +49,24 @@ export default class FLivingExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMD
           parentMDP: this.childMDP,
           dataSelectorKey: "gasBill",
           label: "Gas Bill",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "phoneBill",
           label: "Phone Bill",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "otherUtilities",
           label: "Other Utilities",
-          mandatory: true,
+          boundaryClass: "col",
+          hideDetails: true
         })
       );
   }

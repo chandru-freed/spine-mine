@@ -9,12 +9,10 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "lifeStyleExpenses",
+      dataSelectorKey: "taskOutput.budgetInfo.lifeStyleExpenses",
       disabled: taskRoot.taskDisabled,
-      label: "Life Style Expenses",
-      mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "645"
+      label: "Life Style",
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -23,39 +21,44 @@ export default class FLifeStyleExpensesFBudgetMiniFormMDP extends FBudgetMiniFor
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "travelExpense",
-        label: "Travel/Fuel Expense",
-        mandatory: true,
+        label: "Travel/Fuel",
+        boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "digitalSubscriptionsExpense",
-          label: "Digital Subscriptions Expense",
-          mandatory: true,
+          label: "Digital Subscriptions",
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "diningOutExpense",
-          label: "Dining Out Expense",
-          mandatory: true,
+          label: "Dining Out",
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "houseHelpExpense",
-          label: "House Help Expense",
-          mandatory: true,
+          label: "House Help",
+          boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "outingExpense",
-          label: "Outing Expense",
-          mandatory: true,
+          label: "Outing",
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
   }

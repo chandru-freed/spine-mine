@@ -16,6 +16,9 @@ export default class SearchLayoutFTabMDP extends FTabMDP {
     }).addTab({
       tabName: "File",
       routerName: "Root.Search.ClientFileSearch"
+    }).addTab({
+      tabName: "UnAssigned File",
+      routerName: "Root.Search.UnAssignedCFSearch"
     });
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div class="row">
       <!-- <div class="col-12 px-6">
         <v-text-field
@@ -83,6 +83,63 @@
           </v-list-item>
         </v-card>
       </div>
+
+      <div class="col-4">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="gotoRouter('Root.Settlement.FiCreditorSettlementList')"
+        >
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">My Settlement</div>
+              <v-list-item-title class="text-h4 mb-1">
+                {{ myDashboardSummary.settlementEligibleFiCreditorCount }}
+              </v-list-item-title>
+              <v-list-item-subtitle>Ready for Settlement</v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-handshake-outline</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+
+      <div class="col-4">
+        <v-card class="mx-auto" outlined @click="gotoRouter('Root.Amendments')">
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">My Amendments</div>
+              <v-list-item-title class="text-h4 mb-1">
+                {{ myDashboardSummary.activeAmendments }}
+              </v-list-item-title>
+              <v-list-item-subtitle>Active </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-clipboard-text-clock-outline</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+
+       <div class="col-4">
+        <v-card class="mx-auto" outlined @click="gotoRouter('Root.MISReports.UpcomingPayments')">
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">MIS Reports</div>
+              <v-list-item-title class="text-h4 mb-1">
+                2
+              </v-list-item-title>
+              <v-list-item-subtitle>Active </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-chart-bar</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+    </div>
     </div>
   </v-container>
 </template>
@@ -103,7 +160,8 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class Home extends Vue {
-  myDashboardSummary: any = {};
+  myDashboardSummary: Data.Spine.GetMyDashboardSummary =
+    new Data.Spine.GetMyDashboardSummary();
   get items() {
     return [
       {
@@ -149,5 +207,4 @@ export default class Home extends Vue {
 }
 </script>
 
-<style>
-</style>
+<style></style>

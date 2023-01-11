@@ -15,7 +15,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -26,13 +26,12 @@ import Helper from "@/section/spineapp/util/Helper";
 import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
 export default class DownloadUnSignedDocTask
   extends ModelVue
-  implements SelfTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;

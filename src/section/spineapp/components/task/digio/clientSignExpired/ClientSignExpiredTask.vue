@@ -15,7 +15,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -27,14 +27,11 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
-export default class ClientSignExpiredTask
-  extends ModelVue
-  implements ManualTaskIntf
-{
+export default class ClientSignExpiredTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -91,37 +88,33 @@ export default class ClientSignExpiredTask
   //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //DATA
 
   //ACTION
-  saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+
+  getExecutiveTaskDetailsHandler = (output: any) => {
+     setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+  }
+  mounted() {
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
   }
 
-  saveTask() {
-    Task.Action.saveTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
   }
 
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
-  forceCompleteTask() {
-    Task.Action.forceCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
   }
 
   gotoFile() {

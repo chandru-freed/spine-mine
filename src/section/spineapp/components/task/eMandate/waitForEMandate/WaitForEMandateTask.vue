@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{taskFormData}} -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -9,13 +10,13 @@
     ></component>
   </div>
 </template>
- <script lang="ts">
+<script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import Helper from "@/section/spineapp/util/Helper";
@@ -25,13 +26,12 @@ import DeferredTaskIntf from "@/section/spineapp/util/task_intf/DeferredTaskIntf
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
 export default class WaitForEMandateTask
   extends ModelVue
-  implements DeferredTaskIntf
 {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
@@ -89,29 +89,33 @@ export default class WaitForEMandateTask
   //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);(this.taskDetails.taskState);
   }
 
   //DATA
 
   //ACTION
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+  mounted() {
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
   }
-  forceCompleteTask() {
-    Task.Action.forceCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
   }
-  proceedTask() {
-    Task.Action.proceedTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+
+  getExecutiveTaskDetailsHandler = (output: any) => {
+     setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+  }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
   }
 
   gotoFile() {
@@ -123,4 +127,4 @@ export default class WaitForEMandateTask
 }
 </script>
 
- <style></style>
+<style></style>

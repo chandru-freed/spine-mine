@@ -7,6 +7,7 @@ import AddressFMiniFormMDP from "@/components/generic/form/field/AddressFMiniFor
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 import FSelectDateFieldMDP from "../form/field/FDateSelectFieldMDP";
+import FClientLanguageSelectFieldMDP from "../form/field/FClientLanguageSelectFieldMDP";
 
 export default class FProfileFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -77,6 +78,7 @@ export default class FProfileFFormMDP extends FFormMDP {
           label: "PAN",
           boundaryClass: "col-6",
           mandatory: true,
+          rules:"validate_pan"
         })
       )
       .addField(
@@ -84,7 +86,7 @@ export default class FProfileFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "motherMaidenName",
           label: "Mother's Maiden Name",
-          boundaryClass: "col-6",
+          boundaryClass: "col-4",
           mandatory: true,
         })
       )
@@ -93,8 +95,15 @@ export default class FProfileFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "fatherName",
           label: "Father's Name",
-          boundaryClass: "col-6",
+          boundaryClass: "col-4",
           mandatory: true,
+        })
+      ).addField(
+        new FClientLanguageSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "clientLanguage",
+          label: "Preferred Language",
+          boundaryClass: "col-4",
         })
       )
       .addField(

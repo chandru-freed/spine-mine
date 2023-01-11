@@ -1,7 +1,7 @@
 import MDP from "@/components/generic/MDP";
 import FBtnMDP from "../../FBtnMDP";
 import StepSummaryMDP from "./summary/StepSummaryMDP";
-import CreditorSummaryFFormMDP from "./summary/CreditorSummaryFFormMDP";
+import CreditorSummaryFDataTableMDP from "./summary/CreditorSummaryFDataTableMDP";
 import ProfileSummaryFFormMDP from "./summary/ProfileSummaryFFormMDP";
 import BudgetSummaryFFormMDP from "./summary/BudgetSummaryFFormMDP";
 import PaymentPlanSummaryFFormMDP from "./summary/PaymentPlanSummaryFFormMDP";
@@ -13,7 +13,11 @@ export default class FMarkCompleteMDP implements MDP {
     componentName: string = "FMarkComplete";
     formList: FFormMDP[] = [];
     actionList: FBtnMDP[] = [];
-    constructor() {
+    taskRoot: any;
+    parent: any;
+    constructor({ taskRoot, parent }:{ taskRoot: any, parent: any }) {
+        this.taskRoot = taskRoot;
+        this.parent = parent;
     }
 
     addAction(newAction: FBtnMDP) {
@@ -27,16 +31,18 @@ export default class FMarkCompleteMDP implements MDP {
     }
 
     getClientInfoSummaryMetaData() {
-        return new StepSummaryMDP()
+        return new StepSummaryMDP({parent: this.parent})
             .addSummary({
                 name: "Profile",
                 content: new ProfileSummaryFFormMDP(),
                 stepIndex:0
-            }).addSummary({
+            })
+            .addSummary({
                 name: "Creditor",
-                content: new CreditorSummaryFFormMDP(),
-                stepIndex:1
-            }).addSummary({
+                content: new CreditorSummaryFDataTableMDP({taskRoot: this.taskRoot}),
+                stepIndex:1,
+            })
+            .addSummary({
                 name: "Budget",
                 content: new BudgetSummaryFFormMDP(),
                 stepIndex:2

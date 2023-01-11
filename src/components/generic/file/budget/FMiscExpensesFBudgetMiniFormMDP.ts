@@ -9,11 +9,10 @@ export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP 
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "miscellaneousExpenses",
+      dataSelectorKey: "taskOutput.budgetInfo.miscellaneousExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Miscellaneous Expenses",
-      mandatory: true,
-      boundaryClass: "col-4",
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -22,8 +21,9 @@ export default class FMiscExpensesFBudgetMiniFormMDP extends FBudgetMiniFormMDP 
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "miscellaneousExpense",
-        label: "Miscellaneous Expense",
-        mandatory: true,
+        label: "Miscellaneous",
+        boundaryClass: "col",
+        hideDetails: true
       })
     )
   }

@@ -20,7 +20,7 @@ export default class FIFSCCodeFieldMDP implements FFieldMDP {
     dataSelectorKey,
     label,
     type = "text",
-    rules = "",
+    rules = "validate_ifsc",
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,

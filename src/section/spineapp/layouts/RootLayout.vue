@@ -1,6 +1,6 @@
 <template>
   <div>
-    <left-navigation-bar></left-navigation-bar>
+    <!-- <left-navigation-bar></left-navigation-bar> -->
 
     <!-- <v-app-bar app dense  flat class="grey lighten-2">
       <v-spacer></v-spacer>
@@ -10,9 +10,25 @@
       <app-bar-notification-menu/>
       <app-bar-user-menu/>
     </v-app-bar> -->
+    <!-- <div
+      :class="['sidenavBar', showAmeyoSideBar ? 'right0' : '']"
+      v-if="clientFileId"
+    >
+      <AmeyoToolbarDialog />
+    </div>
+    <div
+      :class="['phoneCall', showAmeyoSideBar ? 'right0' : '']"
+      v-if="clientFileId"
+    >
+      <v-btn color="green" dark fab @click="openNavShow()">
+        <v-icon v-if="!showAmeyoSideBar">mdi-phone-in-talk</v-icon>
+        <v-icon v-if="showAmeyoSideBar">mdi-close</v-icon>
+      </v-btn>
+    </div> -->
     <app-bar></app-bar>
 
-    <v-main class="grey lighten-4" style="height: calc(100vh - 48px);">
+    <!-- <v-main class="grey lighten-4" style="height: calc(100vh - 48px);"> -->
+    <v-main class="grey lighten-4">
       <!-- Provides the application the proper gutter -->
       <v-container fluid class="pa-0">
         <!-- If using vue-router -->
@@ -35,18 +51,28 @@ import LeftNavigationBar from "@/section/spineapp/views/bar/LeftNavigationBar.vu
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import store, * as Store from "@/../src-gen/store";
+import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 
 @Component({
   components: {
     LeftNavigationBar,
+    AmeyoToolbarDialog,
     AppBar,
   },
 })
 export default class RootLayout extends Vue {
   @Store.Getter.Login.LoginDetails.roleList
   roleList: [];
+
+  @Store.Getter.ClientFile.ClientFileSummary.showAmeyoSideBar
+  showAmeyoSideBar: boolean;
+
+  showHide: boolean = false;
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
   mounted() {
-    this.getLoggedInUser()
+    this.getLoggedInUser();
   }
   getLoggedInUser() {
     const userName: any = localStorage.getItem("userName");
@@ -55,10 +81,45 @@ export default class RootLayout extends Vue {
     });
   }
   getRoleListForUser() {
-    Action.Login.GetRoleListForUser.execute(new Data.Login.MyAppId(), (output: any) => {
-          
-    })
+    Action.Login.GetRoleListForUser.execute(
+      new Data.Login.MyAppId(),
+      (output: any) => {}
+    );
   }
-  
+
+  openNavShow() {
+    Store.Mutation.ClientFile.ClientFileSummary.TOGGLE_AMEYO_SIDE_BAR(
+      !this.showAmeyoSideBar
+    );
+  }
 }
 </script>
+<style scoped>
+.v-application {
+  font-family: "Inter", sans-serif !important;
+}
+.sidenavBar {
+  position: fixed;
+  top: 0;
+  right: -500px;
+  bottom: 0;
+  z-index: 999;
+  background: #fff;
+  transition: 0.5s;
+  z-index: 9999;
+}
+.sidenavBar.right0 {
+  right: 0;
+}
+.phoneCall {
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  transition: 0.5s;
+  z-index: 999;
+}
+.phoneCall.right0 {
+  right: 330px;
+}
+</style>
+

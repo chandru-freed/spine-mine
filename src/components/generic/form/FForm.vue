@@ -77,6 +77,15 @@ import FRemoteComboBoxField from "./field/FRemoteComboBoxField.vue";
 import FNumberTextField from "./field/FNumberTextField.vue";
 import FRemoteAutoCompleteField from "./field/FRemoteAutoCompleteField.vue";
 import FDateTimeSelectField from "./field/FDateTimeSelectField.vue";
+import FNupayBankSelectField from "./field/FNupayBankSelectField.vue";
+import FUploadFileField from "./field/FCFAWSUploadFileField.vue";
+import FUploadFileFieldForClient from "./field/FCFAWSUploadFileField.vue";
+import FCFAWSUploadFileField from "./field/FCFAWSUploadFileField.vue";
+import FEMandateSelectField from "./field/FEMandateSelectField.vue";
+import FAWSUploadFileField from "./field/FAWSUploadFileField.vue";
+import FRangeSlider from "./field/FRangeSlider.vue";
+import FClientLanguageSelectField from "./field/FClientLanguageSelectField.vue";
+import FAgeField from "./field/FAgeField.vue";
 
 @Component({
   components: {
@@ -103,6 +112,13 @@ import FDateTimeSelectField from "./field/FDateTimeSelectField.vue";
     FNumberTextField,
     FRemoteAutoCompleteField,
     FDateTimeSelectField,
+    FNupayBankSelectField,
+    FCFAWSUploadFileField,
+    FEMandateSelectField,
+    FAWSUploadFileField,
+    FRangeSlider,
+    FClientLanguageSelectField,
+    FAgeField
   },
 })
 export default class FForm extends ModelVue {
@@ -151,6 +167,10 @@ export default class FForm extends ModelVue {
         actionMetaData.condition === undefined ||
         actionMetaData.condition === true
     );
+  }
+
+  isDirty(rules: string) {
+    return(rules.includes('required'))
   }
 }
 </script>

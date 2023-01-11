@@ -2,68 +2,69 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import Task from "@/section/spineapp/util/Task";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
-
-
 export default class CIVTFFormMDP extends FFormMDP {
-    childMDP = new FFormChildMDP();
-    taskRoot: ManualTaskIntf;
-    parent: any;
-    constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
-        super({
-            myRefName: "clientInfoVerificationFormRef",
-            // dataSelectorKey: "taskOutput.clientInfo",
-            disabled: taskRoot.taskDisabled,
-        });
-        this.taskRoot = taskRoot;
-        this.parent = parent;
+  childMDP = new FFormChildMDP();
+  taskRoot: ManualTaskIntf;
+  parent: any;
+  constructor({ taskRoot, parent }: { taskRoot: ManualTaskIntf; parent: any }) {
+    super({
+      myRefName: "clientInfoVerificationFormRef",
+      disabled: taskRoot.taskDisabled,
+    });
+    this.taskRoot = taskRoot;
+    this.parent = parent;
 
-        this.addField(
-            new FSwitchMDP({
-                parentMDP: this.childMDP,
-                dataSelectorKey: "taskOutput.verified",
-                label: "Verified",
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Save",
-                onClick: this.validateAndSubmit(),
-            })
-        ).addAction(
-            new FBtnMDP({
-                label: "Mark Complete",
-                onClick: this.validateAndMarkComplete(),
-                btnType: BtnType.FILLED
-            })
-        );
-    }
+    this.addField(
+      new FSwitchMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.verified",
+        label: "Verified",
+      })
+    )
+      .addAction(
+        new FBtnMDP({
+          label: "Save",
+          onClick: this.validateAndSubmit(),
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Mark Complete",
+          onClick: this.validateAndMarkComplete(),
+          btnType: BtnType.FILLED,
+          condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
+        })
+      );
+  }
 
-    getMyRef(): any {
-        return this.parent.getMyRef().$refs[this.myRefName][0];
-    }
+  getMyRef(): any {
+    return this.parent.getMyRef().$refs[this.myRefName][0];
+  }
 
-    validateAndSubmit() {
-        return () => {
-            this.getMyRef().submitForm(this.saveTask());
-        };
-    }
+  validateAndSubmit() {
+    return () => {
+      this.getMyRef().submitForm(this.saveTask());
+    };
+  }
 
-    validateAndMarkComplete() {
-        return () => {
-            this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
-        };
-    }
+  validateAndMarkComplete() {
+    return () => {
+      this.getMyRef().submitForm(this.saveAndMarkCompleteTask());
+    };
+  }
 
-    saveAndMarkCompleteTask() {
-        return () => {
-            this.taskRoot.saveAndMarkCompleteTask();
-        };
-    }
+  saveAndMarkCompleteTask() {
+    return () => {
+      this.taskRoot.saveAndMarkCompleteTask();
+    };
+  }
 
-    saveTask() {
-        return () => {
-            this.taskRoot.saveTask();
-        };
-    }
+  saveTask() {
+    return () => {
+      this.taskRoot.saveTask();
+    };
+  }
 }

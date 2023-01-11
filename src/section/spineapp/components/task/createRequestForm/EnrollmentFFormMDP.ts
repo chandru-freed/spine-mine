@@ -40,7 +40,7 @@ export default class EnrollmentFFormMDP extends FFormMDP {
 
   createEnrollmentFlow() {
     return () => {
-      this.taskRoot.createEnrollmentFlow();
+      this.taskRoot.createEnrollmentFlowV1();
     };
   }
 }

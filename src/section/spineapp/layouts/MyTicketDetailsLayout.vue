@@ -1,8 +1,9 @@
 
 <template>
- 
+<div>
+  <router-view name="details"/>
   <router-view/>
- 
+</div>
 </template>
 
 <script lang="ts">

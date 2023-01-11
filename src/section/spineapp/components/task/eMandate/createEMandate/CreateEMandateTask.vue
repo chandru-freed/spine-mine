@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="createEMandateTask">
+    <!-- Root Data : {{ taskFormData }}  -->
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -11,55 +12,38 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
-import store, * as Store from "@/../src-gen/store";
+import { Component } from "vue-property-decorator";
+import * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
-import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
+
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import CEMTFStepperMDP from "./CEMTFStepperMDP";
-import Helper from "@/section/spineapp/util/Helper";
-import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 @Component({
   components: {
-    FStepper,
-    FBtn,
+    FTaskStepper,
   },
 })
-export default class CreateEMandateTask
-  extends ModelVue
-  implements SelfTaskIntf
-{
+export default class CreateEMandateTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
-  taskDetails: Data.TaskList.ExecutiveTaskDetails;
+  taskDetailsStore: Data.TaskList.ExecutiveTaskDetails;
 
   taskId = this.$route.params.taskId;
 
-  //METADATA
+  // METADATA
   get stepperMetaData() {
     return new CEMTFStepperMDP({ taskRoot: this }).getMetaData();
   }
-  //METADATA
+  // METADATA
 
-  // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // Parse JSON String => As taskOutput and taskInput comes as Json String
+  
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
-
-  //FORM
-
+  // ModelValue
   taskFormDataLocal: any = {
     taskInput: {},
     taskOutput: {},
@@ -67,7 +51,7 @@ export default class CreateEMandateTask
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetailsStore.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -75,19 +59,19 @@ export default class CreateEMandateTask
   set taskFormData(value: any) {
     this.taskFormDataLocal = value;
   }
-  //FORM
 
-  //Task Output
-  taskFormOutputLocal: any = new Data.Spine.CreateEMandateTaskOutput();
-
+  taskFormOutputLocal: Data.Spine.CreateEMandateTaskOutput = new Data.Spine.CreateEMandateTaskOutput();
   get taskFormOutput() {
-    if (
-      this.taskDetailsOutput.eMandateLink &&
-      this.taskDetailsOutput.eMandateId
-    ) {
-      this.taskFormOutputLocal.eMandateLink =
-        this.taskDetailsOutput.eMandateLink;
-      this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
+    // if (
+    //   this.taskDetailsOutput.eMandateLink &&
+    //   this.taskDetailsOutput.eMandateId
+    // ) {
+    //   this.taskFormOutputLocal.eMandateLink =
+    //     this.taskDetailsOutput.eMandateLink;
+    //   this.taskFormOutputLocal.eMandateId = this.taskDetailsOutput.eMandateId;
+    // }
+    if(!this.taskDetailsStore.isOutputEmpty) {
+      this.taskFormOutputLocal = Data.Spine.CreateEMandateTaskOutput.fromJson(this.taskDetailsStore.outputJson);
     }
 
     return this.taskFormOutputLocal;
@@ -96,33 +80,30 @@ export default class CreateEMandateTask
   set taskFormOutput(newValue) {
     this.taskFormOutputLocal = newValue;
   }
-  //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetailsStore.taskState, this.taskDetailsStore.isSuspended);
   }
 
-  //DATA
-
-  //ACTION
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
-  forceCompleteTask() {
-    Task.Action.forceCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
+  mounted() {
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
   }
 
-  gotoFile() {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      clientFileNumber: this.$route.params.clientFileNumber,
-    });
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
+  }
+
+  getExecutiveTaskDetailsHandler = (output: any) => {
+     setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+  }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {}
+    );
   }
 }
 </script>

@@ -9,12 +9,10 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       parentMDP: new FFormChildMDP(),
-      dataSelectorKey: "incidentalExpenses",
+      dataSelectorKey: "taskOutput.budgetInfo.incidentalExpenses",
       disabled: taskRoot.taskDisabled,
       label: "Incidental Expenses",
-      mandatory: true,
-      boundaryClass: "col-4",
-      minHeight: "645"
+      boundaryClass: "col-12",
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -23,39 +21,44 @@ export default class FIncidentalExpensesFBudgetMiniFormMDP extends FBudgetMiniFo
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "healthInsuranceExpense",
-        label: "Health Insurance Expense",
-        mandatory: true,
+        label: "Health Insurance",
+        boundaryClass: "col",
+        hideDetails: true
       })
     )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "vehicleInsuranceExpense",
-          label: "Vehicle Insurance Expense",
-          mandatory: true,
+          label: "Vehicle Insurance",
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "sipExpense",
-          label: "SIP Expense",
-          mandatory: true,
+          label: "SIP",
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "stockTradesExpense",
-          label: "Stock Trades Expense",
-          mandatory: true,
+          label: "Stock Trades",
+          boundaryClass: "col",
+          hideDetails: true
         })
       ).addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "otherExpense",
-          label: "Other Expense",
-          mandatory: true,
+          label: "Other",
+          boundaryClass: "col",
+          hideDetails: true
         })
       )
   }

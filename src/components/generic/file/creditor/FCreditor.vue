@@ -1,4 +1,3 @@
-
 <template>
   <div ref="creditorListRef">
     <component
@@ -17,6 +16,15 @@
       :value="selectModel(editCreditorForm, undefined)"
       @input="(newValue) => updateModel(editCreditorForm, newValue, undefined)"
       v-bind="editCreditorFormMetaData.props"
+    ></component>
+
+    <component
+      v-if="addCreditScoreDialog"
+      :is="updateCreditScoreFFormMetaData.componentName"
+      :ref="updateCreditScoreFFormMetaData.myRefName"
+      :value="selectModel(updateCreditScoreForm, undefined)"
+      @input="(newValue) => updateModel(updateCreditScoreForm, newValue, undefined)"
+      v-bind="updateCreditScoreFFormMetaData.props"
     ></component>
     <v-alert dense outlined text color="error" v-if="deleteCreditorDialog">
       <div
@@ -41,10 +49,17 @@
       </div>
     </v-alert>
 
+
     <v-col class="col-12">
       <!--GRID START-->
-      <v-card flat outlined>
-        <v-data-table
+      <v-card flat >
+      <component
+        :value="creditorList"
+          :is="fCreditorListFDataTableMetaData.componentName"
+          :ref="fCreditorListFDataTableMetaData.myRefName"
+          v-bind="fCreditorListFDataTableMetaData.props"
+        ></component>
+        <!-- <v-data-table
           :headers="filteredHeaders"
           :items="creditorList"
           sort-by="lastDateOfPayment"
@@ -91,7 +106,7 @@
               :disabled="disabled"
               small
               class="mr-2"
-              @click="selectEditCreditor(item, index)"
+              @click="selectEditCreditor(item)"
             >
               mdi-pencil
             </v-icon>
@@ -103,20 +118,12 @@
               mdi-delete
             </v-icon>
           </template>
-        </v-data-table>
+        </v-data-table> -->
       </v-card>
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="
-          d-flex
-          flex-row
-          align-start
-          flex-wrap
-          justify-space-around
-          pa-2
-          my-5
-        "
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
       >
         <component
@@ -140,19 +147,31 @@ import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
+import FAddCreditorFFormMDP from "./FAddCreditorFFormMDP";
+import FEditCreditorFFormMDP from "./FEditCreditorFFormMDP";
+import FCreditorListFDataTableMDP from "./FCreditorListFDataTableMDP";
+import FDataTable from "../../table/FDataTable.vue";
+import FUpdateCreditScoreFFormMDP from './FUpdateCreditScoreFFormMDP';
 
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable
   },
 })
 export default class FCreditor extends ModelVue {
   addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
+  updateCreditScoreForm: Data.ClientFile.UpdateCreditInfoInput = new Data.ClientFile.UpdateCreditInfoInput();
+
   selectedCreditorItem: Data.Spine.Creditor;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   headers = [
     {
       text: "Creditor Name",
@@ -162,21 +181,25 @@ export default class FCreditor extends ModelVue {
     },
     { text: "Creditor Balance", value: "creditorBalance" },
     { text: "Last Date Of Payment", value: "lastDateOfPayment" },
+    { text: "Days Delinquent", value: "daysDelinquentAsOnOnboarding" },
+    
     { text: "Debt Type", value: "debtType" },
     { text: "Account Number", value: "accountNumber" },
     { text: "Actions", value: "actions" },
   ];
 
   addCreditorDialog = false;
+  addCreditScoreDialog = false;
   editCreditorDialog = false;
   deleteCreditorDialog = false;
+
   taskId = this.$route.params.taskId;
 
-  @Prop()
-  addCreditorFormMetaData: any;
+  // @Prop()
+  // addCreditorFormMetaData: any;
 
-  @Prop()
-  editCreditorFormMetaData: any;
+  // @Prop()
+  // editCreditorFormMetaData: any;
 
   @Prop()
   actionMetaDataList: any[];
@@ -195,10 +218,20 @@ export default class FCreditor extends ModelVue {
     this.addCreditorDialog = true;
   }
 
+  showAddCreditScoreForm() {
+    this.closeDialogs();
+    this.addCreditScoreDialog = true;
+    this.updateCreditScoreForm.creditScore = this.clientFileBasicInfo.creditScore || 0;
+    this.updateCreditScoreForm.creditBureau = this.clientFileBasicInfo.creditBureau || "";
+  }
+
   showEditForm() {
     this.closeDialogs();
     this.editCreditorDialog = true;
   }
+
+
+
   showDeletePopup() {
     this.closeAndClearAllForms();
     this.deleteCreditorDialog = true;
@@ -211,6 +244,7 @@ export default class FCreditor extends ModelVue {
     this.addCreditorDialog = false;
     this.editCreditorDialog = false;
     this.deleteCreditorDialog = false;
+    this.addCreditScoreDialog = false;
   }
   resetForms() {
     this.addCreditorForm = new Data.Spine.Creditor();
@@ -218,6 +252,7 @@ export default class FCreditor extends ModelVue {
   }
 
   get creditorList() {
+    console.log(this.modelValue)
     return this.modelValue.creditorList;
   }
 
@@ -237,20 +272,17 @@ export default class FCreditor extends ModelVue {
 
   deleteCreditorData() {
     const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
-    Action.Spine.RemoveCreditor.execute2(
-      this.taskId,
-      fiCreditorId,
-      (output) => {
-        this.closeDialogs();
-        Snackbar.show({
-          text: "Succesfully Removed",
-          pos: "bottom-center",
-        });
-      }
-    );
+    console.log(fiCreditorId);
+    Action.Spine.RemoveCreditor.execute1(fiCreditorId, (output) => {
+      this.closeDialogs();
+      Snackbar.show({
+        text: "Succesfully Removed",
+        pos: "bottom-center",
+      });
+    });
   }
 
-  selectEditCreditor(item: any, index: any) {
+  selectEditCreditor(item: any) {
     this.selectedCreditorItem = item;
     this.editCreditorForm = {
       ...item,
@@ -277,5 +309,41 @@ export default class FCreditor extends ModelVue {
         actionMetaData.condition === true
     );
   }
+
+  get addCreditorFormMetaData() {
+    return new FAddCreditorFFormMDP({
+      taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
+  }
+
+  get editCreditorFormMetaData() {
+    return new FEditCreditorFFormMDP({
+       taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
+  }
+
+  get updateCreditScoreFFormMetaData() {
+    return new FUpdateCreditScoreFFormMDP({
+       taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
+  }
+
+  
+
+  isCreditCard(): boolean {
+    if(this.addCreditorDialog) {
+    return this.addCreditorForm.debtType === 'Credit Card'
+    } else {
+      return this.editCreditorForm.debtType === 'Credit Card'
+    }
+  }
+
+  get fCreditorListFDataTableMetaData() {
+    return new FCreditorListFDataTableMDP({parent:this}).getMetaData();
+  }
+  
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Root Data : {{ taskFormData }} -->
+    <!-- Root Data : {{ taskFormData}} -->
 
     <component
       :ref="stepperMetaData.myRefName"
@@ -15,7 +15,8 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import FStepper from "@/components/generic/FStepper.vue";
+import * as Action from "@/../src-gen/action";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
@@ -24,16 +25,20 @@ import NMSFFStepperMDP from "./NMSFFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import { NsfMSFOptions } from "./step1/NMSFTFFormMDP";
+import CFSummary from "@/section/spineapp/views/file/CFSummary.vue";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
 export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
 
   taskId = this.$route.params.taskId;
 
@@ -48,17 +53,17 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   }
 
   // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //FORM
 
@@ -69,7 +74,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -83,11 +88,12 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfMSFTaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.disposition === null) {
-      this.taskDetailsOutput.disposition = new Data.Spine.Disposition();
-    }
-    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
-
+    // if (Task.isTaskOutputAvailable(this.taskDetailsOutput)) {
+    //   this.taskFormOutputLocal = { ...this.taskDetailsOutput };
+    // } else {
+    //   this.taskFormOutputLocal = new Data.Spine.NsfMSFTaskOutput();
+    //   this.taskFormOutputLocal.amountToBeReceived = this.fileSummary.msfAmount;
+    // }
     return this.taskFormOutputLocal;
   }
 
@@ -99,7 +105,7 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
   //DATA
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //ACTION
@@ -110,15 +116,16 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
     });
   }
 
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     this.taskFormOutput.manualPayment =
       this.taskFormOutput.selectedNMSFTaskOption === "Receive Payment";
-    this.taskFormOutput.answered = !(
-      this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
-    );
+    // this.taskFormOutput.answered = !(
+    //   this.taskFormOutput.selectedNMSFTaskOption === "System Deferred"
+    // );
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
 
@@ -140,6 +147,29 @@ export default class NsfMSFTask extends ModelVue implements ManualTaskIntf {
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
     });
+  }
+
+  saveAndNext() {
+    Task.Action.saveTask({
+      taskId: this.taskId,
+      taskOutput: this.taskFormData.taskOutput,
+      callback: () => {
+        this.goToStep(this.currentStep + 1);
+      },
+    });
+  }
+
+  goToStep(step: number) {
+    Helper.Router.gotoStep({
+      router: this.$router,
+      clientFileNumber: this.$route.params.clientFileNumber,
+      step,
+      route: this.$route,
+    });
+  }
+
+  get currentStep(): number {
+    return this.$route.query.step ? Number(this.$route.query.step) : 0;
   }
 }
 </script>

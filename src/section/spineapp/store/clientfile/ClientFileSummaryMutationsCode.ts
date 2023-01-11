@@ -46,6 +46,32 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
   //   state.fiPaymentDetails = fiPaymentDetails;
   // }
   
+  public  updateFiEMandateList(state: Data.ClientFile.ClientFileSummary, fiEMandateList: Data.ClientFile.FiEMandateList[]): void {
+    state.fiEMandateList = fiEMandateList;
+  }
+
+  public updateFiActiveEMandateList(state: Data.ClientFile.ClientFileSummary, fiActiveEMandateList: Data.ClientFile.FiActiveEMandateList[]): void {
+    state.fiActiveEMandateList = fiActiveEMandateList;
+  }
+
+  public resetCFSummary(state: Data.ClientFile.ClientFileSummary): void {
+    state.clientFileBasicInfo = new Data.ClientFile.ClientFileBasicInfo();
+    state.personalInfo = new Data.ClientFile.ClPersonalInfo();
+    state.fiCreditorInfo = new Data.ClientFile.FiCreditorInfo();
+    state.budgetInfo = new Data.ClientFile.BudgetInfo();
+    state.fiPaymentPlanInfo = new Data.ClientFile.FiPaymentPlanInfo();
+    state.fileSummary = new Data.ClientFile.FileSummary();
+    state.fiBankInfo = new Data.ClientFile.FiBankInfo();
+    state.fiActiveEMandateList = [];
+    state.fiPaymentTransactionList = [];
+    state.fiPaymentList = [];
+    state.fiEMandateList = [];
+    state.fiDocumentList = [];
+  }
+
+public  toggleAmeyoSideBar(state: Data.ClientFile.ClientFileSummary, showAmeyoSideBar: boolean): void {
+    state.showAmeyoSideBar = showAmeyoSideBar;
+  }
 
 }
 

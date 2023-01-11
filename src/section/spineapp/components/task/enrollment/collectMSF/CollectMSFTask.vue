@@ -18,19 +18,16 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as RemoteApiPoint from "@/remote-api-point";
-import FStepper from "@/components/generic/FStepper.vue";
-import FBtn from "@/components/generic/FBtn.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import moment from "moment";
 import CollectMSFTaskFStepperMDP from "./CollectMSFTaskFStepperMDP";
-import PaymentDetailsFFormMDP from "@/section/spineapp/views/clientfile/PaymentDetailsFFormMDP";
 import FForm from "@/components/generic/form/FForm.vue";
 import Task from "@/section/spineapp/util/Task";
 import * as Snackbar from "node-snackbar";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FForm,
   },
 })
@@ -43,7 +40,6 @@ export default class CollectMSFTask extends ModelVue {
 
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-
 
   receiveMSFPaymentInput = new Data.Spine.ReceiveFirstMSFPaymentInput();
 
@@ -67,7 +63,7 @@ export default class CollectMSFTask extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 
   //FORM
@@ -123,13 +119,13 @@ export default class CollectMSFTask extends ModelVue {
   }
 
   checkPaymentStatus() {
-    let updatePaymentStatusInput = new Data.Spine.UpdatePaymentStatusInput();
+    let updatePaymentStatusInput = new Data.Spine.UpdateFirstMSFPaymentStatusInput();
     updatePaymentStatusInput.taskId = this.taskId;
     updatePaymentStatusInput.clientFileId =
       this.clientFileBasicInfo.clientFileId;
     updatePaymentStatusInput.paymentId =
       this.taskFormData.taskOutput.firstMSFPaymentDetails.paymentId;
-    Action.Spine.UpdatePaymentStatus.execute(
+    Action.Spine.UpdateFirstMSFPaymentStatus.execute(
       updatePaymentStatusInput,
       (output) => {}
     );

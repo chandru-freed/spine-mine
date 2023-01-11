@@ -116,9 +116,4 @@ export default class FTextField extends VTextField {
   color: #000 !important;
   cursor: default !important;
 }
-
-
-
-
-
 </style>

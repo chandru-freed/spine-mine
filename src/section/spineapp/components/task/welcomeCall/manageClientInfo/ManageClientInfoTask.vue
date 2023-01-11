@@ -1,19 +1,22 @@
 <template>
   <div>
-    <!-- <h4>Manage client info task</h4> -->
-    <!-- Root Data : {{ taskFormData }} -->
-    <div class="row my-5 mx-5">
-      <v-spacer />
-      <V-btn @click="setTestData">FILL TEST DATA</V-btn>
-    </div>
-
-    <component
-      :ref="stepperMetaData.myRefName"
-      :is="stepperMetaData.componentName"
-      :value="selectModel(taskFormData, undefined)"
-      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
-      v-bind="stepperMetaData.props"
-    ></component>
+    <template v-if="!taskStateTerminated">
+      <component
+        :ref="stepperMetaData.myRefName"
+        :is="stepperMetaData.componentName"
+        :value="selectModel(taskFormData, undefined)"
+        @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
+        v-bind="stepperMetaData.props"
+      ></component>
+    </template>
+    <template v-if="taskStateTerminated">
+      <component
+        :ref="stepperMetaData.myRefName"
+        :is="stepperMetaData.componentName"
+        :value="selectModel(taskDetailsData, undefined)"
+        v-bind="stepperMetaData.props"
+      ></component>
+    </template>
   </div>
 </template>
 <script lang="ts">
@@ -26,12 +29,11 @@ import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 import MCITFStepperMDP from "./MCITFStepperMDP";
-import FStepper from "@/components/generic/FStepper.vue";
-import FFooStepper from "@/components/generic/FFooStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
+import moment from "moment";
 @Component({
   components: {
-    FStepper,
-    FFooStepper,
+    FTaskStepper,
   },
 })
 export default class ManageClientInfoTask
@@ -41,8 +43,24 @@ export default class ManageClientInfoTask
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
-  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
-  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  // new store Add
+  @Store.Getter.ClientFile.ClientFileSummary.personalInfo
+  personalInfoStore: Data.ClientFile.ClPersonalInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
+  budgetInfoStore: Data.ClientFile.BudgetInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
+  fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiBankInfo
+  bankInfoStore: Data.ClientFile.FiBankInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
+  fiDocumentListStore: Data.ClientFile.FiDocument;
 
   taskId = this.$route.params.taskId;
 
@@ -61,8 +79,104 @@ export default class ManageClientInfoTask
     this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
   }
 
+  get clientFileId() {
+    return this.$route.params.clientFileId;
+  }
+
+  public findClPersonalInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.findClPersonalInfo();
+    }, 1000);
+  };
+
+  public getFiCreditorInfoAndSchedulePPHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiCreditorInfoAndSchedulePP();
+    }, 1000);
+  };
+
+  public getBudgetInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getBudgetInfo();
+    }, 1000);
+  };
+
+  public getFiPaymentPlanInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiPaymentPlanInfo();
+    }, 1000);
+  };
+
+  public getFiBankInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiBankInfo();
+    }, 1000);
+  };
+
+  public getFiDocumentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiDocumentList();
+    }, 1000);
+  };
+
   mounted() {
     this.getNupayBankMasterList();
+    this.findClPersonalInfo();
+    this.getFiCreditorInfo();
+    this.getBudgetInfo();
+    this.getFiPaymentPlanInfo();
+    this.getFiBankInfo();
+    this.getFiDocumentList();
+
+    Action.Spine.UpdateClPersonalInfo.interested(
+      this.findClPersonalInfoHandler
+    );
+
+    Action.Spine.AddCreditor.interested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+    Action.Spine.UpdateCreditor.interested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+    Action.Spine.RemoveCreditor.interested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+
+    Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
+    Action.Spine.SchedulePaymentPlan.interested(
+      this.getFiPaymentPlanInfoHandler
+    );
+    Action.Spine.UpdateBankInfo.interested(this.getFiBankInfoHandler);
+    Action.Spine.AttachDocument.interested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.interested(this.getFiDocumentListHandler);
+  }
+
+  public destroyed() {
+    Action.Spine.UpdateClPersonalInfo.notInterested(
+      this.findClPersonalInfoHandler
+    );
+
+    Action.Spine.AddCreditor.notInterested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+
+    Action.Spine.UpdateCreditor.notInterested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+    Action.Spine.RemoveCreditor.notInterested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+
+    Action.Spine.UpdateBudgetInfo.notInterested(this.getBudgetInfoHandler);
+
+    Action.Spine.SchedulePaymentPlan.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
+
+    Action.Spine.UpdateBankInfo.notInterested(this.getFiBankInfoHandler);
+
+    Action.Spine.AttachDocument.notInterested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.notInterested(this.getFiDocumentListHandler);
   }
 
   setConfirmAccountNumber() {
@@ -88,6 +202,23 @@ export default class ManageClientInfoTask
     return !!this.taskDetails && !!this.taskDetails.taskInput
       ? JSON.parse(this.taskDetails.taskInput)
       : {};
+  }
+
+  // ModelValue =>  Used in Terminated State
+  get taskDetailsData() {
+    return {
+      taskInput: this.taskDetailsInput,
+      taskOutput: this.taskDetailsOutput,
+    };
+  }
+
+  get taskStateTerminated() {
+    return (
+      this.taskDetails.taskState === "COMPLETED" ||
+      this.taskDetails.taskState === "FORCE_COMPLETED" ||
+      this.taskDetails.taskState === "CANCELLED" ||
+      this.taskDetails.taskState === "RESET"
+    );
   }
 
   //FORM
@@ -120,16 +251,22 @@ export default class ManageClientInfoTask
   get taskFormOutput() {
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
-      personalInfo:
-        this.taskDetailsOutput.personalInfo || new Data.Spine.PersonalInfo(),
-      creditorInfo:
-        this.taskDetailsOutput.creditorInfo || new Data.Spine.CreditorInfo(),
-      budgetInfo:
-        this.taskDetailsOutput.budgetInfo || new Data.Spine.BudgetInfo(),
-      bankInfo: this.taskDetailsOutput.bankInfo || new Data.Spine.BankInfo(),
-      paymentPlan:
-        this.taskDetailsOutput.paymentPlan || new Data.Spine.PaymentPlan(),
-      fileDocumentList: this.taskDetailsOutput.fileDocumentList || [],
+      personalInfo: this.personalInfoStore
+        ? Data.Spine.PersonalInfo.fromJson(this.personalInfoStore)
+        : new Data.Spine.PersonalInfo(),
+      creditorInfo: this.fiCreditorStore
+        ? Data.Spine.CreditorInfo.fromJson(this.fiCreditorStore)
+        : new Data.Spine.CreditorInfo(),
+      budgetInfo: this.budgetInfoStore
+        ? Data.Spine.BudgetInfo.fromJson(this.budgetInfoStore)
+        : new Data.Spine.BudgetInfo(),
+      bankInfo: this.bankInfoStore
+        ? Data.Spine.BankInfo.fromJson(this.bankInfoStore)
+        : new Data.Spine.BankInfo(),
+      paymentPlan: this.fiPaymentPlanInfoStore
+        ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
+        : new Data.Spine.PaymentPlan(),
+      fileDocumentList: this.fiDocumentListStore || [],
       needVerification: this.taskDetailsOutput.needVerification,
     };
     return this.taskFormOutputLocal;
@@ -142,19 +279,24 @@ export default class ManageClientInfoTask
 
   //DATA
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
   //ACTION
   saveAndMarkCompleteTask() {
+    console.log(this.taskFormData, "this.taskFormData");
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
   }
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
   rescueTask() {
@@ -182,75 +324,76 @@ export default class ManageClientInfoTask
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
       step,
+      route: this.$route,
     });
   }
 
-  //Action
-
-  setTestData() {
-    console.log(
-      " this.taskFormData.taskOutput.creditorList ==>",
-      JSON.stringify(this.taskFormData.taskOutput.creditorInfo.creditorList)
+  //New Get API Add
+  findClPersonalInfo() {
+    Action.ClientFile.FindClPersonalInfo.execute1(
+      this.clientFileId,
+      (output) => {}
     );
-    console.log(" taskDetailsOutput ==>", this.taskDetailsOutput);
-    console.log(" taskFormData ==>", this.taskFormData);
-    this.taskFormData.taskOutput.personalInfo.gender = "MALE";
-    this.taskFormData.taskOutput.personalInfo.secondaryPhone = "12345676543";
-    this.taskFormData.taskOutput.personalInfo.fatherName = "Father";
-    this.taskFormData.taskOutput.personalInfo.motherMaidenName = "Mother";
-    this.taskFormData.taskOutput.personalInfo.firstName = "John";
-    this.taskFormData.taskOutput.personalInfo.lastName = "Doe";
-    this.taskFormData.taskOutput.personalInfo.pan = "ABCDE1234F";
-    this.taskFormData.taskOutput.personalInfo.dob = new Date("09/09/1981");
-    this.taskFormData.taskOutput.personalInfo.residentialAddress.addressLine1 =
-      "1185, 5th Main Rd, Sector 7, HSR Layout";
-    this.taskFormData.taskOutput.personalInfo.residentialAddress.city =
-      "Bengaluru";
-    this.taskFormData.taskOutput.personalInfo.residentialAddress.country =
-      "India";
-    this.taskFormData.taskOutput.personalInfo.residentialAddress.pinCode =
-      "560102";
-    this.taskFormData.taskOutput.personalInfo.residentialAddress.state = "KA";
+  }
 
-    this.taskFormData.taskOutput.creditorInfo.creditorList = [
-      {
-        creditor: "ICICI Bank",
-        creditorBalance: 100000,
-        lastDateOfPayment: "2022-08-15",
-        debtType: "Personal Loans",
-        accountNumber: "1234567890",
-      },
-      {
-        creditor: "HDFC Bank",
-        creditorBalance: 50000,
-        lastDateOfPayment: "2022-08-15",
-        debtType: "Credit Card",
-        accountNumber: "1111222233334444",
-      },
-    ];
-    this.taskFormData.taskOutput.creditorInfo.totalDebt = 150000;
-    this.taskFormData.taskOutput.budgetInfo.hardshipReason = "Business losses.";
-    this.taskFormData.taskOutput.budgetInfo.incomeSources.salary = 50000;
-    this.taskFormData.taskOutput.budgetInfo.debtRepayments.autoLoan = 10000;
-    this.taskFormData.taskOutput.budgetInfo.debtRepayments.housingLoan = 10000;
+  getFiCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
 
-    this.taskFormData.taskOutput.paymentPlan.ppCalculator.feeFirstDraftDate =
-      new Date();
-    this.taskFormData.taskOutput.paymentPlan.ppCalculator.firstDraftDate =
-      new Date();
+  getBudgetInfo() {
+    Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
+  }
 
-    this.taskFormData.taskOutput.bankInfo.accountHolderName = "John Doe";
+  getFiPaymentPlanInfo() {
+    Action.ClientFile.GetPaymentPlanInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
 
-    this.taskFormData.taskOutput.bankInfo.accountNumber = "1234567890";
-    this.taskFormData.taskOutput.bankInfo.accountType = "SAVINGS";
-    this.taskFormData.taskOutput.bankInfo.ifscCode = "ICIC0000519";
-    this.taskFormData.taskOutput.bankInfo.name = "ICICI Bank";
-    this.taskFormData.taskOutput.bankInfo.bankAddress.addressLine1 =
-      "420, 27th Main Rd, 1st Sector, HSR Layout";
-    this.taskFormData.taskOutput.bankInfo.bankAddress.city = "Bengaluru";
-    this.taskFormData.taskOutput.bankInfo.bankAddress.country = "India";
-    this.taskFormData.taskOutput.bankInfo.bankAddress.pinCode = "560102";
-    this.taskFormData.taskOutput.bankInfo.bankAddress.state = "KA";
+  getFiBankInfo() {
+    Action.ClientFile.GetFiBankInfo.execute1(this.clientFileId, (output) => {});
+  }
+
+  getFiDocumentList() {
+    Action.ClientFile.GetDocumentList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
+  schedulePaymentPlan() {
+    const paymentPlan = this.fiPaymentPlanInfoStore
+      ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
+      : new Data.Spine.PaymentPlan();
+    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(paymentPlan);
+    input.clientFileId = this.clientFileId;
+    input.ppCalculator.outstanding = this.fiCreditorStore.totalDebt;
+    input.taskId = this.taskId;
+    if (input.ppCalculator.firstDraftDate === "") {
+      input.ppCalculator.firstDraftDate = moment()
+        .add(2, "days")
+        .format(Helper.DATE_FORMAT);
+      input.ppCalculator.feeFirstDraftDate = moment().format(
+        Helper.DATE_FORMAT
+      );
+    }
+    // if(input.ppCalculator.firstDraftDate === '') {
+    Action.Spine.SchedulePaymentPlan.execute(
+      input,
+      (output: any) => {},
+      (error) => {}
+    );
+    // }
+  }
+
+  getFiCreditorInfoAndSchedulePP() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
+      this.schedulePaymentPlan();
+    });
   }
 }
 </script>

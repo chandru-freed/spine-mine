@@ -15,7 +15,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
-import FStepper from "@/components/generic/FStepper.vue";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import moment from "moment";
@@ -26,13 +26,17 @@ import NSPAFStepperMDP from "@/section/spineapp/components/task/nsfSPA/nsfSPA/NS
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
 export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
 
   taskId = this.$route.params.taskId;
 
@@ -47,17 +51,17 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   }
 
   // DATA
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //FORM
 
@@ -68,7 +72,7 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -82,23 +86,28 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
   taskFormOutputLocal: any = new Data.Spine.NsfSPATaskOutput();
 
   get taskFormOutput() {
-    if (this.taskDetailsOutput.disposition === null) {
-      this.taskDetailsOutput.disposition = new Data.Spine.NsfSPADisposition();
+    if (this.taskDetails.isOutputEmpty) {
+      this.taskFormOutputLocal.spaAmount = this.taskDetails.inputJson.paymentDetails.spaAmount
+    } else {
+      
+      this.taskFormOutputLocal = { ...this.taskDetails.outputJson};
     }
-    this.taskFormOutputLocal = { ...this.taskDetailsOutput };
-
     return this.taskFormOutputLocal;
   }
 
   set taskFormOutput(newValue) {
     this.taskFormOutputLocal = newValue;
   }
+
   //Task Output
 
   //DATA
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 
   //ACTION
@@ -109,7 +118,7 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
     });
   }
 
-  saveTask() {
+  saveTask(successCallBack = () => {}) {
     this.taskFormOutput.manualPayment =
       this.taskFormOutput.selectedNSPATaskOption === "Receive Payment";
     this.taskFormOutput.answered = !(
@@ -118,6 +127,7 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
     Task.Action.saveTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
+      callback: successCallBack,
     });
   }
 

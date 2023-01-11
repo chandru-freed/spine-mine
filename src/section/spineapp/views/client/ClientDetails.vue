@@ -5,13 +5,13 @@
         <div class="col-4 pb-0">
           <v-list-item>
             <v-list-item-avatar tile size="80">
-              <v-icon size="40" color="secondary">mdi-account</v-icon>
+              <v-icon size="40" color="deep-purple">mdi-account</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="text-overline">{{
                 clientBasicInfo.emailId
               }}</v-list-item-title>
-              <v-list-item-title class="text-h5"
+              <v-list-item-title class="text-h5 deep-purple--text overline"
                 >{{ clientBasicInfo.firstName }}
                 {{ clientBasicInfo.lastName }}</v-list-item-title
               >
@@ -37,11 +37,11 @@
           <v-icon size="30" class="pr-4">mdi-file-account</v-icon>
           {{ clientFileBasicInfo.clientFileNumber }}
           <v-chip x-small class="mx-2">{{
-            clientFileBasicInfo.cilentFileStatus.name
+            clientFileBasicInfo.clientFileStatus.name
           }}</v-chip>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn
+        <!-- <v-btn
           class="mx-3"
           color="primary"
           outlined
@@ -50,7 +50,7 @@
         >
           <v-icon class="pr-4">mdi-file-document-plus-outline</v-icon>
           Add File to Client
-        </v-btn>
+        </v-btn> -->
       </v-card-actions>
     </v-card>
   </div>
@@ -107,7 +107,7 @@ export default class ClientDetails extends Vue implements ClientDetailsIntf {
   }
 
   addClientFile() {
-    Action.ClientFile.AddClientFile.execute1(this.clientId, (output) => {
+    Action.ClientFile.AddClientFileToMyQ.execute1(this.clientId, (output) => {
       setTimeout(() => {
         this.gotoFile(output.clientFileNumber);
       }, 1000);

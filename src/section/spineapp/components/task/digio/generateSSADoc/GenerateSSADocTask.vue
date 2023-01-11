@@ -2,7 +2,6 @@
   <div>
     <!-- <h4>GenerateSSADocTask</h4>
     Root Data : {{ taskFormData }} -->
-
     <component
       :ref="stepperMetaData.myRefName"
       :is="stepperMetaData.componentName"
@@ -16,7 +15,8 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-import FStepper from "@/components/generic/FStepper.vue";
+import * as Action from "@/../src-gen/action";
+import FTaskStepper from "@/components/generic/FTaskStepper.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import ModelVue from "@/components/generic/ModelVue";
 
@@ -27,31 +27,28 @@ import SelfTaskIntf from "@/section/spineapp/util/task_intf/SelfTaskIntf";
 
 @Component({
   components: {
-    FStepper,
+    FTaskStepper,
     FBtn,
   },
 })
-export default class GenerateSSADocTask
-  extends ModelVue
-  implements SelfTaskIntf
-{
+export default class GenerateSSADocTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
   taskId = this.$route.params.taskId;
 
   // DATA
 
-  get taskDetailsOutput() {
-    return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
-      : {};
-  }
+  // get taskDetailsOutput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskOutput
+  //     ? JSON.parse(this.taskDetails.taskOutput)
+  //     : {};
+  // }
 
-  get taskDetailsInput() {
-    return !!this.taskDetails && !!this.taskDetails.taskInput
-      ? JSON.parse(this.taskDetails.taskInput)
-      : {};
-  }
+  // get taskDetailsInput() {
+  //   return !!this.taskDetails && !!this.taskDetails.taskInput
+  //     ? JSON.parse(this.taskDetails.taskInput)
+  //     : {};
+  // }
 
   //METADATA
   get stepperMetaData() {
@@ -68,7 +65,7 @@ export default class GenerateSSADocTask
 
   get taskFormData() {
     return {
-      taskInput: this.taskDetailsInput,
+      taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
     };
   }
@@ -79,11 +76,15 @@ export default class GenerateSSADocTask
   //FORM
 
   //Task Output
-  taskFormOutputLocal: any = new Data.Spine.GenerateSSADocOutput(); // Initialize Task Output
+  taskFormOutputLocal: Data.Spine.GenerateSSADocOutput = new Data.Spine.GenerateSSADocOutput(); // Initialize Task Output
 
   get taskFormOutput() {
-    this.taskFormOutputLocal.docId = this.taskDetailsOutput.docId;
-    this.taskFormOutputLocal.templateCode = this.taskDetailsOutput.templateCode;
+
+    if(!this.taskDetails.isOutputEmpty) {
+    this.taskFormOutputLocal = Data.Spine.GenerateSSADocOutput.fromJson(this.taskDetails.outputJson);
+    }
+    // this.taskFormOutputLocal.docId = this.taskDetailsOutput.docId;
+    // this.taskFormOutputLocal.templateCode = this.taskDetailsOutput.templateCode;
     return this.taskFormOutputLocal;
   }
 
@@ -92,18 +93,30 @@ export default class GenerateSSADocTask
   }
   //Task Output
 
+  mounted() {
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
+  }
+
+  public destroyed() {
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
+  }
+
+  getExecutiveTaskDetailsHandler = (output: any) => {
+     setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+  }
+
+  getExecutiveTaskDetails() {
+    Action.TaskList.GetExecutiveTaskDetails.execute1(
+      this.$route.params.taskId,
+      (output) => {
+        // console.log(output);
+      }
+    );
+  }
+
   //DATA
-
-  get taskDisabled(): boolean {
-    return !Task.isTaskActionable(this.taskDetails.taskState);
-  }
-
-  rescueTask() {
-    Task.Action.rescueTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
-    });
-  }
   forceCompleteTask() {
     Task.Action.forceCompleteTask({
       taskId: this.taskId,
@@ -116,6 +129,10 @@ export default class GenerateSSADocTask
       router: this.$router,
       clientFileNumber: this.$route.params.clientFileNumber,
     });
+  }
+
+  get taskDisabled(): boolean {
+    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
   }
 }
 </script>

@@ -10,13 +10,11 @@
                   <v-icon>mdi-account-circle-outline</v-icon>
                 </v-avatar>
                 <v-toolbar-title>Sign In</v-toolbar-title>
-                
 
                 <v-spacer></v-spacer>
                 <v-list-item-avatar>
                   <v-img src="@/assets/freed-small-logo.svg" />
                 </v-list-item-avatar>
-                
               </v-toolbar>
               <v-card-text>
                 <component
@@ -45,12 +43,15 @@ import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
 import LoginFFormMDP from "./LoginFFormMDP";
+import AmeyoService from "@/components/generic/ameyo/AmeyoService";
 
 import axios, { AxiosError, AxiosInstance } from "axios";
+import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 @Component({
   components: {
     LoginFFormMDP,
     FForm,
+    AmeyoToolbarDialog
   },
 })
 export default class Login extends Vue {
@@ -67,6 +68,7 @@ export default class Login extends Vue {
 
     Action.Login.Login.execute(this.loginForm, (output) => {
       vm.getRoleListForUser(this.loginForm.userName);
+      this.ameyoLogin("salesmanager1", "Welcome@123");
     });
   }
 
@@ -99,6 +101,9 @@ export default class Login extends Vue {
         }
       }
     );
+  }
+  private ameyoLogin(userId: string, password: string) {
+    AmeyoService.login(userId, password);
   }
 }
 </script>

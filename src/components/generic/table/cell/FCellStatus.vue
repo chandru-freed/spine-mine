@@ -1,0 +1,21 @@
+<template>
+  <v-chip :outlined="outlined" v-if="selectModel(modelValue,dataSelectorKey)" small>
+    {{selectModel(modelValue,dataSelectorKey)}}
+  </v-chip>
+</template>
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import ModelVue from "../../ModelVue";
+
+@Component({
+  components: {
+  },
+})
+export default class FCellStatus extends ModelVue {
+  @Prop()
+  dataSelectorKey: string;
+
+  @Prop({default: false})
+  outlined: boolean
+}
+</script>

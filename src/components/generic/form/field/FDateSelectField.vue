@@ -8,6 +8,7 @@
       transition="scale-transition"
       offset-y
       min-width="auto"
+      :disabled="$props.readonly || $props.disabled"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
@@ -86,7 +87,10 @@ export default class FDateSelectField extends VTextField {
   }
 
   set modelValue(newModelValue: string) {
-    this.$emit("input", new Date(newModelValue).toISOString());
+    console.log(newModelValue, "newModelValue");
+    if (newModelValue) {
+      this.$emit("input", new Date(newModelValue).toISOString());
+    }
   }
   // MODEL VALUE - END
 }

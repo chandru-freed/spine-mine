@@ -8,12 +8,12 @@
       v-bind="uploadDocumentFormMetaData.props"
     ></component>
 
-    <v-alert dense outlined text color="error"  v-if="deleteDocumentDialog">
+    <v-alert dense outlined text color="error" v-if="deleteDocumentDialog">
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
-      <div class="my-1">Are you sure want to delete?</div>
-      <v-spacer />
+        <div class="my-1">Are you sure want to delete?</div>
+        <v-spacer />
         <FBtn
           label="Cancel"
           :on-click="closeAndClearAllForms"
@@ -21,7 +21,13 @@
           color="red"
           class="mx-2"
         />
-        <FBtn label="Delete" class="mx-2" :on-click="deleteDocument" outlined color="red" />
+        <FBtn
+          label="Delete"
+          class="mx-2"
+          :on-click="deleteDocument"
+          outlined
+          color="red"
+        />
       </div>
     </v-alert>
 
@@ -100,6 +106,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
+import store, * as Store from "@/../src-gen/store";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
@@ -113,12 +120,15 @@ import axios from "axios";
   },
 })
 export default class FDocument extends ModelVue {
+    @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
   uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
   selectedCreditorIndex: number;
   headers = [
     { text: "DocumentType", value: "documentType" },
-    { text: "Doc Path", value: "documentPath" },
+    { text: "Document Name", value: "documentPath" },
     { text: "Details", value: "documentDetails" },
     { text: "Uploaded On", value: "uploadedOn" },
     { text: "Actions", value: "actions" },
@@ -168,23 +178,19 @@ export default class FDocument extends ModelVue {
   }
 
   mounted() {
-    console.log(this.$refs);
+    // console.log(this.$refs);
   }
 
   deleteDocument() {
     const fiDocumentId =
       this.modelValue[this.selectedCreditorIndex].fiDocumentId;
-    Action.Spine.DetachDocument.execute2(
-      this.taskRoot.taskId,
-      fiDocumentId,
-      (output) => {
-        this.closeDialogs();
-        Snackbar.show({
-          text: "Succesfully Removed",
-          pos: "bottom-center",
-        });
-      }
-    );
+    Action.Spine.DetachDocument.execute1(fiDocumentId, (output) => {
+      this.closeDialogs();
+      Snackbar.show({
+        text: "Succesfully Removed",
+        pos: "bottom-center",
+      });
+    });
   }
 
   selectDeleteDocument(item: any, index: number) {
@@ -207,7 +213,7 @@ export default class FDocument extends ModelVue {
   getPresignedURLAndUpload() {
     const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
     Action.Spine.GetFiPresignedURLForUpload.execute2(
-      this.clientFileNumber,
+      this.clientFileBasicInfo.clientFileNumber,
       fileName,
       (output) => {
         this.presignedUrl = output.url;
@@ -229,17 +235,18 @@ export default class FDocument extends ModelVue {
       options
     );
     this.attachAndSaveUploadedFile();
-    console.log(axiosResponse);
+    // console.log(axiosResponse);
   }
 
   attachAndSaveUploadedFile() {
     this.uploadedDocument.documentType = this.uploadDocumentForm.docType;
     this.uploadedDocument.uploadedOn = new Date();
-    this.uploadedDocument.documentDetails =
-      this.uploadDocumentForm.documentDetails;
+    // this.uploadedDocument.documentDetails =
+    //   this.uploadDocumentForm.documentDetails;
     const input = Data.Spine.AttachDocumentInput.fromJson(
       this.uploadedDocument
     );
+    input.documentDetails = this.uploadDocumentForm.documentDetails;
     input.clientFileId = this.taskRoot.clientFileBasicInfo.clientFileId;
     input.taskId = this.taskRoot.taskId;
     Action.Spine.AttachDocument.execute(input, (output) => {

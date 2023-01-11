@@ -110,11 +110,11 @@ export default class CFActionList extends Vue {
         //   icon: "mdi-chevron-right",
         //   command: this.createEnrollmentFlowV1,
         // },
-        {
-          actionName: "Collect First MSF",
-          icon: "mdi-chevron-right",
-          command: this.createCollectFirstMSF,
-        },
+        // {
+        //   actionName: "Collect First MSF",
+        //   icon: "mdi-chevron-right",
+        //   command: this.createCollectFirstMSF,
+        // },
         {
           actionName: "OnBoarding Call",
           icon: "mdi-chevron-right",

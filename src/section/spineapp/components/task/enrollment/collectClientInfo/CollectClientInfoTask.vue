@@ -222,11 +222,6 @@ export default class CollectClientInfoTask extends ModelVue {
 
      Action.Spine.UpdateClPersonalInfo.interested(this.findClPersonalInfoHandler)
 
-    // Action.Spine.UpdateClPersonalInfo.interested((output) => {
-    //   setTimeout(() => {
-    //     this.findClPersonalInfo();
-    //   }, 1000);
-    // });
 
     Action.ClientFile.UpdateCreditInfo.interested(this.getClientFileBasicInfoHandler);
 
@@ -252,11 +247,7 @@ export default class CollectClientInfoTask extends ModelVue {
 
   public destroyed() {
     Action.Spine.UpdateClPersonalInfo.notInterested(this.findClPersonalInfoHandler)
-    // Action.Spine.UpdateClPersonalInfo.notInterested((output) => {
-    //   setTimeout(() => {
-    //     this.findClPersonalInfo();
-    //   }, 1000);
-    // });
+    
 
     Action.Spine.AddCreditor.notInterested(this.getClientCreditorInfoAndInfoHandler);
 

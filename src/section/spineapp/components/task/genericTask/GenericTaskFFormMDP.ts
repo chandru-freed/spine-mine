@@ -15,14 +15,14 @@ export default class GenericTaskFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addAction(
-      new FBtnMDP({
-        label: "Mark Complete",
-        onClick: this.saveAndMarkCompleteTask(),
-        btnType: BtnType.FILLED,
-        condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
-      })
-    );
+    // this.addAction(
+    //   new FBtnMDP({
+    //     label: "Mark Complete",
+    //     onClick: this.saveAndMarkCompleteTask(),
+    //     btnType: BtnType.FILLED,
+    //     condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
+    //   })
+    // );
   }
 
   saveAndMarkCompleteTask() {

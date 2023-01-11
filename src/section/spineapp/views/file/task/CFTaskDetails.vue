@@ -267,8 +267,17 @@ export default class CFTaskDetails extends Vue {
     );
   }
 
-  public getExecutiveTaskDetailsHandler = (output: any) =>
-    this.getExecutiveTaskDetailsWithDelay();
+  public getExecutiveTaskDetailsHandler = (output: any) => {
+    setTimeout(this.getExecutiveTaskDetails, 1000);
+  };
+
+  public getTaskDetailsAndFileSummaryWithDelayHandler = (output: any) => {
+    setTimeout(() => {
+      this.getExecutiveTaskDetails();
+      this.findClientFileSummary();
+      this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
+    }, 1000);
+  };
 
   public handleSaveAndComplete = () => {
     //this.gotoFile();
@@ -282,7 +291,7 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.Save.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.Spine.SchedulePaymentPlan.interested(
       this.getFindClientFileSummaryWithDelay
@@ -317,19 +326,19 @@ export default class CFTaskDetails extends Vue {
 
     // Ohter Action list
     Action.ClientFile.Activate.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Hold.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Resume.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Graduate.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Cancel.interested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
 
     this.getExecutiveTaskDetailsWithDelay();
@@ -343,7 +352,7 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.Save.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Complete.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.SaveAndComplete.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.TaskList.Suspend.notInterested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.notInterested(this.getExecutiveTaskDetailsHandler);
@@ -381,19 +390,19 @@ export default class CFTaskDetails extends Vue {
 
     // Ohter Action list
     Action.ClientFile.Activate.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Hold.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Resume.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Graduate.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
     Action.ClientFile.Cancel.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelay
+      this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
   }
 
@@ -401,13 +410,13 @@ export default class CFTaskDetails extends Vue {
     setTimeout(this.getExecutiveTaskDetails, 1000);
   }
 
-  getTaskDetailsAndFileSummaryWithDelay() {
-    setTimeout(() => {
-      this.getExecutiveTaskDetails();
-      this.findClientFileSummary();
-      this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
-    }, 1000);
-  }
+  // getTaskDetailsAndFileSummaryWithDelay() {
+  //   setTimeout(() => {
+  //     this.getExecutiveTaskDetails();
+  //     this.findClientFileSummary();
+  //     this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
+  //   }, 1000);
+  // }
 
   getFindClientFileSummaryWithDelay() {
     setTimeout(this.findClientFileSummary, 1000);

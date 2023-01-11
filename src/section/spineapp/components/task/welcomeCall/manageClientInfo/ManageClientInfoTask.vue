@@ -83,6 +83,42 @@ export default class ManageClientInfoTask
     return this.$route.params.clientFileId;
   }
 
+  public findClPersonalInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.findClPersonalInfo();
+    }, 1000);
+  };
+
+  public getFiCreditorInfoAndSchedulePPHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiCreditorInfoAndSchedulePP();
+    }, 1000);
+  };
+
+  public getBudgetInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getBudgetInfo();
+    }, 1000);
+  };
+
+  public getFiPaymentPlanInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiPaymentPlanInfo();
+    }, 1000);
+  };
+
+  public getFiBankInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiBankInfo();
+    }, 1000);
+  };
+
+  public getFiDocumentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiDocumentList();
+    }, 1000);
+  };
+
   mounted() {
     this.getNupayBankMasterList();
     this.findClPersonalInfo();
@@ -92,105 +128,55 @@ export default class ManageClientInfoTask
     this.getFiBankInfo();
     this.getFiDocumentList();
 
-    Action.Spine.UpdateClPersonalInfo.interested((output) => {
-      setTimeout(() => {
-        this.findClPersonalInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateClPersonalInfo.interested(
+      this.findClPersonalInfoHandler
+    );
 
-    Action.Spine.AddCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
-      }, 1000);
-    });
-    Action.Spine.UpdateCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
-      }, 1000);
-    });
-    Action.Spine.RemoveCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
-      }, 1000);
-    });
+    Action.Spine.AddCreditor.interested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+    Action.Spine.UpdateCreditor.interested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+    Action.Spine.RemoveCreditor.interested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
 
-    Action.Spine.UpdateBudgetInfo.interested((output) => {
-      setTimeout(() => {
-        this.getBudgetInfo();
-      }, 1000);
-    });
-    Action.Spine.SchedulePaymentPlan.interested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
-    Action.Spine.UpdateBankInfo.interested((output) => {
-      setTimeout(() => {
-        this.getFiBankInfo();
-      }, 1000);
-    });
-    Action.Spine.AttachDocument.interested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
-    Action.Spine.DetachDocument.interested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
+    Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
+    Action.Spine.SchedulePaymentPlan.interested(
+      this.getFiPaymentPlanInfoHandler
+    );
+    Action.Spine.UpdateBankInfo.interested(this.getFiBankInfoHandler);
+    Action.Spine.AttachDocument.interested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.interested(this.getFiDocumentListHandler);
   }
 
   public destroyed() {
-    Action.Spine.UpdateClPersonalInfo.notInterested((output) => {
-      setTimeout(() => {
-        this.findClPersonalInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateClPersonalInfo.notInterested(
+      this.findClPersonalInfoHandler
+    );
 
-    Action.Spine.AddCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
-      }, 1000);
-    });
+    Action.Spine.AddCreditor.notInterested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
 
-    Action.Spine.UpdateCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
-      }, 1000);
-    });
-    Action.Spine.RemoveCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiCreditorInfoAndSchedulePP();
-      }, 1000);
-    });
+    Action.Spine.UpdateCreditor.notInterested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
+    Action.Spine.RemoveCreditor.notInterested(
+      this.getFiCreditorInfoAndSchedulePPHandler
+    );
 
-    Action.Spine.UpdateBudgetInfo.notInterested((output) => {
-      setTimeout(() => {
-        this.getBudgetInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateBudgetInfo.notInterested(this.getBudgetInfoHandler);
 
-    Action.Spine.SchedulePaymentPlan.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.SchedulePaymentPlan.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.Spine.UpdateBankInfo.notInterested((output) => {
-      this.getFiBankInfo();
-    });
+    Action.Spine.UpdateBankInfo.notInterested(this.getFiBankInfoHandler);
 
-    Action.Spine.AttachDocument.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
-    Action.Spine.DetachDocument.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
+    Action.Spine.AttachDocument.notInterested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.notInterested(this.getFiDocumentListHandler);
   }
 
   setConfirmAccountNumber() {
@@ -225,7 +211,7 @@ export default class ManageClientInfoTask
       taskOutput: this.taskDetailsOutput,
     };
   }
-  
+
   get taskStateTerminated() {
     return (
       this.taskDetails.taskState === "COMPLETED" ||
@@ -293,11 +279,14 @@ export default class ManageClientInfoTask
 
   //DATA
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
   //ACTION
   saveAndMarkCompleteTask() {
-    console.log(this.taskFormData,"this.taskFormData");
+    console.log(this.taskFormData, "this.taskFormData");
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
@@ -384,23 +373,24 @@ export default class ManageClientInfoTask
     input.clientFileId = this.clientFileId;
     input.ppCalculator.outstanding = this.fiCreditorStore.totalDebt;
     input.taskId = this.taskId;
-    if(input.ppCalculator.firstDraftDate === '') {
-    input.ppCalculator.firstDraftDate = moment()
-      .add(2, "days")
-      .format(Helper.DATE_FORMAT);
-    input.ppCalculator.feeFirstDraftDate = moment()
-      .format(Helper.DATE_FORMAT);
+    if (input.ppCalculator.firstDraftDate === "") {
+      input.ppCalculator.firstDraftDate = moment()
+        .add(2, "days")
+        .format(Helper.DATE_FORMAT);
+      input.ppCalculator.feeFirstDraftDate = moment().format(
+        Helper.DATE_FORMAT
+      );
     }
-      // if(input.ppCalculator.firstDraftDate === '') {
+    // if(input.ppCalculator.firstDraftDate === '') {
     Action.Spine.SchedulePaymentPlan.execute(
       input,
       (output: any) => {},
       (error) => {}
     );
-      // }
+    // }
   }
 
-   getFiCreditorInfoAndSchedulePP() {
+  getFiCreditorInfoAndSchedulePP() {
     Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
       this.schedulePaymentPlan();
     });

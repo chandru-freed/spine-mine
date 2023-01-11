@@ -28,14 +28,7 @@
 
       <v-alert dense outlined text color="error" v-if="deleteSPAEntry">
         <div
-          class="
-            d-flex
-            flex-row
-            align-start
-            flex-wrap
-            justify-space-around
-            pa-2
-          "
+          class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
         >
           <div class="my-1">Are you sure want to delete?</div>
           <v-spacer />
@@ -178,59 +171,33 @@ export default class CFSettlementPlanInfo extends ModelVue {
     return item.status === "SCHEDULED";
   }
 
+  public getSTPaymentPlanDetailsHandler = (output: any) => {
+    setTimeout(() => {
+      this.getSTPaymentPlanDetails();
+    }, 1000);
+  };
+
   mounted() {
     this.getFiCreditorInfo();
     this.getSTPaymentPlanDetails();
-    Action.ClientFile.AddSTEntry.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.AddSTEntry.interested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.RemoveSTEntry.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.RemoveSTEntry.interested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.PresentSTEntry.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.PresentSTEntry.interested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.UpdateSTEntryAccountDetails.interested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.UpdateSTEntryAccountDetails.interested(this.getSTPaymentPlanDetailsHandler);
   }
 
-    public destroyed() {
-          Action.ClientFile.AddSTEntry.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+  public destroyed() {
+    Action.ClientFile.AddSTEntry.notInterested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.RemoveSTEntry.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.RemoveSTEntry.notInterested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.PresentSTEntry.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
+    Action.ClientFile.PresentSTEntry.notInterested(this.getSTPaymentPlanDetailsHandler);
 
-    Action.ClientFile.UpdateSTEntryAccountDetails.notInterested(() => {
-      setTimeout(() => {
-        this.getSTPaymentPlanDetails();
-      }, 1000);
-    });
-    }
+    Action.ClientFile.UpdateSTEntryAccountDetails.notInterested(this.getSTPaymentPlanDetailsHandler);
+  }
 
   resetForms() {
     this.addSTEntryInput = new Data.ClientFile.AddSTEntryInput();

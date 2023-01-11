@@ -32,7 +32,7 @@ import FCFPaymentPlan from "@/components/generic/file/paymentPlan/cfPaymentPlan/
 @Component({
   components: {
     FForm,
-    FCFPaymentPlan
+    FCFPaymentPlan,
   },
 })
 export default class CFPaymentPlanInfo extends ModelVue {
@@ -58,24 +58,45 @@ export default class CFPaymentPlanInfo extends ModelVue {
   }
   //METADATA
 
-  public getPaymentHandler = (output: any) => this.getFiPaymentWithDelay();
+  // public getPaymentHandler = (output: any) => this.getFiPaymentWithDelay();
+
+  public getFiPaymentWithDelayHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiPaymentPlanInfo();
+      this.getFiCreditorInfo();
+      this.getFiPaymentList();
+      this.getBudgetInfo();
+    }, 1000);
+  };
 
   public mounted() {
     this.getFiPaymentWithDelay();
-    
-    Action.ClientFile.AddPSEntry.interested(this.getFiPaymentWithDelay);
-    Action.Spine.PresentPSEntry.interested(this.getPaymentHandler);
-    Action.Spine.Skip.interested(this.getPaymentHandler);
-    Action.ClientFile.RemovePSEntryList.interested(this.getFiPaymentWithDelay);
-    Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getFiPaymentWithDelay);
+
+    Action.ClientFile.AddPSEntry.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.PresentPSEntry.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.Skip.interested(this.getFiPaymentWithDelayHandler);
+    Action.ClientFile.RemovePSEntryList.interested(
+      this.getFiPaymentWithDelayHandler
+    );
+    Action.ClientFile.ModifyAmountWithFixedTenure.interested(
+      this.getFiPaymentWithDelayHandler
+    );
   }
 
   public destroyed() {
-    Action.Spine.PresentPSEntry.notInterested(this.getPaymentHandler);
-    Action.Spine.Skip.notInterested(this.getPaymentHandler);
-    Action.ClientFile.AddPSEntry.notInterested(this.getFiPaymentWithDelay);
-    Action.ClientFile.RemovePSEntryList.notInterested(this.getFiPaymentWithDelay);
-    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getFiPaymentWithDelay);
+    Action.Spine.PresentPSEntry.notInterested(
+      this.getFiPaymentWithDelayHandler
+    );
+    Action.Spine.Skip.notInterested(this.getFiPaymentWithDelayHandler);
+    Action.ClientFile.AddPSEntry.notInterested(
+      this.getFiPaymentWithDelayHandler
+    );
+    Action.ClientFile.RemovePSEntryList.notInterested(
+      this.getFiPaymentWithDelayHandler
+    );
+    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(
+      this.getFiPaymentWithDelayHandler
+    );
   }
 
   getFiPaymentWithDelay() {
@@ -118,10 +139,7 @@ export default class CFPaymentPlanInfo extends ModelVue {
   }
 
   getBudgetInfo() {
-    Action.ClientFile.GetBudgetInfo.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
   }
 }
 </script>

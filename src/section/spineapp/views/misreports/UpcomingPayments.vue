@@ -65,13 +65,19 @@ export default class UpcomingPayments extends ModelVue {
   misFiPSEntryListInput: Data.ClientFile.MISFiPSEntryListInput =
     new Data.ClientFile.MISFiPSEntryListInput();
 
+  public getSceheduledPaymentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getSceheduledPaymentList();
+    }, 1000);
+  };
+
   mounted() {
     this.getSceheduledPaymentList();
-    Action.TaskList.Suspend.interested(this.getSceheduledPaymentList);
+    Action.TaskList.Suspend.interested(this.getSceheduledPaymentListHandler);
   }
 
   destroyed() {
-    Action.TaskList.Suspend.notInterested(this.getSceheduledPaymentList);
+    Action.TaskList.Suspend.notInterested(this.getSceheduledPaymentListHandler);
   }
 
   getSceheduledPaymentList() {

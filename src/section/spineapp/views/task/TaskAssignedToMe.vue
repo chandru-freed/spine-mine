@@ -61,20 +61,21 @@ export default class TaskAssignedToMe extends ModelVue {
     new Data.TaskList.SuspendTaskInput();
   showSuspendForm: boolean = false;
   taskTableRefName: string = "taskAssignedToMeFDataTableRef";
+
+  public getActiveTLAllocatedWithDelayHandler = (output: any) => {
+    setTimeout(() => {
+      this.getActiveTaskListAllocatedGrid();
+    }, 1000);
+  };
   mounted() {
-    Action.TaskList.Suspend.interested(this.getActiveTLAllocatedWithDelay);
+    Action.TaskList.Suspend.interested(this.getActiveTLAllocatedWithDelayHandler);
     this.getActiveTaskListAllocatedGrid();
   }
 
   destroyed() {
-    Action.TaskList.Suspend.notInterested(this.getActiveTLAllocatedWithDelay);
+    Action.TaskList.Suspend.notInterested(this.getActiveTLAllocatedWithDelayHandler);
   }
 
-  getActiveTLAllocatedWithDelay() {
-    setTimeout(() => {
-      this.getActiveTaskListAllocatedGrid();
-    }, 1000);
-  }
   getActiveTaskListAllocatedGrid() {
     Action.TaskList.GetActiveTaskListAllocated.execute((output) => {
       this.allocatedTaskList = output;

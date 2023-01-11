@@ -1,8 +1,8 @@
 <template>
-<v-card flat>
-  <!-- <v-card-text> -->
+  <v-card flat>
+    <!-- <v-card-text> -->
     <div class="justify-center align-content-start">
-      <div >
+      <div>
         <v-textarea
           filled
           auto-grow
@@ -20,12 +20,12 @@
         </v-textarea>
       </div>
     </div>
-    <div class=" justify-center align-content-start">
-      <div >
+    <div class="justify-center align-content-start">
+      <div>
         <v-list two-line>
           <template v-for="(ticketComment, index) in ticketCommentsList">
             <v-list-item :key="'comment' + index">
-              <template v-slot:default="{  }">
+              <template v-slot:default="{}">
                 <v-list-item-content disabled>
                   <v-list-item-title>{{
                     ticketComment.comment
@@ -50,8 +50,8 @@
         </v-list>
       </div>
     </div>
-  <!-- </v-card-text> -->
-</v-card>
+    <!-- </v-card-text> -->
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -67,7 +67,7 @@ import * as Snackbar from "node-snackbar";
 })
 export default class TicketComment extends Vue {
   @Prop({
-    default: false
+    default: false,
   })
   ticketCompleted: boolean;
   @Store.Getter.Ticket.TicketSummary.ticketCommentsList
@@ -86,32 +86,38 @@ export default class TicketComment extends Vue {
     return this.ticketTaskDetails.taskState !== "COMPLETED";
   }
 
+  public getTicketCommentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getTicketCommentList();
+    }, 500);
+  };
+
   mounted() {
     this.getTicketCommentList();
     Action.Ticket.AddCommentOnTicket.interested(
-      this.getTicketCommentListWithDelay()
+      this.getTicketCommentListHandler
     );
 
     Action.Ticket.ReassignTicket.interested(
-      this.getTicketCommentListWithDelay()
+      this.getTicketCommentListHandler
     );
   }
 
   destroyed() {
     Action.Ticket.AddCommentOnTicket.notInterested(
-      this.getTicketCommentListWithDelay()
+      this.getTicketCommentListHandler
     );
     Action.Ticket.ReassignTicket.notInterested(
-      this.getTicketCommentListWithDelay()
+      this.getTicketCommentListHandler
     );
   }
-  getTicketCommentListWithDelay() {
-    return () => {
-      setTimeout(() => {
-        this.getTicketCommentList();
-      }, 500);
-    };
-  }
+  // getTicketCommentListWithDelay() {
+  //   return () => {
+  //     setTimeout(() => {
+  //       this.getTicketCommentList();
+  //     }, 500);
+  //   };
+  // }
   getTicketCommentList() {
     Action.Ticket.GetTicketCommentList.execute1(this.ticketId, (output) => {
       console.log(output);

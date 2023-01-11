@@ -68,21 +68,19 @@ export default class CFCreditorInfo extends ModelVue {
 
   //FORM
 
+  public getClientFileBasicInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getClientFileBasicInfo();
+    }, 1000);
+  };
+
   mounted() {
     this.getFiCreditorInfo();
-    Action.ClientFile.UpdateCreditInfo.interested(() => {
-      setTimeout(() => {
-        this.getClientFileBasicInfo();
-      }, 1000);
-    });
+    Action.ClientFile.UpdateCreditInfo.interested(this.getClientFileBasicInfoHandler);
   }
 
   destroyed() {
-     Action.ClientFile.UpdateCreditInfo.notInterested(() => {
-      setTimeout(() => {
-        this.getClientFileBasicInfo();
-      }, 1000);
-    });
+    Action.ClientFile.UpdateCreditInfo.notInterested(this.getClientFileBasicInfoHandler);
   }
 
   //ACTION
@@ -93,12 +91,10 @@ export default class CFCreditorInfo extends ModelVue {
     );
   }
 
-
-   getClientFileBasicInfo() {
+  getClientFileBasicInfo() {
     Action.ClientFile.GetClientFileBasicInfo.execute1(
       this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-      }
+      (output) => {}
     );
   }
 
@@ -111,5 +107,4 @@ export default class CFCreditorInfo extends ModelVue {
 }
 </script>
 
-<style>
-</style>
+<style></style>

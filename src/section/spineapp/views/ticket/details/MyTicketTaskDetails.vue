@@ -37,40 +37,40 @@
     <!-- ASSIGN TICKET -->
 
     <v-card flat outlined>
-        <v-card-title
-          >Ticket Summary<v-spacer />
-          <v-btn
-            class="mx-2"
-            v-if="taskSummary.clientFileNumber"
-            color="primary"
-            @click="gotoFile"
-            text
-            >Go To File</v-btn
-          >
+      <v-card-title
+        >Ticket Summary<v-spacer />
+        <v-btn
+          class="mx-2"
+          v-if="taskSummary.clientFileNumber"
+          color="primary"
+          @click="gotoFile"
+          text
+          >Go To File</v-btn
+        >
 
-          <v-btn
-            color="primary"
-            class="mx-2"
-            @click="reAssignClicked()"
-            outlined
-            :disabled="taskCompleted"
-            >Assign</v-btn
-          >
-          <v-btn
-            :disabled="taskCompleted"
-            color="primary"
-            class="mx-2"
-            @click="closeTicketDialog = true"
-            >Close Ticket</v-btn
-          >
-        </v-card-title>
-        <component
-          v-if="!!ticketSummaryFormMetaData"
-          :ref="ticketSummaryFormMetaData.myRefName"
-          :is="ticketSummaryFormMetaData.componentName"
-          v-model="taskSummary"
-          v-bind="ticketSummaryFormMetaData.props"
-        ></component>
+        <v-btn
+          color="primary"
+          class="mx-2"
+          @click="reAssignClicked()"
+          outlined
+          :disabled="taskCompleted"
+          >Assign</v-btn
+        >
+        <v-btn
+          :disabled="taskCompleted"
+          color="primary"
+          class="mx-2"
+          @click="closeTicketDialog = true"
+          >Close Ticket</v-btn
+        >
+      </v-card-title>
+      <component
+        v-if="!!ticketSummaryFormMetaData"
+        :ref="ticketSummaryFormMetaData.myRefName"
+        :is="ticketSummaryFormMetaData.componentName"
+        v-model="taskSummary"
+        v-bind="ticketSummaryFormMetaData.props"
+      ></component>
     </v-card>
   </div>
 </template>
@@ -127,24 +127,31 @@ export default class MyTicketTaskDetails extends Vue {
   get taskCompleted() {
     return this.ticketTaskDetails.taskState === "COMPLETED";
   }
+
+  public getMyTicketTaskDetailsWithDelayHandler = (output: any) => {
+    setTimeout(() => {
+      this.getMyTicketTaskDetails();
+    }, 1000);
+  };
+
   mounted() {
     this.getMyTicketTaskDetails();
     Action.Ticket.CloseTicket.interested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
 
     Action.Ticket.AddSubscriberList.interested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
   }
 
   public destroyed() {
     Action.Ticket.CloseTicket.notInterested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
 
     Action.Ticket.AddSubscriberList.notInterested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
   }
 
@@ -152,13 +159,13 @@ export default class MyTicketTaskDetails extends Vue {
     Action.Ticket.GetMyTicketTaskDetails.execute1(this.taskId, (output) => {});
   }
 
-  getMyTicketTaskDetailsWithDelay() {
-    return () => {
-      setTimeout(() => {
-        this.getMyTicketTaskDetails();
-      }, 1000);
-    };
-  }
+  // getMyTicketTaskDetailsWithDelay() {
+  //   return () => {
+  //     setTimeout(() => {
+  //       this.getMyTicketTaskDetails();
+  //     }, 1000);
+  //   };
+  // }
 
   reAssignTicket() {
     this.reAssignTicketInput.taskId = this.taskId;

@@ -50,20 +50,27 @@ export default class AccountBalance extends ModelVue {
     new Data.TaskList.SuspendTaskInput();
   showSuspendForm: boolean = false;
   taskTableRefName: string = "taskAssignedToMeFDataTableRef";
-  mounted() {
-    Action.TaskList.Suspend.interested(this.getActiveTLAllocatedWithDelay);
-    this.getActiveTaskListAllocatedGrid();
-  }
 
-  destroyed() {
-    Action.TaskList.Suspend.notInterested(this.getActiveTLAllocatedWithDelay);
-  }
-
-  getActiveTLAllocatedWithDelay() {
+  public getActiveTaskListAllocatedGridHandler = (output: any) => {
     setTimeout(() => {
       this.getActiveTaskListAllocatedGrid();
     }, 1000);
+  };
+
+  mounted() {
+    this.getActiveTaskListAllocatedGrid();
+    Action.TaskList.Suspend.interested(this.getActiveTaskListAllocatedGridHandler);
   }
+
+  destroyed() {
+    Action.TaskList.Suspend.notInterested(this.getActiveTaskListAllocatedGridHandler);
+  }
+
+  // getActiveTLAllocatedWithDelay() {
+  //   setTimeout(() => {
+  //     this.getActiveTaskListAllocatedGrid();
+  //   }, 1000);
+  // }
   getActiveTaskListAllocatedGrid() {
     Action.TaskList.GetActiveTaskListAllocated.execute((output) => {
       this.allocatedTaskList = output;

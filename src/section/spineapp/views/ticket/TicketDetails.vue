@@ -130,16 +130,23 @@ export default class TicketDetails extends Vue {
   get ticketCompleted() {
     return this.ticketTaskDetails.taskState === "COMPLETED";
   }
+
+  public getMyTicketTaskDetailsWithDelayHandler = (output: any) => {
+    setTimeout(() => {
+      this.getMyTicketTaskDetails();
+    }, 500);
+  };
+
   mounted() {
     this.getMyTicketTaskDetails();
     Action.Ticket.CloseTicket.interested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
   }
 
   public destroyed() {
     Action.Ticket.CloseTicket.notInterested(
-      this.getMyTicketTaskDetailsWithDelay()
+      this.getMyTicketTaskDetailsWithDelayHandler
     );
   }
 
@@ -147,13 +154,7 @@ export default class TicketDetails extends Vue {
     Action.Ticket.GetMyTicketTaskDetails.execute1(this.taskId, (output) => {});
   }
 
-  getMyTicketTaskDetailsWithDelay() {
-    return () => {
-      setTimeout(() => {
-        this.getMyTicketTaskDetails();
-      }, 500);
-    };
-  }
+
 
   reAssignTicket() {
     this.reAssignTicketInput.taskId = this.taskId;

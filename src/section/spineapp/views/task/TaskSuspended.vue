@@ -55,19 +55,21 @@ export default class TaskSuspended extends ModelVue {
     { text: "Completed Time", value: "completedTime" },
   ];
 
-  mounted() {
-    this.getSuspendedTaskList();
-    Action.TaskList.Resume.interested(this.getSuspendedTaskListWithDelay);
-  }
-
-    destroyed() {
-    Action.TaskList.Resume.notInterested(this.getSuspendedTaskListWithDelay);
-  }
-  getSuspendedTaskListWithDelay() {
+    public getSuspendedTaskListWithDelayHandler = (output: any) => {
     setTimeout(() => {
       this.getSuspendedTaskList();
     }, 1000);
+  };
+
+  mounted() {
+    this.getSuspendedTaskList();
+    Action.TaskList.Resume.interested(this.getSuspendedTaskListWithDelayHandler);
   }
+
+    destroyed() {
+    Action.TaskList.Resume.notInterested(this.getSuspendedTaskListWithDelayHandler);
+  }
+
   getSuspendedTaskList() {
     Action.TaskList.GetSuspendedTaskList.execute((output) => {
       this.suspendedTaskList = output;

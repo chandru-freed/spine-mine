@@ -121,7 +121,7 @@ export default class UnderwrittingTask extends ModelVue {
   taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput();
   get taskFormOutput() {
     console.log(this.fiPaymentPlanInfoStore, "Compiling");
-    
+
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
@@ -140,8 +140,10 @@ export default class UnderwrittingTask extends ModelVue {
         ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
-      underwrittingApproved: (this.taskDetails.outputJson as any).underwrittingApproved || true,
-      reasonForUnderwrittingDecline: (this.taskDetails.outputJson as any).reasonForUnderwrittingDecline
+      underwrittingApproved:
+        (this.taskDetails.outputJson as any).underwrittingApproved || true,
+      reasonForUnderwrittingDecline: (this.taskDetails.outputJson as any)
+        .reasonForUnderwrittingDecline,
     };
     return this.taskFormOutputLocal;
   }
@@ -157,8 +159,47 @@ export default class UnderwrittingTask extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
+
+  public findClPersonalInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.findClPersonalInfo();
+    }, 1000);
+  };
+
+  public getClientCreditorInfoAndSummaryHandler = (output: any) => {
+    setTimeout(() => {
+      this.getClientCreditorInfoAndSummary();
+    }, 1000);
+  };
+
+  public getBudgetInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getBudgetInfo();
+    }, 1000);
+  };
+
+  public getFiPaymentPlanInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiPaymentPlanInfo();
+    }, 1000);
+  };
+
+  public getFiBankInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiBankInfo();
+    }, 1000);
+  };
+
+  public getFiDocumentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiDocumentList();
+    }, 1000);
+  };
 
   mounted() {
     this.findClPersonalInfo();
@@ -168,156 +209,81 @@ export default class UnderwrittingTask extends ModelVue {
     this.getFiBankInfo();
     this.getFiDocumentList();
 
-    Action.Spine.UpdateClPersonalInfo.interested((output) => {
-      setTimeout(() => {
-        this.findClPersonalInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateClPersonalInfo.interested(
+      this.findClPersonalInfoHandler
+    );
 
-    Action.Spine.AddCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
-      }, 1000);
-    });
-    Action.Spine.UpdateCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
-      }, 1000);
-    });
-    Action.Spine.RemoveCreditor.interested((output) => {
-      setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
-      }, 1000);
-    });
+    Action.Spine.AddCreditor.interested(
+      this.getClientCreditorInfoAndSummaryHandler
+    );
+    Action.Spine.UpdateCreditor.interested(
+      this.getClientCreditorInfoAndSummaryHandler
+    );
+    Action.Spine.RemoveCreditor.interested(
+      this.getClientCreditorInfoAndSummaryHandler
+    );
 
-    Action.Spine.UpdateBudgetInfo.interested((output) => {
-      setTimeout(() => {
-        this.getBudgetInfo();
-      }, 1000);
-    });
-    Action.Spine.SchedulePaymentPlan.interested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
 
-    Action.Spine.DraftPSPlanForPM.interested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.SchedulePaymentPlan.interested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.ClientFile.AddPSEntry.interested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.DraftPSPlanForPM.interested(this.getFiPaymentPlanInfoHandler);
 
-    Action.Spine.RecalculatePSPlanForPM.interested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.ClientFile.AddPSEntry.interested(this.getFiPaymentPlanInfoHandler);
 
-    Action.Spine.UpdateBankInfo.interested((output) => {
-      setTimeout(() => {
-        this.getFiBankInfo();
-      }, 1000);
-    });
-    Action.Spine.AttachDocument.interested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
-    Action.Spine.DetachDocument.interested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
+    Action.Spine.RecalculatePSPlanForPM.interested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.Spine.Skip.interested(() => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateBankInfo.interested(this.getFiBankInfoHandler);
+    Action.Spine.AttachDocument.interested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.interested(this.getFiDocumentListHandler);
+
+    Action.Spine.Skip.interested(this.getFiPaymentPlanInfoHandler);
   }
 
   public destroyed() {
-    Action.Spine.UpdateClPersonalInfo.notInterested((output) => {
-      setTimeout(() => {
-        this.findClPersonalInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateClPersonalInfo.notInterested(
+      this.findClPersonalInfoHandler
+    );
 
-    Action.Spine.AddCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
-      }, 1000);
-    });
+    Action.Spine.AddCreditor.notInterested(
+      this.getClientCreditorInfoAndSummaryHandler
+    );
 
-    Action.Spine.UpdateCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
-      }, 1000);
-    });
-    Action.Spine.RemoveCreditor.notInterested((output) => {
-      setTimeout(() => {
-        this.getClientCreditorInfoAndSummary();
-      }, 1000);
-    });
+    Action.Spine.UpdateCreditor.notInterested(
+      this.getClientCreditorInfoAndSummaryHandler
+    );
+    Action.Spine.RemoveCreditor.notInterested(
+      this.getClientCreditorInfoAndSummaryHandler
+    );
 
-    Action.Spine.UpdateBudgetInfo.notInterested((output) => {
-      setTimeout(() => {
-        this.getBudgetInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateBudgetInfo.notInterested(this.getBudgetInfoHandler);
 
-    Action.Spine.SchedulePaymentPlan.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.SchedulePaymentPlan.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.Spine.DraftPSPlanForPM.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.DraftPSPlanForPM.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.ClientFile.AddPSEntry.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.ClientFile.AddPSEntry.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.Spine.RecalculatePSPlanForPM.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.RecalculatePSPlanForPM.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.Spine.UpdateBankInfo.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiBankInfo();
-      }, 1000);
-    });
+    Action.Spine.UpdateBankInfo.notInterested(this.getFiBankInfoHandler);
 
-    Action.Spine.AttachDocument.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
-    Action.Spine.DetachDocument.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-    });
+    Action.Spine.AttachDocument.notInterested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.notInterested(this.getFiDocumentListHandler);
 
-    Action.Spine.Skip.notInterested(() => {
-      setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-    });
+    Action.Spine.Skip.notInterested(this.getFiPaymentPlanInfoHandler);
   }
   // Confirm AccountNumber => per populate account number to confirm cccount number
   setConfirmAccountNumber() {

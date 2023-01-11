@@ -90,6 +90,10 @@ export default class PrepareAmendmentTask extends ModelVue {
   }
   //Task Output
 
+  public getPSPlanInfoHandler = (output: any) => {
+    this.getPSPlanInfo();
+  }
+
   getPSPlanInfo() {
     setTimeout(() => {
       const newPSPlanId = (this.taskDetails.inputJson as any).newPSPlanId;
@@ -119,15 +123,15 @@ export default class PrepareAmendmentTask extends ModelVue {
   mounted() {
     this.getFiCreditorInfo();
     this.getPSPlanInfo();
-    Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfo)
-    Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getPSPlanInfo);
-    Action.Spine.UploadPaymentSchedulePlanExcel.interested(this.getPSPlanInfo);
+    Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfoHandler)
+    Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getPSPlanInfoHandler);
+    Action.Spine.UploadPaymentSchedulePlanExcel.interested(this.getPSPlanInfoHandler);
   }
 
   destroyed() {
-    Action.Spine.RecalculatePSPlanForPM.notInterested(this.getPSPlanInfo)
-    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getPSPlanInfo);
-    Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(this.getPSPlanInfo);
+    Action.Spine.RecalculatePSPlanForPM.notInterested(this.getPSPlanInfoHandler)
+    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getPSPlanInfoHandler);
+    Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(this.getPSPlanInfoHandler);
   }
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({

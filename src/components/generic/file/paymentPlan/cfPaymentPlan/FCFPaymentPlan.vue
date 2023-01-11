@@ -40,14 +40,14 @@
 
     <v-card flat outlined class="row ma-2">
       <v-toolbar>
-      <v-tabs v-model="tab" background-color="transparent" color="secondary">
-        <v-tab> Payment Schedule </v-tab>
-        <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
-      </v-tabs>
-      <div class="d-flex col-3 justify-end">
-      <span  class="mx-2">Ps Plan Status: </span>
-      <v-chip  small>{{modelValue.paymentPlan.psPlanStatus}}</v-chip>
-      </div>
+        <v-tabs v-model="tab" background-color="transparent" color="secondary">
+          <v-tab> Payment Schedule </v-tab>
+          <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
+        </v-tabs>
+        <div class="d-flex col-3 justify-end">
+          <span class="mx-2">Ps Plan Status: </span>
+          <v-chip small>{{ modelValue.paymentPlan.psPlanStatus }}</v-chip>
+        </div>
       </v-toolbar>
 
       <v-tabs-items v-model="tab" class="col-12">
@@ -248,23 +248,19 @@ export default class FCFPaymentPlan extends ModelVue {
   get fcfPaymentTableMetaData() {
     return new FCFPaymentFDataTableMDP({ parent: this }).getMetaData();
   }
+  getFiPaymentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiPaymentList();
+    }, 1000);
+  };
 
   mounted() {
     this.getFiPaymentList();
-
-    Action.Spine.PresentPSEntry.interested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentList();
-      }, 1000);
-    });
+    Action.Spine.PresentPSEntry.interested(this.getFiPaymentListHandler);
   }
 
   public destroyed() {
-    Action.Spine.PresentPSEntry.notInterested((output) => {
-      setTimeout(() => {
-        this.getFiPaymentList();
-      }, 1000);
-    });
+    Action.Spine.PresentPSEntry.notInterested(this.getFiPaymentListHandler);
   }
 
   //ACTION

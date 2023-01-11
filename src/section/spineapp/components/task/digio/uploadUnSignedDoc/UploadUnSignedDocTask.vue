@@ -97,21 +97,18 @@ export default class UploadUnSignedDocTask
   //DATA
 
   mounted() {
-    Action.TaskList.Rescue.interested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
   }
 
   public destroyed() {
-    Action.TaskList.Rescue.notInterested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
   }
 
+  getExecutiveTaskDetailsHandler = (output: any) => {
+     setTimeout(() => {
+        this.getExecutiveTaskDetails();
+      }, 1000);
+  }
   getExecutiveTaskDetails() {
     Action.TaskList.GetExecutiveTaskDetails.execute1(
       this.$route.params.taskId,

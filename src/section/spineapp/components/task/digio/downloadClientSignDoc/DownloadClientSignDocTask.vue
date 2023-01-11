@@ -91,27 +91,28 @@ export default class DownloadClientSignDocTask extends ModelVue {
   //Task Output
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 
   //DATA
 
   //ACTION
   mounted() {
-    Action.TaskList.Rescue.interested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
   }
 
   public destroyed() {
-    Action.TaskList.Rescue.notInterested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
   }
+
+  getExecutiveTaskDetailsHandler = (output: any) => {
+    setTimeout(() => {
+      this.getExecutiveTaskDetails();
+    }, 1000);
+  };
 
   getExecutiveTaskDetails() {
     Action.TaskList.GetExecutiveTaskDetails.execute1(

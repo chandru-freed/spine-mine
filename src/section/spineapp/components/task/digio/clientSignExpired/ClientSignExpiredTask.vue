@@ -94,20 +94,18 @@ export default class ClientSignExpiredTask extends ModelVue {
   //DATA
 
   //ACTION
-  mounted() {
-    Action.TaskList.Rescue.interested((output) => {
-      setTimeout(() => {
+
+  getExecutiveTaskDetailsHandler = (output: any) => {
+     setTimeout(() => {
         this.getExecutiveTaskDetails();
       }, 1000);
-    });
+  }
+  mounted() {
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
   }
 
   public destroyed() {
-    Action.TaskList.Rescue.notInterested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
   }
 
   getExecutiveTaskDetails() {

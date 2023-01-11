@@ -86,19 +86,17 @@ export default class CreateEMandateTask extends ModelVue {
   }
 
   mounted() {
-    Action.TaskList.Rescue.interested((output) => {
-      setTimeout(() => {
-        this.getExecutiveTaskDetails();
-      }, 1000);
-    });
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
   }
 
   public destroyed() {
-    Action.TaskList.Rescue.notInterested((output) => {
-      setTimeout(() => {
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
+  }
+
+  getExecutiveTaskDetailsHandler = (output: any) => {
+     setTimeout(() => {
         this.getExecutiveTaskDetails();
       }, 1000);
-    });
   }
 
   getExecutiveTaskDetails() {

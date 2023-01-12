@@ -294,9 +294,16 @@ export default class FBPaymentPlan extends ModelVue {
     this.uploadPSPlanExcelInput = new Data.Spine.UploadPSPlanExcelInput();
   }
 
-  downloadExcel() {
+  downloadActiveExcel() {
     const { psPlanId } = this.modelValue.taskInput.existingPaymentPlan;
     const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${psPlanId}`;
+    const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`;
+    Helper.downloadFile(url, fileName);
+  }
+
+  downloadDraftExcel() {
+    const newPSPlanId = this.modelValue.taskInput.newPSPlanId;
+    const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${newPSPlanId}`;
     const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`;
     Helper.downloadFile(url, fileName);
   }

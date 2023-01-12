@@ -51,8 +51,14 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
         })
         
         .addAction({
-            label: "Download Excel",
-            onClick: (item) => this.handleDownloadExcel(),
+            label: "Download Active Ps Plan Excel",
+            onClick: (item) => this.handleDownloadActiveExcel(),
+            type: ActionType.OTHERS,
+            noSelect: true
+        })
+        .addAction({
+            label: "Download Draft Ps Plan Excel",
+            onClick: (item) => this.handleDownloadDraftExcel(),
             type: ActionType.OTHERS,
             noSelect: true
         })
@@ -118,11 +124,19 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             this.parent.showModifyForm = true;
         });
     }
-    handleDownloadExcel() {
+    handleDownloadActiveExcel() {
         return new Promise(res => {
-            this.parent.downloadExcel();
+            this.parent.downloadActiveExcel();
         })
     }
+
+    handleDownloadDraftExcel() {
+        return new Promise(res => {
+            this.parent.downloadDraftExcel();
+        })
+    }
+
+    
 
     handleUploadExcel() {
         return new Promise(res => {

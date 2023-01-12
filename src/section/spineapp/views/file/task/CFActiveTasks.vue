@@ -71,7 +71,7 @@
         >
         <v-icon
           color="red"
-          v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'"
+          v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'||item.taskState === 'RESOURCE_UNAVAILABLE'"
           >mdi-alert-circle</v-icon
         >
         <!-- </v-btn> -->
@@ -198,15 +198,20 @@ export default class CFActiveTasks extends Vue {
   }
 
   get taskListFiltered() {
+    console.log(this.cfTaskList,"this.cfTaskList")
     const activeTaskList = this.cfTaskList.filter((task) => {
       return (
         task.taskState === "CREATED" ||
+        task.taskState === "TO_BE_ALLOCATED" ||
         task.taskState === "TO_BE_PULLED" ||
+        task.taskState === "RESOURCE_UNAVAILABLE" ||
         task.taskState === "ALLOCATED" ||
         task.taskState === "STARTED" ||
         task.taskState === "PARTIALLY_COMPLETED" ||
         task.taskState === "EXCEPTION_Q" ||
-        task.taskState === "EXIT_Q"
+        task.taskState === "EXIT_Q" ||
+        task.taskState === "PENDING_SCHEDULED"||
+        task.taskState === "PENDING_CANCELLED"
       );
     });
 

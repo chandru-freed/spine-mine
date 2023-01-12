@@ -21,21 +21,19 @@ export default class UTApprovedStepFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this
-    // .addField(new FSelectFieldMDP({
-    //   dataSelectorKey: "taskOutput.exceptionTakenList",
-    //   label: "Exception Taken",
-    //   options: Data.Spine.EXCEPTION_TAKEN.list(),
-    //   optionLabel: "name",
-    //   optionValue: "id",
-    //   parentMDP: this.childMDP,
-    //   multiple: true,
-    //   boundaryClass: "col-4",
-    // })).addField(new FGompaUserRemoteAutoCompleteFieldMDP({
-    //   parentMDP: this.childMDP,
-    //   dataSelectorKey: "taskOutput.exceptionApprovedBy",
-    //   label:"Exception ApprovedBy",
-    //   boundaryClass: "col-4",
-    // }))
+    .addField(new FTextFieldMDP({
+      dataSelectorKey: "taskInput.exceptionTakenList",
+      label: "Exception Taken",
+      parentMDP: this.childMDP,
+      boundaryClass: "col-6",
+      disabled: true
+    })).addField(new FTextFieldMDP({
+      parentMDP: this.childMDP,
+      dataSelectorKey: "taskInput.exceptionApprovedBy",
+      label:"Exception ApprovedBy",
+      boundaryClass: "col-6",
+      disabled: true
+    }))
     .addField(
       new FSwitchMDP({
         parentMDP: this.childMDP,

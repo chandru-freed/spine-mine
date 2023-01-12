@@ -164,7 +164,7 @@ export default class CFActionList extends Vue {
           query: { flowName: "Refund Fee" },
         },
 
-         {
+        {
           actionName: "Refund SPA",
           icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFCreateRequest",
@@ -250,6 +250,11 @@ export default class CFActionList extends Vue {
           actionName: "Mark File As Resume",
           icon: "mdi-chevron-right",
           command: this.resume,
+        },
+        {
+          actionName: "Mark File As Request Cancel",
+          icon: "mdi-chevron-right",
+          command: this.requestCancel,
         },
         // {
         //   actionName: "Mark File As Graduate",
@@ -456,6 +461,7 @@ export default class CFActionList extends Vue {
   graduate() {
     Action.ClientFile.Graduate.execute1(this.clientFileId, (output) => {
       setTimeout(() => {
+        FSnackbar.success("Succesfully assigned");
         this.gotoCFActiveTaskList();
       }, 400);
     });
@@ -464,6 +470,16 @@ export default class CFActionList extends Vue {
   cancel() {
     Action.ClientFile.Cancel.execute1(this.clientFileId, (output) => {
       setTimeout(() => {
+        FSnackbar.success("Succesfully assigned");
+        this.gotoCFActiveTaskList();
+      }, 400);
+    });
+  }
+
+  requestCancel() {
+    Action.ClientFile.RequestCancel.execute1(this.clientFileId, (output) => {
+      setTimeout(() => {
+        FSnackbar.success("Succesfully assigned");
         this.gotoCFActiveTaskList();
       }, 400);
     });

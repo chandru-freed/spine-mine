@@ -149,6 +149,7 @@ export default class CFPaymentDetails extends Vue {
   loadPaymentDetails() {
     this.getFiPaymentDetails();
     this.getPaymentTransactionList();
+    this.findClientFileSummary();
   }
 
 
@@ -242,6 +243,13 @@ export default class CFPaymentDetails extends Vue {
         clientFileId: this.clientFileId,
       },
     });
+  }
+
+  findClientFileSummary() {
+    Action.ClientFile.GetClientFileSummary.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   headers = [

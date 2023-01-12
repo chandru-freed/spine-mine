@@ -170,19 +170,22 @@
                   class="caption d-flex justify-space-between align-center"
                   >
                   <div class=" font-weight-bold">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate | monthday}} </div>
-                  <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount | toINR}}</div>
                   <div >{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id}}</div>    
+                  <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount | toINR}}</div>
                 </v-list-item-subtitle> 
             </v-list-item>
             <v-list-item dense >
               <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
                 <template v-if="!!fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
                 <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
                 <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
+                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
+                </template>  
+                <template v-if="!fileSummary.msfSummary.pastMSFScheduledEntryList.length">
+                  <div >Not Paid</div>  
                 </template>  
               </v-list-item-subtitle> 
-          </v-list-item>
+            </v-list-item>
           </v-list>
         </v-card>
     </div>
@@ -236,8 +239,8 @@
                 class="caption d-flex justify-space-between align-center"
                 >
                 <div class=" font-weight-bold">{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount | toINR}}</div>
                 <div >{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id}}</div>    
+                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount | toINR}}</div>
               </v-list-item-subtitle> 
           </v-list-item>
           <v-list-item dense >
@@ -247,8 +250,11 @@
                 >
                 <template v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]">
                 <div class=" font-weight-bold" >{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].totalAmount | toINR}}</div>
                 <div >{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].status.id}}</div>  
+                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].totalAmount | toINR}}</div>
+                </template>  
+                <template v-if="!fileSummary.spaSummary.pastSPAScheduledEntryList.length">
+                  <div >Not Paid</div>  
                 </template>  
               </v-list-item-subtitle> 
         </v-list-item>

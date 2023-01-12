@@ -24,7 +24,7 @@ export default class FEPaymentPlanMDP implements MDP {
     myRefName,
     dataSelectorKey,
     disabled,
-    readonly=false,
+    readonly = false,
   }: {
     taskRoot: any;
     parent: any;
@@ -39,7 +39,7 @@ export default class FEPaymentPlanMDP implements MDP {
     this.dataSelectorKey = dataSelectorKey
     this.disabled = disabled
 
-    this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: this.disabled,readonly: readonly })
+    this.paymentCalculatorForm = new FPaymentCalculatorFFormMDP({ taskRoot: this.taskRoot, parent: this, disabled: this.disabled, readonly: readonly })
 
 
   }
@@ -52,14 +52,20 @@ export default class FEPaymentPlanMDP implements MDP {
 
   validateEntries() {
     return (nextCallback: () => void) => {
+      const editMode = this.getMyRef().$refs['tmosSimulator'].editMode;
       const paymentScheduleList = this.taskRoot.taskFormOutput?.paymentPlan?.paymentScheduleList || [];
-      
-      if(paymentScheduleList.length>0) {
-      nextCallback()
-      } else {
+      if (editMode) {
+        FSnackbar.error("Please click recalculate or cancel to proceed")
+      } else if (paymentScheduleList.length === 0) {
         FSnackbar.error("There should be atleast one entry")
+      } else {
+        nextCallback()
       }
     };
+  }
+
+  getMyRef(): any {
+    return this.parent.getMyRef()[0].$refs[this.myRefName];
   }
 
 

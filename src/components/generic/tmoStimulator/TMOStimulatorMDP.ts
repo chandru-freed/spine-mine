@@ -1,10 +1,6 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
-import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
-import FCurrencyFieldMDP from "../form/field/FCurrencyFieldMDP";
-import FSelectDateFieldMDP from "../form/field/FDateSelectFieldMDP";
-import FNumberFieldMDP from "../form/field/FNumberFieldMDP";
-import FRangeSliderMDP from "../form/field/FRangeSliderMDP";
+
 
 export default class TMOStimulatorMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -18,9 +14,21 @@ export default class TMOStimulatorMDP extends FFormMDP {
 
     this.addAction(
       new FBtnMDP({
-        label: this.taskRoot.isPaymentPlanDataAvailable()?"Recacluate Payment Plan":"Calculate Payment Plan",
+        label: "Cancel",
+        onClick: this.cancelClicked(),
+        condition: this.taskRoot.editMode,
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: this.taskRoot.isPaymentPlanDataAvailable() ? "Recacluate Payment Plan" : "Calculate Payment Plan",
         onClick: this.calculateOrDraftPaymentSchedule(),
-        disabled: this.taskRoot.isRecalculationNotAllowed()
+        condition: this.taskRoot.editMode
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Edit",
+        onClick: this.editClicked(),
+        condition: !this.taskRoot.editMode
       })
     );
   }
@@ -29,15 +37,19 @@ export default class TMOStimulatorMDP extends FFormMDP {
     return this.taskRoot.$refs[this.myRefName];
   }
 
-  getTMOStimulatorFFormRef() {
-    return this.taskRoot.$refs['tmoStimulatorFFormRef']
+  editClicked() {
+    return () => {
+      this.taskRoot.handleEditClick();
+    }
+  }
+  cancelClicked() {
+    return () => {
+      this.taskRoot.handleCancelEditClick();
+    }
   }
   calculateOrDraftPaymentSchedule() {
-    
     return () => {
-      this.getTMOStimulatorFFormRef().submitForm(() => {
-        this.taskRoot.scheduleorDraftPaymentPlan();
-      });
+      this.taskRoot.scheduleorDraftPaymentPlan();
     };
   }
 }

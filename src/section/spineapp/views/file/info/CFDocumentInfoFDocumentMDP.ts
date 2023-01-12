@@ -6,12 +6,13 @@ export default class CFDocumentInfoFDocumentMDP extends FDocumentMDP {
             taskRoot: taskRoot,
             parent: parent,
             myRefName: "cfDocumentInfoRef",
-            disabled: true,
+            disabled: false,
         });
 
     }
 
     getMyRef() {
-        return this.parent.getMyRef().$refs[this.myRefName];
+        console.log(this.parent.$refs);
+        return this.parent.$refs[this.myRefName];
     }
 }

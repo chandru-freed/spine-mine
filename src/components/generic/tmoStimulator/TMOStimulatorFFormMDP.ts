@@ -32,7 +32,7 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           dataSelectorKey: "settlementPercentage",
           label: "Settlement Percentage",
           boundaryClass: "col-3",
-          disabled: this.disabled,
+          disabled: !this.taskRoot.editMode,
         })
       )
       .addField(
@@ -52,12 +52,14 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-3",
           pastDaysDisabled: true,
+          disabled: !this.taskRoot.editMode,
         })
       ).addField(
         new FRangeSliderMDP({
           parentMDP: this.childMDP,
           mandatory: true,
           boundaryClass: "col-12",
+          disabled: !this.taskRoot.editMode,
         })
       );
   }

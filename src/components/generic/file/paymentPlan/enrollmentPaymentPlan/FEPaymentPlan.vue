@@ -18,6 +18,7 @@
     ></component> -->
 
     <TMOStimulator
+      ref="tmosSimulator"
       v-if="modelValue"
       :value="modelValue"
       :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"

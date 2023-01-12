@@ -121,7 +121,6 @@ export default class CollectClientInfoTask extends ModelVue {
 
   taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
   get taskFormOutput() {
-    
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
@@ -141,15 +140,15 @@ export default class CollectClientInfoTask extends ModelVue {
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
       needVerification: (this.taskDetails.outputJson as any).needVerification,
-      exceptionTakenList: this.taskDetails.isOutputEmpty?
-      this.taskFormOutputLocal.exceptionTakenList
-      :(this.taskDetails.outputJson as any).exceptionTakenList,
-      exceptionApprovedBy:this.taskDetails.isOutputEmpty?
-      this.taskFormOutputLocal.exceptionApprovedBy
-      :(this.taskDetails.outputJson as any).exceptionApprovedBy,
-      collectMSFNow: this.taskDetails.isOutputEmpty?
-      this.taskFormOutputLocal.collectMSFNow
-      :(this.taskDetails.outputJson as any).collectMSFNow,
+      exceptionTakenList: this.taskDetails.isOutputEmpty
+        ? this.taskFormOutputLocal.exceptionTakenList
+        : (this.taskDetails.outputJson as any).exceptionTakenList,
+      exceptionApprovedBy: this.taskDetails.isOutputEmpty
+        ? this.taskFormOutputLocal.exceptionApprovedBy
+        : (this.taskDetails.outputJson as any).exceptionApprovedBy,
+      collectMSFNow: this.taskDetails.isOutputEmpty
+        ? this.taskFormOutputLocal.collectMSFNow
+        : (this.taskDetails.outputJson as any).collectMSFNow,
     };
     console.log(this.taskFormOutputLocal, "Compiling");
     return this.taskFormOutputLocal;
@@ -166,53 +165,55 @@ export default class CollectClientInfoTask extends ModelVue {
   }
 
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 
   public findClPersonalInfoHandler = (output: any) => {
     setTimeout(() => {
-       this.findClPersonalInfo();
+      this.findClPersonalInfo();
     }, 1000);
-  }
+  };
 
-  public getClientFileBasicInfoHandler = (output:any) => {
-     setTimeout(() => {
-        this.getClientFileBasicInfo();
-      }, 1000);
-  }
+  public getClientFileBasicInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getClientFileBasicInfo();
+    }, 1000);
+  };
 
   public getClientCreditorInfoAndInfoHandler = (output: any) => {
     setTimeout(() => {
-        this.getClientCreditorInfoAndInfo();
-      }, 1000);
-  }
+      this.getClientCreditorInfoAndInfo();
+    }, 1000);
+  };
 
-  public getBudgetInfoHandler  = (output: any) => {
+  public getBudgetInfoHandler = (output: any) => {
     setTimeout(() => {
-        this.getBudgetInfo();
-      }, 1000);
-  }
+      this.getBudgetInfo();
+    }, 1000);
+  };
 
-  public getFiPaymentPlanInfoHandler  = (output: any) => {
+  public getFiPaymentPlanInfoHandler = (output: any) => {
     setTimeout(() => {
-        this.getFiPaymentPlanInfo();
-      }, 1000);
-  }
+      this.getFiPaymentPlanInfo();
+    }, 1000);
+  };
 
-  public getFiBankInfoHandler  = (output: any) => {
+  public getFiBankInfoHandler = (output: any) => {
     setTimeout(() => {
-        this.getFiBankInfo();
-      }, 1000);
-  }
+      this.getFiBankInfo();
+    }, 1000);
+  };
 
-  public getFiDocumentListHandler  = (output: any) => {
+  public getFiDocumentListHandler = (output: any) => {
     setTimeout(() => {
-        this.getFiDocumentList();
-      }, 1000);
-  }
+      this.getFiDocumentList();
+    }, 1000);
+  };
 
   mounted() {
-    
     this.findClPersonalInfo();
     this.getFiCreditorInfo();
     this.getBudgetInfo();
@@ -220,23 +221,36 @@ export default class CollectClientInfoTask extends ModelVue {
     this.getFiBankInfo();
     this.getFiDocumentList();
 
-     Action.Spine.UpdateClPersonalInfo.interested(this.findClPersonalInfoHandler)
+    Action.Spine.UpdateClPersonalInfo.interested(
+      this.findClPersonalInfoHandler
+    );
 
+    Action.ClientFile.UpdateCreditInfo.interested(
+      this.getClientFileBasicInfoHandler
+    );
 
-    Action.ClientFile.UpdateCreditInfo.interested(this.getClientFileBasicInfoHandler);
-
-    Action.Spine.AddCreditor.interested(this.getClientCreditorInfoAndInfoHandler);
-    Action.Spine.UpdateCreditor.interested(this.getClientCreditorInfoAndInfoHandler);
-    Action.Spine.RemoveCreditor.interested(this.getClientCreditorInfoAndInfoHandler);
+    Action.Spine.AddCreditor.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
+    Action.Spine.UpdateCreditor.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
+    Action.Spine.RemoveCreditor.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
 
     Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
-    Action.Spine.SchedulePaymentPlan.interested(this.getFiPaymentPlanInfoHandler);
+    Action.Spine.SchedulePaymentPlan.interested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
     Action.Spine.DraftPSPlanForPM.interested(this.getFiPaymentPlanInfoHandler);
 
     Action.ClientFile.AddPSEntry.interested(this.getFiPaymentPlanInfoHandler);
 
-    Action.Spine.RecalculatePSPlanForPM.interested(this.getFiPaymentPlanInfoHandler);
+    Action.Spine.RecalculatePSPlanForPM.interested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
     Action.Spine.UpdateBankInfo.interested(this.getFiBankInfoHandler);
     Action.Spine.AttachDocument.interested(this.getFiDocumentListHandler);
@@ -246,23 +260,38 @@ export default class CollectClientInfoTask extends ModelVue {
   }
 
   public destroyed() {
-    Action.Spine.UpdateClPersonalInfo.notInterested(this.findClPersonalInfoHandler)
-    
+    Action.Spine.UpdateClPersonalInfo.notInterested(
+      this.findClPersonalInfoHandler
+    );
 
-    Action.Spine.AddCreditor.notInterested(this.getClientCreditorInfoAndInfoHandler);
+    Action.Spine.AddCreditor.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
 
-    Action.Spine.UpdateCreditor.notInterested(this.getClientCreditorInfoAndInfoHandler);
-    Action.Spine.RemoveCreditor.notInterested(this.getClientCreditorInfoAndInfoHandler);
+    Action.Spine.UpdateCreditor.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
+    Action.Spine.RemoveCreditor.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
 
     Action.Spine.UpdateBudgetInfo.notInterested(this.getBudgetInfoHandler);
 
-    Action.Spine.SchedulePaymentPlan.notInterested(this.getFiPaymentPlanInfoHandler);
+    Action.Spine.SchedulePaymentPlan.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.Spine.DraftPSPlanForPM.notInterested(this.getFiPaymentPlanInfoHandler);
+    Action.Spine.DraftPSPlanForPM.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.ClientFile.AddPSEntry.notInterested(this.getFiPaymentPlanInfoHandler);
+    Action.ClientFile.AddPSEntry.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
-    Action.Spine.RecalculatePSPlanForPM.notInterested(this.getFiPaymentPlanInfoHandler);
+    Action.Spine.RecalculatePSPlanForPM.notInterested(
+      this.getFiPaymentPlanInfoHandler
+    );
 
     Action.Spine.UpdateBankInfo.notInterested(this.getFiBankInfoHandler);
 
@@ -271,7 +300,9 @@ export default class CollectClientInfoTask extends ModelVue {
 
     Action.Spine.Skip.notInterested(this.getFiPaymentPlanInfoHandler);
 
-    Action.ClientFile.UpdateCreditInfo.notInterested(this.getClientFileBasicInfoHandler);
+    Action.ClientFile.UpdateCreditInfo.notInterested(
+      this.getClientFileBasicInfoHandler
+    );
   }
   // Confirm AccountNumber => per populate account number to confirm cccount number
   setConfirmAccountNumber() {
@@ -282,9 +313,17 @@ export default class CollectClientInfoTask extends ModelVue {
   }
 
   saveAndMarkCompleteTask() {
-    Task.Action.saveAndMarkCompleteTask({
-      taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+    const input = new Data.ClientFile.UpdateExceptionTakenListInput();
+    input.exceptionTakenList = this.taskFormData.taskOutput.exceptionTakenList;
+    input.exceptionApprovedBy =
+      this.taskFormData.taskOutput.exceptionApprovedBy;
+    input.clientFileId = this.clientFileId;
+    console.log(input, this.taskFormData, "Data");
+    Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {
+      Task.Action.saveAndMarkCompleteTask({
+        taskId: this.taskId,
+        taskOutput: this.taskFormData.taskOutput,
+      });
     });
   }
 
@@ -302,11 +341,10 @@ export default class CollectClientInfoTask extends ModelVue {
     });
   }
 
-   getClientFileBasicInfo() {
+  getClientFileBasicInfo() {
     Action.ClientFile.GetClientFileBasicInfo.execute1(
       this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-      }
+      (output) => {}
     );
   }
 

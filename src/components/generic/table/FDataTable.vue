@@ -38,7 +38,7 @@
         "
         v-slot:top
       >
-        <v-toolbar class="mx-1 py-0" flat>
+        <v-toolbar class="mx-1 py-0 ma-0" flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-divider v-if="title" vertical class="mx-3" inset />
           <div

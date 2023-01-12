@@ -1,12 +1,15 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP"
-
+import * as Data from "@/../src-gen/data";
 
 export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props: { parent?: any }) {
-        super({ title: "Client File List",itemKey:"clientFileId", multiSelect: true, myRefName: "unAssignedCFListFDataTableRef" });
+        super({
+            title: "Client File List", itemKey: "clientFileId", multiSelect: true, myRefName: "unAssignedCFListFDataTableRef",
+            enableSearch: true
+        });
         this.parent = props.parent;
         this.addColumn({
             label: "Client File Number",
@@ -15,6 +18,10 @@ export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
                 color: "secondary",
                 onClick: (item) => { this.handleClientFileClick(item) }
             })
+        }).addColumn({
+            label: "Client File Status",
+            dataSelectorKey: "clientFileStatus.name",
+            columnCellMDP: new FCellStatusMDP({}),
         }).addColumn({
             label: "Client Name",
             dataSelectorKey: "fullName",
@@ -37,9 +44,13 @@ export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
                 dataSelectorKey: "state"
             }).addAction({
                 label: "Assign RM",
-                onClick:(item) => this.handleAssignRMClick(item),
+                onClick: (item) => this.handleAssignRMClick(item),
                 type: ActionType.OTHERS,
-            })
+            }).addFilter({
+                dataSelectorKey: "clientFileStatus.name",
+                filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
+                label: "Client file Status"
+            });
 
     }
 
@@ -51,7 +62,7 @@ export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
         return new Promise(resolve => {
             this.parent.handleAssignRMClick(itemList);
         })
-        
+
     }
 
     handleClientClick(item: any) {

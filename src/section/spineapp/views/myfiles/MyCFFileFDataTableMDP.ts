@@ -5,6 +5,7 @@ import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class MyCFFileFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -64,6 +65,10 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         type: ActionType.ADD,
         label: "Add My Client File",
         onClick: (item) => this.addMyClientFile(item),
+      }).addFilter({
+        dataSelectorKey: "clientFileStatus.name",
+        filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
+        label: "Client file Status"
       });
   }
 

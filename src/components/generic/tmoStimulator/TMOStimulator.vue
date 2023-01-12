@@ -106,6 +106,7 @@ import Task from "@/section/spineapp/util/Task";
 import TMOStimulatorMDP from "./TMOStimulatorMDP";
 import moment from "moment";
 import Helper from "@/section/spineapp/util/Helper";
+import FAlert from "../FAlert.vue";
 
 @Component({
   components: {
@@ -113,6 +114,7 @@ import Helper from "@/section/spineapp/util/Helper";
     FNumberField,
     FDateSelectField,
     FForm,
+    FAlert
   },
 })
 export default class TMOStimulator extends ModelVue {
@@ -125,6 +127,8 @@ export default class TMOStimulator extends ModelVue {
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
   feeGSTPercentage: number = 11.8;
+
+  editMode: boolean = false;
 
   @Prop({
     default: 45,
@@ -266,7 +270,10 @@ export default class TMOStimulator extends ModelVue {
     }
   }
 
+
   schedulePaymentPlan() {
+    // console.log(this.isFormDirty(),"Form dirty")
+    
     const input: Data.Spine.RecalculatePSPlanForPMInput =
       Data.Spine.RecalculatePSPlanForPMInput.fromJson(
         this.modelValue.paymentPlan
@@ -281,7 +288,14 @@ export default class TMOStimulator extends ModelVue {
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
+      this.editMode = false;
     });
+  }
+
+  isFormDirty(): boolean {
+    return this.simulatorInput?.paymentPlan.ppCalculator?.tenor!== this.result.tenure ||
+    this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage!== this.result.settlementPercentage||
+    this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate!== this.result.firstSPADraftDate
   }
 
   draftPaymentPlan() {
@@ -295,7 +309,20 @@ export default class TMOStimulator extends ModelVue {
     //   .add(2, "days")
     //   .format(Helper.DATE_FORMAT);
     input.spaFirstDraftDate = this.result.firstSPADraftDate;
-    Action.Spine.DraftPSPlanForPM.execute(input, (output) => {});
+    Action.Spine.DraftPSPlanForPM.execute(input, (output) => {
+      this.editMode = false;
+    });
+  }
+
+  handleEditClick() {
+    this.editMode = true;
+  }
+
+  handleCancelEditClick() {
+    this.editMode = false;
+    this.result.tenure = this.simulatorInput?.paymentPlan.ppCalculator?.tenor;
+    this.result.settlementPercentage=this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage;
+    this.result.firstSPADraftDate = this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate;
   }
 
   get taskDisabled(): boolean {

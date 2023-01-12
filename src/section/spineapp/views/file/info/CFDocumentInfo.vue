@@ -44,8 +44,21 @@ export default class CFDocumentInfo extends ModelVue {
   }
   //METADATA
 
+  public getFiDocumentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiDocumentList();
+    }, 1000);
+  };
+
   mounted() {
     this.getFiDocumentList();
+    Action.Spine.AttachDocument.interested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.interested(this.getFiDocumentListHandler);
+  }
+
+  destroyed() {
+    Action.Spine.AttachDocument.notInterested(this.getFiDocumentListHandler);
+    Action.Spine.DetachDocument.notInterested(this.getFiDocumentListHandler);
   }
 
   //ACTION

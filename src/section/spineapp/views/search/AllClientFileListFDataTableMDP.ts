@@ -16,6 +16,10 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
                 onClick: (item) => { this.handleClientFileClick(item) }
             })
         }).addColumn({
+            label: "Client File Status",
+            dataSelectorKey: "clientFileStatus.name",
+            columnCellMDP: new FCellStatusMDP({}),
+        }).addColumn({
             label: "Client Name",
             dataSelectorKey: "fullName",
             columnCellMDP: new FCellBtnMDP({

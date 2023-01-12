@@ -1,6 +1,7 @@
 <template>
   <div class="collectClientInfoTask">
     <!-- Used in Active State -->
+    {{taskFormData.taskInput}}
     <template v-if="!taskStateTerminated">
       <component
         :ref="stepperMetaData.myRefName"

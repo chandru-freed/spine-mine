@@ -301,11 +301,11 @@ export default class FTaskStepper extends ModelVue {
         handleOtherActionClick: this.resumeTaskOn,
         condition: this.resumeStatus,
       },
-      {
-        label: "Cancel Flow",
-        handleOtherActionClick: this.cancelFlow,
-        condition: this.isTaskActionable,
-      },
+      // {
+      //   label: "Cancel Flow",
+      //   handleOtherActionClick: this.cancelFlow,
+      //   condition: this.isTaskActionable,
+      // },
       // {
       //   label: "Cancel Task",
       //   handleOtherActionClick: this.cancelTask,

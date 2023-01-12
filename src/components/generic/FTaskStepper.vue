@@ -396,9 +396,7 @@ export default class FTaskStepper extends ModelVue {
   }
 
   pullAndStartTask() {
-    Action.TaskList.PullStartAndMerge.execute1(this.taskId, (output) => {
-      // console.log("");
-    });
+    Action.TaskList.PullStartAndMerge.execute1(this.taskId, (output) => {});
   }
 
   resumeTaskOn() {

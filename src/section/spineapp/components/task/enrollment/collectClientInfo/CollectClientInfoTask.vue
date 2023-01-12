@@ -232,9 +232,11 @@ export default class CollectClientInfoTask extends ModelVue {
     Action.Spine.AddCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
+
     Action.Spine.UpdateCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
+
     Action.Spine.RemoveCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
@@ -271,6 +273,7 @@ export default class CollectClientInfoTask extends ModelVue {
     Action.Spine.UpdateCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
+
     Action.Spine.RemoveCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
@@ -315,10 +318,8 @@ export default class CollectClientInfoTask extends ModelVue {
   saveAndMarkCompleteTask() {
     const input = new Data.ClientFile.UpdateExceptionTakenListInput();
     input.exceptionTakenList = this.taskFormData.taskOutput.exceptionTakenList;
-    input.exceptionApprovedBy =
-      this.taskFormData.taskOutput.exceptionApprovedBy;
+    input.exceptionApprovedBy = this.taskFormData.taskOutput.exceptionApprovedBy;
     input.clientFileId = this.clientFileId;
-    console.log(input, this.taskFormData, "Data");
     Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {
       Task.Action.saveAndMarkCompleteTask({
         taskId: this.taskId,

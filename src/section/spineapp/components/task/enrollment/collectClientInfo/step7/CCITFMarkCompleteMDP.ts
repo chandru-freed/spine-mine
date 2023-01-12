@@ -15,7 +15,7 @@ export default class CCITFMarkCompleteMDP extends FMarkCompleteMDP {
 
     this.addAction(
       new FBtnMDP({
-        label: "Mark Complete",
+        label: "Mark Completeeee",
         onClick: this.saveAndMarkCompleteTask(),
         btnType: BtnType.FILLED,
         condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)

@@ -38,6 +38,7 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import Helper from "../../../util/Helper";
 import CFAssignSalesRepFFormMDP from "./CFAssignSalesRepFFormMDP";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -69,10 +70,7 @@ export default class CFAssignSalesRep extends ModelVue {
       this.clientFileBasicInfo.clientFileId,
       (output) => {
         this.gotoClientFile();
-        Snackbar.show({
-          text: "Succesfully assigned",
-          pos: "bottom-center",
-        });
+        FSnackbar.success("Succesfully assigned");
       }
     );
   }

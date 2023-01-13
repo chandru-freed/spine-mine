@@ -268,6 +268,16 @@ export default class CFActionList extends Vue {
         // },
       ],
     },
+    {
+      groupName: "Personal Info",
+      actionList: [
+        {
+          actionName: "Update Contact Info",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFUpdateContactInfo",
+        },
+      ],
+    },
   ];
 
   get getActionList() {
@@ -410,6 +420,10 @@ export default class CFActionList extends Vue {
         clientFileId: this.clientFileId,
       });
     }
+  }
+
+  gotoUpdateContactInfo(){
+
   }
 
   getCFActiveTaskList() {

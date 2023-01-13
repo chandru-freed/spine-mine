@@ -74,6 +74,10 @@ export default class CFActionLayout extends Vue {
       actionName: "Receive MSF Payment",
       routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
     },
+    {
+      actionName: "Update Contact Info",
+      routerName: "Root.CFile.CFAction.CFUpdateContactInfo",
+    },
   ];
 
   breadcrumbList = [

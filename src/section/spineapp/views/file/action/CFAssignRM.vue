@@ -37,6 +37,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import * as Snackbar from "node-snackbar";
 import Helper from "../../../util/Helper";
 import CFAssignRMFFormMDP from "./CFAssignRMFFormMDP";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -68,11 +69,7 @@ export default class CFAssignRM extends ModelVue {
       this.clientFileBasicInfo.clientFileId,
       (output) => {
         this.gotoClientFile();
-        // this.getClientFileBasicInfo();
-        Snackbar.show({
-          text: "Succesfully assigned",
-          pos: "bottom-center",
-        });
+        FSnackbar.success("Succesfully assigned");
       }
     );
   }

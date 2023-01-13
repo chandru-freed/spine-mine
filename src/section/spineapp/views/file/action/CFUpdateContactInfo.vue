@@ -61,17 +61,30 @@ export default class CFUpdateContactInfo extends ModelVue {
   set updateContactInfoInput(newValue) {
     this.updateContactInfoInputLocal = newValue;
   }
+  updateContactInfoEmptyCheck() {
+    if (
+      this.updateContactInfoInput.newEmailId ||
+      this.updateContactInfoInput.newMobile
+    ) {
+      return true;
+    }
+    return false;
+  }
 
   updateContactInfo() {
     this.updateContactInfoInput.clientId =
       this.clientFileBasicInfoStore.clientBasicInfo.clientId;
-    Action.Client.UpdateContactInfo.execute(
-      this.updateContactInfoInput,
-      (output) => {
-        this.gotoClientFile();
-         FSnackbar.success("Succesfully Updated");
-      }
-    );
+    if (this.updateContactInfoEmptyCheck()) {
+      Action.Client.UpdateContactInfo.execute(
+        this.updateContactInfoInput,
+        (output) => {
+          this.gotoClientFile();
+          FSnackbar.success("Succesfully Updated");
+        }
+      );
+    } else {
+      this.gotoClientFile();
+    }
   }
   gotoAction() {
     this.$router.push({
@@ -82,14 +95,12 @@ export default class CFUpdateContactInfo extends ModelVue {
     });
   }
 
-
   gotoClientFile() {
     Helper.Router.gotoClientFile({
       router: this.$router,
       clientFileId: this.clientFileId,
     });
   }
-
 }
 </script>
 

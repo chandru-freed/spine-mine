@@ -270,6 +270,7 @@ import FCellSLA from "./cell/FCellSLA.vue";
 import FCellCurrencyBtn from "./cell/FCellCurrencyBtn.vue";
 import * as Json2csv from "json2csv";
 import { filter } from "vue/types/umd";
+import FCellTextEllipsis from "./cell/FCellTextEllipsis.vue";
 
 @Component({
   components: {
@@ -295,6 +296,7 @@ import { filter } from "vue/types/umd";
     FCellDayPastDue,
     FCellSLA,
     FCellCurrencyBtn,
+    FCellTextEllipsis
   },
 })
 export default class FDataTable extends ModelVue {

@@ -26,7 +26,8 @@ export default class FHardshipReasonFMiniFormMDP extends FMiniFormMDP {
         label: "Reason For Hardship",
         dataSelectorKey: "hardshipReason",
         mandatory: true,
-        rows: '7'
+        rows: '7',
+        autoGrow: false
       })
     );
   }

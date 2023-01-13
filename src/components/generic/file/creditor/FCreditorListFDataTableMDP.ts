@@ -5,6 +5,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
 import FCellDateMDP from "../../table/cell/FCellDateMDP";
+import FCellTextEllipsisMDP from "../../table/cell/FCellTextEllipsisMDP";
 export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
@@ -40,6 +41,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           .addColumn({
             label: "Details",
             dataSelectorKey: "details",
+            columnCellMDP: new FCellTextEllipsisMDP(),
           })
           .addAction({
             type: ActionType.DELETE,

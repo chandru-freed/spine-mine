@@ -7,6 +7,7 @@ import FDataTableMDP, {
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FInfoINRMDP from "@/components/generic/table/info/FInfoINRMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
+import FCellTextEllipsisMDP from "@/components/generic/table/cell/FCellTextEllipsisMDP";
 export default class CreditorListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any }) {
@@ -48,6 +49,7 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Details",
         dataSelectorKey: "details",
+        columnCellMDP: new FCellTextEllipsisMDP()
       })
       .addColumn({
         label: "Settlement Status",

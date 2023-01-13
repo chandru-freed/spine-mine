@@ -216,10 +216,11 @@ export default class TMOStimulator extends ModelVue {
       this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
     this.resultLocal.affordability =
       this.modelValue.budgetInfo?.proposedDSPayment || 0;
-    // this.resultLocal.firstSPADraftDate =
-    //   this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || moment()
-    //   .add(2, "days")
-    //   .format(Helper.DATE_FORMAT);;
+    this.resultLocal.firstSPADraftDate =
+      this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate;
+      // || moment()
+      // .add(2, "days")
+      // .format(Helper.DATE_FORMAT);
   }
 
   maxTenureSlab() {

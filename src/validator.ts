@@ -111,7 +111,7 @@ export default class Validator {
 
   private static validateAge() {
     extend("validate_age", {
-      message: (field: any) => "Eligibility 18 years ONLY.",
+      message: (field: any) => "Eligibility 18 years above.",
       validate: (value: any): boolean => {
         const age = moment().year() - moment(new Date(value)).year();
         if (age < 18) {

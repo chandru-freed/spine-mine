@@ -71,6 +71,7 @@ export default class FProfileFFormMDP extends FFormMDP {
           boundaryClass: "col-6",
           mandatory: true,
           futureDaysDisabled: true,
+          rules: "validate_age"
         })
       )
       .addField(

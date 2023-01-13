@@ -1,6 +1,7 @@
 import { extend } from "vee-validate";
 import * as rules from "vee-validate/dist/rules";
 import en from "vee-validate/dist/locale/en";
+import moment from "moment";
 
 export default class Validator {
   public static setup() {
@@ -15,8 +16,8 @@ export default class Validator {
     this.documentRequired();
     this.validateIfsc();
     this.validatePan();
+    this.validateAge();
   }
-
 
   private static verifyPassword() {
     extend("verify_password", {
@@ -41,17 +42,14 @@ export default class Validator {
     });
   }
 
-
   private static documentRequired() {
     extend("document_required", {
       message: (field: string) => field + " field is required",
       validate: (value: any): boolean => {
-        return value?.documentPath!=='';
+        return value?.documentPath !== "";
       },
     });
   }
-
-  
 
   // rules + messages
   private static allMessages() {
@@ -100,7 +98,6 @@ export default class Validator {
     });
   }
 
-
   private static validateIfsc() {
     extend("validate_ifsc", {
       message: (field: any) => "IFSC code not valid",
@@ -112,7 +109,19 @@ export default class Validator {
     });
   }
 
-  
+  private static validateAge() {
+    extend("validate_age", {
+      message: (field: any) => "Eligibility 18 years ONLY.",
+      validate: (value: any): boolean => {
+        const age = moment().year() - moment(new Date(value)).year();
+        if (age < 18) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  }
 
   private static timeValidator() {
     extend("time", {
@@ -148,7 +157,6 @@ export default class Validator {
       },
     });
   }
-
 
   // add more validators ... and call them in setup as shown above
 

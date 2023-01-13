@@ -62,10 +62,10 @@ export default class CFUpdateContactInfo extends ModelVue {
     this.updateContactInfoInputLocal = newValue;
   }
   updateContactInfoEmptyCheck() {
-    return this.updateContactInfoInput.newEmailId ||
-      this.updateContactInfoInput.newMobile
-      ? true
-      : false;
+    const emptyState =
+      this.updateContactInfoInput.newEmailId ||
+      this.updateContactInfoInput.newMobile;
+    return emptyState ? true : false;
   }
 
   updateContactInfo() {

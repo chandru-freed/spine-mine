@@ -74,6 +74,8 @@ export default class FCityAutoCompleteField extends VAutocomplete {
 
   set modelValue(newModelValue: any) {
     this.$emit("input", newModelValue);
+    const selectedCityStateObject = this.fetchedItems.find(item => item.cityName===newModelValue);
+    this.$emit("citySelected",selectedCityStateObject)
     if (this.onSelect && !!newModelValue) {
       this.onSelect(newModelValue);
     }

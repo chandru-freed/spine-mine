@@ -120,7 +120,6 @@ export default class UnderwrittingTask extends ModelVue {
 
   taskFormOutputLocal: any = new Data.Spine.UnderwrittingTaskOutput();
   get taskFormOutput() {
-    console.log(this.fiPaymentPlanInfoStore, "Compiling");
 
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,

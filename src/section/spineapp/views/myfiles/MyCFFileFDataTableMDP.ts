@@ -30,7 +30,10 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Client File Status",
         dataSelectorKey: "clientFileStatus.name",
-        columnCellMDP: new FCellStatusMDP({}),
+        columnCellMDP: new FCellStatusMDP({
+          colorCodeData:  Data.Color.CLIENT_FILE_STATUS,
+          outlined: true
+        }),
       })
       .addColumn({
         label: "Client Name",

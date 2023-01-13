@@ -8,6 +8,8 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 import FSelectDateFieldMDP from "../form/field/FDateSelectFieldMDP";
 import FClientLanguageSelectFieldMDP from "../form/field/FClientLanguageSelectFieldMDP";
+import FAddressFieldMDP from "../form/field/FAddressMiniFormMDP";
+import FAddressMiniFormMDP from "../form/field/FAddressMiniFormMDP";
 
 export default class FProfileFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -107,9 +109,8 @@ export default class FProfileFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new AddressFMiniFormMDP({
-          taskRoot: this.taskRoot,
-          parent: this,
+        new FAddressMiniFormMDP({
+          parentMDP: this.childMDP,
           dataSelectorKey: "residentialAddress",
           disabled: taskRoot.taskDisabled,
           label: "Residential Address",
@@ -117,4 +118,10 @@ export default class FProfileFFormMDP extends FFormMDP {
         })
       );
   }
+
+  getMyRef(): any {
+    console.log(this.myRefName,"My ref name")
+    return this.parent.getProfileFormRef().$refs[this.myRefName];
+  }
+
 }

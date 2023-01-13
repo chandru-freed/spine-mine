@@ -28,6 +28,7 @@ import TaskPoolFDataTableMDP from "./TaskPoolFDataTableMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FForm from "@/components/generic/form/FForm.vue";
+import Helper from "../../util/Helper";
 
 @Component({
   components: {
@@ -43,7 +44,7 @@ export default class TaskPool extends ModelVue {
   selected = [];
   search = "";
 
-  toBePulledTaskList: Data.TaskList.ToBePulledTaskGrid[] = [];
+  toBePulledTaskList: Data.TaskList.TaskListByCid[] = [];
 
   @Store.Getter.Login.LoginDetails.userName userName: string;
 
@@ -78,9 +79,17 @@ export default class TaskPool extends ModelVue {
   }
 
   gotoFile(item: any) {
+    console.log(item);
+     Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: item.cid,
+    });
+  }
+
+  gotoClient(clientId: string) {
     this.$router.push({
-      name: "Root.ClientFile.Workarea",
-      params: { clientFileNumber: item.cid },
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
     });
   }
 

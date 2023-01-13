@@ -27,7 +27,7 @@ export default class CCITProfileStepMDP extends CLProfileMDP {
     ).addForm(
       new FProfileFFormMDP({
         taskRoot: taskRoot,
-        parent: parent,
+        parent: this,
         myRefName: this.profileFFormRef,
         dataSelectorKey: "taskOutput.personalInfo",
         disabled: taskRoot.taskDisabled,

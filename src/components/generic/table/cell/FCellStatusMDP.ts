@@ -2,8 +2,10 @@ import FColumnCellMDP from "../FColumnCellMDP";
 export default class FCellStatusMDP implements FColumnCellMDP {
   componentName: string = "FCellStatus";
   outlined: boolean = false;
-  constructor({ outlined = false }: { outlined?: boolean }) {
+  colorCodeData?: any ;
+  constructor({ outlined = false,colorCodeData}: { outlined?: boolean,colorCodeData?: any }) {
     this.outlined = outlined;
+    this.colorCodeData = colorCodeData;
   }
 
   getMetaData(): object {
@@ -11,6 +13,7 @@ export default class FCellStatusMDP implements FColumnCellMDP {
       componentName: this.componentName,
       props: {
         outlined: this.outlined,
+        colorCodeData: this.colorCodeData
       },
     };
   }

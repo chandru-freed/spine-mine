@@ -19,6 +19,7 @@
           >
             <component
               :is="fieldMetaData.componentName"
+              :ref="fieldMetaData.myRefName"
               v-bind="fieldMetaData.props"
               :value="selectModel(modelValue, fieldMetaData.dataSelectorKey)"
               @input="
@@ -87,6 +88,8 @@ import FRangeSlider from "./field/FRangeSlider.vue";
 import FClientLanguageSelectField from "./field/FClientLanguageSelectField.vue";
 import FAgeField from "./field/FAgeField.vue";
 
+import FAddressMiniForm from "./field/FAddressMiniForm.vue";
+
 @Component({
   components: {
     ValidationObserver,
@@ -118,7 +121,8 @@ import FAgeField from "./field/FAgeField.vue";
     FAWSUploadFileField,
     FRangeSlider,
     FClientLanguageSelectField,
-    FAgeField
+    FAgeField,
+    FAddressMiniForm
   },
 })
 export default class FForm extends ModelVue {

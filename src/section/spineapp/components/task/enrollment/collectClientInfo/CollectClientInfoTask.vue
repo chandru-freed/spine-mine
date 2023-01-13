@@ -150,7 +150,7 @@ export default class CollectClientInfoTask extends ModelVue {
         ? this.taskFormOutputLocal.collectMSFNow
         : (this.taskDetails.outputJson as any).collectMSFNow,
     };
-    console.log(this.taskFormOutputLocal, "Compiling");
+    
     return this.taskFormOutputLocal;
   }
 

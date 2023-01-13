@@ -427,7 +427,6 @@ export default class FDataTable extends ModelVue {
   }
 
   isActionDisabled(action: FTableActionField) {
-    console.log(action.noSelect, "action.noSelect");
     return (
       (this.selectedItemList.length == 0 ||
         this.disabled ||

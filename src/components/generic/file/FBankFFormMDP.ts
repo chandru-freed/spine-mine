@@ -8,6 +8,7 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FIFSCCodeFieldMDP from "../form/field/FIFSCCodeFieldMDP";
 import FAccountFieldMDP from "../form/field/FAccountFieldMDP";
 import FNupayBankSelectFieldMDP from "../form/field/FNupayBankSelectFieldMDP";
+import FAddressMiniFormMDP from "../form/field/FAddressMiniFormMDP";
 
 export default class FBankFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -103,9 +104,8 @@ export default class FBankFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new AddressFMiniFormMDP({
-          taskRoot: this.taskRoot,
-          parent: this,
+        new FAddressMiniFormMDP({
+          parentMDP: this.childMDP,
           dataSelectorKey: "bankAddress",
           disabled: taskRoot.taskDisabled,
           label: "Bank Address",

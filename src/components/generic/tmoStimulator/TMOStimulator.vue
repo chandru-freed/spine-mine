@@ -83,6 +83,8 @@
           @input="(newValue) => updateModel(modelValue, newValue, result)"
           v-bind="tmoStimulatorMDP.props"
         ></component>
+        
+        <v-alert v-if="isRecalculationNotAllowed()" color="warning" outlined icon="mdi-alert">Please connect with your manager for enabling higher tenure</v-alert>
       </div>
     </v-card>
   </div>
@@ -116,6 +118,9 @@ import Helper from "@/section/spineapp/util/Helper";
 export default class TMOStimulator extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
 
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
@@ -211,10 +216,10 @@ export default class TMOStimulator extends ModelVue {
       this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
     this.resultLocal.affordability =
       this.modelValue.budgetInfo?.proposedDSPayment || 0;
-    this.resultLocal.firstSPADraftDate =
-      this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || moment()
-      .add(2, "days")
-      .format(Helper.DATE_FORMAT);;
+    // this.resultLocal.firstSPADraftDate =
+    //   this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || moment()
+    //   .add(2, "days")
+    //   .format(Helper.DATE_FORMAT);;
   }
 
   maxTenureSlab() {
@@ -298,6 +303,15 @@ export default class TMOStimulator extends ModelVue {
       this.taskDetails.isSuspended
     );
   }
+
+  isRecalculationNotAllowed(): boolean {
+    return this.isSalesRep&& this.tenureLessGreaterThanEqual
+  }
+
+  get isSalesRep() {
+    return this.roleList.includes("SalesRep");
+  }
+
 }
 
 export const getTenureWithFreed = (amount: number) => {

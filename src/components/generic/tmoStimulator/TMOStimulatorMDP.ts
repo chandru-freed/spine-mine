@@ -20,6 +20,7 @@ export default class TMOStimulatorMDP extends FFormMDP {
       new FBtnMDP({
         label: this.taskRoot.isPaymentPlanDataAvailable()?"Recacluate Payment Plan":"Calculate Payment Plan",
         onClick: this.calculateOrDraftPaymentSchedule(),
+        disabled: this.taskRoot.isRecalculationNotAllowed()
       })
     );
   }
@@ -27,9 +28,16 @@ export default class TMOStimulatorMDP extends FFormMDP {
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
+
+  getTMOStimulatorFFormRef() {
+    return this.taskRoot.$refs['tmoStimulatorFFormRef']
+  }
   calculateOrDraftPaymentSchedule() {
+    
     return () => {
-      this.taskRoot.scheduleorDraftPaymentPlan();
+      this.getTMOStimulatorFFormRef().submitForm(() => {
+        this.taskRoot.scheduleorDraftPaymentPlan();
+      });
     };
   }
 }

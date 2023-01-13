@@ -2,6 +2,7 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
 import CCITAddCreditorFFormMDP from "./FUploadDocumentFFormMDP";
+import FSnackbar from "@/fsnackbar";
 
 export default class FDocumentMDP implements MDP {
   componentName = "FDocument";
@@ -31,6 +32,21 @@ export default class FDocumentMDP implements MDP {
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);
     return this;
+  }
+
+  validateDocuments() {
+    return (nextCallback: () => void) => {
+      const fileDocumentList = this.taskRoot.taskFormOutput?.fileDocumentList || [];
+      const filteredFileDocumentList=  fileDocumentList.filter((item: any) => {
+        console.log(item.documentType === 'Credit Report',"Item filtered is thuis")
+        return item.documentType === 'Credit Report'
+      })
+      if(filteredFileDocumentList.length>0) {
+      nextCallback()
+      } else {
+        FSnackbar.error("Please upload a credit report")
+      }
+    };
   }
 
   getMetaData(): object {

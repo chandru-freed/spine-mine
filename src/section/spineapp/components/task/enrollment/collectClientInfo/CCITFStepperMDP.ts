@@ -40,6 +40,11 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
       parent: this,
     });
 
+    const ccitUploadStepFDocumentMDP = new CCITUploadStepFDocumentMDP({
+      taskRoot: this.taskRoot,
+      parent: this,
+    });
+
     this.addStep({
       name: "Profile",
       stepContent: ccitProfileStepMDP,
@@ -69,10 +74,8 @@ export default class CCITFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Document",
-        stepContent: new CCITUploadStepFDocumentMDP({
-          taskRoot: this.taskRoot,
-          parent: this,
-        }),
+        stepContent: ccitUploadStepFDocumentMDP,
+        submitFunc: ccitUploadStepFDocumentMDP.validateDocuments()
       })
       .addStep({
         name: "Verify",

@@ -53,12 +53,13 @@
             <v-list-item-content class="pa-0">
               <v-list-item-title>
                 <v-btn
+                color="primary"
                   class="px-0 text-left"
                   text
                   small
                   @click="gotoTaskDetails(cfTask)"
                 >
-                  <v-icon
+                  <!-- <v-icon
                     v-if="taskStateIconMap[cfTask.taskState]?.icon"
                     class="mr-3"
                     :color="taskStateIconMap[cfTask.taskState]?.color"
@@ -67,11 +68,26 @@
 
                   <v-icon color="grey" class="mr-3" v-else
                     >mdi-pencil-circle-outline</v-icon
-                  >
+                  > -->
 
                   {{ cfTask.taskName }}
                 </v-btn>
+               
               </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-content>
+               <v-chip outlined x-small><v-icon
+                small
+                    v-if="taskStateIconMap[cfTask.taskState]?.icon"
+                    class="mr-1"
+                    :color="taskStateIconMap[cfTask.taskState]?.color"
+                    >{{ taskStateIconMap[cfTask.taskState]?.icon }}</v-icon
+                  >
+
+                  <v-icon small color="grey" class="mr-1" v-else
+                    >mdi-pencil-circle-outline</v-icon
+                  > <span class="grey--text">{{cfTask.taskState}}</span>
+                </v-chip>
             </v-list-item-content>
             <v-list-item-action>
               <v-btn

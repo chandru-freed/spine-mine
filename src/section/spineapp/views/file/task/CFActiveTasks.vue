@@ -43,21 +43,24 @@
           >
         </v-toolbar>
       </template>
-      <template v-slot:[`item.taskState`]="{ item }">
-        <!-- <v-btn icon small> -->
+      <!-- <template v-slot:[`item.taskState`]="{ item }">
 
         <v-icon color="grey" v-if="item.taskState === 'CREATED'"
           >mdi-plus-circle-outline</v-icon
         >
+
         <v-icon color="grey" v-if="item.taskState === 'TO_BE_PULLED'"
           >mdi-account-cancel-outline</v-icon
         >
+
         <v-icon color="secondary" v-if="item.taskState === 'ALLOCATED'"
           >mdi-account-circle-outline</v-icon
         >
+
         <v-icon color="primary" v-if="item.taskState === 'STARTED'"
           >mdi-pencil-circle-outline</v-icon
         >
+ 
         <v-icon color="primary" v-if="item.taskState === 'SAVED'"
           >mdi-progress-pencil</v-icon
         >
@@ -66,15 +69,104 @@
           >mdi-check-circle-outline</v-icon
         >
 
+
         <v-icon color="grey" v-if="item.taskState === 'CANCELLED'"
           >mdi-cancel</v-icon
         >
+
         <v-icon
           color="red"
-          v-if="item.taskState === 'EXCEPTION_Q' || item.taskState === 'EXIT_Q'||item.taskState === 'RESOURCE_UNAVAILABLE'"
+          v-if="
+            item.taskState === 'EXCEPTION_Q' ||
+            item.taskState === 'EXIT_Q' ||
+            item.taskState === 'RESOURCE_UNAVAILABLE'
+          "
           >mdi-alert-circle</v-icon
         >
-        <!-- </v-btn> -->
+
+      </template> -->
+      <template v-slot:[`item.taskState`]="{ item }">
+
+        <v-chip color="grey" v-if="item.taskState === 'CREATED'" outlined small>
+          <v-icon color="grey" small>mdi-plus-circle-outline</v-icon>
+          <span class="grey--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
+
+        <v-chip
+          color="grey"
+          v-if="item.taskState === 'TO_BE_PULLED'"
+          outlined
+          small
+        >
+          <v-icon color="grey" small>mdi-account-cancel-outline</v-icon>
+          <span class="grey--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
+
+        <v-chip
+          color="secondary"
+          v-if="item.taskState === 'ALLOCATED'"
+          outlined
+          small
+        >
+          <v-icon color="secondary" small>mdi-account-circle-outline</v-icon>
+          <span class="secondary--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
+ 
+        <v-chip
+          color="primary"
+          v-if="item.taskState === 'STARTED'"
+          outlined
+          small
+        >
+          <v-icon color="primary" small>mdi-pencil-circle-outline</v-icon>
+          <span class="primary--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
+
+        <v-chip
+          color="primary"
+          v-if="item.taskState === 'SAVED'"
+          outlined
+          small
+        >
+          <v-icon color="primary" small>mdi-progress-pencil</v-icon>
+          <span class="primary--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
+
+
+        <v-chip
+          color="success"
+          v-if="item.taskState === 'COMPLETED'"
+          outlined
+          small
+        >
+          <v-icon color="success" small>mdi-check-circle-outline</v-icon>
+          <span class="success--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
+
+
+        <v-chip
+          color="grey"
+          v-if="item.taskState === 'CANCELLED'"
+          outlined
+          small
+        >
+          <v-icon color="grey" small>mdi-cancel</v-icon>
+          <span class="grey--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
+
+        <v-chip
+          color="red"
+          v-if="
+            item.taskState === 'EXCEPTION_Q' ||
+            item.taskState === 'EXIT_Q' ||
+            item.taskState === 'RESOURCE_UNAVAILABLE'
+          "
+          outlined
+          small
+        >
+          <v-icon color="red" small>mdi-alert-circle</v-icon>
+          <span class="red--text ml-1">{{ item.taskState }}</span>
+        </v-chip>
       </template>
       <template v-slot:[`item.taskName`]="{ item }">
         <f-btn
@@ -198,7 +290,7 @@ export default class CFActiveTasks extends Vue {
   }
 
   get taskListFiltered() {
-    console.log(this.cfTaskList,"this.cfTaskList")
+    console.log(this.cfTaskList, "this.cfTaskList");
     const activeTaskList = this.cfTaskList.filter((task) => {
       return (
         task.taskState === "CREATED" ||
@@ -210,7 +302,7 @@ export default class CFActiveTasks extends Vue {
         task.taskState === "PARTIALLY_COMPLETED" ||
         task.taskState === "EXCEPTION_Q" ||
         task.taskState === "EXIT_Q" ||
-        task.taskState === "PENDING_SCHEDULED"||
+        task.taskState === "PENDING_SCHEDULED" ||
         task.taskState === "PENDING_CANCELLED"
       );
     });

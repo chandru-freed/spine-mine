@@ -84,6 +84,7 @@ import CFCollectionSPAFFormMDP from "./paymentDetails/CFCollectionSPAFFormMDP";
 import CFCollectionFeeFFormMDP from "./paymentDetails/CFCollectionFeeFFormMDP";
 import CFSettlementToClientFFormMDP from './paymentDetails/CFSettlementToClientFFormMDP';
 import CFSettlementToCreditorFFormMDP from './paymentDetails/CFSettlementToCreditorFFormMDP';
+import FSnackbar from "@/fsnackbar";
 @Component({
   components: {
     CFSettlementFFormMDP,
@@ -220,18 +221,21 @@ export default class CFPaymentDetails extends Vue {
 
   checkPaymentStatus() {
     Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
+      FSnackbar.success("Check payment status is clicked");
       setTimeout(this.loadPaymentDetails, 1000)
     });
   }
 
   updateFundSplitStatus() {
     Action.ClientFile.UpdateFundSplitStatus.execute1(this.paymentId, (output) => {
+      FSnackbar.success("Check fund split status is clicked");
       setTimeout(this.loadPaymentDetails, 1000)
     });
   }
 
   requestFundSplit() {
     Action.ClientFile.RequestFundSplit.execute1(this.paymentId, (output) => {
+      FSnackbar.success("Requested the fund split");
       setTimeout(this.loadPaymentDetails, 1000)
     });
   }

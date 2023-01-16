@@ -32,6 +32,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FMsfPaymentDetailsFFormMDP from "./FMsfPaymentDetailsFFormMDP";
 import FForm from "../../form/FForm.vue";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -59,6 +60,7 @@ export default class FPaymentDetails extends ModelVue {
 
   checkPaymentStatus() {
     Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
+      FSnackbar.success("Check payment status is clicked")
       setTimeout(this.getFiPaymentDetails, 1000);
     });
   }

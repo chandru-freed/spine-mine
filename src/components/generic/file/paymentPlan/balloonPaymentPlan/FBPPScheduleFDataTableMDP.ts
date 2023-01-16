@@ -6,6 +6,7 @@ import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 import FInfoINRMDP from "@/components/generic/table/info/FInfoINRMDP";
 import * as Snackbar from "node-snackbar";
+import * as Data from "@/../src-gen/data";
 
 export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -19,7 +20,10 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
         }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true }) })
             .addColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true}) })
             // .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellCurrencyMDP({}) })
-            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) })
+            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({
+                colorCodeData: Data.Color.PS_ENTRY_STATUS,
+                outlined: true
+            }) })
             .addInfo({label:"Total",value: this.parent.modelValue.taskOutput?.paymentPlan?.psEntryTotalAmount,infoMDP: new FInfoINRMDP({rounded: true})})
             .addInfo({label:"Tenure",value: this.parent.modelValue.taskOutput?.paymentPlan?.ppCalculator.tenor,})
             ;

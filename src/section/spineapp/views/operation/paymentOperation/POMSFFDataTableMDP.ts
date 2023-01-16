@@ -3,6 +3,7 @@ import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class POMSFFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -37,7 +38,10 @@ export default class POMSFFDataTableMDP extends FDataTableMDP {
             .addColumn({ label: "Amount", dataSelectorKey: "amount", columnCellMDP: new FCellCurrencyMDP({}) })
             // .addColumn({ label: "Tax Amount", dataSelectorKey: "taxAmount", columnCellMDP: new FCellCurrencyMDP({}) })
             // .addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellStatusMDP({}) })
-            .addColumn({ label: "Payment Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) });
+            .addColumn({ label: "Payment Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({
+                colorCodeData: Data.Color.PS_ENTRY_STATUS,
+                outlined: true
+            }) });
     }
 
     handleClientFileClick(item: any) {

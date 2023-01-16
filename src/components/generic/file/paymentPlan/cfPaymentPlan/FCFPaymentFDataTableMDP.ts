@@ -4,6 +4,7 @@ import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class FCFPaymentFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -18,7 +19,7 @@ export default class FCFPaymentFDataTableMDP extends FDataTableMDP {
     this.addColumn({
       label: "Payment Type",
       dataSelectorKey: "paymentType.name",
-    //   columnCellMDP: new FCellDateMDP(),
+      //   columnCellMDP: new FCellDateMDP(),
     })
       .addColumn({
         label: "Total Amount",
@@ -38,12 +39,16 @@ export default class FCFPaymentFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Payment Provider",
         dataSelectorKey: "paymentProvider.name",
-        columnCellMDP: new FCellStatusMDP({}),
+        columnCellMDP: new FCellStatusMDP({
+        }),
       })
       .addColumn({
         label: "Status",
         dataSelectorKey: "status.name",
-        columnCellMDP: new FCellStatusMDP({}),
+        columnCellMDP: new FCellStatusMDP({
+          colorCodeData: Data.Color.PAYMENT_STATUS,
+          outlined: true
+        }),
       }).addColumn({
         label: "Presented Date",
         dataSelectorKey: "presentedDate",

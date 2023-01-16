@@ -2,6 +2,7 @@ import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class FCFFeeFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -36,7 +37,10 @@ export default class FCFFeeFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Status",
         dataSelectorKey: "status",
-        columnCellMDP: new FCellStatusMDP({}),
+        columnCellMDP: new FCellStatusMDP({
+          colorCodeData: Data.Color.PS_ENTRY_STATUS,
+          outlined: true
+        }),
       });
   }
 }

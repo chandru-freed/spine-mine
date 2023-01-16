@@ -4,6 +4,7 @@ import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
+import * as Data from "@/../src-gen/data";
 
 export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -17,7 +18,8 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
         }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true }) })
             .addColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true}) })
             .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellCurrencyMDP({}) })
-            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) });
+            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({
+            }) });
 
 
         this.addAction({

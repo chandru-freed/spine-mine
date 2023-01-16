@@ -67,7 +67,10 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
             .addColumn({
                 label: "Status",
                 dataSelectorKey: "status.name",
-                columnCellMDP: new FCellStatusMDP({}),
+                columnCellMDP: new FCellStatusMDP({
+                    colorCodeData: Data.Color.PAYMENT_STATUS ,
+                    outlined: true
+                }),
             }).addColumn({
                 label: "Presented Date",
                 dataSelectorKey: "presentedDate",

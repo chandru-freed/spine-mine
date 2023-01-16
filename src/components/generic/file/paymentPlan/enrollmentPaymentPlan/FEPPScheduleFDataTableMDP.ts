@@ -7,6 +7,7 @@ import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
 import * as Snackbar from "node-snackbar";
+import * as Data from "@/../src-gen/data";
 
 export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -37,7 +38,10 @@ export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Status",
         dataSelectorKey: "status",
-        columnCellMDP: new FCellStatusMDP({}),
+        columnCellMDP: new FCellStatusMDP({
+          colorCodeData: Data.Color.PS_ENTRY_STATUS,
+          outlined: true
+        }),
       }) .addInfo({
         label: "Total",
         value: this.parent.modelValue.paymentPlan.psEntryTotalAmount,

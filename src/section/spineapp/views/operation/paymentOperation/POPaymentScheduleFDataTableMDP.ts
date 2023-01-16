@@ -2,8 +2,7 @@ import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
-import * as Action from "@/../src-gen/action";
-import * as Snackbar from "node-snackbar";
+import * as Data from "@/../src-gen/data";
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 
 export default class POPaymentScheduleFDataTableMDP extends FDataTableMDP {
@@ -40,7 +39,12 @@ export default class POPaymentScheduleFDataTableMDP extends FDataTableMDP {
             // .addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellCurrencyMDP({ rounded: true }) })
             .addColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", columnCellMDP: new FCellCurrencyMDP({ rounded: true }) })
             // .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellCurrencyMDP({}) })
-            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({}) });
+            .addColumn({
+                label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({
+                    colorCodeData: Data.Color.PS_ENTRY_STATUS,
+                    outlined: true
+                })
+            });
 
     }
 

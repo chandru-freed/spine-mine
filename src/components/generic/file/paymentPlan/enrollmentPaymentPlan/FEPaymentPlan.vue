@@ -1,6 +1,7 @@
 <template>
   <div>
-    <!-- <component
+    <component
+    v-if="taskStateTerminated"
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
       :value="
@@ -15,11 +16,11 @@
           )
       "
       v-bind="paymentCalculatorFormMetaData.props"
-    ></component> -->
+    ></component>
 
     <TMOStimulator
       ref="tmosSimulator"
-      v-if="modelValue"
+      v-if="modelValue&&!taskStateTerminated"
       :value="modelValue"
       :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"
       :simulatorInput="modelValue"
@@ -162,6 +163,9 @@ export default class FEPaymentPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  @Store.Getter.TaskList.Summary.executiveTaskDetails
+  taskDetails: Data.TaskList.ExecutiveTaskDetails;
+
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
@@ -229,6 +233,15 @@ export default class FEPaymentPlan extends ModelVue {
     return new AddEPsEntryFFormMDP({
       parent: this,
     }).getMetaData();
+  }
+
+  get taskStateTerminated() {
+    return (
+      this.taskDetails.taskState === "COMPLETED" ||
+      this.taskDetails.taskState === "FORCE_COMPLETED" ||
+      this.taskDetails.taskState === "CANCELLED" ||
+      this.taskDetails.taskState === "RESET"
+    );
   }
 
   @Prop()

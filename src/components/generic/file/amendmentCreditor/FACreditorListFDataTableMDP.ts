@@ -75,7 +75,6 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
 
     selectEditCreditor(item: any,index?: number) {
       return new Promise(resolve => {
-        console.log(item)
         this.parent.selectEditCreditor(item,index);
       })
     }

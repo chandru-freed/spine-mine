@@ -112,7 +112,6 @@ export default class UploadFreedSignedDocTask extends ModelVue {
     Action.TaskList.GetExecutiveTaskDetails.execute1(
       this.$route.params.taskId,
       (output) => {
-        // console.log(output);
       }
     );
   }

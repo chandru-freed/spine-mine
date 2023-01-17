@@ -479,7 +479,6 @@ ameyo.integration = (function() {
 			var protocol = url.protocol; 
 			var port = url.port; 
 			var baseUrl = protocol+"//"+domain+":"+port;
-			console.log("going to set baseUrl :: "+baseUrl);
 			ameyo.integration.setBaseUrl(baseUrl);	
 
 			if (window.attachEvent) {

@@ -341,7 +341,6 @@ export default class CFQuickNav extends Vue {
   getFiNoteList() {
     setTimeout(() => {
       Action.FiNote.GetFiNoteList.execute1(this.clientFileId, (output) => {
-        // console.log(output);
       });
     }, 700);
   }
@@ -503,7 +502,6 @@ export default class CFQuickNav extends Vue {
 
   pullStartAndMerge(item: Data.TaskList.ToBePulledTaskGrid) {
     Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
-      console.log(item);
       this.gotoTaskDetails(item);
     });
   }

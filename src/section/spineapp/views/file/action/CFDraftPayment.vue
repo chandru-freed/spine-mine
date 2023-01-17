@@ -84,7 +84,6 @@ export default class CFDraftPayment extends Vue {
   get draftPaymentInputForm()  {
     this.draftPaymentInputFormLocal.clientFileId = this.clientFileId;
     this.draftPaymentInputFormLocal.paymentType.id = this.paymentType.key;
-    console.log(this.draftPaymentInputFormLocal,"Getter")
     if (this.draftPaymentInputFormLocal.eMandate) {
       //this.eMandateSelected = this.draftPaymentInputFormLocal.eMandate;
       this.draftPaymentInputFormLocal.eMandateId = this.draftPaymentInputFormLocal.eMandate.eMandateId;
@@ -147,7 +146,6 @@ export default class CFDraftPayment extends Vue {
     this.paymentType = value;
     this.selectedRequestTypeMetaData = value.contentMetaData;
     this.draftPaymentInputFormLocal = new Data.ClientFile.DraftPaymentInput();
-    console.log(this.draftPaymentInputForm)
   }
 
   mounted() {

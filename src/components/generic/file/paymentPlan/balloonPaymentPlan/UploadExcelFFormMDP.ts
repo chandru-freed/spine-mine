@@ -15,7 +15,6 @@ export default class UploadExcelFFormMDP extends FFormMDP {
   }: {
     parent: any;
   }) {
-    // console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
       myRefName: "uploadCFPsEntryFFormRef",
     });
@@ -41,7 +40,6 @@ export default class UploadExcelFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.$refs);
     return this.parent.$refs[this.myRefName];
   }
 

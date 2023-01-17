@@ -58,7 +58,6 @@ export default class SPAScheduleTableMDP extends FDataTableMDP {
 
   handlePresentClick(item: any) {
     return new Promise(resolve => {
-      console.log("Hrllo")
       Action.ClientFile.PresentSTEntry.execute1(item.stEntryId, (output) => {
         Snackbar.show({
           text: "Succesfully Deleted ST Entry",
@@ -73,7 +72,6 @@ export default class SPAScheduleTableMDP extends FDataTableMDP {
 
   handleUpdateAccountDetailsClick(item: any) {
     return new Promise(resolve => {
-      console.log(item)
       this.root.handleUpdateAccountDetailsClick(item);
     });
   }

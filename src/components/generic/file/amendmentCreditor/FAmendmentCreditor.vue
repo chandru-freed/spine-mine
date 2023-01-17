@@ -127,7 +127,6 @@ export default class FAmendmentCreditor extends ModelVue {
   }
 
   get creditorList() {
-    console.log(this.modelValue);
     return this.modelValue.creditorList;
   }
 
@@ -136,7 +135,6 @@ export default class FAmendmentCreditor extends ModelVue {
   }
 
   updateCreditor() {
-    // console.log(this.selectedCreditorIndex,this.editCreditorForm,"Index is this");
     this.editCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(
       this.editCreditorForm
     );
@@ -185,7 +183,6 @@ export default class FAmendmentCreditor extends ModelVue {
       this.addCreditorForm
     );
     creditorList.push(this.addCreditorForm.toJson());
-    console.log(this.modelValue.creditorList);
     this.modelValue.totalDebt = this.calculateTotadDebt();
     this.saveTask();
     // this.updateModel()
@@ -197,13 +194,11 @@ export default class FAmendmentCreditor extends ModelVue {
 
   removeCreditor(item: any, index: number) {
     return new Promise((resolve) => {
-      console.log(item, "Item is");
       if (this.isCreditorSettled(item.settlementStatus)) {
         FSnackbar.error("Creditor status should not be settled or partialy settled");
       } else {
         // const creditorList: any[] = this.modelValue.creditorList || [];
         this.modelValue.creditorList.splice(index, 1);
-        console.log(this.modelValue.creditorList, index);
         this.modelValue.totalDebt = this.calculateTotadDebt();
         this.saveTask();
       }

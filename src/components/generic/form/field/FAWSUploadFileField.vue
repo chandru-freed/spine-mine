@@ -128,7 +128,6 @@ export default class FAWSUploadFileField extends Vue {
         "Content-Type": this.selectedFile?.type,
       },
       onUploadProgress: (progress: any) => {
-        console.log(progress);
       }
     };
     const axiosResponse = await axios.put(

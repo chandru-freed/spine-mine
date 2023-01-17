@@ -69,7 +69,6 @@ export default class CFTicketDocumentList extends ModelVue {
   ];
 
   mounted() {
-    console.log(this.attachUploadedDocumentInput);
     this.getDocumentList();
   }
 

@@ -104,7 +104,6 @@ export default class CollectMSFTask extends ModelVue {
     this.receiveMSFPaymentInput.taskId = this.taskId;
     this.receiveMSFPaymentInput.clientFileId =
       this.clientFileBasicInfo.clientFileId;
-    console.log("clientFileBasicInfo : ", this.clientFileBasicInfo);
     this.receiveMSFPaymentInput.msfAmount =
       this.taskFormData.taskInput.paymentPlan.ppCalculator.msfDraftAmount;
     Action.Spine.ReceiveFirstMSFPayment.execute(

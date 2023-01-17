@@ -252,7 +252,6 @@ export default class FCreditor extends ModelVue {
   }
 
   get creditorList() {
-    console.log(this.modelValue)
     return this.modelValue.creditorList;
   }
 
@@ -272,7 +271,6 @@ export default class FCreditor extends ModelVue {
 
   deleteCreditorData() {
     const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
-    console.log(fiCreditorId);
     Action.Spine.RemoveCreditor.execute1(fiCreditorId, (output) => {
       this.closeDialogs();
       Snackbar.show({
@@ -292,7 +290,6 @@ export default class FCreditor extends ModelVue {
   selectDeleteCreditor(item: any, index: number) {
     this.selectedCreditorItem = item;
     this.showDeletePopup();
-    console.log(this.deleteCreditorDialog);
   }
 
   get filteredHeaders() {

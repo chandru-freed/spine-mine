@@ -137,7 +137,6 @@ export default class CFNoteAllList extends ModelVue {
       Action.FiNote.GetFiNoteList.execute1(
         this.clientFileBasicInfo.clientFileId,
         (output) => {
-          console.log(output);
         }
       );
     }, 700);

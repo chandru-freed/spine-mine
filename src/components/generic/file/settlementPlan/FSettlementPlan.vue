@@ -121,7 +121,6 @@ export default class FSettlementPlan extends ModelVue {
     newVal: any,
     olVal: any
   ) {
-    console.log(newVal);
   }
 
   addSTEntryInput = new Data.ClientFile.AddSTEntryInput();
@@ -172,7 +171,6 @@ export default class FSettlementPlan extends ModelVue {
   }
 
   mounted() {
-    console.log(Data.ClientFile.PAYMENT_MODE.list());
     this.getFiCreditorInfo();
   }
 
@@ -200,7 +198,6 @@ export default class FSettlementPlan extends ModelVue {
   }
   addSPAEntryForm() {
     this.addSTEntryInput.stPlanId = this.stPlanId;
-    console.log(this.addSTEntryInput);
     Action.ClientFile.AddSTEntry.execute(this.addSTEntryInput, (output) => {
       Snackbar.show({
         text: "Succesfully Add ST Entry",

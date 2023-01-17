@@ -14,7 +14,6 @@ export default class TaskAction {
     taskOutput: any;
   }) {
     const input = JSON.stringify(taskOutput);
-    console.log("Save and complete take is being called");
     Action.TaskList.SaveAndComplete.execute2(taskId, input, (output) => {
       Snackbar.show({
         text: "Succesfully completed the task",
@@ -33,7 +32,6 @@ export default class TaskAction {
     callback?: () => void;
   }) {
     const input = JSON.stringify(taskOutput);
-    console.log("Save take is being called");
     Action.TaskList.Save.execute2(taskId, input, (output) => {
       Snackbar.show({
         text: "Succesfully saved",
@@ -42,7 +40,6 @@ export default class TaskAction {
       if (callback) {
         callback();
       }
-      // console.log(output);
     });
   }
 
@@ -55,7 +52,6 @@ export default class TaskAction {
     taskOutput: any;
     callback?: (taskOutput: any) => void;
   }) {
-    console.log("Rescue task call");
     const rescueInput = JSON.stringify(taskOutput ?? {});
     Action.TaskList.Rescue.execute2(taskId, rescueInput, (output) => {
       Snackbar.show({
@@ -75,7 +71,6 @@ export default class TaskAction {
     taskId: string;
     taskOutput: any;
   }) {
-    console.log("Force complete task call");
     //TODO: add force complete task to TaskList ads and implement
   }
 
@@ -86,7 +81,6 @@ export default class TaskAction {
     taskId: string;
     taskOutput: any;
   }) {
-    console.log("Proceed task call");
     //TODO: add proceed task to TaskList ads and implement
   }
 

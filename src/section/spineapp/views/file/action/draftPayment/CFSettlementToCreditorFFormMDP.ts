@@ -168,8 +168,6 @@ export default class CFSettlementToCreditorFFormMDP extends FFormMDP {
 
 
   getMyRef(): any {
-    console.log(this.taskRoot.$refs);
-    console.log(this.taskRoot.$refs[this.myRefName]);
     return this.taskRoot.$refs[this.myRefName];
   }
 }

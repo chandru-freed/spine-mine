@@ -22,7 +22,6 @@ export default class Task {
   }
 
   static isTaskOutputNotAvailable(taskOutput: any = {}) {
-    console.log(taskOutput);
     return Object.keys(taskOutput).length === 0;
   }
 
@@ -31,7 +30,6 @@ export default class Task {
   }
 
   static mergeTaskOutputAndReturn(taskInput: any = {}, taskOutput: any = {}) {
-    console.log(taskOutput, "taskFormOutput in task");
     if (this.isTaskOutputNotAvailable(taskOutput)) {
       return {
         ...taskInput,
@@ -56,7 +54,6 @@ export default class Task {
   //   ApiAction.TaskList.GetExecutiveTaskDetails.execute1(
   //     taskId,
   //     (output) => {
-  //       // console.log(output);
   //       this.loading = false;
   //     }
   //   );

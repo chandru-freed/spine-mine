@@ -41,7 +41,6 @@ export default class CFStPlanListFDataTableMDP extends FDataTableMDP {
         })
     }
     handleCreditorClick(item: any) {
-        console.log(item,"Go to");
         this.root.gotoPaymentPlan(item.fiSettlementPlanId)
     }
     handleCreateSettlementPlan() {

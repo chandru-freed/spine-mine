@@ -12,7 +12,6 @@ export default class CFDocumentInfoFDocumentMDP extends FDocumentMDP {
     }
 
     getMyRef() {
-        console.log(this.parent.$refs);
         return this.parent.$refs[this.myRefName];
     }
 }

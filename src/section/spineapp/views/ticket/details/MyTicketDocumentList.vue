@@ -55,7 +55,6 @@ export default class MyTicketDocumentList extends ModelVue {
   uploadedDocumentList: Data.Spine.DocumentDetails[] = [];
 
   mounted() {
-    console.log(this.attachUploadedDocumentInput);
     this.getDocumentList();
   }
 
@@ -98,9 +97,7 @@ export default class MyTicketDocumentList extends ModelVue {
   }
 
   openUploadedFile(docPath: string) {
-    console.log(docPath,"docPath is this")
     Action.Spine.GetUploadedUrl.execute1(docPath,output => {
-      console.log(output.uploadedUrl,"Uploaded url")
       window.open(output.uploadedUrl);
     })
   }

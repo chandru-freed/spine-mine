@@ -426,7 +426,6 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.GetExecutiveTaskDetails.execute1(
       this.$route.params.taskId,
       (output) => {
-        // console.log(output);
         this.loading = false;
       }
     );
@@ -436,7 +435,6 @@ export default class CFTaskDetails extends Vue {
     Action.TaskList.PullStartAndMerge.execute1(
       this.$route.params.taskId,
       (output) => {
-        // console.log("");
       }
     );
   }
@@ -469,8 +467,6 @@ export default class CFTaskDetails extends Vue {
 
   gotoTask(item: any) {
     const params = { ...this.$route.params, taskId: item.taskId };
-    // console.log(" gotoTask ------------------ ");
-    // console.log(params);
     this.$router.push({
       name: "Root.ClientFile.FileTask.FileTaskDetails",
       params: params,

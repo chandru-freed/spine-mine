@@ -131,7 +131,6 @@ export default class CustomFilters {
 
   private static parseJson() {
     Vue.filter("json-parse", (value: string) => {
-      // console.log('value : ' + value);
       return value ? JSON.parse(value) : {};
     });
   }
@@ -146,16 +145,12 @@ export default class CustomFilters {
 
   private static withBase() {
     Vue.filter("withBase", (value: string) => {
-      // console.log('I am in custom filter: withBase : ');
-      // console.log(process.env.BASE_URL);
       return process.env.BASE_URL + value;
     });
   }
 
   private static maskPhone() {
     Vue.filter("phone", (value: string) => {
-      // console.log('I am in custom filter: withBase : ');
-      // console.log(process.env.BASE_URL);
       return this.formatDefault(value, "(+91) ##### #####");
     });
   }

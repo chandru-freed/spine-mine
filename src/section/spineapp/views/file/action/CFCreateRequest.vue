@@ -95,7 +95,6 @@ export default class CFCreateRequest extends Vue {
 
   @Watch("fileCreateRequestInput.createSettlementPlanInput.fiCreditorId")
   creditorChanged(newVal: any, oldVal: any) {
-    console.log(newVal);
     const totalOutstanding: any = this.fiCreditorInfo.creditorList.find(
       (item) => item.fiCreditorId === newVal
     )?.creditorBalance;
@@ -321,7 +320,6 @@ export default class CFCreateRequest extends Vue {
   }
 
   createEMandate() {
-    console.log("createEMandate--- ", this.createEMandateInput);
     this.fileCreateRequestInput.createEMandateInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
     Action.Spine.CreateEMandate.execute(
@@ -337,7 +335,6 @@ export default class CFCreateRequest extends Vue {
   createSettlementPlan() {
     this.fileCreateRequestInput.createSettlementPlanInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
-    console.log(this.fileCreateRequestInput.createSettlementPlanInput);
     const input = Data.Spine.CreateSettlementPlanInput.fromJson(this.fileCreateRequestInput.createSettlementPlanInput)
     Action.Spine.CreateSettlementPlan.execute(
       input,

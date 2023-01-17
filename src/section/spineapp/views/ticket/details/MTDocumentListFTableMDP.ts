@@ -25,7 +25,6 @@ export default class MTDocumentListFTableMDP extends FDataTableMDP {
         return () => this.root.handleAddClick();
     }
     handleDocPathClick(item: any) {
-        console.log(item,"Document is this")
         this.root.openUploadedFile(item.documentPath)
     }
 

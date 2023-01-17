@@ -93,7 +93,6 @@ export default class ClientFileSearch
     Action.ClientFile.SearchClientFile.execute(
       this.clientFileSearchFormLocal,
       (output) => {
-        console.log("Client search file uploaded successfully");
       }
     );
   }

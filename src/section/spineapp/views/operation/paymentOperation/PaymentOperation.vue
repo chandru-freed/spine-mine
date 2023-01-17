@@ -65,7 +65,7 @@ export default class PaymentOperation extends ModelVue {
     new Data.Spine.PaymentOperationFilter();
   paymentScheduleTab: number = 0;
 
-  psEntryList: Data.Spine.FiPSPlanEntry[] = [];
+  psEntryList: Data.Spine.FiPSPlanEntryWithClientFile[] = [];
   msfEntryList: Data.Spine.FiPSPlanFeeEntry[] = [];
   allPaymentList: any[] = [];
 
@@ -79,7 +79,6 @@ export default class PaymentOperation extends ModelVue {
     Action.Spine.GetAllPSEntryListScheduledOnDate.execute(
       this.paymentOperationFilter,
       (output) => {
-        console.log(output);
         this.psEntryList = output;
       }
     );
@@ -143,7 +142,6 @@ export default class PaymentOperation extends ModelVue {
 
 
   openPaymentDetails(item: any) {
-    console.log(item.paymentId);
     if (item.paymentId) {
       this.$router.push({
         name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",

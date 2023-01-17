@@ -19,7 +19,6 @@ export default class UUSDTFStepperMDP extends FTaskStepperMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.$refs);
     return this.taskRoot.$refs[this.myRefName];
   }
 }

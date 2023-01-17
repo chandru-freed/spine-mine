@@ -22,7 +22,6 @@ export default class CIVTFStepperMDP extends FTaskStepperMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.$refs);
     return this.taskRoot.$refs[this.myRefName];
   }
 }

@@ -79,7 +79,6 @@ export default class MyTicketSubscriberList extends ModelVue {
   ];
 
   mounted() {
-    console.log(this.ticketTaskDetails.subscriberList, "Subscriber list");
   }
 
   handleAddClick() {

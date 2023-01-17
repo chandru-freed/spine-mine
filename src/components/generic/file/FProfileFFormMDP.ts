@@ -121,7 +121,6 @@ export default class FProfileFFormMDP extends FFormMDP {
   }
 
   getMyRef(): any {
-    console.log(this.myRefName,"My ref name")
     return this.parent.getProfileFormRef().$refs[this.myRefName];
   }
 

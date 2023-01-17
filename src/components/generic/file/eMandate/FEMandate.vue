@@ -176,7 +176,6 @@ export default class FEMandate extends ModelVue {
   selectDeleteEMandate(item: any, index: number) {
     this.selectedEMandateItem = item;
     this.showDeletePopup();
-    console.log(this.deleteEMandateDialog);
   }
 
   get filteredHeaders() {

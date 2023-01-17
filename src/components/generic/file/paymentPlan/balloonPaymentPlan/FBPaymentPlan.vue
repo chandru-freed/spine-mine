@@ -232,7 +232,6 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   get tmosSimulatorInput() {
-    console.log(this.modelValue, "TMOs");
     return {
       paymentPlan: this.paymentPlan,
       creditorInfo: this.modelValue.taskOutput.creditorInfo,
@@ -241,7 +240,6 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   get psEntrySchelduledList() {
-    console.log("this.paymentPlan", this.modelValue);
     return (
       this.paymentPlan?.paymentScheduleList.filter(
         (psEntry: any) => psEntry.status === "SCHEDULED"
@@ -268,7 +266,6 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   openPaymentDetails(item: any) {
-    console.log(item);
     if (item.paymentId) {
       this.$router.push({
         name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",

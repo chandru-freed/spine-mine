@@ -129,7 +129,6 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
   }
 
   updateCreditor() {
-    console.log(this.taskRoot.taskFormData.taskOutput)
     this.parent.updateCreditor();
     // const input = Data.Spine.UpdateCreditorInput.fromJson(
     //   this.parent.editCreditorForm

@@ -14,7 +14,6 @@ export default class ModifyBPsEntryFFormMDP extends FFormMDP {
   }: {
     parent: any;
   }) {
-    // console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
       myRefName: "modifyCFPsEntryFFormRef",
     });
@@ -47,7 +46,6 @@ export default class ModifyBPsEntryFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.$refs);
     return this.parent.$refs[this.myRefName];
   }
 

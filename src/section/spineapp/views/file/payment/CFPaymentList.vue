@@ -95,7 +95,6 @@ export default class CFPaymentList extends ModelVue {
   }
 
   goto(item: any) {
-    console.log(item.paymentId);
     this.$router.push({
       name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
       params: {

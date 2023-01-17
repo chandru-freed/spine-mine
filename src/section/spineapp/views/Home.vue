@@ -201,7 +201,6 @@ export default class Home extends Vue {
   }
 
   gotoRouter(routerName: string) {
-    console.log(routerName);
     this.$router.push({ name: routerName });
   }
 }

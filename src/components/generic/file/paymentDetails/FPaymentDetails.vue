@@ -53,7 +53,6 @@ export default class FPaymentDetails extends ModelVue {
 
   getFiPaymentDetails() {
     Action.ClientFile.GetFiPaymentDetails.execute1(this.paymentId, (output) => {
-      console.log(output);
       this.fiPaymentDetails = output;
     });
   }

@@ -290,7 +290,6 @@ export default class CFActionList extends Vue {
   }
 
   mounted() {
-    console.log(this.$route.name);
   }
 
   takeAction(actionItem: any) {

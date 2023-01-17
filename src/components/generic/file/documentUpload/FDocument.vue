@@ -178,7 +178,6 @@ export default class FDocument extends ModelVue {
   }
 
   mounted() {
-    // console.log(this.$refs);
   }
 
   deleteDocument() {
@@ -235,7 +234,6 @@ export default class FDocument extends ModelVue {
       options
     );
     this.attachAndSaveUploadedFile();
-    // console.log(axiosResponse);
   }
 
   attachAndSaveUploadedFile() {

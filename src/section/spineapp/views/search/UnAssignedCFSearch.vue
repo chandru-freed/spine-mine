@@ -96,11 +96,9 @@ export default class UnAssignedCFSearch
     this.searchClientFileInput.clientFileStatus =
       Data.ClientFile.CLIENT_FILE_STATUS.ENROLLED.name;
     this.searchClientFileInput.rmNotAssigned = true;
-    console.log(this.searchClientFileInput);
     Action.ClientFile.SearchClientFile.execute(
       this.searchClientFileInput,
       (output) => {
-        console.log("Client search file uploaded successfully");
       }
     );
   }

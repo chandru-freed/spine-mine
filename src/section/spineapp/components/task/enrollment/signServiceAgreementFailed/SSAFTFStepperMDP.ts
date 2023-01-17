@@ -27,7 +27,6 @@ export default class SSAFTFStepperMDP extends FTaskStepperMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.$refs);
     return this.taskRoot.$refs[this.myRefName];
   }
 }

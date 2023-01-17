@@ -140,7 +140,6 @@ export default class PlanSettlementTask extends ModelVue {
   }
   //ACTION
   saveAndMarkCompleteTask() {
-    console.log(this.taskFormData.taskOutput);
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

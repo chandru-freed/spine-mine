@@ -94,7 +94,6 @@ export default class FMiniForm extends ModelVue {
 
   checkForChange() {
     return this.mandatory || this.fieldMetaDataList.some((item) => {
-      console.log("Hey i am getting called")
       const val = this.selectModel(this.modelValue, item.dataSelectorKey);
       return val !== undefined && val !== "";
     });

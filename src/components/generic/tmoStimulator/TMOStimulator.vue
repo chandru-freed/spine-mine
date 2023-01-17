@@ -136,7 +136,6 @@ export default class TMOStimulator extends ModelVue {
   percentage: number;
 
   @Watch("percentage") percentageChanged(newVal: any, oldVal: any) {
-    console.log(oldVal, newVal);
     this.resultLocal.settlementPercentage = newVal;
   }
 
@@ -258,7 +257,6 @@ export default class TMOStimulator extends ModelVue {
   }
 
   set result(value: any) {
-    console.log(value, this.resultLocal.settlementPercentage, "Setter");
     this.resultLocal = value;
   }
 
@@ -272,7 +270,6 @@ export default class TMOStimulator extends ModelVue {
 
 
   schedulePaymentPlan() {
-    // console.log(this.isFormDirty(),"Form dirty")
     
     const input: Data.Spine.RecalculatePSPlanForPMInput =
       Data.Spine.RecalculatePSPlanForPMInput.fromJson(

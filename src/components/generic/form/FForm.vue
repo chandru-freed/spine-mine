@@ -148,11 +148,9 @@ export default class FForm extends ModelVue {
     const observerRef: any = this.$refs[this.myRefName];
     observerRef.validate().then((success: boolean) => {
       if (success) {
-        console.log("Validation Successfull");
         action();
         return;
       } else {
-        console.log("Validation UN Successfull");
       }
     });
   }

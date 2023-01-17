@@ -94,14 +94,12 @@ export default class FAddressMiniForm extends ModelVue {
 
   checkForChange() {
     return this.mandatory || this.fieldMetaDataList.some((item) => {
-      console.log("Hey i am getting called")
       const val = this.selectModel(this.modelValue, item.dataSelectorKey);
       return val !== undefined && val !== "";
     });
   }
 
   handleCityChange(city: any) {
-    console.log(city);
     this.modelValue.state = city?.stateName
   }
 }

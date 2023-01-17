@@ -44,7 +44,6 @@ export default class FFileField extends Vue {
   }
 
   set modelValue(newModelValue: File) {
-    console.log(newModelValue);
     this.$emit("input", newModelValue);
   }
   // MODEL VALUE - END

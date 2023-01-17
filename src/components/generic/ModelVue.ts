@@ -10,7 +10,6 @@ export default class ModelVue extends Vue {
   }
 
   set modelValue(newModelValue: string) {
-    // console.log("emitting input " + newModelValue);
     this.$emit("input", newModelValue);
   }
 

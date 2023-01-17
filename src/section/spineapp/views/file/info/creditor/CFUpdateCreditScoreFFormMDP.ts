@@ -43,7 +43,6 @@ export default class CFUpdateCreditScoreFFormMDP extends FFormMDP {
     handleUpdateCreditScore() {
         return () => {
             this.getMyRef().submitForm(() => {
-                console.log(this.parent.updateCreditScoreForm,"updateCreditScoreForm")
                 this.parent.updateCreditScoreForm.clientFileId = (
                     this.taskRoot as any
                   ).clientFileBasicInfo.clientFileId;

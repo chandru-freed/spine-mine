@@ -222,7 +222,6 @@ export default class CFSettlementPlanInfo extends ModelVue {
   }
 
   showDeletePopup(item: any) {
-    console.log("stEntryId", item.stEntryId);
     this.selectedSTEntry = item;
     this.deleteSPAEntry = true;
     this.addSPAEntry = false;

@@ -127,7 +127,6 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   percentage: number;
 
   @Watch("percentage") percentageChanged(newVal: any, oldVal: any) {
-    console.log(oldVal, newVal);
     this.resultLocal.settlementPercentage = newVal;
   }
 
@@ -241,7 +240,6 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     this.resultLocal.tenureApproval = getTenureWithFreed(
       this.resultLocal.outstanding
     );
-    console.log(this.simulatorInput,"MSF amounteee")
     // this.resultLocal.msfAmount = getMSFWithFreed(this.resultLocal.outstanding);
     this.resultLocal.msfAmount = this.simulatorInput.paymentPlan?.ppCalculator?.msfDraftAmount || 0;
     this.resultLocal.monthlyObligation =
@@ -250,7 +248,6 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   }
 
   set result(value: any) {
-    console.log(value, this.resultLocal.settlementPercentage, "Setter");
     this.resultLocal = value;
   }
 

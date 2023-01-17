@@ -67,7 +67,6 @@ export default class CFTicketSubscriberList extends ModelVue {
   ];
 
   mounted() {
-    console.log(this.ticketTaskDetails.subscriberList);
   }
 
   handleAddClick() {

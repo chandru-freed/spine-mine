@@ -118,7 +118,6 @@ export default class CFNoteHighlightList extends ModelVue {
       Action.FiNote.GetFiNoteList.execute1(
         this.clientFileBasicInfo.clientFileId,
         (output) => {
-          console.log(output);
         }
       );
     }, 700);

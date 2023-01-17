@@ -80,7 +80,6 @@ export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
 
   handleSuspendClick(item: any) {
     return new Promise(resolve => {
-      console.log(item);
       this.parent.handleSuspendClick(item);
     })
   }

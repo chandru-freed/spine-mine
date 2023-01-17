@@ -110,7 +110,6 @@ export default class CFPaymentDetails extends Vue {
 
   get selectedRequestType() {
     if(this.fiPaymentDetails.paymentType.id === "SETTLEMENT" ) {
-      console.log(this.fiPaymentDetails.settledTo==Data.ClientFile.SETTLED_TO.CREDITOR.id)
       if(this.fiPaymentDetails.settledTo === Data.ClientFile.SETTLED_TO.CREDITOR.id) {
       return this.requestTypeFlowMapList.find(x => x.code === "settlement-to-creditor" )?.contentMetaData;  
       } else {

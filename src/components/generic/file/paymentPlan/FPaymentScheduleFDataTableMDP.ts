@@ -54,7 +54,6 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     }
     handlePresentClick(item: any): Promise<any> {
         return new Promise(resolve => {
-            console.log(item)
             Action.Spine.PresentPSEntry.execute1(item.psEntryId, (output) => {
                 Snackbar.show({
                     text: "Succesfully update.",
@@ -79,9 +78,7 @@ export default class FPaymentScheduleFDataTableMDP extends FDataTableMDP {
     }
 
     handleRemoveClick(itemList: any[]) {
-        console.log(itemList);
         const psEntryIdList = itemList.map(item => item.psEntryId)
-        console.log(psEntryIdList)
         return new Promise(resolve => {
             Action.ClientFile.RemovePSEntryList.execute1(psEntryIdList, output => {
                 Snackbar.show({

@@ -19,7 +19,6 @@ export default class FlowAction {
     clientFileNumber: string;
     router: VueRouter;
   }) {
-    console.log("createFlow is being called");
     const input = ServerData.FlowWebWriter.Create$Input.fromJson(
       createRequestFormData
     );

@@ -290,7 +290,6 @@ export default class CFActiveTasks extends Vue {
   }
 
   get taskListFiltered() {
-    console.log(this.cfTaskList, "this.cfTaskList");
     const activeTaskList = this.cfTaskList.filter((task) => {
       return (
         task.taskState === "CREATED" ||

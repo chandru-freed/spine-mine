@@ -188,7 +188,6 @@ export default class FDocumentCHPP extends ModelVue {
   }
 
   mounted() {
-    // console.log(this.$refs);
   }
 
   deleteDocument() {
@@ -245,7 +244,6 @@ export default class FDocumentCHPP extends ModelVue {
       options
     );
     this.attachAndSaveUploadedFile();
-    // console.log(axiosResponse);
   }
 
   attachAndSaveUploadedFile() {

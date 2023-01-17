@@ -72,7 +72,6 @@ export default class RefundSPAFFormMDP extends FFormMDP {
   }
 
   handleSelectedEmandate(details: any) {
-    console.log(details);
     this.taskRoot.populateAccountDetailsRefundSPA(details);
   }
 

@@ -24,7 +24,6 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
     disabled: boolean;
     readonly?: boolean;
   }) {
-    // console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
       myRefName: "amendmentPaymentCalculatorFormRef",
       disabled: disabled,
@@ -156,7 +155,6 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.getMyRef(),"Ref");
     return this.parent.getMyRef().$refs[this.myRefName];
   }
 
@@ -170,17 +168,14 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
 
   schedulePaymentPlan(callback?: () => void) {
     const parentComponent = this.parent.getMyRef();
-    console.log(parentComponent,"parentComponent")
     const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
       parentComponent.modelValue.newPaymentPlan
     );
     input.clientFileId = parentComponent.clientFileBasicInfo.clientFileId;
-    console.log(parentComponent,"parentComponent")
     input.ppCalculator.outstanding =
     parentComponent.modelValue.newCreditorInfo.totalDebt;
     input.taskId = parentComponent.taskId;
     Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
-      console.log(output)
       Snackbar.show({
         text: "Succesfully Saved",
         pos: "bottom-center",

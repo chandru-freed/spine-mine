@@ -120,7 +120,6 @@ export default class TicketComment extends Vue {
   // }
   getTicketCommentList() {
     Action.Ticket.GetTicketCommentList.execute1(this.ticketId, (output) => {
-      console.log(output);
     });
   }
   addComment() {

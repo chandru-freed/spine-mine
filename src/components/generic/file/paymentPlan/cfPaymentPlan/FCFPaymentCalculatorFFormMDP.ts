@@ -25,7 +25,6 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
     disabled: boolean;
     readonly?: boolean;
   }) {
-    // console.log(taskRoot.taskFormData.taskOutput.paymentPlan, "Payment  plan");
     super({
       myRefName: "paymentCalculatorFormRef",
       disabled: disabled,
@@ -152,7 +151,6 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    console.log(this.parent.getMyRef());
     return this.parent.getMyRef().$refs[this.myRefName];
   }
 

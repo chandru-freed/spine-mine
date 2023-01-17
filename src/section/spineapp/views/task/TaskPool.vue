@@ -79,7 +79,6 @@ export default class TaskPool extends ModelVue {
   }
 
   gotoFile(item: any) {
-    console.log(item);
      Helper.Router.gotoFile({
       router: this.$router,
       clientFileNumber: item.cid,

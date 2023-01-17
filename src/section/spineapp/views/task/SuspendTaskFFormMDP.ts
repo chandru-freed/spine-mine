@@ -73,7 +73,6 @@ export default class SuspendTaskFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    console.log(this.root.$refs[this.myRefName]);
     return this.root.$refs[this.myRefName];
   }
 

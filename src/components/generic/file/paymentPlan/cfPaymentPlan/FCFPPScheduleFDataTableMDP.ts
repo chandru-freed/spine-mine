@@ -85,7 +85,6 @@ export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
   }
   handlePresentClick(item: any): Promise<any> {
     return new Promise((resolve) => {
-      console.log(item);
       Action.Spine.PresentPSEntry.execute1(item.psEntryId, (output) => {
         Snackbar.show({
           text: "Succesfully update.",

@@ -111,7 +111,6 @@ export default class GenerateSSADocTask extends ModelVue {
     Action.TaskList.GetExecutiveTaskDetails.execute1(
       this.$route.params.taskId,
       (output) => {
-        // console.log(output);
       }
     );
   }

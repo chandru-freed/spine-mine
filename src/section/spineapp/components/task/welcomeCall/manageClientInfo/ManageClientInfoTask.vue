@@ -286,7 +286,6 @@ export default class ManageClientInfoTask
   }
   //ACTION
   saveAndMarkCompleteTask() {
-    console.log(this.taskFormData, "this.taskFormData");
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

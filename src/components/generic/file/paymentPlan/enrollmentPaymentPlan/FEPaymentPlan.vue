@@ -198,7 +198,6 @@ export default class FEPaymentPlan extends ModelVue {
   }
 
   openPaymentDetails(item: any) {
-    console.log(item);
     if (item.paymentId) {
       this.$router.push({
         name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",

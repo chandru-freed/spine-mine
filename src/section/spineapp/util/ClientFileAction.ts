@@ -19,7 +19,6 @@ export default class ClientFileAction {
     Action.ClientFile.UploadDocument.execute(
       uploadDocumentInput,
       (output) => {
-        console.log("document uploaded successfully")
         callback()
       }
     );

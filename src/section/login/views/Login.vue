@@ -81,9 +81,7 @@ export default class Login extends Vue {
     Action.Login.GetRoleListForUser.execute(
       new Data.Login.MyAppId(),
       (output) => {
-        //console.log(output);
         if (output.roleList.indexOf("USER") >= 0) {
-          //console.log("USER role present");
           window.localStorage.setItem("userName", this.loginForm.userName);
           vm.getLoggedInUser(this.loginForm.userName);
           if (this.$route.query.redirect) {

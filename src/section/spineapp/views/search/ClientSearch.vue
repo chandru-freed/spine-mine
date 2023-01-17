@@ -109,7 +109,6 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
     Action.Client.SearchClient.execute(
       this.clientSearchFormLocal,
       (output) => {
-        console.log("Client search uploaded successfully");
       }
     );
   }

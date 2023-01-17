@@ -64,7 +64,6 @@ export default class FRemoteComboBoxField extends VAutocomplete {
   }
 
   set modelValue(newModelValue: any) {
-    console.log(newModelValue)
     this.$emit("input", newModelValue);
   }
   // MODEL VALUE - END

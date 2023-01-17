@@ -124,7 +124,6 @@ export default class AppBar extends Vue {
 
   selectedClientFileNumber: string = "";
   gotoFile(selectedVal: any) {
-    console.log("selectedClientFileNumber - ", this.selectedClientFileNumber);
     Helper.Router.gotoFile({
       router: this.$router,
       clientFileNumber: this.selectedClientFileNumber,

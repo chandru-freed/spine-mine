@@ -68,13 +68,11 @@ export default class PrepareAmendmentTask extends ModelVue {
     new Data.Spine.AmendmentTaskOutput();
 
   get taskFormOutput() {
-    console.log(this.taskDetails.outputJson,this.taskDetails.inputJson);
     if (this.taskDetails.isOutputEmpty) {
       this.taskFormOutputLocal.creditorInfo = (
         this.taskDetails.inputJson as any
       ).existingCreditorInfo;
     } else {
-      console.log(this.taskDetails.outputJson,"this.taskDetails.outputJson")
       this.taskFormOutputLocal = Data.Spine.AmendmentTaskOutput.fromJson(
         this.taskDetails.outputJson
       );
@@ -97,9 +95,7 @@ export default class PrepareAmendmentTask extends ModelVue {
   getPSPlanInfo() {
     setTimeout(() => {
       const newPSPlanId = (this.taskDetails.inputJson as any).newPSPlanId;
-      console.log(this.taskDetails.inputJson)
       Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
-        console.log(output);
         this.newPaymentPlan = output;
       });
     }, 1000);

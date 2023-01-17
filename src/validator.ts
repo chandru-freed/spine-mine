@@ -82,8 +82,6 @@ export default class Validator {
       message: (field: any, params: any, data: any) =>
         "Select atleast " + params[0] + " items.",
       validate: (value: string[], params: number): boolean => {
-        console.log(value.length !== 0);
-        console.log(value);
         return value.length >= params;
       },
     });

@@ -45,7 +45,6 @@ export default class POMSFFDataTableMDP extends FDataTableMDP {
     }
 
     handleClientFileClick(item: any) {
-        console.log(item, "Client file nyumber")
         this.parent.gotoFile(item.clientFileBasicInfo.clientFileNumber);
     }
 

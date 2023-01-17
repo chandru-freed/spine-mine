@@ -59,7 +59,7 @@
                   small
                   @click="gotoTaskDetails(cfTask)"
                 >
-                  <!-- <v-icon
+                  <v-icon
                     v-if="taskStateIconMap[cfTask.taskState]?.icon"
                     class="mr-3"
                     :color="taskStateIconMap[cfTask.taskState]?.color"
@@ -68,14 +68,14 @@
 
                   <v-icon color="grey" class="mr-3" v-else
                     >mdi-pencil-circle-outline</v-icon
-                  > -->
+                  >
 
                   {{ cfTask.taskName }}
                 </v-btn>
                
               </v-list-item-title>
             </v-list-item-content>
-            <v-list-item-content>
+            <!-- <v-list-item-content>
                <v-chip outlined x-small><v-icon
                 small
                     v-if="taskStateIconMap[cfTask.taskState]?.icon"
@@ -88,7 +88,7 @@
                     >mdi-pencil-circle-outline</v-icon
                   > <span class="grey--text">{{cfTask.taskState}}</span>
                 </v-chip>
-            </v-list-item-content>
+            </v-list-item-content> -->
             <v-list-item-action>
               <v-btn
                 v-if="!cfTask.allocatedTo && cfTask.taskType === 'MANUAL'"

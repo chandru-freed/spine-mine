@@ -119,11 +119,11 @@ export default class OPRActiveTaskList extends ModelVue {
 
   assignTask() {
     this.taskIdList.map((item: any) => {
-      this.sumbmitAssignTask(item.taskId);
+      this.submitAssignTask(item.taskId);
     });
   }
 
-  sumbmitAssignTask(taskId: string) {
+  submitAssignTask(taskId: string) {
     this.assignTaskInput.taskId = taskId;
     Action.Spine.Assign.execute(this.assignTaskInput, (output) => {
       FSnackbar.success("Succesfully Updated");
@@ -140,11 +140,11 @@ export default class OPRActiveTaskList extends ModelVue {
 
   reassignTask() {
     this.taskIdList.map((item: any) => {
-      this.sumbmitReassignTask(item.taskId);
+      this.submitReassignTask(item.taskId);
     });
   }
 
-  sumbmitReassignTask(taskId: string) {
+  submitReassignTask(taskId: string) {
     this.reassignTaskInput.taskId = taskId;
     Action.Spine.Reassign.execute(this.reassignTaskInput, (output) => {
       FSnackbar.success("Succesfully Updated");

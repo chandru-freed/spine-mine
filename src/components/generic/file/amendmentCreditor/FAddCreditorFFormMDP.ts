@@ -12,6 +12,7 @@ import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
 import * as Snackbar from "node-snackbar";
 import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
 import FCreditCardFieldMDP from "../../form/field/FCreditCardFieldMDP";
+import FRemoteAutoCompleteFieldMDP from "../../form/field/FRemoteAutoCompleteFieldMDP";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -26,13 +27,14 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FRemoteComboBoxFieldMDP({
+      new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorName",
         label: "Creditor",
         mandatory: true,
         boundaryClass: "col-4",
         queryUrl: "/spineapi/master/search-creditor?creditorName=",
+        itemText:""
       })
     )
       .addField(

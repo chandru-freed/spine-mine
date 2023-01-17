@@ -10,7 +10,7 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
     parentMDP: FFormChildMDP;
     boundaryClass: string | undefined
     disabled: boolean;
-    itemText: string;
+    itemText: string | undefined;
     itemValue: string | undefined;
     condition: boolean;
     queryUrl: string;
@@ -39,9 +39,9 @@ export default class FRemoteAutoCompleteFieldMDP implements MDP {
         parentMDP: FFormChildMDP;
         label: string;
         queryUrl: string;
-        itemText: string;
         dataSelectorKey: string;
         boundaryClass?: string;
+        itemText?: string;
         itemValue?: string
         mandatory?: boolean;
         disabled?: boolean;

@@ -2,6 +2,7 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
+import FRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FRemoteAutoCompleteFieldMDP";
 import FRemoteComboBoxFieldMDP from "@/components/generic/form/field/FRemoteComboBoxFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -37,7 +38,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FRemoteComboBoxFieldMDP({
+        new FRemoteAutoCompleteFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "creditorInfo.creditor",
           label: "Creditor",

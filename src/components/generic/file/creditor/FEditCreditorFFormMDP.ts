@@ -12,6 +12,7 @@ import * as Snackbar from "node-snackbar";
 import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
 import FCreditCardFieldMDP from "../../form/field/FCreditCardFieldMDP";
+import FRemoteAutoCompleteFieldMDP from "../../form/field/FRemoteAutoCompleteFieldMDP";
 
 export default class FEditCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -26,7 +27,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this.addField(
-      new FRemoteComboBoxFieldMDP({
+      new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorName",
         label: "Creditor",

@@ -19,7 +19,7 @@ export default class MISReportsFTabMDP extends FTabMDP {
       tabName: "Day Wise Payment",
       routerName: "Root.Operation.PaymentOperation",
     }).addTab({
-      tabName: "All Active Task List",
+      tabName: "Active Tasks",
       routerName: "Root.Operation.OPRActiveTaskList",
     });
   }

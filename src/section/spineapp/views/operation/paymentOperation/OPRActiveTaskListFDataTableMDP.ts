@@ -19,7 +19,7 @@ export default class OPRActiveTaskListFDataTableMDP extends FDataTableMDP {
     super({
       myRefName: "oprActiveTaskListFDataTableRef",
       enableSearch: true,
-      title: "All Active Task",
+      title: "All Tasks",
       itemKey: "taskId",
       multiSelect: true,
     });

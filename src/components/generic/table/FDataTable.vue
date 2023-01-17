@@ -138,12 +138,12 @@
           <div v-if="enableShowHideColumns">
             <v-menu z-index="99999" offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on }">
-                <v-icon color="primary" v-on="on" >
+                <v-icon class="mx-2" color="primary" v-on="on" >
                   mdi-eye-outline
                 </v-icon>
               </template>
-              <v-list max-height="400px"  class="pa-3 " dense>
-                <v-list-tile v-for="(item, index) in columnList" :key="index">
+              <v-list max-height="400px"   dense>
+                <v-list-item v-for="(item, index) in columnList" :key="index">
                   <!-- <v-list-tile-action> -->
                     <v-checkbox
                       v-model="selectedColumnListToView"
@@ -151,7 +151,7 @@
                       :label="item.text"
                     ></v-checkbox>
                   <!-- </v-list-tile-action> -->
-                </v-list-tile>
+                </v-list-item>
               </v-list>
             </v-menu>
           </div>
@@ -559,7 +559,9 @@ export default class FDataTable extends ModelVue {
   }
 
   mounted() {
-    this.selectedColumnListToView = this.columnList;
+    this.selectedColumnListToView = this.columnList.filter(column => {
+      return column.hidden === false
+    });
     this.columnFilterListWithValues = this.columnFilterList.map((filter) => {
       return { ...filter, value: [] };
     });

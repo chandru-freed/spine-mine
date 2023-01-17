@@ -51,18 +51,20 @@ router.beforeEach((to, from, next) => {
     } else {
        // console.log("ROUTER ------------ beforeEach -------- user logged in")
       Store.Mutation.Login.LoginDetails.SET_USER_NAME(new Data.Login.LoginForm(userLocal.userName!));
+      console.log(to,"Matched");
       if (!!to && !!to.meta && to.meta.roles) {
 
         userLocal.matchOnRoleList( backendRoleList => {
 
          const matched = !!to && !!to.meta  && (to.meta.roles as string[]).some(role => backendRoleList.includes(role));
+         
          if (matched) {
            next();
          } else {
           UserLocal.showError('Forbidden : You are not authorized');
           next({
-            path: '/login',
-            query: { redirect: to.fullPath }
+            path: '/not-authorised',
+            // query: { redirect: to.fullPath }
            });
           // next(false);
          }

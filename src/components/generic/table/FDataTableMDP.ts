@@ -60,7 +60,8 @@ export default class FDataTableMDP implements MDP {
     dataSelectorKey: any ;
     align?: string;
     sortable?: boolean;
-    columnCellMDP?: FColumnCellMDP
+    columnCellMDP?: FColumnCellMDP;
+    hidden?: boolean
   }) {
     this.columnList.push(
       new FColumnMDP(newField)

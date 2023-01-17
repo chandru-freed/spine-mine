@@ -15,13 +15,19 @@ export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
     super({
       itemKey: "psEntryId",
       disabled: parent.disabledActionBtn,
-      title: "Payment Schedule",
       myRefName: refName,
+      enableShowHideColumns: true
     });
     this.parent = parent;
     this.addColumn({
       label: "Draft Date",
       dataSelectorKey: "draftDate",
+      columnCellMDP: new FCellDateMDP(),
+      hidden: true
+    })
+    .addColumn({
+      label: "Status Updated On",
+      dataSelectorKey: "statusUpdatedOn",
       columnCellMDP: new FCellDateMDP(),
     })
       .addCurrencyColumn({

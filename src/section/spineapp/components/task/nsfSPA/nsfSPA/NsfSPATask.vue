@@ -87,7 +87,7 @@ export default class NsfSPATask extends ModelVue implements ManualTaskIntf {
 
   get taskFormOutput() {
     if (this.taskDetails.isOutputEmpty) {
-      this.taskFormOutputLocal.spaAmount = this.taskDetails.inputJson.paymentDetails.spaAmount
+      this.taskFormOutputLocal.spaAmount = (this.taskDetails.inputJson as any).paymentDetails.spaAmount
     } else {
       
       this.taskFormOutputLocal = { ...this.taskDetails.outputJson};

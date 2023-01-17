@@ -10,8 +10,8 @@ export default class FTabMDP implements MDP {
     this.myRefName = myRefName;
   }
 
-  addTab({ tabName, routerName }: { tabName: string, routerName: string }) {
-    this.tabList.push({ tabName: tabName, routerName: routerName });
+  addTab({ tabName, routerName,authenticatedGroupList=[] }: { tabName: string, routerName: string,authenticatedGroupList?: string[] }) {
+    this.tabList.push({ tabName: tabName, routerName: routerName,authenticatedGroupList });
     return this;
   }
 
@@ -25,5 +25,7 @@ export default class FTabMDP implements MDP {
       },
     };
   }
+
+  
 }
 

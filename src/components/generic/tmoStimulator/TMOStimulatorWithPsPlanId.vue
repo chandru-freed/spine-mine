@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-2">
+  <div class="ma-2" ref="tmosSimulator">
     <v-card elevation="2">
       <component
         :is="tmoStimulatorFormMetaData.componentName"
@@ -83,6 +83,9 @@
           @input="(newValue) => updateModel(modelValue, newValue, result)"
           v-bind="tmoStimulatorMDP.props"
         ></component>
+        <v-alert v-if="isOutstandingChanged()" color="warning" outlined>
+          Total outstanding has changed.Please recalculate
+        </v-alert>
       </div>
     </v-card>
   </div>
@@ -256,6 +259,10 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     this.resultLocal = value;
   }
 
+  isOutstandingChanged() {
+    console.log(this.result.outstanding,this.simulatorInput.paymentPlan?.ppCalculator?.outstanding,"result.paymentPlan?.ppCalculator?.outstanding")
+    return this.result.outstanding !== this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
+  }
   scheduleorDraftPaymentPlan() {
     if (this.isPaymentPlanDataAvailable()) {
       this.schedulePaymentPlan();

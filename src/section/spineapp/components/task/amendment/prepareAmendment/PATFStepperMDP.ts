@@ -18,6 +18,11 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
+    const patppFAPaymentPlanMDP =  new PATPPFAPaymentPlanMDP({
+      parent: this,
+      taskRoot: this.taskRoot,
+    })
+
     this.addStep({
       name: "Creditor",
       stepContent: new PATCreditorStepFCreditorMDP({
@@ -27,10 +32,8 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
     })
       .addStep({
         name: "Payment Plan",
-        stepContent: new PATPPFAPaymentPlanMDP({
-          parent: this,
-          taskRoot: this.taskRoot,
-        }),
+        stepContent:patppFAPaymentPlanMDP,
+        submitFunc: patppFAPaymentPlanMDP.validateEntries()
       })
       .addStep({
         name: "Mark Complete",

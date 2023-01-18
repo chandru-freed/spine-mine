@@ -1,6 +1,7 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
+import FSnackbar from "@/fsnackbar";
 import FPaymentCalculatorFFormMDP from "./FBPaymentCalculatorFFormMDP";
 
 
@@ -59,6 +60,26 @@ export default class FBPaymentPlanMDP implements MDP {
     });
     }
   }
+
+  validateEntries() {
+    return (nextCallback: () => void) => {
+      console.log(this.getMyRef().$refs)
+      const editMode = this.getMyRef().$refs['tmosSimulator'].editMode;
+      const isOutstandingChanged = this.getMyRef().$refs['tmosSimulator'].isOutstandingChanged()
+      if (editMode) {
+        FSnackbar.error("Please click recalculate or cancel to proceed")
+      } else if (isOutstandingChanged) {
+        FSnackbar.error("Outstanding has changed.Please recalculate to proceed")
+      } else {
+        nextCallback()
+      }
+    };
+  }
+
+  getMyRef(): any {
+    return this.parent.getMyRef()[0].$refs[this.myRefName];
+  }
+
 
   addAction(newAction: FBtnMDP) {
     this.actionList.push(newAction);

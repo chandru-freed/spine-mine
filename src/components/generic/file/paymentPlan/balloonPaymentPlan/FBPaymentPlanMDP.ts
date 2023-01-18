@@ -63,7 +63,6 @@ export default class FBPaymentPlanMDP implements MDP {
 
   validateEntries() {
     return (nextCallback: () => void) => {
-      console.log(this.getMyRef().$refs)
       const editMode = this.getMyRef().$refs['tmosSimulator'].editMode;
       const isOutstandingChanged = this.getMyRef().$refs['tmosSimulator'].isOutstandingChanged()
       if (editMode) {

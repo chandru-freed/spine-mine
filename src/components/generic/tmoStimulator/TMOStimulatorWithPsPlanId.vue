@@ -260,7 +260,6 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   }
 
   isOutstandingChanged() {
-    console.log(this.result.outstanding,this.simulatorInput.paymentPlan?.ppCalculator?.outstanding,"result.paymentPlan?.ppCalculator?.outstanding")
     return this.result.outstanding !== this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
   }
   scheduleorDraftPaymentPlan() {
@@ -291,7 +290,6 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   }
 
   isFormDirty(): boolean {
-    console.log(this.modelValue)
     return this.simulatorInput?.paymentPlan.ppCalculator?.tenor!== this.result.tenure ||
     this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage!== this.result.settlementPercentage||
     this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate!== this.result.firstSPADraftDate

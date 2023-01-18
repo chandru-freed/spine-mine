@@ -117,9 +117,14 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
+
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
   feeGSTPercentage: number = 11.8;
+
+  editMode: boolean = false;
 
   @Prop({
     default: 45,
@@ -274,7 +279,15 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
         text: "Succesfully Saved",
         pos: "bottom-center",
       });
+      this.editMode = false;
     });
+  }
+
+  isFormDirty(): boolean {
+    console.log(this.modelValue)
+    return this.simulatorInput?.paymentPlan.ppCalculator?.tenor!== this.result.tenure ||
+    this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage!== this.result.settlementPercentage||
+    this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate!== this.result.firstSPADraftDate
   }
 
   draftPaymentPlan() {
@@ -288,14 +301,37 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     //   .add(2, "days")
     //   .format(Helper.DATE_FORMAT);
     input.spaFirstDraftDate = this.result.firstSPADraftDate;
-    Action.Spine.DraftPSPlanForPM.execute(input, (output) => {});
+    Action.Spine.DraftPSPlanForPM.execute(input, (output) => {
+      this.editMode = false;
+    });
   }
+
+
+  handleEditClick() {
+    this.editMode = true;
+  }
+
+  handleCancelEditClick() {
+    this.editMode = false;
+    this.result.tenure = this.simulatorInput?.paymentPlan.ppCalculator?.tenor;
+    this.result.settlementPercentage=this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage;
+    this.result.firstSPADraftDate = this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate;
+  }
+
 
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(
       this.taskDetails.taskState,
       this.taskDetails.isSuspended
     );
+  }
+
+   isRecalculationNotAllowed(): boolean {
+    return this.isSalesRep&& this.tenureLessGreaterThanEqual
+  }
+
+  get isSalesRep() {
+    return this.roleList.includes("SalesRep");
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="OPRActiveTaskList">
     <!-- TASK TAB -->
-    <misreports-tab :value="3"></misreports-tab>
+    <misreports-tab :value="2"></misreports-tab>
     <v-card>
       <component
         v-if="!!showAssignForm"

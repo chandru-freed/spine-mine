@@ -13,98 +13,69 @@ import FDataTableMDP, {
 } from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
 
-export default class OPRActiveTaskListFDataTableMDP extends FDataTableMDP {
+export default class OPRActiveTicketListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any }) {
     super({
-      myRefName: "oprActiveTaskListFDataTableRef",
+      myRefName: "oprActiveTicketListFDataTableRef",
       enableSearch: true,
-      title: "All Tasks",
+      title: "All Tickets",
       itemKey: "taskId",
       multiSelect: true,
     });
     this.parent = props.parent;
     this.addColumn({
-      label: "Client File Number",
+      label: "Ticket Number",
       dataSelectorKey: "cid",
       columnCellMDP: new FCellBtnMDP({
         color: "secondary",
-        icon: "mdi-file-account",
+        icon: "mdi-ticket-confirmation",
         onClick: (item) => {
           this.handleClientFileClick(item);
         },
       }),
     })
       .addColumn({
-        label: "Client Name",
+        label: "Subject",
         dataSelectorKey: "displayId",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
+        columnCellMDP: new FCellUppercaseMDP()
+      }).addColumn({
+        label: "SLA",
+        dataSelectorKey: "sla",
+        columnCellMDP: new FCellSLAMDP(),
       })
       .addColumn({
-        label: "Task",
-        dataSelectorKey: "taskName",
-        columnCellMDP: new FCellTaskMDP({
-          color: "primary",
-        }),
-      })
-      .addColumn({
-        label: "",
+        label: "priority",
         dataSelectorKey: "priority",
         columnCellMDP: new FCellStatusMDP({ outlined: true }),
       })
       .addColumn({
-        label: "Status",
-        dataSelectorKey: "taskState.name",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.CLIENT_FILE_STATUS,
-          outlined: true,
-        }),
+        label: "Raised By",
+        dataSelectorKey: "raisedBy",
       })
       .addColumn({
-        label: "allocated To",
+        label: "Allocated To",
         dataSelectorKey: "allocatedTo",
       })
       .addColumn({
         label: "Allocated On",
         dataSelectorKey: "allocatedTime",
         columnCellMDP: new FCellDateTimeMDP(),
-      })
-      .addAction({
-        label: "Assign",
-        onClick: (item) => this.handleAssignClick(item),
-        type: ActionType.OTHERS,
       }).addAction({
         label: "Reassign",
         onClick: (item) => this.handleReassignClick(item),
         type: ActionType.OTHERS,
-      });
+      });;
   }
 
   handleClientFileClick(item: any) {
     this.parent.gotoTask(item);
   }
 
-  // addMyClientFile(item: any) {
-  //   return new Promise((res) => {
-  //     this.parent.showRegisterMyCFForm = true;
-  //   });
-  // }
-
   handleClientClick(item: any) {
     this.parent.gotoClient(item.taskInput.clRegistrationDetails.clientId);
   }
 
-  handleAssignClick(item: any) {
-    return new Promise((resolve) => {
-      this.parent.handleAssignClick(item);
-    });
-  }
   handleReassignClick(item: any) {
     return new Promise((resolve) => {
       this.parent.handleReassignClick(item);

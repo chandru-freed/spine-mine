@@ -51,7 +51,6 @@ router.beforeEach((to, from, next) => {
     } else {
        // console.log("ROUTER ------------ beforeEach -------- user logged in")
       Store.Mutation.Login.LoginDetails.SET_USER_NAME(new Data.Login.LoginForm(userLocal.userName!));
-      console.log(to,"Matched");
       if (!!to && !!to.meta && to.meta.roles) {
 
         userLocal.matchOnRoleList( backendRoleList => {

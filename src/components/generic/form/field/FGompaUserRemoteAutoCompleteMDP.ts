@@ -32,7 +32,7 @@ export default class FGompaUserRemoteAutoCompleteFieldMDP implements MDP {
         disabled = false,
         rules="",
         condition=true,
-        queryUrl="/gompa-api/user/find-user?userName=",
+        queryUrl="/gompa-api/user/find-user?userNameStr=",
         returnObject,
         clearable=true,
         minSearchValueLength=2,

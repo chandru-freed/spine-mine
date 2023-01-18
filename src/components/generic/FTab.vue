@@ -60,8 +60,8 @@ export default class FTab extends Vue {
     return this.tabList.filter(item => {
       const routeRoleList = RouterUtil.getUserRolesForRoute(item.routerName);
       if(routeRoleList.length>0) {
-        return this.roleList.some(role => {
-          return routeRoleList.includes(role)
+        return this.roleList.some((role: any) => {
+          // return routeRoleList.includes(role)
         });
       } else {
         return true

@@ -141,6 +141,21 @@ export default class CFLeftNav extends Vue {
       icon: "mdi-handshake-outline",
       items: [{ title: "Settlement Plan",routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList", }],
     },
+    {
+      title: "Admin",
+      icon: "mdi-file-account",
+      items: [
+        { title: "Personal", routerName: "Root.CFile.CFAdmin.CFAdminPersonalInfo" },
+        { title: "Creditor", routerName: "Root.CFile.CFAdmin.CFAdminCreditorInfo" },
+        { title: "Budget", routerName: "Root.CFile.CFAdminInfo.CFAdminBudgetInfo" },
+        {
+          title: "Payment Plan",
+          routerName: "Root.CFile.CFAdmin.CFAdminPaymentPlanInfo",
+        },
+        { title: "Bank", routerName: "Root.CFile.CFAdmin.CFAdminBankInfo" },
+        { title: "Document", routerName: "Root.CFile.CFAdmin.CFAdminDocumentInfo" },
+      ],
+    },
   ];
 
   public drawer = true;

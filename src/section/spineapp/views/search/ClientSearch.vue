@@ -14,7 +14,7 @@
     </v-card>
     <!-- CLIENT LIST -->
     <v-card class="pa-0 ma-0" color="transparent">
-      <v-data-table
+      <!-- <v-data-table
         :headers="clientGridHeaderList"
         :items="searchResultList"
         :search="search"
@@ -43,7 +43,15 @@
          <template v-slot:[`item.fullName`]="{ item }">
            <f-btn :label="item.fullName" text color="green"  :onClick="()=>gotoClient(item.clientId)"></f-btn>
         </template>
-      </v-data-table>
+      </v-data-table> -->
+
+      <component
+        v-if="!!clientSearchFDataTableMetaData"
+        :ref="clientSearchFDataTableMetaData.myRefName"
+        :is="clientSearchFDataTableMetaData.componentName"
+        :value="selectModel(searchResultList, undefined)"
+        v-bind="clientSearchFDataTableMetaData.props"
+      ></component>
     </v-card>
     <!-- CLIENT LIST  -->
   </div>
@@ -62,11 +70,14 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ClientSearchIntf from "./ClientSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
 import FBtn from "@/components/generic/FBtn.vue";
+import ClientSearchFDataTableMDP from "./ClientSearchFDataTableMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 
 @Component({
   components: {
     FForm,
-    "f-btn":FBtn
+    "f-btn": FBtn,
+    FDataTable,
   },
 })
 export default class ClientSearch extends ModelVue implements ClientSearchIntf {
@@ -101,6 +112,12 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
     return new ClientSearchFFormMDP({ taskRoot: this }).getMetaData();
   }
 
+  get clientSearchFDataTableMetaData() {
+    return new ClientSearchFDataTableMDP({
+      parent: this,
+    }).getMetaData();
+  }
+
   mounted() {
     this.searchClient();
   }
@@ -108,13 +125,15 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
   searchClient() {
     Action.Client.SearchClient.execute(
       this.clientSearchFormLocal,
-      (output) => {
-      }
+      (output) => {}
     );
   }
 
-    gotoClient(clientId: string) {
-      this.$router.push({name: "Root.Client.ClientDetails", params: {clientId: clientId}})
-    }
+  gotoClient(clientId: string) {
+    this.$router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
+    });
+  }
 }
 </script>

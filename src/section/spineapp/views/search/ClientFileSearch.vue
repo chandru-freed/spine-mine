@@ -13,7 +13,7 @@
       ></component>
     </v-card>
     <!-- CLIENT FILE LIST -->
-    <v-card class="pa-0 ma-0" color="transparent">
+    <!-- <v-card class="pa-0 ma-0" color="transparent"> -->
       <component
         v-if="!!allClientFileListFDataTableMetaData"
         :ref="allClientFileListFDataTableMetaData.myRefName"
@@ -21,7 +21,7 @@
         :value="selectModel(searchResultList, undefined)"
         v-bind="allClientFileListFDataTableMetaData.props"
       ></component>
-    </v-card>
+    <!-- </v-card> -->
     <!-- CLIENT FILE LIST  -->
   </div>
 </template>

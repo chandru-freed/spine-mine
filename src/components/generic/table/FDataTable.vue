@@ -142,7 +142,8 @@
                   mdi-eye-outline
                 </v-icon>
               </template>
-              <v-list max-height="400px"   dense>
+              <v-card max-height="400px">
+              <v-list dense>
                 <v-list-item v-for="(item, index) in columnList" :key="index">
                   <!-- <v-list-tile-action> -->
                     <v-checkbox
@@ -153,6 +154,7 @@
                   <!-- </v-list-tile-action> -->
                 </v-list-item>
               </v-list>
+              </v-card>
             </v-menu>
           </div>
           <!-- Show and Hide Headers -->

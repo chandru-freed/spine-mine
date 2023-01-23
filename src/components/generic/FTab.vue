@@ -43,7 +43,7 @@ export default class FTab extends Vue {
   roleList: string[];
 
   mounted() {
-    const ret = this.tabList
+    const ret = this.filteredTabList
       .map((tab) => tab.routerName)
       .indexOf(this.$route.name!);
     this.activeTab = ret;
@@ -61,7 +61,7 @@ export default class FTab extends Vue {
       const routeRoleList = RouterUtil.getUserRolesForRoute(item.routerName);
       if(routeRoleList.length>0) {
         return this.roleList.some((role: any) => {
-          // return routeRoleList.includes(role)
+          return routeRoleList.includes(role)
         });
       } else {
         return true

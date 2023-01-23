@@ -45,6 +45,8 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfoStore: Data.ClientFile.BudgetInfo;
 
+  newPaymentPlan: Data.Spine.FiPSPlanInfo = new Data.Spine.FiPSPlanInfo();
+
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
@@ -84,6 +86,8 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
     Action.Spine.UploadPaymentSchedulePlanExcel.interested(
       this.getFiPaymentWithDelayHandler
     );
+
+    Action.Spine.RecalculatePSPlanForPM.interested(this.getFiPaymentWithDelayHandler);
   }
 
   public destroyed() {
@@ -104,31 +108,45 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
     Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(
       this.getFiPaymentWithDelayHandler
     );
+
+    Action.Spine.RecalculatePSPlanForPM.notInterested(this.getFiPaymentWithDelayHandler);
   }
 
   getFiPaymentWithDelay() {
     setTimeout(() => {
+      this.getBudgetInfo();
       this.getFiPaymentPlanInfo();
       this.getFiCreditorInfo();
       this.getFiPaymentList();
-      this.getBudgetInfo();
     }, 1000);
   }
 
   get paymentPlanWithTotalDebt() {
-    return new Data.ClientFile.FiPaymentPlanWithCreditor(
-      this.fiPaymentPlanInfo,
-      this.fiCreditorInfo,
-      this.budgetInfoStore
-    );
+    return {
+      paymentPlan: this.newPaymentPlan || new Data.ClientFile.FiPaymentPlanInfo(),
+      creditorInfo: this.fiCreditorInfo|| new Data.ClientFile.FiCreditorInfo(),
+      budgetInfo: this.budgetInfoStore|| new Data.ClientFile.BudgetInfo(),
+    }
   }
 
   getFiPaymentPlanInfo() {
     Action.ClientFile.GetPaymentPlanInfo.execute1(
       this.clientFileId,
-      (output) => {}
+      (output) => {
+        this.getFiPaymentPlanInfoFromPsPlanId(output?.psPlanId);
+      }
     );
   }
+
+  getFiPaymentPlanInfoFromPsPlanId(newPSPlanId: any) {
+    
+      Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
+        console.log(output);
+        this.newPaymentPlan = output;
+      });
+  }
+
+  
 
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(

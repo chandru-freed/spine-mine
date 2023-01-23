@@ -19,12 +19,12 @@ export default class MISReportsFTabMDP extends FTabMDP {
       tabName: "Active Tasks",
       routerName: "Root.Operation.OPRActiveTaskList",
     }).addTab({
-      tabName: "Active Tickets",
-      routerName: "Root.Operation.OPRActiveTicketList",
-    }).addTab({
       tabName: "Day Wise Payment",
       routerName: "Root.Operation.PaymentOperation",
-    });
+    }).addTab({
+      tabName: "Active Tickets",
+      routerName: "Root.Operation.OPRActiveTicketList",
+    })
   }
 
   getMyRef(): any {

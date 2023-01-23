@@ -166,14 +166,17 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
 
   schedulePaymentPlan(callback?: () => void) {
     const parentComponent = this.parent.getMyRef();
-    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
+    const input = Data.Spine.RecalculatePSPlanForPMInput.fromJson(
       parentComponent.modelValue.paymentPlan
     );
-    input.clientFileId = parentComponent.clientFileBasicInfo.clientFileId;
-    input.ppCalculator.outstanding =
+    input.psPlanId = parentComponent.modelValue.paymentPlan.psPlanId;
+    input.outstanding = parentComponent.modelValue.creditorInfo.totalDebt;
+    input.spaFirstDraftDate = parentComponent.modelValue.paymentPlan.ppCalculator.firstDraftDate;
+    input.settlementPercentage = parentComponent.modelValue.paymentPlan.ppCalculator.settlementPercentage;
+    input.tenor = parentComponent.modelValue.paymentPlan.ppCalculator.tenor;
+    input.msfFirstDraftDate = parentComponent.modelValue.paymentPlan.ppCalculator.feeFirstDraftDate
     parentComponent.modelValue.creditorInfo.totalDebt;
-    // input.taskId = parentComponent.taskId;
-    Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
+    Action.Spine.RecalculatePSPlanForPM.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",
         pos: "bottom-center",

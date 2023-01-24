@@ -53,7 +53,7 @@ export default class UpdateAccountDetailsFFormMDP extends FFormMDP {
           label: "IFSC Code",
           boundaryClass: "col-3",
           mandatory: true,
-          rules: "validate_ifsc"
+          // rules: "validate_ifsc"
         })
       )
       .addAction(

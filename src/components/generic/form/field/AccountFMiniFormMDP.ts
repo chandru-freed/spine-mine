@@ -86,7 +86,7 @@ export default class AccountFMiniFormMDP extends FMiniFormMDP {
           label: "IFSC Code",
           boundaryClass: "col-4",
           disabled: this.disabled,
-          rules:"validate_ifsc",
+          // rules:"validate_ifsc",
           mandatory: true,
         })
       );

@@ -72,9 +72,10 @@ export default class FDataTableMDP implements MDP {
   addFilter(newField: {
     label: string;
     dataSelectorKey: any ;
-    filterItems: any[];
+    filterItems?: any[];
     itemKey?: string;
     itemText?: string;
+    booleanFilter?: boolean;
   }) {
     this.columnFilterList.push(
       new FTableFilterMDP(newField)

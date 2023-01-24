@@ -15,6 +15,7 @@ export default class DCPDashboardFDataTableMDP extends FDataTableMDP {
       enableSearch: true,
       title: "DCP",
       multiSelect: true,
+      itemKey: "clientFileNumber",
     });
     this.parent = props.parent;
     this.addColumn({

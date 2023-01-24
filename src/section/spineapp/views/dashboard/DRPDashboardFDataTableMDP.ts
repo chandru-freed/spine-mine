@@ -15,6 +15,7 @@ export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
       enableSearch: true,
       title: "DRP",
       multiSelect: true,
+      itemKey: "clientFileNumber",
     });
     this.parent = props.parent;
     this.addColumn({

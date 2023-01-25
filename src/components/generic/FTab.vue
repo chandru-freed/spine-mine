@@ -40,7 +40,7 @@ export default class FTab extends Vue {
   tabList: any[];
 
   @Store.Getter.Login.LoginDetails.roleList
-  roleList: string[];
+  loggedInUserRoleList: string[];
 
   mounted() {
     const ret = this.filteredTabList
@@ -58,14 +58,7 @@ export default class FTab extends Vue {
   }
   get filteredTabList() {
     return this.tabList.filter(item => {
-      const routeRoleList = RouterUtil.getUserRolesForRoute(item.routerName);
-      if(routeRoleList.length>0) {
-        return this.roleList.some((role: any) => {
-          return routeRoleList.includes(role)
-        });
-      } else {
-        return true
-      }
+      return RouterUtil.isAuthorizedRouter(item.routerName, this.loggedInUserRoleList)
     });
   }
 }

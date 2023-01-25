@@ -64,7 +64,7 @@ export default class CFLeftNav extends Vue {
   fileSummary: Data.ClientFile.FileSummary;
 
   @Store.Getter.Login.LoginDetails.roleList
-  roleList: string[];
+  loggedInUserRoleList: string[];
 
   cfNavList = [
     {
@@ -138,52 +138,63 @@ export default class CFLeftNav extends Vue {
     {
       title: "Actions",
       icon: "mdi-gesture-double-tap",
-      items: [{ title: "List Item",routerName: "Root.CFile.CFAction.CFActionList", }],
+      items: [
+        { title: "List Item", routerName: "Root.CFile.CFAction.CFActionList" },
+      ],
     },
     {
       title: "Settlement",
       icon: "mdi-handshake-outline",
-      items: [{ title: "Settlement Plan",routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList", }],
+      items: [
+        {
+          title: "Settlement Plan",
+          routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList",
+        },
+      ],
     },
     {
       title: "Admin",
       icon: "mdi-file-account",
       items: [
-        { title: "Personal", routerName: "Root.CFile.CFAdmin.CFAdminPersonalInfo" },
-        { title: "Creditor", routerName: "Root.CFile.CFAdmin.CFAdminCreditorInfo" },
+        {
+          title: "Personal",
+          routerName: "Root.CFile.CFAdmin.CFAdminPersonalInfo",
+        },
+        {
+          title: "Creditor",
+          routerName: "Root.CFile.CFAdmin.CFAdminCreditorInfo",
+        },
         { title: "Budget", routerName: "Root.CFile.CFAdmin.CFAdminBudgetInfo" },
         {
           title: "Payment Plan",
           routerName: "Root.CFile.CFAdmin.CFAdminPaymentPlanInfo",
         },
         { title: "Bank", routerName: "Root.CFile.CFAdmin.CFAdminBankInfo" },
-        { title: "Document", routerName: "Root.CFile.CFAdmin.CFAdminDocumentInfo" },
+        {
+          title: "Document",
+          routerName: "Root.CFile.CFAdmin.CFAdminDocumentInfo",
+        },
       ],
     },
   ];
-
+  
   get filteredCfNavList() {
-    const navListBasedOnRouteRoles = this.cfNavList.map(cfNav => {
-      cfNav.items = cfNav.items.filter(nav => {
-        const routeRoleList = RouterUtil.getUserRolesForRoute(nav.routerName);
-        if(routeRoleList.length>0) {
-        return this.roleList.some((role: any) => {
-          return routeRoleList.includes(role)
-        });
-      } 
-        return true
+    const authorizedNavList = this.cfNavList.map((cfNav) => {
+      const newAuthNav = {...cfNav};
+      newAuthNav.items = newAuthNav.items.filter((nav) => {
+        return RouterUtil.isAuthorizedRouter(nav.routerName, this.loggedInUserRoleList);
       });
-      return cfNav;
+      return newAuthNav;
     });
-    return navListBasedOnRouteRoles.filter(nav => nav.items.length >0);
+    return authorizedNavList.filter((authorizedNav) => authorizedNav.items.length > 0);
   }
 
   public drawer = true;
   public mini = true;
 
   goto(routerName: string) {
-    if(routerName) {
-    this.$router.push({ name: routerName });
+    if (routerName) {
+      this.$router.push({ name: routerName });
     }
   }
 }

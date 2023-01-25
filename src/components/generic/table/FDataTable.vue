@@ -538,14 +538,14 @@ export default class FDataTable extends ModelVue {
   }
 
   applyTableFilter() {
-    let filteredData = [...this.value];
+    let filteredDataList = [...this.value];
     this.columnFilterListWithValues.forEach((columnFilter) => {
-      filteredData = filteredData.filter((model: any) => {
+      filteredDataList = filteredDataList.filter((filteredData: any) => {
         if(columnFilter.booleanFilter === true) {
-          return columnFilter.value === this.selectModel(model, columnFilter.dataSelectorKey);
+          return columnFilter.value === this.selectModel(filteredData, columnFilter.dataSelectorKey);
         } else if (columnFilter.value.length > 0) {
           return columnFilter.value.includes(
-            this.selectModel(model, columnFilter.dataSelectorKey)
+            this.selectModel(filteredData, columnFilter.dataSelectorKey)
           );
         } else {
           return true;
@@ -553,7 +553,7 @@ export default class FDataTable extends ModelVue {
       });
     });
     this.filteredTableData = this.selectModel(
-      filteredData,
+      filteredDataList,
       this.dataSelectorKey
     );
   }

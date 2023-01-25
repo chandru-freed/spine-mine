@@ -42,4 +42,15 @@ export default class RouterUtil {
     const routeDetails = flatenedSmileRouterList.find((flatenedSmileRouter: any) => flatenedSmileRouter.name === routeName);
     return routeDetails?.meta?.roles || []
   }
+
+  static isAuthorizedRouter(routerName: string, roleList: any[]): boolean {
+    const roleForRouteList = this.getUserRolesForRoute(routerName);
+    if (roleForRouteList.length === 0) {
+      return true;
+    }
+    return roleList.some((role: any) => {
+      return roleForRouteList.includes(role);
+    });
+    return true
+  }
 }

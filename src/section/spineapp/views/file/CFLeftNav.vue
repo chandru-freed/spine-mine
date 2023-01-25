@@ -162,7 +162,7 @@ export default class CFLeftNav extends Vue {
     },
   ];
 
-  public get filteredCfNavList() {
+  get filteredCfNavList() {
     const navListBasedOnRouteRoles = this.cfNavList.map(cfNav => {
       cfNav.items = cfNav.items.filter(nav => {
         const routeRoleList = RouterUtil.getUserRolesForRoute(nav.routerName);

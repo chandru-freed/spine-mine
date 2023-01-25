@@ -74,6 +74,17 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           label: "Assigned Sales Rep",
           boundaryClass: "col-4",
         })
+      ).addField(
+        new FSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "emandateStatus",
+          label: "Emandate Status",
+          boundaryClass: "col-4",
+          options: Data.ClientFile.EMANDATE_STATUS.list(),
+          optionLabel:"name",
+          optionValue: "id",
+          clearable: true,
+        })
       )
 
       

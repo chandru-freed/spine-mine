@@ -65,16 +65,26 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "City",
         dataSelectorKey: "city",
+        hidden: true
       })
       .addColumn({
         label: "State",
         dataSelectorKey: "state",
         hidden: true
-      }).addFilter({
+      }).addColumn({
+        label: "Emandate Status",
+        dataSelectorKey: "emandateStatus.name",
+        columnCellMDP: new FCellStatusMDP({
+          colorCodeData: Data.Color.EMANDATE_STATUS,
+          outlined: true,
+        })
+      })
+      .addFilter({
         dataSelectorKey: "clientFileStatus.name",
         filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
         label: "Client file Status"
-      });
+      })
+      ;
   }
 
   handleClientFileClick(item: any) {

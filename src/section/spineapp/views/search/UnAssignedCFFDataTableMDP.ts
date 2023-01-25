@@ -61,6 +61,7 @@ export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "City",
         dataSelectorKey: "city",
+        hidden: true
       })
       .addColumn({
         label: "State",

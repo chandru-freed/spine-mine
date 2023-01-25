@@ -96,6 +96,17 @@
                 @click="rescueTask(step)"
                 >Rescue</v-btn
               >
+
+              <v-btn
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                v-if="taskRetry"
+                @click="retryTask()"
+                >Retry</v-btn
+              >
+
+              
               <!-- <v-btn
                 class="mr-2 elevation-0"
                 color="primary"
@@ -278,6 +289,13 @@ export default class FTaskStepper extends ModelVue {
   }
 
   get taskRescue(): boolean {
+    return (
+      this.taskDetails.taskState === "EXCEPTION_Q" ||
+      this.taskDetails.taskState === "EXIT_Q"
+    );
+  }
+
+    get taskRetry(): boolean {
     return (
       this.taskDetails.taskState === "EXCEPTION_Q" ||
       this.taskDetails.taskState === "EXIT_Q"

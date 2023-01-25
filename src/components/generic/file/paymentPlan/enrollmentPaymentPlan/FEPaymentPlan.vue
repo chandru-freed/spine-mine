@@ -20,11 +20,7 @@
 
     <TMOStimulator
       ref="tmosSimulator"
-<<<<<<< HEAD
       v-if="modelValue&&!taskStateTerminated"
-=======
-      v-if="modelValue"
->>>>>>> 86cba61 (Added update exception taken list, added bugfixes, added ui change in tmos simulator)
       :value="modelValue"
       :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"
       :simulatorInput="modelValue"

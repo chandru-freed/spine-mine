@@ -54,10 +54,6 @@ export default class CFInfoLayout extends Vue {
 
   tabList = [
     {
-      tabName: "Profile",
-      routerName: "Root.CFile.CFInfo.CFPersonalInfo",
-    },
-    {
       tabName: "Creditor",
       routerName: "Root.CFile.CFInfo.CFCreditorInfo",
     },
@@ -68,6 +64,10 @@ export default class CFInfoLayout extends Vue {
     {
       tabName: "Payment Plan",
       routerName: "Root.CFile.CFInfo.CFPaymentPlanInfo",
+    },
+    {
+      tabName: "Profile",
+      routerName: "Root.CFile.CFInfo.CFPersonalInfo",
     },
     {
       tabName: "Bank",

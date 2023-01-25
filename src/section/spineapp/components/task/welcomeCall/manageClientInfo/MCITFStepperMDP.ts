@@ -42,11 +42,6 @@ export default class MCITFStepperMDP extends FTaskStepperMDP {
     });
 
     this.addStep({
-      name: "Profile",
-      stepContent: mcitProfileStepMDP,
-      submitFunc: mcitProfileStepMDP.validateAndSubmit(),
-    })
-      .addStep({
         name: "Creditor",
         stepContent: new MCITCreditorStepFCreditorMDP({
           taskRoot: taskRoot,
@@ -65,6 +60,10 @@ export default class MCITFStepperMDP extends FTaskStepperMDP {
           parent: this,
         }),
         // submitFunc: ccitPPStepFPaymentPlanMDP.ppCalculatorFormSubmit(),
+      }).addStep({
+        name: "Profile",
+        stepContent: mcitProfileStepMDP,
+        submitFunc: mcitProfileStepMDP.validateAndSubmit(),
       })
       .addStep({
         name: "Bank",

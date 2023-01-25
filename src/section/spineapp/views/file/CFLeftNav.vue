@@ -67,13 +67,13 @@ export default class CFLeftNav extends Vue {
       title: "File",
       icon: "mdi-file-account",
       items: [
-        { title: "Personal", routerName: "Root.CFile.CFInfo.CFPersonalInfo" },
         { title: "Creditor", routerName: "Root.CFile.CFInfo.CFCreditorInfo" },
         { title: "Budget", routerName: "Root.CFile.CFInfo.CFBudgetInfo" },
         {
           title: "Payment Plan",
           routerName: "Root.CFile.CFInfo.CFPaymentPlanInfo",
         },
+        { title: "Personal", routerName: "Root.CFile.CFInfo.CFPersonalInfo" },
         { title: "Bank", routerName: "Root.CFile.CFInfo.CFBankInfo" },
         { title: "Document", routerName: "Root.CFile.CFInfo.CFDocumentInfo" },
       ],

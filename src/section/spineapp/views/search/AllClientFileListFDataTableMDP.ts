@@ -73,7 +73,7 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         hidden: true
       }).addColumn({
         label: "Emandate Status",
-        dataSelectorKey: "emandateStatus.name",
+        dataSelectorKey: "emandateStatus",
         columnCellMDP: new FCellStatusMDP({
           colorCodeData: Data.Color.EMANDATE_STATUS,
           outlined: true,

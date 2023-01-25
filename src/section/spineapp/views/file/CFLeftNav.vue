@@ -4,6 +4,7 @@
     :mini-variant="mini"
     absolute
     expand-on-hover
+    hide-overlay
   >
     <!-- <v-toolbar
       flat  

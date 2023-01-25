@@ -20,7 +20,7 @@
     </v-toolbar> -->
 
     <v-list>
-      <template v-for="item in items">
+      <template v-for="item in filteredCfNavList">
         <v-list-group
           :key="item.title"
           v-model="item.active"
@@ -54,6 +54,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
+import RouterUtil from "@/router/RouterUtil";
 @Component({})
 export default class CFLeftNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
@@ -62,7 +63,10 @@ export default class CFLeftNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
-  items = [
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
+
+  cfNavList = [
     {
       title: "File",
       icon: "mdi-file-account",
@@ -147,7 +151,7 @@ export default class CFLeftNav extends Vue {
       items: [
         { title: "Personal", routerName: "Root.CFile.CFAdmin.CFAdminPersonalInfo" },
         { title: "Creditor", routerName: "Root.CFile.CFAdmin.CFAdminCreditorInfo" },
-        { title: "Budget", routerName: "Root.CFile.CFAdminInfo.CFAdminBudgetInfo" },
+        { title: "Budget", routerName: "Root.CFile.CFAdmin.CFAdminBudgetInfo" },
         {
           title: "Payment Plan",
           routerName: "Root.CFile.CFAdmin.CFAdminPaymentPlanInfo",
@@ -157,6 +161,22 @@ export default class CFLeftNav extends Vue {
       ],
     },
   ];
+
+  public get filteredCfNavList() {
+    const navListBasedOnRouteRoles = this.cfNavList.map(cfNav => {
+      cfNav.items = cfNav.items.filter(nav => {
+        const routeRoleList = RouterUtil.getUserRolesForRoute(nav.routerName);
+        if(routeRoleList.length>0) {
+        return this.roleList.some((role: any) => {
+          return routeRoleList.includes(role)
+        });
+      } 
+        return true
+      });
+      return cfNav;
+    });
+    return navListBasedOnRouteRoles.filter(nav => nav.items.length >0);
+  }
 
   public drawer = true;
   public mini = true;

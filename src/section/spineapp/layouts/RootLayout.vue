@@ -72,6 +72,7 @@ export default class RootLayout extends Vue {
     return this.$route.params.clientFileId;
   }
   mounted() {
+    Store.Mutation.Spine.RouterStore.UPDATE_FLATTENED_ROUTER_LIST();
     this.getLoggedInUser();
   }
   getLoggedInUser() {

@@ -13,7 +13,7 @@
             <v-list-item-action>
                  <v-chip
                  v-if="fiEMandateList.length"
-                small
+                x-small
                 outlined
                 color="green"
                 >{{fiEMandateList[0].eMandateStatus.name}}</v-chip
@@ -27,14 +27,14 @@
             <v-list-item-action>
               <v-chip
                 v-if="fileSummary.isFirstMSFPaid"
-                small
+                x-small
                 outlined
                 color="green"
                 >PAID</v-chip
               >
               <v-chip
                 v-if="!fileSummary.isFirstMSFPaid"
-                small
+                x-small
                 outlined
                 color="warning"
                 >NOT PAID</v-chip

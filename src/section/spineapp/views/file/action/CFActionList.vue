@@ -283,6 +283,22 @@ export default class CFActionList extends Vue {
         },
       ],
     },
+    {
+      groupName: "Payment",
+      actionList: [
+        
+    {
+          actionName: "Record MSF Payment",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.RecordMSFPayment",
+        },
+        {
+          actionName: "Record SPA Payment",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.RecordSPAPayment",
+        },
+      ],
+    },
   ];
 
   get getActionList() {
@@ -501,6 +517,10 @@ export default class CFActionList extends Vue {
         this.gotoCFActiveTaskList();
       }, 400);
     });
+  }
+
+  recordMSFPayment() {
+    
   }
 
   get filteredActionGroupList() {

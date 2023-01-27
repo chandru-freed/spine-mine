@@ -276,6 +276,11 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFUpdateContactInfo",
         },
+         {
+          actionName: " Update Client Details",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFUpdateClientDetails",
+        },
       ],
     },
   ];

@@ -54,6 +54,10 @@ export default class CFInfoLayout extends Vue {
 
   tabList = [
     {
+      tabName: "Info",
+      routerName: "Root.CFile.CFInfo.CFClientInfo",
+    },
+    {
       tabName: "Creditor",
       routerName: "Root.CFile.CFInfo.CFCreditorInfo",
     },

@@ -42,7 +42,7 @@ export default class CFRecordSPAFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
       })
     ).addAction(new FBtnMDP({
-      label: "Record MSF Payment",
+      label: "Record SPA Payment",
       onClick: this.createUser()
     }))
   }

@@ -1,7 +1,7 @@
 
 <template>
  <div>
-  Admin Layout
+  
   <router-view/>
    <router-view name="appBar"/> 
  <router-view name="lefNavBar"/> 

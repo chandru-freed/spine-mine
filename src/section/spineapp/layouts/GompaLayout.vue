@@ -1,9 +1,7 @@
 
 <template>
  <div>
-  Gompa Layout
   <router-view/>
-  
  </div>
 </template>
 

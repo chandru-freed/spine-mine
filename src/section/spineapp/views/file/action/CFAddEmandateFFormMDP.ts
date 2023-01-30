@@ -124,6 +124,7 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
       dataSelectorKey:"eMandateLink",
       parentMDP: this.childMDP,
       boundaryClass: "col-6",
+      mandatory: true
     })).addField(new FTextFieldMDP({
       label:"UMRN",
       dataSelectorKey:"umrn",
@@ -137,6 +138,7 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
       boundaryClass: "col-6",
       optionLabel: "name",
       optionValue: "id",
+      mandatory: true
     })).addField(new FTextFieldMDP({
       label:"Npci_ref",
       dataSelectorKey:"npci_ref",

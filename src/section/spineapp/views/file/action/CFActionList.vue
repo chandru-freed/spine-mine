@@ -301,11 +301,11 @@ export default class CFActionList extends Vue {
         //   icon: "mdi-chevron-right",
         //   routerName: "Root.CFile.CFAction.CFRecordPayment",
         // },
-        // {
-        //   actionName: "Record Emandate",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.RecordEMandate",
-        // },
+        {
+          actionName: "Record Emandate",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.RecordEMandate",
+        },
       ],
     },
   ];

@@ -66,10 +66,10 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         label: "City",
         dataSelectorKey: "city",
       })
-      // .addColumn({
-      //   label: "State",
-      //   dataSelectorKey: "state",
-      // })
+      .addColumn({
+        label: "State",
+        dataSelectorKey: "state",
+      })
       .addAction({
         type: ActionType.ADD,
         label: "Add My Client File",

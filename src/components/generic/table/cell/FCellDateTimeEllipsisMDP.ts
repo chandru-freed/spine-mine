@@ -1,6 +1,6 @@
 import FColumnCellMDP from "../FColumnCellMDP";
-export default class FCellDateMDP implements FColumnCellMDP {
-  componentName: string = "FCellDateTime";
+export default class FCellDateTimeEllipsisMDP implements FColumnCellMDP {
+  componentName: string = "FCellDateTimeEllipsis";
   getMetaData(): object {
     return {
       componentName: this.componentName,

@@ -27,7 +27,7 @@
 
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn
-            v-if="!item.isDefault"
+              v-if="!item.isDefault"
               small
               outlined
               color="primary"
@@ -103,8 +103,13 @@ export default class FEMandate extends ModelVue {
         text: "Succesfully marked as default",
         pos: "bottom-center",
       });
-      this.getEMandateList();
+      this.getEMandateListWithDelay();
     });
+  }
+  getEMandateListWithDelay() {
+    setTimeout(() => {
+      this.getEMandateList();
+    }, 1000);
   }
 }
 </script>

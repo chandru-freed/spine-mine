@@ -22,44 +22,45 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
-      new FTextFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "taskInput.clRegistrationDetails.fullName",
-        label: "Name",
-        boundaryClass: "col-3",
-        disabled: true,
-        readonly: true,
-      })
-    )
-      .addField(
-        new FSelectFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.personalInfo.gender",
-          label: "Gender",
-          options: [
-            { id: "FEMALE", name: "Female" },
-            { id: "MALE", name: "Male" },
-            { id: "OTHERS", name: "Others" },
-          ],
-          optionLabel: "name",
-          optionValue: "id",
-          boundaryClass: "col-3",
-          disabled: true,
-          readonly: true
-        })
-      ).addField(
-        new FAgeFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "taskOutput.personalInfo.dob",
-          label: "Age",
-          boundaryClass: "col-3",
-          mandatory: true,
-          readonly: true,
-          disabled: true,
-        })
-      )
-      .addField(
+    // this.addField(
+    //   new FTextFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "taskInput.clRegistrationDetails.fullName",
+    //     label: "Name",
+    //     boundaryClass: "col-3",
+    //     disabled: true,
+    //     readonly: true,
+    //   })
+    // )
+      // .addField(
+      //   new FSelectFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.personalInfo.gender",
+      //     label: "Gender",
+      //     options: [
+      //       { id: "FEMALE", name: "Female" },
+      //       { id: "MALE", name: "Male" },
+      //       { id: "OTHERS", name: "Others" },
+      //     ],
+      //     optionLabel: "name",
+      //     optionValue: "id",
+      //     boundaryClass: "col-3",
+      //     disabled: true,
+      //     readonly: true
+      //   })
+      // )
+      // .addField(
+      //   new FAgeFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "taskOutput.personalInfo.dob",
+      //     label: "Age",
+      //     boundaryClass: "col-3",
+      //     mandatory: true,
+      //     readonly: true,
+      //     disabled: true,
+      //   })
+      // )
+      this.addField(
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.budgetInfo.hasDependents",
@@ -71,7 +72,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
         })
       )
       .addField(
@@ -86,7 +87,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           ],
           optionLabel: "name",
           optionValue: "id",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
         })
       )
       .addField(
@@ -94,7 +95,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.budgetInfo.maritalStatus",
           label: "Marital Status",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           mandatory: true,
           options: ["Married", "Single", "Separated", "Other"],
         })
@@ -104,7 +105,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.budgetInfo.hasKids",
           label: "Has Kids",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           mandatory: true,
           options: [
             { id: true, name: "Yes" },
@@ -119,7 +120,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.budgetInfo.rentedHouse",
           label: "Rented House",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           mandatory: true,
           options: ["Owned", "Rented"],
         })
@@ -129,7 +130,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.budgetInfo.employmentStatus",
           label: "Employment Status",
-          boundaryClass: "col-6",
+          boundaryClass: "col-4",
           mandatory: true,
           options: ["Salaried", "Unemployed", "Business"],
         })
@@ -140,7 +141,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           dataSelectorKey: "taskOutput.budgetInfo.employeeCompanyName",
           label: "Employee Company Name",
           mandatory: true,
-          boundaryClass: "col-6",
+          boundaryClass: "col-12",
         })
       );
   }

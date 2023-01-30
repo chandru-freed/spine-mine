@@ -96,6 +96,17 @@
                 @click="rescueTask(step)"
                 >Rescue</v-btn
               >
+
+              <v-btn
+                class="mr-2 elevation-0"
+                color="primary"
+                small
+                v-if="taskRetry"
+                @click="retryTask()"
+                >Retry</v-btn
+              >
+
+              
               <!-- <v-btn
                 class="mr-2 elevation-0"
                 color="primary"
@@ -260,7 +271,8 @@ import FDocumentCHPP from "./file/documentUploadCHPP/FDocumentCHPP.vue";
 export default class FTaskStepper extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
-
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
   suspendTaskInput: Data.TaskList.SuspendTaskInput =
     new Data.TaskList.SuspendTaskInput();
 
@@ -277,6 +289,13 @@ export default class FTaskStepper extends ModelVue {
   }
 
   get taskRescue(): boolean {
+    return (
+      this.taskDetails.taskState === "EXCEPTION_Q" ||
+      this.taskDetails.taskState === "EXIT_Q"
+    );
+  }
+
+    get taskRetry(): boolean {
     return (
       this.taskDetails.taskState === "EXCEPTION_Q" ||
       this.taskDetails.taskState === "EXIT_Q"
@@ -301,16 +320,16 @@ export default class FTaskStepper extends ModelVue {
         handleOtherActionClick: this.resumeTaskOn,
         condition: this.resumeStatus,
       },
-      // {
-      //   label: "Cancel Flow",
-      //   handleOtherActionClick: this.cancelFlow,
-      //   condition: this.isTaskActionable,
-      // },
-      // {
-      //   label: "Cancel Task",
-      //   handleOtherActionClick: this.cancelTask,
-      //   condition: this.isTaskActionable,
-      // },
+      {
+        label: "Cancel Flow",
+        handleOtherActionClick: this.cancelFlow,
+        condition: this.cancelStatus,
+      },
+      {
+        label: "Cancel Task",
+        handleOtherActionClick: this.cancelTask,
+        condition: this.cancelStatus,
+      },
     ];
     return this.filteredActionsLocal;
   }
@@ -325,6 +344,10 @@ export default class FTaskStepper extends ModelVue {
   resumeStatus() {
     return this.isTaskActionable() && this.taskDetails.isSuspended;
   }
+
+  cancelStatus() {
+    return this.isTaskActionable() && this.roleList.includes("Admin");
+  }  
 
   // get selectedStep(): number {
   //   if (this.$route.query.step) {

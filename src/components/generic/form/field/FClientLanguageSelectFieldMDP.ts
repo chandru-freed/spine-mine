@@ -14,6 +14,7 @@ export default class FClientLanguageSelectFieldMDP implements FFieldMDP {
   disabled: boolean
   condition: boolean;
   readonly: boolean;
+  multiple: boolean;
   constructor({
     parentMDP,
     dataSelectorKey,
@@ -26,6 +27,7 @@ export default class FClientLanguageSelectFieldMDP implements FFieldMDP {
     returnObject=false,
     condition=true,
     readonly = false,
+    multiple=false
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -38,6 +40,7 @@ export default class FClientLanguageSelectFieldMDP implements FFieldMDP {
     condition?:boolean
     returnObject?: boolean,
     readonly?: boolean;
+    multiple?: boolean;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -50,6 +53,7 @@ export default class FClientLanguageSelectFieldMDP implements FFieldMDP {
     this.condition = condition;
     this.returnObject = returnObject;
     this.readonly = readonly;
+    this.multiple = multiple;
   }
 
   getRules() {
@@ -82,6 +86,7 @@ export default class FClientLanguageSelectFieldMDP implements FFieldMDP {
         disabled: this.isDisabled(),
         returnObject: this.returnObject,
         readonly: this.readonly,
+        multiple: this.multiple
       },
     };
   }

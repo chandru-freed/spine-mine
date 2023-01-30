@@ -1,4 +1,5 @@
 import smileRouter from "@/../src-gen/smile-router";
+import store, * as Store from '@/../src-gen/store';
 
 export default class RouterUtil {
   static getRouteDetails(routeList: any, routeName: string) {
@@ -36,8 +37,20 @@ export default class RouterUtil {
   // }
 
   static getUserRolesForRoute(routeName: string) {
-    const flatenedSmileRouterList = this.flattenRouterList(smileRouter);
-    const routeDetails = flatenedSmileRouterList.find(flatenedSmileRouter => flatenedSmileRouter.name === routeName);
+    const state = store.state as any;
+    const flatenedSmileRouterList = state.Spine.RouterStore.flattenedRouterList;
+    const routeDetails = flatenedSmileRouterList.find((flatenedSmileRouter: any) => flatenedSmileRouter.name === routeName);
     return routeDetails?.meta?.roles || []
+  }
+
+  static isAuthorizedRouter(routerName: string, roleList: any[]): boolean {
+    const roleForRouteList = this.getUserRolesForRoute(routerName);
+    if (roleForRouteList.length === 0) {
+      return true;
+    }
+    return roleList.some((role: any) => {
+      return roleForRouteList.includes(role);
+    });
+    return true
   }
 }

@@ -2,6 +2,7 @@ import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
@@ -31,8 +32,8 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         label: "Client File Status",
         dataSelectorKey: "clientFileStatus.name",
         columnCellMDP: new FCellStatusMDP({
-          colorCodeData:  Data.Color.CLIENT_FILE_STATUS,
-          outlined: true
+          colorCodeData: Data.Color.CLIENT_FILE_STATUS,
+          outlined: true,
         }),
       })
       .addColumn({
@@ -49,29 +50,35 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Mobile",
         dataSelectorKey: "mobile",
-        columnCellMDP: new FCellPhoneMDP,
+        columnCellMDP: new FCellPhoneMDP(),
       })
       .addColumn({
         label: "E-mail",
         dataSelectorKey: "emailId",
-        columnCellMDP: new FCellEmailMDP
+        columnCellMDP: new FCellEmailMDP(),
+      })
+      .addColumn({
+        label: "Created On",
+        dataSelectorKey: "dateCreated",
+        columnCellMDP: new FCellDateTimeMDP(),
       })
       .addColumn({
         label: "City",
         dataSelectorKey: "city",
       })
-      .addColumn({
-        label: "State",
-        dataSelectorKey: "state",
-      })
+      // .addColumn({
+      //   label: "State",
+      //   dataSelectorKey: "state",
+      // })
       .addAction({
         type: ActionType.ADD,
         label: "Add My Client File",
         onClick: (item) => this.addMyClientFile(item),
-      }).addFilter({
+      })
+      .addFilter({
         dataSelectorKey: "clientFileStatus.name",
         filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
-        label: "Client file Status"
+        label: "Client file Status",
       });
   }
 

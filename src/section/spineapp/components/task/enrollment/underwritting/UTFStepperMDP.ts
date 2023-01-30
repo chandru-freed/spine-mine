@@ -25,13 +25,7 @@ export default class UTFStepperMDP extends FTaskStepperMDP {
       parent: this,
     });
 
-    this.addStep({
-      name: "Profile",
-      stepContent: new UTProfileStepFProfileFFormMDP({
-        taskRoot: taskRoot,
-        parent: this,
-      }),
-    })
+    this
       .addStep({
         name: "Creditor",
         stepContent: new UTCreditorStepFCreditorFFormMDP({
@@ -49,6 +43,13 @@ export default class UTFStepperMDP extends FTaskStepperMDP {
       .addStep({
         name: "Payment",
         stepContent: new UTPaymentPlanStepFPaymentPlanMDP({
+          taskRoot: taskRoot,
+          parent: this,
+        }),
+      })
+      .addStep({
+        name: "Profile",
+        stepContent: new UTProfileStepFProfileFFormMDP({
           taskRoot: taskRoot,
           parent: this,
         }),

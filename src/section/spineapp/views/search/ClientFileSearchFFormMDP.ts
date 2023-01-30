@@ -7,6 +7,7 @@ import ClientFileSearchIntf from "./ClientFileSearchIntf";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import * as Data from "@/../src-gen/data";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
+import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 
 export default class ClientFileSearchFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -17,15 +18,14 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
     });
     this.taskRoot = taskRoot;
 
-    this
-      .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "clientFileNumberContains", 
-          label: "File Number",
-          boundaryClass: "col-4",
-        })
-      )
+    this.addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "clientFileNumberContains",
+        label: "File Number",
+        boundaryClass: "col-4",
+      })
+    )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
@@ -34,18 +34,20 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
-      .addField(new FPhoneFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "clMobileContains",
-        label: "Mobile",
-        boundaryClass: "col-4"
-      }))
+      .addField(
+        new FPhoneFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "clMobileContains",
+          label: "Mobile",
+          boundaryClass: "col-4",
+        })
+      )
       .addField(
         new FEmailFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "clEmailId",
           label: "Email",
-          boundaryClass: "col-4"
+          boundaryClass: "col-4",
         })
       )
       .addField(
@@ -55,8 +57,8 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           label: "Client File Status",
           boundaryClass: "col-4",
           options: Data.ClientFile.CLIENT_FILE_STATUS.list(),
-          optionLabel:"name",
-          clearable: true
+          optionLabel: "name",
+          clearable: true,
         })
       )
       .addField(
@@ -75,9 +77,19 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
+      .addField(
+        new FSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "emandateStatus",
+          label: "Emandate Status",
+          boundaryClass: "col-4",
+          options: Data.ClientFile.EMANDATE_STATUS.list(),
+          optionLabel: "name",
+          optionValue: "id",
+          clearable: true,
+        })
+      )
 
-      
-      
       .addAction(
         new FBtnMDP({
           label: "Search",

@@ -10,7 +10,7 @@
       <app-bar-notification-menu/>
       <app-bar-user-menu/>
     </v-app-bar> -->
-    <div
+    <!-- <div
       :class="['sidenavBar', showAmeyoSideBar ? 'right0' : '']"
       v-if="clientFileId"
     >
@@ -24,7 +24,7 @@
         <v-icon v-if="!showAmeyoSideBar">mdi-phone-in-talk</v-icon>
         <v-icon v-if="showAmeyoSideBar">mdi-close</v-icon>
       </v-btn>
-    </div>
+    </div> -->
     <app-bar></app-bar>
 
     <!-- <v-main class="grey lighten-4" style="height: calc(100vh - 48px);"> -->
@@ -72,6 +72,7 @@ export default class RootLayout extends Vue {
     return this.$route.params.clientFileId;
   }
   mounted() {
+    Store.Mutation.Spine.RouterStore.UPDATE_FLATTENED_ROUTER_LIST();
     this.getLoggedInUser();
   }
   getLoggedInUser() {

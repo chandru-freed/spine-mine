@@ -9,19 +9,22 @@ export default class FTableFilterMDP implements MDP {
     filterItems: any[] ;
     itemKey?: string;
     itemText?: string;
+    booleanFilter?: boolean;
 
     constructor(props: {
         label: string;
         dataSelectorKey: string ;
-        filterItems: any[];
+        filterItems?: any[];
         itemKey?: string;
         itemText?: string;
+        booleanFilter?: boolean;
     }) {
         this.label = props.label;
         this.dataSelectorKey = props.dataSelectorKey;
         this.filterItems = props.filterItems || [];
         this.itemKey = props.itemKey || "id";
         this.itemText = props.itemText || "name";
+        this.booleanFilter = props.booleanFilter;
     }
 
     getMetaData(): object {
@@ -30,7 +33,8 @@ export default class FTableFilterMDP implements MDP {
             dataSelectorKey: this.dataSelectorKey,
             filterItems: this.filterItems,
             itemKey: this.itemKey,
-            itemText: this.itemText
+            itemText: this.itemText,
+            booleanFilter: this.booleanFilter
         }
     }
 }

@@ -178,7 +178,7 @@
             v-for="(filter, index) in columnFilterList"
             :key="filter.dataSelectorKey"
           >
-            <v-row class="mx-1">
+            <v-row v-if="!filter.booleanFilter" class="mx-1">
               <v-select
                 v-if="columnFilterListWithValues.length > 0"
                 outlined
@@ -195,6 +195,11 @@
               >
               </v-select>
             </v-row>
+              <div v-if="filter.booleanFilter" class="mx-1">
+                <v-switch :label="filter.label"
+                v-model="columnFilterListWithValues[index].value"
+                @change="applyTableFilter()" > </v-switch>
+              </div>
           </div>
 
           <!-- <v-btn class="mx-2" outlined @click="clearTableFilter()"
@@ -533,12 +538,14 @@ export default class FDataTable extends ModelVue {
   }
 
   applyTableFilter() {
-    let filteredData = [...this.value];
-    this.columnFilterListWithValues.forEach((item) => {
-      filteredData = filteredData.filter((model: any) => {
-        if (item.value.length > 0) {
-          return item.value.includes(
-            this.selectModel(model, item.dataSelectorKey)
+    let filteredDataList = [...this.value];
+    this.columnFilterListWithValues.forEach((columnFilter) => {
+      filteredDataList = filteredDataList.filter((filteredData: any) => {
+        if(columnFilter.booleanFilter === true) {
+          return columnFilter.value === this.selectModel(filteredData, columnFilter.dataSelectorKey);
+        } else if (columnFilter.value.length > 0) {
+          return columnFilter.value.includes(
+            this.selectModel(filteredData, columnFilter.dataSelectorKey)
           );
         } else {
           return true;
@@ -546,7 +553,7 @@ export default class FDataTable extends ModelVue {
       });
     });
     this.filteredTableData = this.selectModel(
-      filteredData,
+      filteredDataList,
       this.dataSelectorKey
     );
   }
@@ -557,15 +564,19 @@ export default class FDataTable extends ModelVue {
       this.modelValue,
       this.dataSelectorKey
     );
-    this.columnFilterListWithValues = this.columnFilterList;
+    this.resetColumnFilterWithValues();
   }
 
   mounted() {
     this.selectedColumnListToView = this.columnList.filter(column => {
       return column.hidden === false
     });
+    this.resetColumnFilterWithValues();
+  }
+
+  resetColumnFilterWithValues() {
     this.columnFilterListWithValues = this.columnFilterList.map((filter) => {
-      return { ...filter, value: [] };
+      return filter.booleanFilter?{ ...filter }:{ ...filter, value: [] };
     });
   }
 

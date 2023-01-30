@@ -276,6 +276,36 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.CFile.CFAction.CFUpdateContactInfo",
         },
+        {
+          actionName: " Update Client Details",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.CFUpdateClientDetails",
+        },
+      ],
+    },
+    {
+      groupName: "Payment",
+      actionList: [
+        // {
+        //   actionName: "Record MSF Payment",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.RecordMSFPayment",
+        // },
+        // {
+        //   actionName: "Record SPA Payment",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.RecordSPAPayment",
+        // },
+        // {
+        //   actionName: "Record Settled Payment",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.CFile.CFAction.CFRecordPayment",
+        // },
+        {
+          actionName: "Record Emandate",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CFile.CFAction.RecordEMandate",
+        },
       ],
     },
   ];
@@ -289,8 +319,7 @@ export default class CFActionList extends Vue {
     return [].concat(...flattenedList);
   }
 
-  mounted() {
-  }
+  mounted() {}
 
   takeAction(actionItem: any) {
     this.searchText = "";
@@ -421,9 +450,7 @@ export default class CFActionList extends Vue {
     }
   }
 
-  gotoUpdateContactInfo(){
-
-  }
+  gotoUpdateContactInfo() {}
 
   getCFActiveTaskList() {
     Action.TaskList.GetTaskListByCid.execute1(
@@ -497,6 +524,8 @@ export default class CFActionList extends Vue {
       }, 400);
     });
   }
+
+  recordMSFPayment() {}
 
   get filteredActionGroupList() {
     const filteredValList = this.actionGroupList

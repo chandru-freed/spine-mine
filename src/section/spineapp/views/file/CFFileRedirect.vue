@@ -46,7 +46,7 @@ export default class CFFileRedirect extends Vue {
       (output) => {
         setTimeout(() => {
           this.$router.replace({
-            name: "Root.CFile.CFInfo.CFPersonalInfo",
+            name: "Root.CFile.CFInfo.CFCreditorInfo",
             params: { clientFileId: this.clientFileBasicInfo.clientFileId },
           });
         }, 1000);

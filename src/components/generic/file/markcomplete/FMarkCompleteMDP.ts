@@ -32,26 +32,27 @@ export default class FMarkCompleteMDP implements MDP {
 
     getClientInfoSummaryMetaData() {
         return new StepSummaryMDP({parent: this.parent})
-            .addSummary({
-                name: "Profile",
-                content: new ProfileSummaryFFormMDP(),
-                stepIndex:0
-            })
+           
             .addSummary({
                 name: "Creditor",
                 content: new CreditorSummaryFDataTableMDP({taskRoot: this.taskRoot}),
-                stepIndex:1,
+                stepIndex:0,
             })
             .addSummary({
                 name: "Budget",
                 content: new BudgetSummaryFFormMDP(),
-                stepIndex:2
+                stepIndex:1
                 
             }).addSummary({
                 name: "Payment Plan",
                 content: new PaymentPlanSummaryFFormMDP(),
-                stepIndex:3
+                stepIndex:2
                 
+            })
+            .addSummary({
+                name: "Profile",
+                content: new ProfileSummaryFFormMDP(),
+                stepIndex:3
             }).addSummary({
                 name: "Bank Info",
                 content: new BankInfoSummaryFFormMDP(),

@@ -123,14 +123,16 @@
         </v-card>
       </div>
 
-       <div class="col-4">
-        <v-card class="mx-auto" outlined @click="gotoRouter('Root.MISReports.UpcomingPayments')">
+      <div class="col-4">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="gotoRouter('Root.MISReports.UpcomingPayments')"
+        >
           <v-list-item three-line>
             <v-list-item-content>
               <div class="text-overline mb-4">MIS Reports</div>
-              <v-list-item-title class="text-h4 mb-1">
-                2
-              </v-list-item-title>
+              <v-list-item-title class="text-h4 mb-1"> 2 </v-list-item-title>
               <v-list-item-subtitle>Active </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-avatar tile size="60">
@@ -139,7 +141,24 @@
           </v-list-item>
         </v-card>
       </div>
-    </div>
+      <div class="col-4">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="gotoRouter('Root.Dashboard.DCPDashboard')"
+        >
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">Dashboard</div>
+              <v-list-item-title class="text-h4 mb-1"> 2 </v-list-item-title>
+              <v-list-item-subtitle>Active </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-view-dashboard</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
     </div>
   </v-container>
 </template>

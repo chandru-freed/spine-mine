@@ -4,6 +4,7 @@ import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 
 export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -55,6 +56,11 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellEmailMDP(),
       })
       .addColumn({
+        label: "Created On",
+        dataSelectorKey: "dateCreated",
+        columnCellMDP: new FCellDateTimeMDP(),
+      })
+      .addColumn({
         label: "Assigned RM",
         dataSelectorKey: "assignedRM",
       })
@@ -65,15 +71,25 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "City",
         dataSelectorKey: "city",
+        hidden: true,
       })
       .addColumn({
         label: "State",
         dataSelectorKey: "state",
-        hidden: true
-      }).addFilter({
+        hidden: true,
+      })
+      .addColumn({
+        label: "Emandate Status",
+        dataSelectorKey: "emandateStatus",
+        columnCellMDP: new FCellStatusMDP({
+          colorCodeData: Data.Color.EMANDATE_STATUS,
+          outlined: true,
+        }),
+      })
+      .addFilter({
         dataSelectorKey: "clientFileStatus.name",
         filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
-        label: "Client file Status"
+        label: "Client file Status",
       });
   }
 

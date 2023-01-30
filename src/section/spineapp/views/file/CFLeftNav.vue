@@ -4,6 +4,7 @@
     :mini-variant="mini"
     absolute
     expand-on-hover
+    hide-overlay
   >
     <!-- <v-toolbar
       flat  
@@ -20,7 +21,7 @@
     </v-toolbar> -->
 
     <v-list>
-      <template v-for="item in items">
+      <template v-for="item in filteredCfNavList">
         <v-list-group
           :key="item.title"
           v-model="item.active"
@@ -54,6 +55,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
+import RouterUtil from "@/router/RouterUtil";
 @Component({})
 export default class CFLeftNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
@@ -62,18 +64,21 @@ export default class CFLeftNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
-  items = [
+  @Store.Getter.Login.LoginDetails.roleList
+  loggedInUserRoleList: string[];
+
+  cfNavList = [
     {
       title: "File",
       icon: "mdi-file-account",
       items: [
-        { title: "Personal", routerName: "Root.CFile.CFInfo.CFPersonalInfo" },
         { title: "Creditor", routerName: "Root.CFile.CFInfo.CFCreditorInfo" },
         { title: "Budget", routerName: "Root.CFile.CFInfo.CFBudgetInfo" },
         {
           title: "Payment Plan",
           routerName: "Root.CFile.CFInfo.CFPaymentPlanInfo",
         },
+        { title: "Personal", routerName: "Root.CFile.CFInfo.CFPersonalInfo" },
         { title: "Bank", routerName: "Root.CFile.CFInfo.CFBankInfo" },
         { title: "Document", routerName: "Root.CFile.CFInfo.CFDocumentInfo" },
       ],
@@ -134,21 +139,63 @@ export default class CFLeftNav extends Vue {
     {
       title: "Actions",
       icon: "mdi-gesture-double-tap",
-      items: [{ title: "List Item",routerName: "Root.CFile.CFAction.CFActionList", }],
+      items: [
+        { title: "List Item", routerName: "Root.CFile.CFAction.CFActionList" },
+      ],
     },
     {
       title: "Settlement",
       icon: "mdi-handshake-outline",
-      items: [{ title: "Settlement Plan",routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList", }],
+      items: [
+        {
+          title: "Settlement Plan",
+          routerName: "Root.CFile.CFSettlementPlan.CFSettlementPlanList",
+        },
+      ],
+    },
+    {
+      title: "Admin",
+      icon: "mdi-file-account",
+      items: [
+        {
+          title: "Personal",
+          routerName: "Root.CFile.CFAdmin.CFAdminPersonalInfo",
+        },
+        {
+          title: "Creditor",
+          routerName: "Root.CFile.CFAdmin.CFAdminCreditorInfo",
+        },
+        { title: "Budget", routerName: "Root.CFile.CFAdmin.CFAdminBudgetInfo" },
+        {
+          title: "Payment Plan",
+          routerName: "Root.CFile.CFAdmin.CFAdminPaymentPlanInfo",
+        },
+        { title: "Bank", routerName: "Root.CFile.CFAdmin.CFAdminBankInfo" },
+        {
+          title: "Document",
+          routerName: "Root.CFile.CFAdmin.CFAdminDocumentInfo",
+        },
+      ],
     },
   ];
+  
+  get filteredCfNavList() {
+    const authorizedNavList = this.cfNavList.map((cfNav) => {
+      const newAuthNav = {...cfNav};
+      newAuthNav.items = newAuthNav.items.filter((nav) => {
+        return RouterUtil.isAuthorizedRouter(nav.routerName, this.loggedInUserRoleList);
+      });
+      return newAuthNav;
+    });
+    return authorizedNavList.filter((authorizedNav) => authorizedNav.items.length > 0);
+  }
 
   public drawer = true;
   public mini = true;
 
   goto(routerName: string) {
-    if(routerName) {
-    this.$router.push({ name: routerName });
+    if (routerName) {
+      this.$router.push({ name: routerName });
     }
   }
 }

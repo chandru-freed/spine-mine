@@ -73,7 +73,7 @@ export default class CFRecordPayment extends ModelVue {
     Action.ClientFile.RecordSettledPayment.execute(
       this.recordSettledPaymentInput,
       (output) => {
-        this.gotoClientFile();
+        this.gotoCFPayment();
         Snackbar.show({
           text: "Succesfully assigned",
           pos: "bottom-center",
@@ -96,6 +96,16 @@ export default class CFRecordPayment extends ModelVue {
         clientFileId: this.clientFileId,
       },
     });
+  }
+
+  gotoCFPayment() {
+     this.$router.push({
+      name: "Root.CFile.CFPayment.CFPaymentList",
+      params: {
+        clientFileId: this.clientFileId,
+      },
+    });
+    
   }
 
   goBack() {

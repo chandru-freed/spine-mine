@@ -9,6 +9,7 @@ import FIFSCCodeFieldMDP from "@/components/generic/form/field/FIFSCCodeFieldMDP
 import FNupayBankSelectFieldMDP from "@/components/generic/form/field/FNupayBankSelectFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class RefundSPAFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -34,6 +35,16 @@ export default class RefundSPAFFormMDP extends FFormMDP {
         rules:"positive"
       },
     ))
+    .addField(new FSelectFieldMDP({
+      dataSelectorKey:"createRefundSPAInput.paymentMode",
+      disabled:this.disabled,
+      label: "Payment Mode",
+      options: Data.Spine.PAYMENT_MODE.list(),
+      parentMDP: this.childMDP,
+      boundaryClass: "col-4",
+      optionLabel: "name",
+      optionValue: "value",
+    }))
     .addField(new FEMandateSelectFieldMDP({
       dataSelectorKey:"selectedEMandate",
       label: "Emandate",

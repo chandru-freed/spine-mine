@@ -32,7 +32,7 @@ export default class FMsfPaymentDetailsFFormMDP extends FFormMDP {
         mandatory: true,
         returnObject: true,
         options: [
-          // { id: "NUPAY", name: "NUPAY" },
+          { id: "NUPAY", name: "NUPAY" },
           { id: "CASHFREE", name: "CASHFREE",},
         ],
         optionLabel: "name",
@@ -88,6 +88,7 @@ export default class FMsfPaymentDetailsFFormMDP extends FFormMDP {
           boundaryClass: "col-6",
           disabled: true,
           mandatory: true,
+          condition: this.taskRoot.isRemoteTxnRefDetailsAvailable() 
         })
       )
       // .addAction(

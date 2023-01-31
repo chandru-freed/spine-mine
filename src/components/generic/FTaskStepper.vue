@@ -246,6 +246,7 @@ import FCancelFlowFFormMDP from "./cancelTask/FCancelFlowFFormMDP";
 import FCancelTaskFFormMDP from "./cancelTask/FCancelTaskFFormMDP";
 import FSnackbar from "@/fsnackbar";
 import FDocumentCHPP from "./file/documentUploadCHPP/FDocumentCHPP.vue";
+import FPaymentDetails from "./file/paymentDetails/FPaymentDetails.vue";
 
 @Component({
   components: {
@@ -266,6 +267,7 @@ import FDocumentCHPP from "./file/documentUploadCHPP/FDocumentCHPP.vue";
     CMSFTCDraftPaymentStep,
     CNSFMSFTCDraftPaymentStep,
     FDocumentCHPP,
+    FPaymentDetails
   },
 })
 export default class FTaskStepper extends ModelVue {

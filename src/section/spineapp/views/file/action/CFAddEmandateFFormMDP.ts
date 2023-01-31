@@ -17,6 +17,8 @@ import FNupayBankSelectFieldMDP from "@/components/generic/form/field/FNupayBank
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
+import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
+
 
 export default class CFAddEmandateFFormMDP extends FFormMDP {
 
@@ -87,6 +89,7 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
       dataSelectorKey:"accountHolderName",
       parentMDP: this.childMDP,
       boundaryClass: "col-4",
+      mandatory: true
     })).addField(
       new AddressFMiniFormMDP({
         taskRoot: this.parent,
@@ -111,16 +114,18 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
         mandatory: true,
       })
-    ).addField(new FDateFieldMDP({
+    ).addField(new FSelectDateFieldMDP({
       parentMDP: this.childMDP,
       dataSelectorKey:"draftDate",
       label: "Draft Date",
       boundaryClass: "col-4",
+      mandatory: true
     })).addField(new FTextFieldMDP({
       label:"EMandate Link",
       dataSelectorKey:"eMandateLink",
       parentMDP: this.childMDP,
       boundaryClass: "col-6",
+      mandatory: true
     })).addField(new FTextFieldMDP({
       label:"UMRN",
       dataSelectorKey:"umrn",
@@ -134,6 +139,7 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
       boundaryClass: "col-6",
       optionLabel: "name",
       optionValue: "id",
+      mandatory: true
     })).addField(new FTextFieldMDP({
       label:"Npci_ref",
       dataSelectorKey:"npci_ref",
@@ -155,22 +161,8 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
       dataSelectorKey:"reject_by",
       parentMDP: this.childMDP,
       boundaryClass: "col-6",
-    }))
-
-    
-
-    
-    
-
-    
-    
-
-    
-    
-    
-    
-    .addAction(new FBtnMDP({
-      label: "Record MSF Payment",
+    })).addAction(new FBtnMDP({
+      label: "Record EMandate",
       onClick: this.createUser()
     }))
   }

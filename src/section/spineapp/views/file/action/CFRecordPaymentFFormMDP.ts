@@ -66,8 +66,6 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
           label: "Presented Date",
           boundaryClass: "col-4",
           mandatory: true,
-          pastDaysDisabled: true,
-          futureDaysDisabled: false,
         })
       )
       .addField(
@@ -78,13 +76,10 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           mandatory: true,
           returnObject: true,
-          options: [
-            { id: "PRESENTED", name: "PRESENTED" },
-            { id: "FUND_SPLIT_REJECTED", name: "FUND SPLIT REJECTED" },
-            { id: "FUND_SPLIT_SETTLED", name: "FUND SPLIT SETTLED" },
-          ],
+          options: Data.ClientFile.PAYMENT_FUND_SPLIT_STATUS.list(),
           optionLabel: "name",
           optionValue: "id",
+          readonly: true
         })
       )
       .addField(

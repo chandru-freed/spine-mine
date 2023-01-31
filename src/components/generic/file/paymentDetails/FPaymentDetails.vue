@@ -64,6 +64,10 @@ export default class FPaymentDetails extends ModelVue {
     });
   }
 
+  isRemoteTxnRefDetailsAvailable() {
+    return this.fiPaymentDetails.remoteTxnRefDetails !==undefined &&this.fiPaymentDetails.remoteTxnRefDetails !==null
+  }
+
   get fMsfPaymentDetailsFFormMetaData() {
     return new FMsfPaymentDetailsFFormMDP({ taskRoot: this }).getMetaData();
   }

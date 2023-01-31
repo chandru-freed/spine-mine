@@ -11,12 +11,11 @@
               <v-list-item-title>Emandate</v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-                 <v-chip
-                 v-if="fiEMandateList.length"
-                x-small
-                outlined
-                color="green"
-                >{{fiEMandateList[0].eMandateStatus.name}}</v-chip
+              <v-chip v-if="fiEMandateStatus" x-small outlined color="green"
+                >ACTIVE</v-chip
+              >
+              <v-chip v-if="!fiEMandateStatus" x-small outlined color="warning"
+                >PENDING</v-chip
               >
             </v-list-item-action>
           </v-list-item>
@@ -68,7 +67,7 @@ export default class CFClientInfo extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
   fiEMandateList: Data.ClientFile.FiEMandateList;
-
+  fiEMandateListStatus: any = [];
   clientFileId = this.$route.params.clientFileId;
 
   //FORM
@@ -82,6 +81,17 @@ export default class CFClientInfo extends ModelVue {
       this.clientFileId,
       (output) => {}
     );
+  }
+
+  get fiEMandateStatus() {
+    this.fiEMandateListStatus = this.fiEMandateList;
+    let status: boolean = false;
+    this.fiEMandateListStatus.map((value: any) => {
+      if (value.eMandateStatus.name === "ACTIVE") {
+        status = true;
+      }
+    });
+    return status;
   }
 }
 </script>

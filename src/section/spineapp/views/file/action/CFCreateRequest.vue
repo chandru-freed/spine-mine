@@ -386,6 +386,7 @@ export default class CFCreateRequest extends Vue {
   }
 
   populateAccountDetailsRefundSPA(details: any) {
+    this.fileCreateRequestInput.createRefundSPAInput.eMandateId = details.eMandateId;
     this.fileCreateRequestInput.createRefundSPAInput.accountDetails = details;
   }  
 

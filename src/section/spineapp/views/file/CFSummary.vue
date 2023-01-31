@@ -2,7 +2,7 @@
   <div class="row">
     <!-- Client File Number and Client -->
     <div class="col-4">
-      <v-card outlined color="primary" @click="gotoProfile">
+      <v-card outlined color="primary">
         <v-list class="py-0">
           <v-list-item dense>
             <v-list-item-icon class="mr-2">
@@ -25,7 +25,7 @@
             </v-list-item-action>
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item dense>
+          <v-list-item dense @click="gotoProfile">
             <v-list-item-icon class="mr-2">
               <v-icon color="deep-purple"> mdi-account </v-icon>
             </v-list-item-icon>

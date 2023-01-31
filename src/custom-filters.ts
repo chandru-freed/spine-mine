@@ -20,6 +20,7 @@ export default class CustomFilters {
     this.toMonthDay();
     this.toMaskedAccountNumber();
     this.toRoundedINR();
+    this.toMonthDayShort()
   }
 
   private static toUSD() {
@@ -66,7 +67,11 @@ export default class CustomFilters {
       return Moment(new Date(value)).format("Do MMM");
     });
   }
-
+  private static toMonthDayShort() {
+    Vue.filter("monthdayshort", (value: any) => {
+      return Moment(new Date(value)).format("MMM D");
+    });
+  }
   private static fromNow() {
     Vue.filter("fromNow", (value: any) => {
       return value?Moment(new Date(value)).fromNow():'--';

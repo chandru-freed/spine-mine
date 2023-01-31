@@ -4,7 +4,8 @@ import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
-import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
+import FCellDateTimeEllipsisMDP from "@/components/generic/table/cell/FCellDateTimeEllipsisMDP";
+
 
 export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -58,7 +59,7 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "Created On",
         dataSelectorKey: "dateCreated",
-        columnCellMDP: new FCellDateTimeMDP(),
+        columnCellMDP: new FCellDateTimeEllipsisMDP(),
       })
       .addColumn({
         label: "Assigned RM",

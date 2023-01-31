@@ -138,22 +138,22 @@
           <div v-if="enableShowHideColumns">
             <v-menu z-index="99999" offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on }">
-                <v-icon class="mx-2" color="primary" v-on="on" >
+                <v-icon class="mx-2" color="primary" v-on="on">
                   mdi-eye-outline
                 </v-icon>
               </template>
               <v-card max-height="400px">
-              <v-list dense>
-                <v-list-item v-for="(item, index) in columnList" :key="index">
-                  <!-- <v-list-tile-action> -->
+                <v-list dense>
+                  <v-list-item v-for="(item, index) in columnList" :key="index">
+                    <!-- <v-list-tile-action> -->
                     <v-checkbox
                       v-model="selectedColumnListToView"
                       :value="item"
                       :label="item.text"
                     ></v-checkbox>
-                  <!-- </v-list-tile-action> -->
-                </v-list-item>
-              </v-list>
+                    <!-- </v-list-tile-action> -->
+                  </v-list-item>
+                </v-list>
               </v-card>
             </v-menu>
           </div>
@@ -195,11 +195,14 @@
               >
               </v-select>
             </v-row>
-              <div v-if="filter.booleanFilter" class="mx-1">
-                <v-switch :label="filter.label"
+            <div v-if="filter.booleanFilter" class="mx-1">
+              <v-switch
+                :label="filter.label"
                 v-model="columnFilterListWithValues[index].value"
-                @change="applyTableFilter()" > </v-switch>
-              </div>
+                @change="applyTableFilter()"
+              >
+              </v-switch>
+            </div>
           </div>
 
           <!-- <v-btn class="mx-2" outlined @click="clearTableFilter()"
@@ -278,6 +281,7 @@ import FCellCurrencyBtn from "./cell/FCellCurrencyBtn.vue";
 import * as Json2csv from "json2csv";
 import { filter } from "vue/types/umd";
 import FCellTextEllipsis from "./cell/FCellTextEllipsis.vue";
+import FCellDateTimeEllipsis from "./cell/FCellDateTimeEllipsis.vue";
 
 @Component({
   components: {
@@ -303,7 +307,8 @@ import FCellTextEllipsis from "./cell/FCellTextEllipsis.vue";
     FCellDayPastDue,
     FCellSLA,
     FCellCurrencyBtn,
-    FCellTextEllipsis
+    FCellTextEllipsis,
+    FCellDateTimeEllipsis,
   },
 })
 export default class FDataTable extends ModelVue {
@@ -501,7 +506,9 @@ export default class FDataTable extends ModelVue {
   }
 
   private exportAsCsv() {
-    const filteredValue = this.showFilterForm?this.filteredTableData:this.modelValue;
+    const filteredValue = this.showFilterForm
+      ? this.filteredTableData
+      : this.modelValue;
     const fields = this.filteredHeaders.map((obj) => {
       return { value: obj.value, label: obj.text };
     });
@@ -541,8 +548,11 @@ export default class FDataTable extends ModelVue {
     let filteredDataList = [...this.value];
     this.columnFilterListWithValues.forEach((columnFilter) => {
       filteredDataList = filteredDataList.filter((filteredData: any) => {
-        if(columnFilter.booleanFilter === true) {
-          return columnFilter.value === this.selectModel(filteredData, columnFilter.dataSelectorKey);
+        if (columnFilter.booleanFilter === true) {
+          return (
+            columnFilter.value ===
+            this.selectModel(filteredData, columnFilter.dataSelectorKey)
+          );
         } else if (columnFilter.value.length > 0) {
           return columnFilter.value.includes(
             this.selectModel(filteredData, columnFilter.dataSelectorKey)
@@ -568,15 +578,15 @@ export default class FDataTable extends ModelVue {
   }
 
   mounted() {
-    this.selectedColumnListToView = this.columnList.filter(column => {
-      return column.hidden === false
+    this.selectedColumnListToView = this.columnList.filter((column) => {
+      return column.hidden === false;
     });
     this.resetColumnFilterWithValues();
   }
 
   resetColumnFilterWithValues() {
     this.columnFilterListWithValues = this.columnFilterList.map((filter) => {
-      return filter.booleanFilter?{ ...filter }:{ ...filter, value: [] };
+      return filter.booleanFilter ? { ...filter } : { ...filter, value: [] };
     });
   }
 

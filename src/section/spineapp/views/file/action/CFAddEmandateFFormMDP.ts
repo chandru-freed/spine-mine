@@ -19,7 +19,6 @@ import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 
-
 export default class CFAddEmandateFFormMDP extends FFormMDP {
 
   childMDP = new FFormChildMDP();

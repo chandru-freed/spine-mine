@@ -174,7 +174,7 @@
 
     <template v-slot:item.lastUserActivityTime="{ item }">
       <span class="grey--text">
-        {{ getLastUpdatedTime(item) | fromNow }}
+        {{ getLastUpdatedTime(item) | datetime }}
       </span>
     </template>
     <template v-slot:no-data> No Tasks Available </template>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{showAmeyoSideBar}} -->
     <!-- <left-navigation-bar></left-navigation-bar> -->
 
     <!-- <v-app-bar app dense  flat class="grey lighten-2">

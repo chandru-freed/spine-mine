@@ -67,7 +67,11 @@ export default class CFClientInfo extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
   fiEMandateList: Data.ClientFile.FiEMandateList;
+<<<<<<< HEAD
   fiEMandateListStatus: any = [];
+=======
+
+>>>>>>> main
   clientFileId = this.$route.params.clientFileId;
 
   //FORM
@@ -82,6 +86,7 @@ export default class CFClientInfo extends ModelVue {
       (output) => {}
     );
   }
+<<<<<<< HEAD
 
   get fiEMandateStatus() {
     this.fiEMandateListStatus = this.fiEMandateList;
@@ -93,6 +98,8 @@ export default class CFClientInfo extends ModelVue {
     });
     return status;
   }
+=======
+>>>>>>> main
 }
 </script>
 

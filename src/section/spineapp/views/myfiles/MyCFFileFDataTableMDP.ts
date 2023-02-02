@@ -63,13 +63,18 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellDateTimeMDP(),
       })
       .addColumn({
+        label: "Created On",
+        dataSelectorKey: "dateCreated",
+        columnCellMDP: new FCellDateTimeMDP(),
+      })
+      .addColumn({
         label: "City",
         dataSelectorKey: "city",
       })
-      .addColumn({
-        label: "State",
-        dataSelectorKey: "state",
-      })
+      // .addColumn({
+      //   label: "State",
+      //   dataSelectorKey: "state",
+      // })
       .addAction({
         type: ActionType.ADD,
         label: "Add My Client File",

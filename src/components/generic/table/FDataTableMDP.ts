@@ -1,8 +1,10 @@
 import MDP from "../MDP";
+import FCellBlankMDP from "./cell/FCellBlankMDP";
 import FCellCurrencyMDP from "./cell/FCellCurrencyMDP";
 import FCellNameMDP from "./cell/FCellNameMDP";
 import FColumnCellMDP from "./FColumnCellMDP";
 import FColumnMDP from "./FColumnMDP";
+import FTableExpansionMDP from "./FTableExpansionMDP";
 import FTableFilterMDP from "./FTableFilterMDP";
 import FTabelInfoMDP from "./FTableInfoMDP";
 export default class FDataTableMDP implements MDP {
@@ -20,6 +22,9 @@ export default class FDataTableMDP implements MDP {
   multiSelect: boolean | undefined;
   enableExport: boolean | undefined;
   enableShowHideColumns: boolean | undefined;
+  expansionComponent: FTableExpansionMDP | undefined;
+  hideDefaultFooter?: boolean;
+  outlined?: boolean;
   constructor({
     dataSelectorKey,
     myRefName,
@@ -29,7 +34,9 @@ export default class FDataTableMDP implements MDP {
     enableSearch=false,
     multiSelect=false,
     enableExport=false,
-    enableShowHideColumns=false
+    enableShowHideColumns=false,
+    hideDefaultFooter=false,
+    outlined=true
     
   }:{
     dataSelectorKey?: string;
@@ -41,7 +48,8 @@ export default class FDataTableMDP implements MDP {
     enableExport?: boolean;
     enableShowHideColumns?: boolean;
     myRefName: string;
-    
+    hideDefaultFooter?: boolean;
+    outlined?: boolean;
   }) {
     this.dataSelectorKey = dataSelectorKey;
     this.itemKey = itemKey;
@@ -52,6 +60,8 @@ export default class FDataTableMDP implements MDP {
     this.myRefName = myRefName;
     this.enableExport = enableExport;
     this.enableShowHideColumns = enableShowHideColumns;
+    this.hideDefaultFooter = hideDefaultFooter;
+    this.outlined = outlined;
   }
 
 
@@ -61,10 +71,19 @@ export default class FDataTableMDP implements MDP {
     align?: string;
     sortable?: boolean;
     columnCellMDP?: FColumnCellMDP;
-    hidden?: boolean
+    hidden?: boolean;
+    width?: string;
   }) {
+    console.log(newField.columnCellMDP,"newField");
     this.columnList.push(
       new FColumnMDP(newField)
+    );
+    return this;
+  }
+
+  addBlankColumn(props: {width: string}) {
+    this.columnList.push(
+      new FColumnMDP({label:"", width: props.width,columnCellMDP: new FCellBlankMDP()})
     );
     return this;
   }
@@ -88,7 +107,8 @@ export default class FDataTableMDP implements MDP {
   addCurrencyColumn(newField: {
     label: string;
     dataSelectorKey: string;
-    rounded?: boolean
+    rounded?: boolean;
+    width?: string
   }) {
     const newCellMDP = new FColumnMDP(newField);
     newCellMDP.align = 'right';
@@ -97,7 +117,7 @@ export default class FDataTableMDP implements MDP {
       newCellMDP
     );
     return this;
-  }  
+  }
 
   addNumberColumn(newField: {
     label: string;
@@ -135,6 +155,11 @@ export default class FDataTableMDP implements MDP {
     return this;
   }
 
+  setExpansionComponent(expansionComponent: FTableExpansionMDP) {
+    this.expansionComponent = expansionComponent;
+    return this;
+  }
+
   getMetaData() {
     return {
       componentName: this.componentName,
@@ -153,6 +178,9 @@ export default class FDataTableMDP implements MDP {
         enableExport: this.enableExport,
         enableShowHideColumns: this.enableShowHideColumns,
         columnFilterList: this.columnFilterList.map(item => item.getMetaData()),
+        expansionComponent: this.expansionComponent?.getMetaData(),
+        hideDefaultFooter: this.hideDefaultFooter,
+        outlined: this.outlined
       }
     }
   }

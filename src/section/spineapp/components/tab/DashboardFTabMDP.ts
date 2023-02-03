@@ -16,7 +16,11 @@ export default class DashboardFTabMDP extends FTabMDP {
     }).addTab({
       tabName: "DRP",
       routerName: "Root.Dashboard.DRPDashboard",
+    }).addTab({
+      tabName: "Daily Sales",
+      routerName: "Root.Report.SalesReport.DailySalesReport",
     })
+    
   }
 
   getMyRef(): any {

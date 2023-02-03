@@ -92,7 +92,7 @@ export default class DailySalesReport extends ModelVue {
           (cfSalesForSalesRep) =>
             cfSalesForSalesRep.salesRep === cfSales.salesRep
         );
-        const cfSalesForSalesRep = this.setCfSalesForSalesRepFromCfSales(
+        const cfSalesForSalesRep = this.makeCfSalesForSalesRepObject(
           matchedCFSalesForSalesRep,
           cfSales
         );
@@ -103,10 +103,9 @@ export default class DailySalesReport extends ModelVue {
       },
       []
     );
-    console.log(this.cfSalesForSalesRepList);
   }
 
-  setCfSalesForSalesRepFromCfSales(
+  makeCfSalesForSalesRepObject(
     cfSalesForSalesRep: Data.Spine.CFSalesForSalesRep = new Data.Spine.CFSalesForSalesRep(),
     cfSales: Data.Spine.CFSales
   ) {

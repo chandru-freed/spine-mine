@@ -45,7 +45,8 @@ export default class AccountBalance extends ModelVue {
   selected = [];
   search = "";
 
-  allocatedTaskList: Data.TaskList.GetActiveTaskListAllocatedGrid[] = [];
+  misAccountBalanceEntryObj: Data.TaskList.MISAccountBalanceEntryObj = new Data.TaskList.MISAccountBalanceEntryObj();
+  allocatedTaskList: Data.TaskList.MISAccountBalanceEntry[] = [];
   suspendTaskInput: Data.TaskList.SuspendTaskInput =
     new Data.TaskList.SuspendTaskInput();
   showSuspendForm: boolean = false;
@@ -53,12 +54,13 @@ export default class AccountBalance extends ModelVue {
 
   public getActiveTaskListAllocatedGridHandler = (output: any) => {
     setTimeout(() => {
-      this.getActiveTaskListAllocatedGrid();
+      // this.getActiveTaskListAllocatedGrid();
     }, 1000);
   };
 
   mounted() {
-    this.getActiveTaskListAllocatedGrid();
+    // this.getActiveTaskListAllocatedGrid();
+    this.getAccountBalanceList();
     Action.TaskList.Suspend.interested(this.getActiveTaskListAllocatedGridHandler);
   }
 
@@ -71,16 +73,23 @@ export default class AccountBalance extends ModelVue {
   //     this.getActiveTaskListAllocatedGrid();
   //   }, 1000);
   // }
-  getActiveTaskListAllocatedGrid() {
-    Action.TaskList.GetActiveTaskListAllocated.execute((output) => {
-      this.allocatedTaskList = output;
+  // getActiveTaskListAllocatedGrid() {
+  //   Action.TaskList.GetActiveTaskListAllocated.execute((output) => {
+  //     this.allocatedTaskList = output;
+  //   });
+  // }
+
+  getAccountBalanceList(){
+    Action.TaskList.GetAccountBalanceList.execute((output) => {
+      console.log("kjhkjh", output.misAccountBalanceEntryList);
+      this.allocatedTaskList = output.misAccountBalanceEntryList;
     });
   }
 
   gotoFile(item: any) {
     Helper.Router.gotoFile({
       router: this.$router,
-      clientFileNumber: item.cid,
+      clientFileNumber: item.clientFileNumber,
     });
   }
 

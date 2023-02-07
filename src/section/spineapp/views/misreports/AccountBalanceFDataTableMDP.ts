@@ -19,7 +19,7 @@ export default class MISReportsFDataTableMDP extends FDataTableMDP {
     this.parent = props.parent;
     this.addColumn({
       label: "Client File Number",
-      dataSelectorKey: "cid",
+      dataSelectorKey: "clientFileNumber",
       columnCellMDP: new FCellBtnMDP({
         color: "secondary",
         icon: "mdi-file-account",
@@ -30,18 +30,13 @@ export default class MISReportsFDataTableMDP extends FDataTableMDP {
     })
       .addColumn({
         label: "Client Name",
-        dataSelectorKey: "displayId",
+        dataSelectorKey: "clientName",
         columnCellMDP: new FCellNameMDP({}),
       })
       .addColumn({
         label: "Amount",
-        dataSelectorKey: "spaAmount",
+        dataSelectorKey: "accountBalance",
         columnCellMDP: new FCellCurrencyMDP({}),
-      })
-      .addColumn({
-        label: "Payment Date",
-        dataSelectorKey: "spaPaymentDate",
-        columnCellMDP: new FCellDateTimeMDP(),
       })
       .addColumn({
         label: "Mobile No",

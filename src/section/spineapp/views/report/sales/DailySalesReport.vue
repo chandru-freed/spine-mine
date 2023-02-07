@@ -1,5 +1,185 @@
 <template>
   <div class="DailySalesReport">
+    <div class="row ma-3">
+      <div class="col-4">
+        <v-sheet outlined color="primary" rounded>
+          <v-card outlined elevation="0" min-height="123">
+            <v-list class="py-0">
+              <v-list-item dense>
+                <v-list-item-content>
+                  <v-list-item-title class="primary--text text-subtitle-1"
+                    >Total Sales
+                  </v-list-item-title>
+                </v-list-item-content>
+
+                <v-list-item-action class="py-0 my-0">
+                  <div
+                    class="
+                      d-flex
+                      primary--text
+                      text-right text-h6
+                      font-weight-semibold
+                    "
+                  >
+                    {{ totalDashboard.totalSales }}
+                  </div>
+                </v-list-item-action>
+              </v-list-item>
+              <v-divider />
+              <v-list-item dense>
+                <v-list-item-subtitle
+                  class="caption d-flex justify-space-between align-center"
+                >
+                  <div>Total Amount</div>
+                  <div class="font-weight-bold text-subtitle-1">
+                    {{ totalDashboard.totalSPACollected | toINR }}
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item>
+
+              <v-list-item dense>
+                <v-list-item-subtitle
+                  class="caption d-flex justify-space-between align-center"
+                >
+                  <div>Total MSF</div>
+                  <div class="font-weight-bold text-subtitle-1">
+                    {{ totalDashboard.totalMSF | toINR }}
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item>
+
+
+              <v-list-item dense>
+                <v-list-item-subtitle
+                  class="caption d-flex justify-space-between align-center"
+                >
+                  <div>Target for the day</div>
+                  <div class="text-subtitle-1">
+                    <span class="font-weight-bold">24</span>
+                    <span class="grey--text">({{(24 - totalDashboard.totalSales)}} sales behind)</span>
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-sheet>
+      </div>
+
+      <div class="col-3">
+        <v-sheet outlined color="primary" rounded>
+          <v-card outlined elevation="0" min-height="123">
+            <v-list class="py-0">
+              <v-list-item dense>
+                <v-list-item-content>
+                  <v-list-item-title class="primary--text text-subtitle-1"
+                    >Total SPA Collected
+                  </v-list-item-title>
+                </v-list-item-content>
+
+                <v-list-item-action class="py-0 my-0">
+                  <div
+                    class="
+                      d-flex
+                      primary--text
+                      text-right text-h6
+                      font-weight-semibold
+                    "
+                  >
+                   <v-progress-circular
+                      :rotate="270"
+                      :size="25"
+                      :width="3"
+                      :value="totalDashboard.totalSPACount/totalDashboard.totalSales * 100"
+                      color="primary"
+                    >
+                    <div class="caption">
+                      {{ totalDashboard.totalSPACount }}
+                      </div>
+                    </v-progress-circular>
+                    
+                  </div>
+                </v-list-item-action>
+              </v-list-item>
+              <v-divider />
+              <v-list-item dense>
+                <v-list-item-subtitle
+                  class="caption d-flex justify-space-between align-center"
+                >
+                  <div>Total SPA Collected</div>
+                  <div class="font-weight-bold text-subtitle-1">
+                    {{ totalDashboard.totalSPACollected | toINR }}
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item>
+              <!-- <v-list-item dense >
+              <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
+                <div>Total EMandate Done</div>
+                <div class="font-weight-bold  text-subtitle-1">{{totalDashboard.totalSPACount}}</div>
+              </v-list-item-subtitle> 
+            </v-list-item> -->
+            </v-list>
+          </v-card>
+        </v-sheet>
+      </div>
+
+      <div class="col-3">
+        <v-sheet outlined color="primary" rounded>
+          <v-card outlined elevation="0" min-height="123">
+            <v-list class="py-0">
+              <v-list-item dense>
+                <v-list-item-content>
+                  <v-list-item-title class="primary--text text-subtitle-1"
+                    >Total MSF Collected
+                  </v-list-item-title>
+                </v-list-item-content>
+
+                <v-list-item-action class="py-0 my-0">
+                  <div
+                    class="
+                      d-flex
+                      primary--text
+                      text-right text-h6
+                      font-weight-semibold
+                    "
+                  >
+                    <v-progress-circular
+                      :rotate="270"
+                      :size="25"
+                      :width="3"
+                      :value="totalDashboard.totalMSFCount/totalDashboard.totalSales * 100"
+                      color="primary"
+                    >
+                    <div class="caption">
+                      {{ totalDashboard.totalMSFCount }}
+                    </div>
+                    </v-progress-circular>
+
+                    <!-- {{ totalDashboard.totalMSFCount }} -->
+                  </div>
+                </v-list-item-action>
+              </v-list-item>
+              <v-divider />
+              <v-list-item dense>
+                <v-list-item-subtitle
+                  class="caption d-flex justify-space-between align-center"
+                >
+                  <div>Total MSF Collected</div>
+                  <div class="font-weight-bold text-subtitle-1">
+                    {{ totalDashboard.totalMSFCollected | toINR }}
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item>
+              <!-- <v-list-item dense >
+              <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
+                <div>Total EMandate Done</div>
+                <div class="font-weight-bold  text-subtitle-1">{{totalDashboard.totalSPACount}}</div>
+              </v-list-item-subtitle> 
+            </v-list-item> -->
+            </v-list>
+          </v-card>
+        </v-sheet>
+      </div>
+    </div>
     <component
       v-if="!!dailySalesReportFDataTableMetaData"
       :ref="dailySalesReportFDataTableMetaData.myRefName"
@@ -117,6 +297,41 @@ export default class DailySalesReport extends ModelVue {
     cfSalesForSalesRep.totalMSFDone += cfSales.isFirstMSFPaid ? 1 : 0;
     cfSalesForSalesRep.totalSPADone += cfSales.isEMandateDone ? 1 : 0;
     return cfSalesForSalesRep;
+  }
+
+  get totalDashboard() {
+    return {
+      totalSales: this.reportSalesClientFileList.length,
+      totalMSF: this.reportSalesClientFileList.reduce(
+        (acc: number, currVal) => {
+          acc = acc + currVal.msfAmount;
+          return acc;
+        },
+        0
+      ),
+      totalSPACollected: this.reportSalesClientFileList.reduce(
+        (acc: number, currVal) => {
+          acc = acc + currVal.spaAmount;
+          return acc;
+        },
+        0
+      ),
+      totalSPACount: this.reportSalesClientFileList.filter((reportSales) => {
+        return reportSales.isEMandateDone === true;
+      }).length,
+      totalMSFCount: this.reportSalesClientFileList.filter((reportSales) => {
+        return reportSales.isFirstMSFPaid === true;
+      }).length,
+      totalMSFCollected: this.reportSalesClientFileList.reduce(
+        (acc: number, currVal) => {
+          if(currVal.isFirstMSFPaid) {
+          acc = acc + currVal.msfAmount;
+          }
+          return acc;
+        },
+        0
+      ),
+    };
   }
 }
 </script>

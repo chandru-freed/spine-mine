@@ -87,6 +87,15 @@
       </div>
 
         <v-btn
+        @click="$router.push({ name: 'Root.PaymentCalculator' })"
+        color="primary"
+        
+        class="elevation-0 mx-3"
+        outlined
+        ><v-icon class="pr-1" small>mdi-calculator</v-icon> Calculator</v-btn
+      >
+
+       <v-btn
         @click="$router.push({ name: 'Root.Search.ClientFileSearch' })"
         color="primary"
         

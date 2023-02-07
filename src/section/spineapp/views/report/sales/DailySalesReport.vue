@@ -306,6 +306,27 @@ export default class DailySalesReport extends ModelVue {
     cfSalesForSalesRep.totalMSF += cfSales.msfAmount;
     cfSalesForSalesRep.totalMSFDone += cfSales.isFirstMSFPaid ? 1 : 0;
     cfSalesForSalesRep.totalSPADone += cfSales.isEMandateDone ? 1 : 0;
+    // enachDoneList: this.reportSalesClientFileList.reduce(
+    //     (acc: any[], currVal) => {
+    //       acc.push(currVal.isEMandateDone)
+    //       return acc;
+    //     },
+    //     []
+    //   ),
+    //   msfDoneList: this.reportSalesClientFileList.reduce(
+    //     (acc: any[], currVal) => {
+    //       acc.push(currVal.isFirstMSFPaid)
+    //       return acc;
+    //     },
+    //     []
+    //   ),
+    //   ccDoneList:this.reportSalesClientFileList.reduce(
+    //     (acc: any[], currVal) => {
+    //       acc.push(currVal.is)
+    //       return acc;
+    //     },
+    //     []
+    //   ),
     return cfSalesForSalesRep;
   }
 
@@ -341,6 +362,7 @@ export default class DailySalesReport extends ModelVue {
         },
         0
       ),
+      
     };
   }
 }

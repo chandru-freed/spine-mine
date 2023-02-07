@@ -59,7 +59,6 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         label: "Created On",
         dataSelectorKey: "dateCreated",
         columnCellMDP: new FCellDateTimeEllipsisMDP(),
-
       })
       .addColumn({
         label: "Assigned RM",

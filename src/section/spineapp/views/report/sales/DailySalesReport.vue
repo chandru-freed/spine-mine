@@ -48,7 +48,6 @@
                 </v-list-item-subtitle>
               </v-list-item>
 
-
               <v-list-item dense>
                 <v-list-item-subtitle
                   class="caption d-flex justify-space-between align-center"
@@ -56,7 +55,9 @@
                   <div>Target for the day</div>
                   <div class="text-subtitle-1">
                     <span class="font-weight-bold">24</span>
-                    <span class="grey--text">({{(24 - totalDashboard.totalSales)}} sales behind)</span>
+                    <span class="grey--text"
+                      >({{ 24 - totalDashboard.totalSales }} sales behind)</span
+                    >
                   </div>
                 </v-list-item-subtitle>
               </v-list-item>
@@ -85,18 +86,21 @@
                       font-weight-semibold
                     "
                   >
-                   <v-progress-circular
+                    <v-progress-circular
                       :rotate="270"
                       :size="25"
                       :width="3"
-                      :value="totalDashboard.totalSPACount/totalDashboard.totalSales * 100"
+                      :value="
+                        (totalDashboard.totalSPACount /
+                          totalDashboard.totalSales) *
+                        100
+                      "
                       color="primary"
                     >
-                    <div class="caption">
-                      {{ totalDashboard.totalSPACount }}
+                      <div class="caption">
+                        {{ totalDashboard.totalSPACount }}
                       </div>
                     </v-progress-circular>
-                    
                   </div>
                 </v-list-item-action>
               </v-list-item>
@@ -111,12 +115,6 @@
                   </div>
                 </v-list-item-subtitle>
               </v-list-item>
-              <!-- <v-list-item dense >
-              <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
-                <div>Total EMandate Done</div>
-                <div class="font-weight-bold  text-subtitle-1">{{totalDashboard.totalSPACount}}</div>
-              </v-list-item-subtitle> 
-            </v-list-item> -->
             </v-list>
           </v-card>
         </v-sheet>
@@ -146,12 +144,16 @@
                       :rotate="270"
                       :size="25"
                       :width="3"
-                      :value="totalDashboard.totalMSFCount/totalDashboard.totalSales * 100"
+                      :value="
+                        (totalDashboard.totalMSFCount /
+                          totalDashboard.totalSales) *
+                        100
+                      "
                       color="primary"
                     >
-                    <div class="caption">
-                      {{ totalDashboard.totalMSFCount }}
-                    </div>
+                      <div class="caption">
+                        {{ totalDashboard.totalMSFCount }}
+                      </div>
                     </v-progress-circular>
 
                     <!-- {{ totalDashboard.totalMSFCount }} -->
@@ -169,12 +171,6 @@
                   </div>
                 </v-list-item-subtitle>
               </v-list-item>
-              <!-- <v-list-item dense >
-              <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
-                <div>Total EMandate Done</div>
-                <div class="font-weight-bold  text-subtitle-1">{{totalDashboard.totalSPACount}}</div>
-              </v-list-item-subtitle> 
-            </v-list-item> -->
             </v-list>
           </v-card>
         </v-sheet>
@@ -231,6 +227,7 @@ export default class DailySalesReport extends ModelVue {
     new Data.Spine.GetCFSalesListForDateInput();
   reportSalesClientFileList: Data.Spine.CFSales[] = [];
   cfSalesForSalesRepList: Data.Spine.CFSalesForSalesRep[] = [];
+  apiCallInterval: any;
 
   // Meta data
   get dailySalesReportFDataTableMetaData() {
@@ -248,11 +245,24 @@ export default class DailySalesReport extends ModelVue {
 
   public mounted() {
     this.getCFSalesListForDate();
+    // this.apiCallInterval = setInterval(() => {
+    //   this.getCFSalesListForDate();
+    // }, 9000);
+  }
+
+  destroyed() {
+    clearInterval(this.apiCallInterval);
   }
   getCFSalesListForDate() {
     Action.Spine.GetCFSalesListForDate.execute(
       this.getDayWiseSalesReportInput,
       (output) => {
+        // if (output.length > this.reportSalesClientFileList.length) {
+        //   const audio = new Audio(
+        //     "https://www.pacdv.com/sounds/applause-sound/app-5.mp3"
+        //   );
+        //   audio.play();
+        // }
         this.reportSalesClientFileList = output;
         this.getCFSalesBasedOnSalesRep(output);
       }
@@ -324,8 +334,8 @@ export default class DailySalesReport extends ModelVue {
       }).length,
       totalMSFCollected: this.reportSalesClientFileList.reduce(
         (acc: number, currVal) => {
-          if(currVal.isFirstMSFPaid) {
-          acc = acc + currVal.msfAmount;
+          if (currVal.isFirstMSFPaid) {
+            acc = acc + currVal.msfAmount;
           }
           return acc;
         },

@@ -8,7 +8,7 @@ export default class RegisterMyCFFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   root: any;
   // parent: any;
-  constructor({ root }: { root: any }) {
+  constructor({ root,hideCancel=false }: { root: any;hideCancel?: boolean; }) {
     super({
       myRefName: "createMYCFFFormRef",
     });
@@ -71,6 +71,7 @@ export default class RegisterMyCFFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Cancel",
           onClick: this.cancel(),
+          condition: !hideCancel
         })
       )
       .addAction(

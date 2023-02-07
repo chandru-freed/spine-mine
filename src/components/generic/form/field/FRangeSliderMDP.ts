@@ -12,7 +12,7 @@ export default class FRangeSliderMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
-
+  minValue?:number;
   constructor({
     parentMDP,
     dataSelectorKey='',
@@ -22,7 +22,8 @@ export default class FRangeSliderMDP implements FFieldMDP {
     mandatory = false,
     boundaryClass = "col-12",
     disabled = false,
-    condition = true
+    condition = true,
+    minValue=0
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey?: any;
@@ -32,7 +33,8 @@ export default class FRangeSliderMDP implements FFieldMDP {
     mandatory?: boolean;
     boundaryClass?: string;
     disabled?: boolean;
-    condition?: boolean
+    condition?: boolean;
+    minValue?:number;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -42,7 +44,8 @@ export default class FRangeSliderMDP implements FFieldMDP {
     this.mandatory = mandatory;
     this.boundaryClass = boundaryClass;
     this.disabled = disabled;
-    this.condition = condition
+    this.condition = condition;
+    this.minValue = minValue;
   }
 
   getRules() {
@@ -68,6 +71,7 @@ export default class FRangeSliderMDP implements FFieldMDP {
         outlined: this.parentMDP.outlined,
         dense: this.parentMDP.dense,
         disabled: this.disabled,
+        min: this.minValue
       },
     };
   }

@@ -1,5 +1,5 @@
 <template>
-  <v-card :ref="myRefName" flat outlined>
+  <v-card :ref="myRefName" flat :outlined="outlined">
     <f-alert
       message="Are you sure want to proceed?"
       @confirmClick="fireActionClick"
@@ -28,6 +28,9 @@
       :itemKey="itemKey"
       :search="search"
       checkbox-color="primary"
+      :expanded.sync="expanded"
+      :show-expand="!!expansionComponent"
+      :hide-default-footer="hideDefaultFooter"
     >
       <template
         v-if="
@@ -37,9 +40,11 @@
           infoMetaDataList.length > 0
         "
         v-slot:top
-      >
+      > 
         <v-toolbar class="mx-1 py-0 ma-0" flat>
+          <slot name="top-action"></slot>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
+
           <v-divider v-if="title" vertical class="mx-3" inset />
           <div
             v-for="(info, index) in infoMetaDataList"
@@ -169,6 +174,7 @@
               {{ showFilterForm ? "mdi-filter" : "mdi-filter-outline" }}
             </v-icon>
           </v-btn>
+          
         </v-toolbar>
 
         <!-- Filters -->
@@ -248,6 +254,21 @@
           </v-btn>
         </div>
       </template>
+      <!-- Expansion component -->
+      <template
+        v-if="expansionComponent"
+        v-slot:expanded-item="{ headers, item }"
+      >
+        <td :colspan="headers.length" class="pa-0">
+          <component
+            class="my-5"
+            :is="expansionComponent.componentName"
+            :value="item"
+            v-bind="expansionComponent.props"
+          ></component>
+        </td>
+      </template>
+      <!-- Expansion component -->
     </v-data-table>
   </v-card>
 </template>
@@ -282,6 +303,11 @@ import * as Json2csv from "json2csv";
 import { filter } from "vue/types/umd";
 import FCellTextEllipsis from "./cell/FCellTextEllipsis.vue";
 import FCellDateTimeEllipsis from "./cell/FCellDateTimeEllipsis.vue";
+import FExpansionText from "./expansion/FExpansionText.vue";
+import FTableExpansionMDP from "./FTableExpansionMDP";
+import FCellBoolean from "./cell/FCellBoolean.vue";
+import FCellOutOfTotal from "./cell/FCellOutOfTotal.vue";
+import FCellBlank from "./cell/FCellBlank.vue";
 
 @Component({
   components: {
@@ -309,6 +335,10 @@ import FCellDateTimeEllipsis from "./cell/FCellDateTimeEllipsis.vue";
     FCellCurrencyBtn,
     FCellTextEllipsis,
     FCellDateTimeEllipsis,
+    FExpansionText,
+    FCellBoolean,
+    FCellOutOfTotal,
+    FCellBlank
   },
 })
 export default class FDataTable extends ModelVue {
@@ -330,6 +360,9 @@ export default class FDataTable extends ModelVue {
 
   @Prop()
   multiSelect: boolean;
+
+  @Prop()
+  outlined: boolean;
 
   @Prop({
     default: () => [],
@@ -357,6 +390,11 @@ export default class FDataTable extends ModelVue {
   enableShowHideColumns: boolean;
 
   @Prop({
+    default: false,
+  })
+  hideDefaultFooter: boolean;
+
+  @Prop({
     default: null,
   })
   title: string;
@@ -370,6 +408,11 @@ export default class FDataTable extends ModelVue {
     default: () => [],
   })
   columnFilterList: any[];
+
+  @Prop()
+  expansionComponent: any;
+
+  expanded: any = [];
 
   search = "";
   showConfirmation: boolean = false;
@@ -474,6 +517,9 @@ export default class FDataTable extends ModelVue {
     });
     if (this.deleteBtnData || this.editBtnData) {
       headers.push({ text: "", value: "actions", align: "right" });
+    }
+    if (this.expansionComponent) {
+      headers.push({ text: "", value: "data-table-expand", width: "3%" });
     }
 
     return headers;

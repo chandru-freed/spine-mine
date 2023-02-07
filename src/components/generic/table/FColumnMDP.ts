@@ -10,14 +10,16 @@ export default class FColumnMDP implements MDP {
     sortable?: boolean;
     columnCellMDP?: FColumnCellMDP;
     hidden: boolean;
+    width?: string;
 
     constructor(props: {
         label: string;
-        dataSelectorKey: string ;
+        dataSelectorKey?: string ;
         align?: string;
         sortable?: boolean;
         columnCellMDP?: FColumnCellMDP;
         hidden?: boolean;
+        width?: string
     }) {
         this.label = props.label;
         this.dataSelectorKey = props.dataSelectorKey;
@@ -25,6 +27,7 @@ export default class FColumnMDP implements MDP {
         this.sortable = props.sortable;
         this.hidden = props.hidden || false;
         this.columnCellMDP = props.columnCellMDP || new FCellTextMDP({dataSelectorKey: this.dataSelectorKey});
+        this.width = props.width;
     }
 
     getMetaData(): object {
@@ -34,7 +37,8 @@ export default class FColumnMDP implements MDP {
             columnCellMetaData: this.columnCellMDP?.getMetaData(),
             align:this.align,
             sortable: this.sortable,
-            hidden: this.hidden
+            hidden: this.hidden,
+            width: this.width
         }
     }
 }

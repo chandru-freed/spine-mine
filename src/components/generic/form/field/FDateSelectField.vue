@@ -63,6 +63,10 @@ export default class FDateSelectField extends VTextField {
   })
   dateDisplayFormat: string;
 
+
+  @Prop()
+  onSelect?: (date: any) => void;
+
   get minDate() {
     return this.pastDaysDisabled
       ? moment().format(this.dateFormatForDatePicker)
@@ -74,6 +78,7 @@ export default class FDateSelectField extends VTextField {
       ? moment().format(this.dateFormatForDatePicker)
       : null;
   }
+
   get modelValue() {
     return this.value
       ? moment(this.value).format(this.dateFormatForDatePicker)
@@ -89,6 +94,9 @@ export default class FDateSelectField extends VTextField {
   set modelValue(newModelValue: string) {
     if (newModelValue) {
       this.$emit("input", new Date(newModelValue).toISOString());
+      if(this.onSelect) {
+        this.onSelect(new Date(newModelValue).toISOString())
+      }
     }
   }
   // MODEL VALUE - END

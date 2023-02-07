@@ -15,6 +15,7 @@ export default class FSelectDateFieldMDP implements MDP {
   dateDisplayFormat: string;
   condition: boolean;
   readonly: boolean;
+  onSelect?: (date: any) => void
   constructor({
     parentMDP,
     dataSelectorKey,
@@ -28,6 +29,7 @@ export default class FSelectDateFieldMDP implements MDP {
     dateDisplayFormat = "DD/MM/YYYY",
     condition = true,
     readonly = false,
+    onSelect
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -42,6 +44,7 @@ export default class FSelectDateFieldMDP implements MDP {
     dateDisplayFormat?: string;
     condition?: boolean;
     readonly?: boolean;
+    onSelect?: (date: any) => void
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -55,6 +58,7 @@ export default class FSelectDateFieldMDP implements MDP {
     this.dateDisplayFormat = dateDisplayFormat;
     this.condition = condition;
     this.readonly = readonly;
+    this.onSelect = onSelect;
   }
 
   getRules() {
@@ -87,6 +91,7 @@ export default class FSelectDateFieldMDP implements MDP {
         pastDaysDisabled: this.pastDaysDisabled,
         futureDaysDisabled: this.futureDaysDisabled,
         dateDisplayFormat: this.dateDisplayFormat,
+        onSelect: this.onSelect
       },
     };
   }

@@ -308,6 +308,7 @@ import FTableExpansionMDP from "./FTableExpansionMDP";
 import FCellBoolean from "./cell/FCellBoolean.vue";
 import FCellOutOfTotal from "./cell/FCellOutOfTotal.vue";
 import FCellBlank from "./cell/FCellBlank.vue";
+import FCellBooleanList from "./cell/FCellBooleanList.vue";
 
 @Component({
   components: {
@@ -338,7 +339,8 @@ import FCellBlank from "./cell/FCellBlank.vue";
     FExpansionText,
     FCellBoolean,
     FCellOutOfTotal,
-    FCellBlank
+    FCellBlank,
+    FCellBooleanList
   },
 })
 export default class FDataTable extends ModelVue {

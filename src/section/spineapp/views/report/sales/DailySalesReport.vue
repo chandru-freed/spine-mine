@@ -293,6 +293,7 @@ export default class DailySalesReport extends ModelVue {
       },
       []
     );
+    console.log(this.cfSalesForSalesRepList, "this.cfSalesForSalesRepList");
   }
 
   makeCfSalesForSalesRepObject(
@@ -306,27 +307,29 @@ export default class DailySalesReport extends ModelVue {
     cfSalesForSalesRep.totalMSF += cfSales.msfAmount;
     cfSalesForSalesRep.totalMSFDone += cfSales.isFirstMSFPaid ? 1 : 0;
     cfSalesForSalesRep.totalSPADone += cfSales.isEMandateDone ? 1 : 0;
-    // enachDoneList: this.reportSalesClientFileList.reduce(
-    //     (acc: any[], currVal) => {
-    //       acc.push(currVal.isEMandateDone)
-    //       return acc;
-    //     },
-    //     []
-    //   ),
-    //   msfDoneList: this.reportSalesClientFileList.reduce(
-    //     (acc: any[], currVal) => {
-    //       acc.push(currVal.isFirstMSFPaid)
-    //       return acc;
-    //     },
-    //     []
-    //   ),
-    //   ccDoneList:this.reportSalesClientFileList.reduce(
-    //     (acc: any[], currVal) => {
-    //       acc.push(currVal.is)
-    //       return acc;
-    //     },
-    //     []
-    //   ),
+    cfSalesForSalesRep.enachDoneList = cfSalesForSalesRep.salesList.reduce(
+      (acc: any[], currVal) => {
+        acc.push(currVal.isEMandateDone);
+        return acc;
+      },
+      []
+    );
+
+    cfSalesForSalesRep.msfDoneList = cfSalesForSalesRep.salesList.reduce(
+      (acc: any[], currVal) => {
+        acc.push(currVal.isFirstMSFPaid);
+        return acc;
+      },
+      []
+    );
+
+    cfSalesForSalesRep.ccDoneList = cfSalesForSalesRep.salesList.reduce(
+      (acc: any[], currVal) => {
+        acc.push(currVal.isCCDone);
+        return acc;
+      },
+      []
+    );
     return cfSalesForSalesRep;
   }
 
@@ -362,7 +365,6 @@ export default class DailySalesReport extends ModelVue {
         },
         0
       ),
-      
     };
   }
 }

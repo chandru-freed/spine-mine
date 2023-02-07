@@ -1,3 +1,4 @@
+import FCellBooleanListMDP from "@/components/generic/table/cell/FCellBooleanListMDP";
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 import FCellOutOfTotalMDP from "@/components/generic/table/cell/FCellOutOfTotalMDP";
 import FExpansionTextMDP from "@/components/generic/table/expansion/FExpansionTextMDP";
@@ -34,29 +35,24 @@ export default class DailySalesReportFDataTableMDP extends FDataTableMDP {
                 dataSelectorKey: "totalMSF",
                 label: "Total MSF",
             }).addColumn({
-                dataSelectorKey: "totalSPADone",
-                label: "EMandate",
-                columnCellMDP: new FCellOutOfTotalMDP({
-                    totalDataSelectorKey: "totalSales",
-                    valueDataSelectorKey: "totalSPADone",
-                }),
+                dataSelectorKey: "enachDoneList",
+                label: "Enach",
+                columnCellMDP: new FCellBooleanListMDP({}),
                 align: "right"
             }).addColumn({
-                dataSelectorKey: "totalMSFDone",
+                dataSelectorKey: "msfDoneList",
                 label: "MSF",
-                columnCellMDP: new FCellOutOfTotalMDP({
-                    totalDataSelectorKey: "totalSales",
-                    valueDataSelectorKey: "totalMSFDone"
-                }),
+                columnCellMDP: new FCellBooleanListMDP({}),
+                // columnCellMDP: new FCellOutOfTotalMDP({
+                //     totalDataSelectorKey: "totalSales",
+                //     valueDataSelectorKey: "totalMSFDone"
+                // }),
                 align: "right"
             }).addColumn({
-                dataSelectorKey: "totalCCDone",
+                dataSelectorKey: "ccDoneList",
                 label: "Compliance",
-                columnCellMDP: new FCellOutOfTotalMDP({
-                    totalDataSelectorKey: "totalSales",
-                    valueDataSelectorKey: "totalCCDone",
-                }),
-                width: "7%",
+                columnCellMDP: new FCellBooleanListMDP({}),
+                width: "15%",
                 align: "right"
             })
             // .addInfo({

@@ -74,7 +74,7 @@
     </div> -->
     <template v-if="showSearch">
       
-      <div class="mt-6 py-2">
+      <div class="mt-6 py-2 mr-2">
         <FClientFileAutoCompleteField
           dense
           v-model="selectedClientFileNumber"
@@ -89,6 +89,7 @@
        <v-btn
         @click="$router.push({ name: 'Root.Search.ClientFileSearch' })"
         text
+        class="mr-2"
         ><v-icon class="pr-1" small>mdi-magnify</v-icon> Search</v-btn
       >
       
@@ -99,7 +100,7 @@
         @click="openInNewTab('Root.PaymentCalculator')"
         color="primary"
         icon
-        
+        class="mr-2"
         small
         ><v-icon >mdi-calculator</v-icon> </v-btn
       >

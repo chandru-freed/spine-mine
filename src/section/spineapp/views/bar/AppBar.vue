@@ -78,7 +78,7 @@
         <FClientFileAutoCompleteField
           dense
           v-model="selectedClientFileNumber"
-          placeholder="Quick File Search"
+          placeholder="Select File"
           queryUrl="spineapi/clientfile/search-client-file?clientFileNumberContains="
           itemText="clientFileNumber"
           itemValue="clientFileNumber"
@@ -86,27 +86,23 @@
         ></FClientFileAutoCompleteField>
       </div>
 
-        <v-btn
-        @click="openInNewTab('Root.PaymentCalculator')"
-        color="primary"
-        
-        class="elevation-0 mx-3"
-        outlined
-        ><v-icon class="pr-1" small>mdi-calculator</v-icon> Calculator</v-btn
-      >
-
        <v-btn
         @click="$router.push({ name: 'Root.Search.ClientFileSearch' })"
-        color="primary"
-        
-        class="elevation-0 mx-3"
-        outlined
+        text
         ><v-icon class="pr-1" small>mdi-magnify</v-icon> Search</v-btn
       >
       
     </template>
     <!-- <v-spacer></v-spacer> -->
     <!-- <app-bar-notification-menu /> -->
+    <v-btn
+        @click="openInNewTab('Root.PaymentCalculator')"
+        color="primary"
+        icon
+        
+        small
+        ><v-icon >mdi-calculator</v-icon> </v-btn
+      >
     <app-bar-user-menu />
     
   </v-app-bar>
@@ -151,7 +147,8 @@ export default class AppBar extends Vue {
 
   openInNewTab(route: string) {
     const routeData = this.$router.resolve({name: route});
-    window.open(routeData.href, '_blank');
+    const routeHref = routeData.href.split('/').slice(-2).join('/');
+    window.open(routeHref, '_blank');
   }
 }
 </script>

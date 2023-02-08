@@ -123,7 +123,7 @@
         </v-card>
       </div>
 
-      <div class="col-4">
+      <!-- <div class="col-4">
         <v-card
           class="mx-auto"
           outlined
@@ -158,7 +158,7 @@
             </v-list-item-avatar>
           </v-list-item>
         </v-card>
-      </div>
+      </div> -->
     </div>
   </v-container>
 </template>

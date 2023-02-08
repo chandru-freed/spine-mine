@@ -34,7 +34,7 @@
             <v-list-item :key="'note' + index">
               <template>
                 <v-list-item-content disabled>
-                  <v-list-item-title>{{ note.noteMesssage }}</v-list-item-title>
+                  <v-card-text class="subtitle-1" >{{ note.noteMesssage }}</v-card-text>
                 </v-list-item-content>
 
                 <v-list-item-action>

@@ -44,9 +44,11 @@
           <v-tab> Payment Schedule </v-tab>
           <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
         </v-tabs>
-        <div class="d-flex col-3 justify-end">
-          <span class="mx-2">Ps Plan Status: </span>
-          <v-chip small>{{ modelValue.paymentPlan.psPlanStatus }}</v-chip>
+        <div class="d-flex col-7 align-center justify-end">
+          <span class="mx-3">
+            <span class="mx-2">Ps Plan Status: </span>
+            <v-chip small>{{ modelValue.paymentPlan.psPlanStatus }}</v-chip>
+          </span>
         </div>
       </v-toolbar>
 
@@ -166,6 +168,9 @@ import FCFPaymentFDataTableMDP from "./FCFPaymentFDataTableMDP";
 export default class FCFPaymentPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
   fiPaymentList: Data.ClientFile.FiPayment;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
 
   tab = 0;
 

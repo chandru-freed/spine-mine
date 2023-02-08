@@ -25,6 +25,14 @@
       <v-icon small class="pr-1">mdi-ticket-confirmation</v-icon>
       My Tickets
     </v-btn>
+
+    <v-btn
+      text
+      @click="$router.push({ name: 'Root.ActionList' })"
+    >
+      <v-icon small class="pr-1">mdi-gesture-double-tap</v-icon>
+      Actions
+    </v-btn>
     <!-- <v-btn outlined small class="ml-3"  @click="$router.push({name: 'Root.MyTicket.ActiveTicketList'})">
       <v-icon small class="pr-1">mdi-plus-circle</v-icon>
       Create

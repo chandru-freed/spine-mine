@@ -5,6 +5,7 @@ import * as Data from "@/../src-gen/data";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
 import FCellDateTimeEllipsisMDP from "@/components/generic/table/cell/FCellDateTimeEllipsisMDP";
+import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
 
 export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -78,13 +79,18 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "state",
         hidden: true,
       })
+      // .addColumn({
+      //   label: "Emandate Status",
+      //   dataSelectorKey: "emandateStatus",
+      //   columnCellMDP: new FCellStatusMDP({
+      //     colorCodeData: Data.Color.EMANDATE_STATUS,
+      //     outlined: true,
+      //   }),
+      // })
       .addColumn({
-        label: "Emandate Status",
-        dataSelectorKey: "emandateStatus",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.EMANDATE_STATUS,
-          outlined: true,
-        }),
+        label: "Emandate Active",
+        dataSelectorKey: "eMandateActive",
+        columnCellMDP: new FCellBooleanMDP({}),
       })
       .addFilter({
         dataSelectorKey: "clientFileStatus.name",

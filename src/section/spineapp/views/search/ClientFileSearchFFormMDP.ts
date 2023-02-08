@@ -77,18 +77,18 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
-      .addField(
-        new FSelectFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "emandateStatus",
-          label: "Emandate Status",
-          boundaryClass: "col-4",
-          options: Data.ClientFile.EMANDATE_STATUS.list(),
-          optionLabel: "name",
-          optionValue: "id",
-          clearable: true,
-        })
-      )
+      // .addField(
+      //   new FSelectFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "emandateStatus",
+      //     label: "Emandate Status",
+      //     boundaryClass: "col-4",
+      //     options: Data.ClientFile.EMANDATE_STATUS.list(),
+      //     optionLabel: "name",
+      //     optionValue: "id",
+      //     clearable: true,
+      //   })
+      // )
 
       .addAction(
         new FBtnMDP({

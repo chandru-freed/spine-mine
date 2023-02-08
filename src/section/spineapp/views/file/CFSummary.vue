@@ -170,7 +170,8 @@
                   class="caption d-flex justify-space-between align-center"
                   >
                   <div class=" font-weight-bold">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate | monthday}} </div>
-                  <div >{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id}}</div>    
+                  <!-- <div >{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id}}</div>     -->
+                  <f-cell-status :outlined="true"  :value="fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id" :colorCodeData="msfScheduleStatusColorcode" />
                   <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount | toINR}}</div>
                 </v-list-item-subtitle> 
             </v-list-item>
@@ -178,7 +179,8 @@
               <v-list-item-subtitle class="caption d-flex justify-space-between align-center" >
                 <template v-if="!!fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
                 <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].statusUpdatedOn | monthday}} </div>
-                <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
+                <!-- <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>   -->
+                <f-cell-status :outlined="true" :value="fileSummary?.msfSummary?.pastMSFScheduledEntryList[0].status.id" :colorCodeData="msfScheduleStatusColorcode" />
                 <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
                 </template>  
                 <template v-if="!fileSummary.msfSummary.pastMSFScheduledEntryList.length">
@@ -239,7 +241,8 @@
                 class="caption d-flex justify-space-between align-center"
                 >
                 <div class=" font-weight-bold">{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.draftDate | monthday}} </div>
-                <div >{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id}}</div>    
+                <!-- <div >{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id}}</div>     -->
+                <f-cell-status :outlined="true" :value="fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id" :colorCodeData="msfScheduleStatusColorcode" />
                 <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount | toINR}}</div>
               </v-list-item-subtitle> 
           </v-list-item>
@@ -250,7 +253,8 @@
                 >
                 <template v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]">
                 <div class=" font-weight-bold" >{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].statusUpdatedOn | monthday}} </div>
-                <div >{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].status.id}}</div>  
+                <!-- <div >{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].status.id}}</div>   -->
+                <f-cell-status :outlined="true" :value="fileSummary.spaSummary.pastSPAScheduledEntryList[0].status.id" :colorCodeData="msfScheduleStatusColorcode" />
                 <div class="font-weight-bold secondary--text text-right">{{ fileSummary.spaSummary.pastSPAScheduledEntryList[0].totalAmount | toINR}}</div>
                 </template>  
                 <template v-if="!fileSummary.spaSummary.pastSPAScheduledEntryList.length">
@@ -520,11 +524,13 @@ import FBtn from "@/components/generic/FBtn.vue";
 import AboutView from "@/views/AboutView.vue";
 import FTextField from "@/components/generic/form/field/FTextField.vue";
 import AmeyoService from "@/components/generic/ameyo/AmeyoService";
+import FCellStatus from "@/components/generic/table/cell/FCellStatus.vue";
 @Component({
   components: {
     "f-btn": FBtn,
     "f-text-field": FTextField,
     AboutView,
+    FCellStatus
   },
 })
 export default class CFSummary extends Vue {
@@ -539,6 +545,8 @@ export default class CFSummary extends Vue {
 
   minHeight = 80;
   showHide: boolean = false;
+
+  msfScheduleStatusColorcode = Data.Color.PS_ENTRY_STATUS;
 
   private callByAmeyo(phoneNumber: string) {
     AmeyoService.dial(phoneNumber);

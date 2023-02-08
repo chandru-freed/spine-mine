@@ -7,6 +7,7 @@ import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
+import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
 
 export default class MyCFFileFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -70,6 +71,10 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "City",
         dataSelectorKey: "city",
+      }).addColumn({
+        label: "Emandate Active",
+        dataSelectorKey: "eMandateActive",
+        columnCellMDP: new FCellBooleanMDP({})
       })
       // .addColumn({
       //   label: "State",
@@ -84,6 +89,11 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "clientFileStatus.name",
         filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
         label: "Client file Status",
+      }).addFilter({
+        dataSelectorKey: "eMandateActive",
+        // filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
+        label: "EMandate Active",
+        booleanFilter: true
       });
   }
 

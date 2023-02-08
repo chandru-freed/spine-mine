@@ -87,7 +87,7 @@
       </div>
 
         <v-btn
-        @click="$router.push({ name: 'Root.PaymentCalculator' })"
+        @click="openInNewTab('Root.PaymentCalculator')"
         color="primary"
         
         class="elevation-0 mx-3"
@@ -147,6 +147,11 @@ export default class AppBar extends Vue {
 
   goto(routerName: string) {
     this.$router.push({ name: routerName });
+  }
+
+  openInNewTab(route: string) {
+    const routeData = this.$router.resolve({name: route});
+    window.open(routeData.href, '_blank');
   }
 }
 </script>

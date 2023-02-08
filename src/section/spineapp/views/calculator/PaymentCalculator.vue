@@ -1,5 +1,7 @@
 <template>
-  <v-card flat class="PaymentCalculator">
+<v-card flat>
+<v-container>
+  <v-card outlined flat class="PaymentCalculator">
     <v-card-title>Calculator</v-card-title>
     <TMOSSimulatorEditable
       ref="tmosSimulator"
@@ -16,6 +18,8 @@
       v-bind="registerMyCFFFormMetaData.props"
     ></component>
   </v-card>
+</v-container>
+</v-card>
 </template>
 
 <script lang="ts">
@@ -98,9 +102,7 @@ export default class PaymentCalculator extends ModelVue {
     this.addNoteInput.noteMessage = `Outstanding Amount: ${result.outstanding}, \n Tenure: ${result.tenure} \n 
     Settlement Percentage: ${result.settlementPercentage},\n Monthly Payment: ${result.monthlyPayment},
     \n Affordability: ${result.affordability},
-     \n MSF Amount: ${result.msfAmount}
-     \n DraftDate: ${result.firstSPADraftDate}
-     
+    \n MSF Amount: ${result.msfAmount}
     `
     if (this.addNoteInput.noteMessage.length > 1) {
       Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {

@@ -309,6 +309,7 @@ import FCellBoolean from "./cell/FCellBoolean.vue";
 import FCellOutOfTotal from "./cell/FCellOutOfTotal.vue";
 import FCellBlank from "./cell/FCellBlank.vue";
 import FCellBooleanList from "./cell/FCellBooleanList.vue";
+import FCellList from "./cell/FCellList.vue";
 
 @Component({
   components: {
@@ -340,7 +341,8 @@ import FCellBooleanList from "./cell/FCellBooleanList.vue";
     FCellBoolean,
     FCellOutOfTotal,
     FCellBlank,
-    FCellBooleanList
+    FCellBooleanList,
+    FCellList
   },
 })
 export default class FDataTable extends ModelVue {

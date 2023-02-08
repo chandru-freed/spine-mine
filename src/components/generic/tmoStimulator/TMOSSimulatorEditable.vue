@@ -8,7 +8,7 @@
         @input="(newValue) => updateModel(result, newValue, undefined)"
         v-bind="tmoStimulatorFormMetaData.props"
       ></component>
-      <div class="px-5 pb-5">
+      <div class="px-5 pb-5" v-if="result.outstanding>0">
         <div class="d-flex align-start mb-5">
           <v-chip class="mr-2" v-if="result.repaymentAmount" color="primary" label outlined large>
             Repayment Amount:&nbsp;&nbsp;<span
@@ -33,7 +33,7 @@
             label
             outlined
             large
-            v-if="result.monthlyObligation&&monthlyObligationLessThan"
+            v-if="result.affordability>0&&result.monthlyObligation&&monthlyObligationLessThan"
           >
             TMO/Affordability : &nbsp;&nbsp;<span
               class="font-weight-bold secondary--text"
@@ -46,7 +46,7 @@
             label
             outlined
             large
-            v-if="monthlyObligationGreaterThanEqual"
+            v-if="result.affordability>0&&monthlyObligationGreaterThanEqual"
           >
             TMO/Affordability : &nbsp;&nbsp;<span
               class="font-weight-bold warning--text"
@@ -150,7 +150,7 @@ export default class TMOSSimulatorEditable extends ModelVue {
 
   resultLocal: any = {
     tenure: 0,
-    settlementPercentage: 0,
+    settlementPercentage: 45,
     outstanding: 0,
     repaymentAmount: 0,
     monthlyPayment: 0,
@@ -237,6 +237,12 @@ export default class TMOSSimulatorEditable extends ModelVue {
   @Watch("result.tenure") tenureChanged(newValue: any, oldValue: any) {
     this.tenorNew = newValue;
   }
+
+  @Watch("result.outstanding") outstandingChanged(newValue: any, oldValue: any) {
+    this.resultLocal.tenure = getTenureWithFreed(newValue);
+  }
+
+  
 
   get result() {
     const totalPercentage =

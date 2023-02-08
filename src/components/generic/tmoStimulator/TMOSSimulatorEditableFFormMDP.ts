@@ -21,7 +21,7 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
         dataSelectorKey: "outstanding",
         label: "Outstanding Amount",
         mandatory: true,
-        boundaryClass: "col-3",
+        boundaryClass: "col-4",
       })
     )
       .addField(
@@ -29,7 +29,7 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "settlementPercentage",
           label: "Settlement Percentage",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
           
         })
       )
@@ -38,19 +38,21 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "affordability",
           label: "Affordability",
-          boundaryClass: "col-3",
+          boundaryClass: "col-4",
         })
       )
-      .addField(
-        new FSelectDateFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "firstSPADraftDate",
-          label: "First SPA Draft Date",
-          mandatory: true,
-          boundaryClass: "col-3",
-          pastDaysDisabled: true,
-        })
-      ).addField(
+      // .addField(
+      //   new FSelectDateFieldMDP({
+      //     parentMDP: this.childMDP,
+      //     dataSelectorKey: "firstSPADraftDate",
+      //     label: "First SPA Draft Date",
+      //     mandatory: true,
+      //     boundaryClass: "col-3",
+      //     pastDaysDisabled: true,
+      //   })
+      // )
+      .
+      addField(
         new FRangeSliderMDP({
           parentMDP: this.childMDP,
           mandatory: true,

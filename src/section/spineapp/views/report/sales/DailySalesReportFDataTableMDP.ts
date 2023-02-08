@@ -1,5 +1,6 @@
 import FCellBooleanListMDP from "@/components/generic/table/cell/FCellBooleanListMDP";
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import FCellListMDP from "@/components/generic/table/cell/FCellListMDP";
 import FCellOutOfTotalMDP from "@/components/generic/table/cell/FCellOutOfTotalMDP";
 import FExpansionTextMDP from "@/components/generic/table/expansion/FExpansionTextMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
@@ -40,13 +41,12 @@ export default class DailySalesReportFDataTableMDP extends FDataTableMDP {
                 columnCellMDP: new FCellBooleanListMDP({}),
                 align: "right"
             }).addColumn({
-                dataSelectorKey: "msfDoneList",
+                dataSelectorKey: "salesList",
                 label: "MSF",
-                columnCellMDP: new FCellBooleanListMDP({}),
-                // columnCellMDP: new FCellOutOfTotalMDP({
-                //     totalDataSelectorKey: "totalSales",
-                //     valueDataSelectorKey: "totalMSFDone"
-                // }),
+                // columnCellMDP: new FCellBooleanListMDP({}),
+                columnCellMDP: new FCellListMDP({
+                    itemDataSelectorKey: "msfAmount",
+                }),
                 align: "right"
             }).addColumn({
                 dataSelectorKey: "ccDoneList",

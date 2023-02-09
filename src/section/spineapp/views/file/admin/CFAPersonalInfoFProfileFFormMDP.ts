@@ -33,7 +33,6 @@ export default class CFAPersonalInfoFProfileFFormMDP extends FProfileFFormMDP {
   // new implement
   validateAndSubmit() {
     return (nextCallback?: () => void) => {
-      console.log(this.getMyRef(),"this.getMyRef()");
       this.getMyRef().submitForm(() => {
         this.updateClPersonalInfo(nextCallback);
       });

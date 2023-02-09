@@ -49,7 +49,6 @@ export default class TMOStimulatorMDP extends FFormMDP {
   }
   calculateOrDraftPaymentSchedule() {
     return () => {
-      console.log(this.getTMOSSimulatorFormRef(),"getTMOSSimulatorFormRef()")
       this.getTMOSSimulatorFormRef().submitForm(() => {
         this.taskRoot.scheduleorDraftPaymentPlan();
       })

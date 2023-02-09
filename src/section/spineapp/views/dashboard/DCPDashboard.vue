@@ -122,7 +122,6 @@ export default class DCPDashboard extends ModelVue {
 
   submitAssignTask(clientFileId: string) {
     this.assignSalesRepToSelfEnrolFileInput.clientFileId = clientFileId;
-    console.log(this.assignSalesRepToSelfEnrolFileInput);
     Action.Spine.AssignSalesRepToSelfEnrolFile.execute(
       this.assignSalesRepToSelfEnrolFileInput,
       (output) => {

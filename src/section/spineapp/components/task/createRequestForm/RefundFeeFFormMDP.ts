@@ -72,7 +72,6 @@ export default class RefundFeeFFormMDP extends FFormMDP {
   }
 
   handleSelectedEmandate(details: any) {
-    console.log(details);
     this.taskRoot.populateAccountDetailsRefundFee(details);
   }
 

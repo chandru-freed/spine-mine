@@ -160,7 +160,6 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
 
   handleModifyClick(itemList: any[]) {
     return new Promise(resolve => {
-      console.log(itemList);
       this.parent.modifyAmountPSEListInput.psEntryIdList = itemList.map(item => item.psEntryId);
       this.parent.showModifyForm = true;
     });

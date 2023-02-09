@@ -160,7 +160,13 @@ export default class ActionList extends Vue {
           actionName: "Create User",
           icon: "mdi-chevron-right",
           routerName: "Root.Admin.Gompa.CreateUser",
-        }
+        },
+        {
+          actionName: "Add User To User Group",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Admin.Gompa.AddUserToUserGroup",
+        },
+        
       ],
     },
   ];

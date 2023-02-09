@@ -155,6 +155,11 @@ export default class FForm extends ModelVue {
     });
   }
 
+  async reset() {
+    const observerRef: any = this.$refs[this.myRefName];
+    await observerRef.reset();
+  }
+
   get fieldMetaDataListFiltered() {
     return this.fieldMetaDataList.filter(
       (fieldMetaData) =>

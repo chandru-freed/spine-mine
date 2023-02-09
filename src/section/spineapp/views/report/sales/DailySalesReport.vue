@@ -254,6 +254,10 @@ export default class DailySalesReport extends ModelVue {
     clearInterval(this.apiCallInterval);
   }
   getCFSalesListForDate() {
+    const {selectedDate}: any = this.$route.query;
+    if(selectedDate) {
+    this.getDayWiseSalesReportInput.saleDate = selectedDate;
+    }
     Action.Spine.GetCFSalesListForDate.execute(
       this.getDayWiseSalesReportInput,
       (output) => {
@@ -270,9 +274,10 @@ export default class DailySalesReport extends ModelVue {
   }
 
   handleDatechange(newValue: any) {
-    this.getDayWiseSalesReportInput.saleDate = newValue;
+    // this.getDayWiseSalesReportInput.saleDate = newValue;
     this.showDatePicker = false;
-    this.getCFSalesListForDate();
+    this.$router.push({query: {selectedDate: newValue}})
+    // this.getCFSalesListForDate();
   }
 
   getCFSalesBasedOnSalesRep(cfSalesList: Data.Spine.CFSales[]) {
@@ -293,7 +298,6 @@ export default class DailySalesReport extends ModelVue {
       },
       []
     );
-    console.log(this.cfSalesForSalesRepList, "this.cfSalesForSalesRepList");
   }
 
   makeCfSalesForSalesRepObject(

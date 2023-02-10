@@ -151,13 +151,11 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
   }
 
   getMyRef() {
-    console.log(this.myRefName,"this.myRefName")
     return this.parent.getMyRef().$refs[this.myRefName];
   }
 
   calculatePaymentSchedule() {
     return () => {
-      console.log(this.getMyRef(),"My ref")
       this.getMyRef().submitForm(() => {
         this.schedulePaymentPlan();
       });

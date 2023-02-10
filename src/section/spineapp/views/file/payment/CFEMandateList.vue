@@ -37,6 +37,15 @@
             </v-btn>
             <v-chip small v-if="item.isDefault">Default</v-chip>
           </template>
+          <template v-slot:[`item.createdOn`]="{ item }">
+            {{ item.createdOn | date }}
+          </template></v-data-table
+        ></v-card
+      ></v-col
+    >
+  </div>
+</template>
+          
         </v-data-table>
       </v-card>
       <!--GRID END-->
@@ -72,6 +81,7 @@ export default class FEMandate extends ModelVue {
     },
     { text: "Status", value: "eMandateStatus.id" },
     { text: "Account Number", value: "accountNumber" },
+    { text: "Created On", value: "createdOn" },
     { text: "IFSC Code", value: "ifscCode" },
     { text: "Account Type", value: "accountType.name" },
     { text: "Amount", value: "amount" },

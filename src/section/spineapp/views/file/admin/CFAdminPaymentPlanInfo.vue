@@ -141,7 +141,6 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
   getFiPaymentPlanInfoFromPsPlanId(newPSPlanId: any) {
     
       Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
-        console.log(output);
         this.newPaymentPlan = output;
       });
   }

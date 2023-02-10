@@ -32,21 +32,22 @@ export default class DailySalesReportFDataTableMDP extends FDataTableMDP {
             .addCurrencyColumn({
                 dataSelectorKey: "totalDebt",
                 label: "Total Debt",
-            }).addCurrencyColumn({
-                dataSelectorKey: "totalMSF",
-                label: "Total MSF",
-            }).addColumn({
-                dataSelectorKey: "enachDoneList",
-                label: "Enach",
-                columnCellMDP: new FCellBooleanListMDP({}),
-                align: "right"
             }).addColumn({
                 dataSelectorKey: "salesList",
                 label: "MSF",
-                // columnCellMDP: new FCellBooleanListMDP({}),
                 columnCellMDP: new FCellListMDP({
                     itemDataSelectorKey: "msfAmount",
                 }),
+                align: "right"
+            })
+            // .addCurrencyColumn({
+            //     dataSelectorKey: "totalMSF",
+            //     label: "Total MSF",
+            // })
+            .addColumn({
+                dataSelectorKey: "enachDoneList",
+                label: "Enach",
+                columnCellMDP: new FCellBooleanListMDP({}),
                 align: "right"
             }).addColumn({
                 dataSelectorKey: "ccDoneList",
@@ -55,15 +56,6 @@ export default class DailySalesReportFDataTableMDP extends FDataTableMDP {
                 width: "15%",
                 align: "right"
             })
-            // .addInfo({
-            //     label: "Total SPA Collected",
-            //     value: this.parent.totalDashboard.totalSPACollected,
-            //     infoMDP: new FInfoINRMDP({})
-            // }).addInfo({
-            //     label: "Total MSF Collected",
-            //     value: this.parent.totalDashboard.totalMSFCollected,
-            //     infoMDP: new FInfoINRMDP({})
-            // })
 
             .setExpansionComponent(new SalesRepSalesListFDataTableMDP({ dataSelectorKey: "salesList" }))
     }

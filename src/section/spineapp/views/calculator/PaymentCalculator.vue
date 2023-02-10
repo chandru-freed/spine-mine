@@ -92,7 +92,6 @@ export default class PaymentCalculator extends ModelVue {
   }
 
   getSimulatorResult() {
-    console.log((this.$refs['tmosSimulator'] as any)?.result,"(this.$refs['tmosSimulator'] as any)?.result")
     return (this.$refs['tmosSimulator'] as any)?.result;
   }
 

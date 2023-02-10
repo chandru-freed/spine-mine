@@ -24,7 +24,6 @@ export default class CFABudgetInfoFBudgetMDP extends FBudgetMDP {
   // new implement
   validateAndSubmit() {
     return () => {
-      console.log(this.getMyRef(),"this.getMyRef()")
       this.getMyRef().submitForm(() => {
         this.updateBudgetInfo();
       });

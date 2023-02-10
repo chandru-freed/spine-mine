@@ -289,7 +289,6 @@ export default class FCFAPaymentPlan extends ModelVue {
   }
 
   downloadActiveExcel() {
-    console.log(this.modelValue, "Active pp");
     const { psPlanId } = this.modelValue.paymentPlan;
     const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${psPlanId}`;
     const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`;

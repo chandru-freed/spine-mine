@@ -27,7 +27,6 @@ export default class CFBankInfoFBankFFormMDP extends FBankFFormMDP {
   // new implement
   validateAndSubmit() {
     return () => {
-      console.log(this.getMyRef(),"this.getMyRef()")
       this.getMyRef().submitForm(() => {
         this.updateBankInfo();
       });

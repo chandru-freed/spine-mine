@@ -74,7 +74,6 @@ export default class FDataTableMDP implements MDP {
     hidden?: boolean;
     width?: string;
   }) {
-    console.log(newField.columnCellMDP,"newField");
     this.columnList.push(
       new FColumnMDP(newField)
     );

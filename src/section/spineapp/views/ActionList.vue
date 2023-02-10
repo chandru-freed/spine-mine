@@ -102,7 +102,7 @@ export default class ActionList extends Vue {
       groupName: "Sales",
       actionList: [
         {
-          actionName: "DailySales",
+          actionName: "Daily Sales",
           icon: "mdi-chevron-right",
           routerName: "Root.Report.SalesReport.DailySalesReport",
         },
@@ -137,20 +137,36 @@ export default class ActionList extends Vue {
       groupName: "File",
       actionList: [
         {
-          actionName: "Active tasks",
+          actionName: "Active Tasks",
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRActiveTaskList",
         },
         {
-          actionName: "Active tickets",
+          actionName: "Active Tickets",
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRActiveTicketList",
         },
         {
-          actionName: "PaymentOperation",
+          actionName: "Payment Operation",
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.PaymentOperation",
         },
+      ],
+    },
+    {
+      groupName: "Admin",
+      actionList: [
+        {
+          actionName: "Create User",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Admin.Gompa.CreateUser",
+        },
+        {
+          actionName: "Add User To User Group",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Admin.Gompa.AddUserToUserGroup",
+        },
+        
       ],
     },
   ];

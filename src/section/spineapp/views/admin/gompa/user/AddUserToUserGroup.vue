@@ -43,6 +43,12 @@ export default class AddUserToUserGroup extends ModelVue {
   resetAddUserInput() {
     this.addUserInput = new Data.Spine.AddUserToUserGroupInput();
   }
+
+  prepopulateLeadSquareId(leadSquareId: string) {
+    if(leadSquareId) {
+    this.addUserInput.leadSquaredUserId = leadSquareId;
+    }
+  }
 }
 </script>
 

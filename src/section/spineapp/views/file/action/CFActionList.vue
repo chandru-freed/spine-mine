@@ -95,7 +95,8 @@ export default class CFActionList extends Vue {
   clientFileId = this.$route.params.clientFileId;
 
   searchText: string = "";
-
+  createCollectMSFThroughCashfreeInput: Data.Spine.CreateCollectMSFThroughCashfreeInput =
+    new Data.Spine.CreateCollectMSFThroughCashfreeInput();
   actionGroupList = [
     {
       groupName: "Flow",
@@ -170,6 +171,12 @@ export default class CFActionList extends Vue {
           routerName: "Root.CFile.CFAction.CFCreateRequest",
           query: { flowName: "Refund SPA" },
         },
+        {
+          actionName: "Collect MSF Through Cashfree",
+          icon: "mdi-chevron-right",
+          command: this.createCollectMSFThroughCashfree,
+        },
+        
       ],
     },
     {
@@ -375,6 +382,19 @@ export default class CFActionList extends Vue {
   createCHPPFlow() {
     Action.Spine.CreateCHPP.execute1(
       this.clientFileBasicInfo.clientFileNumber,
+      (output) => {
+        setTimeout(() => {
+          this.gotoCFActiveTaskList();
+        }, 400);
+      }
+    );
+  }
+
+  createCollectMSFThroughCashfree() {
+    this.createCollectMSFThroughCashfreeInput.clientFileNumber =
+      this.clientFileBasicInfo.clientFileNumber;
+    Action.Spine.CreateCollectMSFThroughCashfree.execute(
+      this.createCollectMSFThroughCashfreeInput,
       (output) => {
         setTimeout(() => {
           this.gotoCFActiveTaskList();

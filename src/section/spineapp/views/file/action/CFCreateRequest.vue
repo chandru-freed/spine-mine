@@ -63,7 +63,6 @@ import SettlementPlanFFormMDP from "@/section/spineapp/components/task/createReq
 import RefundFeeFFormMDP from "@/section/spineapp/components/task/createRequestForm/RefundFeeFFormMDP";
 import RefundSPAFFormMDP from "@/section/spineapp/components/task/createRequestForm/RefundSPAFFormMDP";
 
-
 @Component({
   components: {
     EnrollmentFFormMDP,
@@ -91,7 +90,8 @@ export default class CFCreateRequest extends Vue {
   createRefundSPAInput: Data.Spine.CreateRefundSPAInput =
     new Data.Spine.CreateRefundSPAInput();
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
-  
+  createCollectMSFThroughCashfreeInput: Data.Spine.CreateCollectMSFThroughCashfreeInput =
+    new Data.Spine.CreateCollectMSFThroughCashfreeInput();
 
   @Watch("fileCreateRequestInput.createSettlementPlanInput.fiCreditorId")
   creditorChanged(newVal: any, oldVal: any) {
@@ -116,7 +116,9 @@ export default class CFCreateRequest extends Vue {
       createEMandateInput: this.createEMandateInput,
       createSettlementPlanInput: this.createSettlementPlanInput,
       createRefundFeeInput: this.createRefundFeeInput,
-      createRefundSPAInput: this.createRefundSPAInput
+      createRefundSPAInput: this.createRefundSPAInput,
+      createCollectMSFThroughCashfreeInput:
+        this.createCollectMSFThroughCashfreeInput,
     };
   }
   get requestTypeFlowMapList() {
@@ -184,8 +186,16 @@ export default class CFCreateRequest extends Vue {
           parent: this,
         }).getMetaData(),
       },
-        {
+      {
         key: "Refund SPA",
+        contentMetaData: new RefundSPAFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+
+      {
+        key: "Collect MSF Through Cashfree",
         contentMetaData: new RefundSPAFFormMDP({
           taskRoot: this,
           parent: this,
@@ -266,6 +276,19 @@ export default class CFCreateRequest extends Vue {
     );
   }
 
+  createCollectMSFThroughCashfree() {
+    this.createCollectMSFThroughCashfreeInput.clientFileNumber =
+      this.clientFileBasicInfo.clientFileNumber;
+    Action.Spine.CreateCollectMSFThroughCashfree.execute(
+      this.createCollectMSFThroughCashfreeInput,
+      (output) => {
+        setTimeout(() => {
+          this.gotoTask();
+        }, 400);
+      }
+    );
+  }
+
   createNsfMSFFlow() {
     // Action.Spine.CreateNsfMSF.execute1(
     //   this.clientFileBasicInfo.clientFileNumber,
@@ -335,9 +358,24 @@ export default class CFCreateRequest extends Vue {
   createSettlementPlan() {
     this.fileCreateRequestInput.createSettlementPlanInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
-    const input = Data.Spine.CreateSettlementPlanInput.fromJson(this.fileCreateRequestInput.createSettlementPlanInput)
-    Action.Spine.CreateSettlementPlan.execute(
-      input,
+    const input = Data.Spine.CreateSettlementPlanInput.fromJson(
+      this.fileCreateRequestInput.createSettlementPlanInput
+    );
+    Action.Spine.CreateSettlementPlan.execute(input, (output) => {
+      setTimeout(() => {
+        this.gotoTask();
+      }, 400);
+    });
+  }
+
+  createRefundFeeFlow() {
+    if (this.createRefundFeeInput.accountDetails?.nupayBankMasterId === "") {
+      this.createRefundFeeInput.accountDetails = undefined;
+    }
+    this.createRefundFeeInput.clientFileNumber =
+      this.clientFileBasicInfo.clientFileNumber;
+    Action.Spine.CreateRefundFee.execute(
+      this.createRefundFeeInput,
       (output) => {
         setTimeout(() => {
           this.gotoTask();
@@ -346,28 +384,20 @@ export default class CFCreateRequest extends Vue {
     );
   }
 
-  createRefundFeeFlow() {
-    if(this.createRefundFeeInput.accountDetails?.nupayBankMasterId === "") {
-      this.createRefundFeeInput.accountDetails = undefined;
-    }
-    this.createRefundFeeInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateRefundFee.execute(this.createRefundFeeInput, output => {
-       setTimeout(() => {
-          this.gotoTask();
-        }, 400);
-    })
-  }
-
   createRefundSPAFlow() {
-    if(this.createRefundSPAInput.accountDetails?.nupayBankMasterId === "") {
+    if (this.createRefundSPAInput.accountDetails?.nupayBankMasterId === "") {
       this.createRefundSPAInput.accountDetails = undefined;
     }
-    this.createRefundSPAInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateRefundSPA.execute(this.createRefundSPAInput, output => {
-       setTimeout(() => {
+    this.createRefundSPAInput.clientFileNumber =
+      this.clientFileBasicInfo.clientFileNumber;
+    Action.Spine.CreateRefundSPA.execute(
+      this.createRefundSPAInput,
+      (output) => {
+        setTimeout(() => {
           this.gotoTask();
         }, 400);
-    })
+      }
+    );
   }
 
   populateBankDetails(details: any) {
@@ -386,9 +416,10 @@ export default class CFCreateRequest extends Vue {
   }
 
   populateAccountDetailsRefundSPA(details: any) {
-    this.fileCreateRequestInput.createRefundSPAInput.eMandateId = details.eMandateId;
+    this.fileCreateRequestInput.createRefundSPAInput.eMandateId =
+      details.eMandateId;
     this.fileCreateRequestInput.createRefundSPAInput.accountDetails = details;
-  }  
+  }
 
   // getNupayBankMasterList() {
   //   Action.ClientFile.GetNupayBankMasterList.execute((output) => {

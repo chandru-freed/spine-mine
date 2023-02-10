@@ -249,6 +249,7 @@ export default class CFTaskDetails extends Vue {
     ["Amendment::PrepareAmendment", "PrepareAmendmentTask"],
     ["RefundFee::RefundFee", "RefundFeeTask"],
     ["RefundSPA::UpdateRefundSPAPaymentStatus", "UpdateRefundSPAPaymentStatusTaskTask"],
+    ["CollectMSF::CollectMSFThroughCashfree", "CollectMSFThroughCashfreeTask"],
   ]);
 
   taskId = this.$route.params.taskId;

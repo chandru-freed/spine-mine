@@ -68,6 +68,10 @@ export default class CMSFTCDraftPaymentStep extends ModelVue {
 
   receiveCashfreePayment() {
     this.receiveCashfreePaymentInput.clientFileId = this.clientFileId;
+    // console.log(this.modelValue?.taskInput,"this.modelValue?.taskInput")
+    if(this.modelValue?.taskInput?.msfScheduledEntryId) {
+    this.receiveCashfreePaymentInput.msfScheduleEntryId = this.modelValue?.taskInput?.msfScheduledEntryId;
+    }
     Action.Spine.DraftAndPresentMSFThroughCashfree.execute(this.receiveCashfreePaymentInput, output => {
       this.modelValue[this.dataSelectorKey].paymentId = output.paymentId;
       this.taskRoot.saveTask();

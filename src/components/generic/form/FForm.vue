@@ -89,6 +89,7 @@ import FClientLanguageSelectField from "./field/FClientLanguageSelectField.vue";
 import FAgeField from "./field/FAgeField.vue";
 
 import FAddressMiniForm from "./field/FAddressMiniForm.vue";
+import FGenLeadSquareIdField from "./field/FGenLeadSquareIdField.vue";
 
 @Component({
   components: {
@@ -122,7 +123,8 @@ import FAddressMiniForm from "./field/FAddressMiniForm.vue";
     FRangeSlider,
     FClientLanguageSelectField,
     FAgeField,
-    FAddressMiniForm
+    FAddressMiniForm,
+    FGenLeadSquareIdField
   },
 })
 export default class FForm extends ModelVue {

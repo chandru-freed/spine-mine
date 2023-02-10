@@ -10,6 +10,7 @@ import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from '@/../src-gen/action';
 import FSnackbar from "@/fsnackbar";
+import FGenLeadSquareIdFieldMDP from "@/components/generic/form/field/FGenLeadSquareIdFieldMDP";
 
 export default class AddUserToUGFFormMDP extends FFormMDP {
 
@@ -39,12 +40,13 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
         boundaryClass: "col-4",
       })
     ).addField(
-      new FEmailFieldMDP({
+      new FGenLeadSquareIdFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "emailId",
         label: "Email Id",
         mandatory: true,
         boundaryClass: "col-4",
+        onSelect: (leadSquareId) => {this.prepopulateLeadSquareId(leadSquareId)}
       })
     ).addField(
       new FTextFieldMDP({
@@ -99,10 +101,10 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
         label: "User Group",
         mandatory: true,
         boundaryClass: "col-4",
-        options: Data.Spine.USER_TYPE.list(),
+        options: userGroupList,
         optionLabel: 'name',
-        optionValue: 'id',
-        multiple: true
+        optionValue: 'value',
+        // multiple: true
       })
     ).addAction(new FBtnMDP({
       label: "Create User",
@@ -111,6 +113,10 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
   }
   getMyRef(): any {
     return this.parent.$refs[this.myRefName];
+  }
+
+  prepopulateLeadSquareId(leadSquareId: string) {
+    this.parent.prepopulateLeadSquareId(leadSquareId);
   }
   createUser() {
     return () => {
@@ -123,5 +129,31 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
       })
     }
   }
-
 }
+
+const userGroupList = [
+  {
+    name: "Sales Rep ",
+    value: ["ug-sales-rep"]
+  },
+  {
+    name: "Sales Manager",
+    value: ["ug-sales-rep-mgr"]
+  },
+  {
+    name: "Customer Service",
+    value: ["ug-customer-service"]
+  },
+  {
+    name: "Customer Service Manager",
+    value: ["ug-customer-service","ug-customer-service-mgr"]
+  },
+  {
+    name: "Admin",
+    value: ["ug-customer-service","ug-spine-admin","ug-customer-service-mgr"]
+  },
+  {
+    name: "MIS",
+    value: ["ug-customer-service","ug-operations","ug-customer-service-mgr"]
+  }
+]

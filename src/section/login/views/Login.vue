@@ -68,7 +68,7 @@ export default class Login extends Vue {
 
     Action.Login.Login.execute(this.loginForm, (output) => {
       vm.getRoleListForUser(this.loginForm.userName);
-      this.ameyoLogin("salesmanager1", "Welcome@123");
+      this.ameyoLogin(this.loginForm.userName, this.loginForm.password);
     });
   }
 

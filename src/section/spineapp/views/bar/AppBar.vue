@@ -66,7 +66,7 @@
       text
       @click="$router.push({ name: 'Root.ActionList' })"
     >
-      <v-icon small class="pr-1">mdi-gesture-double-tap</v-icon>
+      <v-icon small class="ml-1 pr-1">mdi-gesture-double-tap</v-icon>
       Portal
     </v-btn>
     <v-spacer></v-spacer>

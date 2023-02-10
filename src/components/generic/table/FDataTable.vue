@@ -144,7 +144,7 @@
             <v-menu z-index="99999" offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on }">
                 <v-icon class="mx-2" color="primary" v-on="on">
-                  mdi-eye-outline
+                  mdi-flip-horizontal
                 </v-icon>
               </template>
               <v-card max-height="400px">
@@ -155,6 +155,7 @@
                       v-model="selectedColumnListToView"
                       :value="item"
                       :label="item.text"
+                      :hide-details="true"
                     ></v-checkbox>
                     <!-- </v-list-tile-action> -->
                   </v-list-item>

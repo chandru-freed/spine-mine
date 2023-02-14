@@ -247,6 +247,10 @@ import FCancelTaskFFormMDP from "./cancelTask/FCancelTaskFFormMDP";
 import FSnackbar from "@/fsnackbar";
 import FDocumentCHPP from "./file/documentUploadCHPP/FDocumentCHPP.vue";
 import FPaymentDetails from "./file/paymentDetails/FPaymentDetails.vue";
+import ECFTSummaryStep from "@/section/spineapp/components/task/enrollment/enrollClientFile/step6/ECFTSummaryStep.vue";
+// import ECFTSSAStep from "@/section/spineapp/components/task/enrollment/enrollClientFile/step7/ECFTSSAStep.vue";
+import FAgreementList from "./file/agreementList/FAgreementList.vue";
+import FEMandateList from "./file/eMandateList/FEMandateList.vue";
 
 @Component({
   components: {
@@ -267,7 +271,10 @@ import FPaymentDetails from "./file/paymentDetails/FPaymentDetails.vue";
     CMSFTCDraftPaymentStep,
     CNSFMSFTCDraftPaymentStep,
     FDocumentCHPP,
-    FPaymentDetails
+    FPaymentDetails,
+    ECFTSummaryStep,
+    FAgreementList,
+    FEMandateList
   },
 })
 export default class FTaskStepper extends ModelVue {

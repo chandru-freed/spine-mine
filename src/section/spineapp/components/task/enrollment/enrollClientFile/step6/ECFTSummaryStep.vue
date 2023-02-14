@@ -21,7 +21,15 @@
     </div>
 
     <div
-      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
+      class="
+        d-flex
+        flex-row
+        align-start
+        flex-wrap
+        justify-space-around
+        pa-2
+        my-5
+      "
       v-if="!disabled"
     >
       <component
@@ -36,19 +44,24 @@
 </template>
 
 <script lang="ts">
+import FBtn from "@/components/generic/FBtn.vue";
+import StepSummary from "@/components/generic/file/summary/StepSummary.vue";
+import FForm from "@/components/generic/form/FForm.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 import { Component, Prop } from "vue-property-decorator";
-import FBtn from "../../FBtn.vue";
-import FForm from "../../form/FForm.vue";
-import ModelVue from "../../ModelVue";
-import StepSummary from "../summary/StepSummary.vue";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+
 @Component({
   components: {
     FBtn,
     StepSummary,
     FForm,
+    FDataTable,
   },
 })
-export default class FMarkComplete extends ModelVue {
+export default class ECFTSummaryStep extends ModelVue {
   @Prop({
     default: () => [],
   })
@@ -59,6 +72,9 @@ export default class FMarkComplete extends ModelVue {
 
   @Prop()
   formMetaDataList: any;
+
+  clientFileId = this.$route.params.clientFileId;
+
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(

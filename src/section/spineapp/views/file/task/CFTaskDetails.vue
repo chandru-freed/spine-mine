@@ -86,6 +86,7 @@ import CollectNSFMSFThroughCashfreeTask from "@/section/spineapp/components/task
 import RefundSPATask from "@/section/spineapp/components/task/refundspa/refundSPA/RefundSPATask.vue";
 import GenericTask from "@/section/spineapp/components/task/genericTask/GenericTask.vue";
 import UpdateRefundSPAPaymentStatusTaskTask from "@/section/spineapp/components/task/refundspa/updateRefundSPAPaymentStatusTask/UpdateRefundSPAPaymentStatusTaskTask.vue";
+import EnrollClientFileTask from "@/section/spineapp/components/task/enrollment/enrollClientFile/EnrollClientFileTask.vue";
 
 @Component({
   components: {
@@ -145,7 +146,8 @@ import UpdateRefundSPAPaymentStatusTaskTask from "@/section/spineapp/components/
     CollectNSFMSFThroughCashfreeTask,
     RefundSPATask,
     GenericTask,
-    UpdateRefundSPAPaymentStatusTaskTask
+    UpdateRefundSPAPaymentStatusTaskTask,
+    EnrollClientFileTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -174,6 +176,7 @@ export default class CFTaskDetails extends Vue {
 
   TASK_COMPONENT_MAP = new Map([
     ["Enrollment::CollectClientInfo", "CollectClientInfoTask"],
+    ["Enrollment::EnrollClientFile", "EnrollClientFileTask"],
     ["Enrollment::ClientInfoVerification", "ClientInfoVerificationTask"],
     ["Enrollment::SignServiceAgreement", "SignServiceAgreementTask"],
     [

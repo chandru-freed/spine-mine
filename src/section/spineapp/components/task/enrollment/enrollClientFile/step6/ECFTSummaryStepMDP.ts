@@ -1,16 +1,17 @@
+import FBtnMDP from "@/components/generic/FBtnMDP";
+import BankInfoSummaryFFormMDP from "@/components/generic/file/summary/BankInfoSummaryFFormMDP";
+import BudgetSummaryFFormMDP from "@/components/generic/file/summary/BudgetSummaryFFormMDP";
+import CreditorSummaryFDataTableMDP from "@/components/generic/file/summary/CreditorSummaryFDataTableMDP";
+import DocumentSummaryFFormMDP from "@/components/generic/file/summary/DocumentSummaryFFormMDP";
+import PaymentPlanSummaryFFormMDP from "@/components/generic/file/summary/PaymentPlanSummaryFFormMDP";
+import ProfileSummaryFFormMDP from "@/components/generic/file/summary/ProfileSummaryFFormMDP";
+import StepSummaryMDP from "@/components/generic/file/summary/StepSummaryMDP";
+import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
-import FBtnMDP from "../../FBtnMDP";
-import StepSummaryMDP from "../summary/StepSummaryMDP";
-import CreditorSummaryFDataTableMDP from "../summary/CreditorSummaryFDataTableMDP";
-import ProfileSummaryFFormMDP from "../summary/ProfileSummaryFFormMDP";
-import BudgetSummaryFFormMDP from "../summary/BudgetSummaryFFormMDP";
-import PaymentPlanSummaryFFormMDP from "../summary/PaymentPlanSummaryFFormMDP";
-import BankInfoSummaryFFormMDP from "../summary/BankInfoSummaryFFormMDP";
-import DocumentSummaryFFormMDP from "../summary/DocumentSummaryFFormMDP";
-import FFormMDP from "../../form/FFormMDP";
 
-export default class FMarkCompleteMDP implements MDP {
-    componentName: string = "FMarkComplete";
+
+export default class ECFTSummaryStepMDP implements MDP {
+    componentName: string = "ECFTSummaryStep";
     formList: FFormMDP[] = [];
     actionList: FBtnMDP[] = [];
     taskRoot: any;
@@ -64,6 +65,7 @@ export default class FMarkCompleteMDP implements MDP {
                 stepIndex:5
                 
             })
+            
             .getMetaData()
     }
 

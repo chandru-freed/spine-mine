@@ -1,26 +1,38 @@
 <template>
   <div class="col-12">
-    EMandate list
+    <component
+      v-if="showInitiateForm"
+      :ref="initiateEMandateFFormMetaData.myRefName"
+      :is="initiateEMandateFFormMetaData.componentName"
+      :value="selectModel(initiateEMandateInput, undefined)"
+      @input="
+        (newValue) => updateModel(initiateEMandateInput, newValue, undefined)
+      "
+      v-bind="initiateEMandateFFormMetaData.props"
+    ></component>
+  <v-card class="my-4" outlined v-if="showViewEMandateForm" flat>
+    
+    <component
+      
+      :ref="eMandateDetailsFFormMetaData.myRefName"
+      :is="eMandateDetailsFFormMetaData.componentName"
+      :value="selectModel(selectedEMandateSummaryToView, undefined)"
+      v-bind="eMandateDetailsFFormMetaData.props"
+    ></component>
+    <v-alert dense
+      outlined
+      text color="red"
+      class="ma-5"
+      v-if="selectedEMandateSummaryToView.status.name==='REJECTED'&&selectedEMandateSummaryToView.reasonDesc"
+      >{{selectedEMandateSummaryToView.reasonDesc}}</v-alert>
+  </v-card>
+
     <component
       :ref="eMandateListFDataTableMetaData.myRefName"
       :is="eMandateListFDataTableMetaData.componentName"
-      :value="selectModel(fiEMandateList, undefined)"
+      :value="selectModel(fiEMandateSummaryList, undefined)"
       v-bind="eMandateListFDataTableMetaData.props"
     ></component>
-
-
-    <div v-for="formMetaData in formMetaDataList" :key="formMetaData.myRefName">
-      <component
-        :ref="formMetaData.myRefName"
-        :is="formMetaData.componentName"
-        :value="selectModel(modelValue, formMetaData.dataSelectorKey)"
-        @input="
-          (newValue) =>
-            updateModel(modelValue, newValue, formMetaData.dataSelectorKey)
-        "
-        v-bind="formMetaData.props"
-      ></component>
-    </div>
 
     <div
       class="
@@ -55,7 +67,9 @@ import { Component, Prop } from "vue-property-decorator";
 import FEMandateListFDataTableMDP from "./FEMandateListFDataTableMDP";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
-
+import * as Action from "@/../src-gen/action";
+import InitiateEMandateFFormMDP from "./InitiateEMandateFFormMDP";
+import EMandateDetailsFFormMDP from "./EMandateDetailsFFormMDP";
 @Component({
   components: {
     FBtn,
@@ -70,11 +84,18 @@ export default class FEMandateList extends ModelVue {
   })
   actionMetaDataList: any[];
 
+  initiateEMandateInput: Data.ClientFile.InitiateEMandateInput =
+    new Data.ClientFile.InitiateEMandateInput();
+  showInitiateForm: boolean = false;
+  showViewEMandateForm: boolean = false;
 
   clientFileId = this.$route.params.clientFileId;
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
-  fiEMandateList: Data.ClientFile.FiEMandateList;
+  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateSummaryList
+  fiEMandateSummaryList: Data.ClientFile.FiEMandateSummary;
+
+  selectedEMandateSummaryToView: Data.ClientFile.FiEMandateSummary =
+    new Data.ClientFile.FiEMandateSummary();
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(
@@ -83,9 +104,46 @@ export default class FEMandateList extends ModelVue {
         actionMetaData.condition === true
     );
   }
+
+  initiateEMandate() {
+    this.initiateEMandateInput.clientFileId = this.clientFileId;
+    Action.ClientFile.InitiateEMandate.execute(
+      this.initiateEMandateInput,
+      (output) => {
+        this.showInitiateForm = false;
+      }
+    );
+  }
   // Meta data
   get eMandateListFDataTableMetaData() {
     return new FEMandateListFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get initiateEMandateFFormMetaData() {
+    return new InitiateEMandateFFormMDP({ parent: this }).getMetaData();
+  }
+
+  get eMandateDetailsFFormMetaData() {
+    return new EMandateDetailsFFormMDP({ parent: this }).getMetaData();
+  }
+
+  // Meta Data
+
+  handleInfoClick(item: Data.ClientFile.FiEMandateSummary) {
+    this.selectedEMandateSummaryToView = item;
+    this.showViewEMandateForm = true;
+  }
+
+  checkAndUpdateEMandate() {
+    Action.ClientFile.CheckAndUpdateEMandate.execute1(this.selectedEMandateSummaryToView.eMandateId, output => {
+      this.getEMandateDetails(this.selectedEMandateSummaryToView.eMandateId)
+    })
+  }
+
+  getEMandateDetails(eMandateId: string) {
+    Action.ClientFile.GetEMandateDetails.execute1(eMandateId, (output: any) => {
+      this.selectedEMandateSummaryToView = output;
+    })
   }
 }
 </script>

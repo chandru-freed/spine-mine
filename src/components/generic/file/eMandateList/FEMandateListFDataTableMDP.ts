@@ -5,44 +5,78 @@ import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTable
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
 import FSnackbar from "@/fsnackbar";
+import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
+import FCellDateTimeEllipsisMDP from "../../table/cell/FCellDateTimeEllipsisMDP";
 export default class FEMandateListFDataTableMDP extends FDataTableMDP {
-    parent: any;
-    constructor(props:{parent: any}) {
-        super({myRefName:"fAgreementListFDataTableMDP", title: "EMandate List",disabled:props.parent.disabled});
-        this.parent = props.parent;
-        this.addColumn({
-            label: "SSA Token",
-            dataSelectorKey: "ssaToken",
-          })
-          .addColumn({
-            label: "Generated On",
-            dataSelectorKey: "generatedOn",
-            columnCellMDP: new FCellDateMDP()
-          }).addColumn({
-            label: "IP Address",
-            dataSelectorKey: "ipAddr",
-          }).addColumn({
-            label: "Signed",
-            dataSelectorKey: "signed",
-            columnCellMDP: new FCellBooleanMDP({})
-          }).addColumn({
-            label: "Signed On",
-            dataSelectorKey: "signedOn",
-          }).addAction({
-            label: "Initiate EMandate",
-            onClick: this.handleGenerateLink(),
-            type: ActionType.ADD
-          })   
-    }
-
-    handleGenerateLink() {
-      return () => {
-        return new Promise(res => {
-          Action.ClientFile.GenerateAgreement.execute1(this.parent.clientFileId, output => {
-            FSnackbar.success("Successfully generated the agreement")
-          })
-          res(true)
+  parent: any;
+  constructor(props: { parent: any }) {
+    super({ myRefName: "fAgreementListFDataTableMDP", title: "EMandate List", disabled: props.parent.disabled });
+    this.parent = props.parent;
+    this.addColumn({
+      label: "Remote EMandateId",
+      dataSelectorKey: "remoteEMandateId",
+    })
+      .addCurrencyColumn({
+        dataSelectorKey: "amount",
+        label: "Amount"
+      })
+      .addColumn({
+        label: "EMandate Status",
+        dataSelectorKey: "status.name",
+        columnCellMDP: new FCellStatusMDP({
+          colorCodeData: Data.Color.EMANDATE_STATUS
         })
-      }
+      }).addColumn({
+        label: "Provider",
+        dataSelectorKey: "provider.name",
+      }).addNumberColumn({
+        label: "Account Number",
+        dataSelectorKey: "accountNumber",
+
+      }).addColumn({
+        label: "Created On",
+        dataSelectorKey: "createdOn",
+        columnCellMDP: new FCellDateMDP()
+      }).addAction({
+        label: "Initiate EMandate",
+        onClick: this.handleInitiateClick(),
+        type: ActionType.ADD
+      }).addAction({
+        label: "Refresh",
+        onClick: this.handleRefreshClick(),
+        type: ActionType.OTHERS,
+        noSelect: true
+      }).addAction({
+        label: "Info",
+        onClick: this.handleInfoClick(),
+        type: ActionType.INFO,
+        noSelect: true
+      })
+  }
+
+  handleInitiateClick() {
+    return () => {
+      return new Promise(res => {
+        this.parent.showInitiateForm = true;
+        res(true)
+      })
     }
+  }
+  handleRefreshClick() {
+    return () => {
+      return new Promise(res => {
+        Action.ClientFile.GetAllEMandateList.execute1(this.parent.clientFileId, output => {
+
+        });
+      }
+      )
+    }
+  }
+  handleInfoClick() {
+    return (item: any) => {
+      return new Promise(res => {
+        this.parent.handleInfoClick(item)
+      })
+    }
+  }
 }

@@ -19,12 +19,12 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
             dataSelectorKey: "generatedOn",
             columnCellMDP: new FCellDateMDP()
           }).addColumn({
-            label: "IP Address",
-            dataSelectorKey: "ipAddr",
-          }).addColumn({
             label: "Signed",
             dataSelectorKey: "signed",
             columnCellMDP: new FCellBooleanMDP({})
+          }).addColumn({
+            label: "IP Address",
+            dataSelectorKey: "ipAddr",
           }).addColumn({
             label: "Signed On",
             dataSelectorKey: "signedOn",
@@ -32,7 +32,12 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
             label: "Generate Agreement",
             onClick: this.handleGenerateLink(),
             type: ActionType.ADD
-          })   
+          })   .addAction({
+            label: "Refresh",
+            onClick: this.handleRefreshClick(),
+            type: ActionType.OTHERS,
+            noSelect: true
+          })
     }
 
     handleGenerateLink() {
@@ -40,6 +45,15 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
         return new Promise(res => {
           Action.ClientFile.GenerateAgreement.execute1(this.parent.clientFileId, output => {
             FSnackbar.success("Successfully generated the agreement")
+          })
+          res(true)
+        })
+      }
+    }
+    handleRefreshClick(){
+      return () => {
+        return new Promise(res => {
+          Action.ClientFile.GetAllSignAgreementList.execute1(this.parent.clientFileId, output => {
           })
           res(true)
         })

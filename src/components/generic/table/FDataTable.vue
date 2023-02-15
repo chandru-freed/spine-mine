@@ -240,6 +240,14 @@
           <v-btn
             :disabled="disabled"
             icon
+            @click="handleInfoClick(item, index)"
+            v-if="infoBtnData"
+          >
+            <v-icon small> mdi-information</v-icon>
+          </v-btn>
+          <v-btn
+            :disabled="disabled"
+            icon
             @click="handleEditClick(item, index)"
             v-if="editBtnData"
           >
@@ -501,8 +509,18 @@ export default class FDataTable extends ModelVue {
     this.editBtnData.onClick(item, index);
   }
 
+  handleInfoClick(item: any, index: number) {
+    this.selectedRowIndex = index;
+    this.infoBtnData.onClick(item, index);
+  }
+
+
   get deleteBtnData(): FTableActionField {
     return this.actions.find((item) => item.type === ActionType.DELETE);
+  }
+
+  get infoBtnData() {
+    return this.actions.find((item) => item.type === ActionType.INFO);
   }
 
   get editBtnData() {
@@ -520,7 +538,7 @@ export default class FDataTable extends ModelVue {
         return item.value === viewItem.value;
       });
     });
-    if (this.deleteBtnData || this.editBtnData) {
+    if (this.deleteBtnData || this.editBtnData || this.infoBtnData) {
       headers.push({ text: "", value: "actions", align: "right" });
     }
     if (this.expansionComponent) {
@@ -539,7 +557,7 @@ export default class FDataTable extends ModelVue {
       (item) => item.type === ActionType.OTHERS
     );
     return (
-      otherActions.filter((item) => !item.disabled).length > 0 && !this.disabled
+      otherActions.filter((item) => !item.disabled&&!item.noSelect).length > 0 && !this.disabled
     );
   }
 
@@ -653,5 +671,6 @@ export enum ActionType {
   DELETE = "DELETE",
   EDIT = "EDIT",
   OTHERS = "OTHERS",
+  INFO="INFO"
 }
 </script>

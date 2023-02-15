@@ -191,6 +191,7 @@ export enum ActionType {
   DELETE = "DELETE",
   EDIT = "EDIT",
   OTHERS = "OTHERS",
+  INFO="INFO"
 }
 
 

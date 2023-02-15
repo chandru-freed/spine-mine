@@ -219,7 +219,7 @@ export default class EnrollClientFileTask extends ModelVue {
     }, 1000);
   };
 
-  public getEMandateListHandler = () => (output: any) => {
+  public getEMandateListHandler = () => {
     setTimeout(() => {
       this.getEMandateList();
     }, 1000);
@@ -276,6 +276,8 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.interested(
       this.getAllSignAgreementListHandler
     );
+    Action.ClientFile.InitiateEMandate.interested(this.getEMandateListHandler);
+    Action.ClientFile.CheckAndUpdateEMandate.interested(this.getEMandateListHandler);
   }
 
   public destroyed() {
@@ -326,6 +328,8 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.notInterested(
       this.getAllSignAgreementListHandler
     );
+    Action.ClientFile.InitiateEMandate.notInterested(this.getEMandateListHandler);
+    Action.ClientFile.CheckAndUpdateEMandate.notInterested(this.getEMandateListHandler);
 
     // getEMandateListHandler
   }
@@ -366,9 +370,11 @@ export default class EnrollClientFileTask extends ModelVue {
   }
 
   getEMandateList() {
-    Action.ClientFile.GetEMandateList.execute1(
+    console.log("getEMandateList called")
+    Action.ClientFile.GetAllEMandateList.execute1(
       this.clientFileId,
-      (output) => {}
+      (output) => {
+      }
     );
   }
 

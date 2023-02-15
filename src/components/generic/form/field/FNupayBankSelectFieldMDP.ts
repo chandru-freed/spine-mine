@@ -28,6 +28,7 @@ export default class FNupayBankSelectFieldMDP implements FFieldMDP {
     returnObject=false,
     condition=true,
     readonly = false,
+    optionValue="nupayBankMasterId"
   }: {
     parentMDP: FFormChildMDP;
     dataSelectorKey: string;
@@ -40,6 +41,7 @@ export default class FNupayBankSelectFieldMDP implements FFieldMDP {
     condition?:boolean
     returnObject?: boolean,
     readonly?: boolean;
+    optionValue?: string;
   }) {
     this.parentMDP = parentMDP;
     this.dataSelectorKey = dataSelectorKey;
@@ -52,6 +54,7 @@ export default class FNupayBankSelectFieldMDP implements FFieldMDP {
     this.condition = condition;
     this.returnObject = returnObject;
     this.readonly = readonly;
+    this.optionValue = optionValue;
   }
 
   getRules() {

@@ -70,6 +70,11 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
     return state.fiSignAgreementList
   }
 
+  public fiEMandateSummaryList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiEMandateSummary[] {
+    return state.fiEMandateSummaryList
+  }
+
+
 
 }
 

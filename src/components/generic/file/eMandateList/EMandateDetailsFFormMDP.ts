@@ -1,4 +1,4 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -28,7 +28,7 @@ export default class EMandateDetailsFFormMDP extends FFormMDP {
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "label",
-          label: "Label",
+          label: "Bank",
           mandatory: true,
           boundaryClass: "col-4",
         })
@@ -37,21 +37,12 @@ export default class EMandateDetailsFFormMDP extends FFormMDP {
       new FTextFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "remoteEMandateId",
-        label: "Remote EMandateId",
+        label: "Nupay Cust Id",
         mandatory: true,
         boundaryClass: "col-4",
       })
     )
       .addField(
-        new FTextFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "provider.name",
-          label: "provider",
-          mandatory: true,
-          boundaryClass: "col-4",
-          
-        })
-      ).addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "status.name",
@@ -80,15 +71,6 @@ export default class EMandateDetailsFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FSelectDateFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "createdOn",
-          label: "Created On",
-          boundaryClass: "col-4",
-          mandatory: true,
-        })
-      )
-      .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "eMandateLink",
@@ -97,11 +79,32 @@ export default class EMandateDetailsFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
           
         })
+      )  .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "umrn",
+          label: "UMRN",
+          mandatory: true,
+          boundaryClass: "col-4",
+          condition: this.parent.isActive()
+        })
+      )  .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "npciRefNumber",
+          label: "NPCI Ref Number",
+          mandatory: true,
+          boundaryClass: "col-4",
+          condition: this.parent.isActive()
+          
+        })
       )
+      
       .addAction(
         new FBtnMDP({
           label: "Close",
           onClick: this.handleCloseClick(),
+          btnType: BtnType.TEXT
         })
       )
       .addAction(

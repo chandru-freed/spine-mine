@@ -10,10 +10,10 @@ import FCellDateTimeEllipsisMDP from "../../table/cell/FCellDateTimeEllipsisMDP"
 export default class FEMandateListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any }) {
-    super({ myRefName: "fAgreementListFDataTableMDP", title: "EMandate List", disabled: props.parent.disabled });
+    super({ myRefName: "fAgreementListFDataTableMDP", title: "EMandate List", disabled: props.parent.disabled , enableShowHideColumns: true});
     this.parent = props.parent;
     this.addColumn({
-      label: "Remote EMandateId",
+      label: "Nupay Cust Id",
       dataSelectorKey: "remoteEMandateId",
     })
       .addCurrencyColumn({
@@ -21,14 +21,17 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
         label: "Amount"
       })
       .addColumn({
-        label: "EMandate Status",
+        label: "Status",
         dataSelectorKey: "status.name",
         columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.EMANDATE_STATUS
-        })
+          colorCodeData: Data.Color.EMANDATE_STATUS,
+          outlined:true
+        }),
+        align:"center"
       }).addColumn({
         label: "Provider",
         dataSelectorKey: "provider.name",
+        hidden: true
       }).addNumberColumn({
         label: "Account Number",
         dataSelectorKey: "accountNumber",

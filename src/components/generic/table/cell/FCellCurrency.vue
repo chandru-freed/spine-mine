@@ -1,6 +1,8 @@
 <template>
   <div>
+    <strong>
     {{ inrValue | toINR }}
+    </strong>
   </div>
 </template>
 <script lang="ts">

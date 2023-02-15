@@ -10,22 +10,29 @@
       "
       v-bind="initiateEMandateFFormMetaData.props"
     ></component>
-  <v-card class="my-4" outlined v-if="showViewEMandateForm" flat>
-    
-    <component
-      
-      :ref="eMandateDetailsFFormMetaData.myRefName"
-      :is="eMandateDetailsFFormMetaData.componentName"
-      :value="selectModel(selectedEMandateSummaryToView, undefined)"
-      v-bind="eMandateDetailsFFormMetaData.props"
-    ></component>
-    <v-alert dense
-      outlined
-      text color="red"
-      class="ma-5"
-      v-if="selectedEMandateSummaryToView.status.name==='REJECTED'&&selectedEMandateSummaryToView.reasonDesc"
-      >{{selectedEMandateSummaryToView.reasonDesc}}</v-alert>
-  </v-card>
+    <v-card class="my-4" outlined v-if="showViewEMandateForm" flat>
+      <v-alert
+        dense
+        outlined
+        text
+        color="red"
+        class="ma-5"
+        v-if="
+          selectedEMandateSummaryToView.status.name === 'REJECTED' &&
+          selectedEMandateSummaryToView.reasonDesc
+        "
+        >{{ selectedEMandateSummaryToView.reasonCode }}:
+        {{ selectedEMandateSummaryToView.reasonDesc }} ,{{
+          selectedEMandateSummaryToView.rejectedBy
+        }}
+      </v-alert>
+      <component
+        :ref="eMandateDetailsFFormMetaData.myRefName"
+        :is="eMandateDetailsFFormMetaData.componentName"
+        :value="selectModel(selectedEMandateSummaryToView, undefined)"
+        v-bind="eMandateDetailsFFormMetaData.props"
+      ></component>
+    </v-card>
 
     <component
       :ref="eMandateListFDataTableMetaData.myRefName"
@@ -70,6 +77,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import InitiateEMandateFFormMDP from "./InitiateEMandateFFormMDP";
 import EMandateDetailsFFormMDP from "./EMandateDetailsFFormMDP";
+import FSnackbar from "@/fsnackbar";
 @Component({
   components: {
     FBtn,
@@ -135,15 +143,23 @@ export default class FEMandateList extends ModelVue {
   }
 
   checkAndUpdateEMandate() {
-    Action.ClientFile.CheckAndUpdateEMandate.execute1(this.selectedEMandateSummaryToView.eMandateId, output => {
-      this.getEMandateDetails(this.selectedEMandateSummaryToView.eMandateId)
-    })
+    Action.ClientFile.CheckAndUpdateEMandate.execute1(
+      this.selectedEMandateSummaryToView.eMandateId,
+      (output) => {
+        FSnackbar.success("Successfully checked the emandate status");
+        this.getEMandateDetails(this.selectedEMandateSummaryToView.eMandateId);
+      }
+    );
   }
 
   getEMandateDetails(eMandateId: string) {
     Action.ClientFile.GetEMandateDetails.execute1(eMandateId, (output: any) => {
       this.selectedEMandateSummaryToView = output;
-    })
+    });
+  }
+
+  isActive() {
+    return this.selectedEMandateSummaryToView.status.id===Data.ClientFile.EMANDATE_STATUS.ACTIVE.id
   }
 }
 </script>

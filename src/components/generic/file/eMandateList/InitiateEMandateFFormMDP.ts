@@ -1,4 +1,4 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -85,6 +85,7 @@ export default class InitiateEMandateFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Cancel",
           onClick: this.handleCancelClick(),
+          btnType: BtnType.TEXT
         })
       )
       .addAction(

@@ -10,7 +10,7 @@ import FCellDateTimeEllipsisMDP from "../../table/cell/FCellDateTimeEllipsisMDP"
 export default class FEMandateListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any }) {
-    super({ myRefName: "fAgreementListFDataTableMDP", title: "EMandate List", disabled: props.parent.disabled , enableShowHideColumns: true});
+    super({ myRefName: "fAgreementListFDataTableMDP", title: "EMandate List", disabled: props.parent.disabled , enableShowHideColumns: true, itemKey:"eMandateId"});
     this.parent = props.parent;
     this.addColumn({
       label: "Nupay Cust Id",
@@ -54,6 +54,11 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
         onClick: this.handleInfoClick(),
         type: ActionType.INFO,
         noSelect: true
+      }).addAction({
+        label: "Resend Mail",
+        onClick: this.handleResendClick(),
+        type: ActionType.OTHERS,
+        confirmation:true
       })
   }
 
@@ -79,6 +84,21 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
     return (item: any) => {
       return new Promise(res => {
         this.parent.handleInfoClick(item)
+      })
+    }
+  }
+  handleResendClick() {
+    return (item: any) => {
+      return new Promise(res => {
+        const input: Data.ClientFile.SendEmandateInput = new Data.ClientFile.SendEmandateInput();
+        input.fiEMandateId = item.eMandateId;
+        input.byEmail = true;
+        input.bySMS = false;
+        input.byWhatsapp = false;
+        Action.ClientFile.SendEmandate.execute(input, output => {
+          FSnackbar.success("Succesfully resend the agreement")
+          res(true);
+        });
       })
     }
   }

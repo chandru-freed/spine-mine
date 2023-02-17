@@ -31,6 +31,7 @@ export default class CFUpdateClientDetailsFFormMDP extends FFormMDP {
           dataSelectorKey: "middleName",
           label: "Middle Name",
           boundaryClass: "col-4",
+          
         })
       )
       .addField(
@@ -39,6 +40,7 @@ export default class CFUpdateClientDetailsFFormMDP extends FFormMDP {
           dataSelectorKey: "lastName",
           label: "Last Name",
           boundaryClass: "col-4",
+          mandatory: true,
         })
       )
       .addField(
@@ -47,6 +49,7 @@ export default class CFUpdateClientDetailsFFormMDP extends FFormMDP {
           dataSelectorKey: "newEmailId",
           label: "Email",
           boundaryClass: "col-4",
+          mandatory: true,
         })
       )
       .addField(
@@ -55,6 +58,7 @@ export default class CFUpdateClientDetailsFFormMDP extends FFormMDP {
           dataSelectorKey: "newMobile",
           label: "Mobile",
           boundaryClass: "col-4",
+          mandatory: true,
         })
       )
       .addAction(

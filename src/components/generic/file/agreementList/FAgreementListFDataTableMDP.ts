@@ -8,7 +8,9 @@ import FSnackbar from "@/fsnackbar";
 export default class FAgreementListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
-        super({myRefName:"fAgreementListFDataTableMDP", title: "Agreement List",disabled:props.parent.disabled});
+        super({myRefName:"fAgreementListFDataTableMDP", title: "Agreement List",disabled:props.parent.disabled,
+      itemKey:"ssaToken"
+      });
         this.parent = props.parent;
         this.addColumn({
             label: "SSA Token",
@@ -37,6 +39,11 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
             onClick: this.handleRefreshClick(),
             type: ActionType.OTHERS,
             noSelect: true
+          }).addAction({
+            label: "Resend Mail",
+            onClick: this.handleResendClick(),
+            type: ActionType.OTHERS,
+            confirmation: true
           })
     }
 
@@ -56,6 +63,22 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
           Action.ClientFile.GetAllSignAgreementList.execute1(this.parent.clientFileId, output => {
           })
           res(true)
+        })
+      }
+    }
+
+    handleResendClick() {
+      return (item: any) => {
+        return new Promise(res => {
+          const sendAgreementInput = new Data.ClientFile.SendAgreementInput();
+          sendAgreementInput.byEmail = true;
+          sendAgreementInput.bySMS = false;
+          sendAgreementInput.byWhatsapp = false;
+          sendAgreementInput.token = item.ssaToken;
+          Action.ClientFile.SendAgreement.execute(sendAgreementInput, output => {
+            FSnackbar.success("Succesfully resend the agreement")
+            res(true);
+          })
         })
       }
     }

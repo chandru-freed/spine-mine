@@ -59,6 +59,11 @@ export default class CFUpdateClientDetails extends ModelVue {
       this.clientFileBasicInfoStore.clientBasicInfo.middleName;
     this.updateClientDetailsInputLocal.lastName =
       this.clientFileBasicInfoStore.clientBasicInfo.lastName;
+
+      this.updateClientDetailsInputLocal.newEmailId =
+      this.clientFileBasicInfoStore.clientBasicInfo.emailId;
+      this.updateClientDetailsInputLocal.newMobile =
+      this.clientFileBasicInfoStore.clientBasicInfo.mobile;
     return this.updateClientDetailsInputLocal;
   }
 

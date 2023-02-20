@@ -113,6 +113,7 @@ export default class EnrollClientFileTask extends ModelVue {
       taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
       taskState: this.taskDetails.taskState,
+      registrationInfo: this.clientFileBasicInfo.clientBasicInfo
     };
   }
   set taskFormData(value: any) {

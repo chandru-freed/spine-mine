@@ -21,7 +21,7 @@ export default class ECFTProfileStepMDP extends CLProfileMDP {
         taskRoot: taskRoot,
         parent: parent,
         myRefName: "clRegistrationDetailsFFormRef",
-        dataSelectorKey: "taskInput.clRegistrationDetails",
+        dataSelectorKey: "registrationInfo",
         disabled: true,
       })
     ).addForm(

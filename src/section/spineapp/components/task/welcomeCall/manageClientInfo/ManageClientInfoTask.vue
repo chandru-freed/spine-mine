@@ -44,6 +44,11 @@ export default class ManageClientInfoTask
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
   // new store Add
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfoStore: Data.ClientFile.ClPersonalInfo;
 
@@ -232,6 +237,7 @@ export default class ManageClientInfoTask
     return {
       taskInput: this.taskDetailsInput,
       taskOutput: this.taskFormOutput,
+      registrationInfo: this.clientFileBasicInfo.clientBasicInfo
     };
   }
 

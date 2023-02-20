@@ -57,7 +57,8 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           mandatory: true,
           boundaryClass: "col-12",
-          minValue:1
+          minValue:1,
+          maxValue:72
         })
       );
   }

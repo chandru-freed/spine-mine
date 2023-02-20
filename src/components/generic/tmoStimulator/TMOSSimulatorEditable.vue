@@ -244,7 +244,7 @@ export default class TMOSSimulatorEditable extends ModelVue {
 
   
 
-  get result() {
+  get result(): any {
     const totalPercentage =
       this.resultLocal.settlementPercentage + this.feeGSTPercentage;
     this.resultLocal.monthlyPayment =

@@ -60,7 +60,8 @@ export default class TMOStimulatorFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-12",
           disabled: !this.taskRoot.editMode,
-          maxValue: 72
+          maxValue: 72,
+          minValue:1
         })
       );
   }

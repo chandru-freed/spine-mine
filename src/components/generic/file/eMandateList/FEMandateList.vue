@@ -117,11 +117,11 @@ export default class FEMandateList extends ModelVue {
   }
 
   prepopulateDetails() {
-    console.log(this.fiPaymentPlanInfoStore)
     this.initiateEMandateInput.collectionAmount = this.fiPaymentPlanInfoStore?.ppCalculator?.totalMonthlyObligation || 0
     this.initiateEMandateInput.clientBankInfo.nupayBankId = this.fiEMandateSummaryList[0]?.nupayBankId;
     this.initiateEMandateInput.clientBankInfo.accountNumber = this.fiEMandateSummaryList[0]?.accountNumber;
-    // this.initiateEMandateInput.clientBankInfo.ifscCode = this.fiEMandateSummaryList.
+    this.initiateEMandateInput.clientBankInfo.ifscCode = this.fiEMandateSummaryList[0]?.ifscCode;
+    this.initiateEMandateInput.clientBankInfo.accountHolderName = this.fiEMandateSummaryList[0]?.accountHolderName;
   }
 
   initiateEMandate() {

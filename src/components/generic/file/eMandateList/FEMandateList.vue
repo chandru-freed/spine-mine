@@ -92,6 +92,9 @@ export default class FEMandateList extends ModelVue {
   })
   actionMetaDataList: any[];
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
+  fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
+
   initiateEMandateInput: Data.ClientFile.InitiateEMandateInput =
     new Data.ClientFile.InitiateEMandateInput();
   showInitiateForm: boolean = false;
@@ -100,7 +103,7 @@ export default class FEMandateList extends ModelVue {
   clientFileId = this.$route.params.clientFileId;
 
   @Store.Getter.ClientFile.ClientFileSummary.fiEMandateSummaryList
-  fiEMandateSummaryList: Data.ClientFile.FiEMandateSummary;
+  fiEMandateSummaryList: Data.ClientFile.FiEMandateSummary[];
 
   selectedEMandateSummaryToView: Data.ClientFile.FiEMandateSummary =
     new Data.ClientFile.FiEMandateSummary();
@@ -111,6 +114,14 @@ export default class FEMandateList extends ModelVue {
         actionMetaData.condition === undefined ||
         actionMetaData.condition === true
     );
+  }
+
+  prepopulateDetails() {
+    console.log(this.fiPaymentPlanInfoStore)
+    this.initiateEMandateInput.collectionAmount = this.fiPaymentPlanInfoStore?.ppCalculator?.totalMonthlyObligation || 0
+    this.initiateEMandateInput.clientBankInfo.nupayBankId = this.fiEMandateSummaryList[0]?.nupayBankId;
+    this.initiateEMandateInput.clientBankInfo.accountNumber = this.fiEMandateSummaryList[0]?.accountNumber;
+    // this.initiateEMandateInput.clientBankInfo.ifscCode = this.fiEMandateSummaryList.
   }
 
   initiateEMandate() {

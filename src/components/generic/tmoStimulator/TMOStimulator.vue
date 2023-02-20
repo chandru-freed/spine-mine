@@ -22,7 +22,7 @@
               result.msfAmount | toINR
             }}</span>
           </v-chip>
-          <v-chip class="mr-2" color="primary" label outlined large>
+          <v-chip v-if="result.monthlyPayment" class="mr-2" color="primary" label outlined large>
             SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
               Math.round(result.monthlyPayment) | toINR
             }}</span>
@@ -317,9 +317,12 @@ export default class TMOStimulator extends ModelVue {
 
   handleCancelEditClick() {
     this.editMode = false;
-    this.result.tenure = this.simulatorInput?.paymentPlan.ppCalculator?.tenor;
-    this.result.settlementPercentage=this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage;
-    this.result.firstSPADraftDate = this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate;
+    console.log(this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage,this.modelValue?.paymentPlan.ppCalculator)
+    this.result.tenure = this.modelValue?.paymentPlan.ppCalculator?.tenor!==0
+    ?this.modelValue?.paymentPlan.ppCalculator?.tenor
+    :getTenureWithFreed(this.result.outstanding);
+    this.result.settlementPercentage=this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage;
+    this.result.firstSPADraftDate = this.modelValue?.paymentPlan.ppCalculator?.firstDraftDate;
   }
 
   get taskDisabled(): boolean {

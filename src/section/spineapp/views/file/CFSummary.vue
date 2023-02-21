@@ -284,6 +284,11 @@
               Settled({{ fileSummary.settledCreditorsCount }})
               </div>
             </v-list-item-action>
+              <v-list-item-action class="py-0 my-0">
+              <div class="d-flex primary--text  text-subtitle-1">
+              <v-chip x-small>Emandate Active </v-chip>
+              </div>
+            </v-list-item-action>
           </v-list-item>
           <v-divider/>
           
@@ -545,6 +550,9 @@ export default class CFSummary extends Vue {
 
   minHeight = 80;
   showHide: boolean = false;
+  clientFileId = this.$route.params.clientFileId;
+  @Store.Getter.ClientFile.ClientFileSummary.fiEMandateList
+  fiEMandateList: Data.ClientFile.FiEMandateList[];
 
   msfScheduleStatusColorcode = Data.Color.PS_ENTRY_STATUS;
 

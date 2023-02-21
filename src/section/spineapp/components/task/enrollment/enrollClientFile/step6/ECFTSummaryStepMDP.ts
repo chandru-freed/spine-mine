@@ -8,6 +8,11 @@ import ProfileSummaryFFormMDP from "@/components/generic/file/summary/ProfileSum
 import StepSummaryMDP from "@/components/generic/file/summary/StepSummaryMDP";
 import FFormMDP from "@/components/generic/form/FFormMDP";
 import MDP from "@/components/generic/MDP";
+import Task from "@/section/spineapp/util/Task";
+import ExceptionFFormMDP from "./ExceptionFFormMDP";
+import * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 
 export default class ECFTSummaryStepMDP implements MDP {
@@ -19,6 +24,7 @@ export default class ECFTSummaryStepMDP implements MDP {
     constructor({ taskRoot, parent }:{ taskRoot: any, parent: any }) {
         this.taskRoot = taskRoot;
         this.parent = parent;
+        this.addForm(new ExceptionFFormMDP({taskRoot, parent}))
     }
 
     addAction(newAction: FBtnMDP) {
@@ -29,6 +35,18 @@ export default class ECFTSummaryStepMDP implements MDP {
     addForm(newForm: FFormMDP) {
         this.formList.push(newForm);
         return this;
+    }
+    validateAndSubmit() {
+        return (nextCallback: () => void) => {
+            console.log(this.taskRoot.taskFormData.taskOutput.exceptionTakenList,"this.taskRoot.taskFormData.taskOutput.exceptionTakenList")
+            const input = new Data.ClientFile.UpdateExceptionTakenListInput();
+            input.exceptionTakenList = this.taskRoot.taskFormData.taskOutput.exceptionTakenList;
+            input.exceptionApprovedBy = this.taskRoot.taskFormData.taskOutput.exceptionApprovedBy;
+            input.clientFileId = this.taskRoot.clientFileId;
+            Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {
+                nextCallback();
+            });
+        }    
     }
 
     getClientInfoSummaryMetaData() {

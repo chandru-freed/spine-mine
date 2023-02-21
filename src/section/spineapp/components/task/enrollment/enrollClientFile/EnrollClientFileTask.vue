@@ -77,6 +77,8 @@ export default class EnrollClientFileTask extends ModelVue {
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
 
+  getExceptionTakenListOutput: Data.ClientFile.GetExceptionTakenListOutput = new Data.ClientFile.GetExceptionTakenListOutput();
+
   // Parse JSON String => As taskOutput and taskInput comes as Json String
   // get taskDetailsOutput() {
   //   return !!this.taskDetails && !!this.taskDetails.taskOutput
@@ -113,7 +115,7 @@ export default class EnrollClientFileTask extends ModelVue {
       taskInput: this.taskDetails.inputJson,
       taskOutput: this.taskFormOutput,
       taskState: this.taskDetails.taskState,
-      registrationInfo: this.clientFileBasicInfo.clientBasicInfo
+      registrationInfo: this.clientFileBasicInfo.clientBasicInfo,
     };
   }
   set taskFormData(value: any) {
@@ -141,12 +143,8 @@ export default class EnrollClientFileTask extends ModelVue {
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
       needVerification: (this.taskDetails.outputJson as any).needVerification,
-      exceptionTakenList: this.taskDetails.isOutputEmpty
-        ? this.taskFormOutputLocal.exceptionTakenList
-        : (this.taskDetails.outputJson as any).exceptionTakenList,
-      exceptionApprovedBy: this.taskDetails.isOutputEmpty
-        ? this.taskFormOutputLocal.exceptionApprovedBy
-        : (this.taskDetails.outputJson as any).exceptionApprovedBy,
+      exceptionTakenList: this.getExceptionTakenListOutput.exceptionTakenList,
+      exceptionApprovedBy: this.getExceptionTakenListOutput.exceptionApprovedBy,
       collectMSFNow: this.taskDetails.isOutputEmpty
         ? this.taskFormOutputLocal.collectMSFNow
         : (this.taskDetails.outputJson as any).collectMSFNow,
@@ -235,6 +233,7 @@ export default class EnrollClientFileTask extends ModelVue {
     this.getFiDocumentList();
     this.getAllSignAgreementList();
     this.getEMandateList();
+    this.getExceptionTakenList();
 
     Action.Spine.UpdateClPersonalInfo.interested(
       this.findClPersonalInfoHandler
@@ -278,7 +277,9 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getAllSignAgreementListHandler
     );
     Action.ClientFile.InitiateEMandate.interested(this.getEMandateListHandler);
-    Action.ClientFile.CheckAndUpdateEMandate.interested(this.getEMandateListHandler);
+    Action.ClientFile.CheckAndUpdateEMandate.interested(
+      this.getEMandateListHandler
+    );
   }
 
   public destroyed() {
@@ -329,8 +330,12 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.notInterested(
       this.getAllSignAgreementListHandler
     );
-    Action.ClientFile.InitiateEMandate.notInterested(this.getEMandateListHandler);
-    Action.ClientFile.CheckAndUpdateEMandate.notInterested(this.getEMandateListHandler);
+    Action.ClientFile.InitiateEMandate.notInterested(
+      this.getEMandateListHandler
+    );
+    Action.ClientFile.CheckAndUpdateEMandate.notInterested(
+      this.getEMandateListHandler
+    );
 
     // getEMandateListHandler
   }
@@ -356,6 +361,17 @@ export default class EnrollClientFileTask extends ModelVue {
     });
   }
 
+  getExceptionTakenList() {
+    Action.ClientFile.GetExceptionTakenList.execute1(
+      this.clientFileId,
+      (output) => {
+        // alert('hello')
+        this.getExceptionTakenListOutput = output;
+        // alert('hello')
+        // console.log(this.getExceptionTakenListOutput,"getExceptionTakenListOutput")
+      }
+    );
+  }
   //New Get API Add
   findClPersonalInfo() {
     Action.ClientFile.FindClPersonalInfo.execute1(
@@ -371,11 +387,10 @@ export default class EnrollClientFileTask extends ModelVue {
   }
 
   getEMandateList() {
-    console.log("getEMandateList called")
+    console.log("getEMandateList called");
     Action.ClientFile.GetAllEMandateList.execute1(
       this.clientFileId,
-      (output) => {
-      }
+      (output) => {}
     );
   }
 

@@ -69,6 +69,9 @@ export default class FGompaUserRemoteAutoCompleteField extends VAutocomplete {
       }
     }
   }
+  mounted() {
+    this.fetchItems();
+  }
 
   get queryUrlWithSearchQuery(): string {
     return this.queryUrl + this.searchValue;

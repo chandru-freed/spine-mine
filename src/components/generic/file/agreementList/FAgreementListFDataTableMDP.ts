@@ -5,6 +5,8 @@ import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTable
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
 import FSnackbar from "@/fsnackbar";
+import FCellLinkMDP from "../../table/cell/FCellLinkMDP";
+import FCellCopyMDP from "../../table/cell/FCellCopyMDP";
 export default class FAgreementListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
@@ -15,6 +17,10 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
         this.addColumn({
             label: "SSA Token",
             dataSelectorKey: "ssaToken",
+            columnCellMDP: new FCellCopyMDP({
+              dataSelectorKeyToCopy: "agreementUrl",
+              tooltipText: "Click here to copy the agreement link"
+            })
           })
           .addColumn({
             label: "Generated On",
@@ -25,11 +31,14 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
             dataSelectorKey: "signed",
             columnCellMDP: new FCellBooleanMDP({})
           }).addColumn({
-            label: "IP Address",
-            dataSelectorKey: "ipAddr",
-          }).addColumn({
             label: "Signed On",
             dataSelectorKey: "signedOn",
+            columnCellMDP: new FCellDateMDP()
+          }).
+
+          addColumn({
+            label: "IP Address",
+            dataSelectorKey: "ipAddr",
           }).addAction({
             label: "Generate Agreement",
             onClick: this.handleGenerateLink(),
@@ -64,6 +73,15 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
           })
           res(true)
         })
+      }
+    }
+
+    openAgreementLink() {
+      return (item: any) => {
+        console.log(item)
+        if(item.agreementUrl) {
+        window.open(item.agreementUrl)
+        }
       }
     }
 

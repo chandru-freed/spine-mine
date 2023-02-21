@@ -1,5 +1,6 @@
 import MyRouter from "./MyRouter";
 import moment from "moment";
+import FSnackbar from "@/fsnackbar";
 
 export default class Helper  {
     static Router = MyRouter;
@@ -18,5 +19,18 @@ export default class Helper  {
           aElement.click();
           URL.revokeObjectURL(href);
         });
+    }
+
+
+    static copyToClipBoard(textToCopy: string) {
+      navigator.clipboard.writeText(textToCopy).then(
+        function () {
+          console.log("Async: Copying to clipboard was successful!");
+          FSnackbar.success("Succesfully copied")
+        },
+        function (err) {
+          FSnackbar.error("Error copying")
+        }
+      );
     }
 }

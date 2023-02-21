@@ -42,6 +42,9 @@ export default class ECFTFStepperMDP extends FTaskStepperMDP {
       taskRoot: this.taskRoot,
       parent: this,
     });
+    const summaryStep = new ECFTSummaryStepMDP({
+      taskRoot: this.taskRoot, parent: this
+    });
 
     this.addStep({
         name: "Creditor",
@@ -70,9 +73,8 @@ export default class ECFTFStepperMDP extends FTaskStepperMDP {
         submitFunc: ccitUploadStepFDocumentMDP.validateDocuments()
       }).addStep({
         name: "Summary",
-        stepContent: new ECFTSummaryStepMDP({
-          taskRoot: this.taskRoot, parent: this
-        }),
+        stepContent: summaryStep,
+        submitFunc: summaryStep.validateAndSubmit()
       }).addStep({
         name: "Agreement",
         stepContent: new ECFTSSAStepMDP({

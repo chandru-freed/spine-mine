@@ -6,7 +6,6 @@
       :value="selectModel(modelValue)"
       v-bind="clientInfoSummaryMetaData.props"
     ></component>
-
     <div v-for="formMetaData in formMetaDataList" :key="formMetaData.myRefName">
       <component
         :ref="formMetaData.myRefName"

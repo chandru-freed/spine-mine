@@ -69,6 +69,9 @@ export default class FAgreementList extends ModelVue {
   })
   actionMetaDataList: any[];
 
+  @Prop()
+  taskRoot: any;
+
 
   clientFileId = this.$route.params.clientFileId;
 
@@ -84,7 +87,7 @@ export default class FAgreementList extends ModelVue {
   }
   // Meta data
   get ecfAgreementListMetaData() {
-    return new FAgreementListFDataTableMDP({ parent: this }).getMetaData();
+    return new FAgreementListFDataTableMDP({ parent: this,taskRoot: this.taskRoot }).getMetaData();
   }
 }
 </script>

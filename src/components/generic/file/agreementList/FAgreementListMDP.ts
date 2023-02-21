@@ -25,6 +25,7 @@ export default class FAgreementListMDP implements MDP {
                 actionMetaDataList: this.actionList.map((action) =>
                     action.getMetaData(),
                 ),
+                taskRoot: this.taskRoot
             }
         }
     }

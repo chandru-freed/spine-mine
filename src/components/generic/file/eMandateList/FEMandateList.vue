@@ -92,6 +92,9 @@ export default class FEMandateList extends ModelVue {
   })
   actionMetaDataList: any[];
 
+  @Prop()
+  taskRoot: any;
+
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
   fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
 
@@ -135,7 +138,7 @@ export default class FEMandateList extends ModelVue {
   }
   // Meta data
   get eMandateListFDataTableMetaData() {
-    return new FEMandateListFDataTableMDP({ parent: this }).getMetaData();
+    return new FEMandateListFDataTableMDP({ parent: this, taskRoot: this.taskRoot }).getMetaData();
   }
 
   get initiateEMandateFFormMetaData() {

@@ -2,7 +2,7 @@
   <div class="collectClientInfoTask">
     <!-- {{taskFormData}} -->
     <!-- Used in Active State -->
-    <template v-if="!taskStateTerminated">
+    <template >
       <component
         :ref="stepperMetaData.myRefName"
         :is="stepperMetaData.componentName"
@@ -13,14 +13,14 @@
     </template>
 
     <!-- Used in Terminated State -->
-    <template v-if="taskStateTerminated">
+    <!-- <template v-if="taskStateTerminated">
       <component
         :ref="stepperMetaData.myRefName"
         :is="stepperMetaData.componentName"
         :value="selectModel(taskDetailsData, undefined)"
         v-bind="stepperMetaData.props"
       ></component>
-    </template>
+    </template> -->
   </div>
 </template>
 

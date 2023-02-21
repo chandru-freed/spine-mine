@@ -9,8 +9,8 @@ import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 import FCellDateTimeEllipsisMDP from "../../table/cell/FCellDateTimeEllipsisMDP";
 export default class FEMandateListFDataTableMDP extends FDataTableMDP {
   parent: any;
-  constructor(props: { parent: any }) {
-    super({ myRefName: "fAgreementListFDataTableMDP", title: "EMandate List", disabled: props.parent.disabled , enableShowHideColumns: true, itemKey:"eMandateId"});
+  constructor(props: { parent: any,taskRoot?: any }) {
+    super({ myRefName: "fAgreementListFDataTableMDP", title: "EMandate List", disabled: props.taskRoot?.taskStateTerminated , enableShowHideColumns: true, itemKey:"eMandateId"});
     this.parent = props.parent;
     this.addColumn({
       label: "Nupay Cust Id",

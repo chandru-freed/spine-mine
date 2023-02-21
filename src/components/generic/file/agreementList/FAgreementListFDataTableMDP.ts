@@ -9,8 +9,8 @@ import FCellLinkMDP from "../../table/cell/FCellLinkMDP";
 import FCellCopyMDP from "../../table/cell/FCellCopyMDP";
 export default class FAgreementListFDataTableMDP extends FDataTableMDP {
     parent: any;
-    constructor(props:{parent: any}) {
-        super({myRefName:"fAgreementListFDataTableMDP", title: "Agreement List",disabled:props.parent.disabled,
+    constructor(props:{parent: any;taskRoot: any}) {
+        super({myRefName:"fAgreementListFDataTableMDP", title: "Agreement List",disabled:props.taskRoot.taskStateTerminated,
       itemKey:"ssaToken"
       });
         this.parent = props.parent;

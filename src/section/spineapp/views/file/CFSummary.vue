@@ -284,11 +284,11 @@
               Settled({{ fileSummary.settledCreditorsCount }})
               </div>
             </v-list-item-action>
-              <v-list-item-action class="py-0 my-0">
+              <!-- <v-list-item-action class="py-0 my-0">
               <div class="d-flex primary--text  text-subtitle-1">
               <v-chip x-small>Emandate Active </v-chip>
               </div>
-            </v-list-item-action>
+            </v-list-item-action> -->
           </v-list-item>
           <v-divider/>
           

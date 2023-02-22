@@ -79,7 +79,7 @@ export default class CFLeftNav extends Vue {
           routerName: "Root.CFile.CFInfo.CFPaymentPlanInfo",
         },
         { title: "Personal", routerName: "Root.CFile.CFInfo.CFPersonalInfo" },
-        { title: "Bank", routerName: "Root.CFile.CFInfo.CFBankInfo" },
+        // { title: "Bank", routerName: "Root.CFile.CFInfo.CFBankInfo" },
         { title: "Document", routerName: "Root.CFile.CFInfo.CFDocumentInfo" },
       ],
     },
@@ -170,7 +170,7 @@ export default class CFLeftNav extends Vue {
           title: "Payment Plan",
           routerName: "Root.CFile.CFAdmin.CFAdminPaymentPlanInfo",
         },
-        { title: "Bank", routerName: "Root.CFile.CFAdmin.CFAdminBankInfo" },
+        // { title: "Bank", routerName: "Root.CFile.CFAdmin.CFAdminBankInfo" },
         {
           title: "Document",
           routerName: "Root.CFile.CFAdmin.CFAdminDocumentInfo",

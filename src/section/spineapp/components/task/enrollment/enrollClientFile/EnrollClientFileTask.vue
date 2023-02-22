@@ -224,6 +224,13 @@ export default class EnrollClientFileTask extends ModelVue {
     }, 1000);
   };
 
+  public getExceptionTakenListHandler = () => {
+    setTimeout(() => {
+      this.getExceptionTakenList();
+    }, 1000);
+  };
+
+
   mounted() {
     this.findClPersonalInfo();
     this.getFiCreditorInfo();
@@ -280,6 +287,8 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.CheckAndUpdateEMandate.interested(
       this.getEMandateListHandler
     );
+    Action.ClientFile.UpdateExceptionTakenList.interested(this.getExceptionTakenListHandler);
+    
   }
 
   public destroyed() {
@@ -336,6 +345,7 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.CheckAndUpdateEMandate.notInterested(
       this.getEMandateListHandler
     );
+    Action.ClientFile.UpdateExceptionTakenList.notInterested(this.getExceptionTakenListHandler);
 
     // getEMandateListHandler
   }

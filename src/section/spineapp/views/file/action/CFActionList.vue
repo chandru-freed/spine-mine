@@ -258,11 +258,11 @@ export default class CFActionList extends Vue {
           icon: "mdi-chevron-right",
           command: this.resume,
         },
-        {
-          actionName: "Mark File As Request Cancel",
-          icon: "mdi-chevron-right",
-          command: this.requestCancel,
-        },
+        // {
+        //   actionName: "Mark File As Request Cancel",
+        //   icon: "mdi-chevron-right",
+        //   command: this.requestCancel,
+        // },
         // {
         //   actionName: "Mark File As Graduate",
         //   icon: "mdi-chevron-right",

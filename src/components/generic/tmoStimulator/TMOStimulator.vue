@@ -9,72 +9,107 @@
         v-bind="tmoStimulatorFormMetaData.props"
       ></component>
       <div class="px-5 pb-5">
-        <div class="d-flex align-start mb-5">
-          <v-chip class="mr-2" color="primary" label outlined large>
+        <div class="d-flex flex-column justify-center align-center">
+          <div class="d-flex align-start mb-5 justify-center">
+            <!-- <v-chip class="mr-2" color="primary" label outlined large>
             Repayment Amount:&nbsp;&nbsp;<span
               class="font-weight-bold secondary--text"
               >{{ Math.round(result.repaymentAmount) | toINR }}</span
             >
-          </v-chip>
+          </v-chip> -->
 
-          <v-chip class="mr-2" color="primary" label outlined large
-            >MSF: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-              result.msfAmount | toINR
-            }}</span>
-          </v-chip>
-          <v-chip v-if="result.monthlyPayment" class="mr-2" color="primary" label outlined large>
-            SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-              Math.round(result.monthlyPayment) | toINR
-            }}</span>
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="primary"
-            label
-            outlined
-            large
-            v-if="monthlyObligationLessThan"
-          >
-            TMO/Affordability : &nbsp;&nbsp;<span
-              class="font-weight-bold secondary--text"
-              >{{ Math.round(result.monthlyObligation) | toINR }}</span
+            <v-chip class="mr-2" color="primary" label outlined large
+              >MSF: &nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ result.msfAmount | toINR }}</span
+              >
+            </v-chip>
+            <v-chip
+              v-if="result.monthlyPayment"
+              class="mr-2"
+              color="primary"
+              label
+              outlined
+              large
             >
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="warning"
-            label
-            outlined
-            large
-            v-if="monthlyObligationGreaterThanEqual"
-          >
-            TMO/Affordability : &nbsp;&nbsp;<span
-              class="font-weight-bold warning--text"
-              >{{ Math.round(result.monthlyObligation) | toINR }}</span
+              SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
+                Math.round(result.monthlyPayment) | toINR
+              }}</span>
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="primary"
+              label
+              outlined
+              large
+              v-if="monthlyObligationLessThan"
             >
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="primary"
-            label
-            outlined
-            large
-            v-if="tenureLessThan"
-            >Tenure: &nbsp;&nbsp;<span class="font-weight-bold secondary--text"
-              >{{ result.tenure }} mth</span
+              TMO/Affordability : &nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.monthlyObligation) | toINR }}</span
+              >
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="warning"
+              label
+              outlined
+              large
+              v-if="monthlyObligationGreaterThanEqual"
             >
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="error"
-            label
-            outlined
-            large
-            v-if="tenureLessGreaterThanEqual"
-            >Tenure: &nbsp;&nbsp;<span class="font-weight-bold"
-              >{{ result.tenure }} mths</span
-            >
-          </v-chip>
+              TMO/Affordability : &nbsp;&nbsp;<span
+                class="font-weight-bold warning--text"
+                >{{ Math.round(result.monthlyObligation) | toINR }}</span
+              >
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="primary"
+              label
+              outlined
+              large
+              v-if="tenureLessThan"
+              >Tenure: &nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ result.tenure }} mth</span
+              >
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="error"
+              label
+              outlined
+              large
+              v-if="tenureLessGreaterThanEqual"
+              >Tenure: &nbsp;&nbsp;<span class="font-weight-bold"
+                >{{ result.tenure }} mths</span
+              >
+            </v-chip>
+          </div>
+
+          <div class="d-flex align-center mb-5">
+            <v-chip class="mx-2" color="primary" label outlined large>
+              Repayment to Creditor:&nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.actualRepaymentToCred) | toINR }}</span
+              >
+            </v-chip>
+            <v-icon>mdi-plus-thick</v-icon>
+            <v-chip class="mx-2" color="primary" label outlined large>
+              Freed Fee:&nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.freedFee) | toINR }}</span
+              >
+            </v-chip>
+            <v-icon>mdi-equal</v-icon>
+
+            <v-chip class="mx-2" color="primary" label outlined large>
+              Total Repayment Amount:&nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.repaymentAmount) | toINR }}</span
+              >
+            </v-chip>
+          </div>
         </div>
         <component
           :is="tmoStimulatorMDP.componentName"
@@ -83,8 +118,14 @@
           @input="(newValue) => updateModel(modelValue, newValue, result)"
           v-bind="tmoStimulatorMDP.props"
         ></component>
-        
-        <v-alert v-if="isRecalculationNotAllowed()" color="warning" outlined icon="mdi-alert">Please connect with your manager for enabling higher tenure</v-alert>
+
+        <v-alert
+          v-if="isRecalculationNotAllowed()"
+          color="warning"
+          outlined
+          icon="mdi-alert"
+          >Please connect with your manager for enabling higher tenure</v-alert
+        >
       </div>
     </v-card>
   </div>
@@ -114,7 +155,7 @@ import FAlert from "../FAlert.vue";
     FNumberField,
     FDateSelectField,
     FForm,
-    FAlert
+    FAlert,
   },
 })
 export default class TMOStimulator extends ModelVue {
@@ -159,6 +200,8 @@ export default class TMOStimulator extends ModelVue {
     monthlyObligation: 0,
     firstSPADraftDate: "",
     tenureApproval: 0,
+    freedFee: 0,
+    actualRepaymentToCred: 0,
   };
 
   get monthlyObligationLessThan() {
@@ -211,7 +254,9 @@ export default class TMOStimulator extends ModelVue {
   // }
 
   @Watch("simulatorInput") modelValueChanged(newVal: any, oldVal: any) {
-    this.resultLocal.tenure = this.modelValue.paymentPlan?.ppCalculator?.tenor || getTenureWithFreed(this.modelValue.creditorInfo?.totalDebt);
+    this.resultLocal.tenure =
+      this.modelValue.paymentPlan?.ppCalculator?.tenor ||
+      getTenureWithFreed(this.modelValue.creditorInfo?.totalDebt);
     // this.resultLocal.tenure =
     //   this.modelValue.paymentPlan?.ppCalculator?.tenor || 30;
     this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
@@ -221,13 +266,13 @@ export default class TMOStimulator extends ModelVue {
       this.modelValue.budgetInfo?.proposedDSPayment || 0;
     this.resultLocal.firstSPADraftDate =
       this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate;
-      // || moment()
-      // .add(2, "days")
-      // .format(Helper.DATE_FORMAT);
+    // || moment()
+    // .add(2, "days")
+    // .format(Helper.DATE_FORMAT);
   }
 
   maxTenureSlab() {
-    return 35
+    return 35;
   }
 
   isPaymentPlanDataAvailable() {
@@ -253,6 +298,11 @@ export default class TMOStimulator extends ModelVue {
     this.resultLocal.msfAmount = getMSFWithFreed(this.resultLocal.outstanding);
     this.resultLocal.monthlyObligation =
       this.resultLocal.monthlyPayment + this.resultLocal.msfAmount;
+    this.resultLocal.freedFee =
+      (this.resultLocal.outstanding * this.feeGSTPercentage) / 100;
+    this.resultLocal.actualRepaymentToCred =
+      (this.resultLocal.outstanding * this.resultLocal.settlementPercentage) /
+      100;
     return this.resultLocal;
   }
 
@@ -268,9 +318,7 @@ export default class TMOStimulator extends ModelVue {
     }
   }
 
-
   schedulePaymentPlan() {
-    
     const input: Data.Spine.RecalculatePSPlanForPMInput =
       Data.Spine.RecalculatePSPlanForPMInput.fromJson(
         this.modelValue.paymentPlan
@@ -290,9 +338,14 @@ export default class TMOStimulator extends ModelVue {
   }
 
   isFormDirty(): boolean {
-    return this.simulatorInput?.paymentPlan.ppCalculator?.tenor!== this.result.tenure ||
-    this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage!== this.result.settlementPercentage||
-    this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate!== this.result.firstSPADraftDate
+    return (
+      this.simulatorInput?.paymentPlan.ppCalculator?.tenor !==
+        this.result.tenure ||
+      this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage !==
+        this.result.settlementPercentage ||
+      this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate !==
+        this.result.firstSPADraftDate
+    );
   }
 
   draftPaymentPlan() {
@@ -317,12 +370,18 @@ export default class TMOStimulator extends ModelVue {
 
   handleCancelEditClick() {
     this.editMode = false;
-    console.log(this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage,this.modelValue?.paymentPlan.ppCalculator)
-    this.result.tenure = this.modelValue?.paymentPlan.ppCalculator?.tenor!==0
-    ?this.modelValue?.paymentPlan.ppCalculator?.tenor
-    :getTenureWithFreed(this.result.outstanding);
-    this.result.settlementPercentage=this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage;
-    this.result.firstSPADraftDate = this.modelValue?.paymentPlan.ppCalculator?.firstDraftDate;
+    console.log(
+      this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage,
+      this.modelValue?.paymentPlan.ppCalculator
+    );
+    this.result.tenure =
+      this.modelValue?.paymentPlan.ppCalculator?.tenor !== 0
+        ? this.modelValue?.paymentPlan.ppCalculator?.tenor
+        : getTenureWithFreed(this.result.outstanding);
+    this.result.settlementPercentage =
+      this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage;
+    this.result.firstSPADraftDate =
+      this.modelValue?.paymentPlan.ppCalculator?.firstDraftDate;
   }
 
   get taskDisabled(): boolean {
@@ -333,13 +392,12 @@ export default class TMOStimulator extends ModelVue {
   }
 
   isRecalculationNotAllowed(): boolean {
-    return this.isSalesRep&& this.tenureLessGreaterThanEqual
+    return this.isSalesRep && this.tenureLessGreaterThanEqual;
   }
 
   get isSalesRep() {
     return this.roleList.includes("SalesRep");
   }
-
 }
 
 export const getTenureWithFreed = (amount: number) => {

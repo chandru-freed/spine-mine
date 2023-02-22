@@ -427,8 +427,8 @@ export const getMSFWithFreed = (amount: number) => {
   if (amount >= 450000 && amount < 600000) return 1499;
   if (amount >= 600000 && amount < 800000) return 1799;
   if (amount >= 800000 && amount < 1000000) return 1999;
-  if (amount >= 1000000 && amount < 1200000) return 2499;
-  if (amount >= 1200000 && amount < 20000000) return 2999;
+  if (amount >= 1000000 && amount <= 1200000) return 2499;
+  if (amount > 1200000 && amount < 20000000) return 2999;
   if (amount >= 20000000) return 2999;
 };
 </script>

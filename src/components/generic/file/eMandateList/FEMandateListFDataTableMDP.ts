@@ -66,6 +66,7 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
     return () => {
       return new Promise(res => {
         this.parent.prepopulateDetails();
+        this.parent.showViewEMandateForm = false;
         this.parent.showInitiateForm = true;
         res(true)
       })

@@ -22,7 +22,8 @@ export default class TMOStimulatorMDP extends FFormMDP {
       new FBtnMDP({
         label: this.taskRoot.isPaymentPlanDataAvailable() ? "Recacluate Payment Plan" : "Calculate Payment Plan",
         onClick: this.calculateOrDraftPaymentSchedule(),
-        condition: this.taskRoot.editMode
+        condition: this.taskRoot.editMode,
+        disabled: this.taskRoot.isRecalculationNotAllowed()
       })
     ).addAction(
       new FBtnMDP({

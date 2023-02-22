@@ -72,12 +72,14 @@ export default class ECFTSummaryStepMDP implements MDP {
                 name: "Profile",
                 content: new ProfileSummaryFFormMDP(),
                 stepIndex:3
-            }).addSummary({
-                name: "Bank Info",
-                content: new BankInfoSummaryFFormMDP(),
-                stepIndex:4
+            })
+            // .addSummary({
+            //     name: "Bank Info",
+            //     content: new BankInfoSummaryFFormMDP(),
+            //     stepIndex:4
                 
-            }).addSummary({
+            // })
+            .addSummary({
                 name: "Documents",
                 content: new DocumentSummaryFFormMDP(),
                 stepIndex:5

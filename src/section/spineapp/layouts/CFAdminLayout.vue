@@ -69,10 +69,10 @@ export default class CFAdminLayout extends Vue {
       tabName: "Payment Plan",
       routerName: "Root.CFile.CFAdmin.CFAdminPaymentPlanInfo",
     },
-    {
-      tabName: "Bank",
-      routerName: "Root.CFile.CFAdmin.CFAdminBankInfo",
-    },
+    // {
+    //   tabName: "Bank",
+    //   routerName: "Root.CFile.CFAdmin.CFAdminBankInfo",
+    // },
     {
       tabName: "Document",
       routerName: "Root.CFile.CFAdmin.CFAdminDocumentInfo",

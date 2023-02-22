@@ -65,11 +65,11 @@ export default class MCITFStepperMDP extends FTaskStepperMDP {
         stepContent: mcitProfileStepMDP,
         submitFunc: mcitProfileStepMDP.validateAndSubmit(),
       })
-      .addStep({
-        name: "Bank",
-        stepContent: mcitBankStepFBankFFormMDP,
-        submitFunc: mcitBankStepFBankFFormMDP.validateAndSubmit(),
-      })
+      // .addStep({
+        // name: "Bank",
+        // stepContent: mcitBankStepFBankFFormMDP,
+        // submitFunc: mcitBankStepFBankFFormMDP.validateAndSubmit(),
+      // })
       .addStep({
         name: "Document",
         stepContent: new MCITUploadStepFDocumentMDP({

@@ -47,7 +47,7 @@
           </template>
 
           <template v-slot:[`item.uploadedOn`]="{ item }">
-            {{ item.uploadedOn | date }}
+            {{ item.uploadedOn | datetime }}
           </template>
           <template v-slot:top>
             <v-toolbar flat>

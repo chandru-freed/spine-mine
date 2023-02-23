@@ -17,7 +17,7 @@
               >{{ Math.round(result.repaymentAmount) | toINR }}</span
             >
           </v-chip> -->
-
+            <!-- {{isOutstandingChanged()}} -->
             <v-chip class="mr-2" color="primary" label outlined large
               >MSF: &nbsp;&nbsp;<span
                 class="font-weight-bold secondary--text"
@@ -126,6 +126,9 @@
           icon="mdi-alert"
           >Please connect with your manager for enabling higher tenure</v-alert
         >
+        <v-alert v-if="isOutstandingChanged()" color="warning" outlined>
+          Total outstanding has changed.Please recalculate
+        </v-alert>
       </div>
     </v-card>
   </div>
@@ -389,6 +392,10 @@ export default class TMOStimulator extends ModelVue {
       this.taskDetails.taskState,
       this.taskDetails.isSuspended
     );
+  }
+
+  isOutstandingChanged() {
+    return this.result.outstanding !== this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
   }
 
   isRecalculationNotAllowed(): boolean {

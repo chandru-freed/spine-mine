@@ -9,13 +9,14 @@
         v-bind="tmoStimulatorFormMetaData.props"
       ></component>
       <div class="px-5 pb-5">
+        <div class="d-flex flex-column justify-center align-center">
         <div class="d-flex align-start mb-5">
-          <v-chip class="mr-2" color="primary" label outlined large>
+          <!-- <v-chip class="mr-2" color="primary" label outlined large>
             Repayment Amount:&nbsp;&nbsp;<span
               class="font-weight-bold secondary--text"
               >{{ Math.round(result.repaymentAmount) | toINR }}</span
             >
-          </v-chip>
+          </v-chip> -->
 
           <v-chip class="mr-2" color="primary" label outlined large
             >MSF: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
@@ -75,6 +76,30 @@
               >{{ result.tenure }} mths</span
             >
           </v-chip>
+        </div>
+        <div class="d-flex align-center mb-5">
+            <v-chip class="mx-2" color="primary" label outlined large>
+              Repayment to Creditor:&nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.actualRepaymentToCred) | toINR }}</span
+              >
+            </v-chip>
+            <v-icon>mdi-plus-thick</v-icon>
+            <v-chip class="mx-2" color="primary" label outlined large>
+              Freed Fee:&nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.freedFee) | toINR }}</span
+              >
+            </v-chip>
+            <v-icon>mdi-equal</v-icon>
+
+            <v-chip class="mx-2" color="primary" label outlined large>
+              Total Repayment Amount:&nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.repaymentAmount) | toINR }}</span
+              >
+            </v-chip>
+          </div>
         </div>
         <component
           :is="tmoStimulatorMDP.componentName"
@@ -158,6 +183,8 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     monthlyObligation: 0,
     firstSPADraftDate: "",
     tenureApproval: 0,
+    freedFee: 0,
+    actualRepaymentToCred: 0,
   };
 
   get monthlyObligationLessThan() {
@@ -252,6 +279,11 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     this.resultLocal.msfAmount = this.simulatorInput.paymentPlan?.ppCalculator?.msfDraftAmount || 0;
     this.resultLocal.monthlyObligation =
       this.resultLocal.monthlyPayment + this.resultLocal.msfAmount;
+    this.resultLocal.freedFee =
+      (this.resultLocal.outstanding * this.feeGSTPercentage) / 100;
+    this.resultLocal.actualRepaymentToCred =
+      (this.resultLocal.outstanding * this.resultLocal.settlementPercentage) /
+      100;  
     return this.resultLocal;
   }
 
@@ -367,8 +399,8 @@ export const getMSFWithFreed = (amount: number) => {
   if (amount >= 450000 && amount < 600000) return 1499;
   if (amount >= 600000 && amount < 800000) return 1799;
   if (amount >= 800000 && amount < 1000000) return 1999;
-  if (amount >= 1000000 && amount < 1200000) return 2499;
-  if (amount >= 1200000 && amount < 20000000) return 2999;
+  if (amount >= 1000000 && amount <= 1200000) return 2499;
+  if (amount > 1200000 && amount < 20000000) return 2999;
   if (amount >= 20000000) return 2999;
 };
 </script>

@@ -49,9 +49,16 @@ export default class CFileLayout extends Vue {
     Action.TaskList.PullStartAndMerge.interested(
       this.getTaskListForClientFileHandler
     );
+    Action.ClientFile.CheckAndUpdateEMandate.interested(
+      this.getTaskListForClientFileHandler
+    );
   }
   public destroyed() {
     Action.TaskList.PullStartAndMerge.notInterested(
+      this.getTaskListForClientFileHandler
+    );
+
+    Action.ClientFile.CheckAndUpdateEMandate.notInterested(
       this.getTaskListForClientFileHandler
     );
   }

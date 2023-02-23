@@ -98,6 +98,9 @@ export default class FEMandateList extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
   fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   initiateEMandateInput: Data.ClientFile.InitiateEMandateInput =
     new Data.ClientFile.InitiateEMandateInput();
   showInitiateForm: boolean = false;
@@ -149,6 +152,11 @@ export default class FEMandateList extends ModelVue {
     return new EMandateDetailsFFormMDP({ parent: this }).getMetaData();
   }
 
+
+  get clientFileNumber(): string {
+    return this.clientFileBasicInfo.clientFileNumber;
+  }
+
   // Meta Data
 
   handleInfoClick(item: Data.ClientFile.FiEMandateSummary) {
@@ -175,6 +183,13 @@ export default class FEMandateList extends ModelVue {
       }
       this.selectedEMandateSummaryToView = output;
     });
+  }
+
+  getTaskListForClientFile() {
+    Action.TaskList.GetTaskListByCid.execute1(
+      this.clientFileNumber,
+      (output) => {}
+    );
   }
 
   isActive() {

@@ -7,6 +7,7 @@ import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
 import FSnackbar from "@/fsnackbar";
 import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 import FCellDateTimeEllipsisMDP from "../../table/cell/FCellDateTimeEllipsisMDP";
+import FCellCopyMDP from "../../table/cell/FCellCopyMDP";
 export default class FEMandateListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any,taskRoot?: any }) {
@@ -15,6 +16,13 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
     this.addColumn({
       label: "Nupay Cust Id",
       dataSelectorKey: "remoteEMandateId",
+      columnCellMDP: new FCellCopyMDP({
+        dataSelectorKeyToCopy: "eMandateLink",
+        tooltipText: "Click here to copy the EMandate link"
+      })
+    }).addColumn({
+      label: "IFSC Code",
+      dataSelectorKey: "ifscCode",
     })
       .addCurrencyColumn({
         dataSelectorKey: "amount",
@@ -40,7 +48,10 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
         label: "Created On",
         dataSelectorKey: "createdOn",
         columnCellMDP: new FCellDateMDP()
-      }).addAction({
+      })
+      
+      
+      .addAction({
         label: "Initiate EMandate",
         onClick: this.handleInitiateClick(),
         type: ActionType.ADD
@@ -78,6 +89,7 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
         Action.ClientFile.GetAllEMandateList.execute1(this.parent.clientFileId, output => {
 
         });
+        this.parent.getTaskListForClientFile();
       }
       )
     }

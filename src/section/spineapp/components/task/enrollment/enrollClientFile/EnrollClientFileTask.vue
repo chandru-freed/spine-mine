@@ -370,6 +370,7 @@ export default class EnrollClientFileTask extends ModelVue {
       });
     });
   }
+  
 
   getExceptionTakenList() {
     Action.ClientFile.GetExceptionTakenList.execute1(

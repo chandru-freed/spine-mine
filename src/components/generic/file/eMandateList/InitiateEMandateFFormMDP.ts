@@ -50,6 +50,7 @@ export default class InitiateEMandateFFormMDP extends FFormMDP {
           options: Data.ClientFile.ACCOUNT_TYPE.list(),
           optionLabel: "name",
           optionValue: "id",
+          returnObject: true
         })
       )
       .addField(

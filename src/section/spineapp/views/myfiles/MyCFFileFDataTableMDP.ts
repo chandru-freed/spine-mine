@@ -63,11 +63,11 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "dateCreated",
         columnCellMDP: new FCellDateTimeMDP(),
       })
-      .addColumn({
-        label: "Created On",
-        dataSelectorKey: "dateCreated",
-        columnCellMDP: new FCellDateTimeMDP(),
-      })
+      // .addColumn({
+      //   label: "Created On",
+      //   dataSelectorKey: "dateCreated",
+      //   columnCellMDP: new FCellDateTimeMDP(),
+      // })
       .addColumn({
         label: "City",
         dataSelectorKey: "city",

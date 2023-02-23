@@ -82,7 +82,7 @@ export default class ECFTSummaryStepMDP implements MDP {
             .addSummary({
                 name: "Documents",
                 content: new DocumentSummaryFFormMDP(),
-                stepIndex:5
+                stepIndex:4
                 
             })
             

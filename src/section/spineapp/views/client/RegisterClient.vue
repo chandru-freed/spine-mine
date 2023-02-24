@@ -34,7 +34,9 @@ export default class RegisterClient extends Vue {
 
   selectedRequestType: any = {};
   
-  registerClientFormData: any = new Data.Client.RegisterClientForm()
+  // registerClientFormData: any = new Data.Client.RegisterClientForm()
+  registerClientFormData: Data.Client.RegisterAndAddClientFileForm =
+    new Data.Client.RegisterAndAddClientFileForm();
   
 
   get registerClientFormMetaData(): any {
@@ -43,13 +45,34 @@ export default class RegisterClient extends Vue {
 
 
 registerClient () {
-    Action.Client.RegisterClient.execute(this.registerClientFormData, (output: any) => {
-        const clientId = output.clientId
-       setTimeout(() => {
-        Helper.Router.gotoClient({router: this.$router, clientId: clientId})
-        }, 1000);
-    } )
+
+  Action.Client.RegisterAndEnroll.execute(
+      this.registerClientFormData,
+      (output: any) => {
+        setTimeout(() => {
+          this.gotoFile(output.clientFileNumber);
+        }, 500);
+      }
+    );
+    // Action.Client.RegisterClient.execute(this.registerClientFormData, (output: any) => {
+    //     const clientId = output.clientId
+    //    setTimeout(() => {
+    //     Helper.Router.gotoClient({router: this.$router, clientId: clientId})
+    //     }, 1000);
+    // } )
 }
+
+  gotoFile(clientFileNumber: string) {
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: clientFileNumber,
+    });
+  }
+
+  goBack() {
+    this.$router.back();
+  }
+
 
   
 }

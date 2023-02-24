@@ -20,7 +20,8 @@ export default class CustomFilters {
     this.toMonthDay();
     this.toMaskedAccountNumber();
     this.toRoundedINR();
-    this.toMonthDayShort()
+    this.toMonthDayShort();
+    this.truncate();
   }
 
   private static toUSD() {
@@ -46,10 +47,10 @@ export default class CustomFilters {
         style: 'currency',
         currency: 'INR',
         minimumFractionDigits: 0
-     })}`;
+      })}`;
     });
-  }  
-  
+  }
+
   private static toMaskedAccountNumber() {
     Vue.filter("masked-account-number", (value: string) => {
       return `XXXX ${value.substring(value.length - 4)}`;
@@ -57,7 +58,7 @@ export default class CustomFilters {
   }
   private static toDate() {
     Vue.filter("date", (value: any) => {
-      if (!value) { return "-"}
+      if (!value) { return "-" }
       return Moment(new Date(value)).format("Do MMM YY");
     });
   }
@@ -74,7 +75,7 @@ export default class CustomFilters {
   }
   private static fromNow() {
     Vue.filter("fromNow", (value: any) => {
-      return value?Moment(new Date(value)).fromNow():'--';
+      return value ? Moment(new Date(value)).fromNow() : '--';
     });
   }
 
@@ -86,12 +87,12 @@ export default class CustomFilters {
 
   private static toDateTime() {
     Vue.filter("date-time", (value: any) => {
-      return value?Moment(new Date(value)).format("MMM Do, h:mm a"):'--';
+      return value ? Moment(new Date(value)).format("MMM Do, h:mm a") : '--';
     });
   }
   private static toDateAndTime() {
     Vue.filter("datetime", (value: any) => {
-      return value?Moment(new Date(value)).format("MMM Do, h:mm a"):'--';
+      return value ? Moment(new Date(value)).format("MMM Do, h:mm a") : '--';
     });
   }
 
@@ -132,6 +133,16 @@ export default class CustomFilters {
         " ) "
       );
     });
+  }
+  private static truncate() {
+    Vue.filter('truncate', (data: string, num: number) => {
+      const reqdString =
+        data.length > num ?
+          `${data.split("").slice(0, num).join("")}...`
+          : data;
+      return reqdString;
+
+    })
   }
 
   private static parseJson() {

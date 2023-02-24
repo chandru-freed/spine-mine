@@ -2,7 +2,7 @@
   <v-tooltip bottom max-width="200">
     <template v-slot:activator="{ on, attrs }">
       <div class="elip" v-bind="attrs" v-on="on">
-        {{ selectModel(modelValue, dataSelectorKey) || "--" }}
+        {{ selectModel(modelValue, dataSelectorKey)|| "--" | truncate(12) }}
       </div>
     </template>
     <span>{{ selectModel(modelValue, dataSelectorKey) || "--" }}</span>

@@ -9,7 +9,9 @@ export class ClientFileSummaryInit {
 export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
 
   public fiCreditorInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditorInfo | undefined {
-    return state.fiCreditorInfo
+    const fiCreditorInfo: any = state.fiCreditorInfo;
+    fiCreditorInfo.creditorList = state.fiCreditorInfo?.creditorList.filter(creditor => creditor.ineligible == false)
+    return fiCreditorInfo
   }
 
   public fiBankInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiBankInfo | undefined {

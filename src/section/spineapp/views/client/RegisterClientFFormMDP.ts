@@ -1,4 +1,4 @@
-import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
@@ -69,6 +69,13 @@ export default class RegisterClientFFormMDP extends FFormMDP {
       // )
       .addAction(
         new FBtnMDP({
+          label: "Cancel",
+          onClick: this.cancel(),
+          btnType: BtnType.TEXT
+        })
+      )
+      .addAction(
+        new FBtnMDP({
           label: "Register Client",
           onClick: this.validateAndSubmit(),
         })
@@ -77,6 +84,11 @@ export default class RegisterClientFFormMDP extends FFormMDP {
 
   getMyRef(): any {
     return this.root.$refs[this.myRefName];
+  }
+  cancel() {
+    return () => {
+      this.root.goBack();
+    }
   }
 
   validateAndSubmit() {

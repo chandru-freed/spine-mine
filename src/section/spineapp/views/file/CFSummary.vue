@@ -58,8 +58,12 @@
                 <!-- </v-list-item-icon> -->
 
                 <v-list-item-action>
-                  <v-chip x-small class="mx-2" color="green lighten-3"
-                    >active</v-chip
+                  <v-chip small v-if="fileSummary.eMandateActive" class="mx-2" color="green lighten-3"
+                    >EMandate Active</v-chip
+                  >
+
+                  <v-chip small v-else class="mx-2" color="secondary lighten-3"
+                    >EMandate Pending</v-chip
                   >
                 </v-list-item-action>
               </v-list-item>

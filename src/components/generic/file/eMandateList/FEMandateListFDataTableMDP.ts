@@ -87,8 +87,9 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
     return () => {
       return new Promise(res => {
         Action.ClientFile.GetAllEMandateList.execute1(this.parent.clientFileId, output => {
-
+          
         });
+        this.parent.getClientFileBasicInfo();
         this.parent.getTaskListForClientFile();
       }
       )

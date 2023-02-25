@@ -1,7 +1,11 @@
 <template>
   <div class="col-12">
+    <v-card flat v-if="showInitiateForm" class="py-3">
+      <v-alert outlined color="warning" class="ma-4" v-if="isAgreementNotSigned()">
+        Agreement not signed.Please sign an agreement to initiate an EMandate
+        
+        </v-alert>
     <component
-      v-if="showInitiateForm"
       :ref="initiateEMandateFFormMetaData.myRefName"
       :is="initiateEMandateFFormMetaData.componentName"
       :value="selectModel(initiateEMandateInput, undefined)"
@@ -10,6 +14,9 @@
       "
       v-bind="initiateEMandateFFormMetaData.props"
     ></component>
+    </v-card>
+    
+    
     <v-card class="my-4" outlined v-if="showViewEMandateForm" flat>
       <v-alert
         dense
@@ -157,6 +164,11 @@ export default class FEMandateList extends ModelVue {
     return this.clientFileBasicInfo.clientFileNumber;
   }
 
+  isAgreementNotSigned() {
+    console.log(this.clientFileBasicInfo.clientFileStatus)
+    return this.clientFileBasicInfo.clientFileStatus.id===Data.ClientFile.CLIENT_FILE_STATUS.LEAD.id
+  }
+
   // Meta Data
 
   handleInfoClick(item: Data.ClientFile.FiEMandateSummary) {
@@ -188,6 +200,14 @@ export default class FEMandateList extends ModelVue {
   getTaskListForClientFile() {
     Action.TaskList.GetTaskListByCid.execute1(
       this.clientFileNumber,
+      (output) => {}
+    );
+  }
+
+
+  getClientFileBasicInfo() {
+    Action.ClientFile.GetClientFileBasicInfo.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
       (output) => {}
     );
   }

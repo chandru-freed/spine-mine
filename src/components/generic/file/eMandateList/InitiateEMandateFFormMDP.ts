@@ -93,6 +93,7 @@ export default class InitiateEMandateFFormMDP extends FFormMDP {
         new FBtnMDP({
           label: "Initiate EMandate",
           onClick: this.validateAndSubmit(),
+          disabled: this.parent.isAgreementNotSigned()
         })
       );
       

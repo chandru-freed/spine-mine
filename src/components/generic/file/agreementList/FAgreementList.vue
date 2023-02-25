@@ -7,7 +7,6 @@
       v-bind="ecfAgreementListMetaData.props"
     ></component>
 
-
     <div v-for="formMetaData in formMetaDataList" :key="formMetaData.myRefName">
       <component
         :ref="formMetaData.myRefName"
@@ -22,15 +21,7 @@
     </div>
 
     <div
-      class="
-        d-flex
-        flex-row
-        align-start
-        flex-wrap
-        justify-space-around
-        pa-2
-        my-5
-      "
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
       v-if="!disabled"
     >
       <component
@@ -53,6 +44,7 @@ import FDataTable from "@/components/generic/table/FDataTable.vue";
 import { Component, Prop } from "vue-property-decorator";
 import FAgreementListFDataTableMDP from "./FAgreementListFDataTableMDP";
 import store, * as Store from "@/../src-gen/store";
+import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
 
 @Component({
@@ -72,11 +64,13 @@ export default class FAgreementList extends ModelVue {
   @Prop()
   taskRoot: any;
 
-
   clientFileId = this.$route.params.clientFileId;
 
   @Store.Getter.ClientFile.ClientFileSummary.fiSignAgreementList
   fiSignAgreementList: Data.ClientFile.FiSSASummary[];
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(
@@ -87,7 +81,17 @@ export default class FAgreementList extends ModelVue {
   }
   // Meta data
   get ecfAgreementListMetaData() {
-    return new FAgreementListFDataTableMDP({ parent: this,taskRoot: this.taskRoot }).getMetaData();
+    return new FAgreementListFDataTableMDP({
+      parent: this,
+      taskRoot: this.taskRoot,
+    }).getMetaData();
+  }
+
+  getClientFileBasicInfo() {
+    Action.ClientFile.GetClientFileBasicInfo.execute1(
+      this.clientFileBasicInfo.clientFileNumber,
+      (output) => {}
+    );
   }
 }
 </script>

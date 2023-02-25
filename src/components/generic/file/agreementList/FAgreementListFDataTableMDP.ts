@@ -61,7 +61,7 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
         return new Promise(res => {
           Action.ClientFile.GenerateAgreement.execute1(this.parent.clientFileId, output => {
             FSnackbar.success("Successfully generated the agreement")
-          })
+          });
           res(true)
         })
       }
@@ -70,7 +70,8 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
       return () => {
         return new Promise(res => {
           Action.ClientFile.GetAllSignAgreementList.execute1(this.parent.clientFileId, output => {
-          })
+          });
+          this.parent.getClientFileBasicInfo();
           res(true)
         })
       }

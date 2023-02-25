@@ -73,7 +73,7 @@ export default class EMandateDetailsFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "eMandateLink",
+          dataSelectorKey: "redirectUrl",
           label: "EMandate Link",
           mandatory: true,
           boundaryClass: "col-4",

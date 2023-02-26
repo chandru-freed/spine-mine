@@ -6,6 +6,7 @@ import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
+import FCellDateTimeEllipsisMDP from "@/components/generic/table/cell/FCellDateTimeEllipsisMDP";
 
 export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -18,24 +19,32 @@ export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
       itemKey: "clientFileNumber",
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Client File Number",
-      dataSelectorKey: "clientFileNumber",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-file-account",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
-    })
+    this
+      .addColumn({
+        label: "Created On",
+        dataSelectorKey: "createdOn",
+        columnCellMDP: new FCellDateTimeEllipsisMDP()
+      }).addColumn({
+        label: "Client File Number",
+        dataSelectorKey: "clientFileNumber",
+        columnCellMDP: new FCellBtnMDP({
+          color: "secondary",
+          icon: "mdi-file-account",
+          onClick: (item) => {
+            this.handleClientFileClick(item);
+          },
+        }),
+      })
       .addColumn({
         label: "Client File Status",
         dataSelectorKey: "clientFileStatus.name",
         columnCellMDP: new FCellStatusMDP({
-          colorCodeData:  Data.Color.CLIENT_FILE_STATUS,
+          colorCodeData: Data.Color.CLIENT_FILE_STATUS,
           outlined: true
         }),
+      }).addColumn({
+        label: "Stage",
+        dataSelectorKey: "stage",
       })
       .addColumn({
         label: "Client Name",
@@ -56,7 +65,8 @@ export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "E-mail",
         dataSelectorKey: "emailId",
-        columnCellMDP: new FCellEmailMDP
+        columnCellMDP: new FCellEmailMDP(),
+        hidden: true
       })
       .addColumn({
         label: "City",

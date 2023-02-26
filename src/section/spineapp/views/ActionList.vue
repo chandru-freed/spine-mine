@@ -151,6 +151,11 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.PaymentOperation",
         },
+        {
+          actionName: "Pending Payment List",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Operation.PendingPaymentList",
+        },
       ],
     },
     {

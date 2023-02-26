@@ -6,6 +6,8 @@ import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
+import FCellDateMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
+import FCellDateTimeEllipsisMDP from "@/components/generic/table/cell/FCellDateTimeEllipsisMDP";
 
 export default class DCPDashboardFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -18,17 +20,22 @@ export default class DCPDashboardFDataTableMDP extends FDataTableMDP {
       itemKey: "clientFileNumber",
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Client File Number",
-      dataSelectorKey: "clientFileNumber",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-file-account",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
-    })
+    this
+      .addColumn({
+        label: "Created On",
+        dataSelectorKey: "createdOn",
+        columnCellMDP: new FCellDateTimeEllipsisMDP()
+      }).addColumn({
+        label: "Client File Number",
+        dataSelectorKey: "clientFileNumber",
+        columnCellMDP: new FCellBtnMDP({
+          color: "secondary",
+          icon: "mdi-file-account",
+          onClick: (item) => {
+            this.handleClientFileClick(item);
+          },
+        }),
+      })
       .addColumn({
         label: "Client File Status",
         dataSelectorKey: "clientFileStatus.name",
@@ -36,6 +43,10 @@ export default class DCPDashboardFDataTableMDP extends FDataTableMDP {
           colorCodeData: Data.Color.CLIENT_FILE_STATUS,
           outlined: true,
         }),
+      })
+      .addColumn({
+        label: "Stage",
+        dataSelectorKey: "stage",
       })
       .addColumn({
         label: "Client Name",
@@ -57,6 +68,7 @@ export default class DCPDashboardFDataTableMDP extends FDataTableMDP {
         label: "E-mail",
         dataSelectorKey: "emailId",
         columnCellMDP: new FCellEmailMDP(),
+        hidden: true
       })
       .addColumn({
         label: "City",
@@ -66,6 +78,7 @@ export default class DCPDashboardFDataTableMDP extends FDataTableMDP {
         label: "State",
         dataSelectorKey: "state",
       })
+
       .addFilter({
         dataSelectorKey: "clientFileStatus.name",
         filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),

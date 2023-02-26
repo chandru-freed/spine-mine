@@ -13,6 +13,9 @@ export default class MISReportsFTabMDP extends FTabMDP {
       tabName: "Upcoming Payments",
       routerName: "Root.MISReports.UpcomingPayments",
     }).addTab({
+      tabName: "Pending Payment List",
+      routerName: "Root.Operation.PendingPaymentList",
+    }).addTab({
       tabName: "Account Balance",
       routerName: "Root.MISReports.AccountBalance",
     }).addTab({

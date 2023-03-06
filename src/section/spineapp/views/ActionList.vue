@@ -116,6 +116,17 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Dashboard.DRPDashboard",
         },
+        {
+          actionName: "Active Partners",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Dashboard.ActivePartnerList",
+        },
+        {
+          actionName: "Requested Partners",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Dashboard.RequestedPartnerList",
+        },
+        
       ],
     },
     {

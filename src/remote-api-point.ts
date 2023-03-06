@@ -13,6 +13,7 @@ export const BenchApi = axios;
 export const SpineApi = axios;
 export const ValeyApi = axios;
 export const DspApi = axios;
+export const PartnerProgramApi = axios;
 
 
 //////////////// define the remote-api-point ///////////

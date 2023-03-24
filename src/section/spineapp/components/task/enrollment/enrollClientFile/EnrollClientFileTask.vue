@@ -153,10 +153,19 @@ export default class EnrollClientFileTask extends ModelVue {
       collectMSFNow: this.taskDetails.isOutputEmpty
         ? this.taskFormOutputLocal.collectMSFNow
         : (this.taskDetails.outputJson as any).collectMSFNow,
-      haveException: this.getExceptionTakenListOutput.exceptionTakenList && this.getExceptionTakenListOutput.exceptionTakenList.length>0
+      haveException: this.exceptionTakenStatus()
     };
 
     return this.taskFormOutputLocal;
+  }
+
+  exceptionTakenStatus() {
+    if(this.getExceptionTakenListOutput.exceptionTakenList) {
+    return (
+    this.getExceptionTakenListOutput.exceptionTakenList.includes(Data.ClientFile.EXCEPTION_TAKEN.NO.id))?
+    "NO": 
+    this.getExceptionTakenListOutput.exceptionTakenList.length>0?"YES": undefined
+    }
   }
 
   set taskFormOutput(newVal) {

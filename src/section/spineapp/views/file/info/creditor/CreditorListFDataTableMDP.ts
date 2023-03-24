@@ -69,6 +69,10 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         onClick: () => this.handleAddCreditScore(),
         label: "Update Credit Score",
         noSelect: true,
+      }).addAction({
+        type: ActionType.OTHERS,
+        onClick: (item) => this.handleAddAccountNoClick(item),
+        label: "Update Account No.",
       })
 
       .addInfo({
@@ -110,6 +114,11 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
       this.parent.showAddCreditScoreForm();
       resolve(true);
     })
-    
+  }
+
+  handleAddAccountNoClick(item: any) {
+    return new Promise(resolve => {
+    this.parent.handleAddAccountNoClick(item);
+    });
   }
 }

@@ -39,15 +39,20 @@ export default class ECFTSummaryStepMDP implements MDP {
     }
     validateAndSubmit() {
         return (nextCallback: () => void) => {
-            console.log(this.taskRoot.taskFormData.taskOutput.exceptionTakenList, "this.taskRoot.taskFormData.taskOutput.exceptionTakenList")
-            console.log(this.getExceptionFormRef())
             this.getExceptionFormRef().submitForm(() => {
+                const {haveException} = this.taskRoot.taskFormData.taskOutput;
                 const input = new Data.ClientFile.UpdateExceptionTakenListInput();
-                input.clientFileId = this.taskRoot.clientFileId;
-                if (this.taskRoot.taskFormData.taskOutput.haveException === true) {
+                if(haveException === "NO") {
+                    input.exceptionTakenList = ["NO"]
+                } else if (haveException === "YES") {
                     input.exceptionTakenList = this.taskRoot.taskFormData.taskOutput.exceptionTakenList;
                     input.exceptionApprovedBy = this.taskRoot.taskFormData.taskOutput.exceptionApprovedBy;
+                    const noIndex = input.exceptionTakenList.indexOf("NO");
+                    if(noIndex !== -1) {
+                    input.exceptionTakenList.splice(noIndex, 1);
+                    }
                 }
+                input.clientFileId = this.taskRoot.clientFileId;
                 Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {
                     nextCallback();
                 });

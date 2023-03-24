@@ -23,31 +23,41 @@ export default class ExceptionFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this
+    // .addField(
+    //   new FSwitchMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "taskOutput.haveException",
+    //     label: "Have Exception",
+    //     boundaryClass: "col-12",
+    //   })
+    // )
     .addField(
-      new FSwitchMDP({
+      new FSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "taskOutput.haveException",
         label: "Have Exception",
-        boundaryClass: "col-12",
+        boundaryClass: "col-4",
+        options: ["YES", "NO"],
+        mandatory: true
       })
     )
     .addField(new FSelectFieldMDP({
       dataSelectorKey: "taskOutput.exceptionTakenList",
       label: "Exception Taken",
-      options: Data.Spine.EXCEPTION_TAKEN.list(),
+      options: Data.Spine.EXCEPTION_TAKEN.list().filter(item => item.id !== "NO"),
       optionLabel: "name",
       optionValue: "id",
       parentMDP: this.childMDP,
       multiple: true,
       boundaryClass: "col-4",
-      condition: this.taskRoot.taskFormData.taskOutput.haveException === true,
+      condition: this.taskRoot.taskFormData.taskOutput.haveException === "YES",
       mandatory: true
     })).addField(new FGompaUserRemoteAutoCompleteFieldMDP({
       parentMDP: this.childMDP,
       dataSelectorKey: "taskOutput.exceptionApprovedBy",
       label:"Exception ApprovedBy",
       boundaryClass: "col-4",
-      condition: this.taskRoot.taskFormData.taskOutput.haveException === true,
+      condition: this.taskRoot.taskFormData.taskOutput.haveException === "YES",
       mandatory: true
     }))
   }

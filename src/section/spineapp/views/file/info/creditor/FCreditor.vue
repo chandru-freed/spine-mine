@@ -13,6 +13,17 @@
       ></component>
 
       <component
+        v-if="editCreditorDialog"
+        :is="updateAccountNoFormMetaData.componentName"
+        :ref="updateAccountNoFormMetaData.myRefName"
+        :value="selectModel(editCreditorForm, undefined)"
+        @input="
+          (newValue) => updateModel(editCreditorForm, newValue, undefined)
+        "
+        v-bind="updateAccountNoFormMetaData.props"
+      ></component>
+
+      <component
         :is="creditorListFDataTableMetaData.componentName"
         :ref="creditorListFDataTableMetaData.myRefName"
         v-bind="creditorListFDataTableMetaData.props"
@@ -71,15 +82,7 @@
       <!--GRID END-->
       <!--ACTION START-->
       <div
-        class="
-          d-flex
-          flex-row
-          align-start
-          flex-wrap
-          justify-space-around
-          pa-2
-          my-5
-        "
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
       >
         <component
@@ -106,6 +109,7 @@ import * as Snackbar from "node-snackbar";
 import CreditorListFDataTableMDP from "./CreditorListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import CFUpdateCreditScoreFFormMDP from "./CFUpdateCreditScoreFFormMDP";
+import CFUpdateAccountNoFFormMDP from "./CFUpdateAccountNoFFormMDP";
 @Component({
   components: {
     FForm,
@@ -130,6 +134,7 @@ export default class FCreditor extends ModelVue {
   clientFileId = this.$route.params.clientFileId;
 
   addCreditScoreDialog = false;
+  editCreditorDialog: boolean = false;
 
   headers = [
     {
@@ -173,6 +178,7 @@ export default class FCreditor extends ModelVue {
   closeDialogs() {
     this.settleCreditorDialog = false;
     this.addCreditScoreDialog = false;
+    this.editCreditorDialog = false;
   }
   resetForms() {
     this.addCreditorForm = new Data.Spine.Creditor();
@@ -182,7 +188,8 @@ export default class FCreditor extends ModelVue {
   showAddCreditScoreForm() {
     this.closeDialogs();
     this.addCreditScoreDialog = true;
-    this.updateCreditScoreForm.creditScore = this.clientFileBasicInfo.creditScore || 0;
+    this.updateCreditScoreForm.creditScore =
+      this.clientFileBasicInfo.creditScore || 0;
     this.updateCreditScoreForm.creditBureau =
       this.clientFileBasicInfo.creditBureau || "";
   }
@@ -245,8 +252,15 @@ export default class FCreditor extends ModelVue {
     );
   }
 
+  handleAddAccountNoClick(item: any) {
+    console.log(item);
+    this.editCreditorForm = Data.Spine.Creditor.fromJson(item);
+    console.log(this.editCreditorForm);
+    this.editCreditorDialog = true;
+  }
+
   isClientFileLead(): boolean {
-    return this.clientFileBasicInfo.clientFileStatus.id === 'LEAD'
+    return this.clientFileBasicInfo.clientFileStatus.id === "LEAD";
   }
 
   get creditorListFDataTableMetaData() {
@@ -254,6 +268,13 @@ export default class FCreditor extends ModelVue {
   }
   get updateCreditScoreFFormMetaData() {
     return new CFUpdateCreditScoreFFormMDP({
+      taskRoot: this.taskRoot,
+      parent: this,
+    }).getMetaData();
+  }
+
+  get updateAccountNoFormMetaData() {
+    return new CFUpdateAccountNoFFormMDP({
       taskRoot: this.taskRoot,
       parent: this,
     }).getMetaData();

@@ -74,13 +74,21 @@ export default class CFCreditorInfo extends ModelVue {
     }, 1000);
   };
 
+  public getFiCreditorInfoHandler = (output: any) => {
+    setTimeout(() => {
+      this.getFiCreditorInfo();
+    }, 1000);
+  }
+
   mounted() {
     this.getFiCreditorInfo();
     Action.ClientFile.UpdateCreditInfo.interested(this.getClientFileBasicInfoHandler);
+    Action.Spine.UpdateCreditor.interested(this.getFiCreditorInfoHandler);
   }
 
   destroyed() {
     Action.ClientFile.UpdateCreditInfo.notInterested(this.getClientFileBasicInfoHandler);
+    Action.Spine.UpdateCreditor.notInterested(this.getFiCreditorInfoHandler);
   }
 
   //ACTION

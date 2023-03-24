@@ -75,6 +75,7 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
     this.getFiPaymentWithDelay();
 
     Action.ClientFile.AddPSEntry.interested(this.getFiPaymentWithDelayHandler);
+    Action.ClientFile.AddPSEntryWithoutRecalculating.interested(this.getFiPaymentWithDelayHandler);
     Action.Spine.PresentPSEntry.interested(this.getFiPaymentWithDelayHandler);
     Action.Spine.Skip.interested(this.getFiPaymentWithDelayHandler);
     Action.ClientFile.RemovePSEntryList.interested(
@@ -105,6 +106,7 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
     Action.ClientFile.AddPSEntry.notInterested(
       this.getFiPaymentWithDelayHandler
     );
+    Action.ClientFile.AddPSEntryWithoutRecalculating.notInterested(this.getFiPaymentWithDelayHandler);
     Action.ClientFile.RemovePSEntryList.notInterested(
       this.getFiPaymentWithDelayHandler
     );

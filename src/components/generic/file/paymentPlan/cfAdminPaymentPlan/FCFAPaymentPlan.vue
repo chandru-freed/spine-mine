@@ -75,6 +75,30 @@
               v-bind="addPsEntryFFormMetaData.props"
             ></component>
 
+
+            <component
+              v-if="showAddPsEntryWithoutRCForm"
+              :is="addCFAPsEntryWithoutRCFFormMetaData.componentName"
+              :ref="addCFAPsEntryWithoutRCFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  addPsEntryInput,
+                  addCFAPsEntryWithoutRCFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    addPsEntryInput,
+                    newValue,
+                    addCFAPsEntryWithoutRCFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="addCFAPsEntryWithoutRCFFormMetaData.props"
+            ></component>
+
+            
+
             <component
               v-if="showChangeSPADraftDate"
               :is="changeSPADraftDateFFormMetaData.componentName"
@@ -280,6 +304,7 @@ import ChangeMSFDraftDateFFormMDP from "./ChangeMSFDraftDateFFormMDP";
 import ChangeSPADraftDateFFormMDP from './ChangeSPADraftDateFFormMDP';
 import SetSPADraftDateFFormMDP from './SetSPADraftDateFFormMDP';
 import SetMsfDraftDateFFormMDP from './SetMsfDraftDateFFormMDP';
+import AddCFAPsEntryWithoutRCFFormMDP from './AddCFAPsEntryWithoutRCFFormMDP';
 @Component({
   components: {
     FForm,
@@ -295,6 +320,7 @@ export default class FCFAPaymentPlan extends ModelVue {
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
+  showAddPsEntryWithoutRCForm: boolean = false;
   showModifyForm: boolean = false;
   addPsEntryInput: Data.ClientFile.AddPSEntryInput =
     new Data.ClientFile.AddPSEntryInput();
@@ -365,6 +391,7 @@ export default class FCFAPaymentPlan extends ModelVue {
 
   resetFormsTableAndData() {
     this.showAddPsEntryForm = false;
+    this.showAddPsEntryWithoutRCForm = false;
     this.showModifyForm = false;
     this.showUploadForm = false;
     this.showChangeMSFDraftDate = false;
@@ -488,6 +515,12 @@ export default class FCFAPaymentPlan extends ModelVue {
   get addPsEntryFFormMetaData() {
     return new AddCFAPsEntryFFormMDP({
       parent: this,
+    }).getMetaData();
+  }
+
+  get addCFAPsEntryWithoutRCFFormMetaData() {
+    return new AddCFAPsEntryWithoutRCFFormMDP({
+      parent: this
     }).getMetaData();
   }
 

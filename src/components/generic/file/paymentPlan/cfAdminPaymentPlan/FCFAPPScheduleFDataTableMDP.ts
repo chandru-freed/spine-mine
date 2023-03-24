@@ -69,6 +69,12 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
         noSelect: true
       })
       .addAction({
+        label: "Add Entry Without Recalculating",
+        onClick: (itemList) => this.handleAddEntryWithoutRCClick(),
+        type: ActionType.OTHERS,
+        noSelect: true
+      })
+      .addAction({
         label: "Remove ",
         onClick: (itemList) => this.handleRemoveClick(itemList),
         type: ActionType.OTHERS,
@@ -151,6 +157,12 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
   handleAddEntryClick() {
     return new Promise((resolve) => {
       this.parent.showAddPsEntryForm = true;
+    });
+  }
+
+  handleAddEntryWithoutRCClick() {
+    return new Promise((resolve) => {
+      this.parent.showAddPsEntryWithoutRCForm = true;
     });
   }
 

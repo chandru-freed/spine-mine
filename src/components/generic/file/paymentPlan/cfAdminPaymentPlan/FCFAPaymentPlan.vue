@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <component
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
@@ -75,6 +76,50 @@
             ></component>
 
             <component
+              v-if="showChangeSPADraftDate"
+              :is="changeSPADraftDateFFormMetaData.componentName"
+              :ref="changeSPADraftDateFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  changePSEntryDraftDateInput,
+                  changeSPADraftDateFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    changePSEntryDraftDateInput,
+                    newValue,
+                    changeSPADraftDateFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="changeSPADraftDateFFormMetaData.props"
+            ></component>
+
+             <component
+              v-if="showSetSPADraftDate"
+              :is="setSPADraftDateFFormMetaData.componentName"
+              :ref="setSPADraftDateFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  setSPADraftDateInput,
+                  setSPADraftDateFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    setSPADraftDateInput,
+                    newValue,
+                    setSPADraftDateFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="setSPADraftDateFFormMetaData.props"
+            ></component>
+
+            
+
+            <component
               v-if="showModifyForm"
               :is="modifyPsEntryFFormMetaData.componentName"
               :ref="modifyPsEntryFFormMetaData.myRefName"
@@ -94,7 +139,6 @@
               "
               v-bind="modifyPsEntryFFormMetaData.props"
             ></component>
-
             <component
               v-if="showUploadForm"
               :is="uploadExcelFFormMetaData.componentName"
@@ -136,6 +180,47 @@
         <v-tab-item>
           <v-card flat>
             <component
+              v-if="showSetMsfDraftDate"
+              :is="setMsfDraftDateFFormMetaData.componentName"
+              :ref="setMsfDraftDateFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  setMsfDraftDateInput,
+                  setMsfDraftDateFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    setMsfDraftDateInput,
+                    newValue,
+                    setMsfDraftDateFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="setMsfDraftDateFFormMetaData.props"
+            ></component>
+            
+             <component
+              v-if="showChangeMSFDraftDate"
+              :is="changeMSFDraftDateFFormMetaData.componentName"
+              :ref="changeMSFDraftDateFFormMetaData.myRefName"
+              :value="
+                selectModel(
+                  changeMSFDraftDateInput,
+                  changeMSFDraftDateFFormMetaData.dataSelectorKey
+                )
+              "
+              @input="
+                (newValue) =>
+                  updateModel(
+                    changeMSFDraftDateInput,
+                    newValue,
+                    changeMSFDraftDateFFormMetaData.dataSelectorKey
+                  )
+              "
+              v-bind="changeMSFDraftDateFFormMetaData.props"
+            ></component>
+            <component
               :is="fFeeFDataTableMetaData.componentName"
               :ref="fFeeFDataTableMetaData.myRefName"
               :value="subscriptionFeeScheduleList"
@@ -157,15 +242,7 @@
 
     <div
       v-if="!disabled"
-      class="
-        d-flex
-        flex-row
-        align-start
-        flex-wrap
-        justify-space-around
-        pa-2
-        my-5
-      "
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
     >
       <div
         :class="actionMetaData.boundaryClass"
@@ -199,7 +276,10 @@ import FCFAPaymentFDataTableMDP from "./FCFAPaymentFDataTableMDP";
 import ModifyCFAPsEntryFFormMDP from "./ModifyCFAPsEntryFFormMDP";
 import Helper from "@/section/spineapp/util/Helper";
 import UploadExcelAdminFFormMDP from "./UploadExcelAdminFFormMDP";
-
+import ChangeMSFDraftDateFFormMDP from "./ChangeMSFDraftDateFFormMDP";
+import ChangeSPADraftDateFFormMDP from './ChangeSPADraftDateFFormMDP';
+import SetSPADraftDateFFormMDP from './SetSPADraftDateFFormMDP';
+import SetMsfDraftDateFFormMDP from './SetMsfDraftDateFFormMDP';
 @Component({
   components: {
     FForm,
@@ -221,18 +301,27 @@ export default class FCFAPaymentPlan extends ModelVue {
   modifyAmountPSEListInput: Data.ClientFile.ModifyAmountWithFixedTenureInput =
     new Data.ClientFile.ModifyAmountWithFixedTenureInput();
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
+  fFeeFDataTableRefName: string = "fFeeFDataTableRef";
   taskId = this.$route.params.taskId;
   showUploadForm: boolean = false;
+  showChangeMSFDraftDate: boolean = false;
+  showSetSPADraftDate: boolean = false;
+  showChangeSPADraftDate: boolean = false;
+  showSetMsfDraftDate: boolean = false;
+  changeMSFDraftDateInput: Data.Spine.ChangeMSFEntryDraftDateInput =
+    new Data.Spine.ChangeMSFEntryDraftDateInput();
+
   uploadPSPlanExcelInput: Data.Spine.UploadPSPlanExcelInput =
     new Data.Spine.UploadPSPlanExcelInput();
+  changePSEntryDraftDateInput: Data.Spine.ChangePSEntryDraftDateInput = new Data.Spine.ChangePSEntryDraftDateInput();
+  setMsfDraftDateInput: Data.Spine.SetMsfDraftDateInput = new Data.Spine.SetMsfDraftDateInput();
+  setSPADraftDateInput: Data.Spine.SetSPADraftDateInput = new Data.Spine.SetSPADraftDateInput();
   getFiPaymentListLocal: any = [];
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  get clientFileId() {
-    return this.$route.params.clientFileId;
-  }
+  clientFileId = this.$route.params.clientFileId
   get paymentPlan(): Data.ClientFile.FiPaymentPlanInfo {
     return this.modelValue.paymentPlan;
   }
@@ -278,6 +367,14 @@ export default class FCFAPaymentPlan extends ModelVue {
     this.showAddPsEntryForm = false;
     this.showModifyForm = false;
     this.showUploadForm = false;
+    this.showChangeMSFDraftDate = false;
+    this.showSetSPADraftDate = false;
+    this.showSetMsfDraftDate = false;
+    this.showChangeSPADraftDate = false;
+    this.changeMSFDraftDateInput = new Data.Spine.ChangeMSFEntryDraftDateInput();
+    this.setSPADraftDateInput = new Data.Spine.SetSPADraftDateInput();
+    this.setMsfDraftDateInput = new Data.Spine.SetMsfDraftDateInput();
+    this.changePSEntryDraftDateInput = new Data.Spine.ChangePSEntryDraftDateInput();
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
     this.uploadPSPlanExcelInput = new Data.Spine.UploadPSPlanExcelInput();
     this.modifyAmountPSEListInput =
@@ -285,6 +382,9 @@ export default class FCFAPaymentPlan extends ModelVue {
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();
+    (
+      this.$refs[this.fFeeFDataTableRefName] as any
+    )?.clearSelectedItems();
     this.getFiPaymentList();
   }
 
@@ -318,6 +418,9 @@ export default class FCFAPaymentPlan extends ModelVue {
     }).getMetaData();
   }
 
+  get changeMSFDraftDateFFormMetaData() {
+    return new ChangeMSFDraftDateFFormMDP({ parent: this }).getMetaData();
+  }
 
   get uploadExcelFFormMetaData() {
     return new UploadExcelAdminFFormMDP({ parent: this }).getMetaData();
@@ -329,6 +432,21 @@ export default class FCFAPaymentPlan extends ModelVue {
   get fcfPaymentTableMetaData() {
     return new FCFAPaymentFDataTableMDP({ parent: this }).getMetaData();
   }
+
+  get changeSPADraftDateFFormMetaData() {
+    return new ChangeSPADraftDateFFormMDP({ parent: this }).getMetaData();
+  }
+
+  get setSPADraftDateFFormMetaData() {
+    return new SetSPADraftDateFFormMDP({ parent: this }).getMetaData();
+  }
+  get setMsfDraftDateFFormMetaData() {
+    return new SetMsfDraftDateFFormMDP({ parent: this }).getMetaData();
+  }
+
+
+
+
   getFiPaymentListHandler = (output: any) => {
     setTimeout(() => {
       this.getFiPaymentList();
@@ -375,6 +493,10 @@ export default class FCFAPaymentPlan extends ModelVue {
 
   get modifyPsEntryFFormMetaData() {
     return new ModifyCFAPsEntryFFormMDP({ parent: this }).getMetaData();
+  }
+
+  isPaymentPlanDataAvailable() {
+    return this.paymentPlan?.psPlanId !== "";
   }
 
   @Prop()

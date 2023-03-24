@@ -35,14 +35,15 @@ export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
         rounded: true,
       })
       // .addCurrencyColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", })
-      .addColumn({
-        label: "Status",
-        dataSelectorKey: "status",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.PS_ENTRY_STATUS,
-          outlined: true
-        }),
-      }) .addInfo({
+      // .addColumn({
+      //   label: "Status",
+      //   dataSelectorKey: "status",
+      //   columnCellMDP: new FCellStatusMDP({
+      //     colorCodeData: Data.Color.PS_ENTRY_STATUS,
+      //     outlined: true
+      //   }),
+      // }) 
+      .addInfo({
         label: "Total",
         value: this.parent.modelValue.paymentPlan.psEntryTotalAmount,
         infoMDP: new FInfoINRMDP({ rounded: true }),

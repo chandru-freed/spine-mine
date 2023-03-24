@@ -36,6 +36,7 @@
                 Math.round(result.monthlyPayment) | toINR
               }}</span>
             </v-chip>
+
             <v-chip
               class="mr-2"
               color="primary"
@@ -44,7 +45,7 @@
               large
               v-if="monthlyObligationLessThan"
             >
-              TMO/Affordability : &nbsp;&nbsp;<span
+              TMO: &nbsp;&nbsp;<span
                 class="font-weight-bold secondary--text"
                 >{{ Math.round(result.monthlyObligation) | toINR }}</span
               >
@@ -57,7 +58,7 @@
               large
               v-if="monthlyObligationGreaterThanEqual"
             >
-              TMO/Affordability : &nbsp;&nbsp;<span
+              TMO: &nbsp;&nbsp;<span
                 class="font-weight-bold warning--text"
                 >{{ Math.round(result.monthlyObligation) | toINR }}</span
               >
@@ -264,7 +265,7 @@ export default class TMOStimulator extends ModelVue {
     //   this.modelValue.paymentPlan?.ppCalculator?.tenor || 30;
     this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
     this.resultLocal.settlementPercentage =
-      this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 0;
+      this.modelValue.paymentPlan?.ppCalculator?.settlementPercentage || 45;
     this.resultLocal.affordability =
       this.modelValue.budgetInfo?.proposedDSPayment || 0;
     this.resultLocal.firstSPADraftDate =
@@ -430,7 +431,7 @@ export const getMSFWithFreed = (amount: number) => {
   if (amount >= 0 && amount < 100000) return 649;
   if (amount >= 100000 && amount < 200000) return 899;
   if (amount >= 200000 && amount < 300000) return 999;
-  if (amount >= 300000 && amount < 450000) return 1299;
+  if (amount >= 300000 && amount < 450000) return 1249;
   if (amount >= 450000 && amount < 600000) return 1499;
   if (amount >= 600000 && amount < 800000) return 1799;
   if (amount >= 800000 && amount < 1000000) return 1999;

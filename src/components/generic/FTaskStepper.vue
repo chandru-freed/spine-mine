@@ -251,6 +251,8 @@ import ECFTSummaryStep from "@/section/spineapp/components/task/enrollment/enrol
 // import ECFTSSAStep from "@/section/spineapp/components/task/enrollment/enrollClientFile/step7/ECFTSSAStep.vue";
 import FAgreementList from "./file/agreementList/FAgreementList.vue";
 import FEMandateList from "./file/eMandateList/FEMandateList.vue";
+import Helper from "@/section/spineapp/util/Helper";
+import FCFTPaymentPlan from "./file/paymentPlan/cfTaskPaymentPlan/FCFTPaymentPlan.vue";
 
 @Component({
   components: {
@@ -274,7 +276,8 @@ import FEMandateList from "./file/eMandateList/FEMandateList.vue";
     FPaymentDetails,
     ECFTSummaryStep,
     FAgreementList,
-    FEMandateList
+    FEMandateList,
+    FCFTPaymentPlan
   },
 })
 export default class FTaskStepper extends ModelVue {
@@ -289,6 +292,7 @@ export default class FTaskStepper extends ModelVue {
     new Data.TaskList.CancelFlowAndCancelTaskInput();
 
   taskId = this.$route.params.taskId;
+  clientFileId = this.$route.params.clientFileId;
 
   get taskStateNotStarted() {
     return (
@@ -330,6 +334,11 @@ export default class FTaskStepper extends ModelVue {
         condition: this.resumeStatus,
       },
       {
+        label: "Proceed",
+        handleOtherActionClick: this.proceedTask,
+        condition: this.proceedStatus
+      },
+      {
         label: "Cancel Flow",
         handleOtherActionClick: this.cancelFlow,
         condition: this.cancelStatus,
@@ -339,6 +348,7 @@ export default class FTaskStepper extends ModelVue {
         handleOtherActionClick: this.cancelTask,
         condition: this.cancelStatus,
       },
+      
     ];
     return this.filteredActionsLocal;
   }
@@ -349,6 +359,9 @@ export default class FTaskStepper extends ModelVue {
 
   suspendStatus() {
     return this.isTaskActionable() && !this.taskDetails.isSuspended;
+  }
+  proceedStatus() {
+    return this.isTaskActionable()
   }
   resumeStatus() {
     return this.isTaskActionable() && this.taskDetails.isSuspended;
@@ -481,6 +494,12 @@ export default class FTaskStepper extends ModelVue {
   closeCancelTask() {
     this.cancelTaskForm = false;
   }
+
+  proceedTask() {
+    Action.TaskList.Proceed.execute1(this.taskId, output => {
+      this.gotoCFActiveTaskList();
+    })
+  }
   handleCancelTaskClick() {
     this.cancelTaskInput.taskId = this.taskId;
     Action.TaskList.CancelTask.execute(this.cancelTaskInput, (output) => {
@@ -500,6 +519,13 @@ export default class FTaskStepper extends ModelVue {
 
   suspendResetForms() {
     this.suspendTaskInput = new Data.TaskList.SuspendTaskInput();
+  }
+
+    gotoCFActiveTaskList() {
+    Helper.Router.gotoCFActiveTaskList({
+      router: this.$router,
+      clientFileId: this.clientFileId,
+    });
   }
 }
 </script>

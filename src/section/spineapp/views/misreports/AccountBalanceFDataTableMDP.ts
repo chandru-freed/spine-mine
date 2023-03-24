@@ -17,16 +17,8 @@ export default class MISReportsFDataTableMDP extends FDataTableMDP {
       itemKey: "taskId",
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Client File Number",
+    this.addClientFileNumberColumn({
       dataSelectorKey: "clientFileNumber",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-file-account",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
     })
       .addColumn({
         label: "Client Name",

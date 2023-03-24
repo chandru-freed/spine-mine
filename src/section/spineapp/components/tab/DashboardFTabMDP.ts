@@ -16,16 +16,17 @@ export default class DashboardFTabMDP extends FTabMDP {
     }).addTab({
       tabName: "DRP",
       routerName: "Root.Dashboard.DRPDashboard",
-    }).addTab({
-      tabName: "Daily Sales",
-      routerName: "Root.Report.SalesReport.DailySalesReport",
     })
+    // .addTab({
+    //   tabName: "Daily Sales",
+    //   routerName: "Root.Report.SalesReport.DailySalesReport",
+    // })
     .addTab({
       tabName: "Active Partners",
       routerName: "Root.Dashboard.ActivePartnerList",
     })
     .addTab({
-      tabName: "Requested Partners",
+      tabName: "Pending Activation Partners",
       routerName: "Root.Dashboard.RequestedPartnerList",
     })
     

@@ -27,6 +27,7 @@ export default class CFBankInfoFBankFFormMDP extends FBankFFormMDP {
   // new implement
   validateAndSubmit() {
     return () => {
+      console.log(this.taskRoot)
       this.getMyRef().submitForm(() => {
         this.updateBankInfo();
       });
@@ -35,11 +36,10 @@ export default class CFBankInfoFBankFFormMDP extends FBankFFormMDP {
 
   updateBankInfo() {
     const input = Data.Spine.UpdateBankInfoInput.fromJson(
-      this.taskRoot.bankInfo
+      this.taskRoot.bankInfoForm
     );
-    input.clientFileId = (
-      this.taskRoot as any
-    ).clientFileBasicInfo.clientFileId;
+    input.clientFileId =
+      this.taskRoot.clientFileId;
     // input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateBankInfo.execute(input, (output: any) => {
       FSnackbar.success("Successfully saved");

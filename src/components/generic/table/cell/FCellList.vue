@@ -1,7 +1,7 @@
 <template>
 <span >
-    <span v-for="(item,index) of selectModel(modelValue, dataSelectorKey)" :key="index">
-    {{item[itemDataSelectorKey]}}  {{index ==(selectModel(modelValue, dataSelectorKey).length -1)?'':','}}
+    <span class="text-caption" v-for="(item,index) of selectModel(modelValue, dataSelectorKey)" :key="index">
+    {{itemDataSelectorKey?item[itemDataSelectorKey]:item}}  {{index ==(selectModel(modelValue, dataSelectorKey).length -1)?'':','}}
     
     </span>
     </span>

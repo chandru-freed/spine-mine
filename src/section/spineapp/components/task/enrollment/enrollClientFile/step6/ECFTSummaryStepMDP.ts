@@ -21,10 +21,11 @@ export default class ECFTSummaryStepMDP implements MDP {
     actionList: FBtnMDP[] = [];
     taskRoot: any;
     parent: any;
-    constructor({ taskRoot, parent }:{ taskRoot: any, parent: any }) {
+    myRefName = "summaryStepRef"
+    constructor({ taskRoot, parent }: { taskRoot: any, parent: any }) {
         this.taskRoot = taskRoot;
         this.parent = parent;
-        this.addForm(new ExceptionFFormMDP({taskRoot, parent}))
+        this.addForm(new ExceptionFFormMDP({ taskRoot, parent }))
     }
 
     addAction(newAction: FBtnMDP) {
@@ -38,60 +39,75 @@ export default class ECFTSummaryStepMDP implements MDP {
     }
     validateAndSubmit() {
         return (nextCallback: () => void) => {
-            console.log(this.taskRoot.taskFormData.taskOutput.exceptionTakenList,"this.taskRoot.taskFormData.taskOutput.exceptionTakenList")
-            const input = new Data.ClientFile.UpdateExceptionTakenListInput();
-            input.exceptionTakenList = this.taskRoot.taskFormData.taskOutput.exceptionTakenList;
-            input.exceptionApprovedBy = this.taskRoot.taskFormData.taskOutput.exceptionApprovedBy;
-            input.clientFileId = this.taskRoot.clientFileId;
-            Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {
-                nextCallback();
+            console.log(this.taskRoot.taskFormData.taskOutput.exceptionTakenList, "this.taskRoot.taskFormData.taskOutput.exceptionTakenList")
+            console.log(this.getExceptionFormRef())
+            this.getExceptionFormRef().submitForm(() => {
+                const input = new Data.ClientFile.UpdateExceptionTakenListInput();
+                input.clientFileId = this.taskRoot.clientFileId;
+                if (this.taskRoot.taskFormData.taskOutput.haveException === true) {
+                    input.exceptionTakenList = this.taskRoot.taskFormData.taskOutput.exceptionTakenList;
+                    input.exceptionApprovedBy = this.taskRoot.taskFormData.taskOutput.exceptionApprovedBy;
+                }
+                Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {
+                    nextCallback();
+                });
             });
-        }    
+
+        }
+    }
+
+    getMyRef() {
+        return this.parent.getMyRef().$refs[this.myRefName];
+    }
+
+    getExceptionFormRef() {
+        return this.getMyRef()[0].$refs['exceptionFFormRef'][0];
     }
 
     getClientInfoSummaryMetaData() {
-        return new StepSummaryMDP({parent: this.parent})
-           
+        return new StepSummaryMDP({ parent: this.parent })
+
             .addSummary({
                 name: "Creditor",
-                content: new CreditorSummaryFDataTableMDP({taskRoot: this.taskRoot}),
-                stepIndex:0,
+                content: new CreditorSummaryFDataTableMDP({ taskRoot: this.taskRoot }),
+                stepIndex: 0,
             })
             .addSummary({
                 name: "Budget",
                 content: new BudgetSummaryFFormMDP(),
-                stepIndex:1
-                
+                stepIndex: 1
+
             }).addSummary({
                 name: "Payment Plan",
                 content: new PaymentPlanSummaryFFormMDP(),
-                stepIndex:2
-                
+                stepIndex: 2
+
             })
             .addSummary({
                 name: "Profile",
                 content: new ProfileSummaryFFormMDP(),
-                stepIndex:3
+                stepIndex: 3
             })
             // .addSummary({
             //     name: "Bank Info",
             //     content: new BankInfoSummaryFFormMDP(),
             //     stepIndex:4
-                
+
             // })
             .addSummary({
                 name: "Documents",
                 content: new DocumentSummaryFFormMDP(),
-                stepIndex:4
-                
+                stepIndex: 4
+
             })
-            
+
             .getMetaData()
     }
 
     getMetaData(): object {
         return {
             componentName: this.componentName,
+            myRefName: this.myRefName,
             props: {
                 actionMetaDataList: this.actionList.map((action) =>
                     action.getMetaData(),

@@ -46,12 +46,10 @@ import LoginFFormMDP from "./LoginFFormMDP";
 import AmeyoService from "@/components/generic/ameyo/AmeyoService";
 
 import axios, { AxiosError, AxiosInstance } from "axios";
-import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 @Component({
   components: {
     LoginFFormMDP,
     FForm,
-    AmeyoToolbarDialog
   },
 })
 export default class Login extends Vue {
@@ -101,6 +99,7 @@ export default class Login extends Vue {
     );
   }
   private ameyoLogin(userId: string, password: string) {
+    console.log("AmeyoService", userId, password);
     AmeyoService.login(userId, password);
   }
 }

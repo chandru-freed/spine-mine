@@ -21,16 +21,8 @@ export default class PendingPaymentListFDataTable extends FDataTableMDP {
             enableShowHideColumns: true
         });
         this.parent = parent;
-        this.addColumn({
-            label: "ClientFile Number",
+        this.addClientFileNumberColumn({
             dataSelectorKey: "clientFileBasicInfo.clientFileNumber",
-            columnCellMDP: new FCellBtnMDP({
-                color: "secondary",
-                icon: "mdi-file-account",
-                onClick: (item) => {
-                    this.handleClientFileClick(item);
-                },
-            }),
         }).addColumn({
             label: "Mobile Number",
             dataSelectorKey: "clientBasicInfo.mobile",
@@ -52,8 +44,6 @@ export default class PendingPaymentListFDataTable extends FDataTableMDP {
                 label: "Account Number",
                 dataSelectorKey: "accountNumber",
             })
-            
-
             .addColumn({
                 label: "Total Amount",
                 dataSelectorKey: "totalAmount",
@@ -88,39 +78,31 @@ export default class PendingPaymentListFDataTable extends FDataTableMDP {
                 label: "Payment Ref Number",
                 dataSelectorKey: "paymentRefNumber",
                 // columnCellMDP: new FCellCurrencyMDP({}),
-            }) .addColumn({
+            }).addColumn({
                 label: "Remote Txn Ref Number",
                 dataSelectorKey: "remoteTxnRefNumber:String",
             })
-            
+
             .addColumn({
                 label: "Account Holder Name",
                 dataSelectorKey: "accountHolderName",
                 // columnCellMDP: new FCellCurrencyMDP({}),
                 hidden: true
             })
-            .addColumn({
-                label: "Payment Provider",
+            .addPaymentProviderColumn({
                 dataSelectorKey: "paymentProvider.name",
-                columnCellMDP: new FCellStatusMDP({}),
             })
-            .addColumn({
+            .addStatusColumn({
                 label: "Payment Mode",
                 dataSelectorKey: "paymentMode.name",
-                columnCellMDP: new FCellStatusMDP({}),
-            }).addColumn({
+                filterItemList:Data.Spine.PAYMENT_MODE.list(),
+            }).addStatusColumn({
                 label: "Settled To",
                 dataSelectorKey: "settledTo.name",
-                columnCellMDP: new FCellStatusMDP({}),
+                filterItemList: Data.Spine.SETTLED_TO.list(),
             })
+            .addPaymentStatusColumn({ label: "Status", dataSelectorKey: "status.name", })
             .addColumn({
-                label: "Status",
-                dataSelectorKey: "status.name",
-                columnCellMDP: new FCellStatusMDP({
-                    colorCodeData: Data.Color.PAYMENT_STATUS,
-                    outlined: true
-                }),
-            }).addColumn({
                 label: "Presented Date",
                 dataSelectorKey: "presentedDate",
                 columnCellMDP: new FCellDateMDP(),
@@ -139,28 +121,6 @@ export default class PendingPaymentListFDataTable extends FDataTableMDP {
                 dataSelectorKey: "lastUpdatedTime",
                 columnCellMDP: new FCellDateTimeEllipsisMDP(),
                 hidden: true
-            })
-
-            
-
-            
-            
-            .addFilter({
-                label: "Status",
-                dataSelectorKey: "status.name",
-                filterItems: Data.Spine.PAYMENT_STATUS.list(),
-            }).addFilter({
-                label: "Payment Provider",
-                dataSelectorKey: "paymentProvider.name",
-                filterItems: Data.Spine.PAYMENT_PROVIDER.list(),
-            }).addFilter({
-                label: "Settled To",
-                dataSelectorKey: "settledTo.name",
-                filterItems: Data.Spine.SETTLED_TO.list(),
-            }).addFilter({
-                label: "Payment Mode",
-                dataSelectorKey: "paymentMode.name",
-                filterItems: Data.Spine.PAYMENT_MODE.list(),
             });
     }
 

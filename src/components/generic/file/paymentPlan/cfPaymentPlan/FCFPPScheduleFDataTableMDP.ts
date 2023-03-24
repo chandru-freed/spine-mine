@@ -8,6 +8,9 @@ import FDataTableMDP, {
 import FInfoINRMDP from "@/components/generic/table/info/FInfoINRMDP";
 import * as Snackbar from "node-snackbar";
 import * as Data from "@/../src-gen/data";
+import FCellCopyMDP from "@/components/generic/table/cell/FCellCopyMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
+import FCellRouterLinkMDP from "@/components/generic/table/cell/FCellRouterLinkMDP";
 
 export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -16,20 +19,21 @@ export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
       itemKey: "psEntryId",
       disabled: parent.disabledActionBtn,
       myRefName: refName,
-      enableShowHideColumns: true
+      enableShowHideColumns: true,
+      enableSearch: false,
     });
     this.parent = parent;
     this.addColumn({
       label: "Draft Date",
       dataSelectorKey: "draftDate",
       columnCellMDP: new FCellDateMDP(),
-      hidden: true
     })
-    .addColumn({
-      label: "Status Updated On",
-      dataSelectorKey: "statusUpdatedOn",
-      columnCellMDP: new FCellDateMDP(),
-    })
+      .addColumn({
+        label: "Status Updated On",
+        dataSelectorKey: "statusUpdatedOn",
+        columnCellMDP: new FCellDateTimeMDP(),
+        hidden: true,
+      })
       .addCurrencyColumn({
         label: "Total Amount",
         dataSelectorKey: "totalAmount",
@@ -41,14 +45,28 @@ export default class FCFPPScheduleFDataTableMDP extends FDataTableMDP {
         rounded: true,
       })
       .addCurrencyColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount" })
+      .addPsEntryStatusColumn({ dataSelectorKey: "status" })
+
       .addColumn({
-        label: "Status",
-        dataSelectorKey: "status",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.PS_ENTRY_STATUS,
-          outlined: true
+        label: "Linked EMandate",
+        dataSelectorKey: "linkedEMandate.label",
+        columnCellMDP: new FCellCopyMDP({
+          dataSelectorKeyToCopy: "linkedEMandate.redirectUrl",
+          dataSelectorKey: "label"
         }),
+        hidden: true
       })
+      .addColumn({
+        label: "Remote EMandate Id",
+        dataSelectorKey: "linkedEMandate.remoteEMandateId",
+        hidden: true,
+        columnCellMDP: new FCellRouterLinkMDP({
+          routerName: "Root.CFile.CFPayment.CFEMandateDetails.CFEMandateDetails",
+          paramKey: "linkedEMandate.eMandateId",
+          paramName: "eMandateId"
+        })
+      })
+
       .addInfo({
         label: "Total",
         value: this.parent.modelValue.paymentPlan.psEntryTotalAmount,

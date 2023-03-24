@@ -129,11 +129,5 @@ export default class ClientSearch extends ModelVue implements ClientSearchIntf {
     );
   }
 
-  gotoClient(clientId: string) {
-    this.$router.push({
-      name: "Root.Client.ClientDetails",
-      params: { clientId: clientId },
-    });
-  }
 }
 </script>

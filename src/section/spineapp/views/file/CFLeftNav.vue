@@ -170,7 +170,7 @@ export default class CFLeftNav extends Vue {
           title: "Payment Plan",
           routerName: "Root.CFile.CFAdmin.CFAdminPaymentPlanInfo",
         },
-        // { title: "Bank", routerName: "Root.CFile.CFAdmin.CFAdminBankInfo" },
+        { title: "Bank", routerName: "Root.CFile.CFAdmin.CFAdminBankInfo" },
         {
           title: "Document",
           routerName: "Root.CFile.CFAdmin.CFAdminDocumentInfo",

@@ -1,5 +1,6 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 import FRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FRemoteAutoCompleteFieldMDP";
@@ -17,6 +18,7 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
       myRefName: "chppFormRef",
       disabled: taskRoot.taskDisabled,
       dataSelectorKey: "taskOutput",
+      readonly: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
@@ -29,33 +31,61 @@ export default class CHPPTCollectInfoStepFFormMDP extends FFormMDP {
         boundaryClass: "col-6",
       })
     )
+    .addField(
+      new FRemoteAutoCompleteFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "creditorInfo.creditor",
+        label: "Creditor",
+        mandatory: true,
+        boundaryClass: "col-6",
+        queryUrl: "/spineapi/master/search-creditor?creditorName=",
+      })
+    )
+    .addField(
+      new FTextFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "creditorInfo.agencyName",
+        label: "Agency Name",
+        boundaryClass: "col-6",
+      })
+    )
+      .addField(
+        new FEmailFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "creditorInfo.emailId",
+          label: "Collector EMail Id",
+          boundaryClass: "col-6",
+        })
+      )
+
       .addField(
         new FPhoneFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "creditorInfo.creditorPhoneNumber",
           label: "Creditor Phone Number",
           boundaryClass: "col-6",
+          mandatory: true,
         })
       )
+
       .addField(
-        new FRemoteAutoCompleteFieldMDP({
+        new FPhoneFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "creditorInfo.creditor",
-          label: "Creditor",
-          mandatory: true,
+          dataSelectorKey: "creditorInfo.secondaryPhoneNumber",
+          label: "Secondary Phone Number",
           boundaryClass: "col-6",
-          queryUrl: "/spineapi/master/search-creditor?creditorName=",
         })
       )
-      .addField(
-        new FTextareaMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "creditorInfo.harassmentDetails",
-          label: "Harassment Details",
-          mandatory: true,
-          boundaryClass: "col-6",
-        })
-      );
+
+    // .addField(
+    //   new FTextareaMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "creditorInfo.harassmentDetails",
+    //     label: "Harassment Details",
+    //     mandatory: true,
+    //     boundaryClass: "col-6",
+    //   })
+    // );
   }
 
   getMyRef(): any {

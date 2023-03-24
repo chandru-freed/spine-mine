@@ -23,14 +23,14 @@ export default class ExceptionFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this
-    // .addField(
-    //   new FSwitchMDP({
-    //     parentMDP: this.childMDP,
-    //     dataSelectorKey: "taskOutput.collectMSFNow",
-    //     label: "Collect MSF Now",
-    //     boundaryClass: "col-4",
-    //   })
-    // )
+    .addField(
+      new FSwitchMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "taskOutput.haveException",
+        label: "Have Exception",
+        boundaryClass: "col-12",
+      })
+    )
     .addField(new FSelectFieldMDP({
       dataSelectorKey: "taskOutput.exceptionTakenList",
       label: "Exception Taken",
@@ -40,16 +40,21 @@ export default class ExceptionFFormMDP extends FFormMDP {
       parentMDP: this.childMDP,
       multiple: true,
       boundaryClass: "col-4",
+      condition: this.taskRoot.taskFormData.taskOutput.haveException === true,
+      mandatory: true
     })).addField(new FGompaUserRemoteAutoCompleteFieldMDP({
       parentMDP: this.childMDP,
       dataSelectorKey: "taskOutput.exceptionApprovedBy",
       label:"Exception ApprovedBy",
       boundaryClass: "col-4",
+      condition: this.taskRoot.taskFormData.taskOutput.haveException === true,
+      mandatory: true
     }))
   }
 
   getMyRef(): any {
     return this.parent.getMyRef().$refs[this.myRefName][0];
   }
+
 
 }

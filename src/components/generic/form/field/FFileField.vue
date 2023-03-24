@@ -1,5 +1,7 @@
 <template>
   <v-file-input
+    prepend-inner-icon="mdi-attachment"
+    prepend-icon=""
     v-bind="$props"
     :value="modelValue"
     @change="(newValue) => (modelValue = newValue)"

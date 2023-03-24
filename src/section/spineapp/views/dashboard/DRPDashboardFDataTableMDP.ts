@@ -7,6 +7,9 @@ import FDataTableMDP, {
 } from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
 import FCellDateTimeEllipsisMDP from "@/components/generic/table/cell/FCellDateTimeEllipsisMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
+import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
+import FCellStandardDateTimeMDP from "@/components/generic/table/cell/FCellStandardDateTimeMDP";
 
 export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -17,56 +20,48 @@ export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
       title: "DRP",
       multiSelect: true,
       itemKey: "clientFileNumber",
+      enableShowHideColumns: true
     });
     this.parent = props.parent;
     this
       .addColumn({
         label: "Created On",
         dataSelectorKey: "createdOn",
-        columnCellMDP: new FCellDateTimeEllipsisMDP()
-      }).addColumn({
-        label: "Client File Number",
+        columnCellMDP: new FCellStandardDateTimeMDP(),
+      }).addClientFileNumberColumn({
         dataSelectorKey: "clientFileNumber",
-        columnCellMDP: new FCellBtnMDP({
-          color: "secondary",
-          icon: "mdi-file-account",
-          onClick: (item) => {
-            this.handleClientFileClick(item);
-          },
-        }),
       })
-      .addColumn({
-        label: "Client File Status",
-        dataSelectorKey: "clientFileStatus.name",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.CLIENT_FILE_STATUS,
-          outlined: true
-        }),
-      }).addColumn({
+      .addClientFileStatusColumn({ dataSelectorKey: "clientFileStatus.name", })
+      .addStatusColumn({
         label: "Stage",
         dataSelectorKey: "stage",
+        outlined: true,
+        filterItemList: Data.Spine.CLIENT_FILE_STAGE.list()
       })
-      .addColumn({
-        label: "Client Name",
+      .addClientNameColumn({
         dataSelectorKey: "fullName",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
       })
       .addColumn({
         label: "Mobile",
         dataSelectorKey: "mobile",
-        columnCellMDP: new FCellPhoneMDP,
+        columnCellMDP: new FCellPhoneMDP(),
       })
       .addColumn({
         label: "E-mail",
         dataSelectorKey: "emailId",
         columnCellMDP: new FCellEmailMDP(),
         hidden: true
+      })
+      .addCurrencyColumn({
+        label: "Unsecured Loan Amount",
+        dataSelectorKey: "unsecuredLoanAmount",
+      }).addNumberColumn({
+        label: "Credit Score",
+        dataSelectorKey: "creditScore",
+        // hidden: true
+      }).addColumn({
+        label: "Wad",
+        dataSelectorKey: "wad",
       })
       .addColumn({
         label: "City",
@@ -75,11 +70,13 @@ export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
       .addColumn({
         label: "State",
         dataSelectorKey: "state",
-      }).addFilter({
-        dataSelectorKey: "clientFileStatus.name",
-        filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
-        label: "Client file Status"
+        hidden: true
       })
+      // .addFilter({
+      //   dataSelectorKey: "clientFileStatus.name",
+      //   filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
+      //   label: "Client file Status"
+      // })
       .addAction({
         label: "Assign",
         onClick: (item) => this.handleAssignClick(item),

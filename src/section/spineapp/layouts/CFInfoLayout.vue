@@ -1,7 +1,6 @@
 
 <template>
   <div>
-
     <!-- BREADCRUMBS -->
     <v-breadcrumbs :items="breadcrumbList" class="pa-0 pb-1 px-1">
       <template v-slot:item="{ item }">
@@ -45,11 +44,21 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class CFInfoLayout extends Vue {
   currentRouteName: string = this.$route.name as string
   get selectedTab() {
-    return this.tabList.map(tab => tab.routerName).indexOf(this.currentRouteName)
+    // const selectedTab = this.tabList.map(tab => tab.routerName).indexOf(this.currentRouteName);
+    const currentRouteName = this.getExcactRouterNameWithMSF();
+    return this.tabList.map(tab => tab.routerName).indexOf(currentRouteName)
   }
 
   get selectedTabName() {
     return this.tabList.filter(tab => tab.routerName === this.currentRouteName).map(x => x.tabName)[0]
+  }
+  
+  getExcactRouterNameWithMSF() {
+    let routerName = this.currentRouteName;
+    if(this.currentRouteName === 'Root.CFile.CFInfo.CFPaymentPlanMSFInfo') {
+      routerName =  "Root.CFile.CFInfo.CFPaymentPlanInfo";
+    }
+    return routerName;
   }
 
   tabList = [

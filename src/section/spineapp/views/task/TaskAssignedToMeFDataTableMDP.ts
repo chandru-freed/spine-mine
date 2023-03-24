@@ -20,28 +20,8 @@ export default class TaskAssignedToMeFDataTableMDP extends FDataTableMDP {
       itemKey:"taskId"
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Client File Number",
-      dataSelectorKey: "cid",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-file-account",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
-    })
-      .addColumn({
-        label: "Client",
-        dataSelectorKey: "displayId",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
-      })
+    this.addClientFileNumberColumn({dataSelectorKey: "cid",})
+      .addClientNameColumn({ dataSelectorKey: "displayId",paramKey: "taskInput.clRegistrationDetails.clientId"})
       .addColumn({
         label: "Task",
         dataSelectorKey: "taskName",

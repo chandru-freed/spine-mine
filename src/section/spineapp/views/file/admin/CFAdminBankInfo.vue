@@ -41,9 +41,7 @@ export default class CFAdminBankInfo extends ModelVue {
   nupayBankMasterList: Data.ClientFile.NupayBankMaster[] = [];
 
 
-  get clientFileId() {
-    return this.$route.params.clientFileId;
-  }
+  clientFileId = this.$route.params.clientFileId;
 
   //METADATA
   get bankInfoFormMetaData() {

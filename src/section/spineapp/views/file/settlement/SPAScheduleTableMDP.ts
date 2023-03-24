@@ -15,10 +15,7 @@ export default class SPAScheduleTableMDP extends FDataTableMDP {
     });
     this.root = root;
 
-    this.addColumn({
-      label: "Payment Provider",
-      align: "start",
-      sortable: false,
+    this.addPaymentProviderColumn({
       dataSelectorKey: "paymentProvider",
     })
       .addCurrencyColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount" })

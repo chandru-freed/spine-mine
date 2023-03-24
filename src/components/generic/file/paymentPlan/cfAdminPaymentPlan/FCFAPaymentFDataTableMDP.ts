@@ -36,20 +36,9 @@ export default class FCFAPaymentFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "accountHolderName",
         // columnCellMDP: new FCellCurrencyMDP({}),
       })
+      .addPaymentProviderColumn({ dataSelectorKey: "paymentProvider.name",})
+      .addPaymentStatusColumn({label: "Status",dataSelectorKey: "status.name",})
       .addColumn({
-        label: "Payment Provider",
-        dataSelectorKey: "paymentProvider.name",
-        columnCellMDP: new FCellStatusMDP({
-        }),
-      })
-      .addColumn({
-        label: "Status",
-        dataSelectorKey: "status.name",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.PAYMENT_STATUS,
-          outlined: true
-        }),
-      }).addColumn({
         label: "Presented Date",
         dataSelectorKey: "presentedDate",
         columnCellMDP: new FCellDateMDP(),

@@ -81,6 +81,10 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.fiEMandateSummaryList = fiEMandateSummaryList;
   }
 
+  public updateFiERPDocumentList(state: Data.ClientFile.ClientFileSummary, fiDocumentList: Data.ClientFile.FiDocument[]): void {
+    state.fiERPDocumentList = fiDocumentList;
+  }
+
 
 }
 

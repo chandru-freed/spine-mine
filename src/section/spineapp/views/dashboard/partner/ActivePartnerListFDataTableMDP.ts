@@ -1,4 +1,3 @@
-
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
@@ -9,6 +8,9 @@ import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
+import DocumentsListFDataTableMDP from "./DocumentsListFDataTableMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
+
 
 export default class ActivePartnerListFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -17,52 +19,92 @@ export default class ActivePartnerListFDataTableMDP extends FDataTableMDP {
       myRefName: "activePartnerListFDataTableRef",
       enableSearch: true,
       title: "Active Partners",
-      
+      enableShowHideColumns: true,
+      itemKey: "partnerId",
     });
     this.parent = props.parent;
-    this
+    this.addColumn({
+      label: "FPP ID",
+      dataSelectorKey: "uniqueReferralCode",
+      columnCellMDP: new FCellCopyMDP({dataSelectorKeyToCopy: "uniqueReferralLink"}),
+    })
       .addColumn({
-        label: "Full Name",
+        label: "PARTNER NAME",
         dataSelectorKey: "fullname",
         columnCellMDP: new FCellBtnMDP({
-            onClick: () => {},
-            color:"purple"
-        })
+          onClick: (item) => {
+            this.handlePartnerNameClick(item);
+          },
+          color: "purple",
+        }),
       })
       .addColumn({
-        label: "Unique Referral Code",
-        dataSelectorKey: "uniqueReferralCode",
-        columnCellMDP: new FCellCopyMDP({})
-      })
-      .addColumn({
-        label: "Mobile",
-        dataSelectorKey: "mobile",
-        columnCellMDP: new FCellPhoneMDP()
-      })
-      .addColumn({
-        label: "EmailId",
+        label: "EMAIL",
         dataSelectorKey: "emailId",
-        columnCellMDP: new FCellEmailMDP()
+        columnCellMDP: new FCellEmailMDP(),
       })
       .addColumn({
-        label: "Status",
+        label: "PHONE",
+        dataSelectorKey: "mobile",
+        columnCellMDP: new FCellPhoneMDP(),
+      })
+
+      .addStatusColumn({
+        label: "STATUS",
         dataSelectorKey: "status.name",
-        columnCellMDP: new FCellStatusMDP({outlined: true})
-      })
-      .addCurrencyColumn({
-        label: "Total Earnings",
-        dataSelectorKey: "totalEarnings",
-        
-      }).addCurrencyColumn({
-        label: "Current Earnings",
-        dataSelectorKey: "currentEarnings",
-        
-      })
-      
+        outlined: true,
+        colorCodeData: Data.Color.PARTNER_STATUS,
+        filterItemList: Data.Spine.PARTNER_STATUS.list(),
+      }).addColumn({
+        label: "Activated On",
+        dataSelectorKey: "activatedOn",
+        columnCellMDP: new FCellDateTimeMDP()
+    })
+
       .addNumberColumn({
         label: "Onboarded Files Count",
         dataSelectorKey: "onboardedFilesCount",
       })
+      .addCurrencyColumn({
+        label: "Total Earnings",
+        dataSelectorKey: "totalEarnings",
+        hidden: true,
+      })
+      .addCurrencyColumn({
+        label: "Current Earnings",
+        dataSelectorKey: "currentEarnings",
+        hidden: true,
+      })
+      .addAction({
+        label: "Upload Certificate",
+        onClick: this.handleUploadCertificate(),
+        type: ActionType.OTHERS,
+      })
+      .addAction({
+        label: "Upload Government ID",
+        onClick: this.handleUploadIdentifiation(),
+        type: ActionType.OTHERS,
+      })
+      .setExpansionComponent(new DocumentsListFDataTableMDP({ dataSelectorKey: "documentList" }));
   }
 
+  handleUploadCertificate() {
+    return (item: any) => {
+      return new Promise((res) => {
+        this.parent.handleCertificateFormClick(item);
+      });
+    };
+  }
+
+  handleUploadIdentifiation() {
+    return (item: any) => {
+      return new Promise((res) => {
+        this.parent.handleIdentifiationFormClick(item);
+      });
+    };
+  }
+
+  handlePartnerNameClick(item: any){
+    this.parent.gotoPartnerDetails(item.partnerId);
+  }
 }

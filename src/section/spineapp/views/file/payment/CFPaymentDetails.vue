@@ -1,7 +1,10 @@
 <template>
   <div class="CFDraftPayment">
     <!-- fiPaymentDetails : {{ fiPaymentDetails }} -->
-    <div class="d-flex justify-center col-12 ma-auto" v-if="!!fiPaymentDetails.paymentId">
+    <div
+      class="d-flex justify-center col-12 ma-auto"
+      v-if="!!fiPaymentDetails.paymentId"
+    >
       <v-card
         class="pa-0 ma-0 mt-5 col-12"
         color="white"
@@ -35,20 +38,52 @@
           ></component>
         </v-card-text>
         <v-card-actions class="px-10">
-          <v-btn outlined disabled >{{fiPaymentDetails.status.name}}</v-btn>
+          <v-btn outlined disabled>{{ fiPaymentDetails.status.name }}</v-btn>
           <v-spacer></v-spacer>
-          <v-btn primary outlined @click="presentPayment" v-if="fiPaymentDetails.status.id === 'DRAFT'">Present Payment</v-btn>
-          <v-btn primary outlined @click="checkPaymentStatus" v-if="fiPaymentDetails.status.id === 'PRESENTED'">Check Payment Status</v-btn>
-          <v-btn primary outlined @click="requestFundSplit"  v-if="fiPaymentDetails.status.id === 'RECEIVED' && fiPaymentDetails.paymentMode.id === 'ENACH'">Request Split</v-btn>
-          <v-btn primary outlined @click="updateFundSplitStatus"  v-if="fiPaymentDetails.status.id === 'FUND_SPLIT_REQUESTED'">Check Split Status</v-btn>
+          <v-btn
+            primary
+            outlined
+            @click="presentPayment"
+            v-if="fiPaymentDetails.status.id === 'DRAFT'"
+            >Present Payment</v-btn
+          >
+          <v-btn
+            primary
+            outlined
+            @click="checkPaymentStatus"
+            v-if="fiPaymentDetails.status.id === 'PRESENTED'"
+            >Check Payment Status</v-btn
+          >
+          <v-btn
+            primary
+            outlined
+            @click="requestFundSplit"
+            v-if="
+              fiPaymentDetails.status.id === 'RECEIVED' &&
+              fiPaymentDetails.paymentMode.id === 'ENACH'
+            "
+            >Request Split</v-btn
+          >
+          <v-btn
+            primary
+            outlined
+            @click="updateFundSplitStatus"
+            v-if="fiPaymentDetails.status.id === 'FUND_SPLIT_REQUESTED'"
+            >Check Split Status</v-btn
+          >
         </v-card-actions>
       </v-card>
     </div>
     <v-col class="col-12">
       <v-card flat outlined>
-        <v-card-title class="pb-0">Transactions</v-card-title>
         <v-card-text class="pa-0">
-          <v-data-table
+          <component
+            :is="cfTransactionListFDataTableMetaData.componentName"
+            :ref="cfTransactionListFDataTableMetaData.myRefName"
+            :value="paymentTransactionList"
+            v-bind="cfTransactionListFDataTableMetaData.props"
+          ></component>
+          <!-- <v-data-table
             :headers="headers"
             :items="paymentTransactionList"
             sort-by="draftDate"
@@ -62,7 +97,7 @@
             <template v-slot:[`item.amount`]="{ item }">
               {{ item.debit ? "- " : "+ " }}{{ item.amount | toINR }}
             </template>
-          </v-data-table>
+          </v-data-table> -->
         </v-card-text>
       </v-card>
     </v-col>
@@ -82,53 +117,65 @@ import CFSettlementFFormMDP from "./paymentDetails/CFSettlementFFormMDP";
 import CFRefundFFormMDP from "./paymentDetails/CFRefundFFormMDP";
 import CFCollectionSPAFFormMDP from "./paymentDetails/CFCollectionSPAFFormMDP";
 import CFCollectionFeeFFormMDP from "./paymentDetails/CFCollectionFeeFFormMDP";
-import CFSettlementToClientFFormMDP from './paymentDetails/CFSettlementToClientFFormMDP';
-import CFSettlementToCreditorFFormMDP from './paymentDetails/CFSettlementToCreditorFFormMDP';
+import CFSettlementToClientFFormMDP from "./paymentDetails/CFSettlementToClientFFormMDP";
+import CFSettlementToCreditorFFormMDP from "./paymentDetails/CFSettlementToCreditorFFormMDP";
 import FSnackbar from "@/fsnackbar";
+import CFTransactionListFDataTableMDP from "./CFTransactionListFDataTableMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 @Component({
   components: {
     CFSettlementFFormMDP,
     FForm,
+    FDataTable,
   },
 })
 export default class CFPaymentDetails extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-
   @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
   fiCreditorInfo: Data.ClientFile.FiCreditorInfo;
 
-  fiPaymentDetails: Data.ClientFile.FiPaymentDetails = new Data.ClientFile.FiPaymentDetails();
+  fiPaymentDetails: Data.ClientFile.FiPaymentDetails =
+    new Data.ClientFile.FiPaymentDetails();
 
   // selectedRequestType: any = {};
 
   clientFileId = this.$route.params.clientFileId;
   paymentId = this.$route.params.paymentId;
 
-  paymentTransactionList: Data.ClientFile.PaymentTransaction[] = []
+  paymentTransactionList: Data.ClientFile.PaymentTransaction[] = [];
 
   get selectedRequestType() {
-    if(this.fiPaymentDetails.paymentType.id === "SETTLEMENT" ) {
-      if(this.fiPaymentDetails.settledTo === Data.ClientFile.SETTLED_TO.CREDITOR.id) {
-      return this.requestTypeFlowMapList.find(x => x.code === "settlement-to-creditor" )?.contentMetaData;  
+    if (this.fiPaymentDetails.paymentType.id === "SETTLEMENT") {
+      if (
+        this.fiPaymentDetails.settledTo ===
+        Data.ClientFile.SETTLED_TO.CREDITOR.id
+      ) {
+        return this.requestTypeFlowMapList.find(
+          (x) => x.code === "settlement-to-creditor"
+        )?.contentMetaData;
       } else {
-        return this.requestTypeFlowMapList.find(x => x.code === "settlement-to-client" )?.contentMetaData;
+        return this.requestTypeFlowMapList.find(
+          (x) => x.code === "settlement-to-client"
+        )?.contentMetaData;
       }
-      
-      
     }
 
-    if(this.fiPaymentDetails.paymentType.id === "REFUND" ) {
-      return this.requestTypeFlowMapList.find(x => x.key === "REFUND" )?.contentMetaData;
+    if (this.fiPaymentDetails.paymentType.id === "REFUND") {
+      return this.requestTypeFlowMapList.find((x) => x.key === "REFUND")
+        ?.contentMetaData;
     }
 
-    if(this.fiPaymentDetails.paymentType.id === "COLLECTION" ) {
-      if(this.fiPaymentDetails.spaAmount > 0) {
-        return this.requestTypeFlowMapList.find(x => x.title === "COLLECTION (SPA + Fee)" )?.contentMetaData;
+    if (this.fiPaymentDetails.paymentType.id === "COLLECTION") {
+      if (this.fiPaymentDetails.spaAmount > 0) {
+        return this.requestTypeFlowMapList.find(
+          (x) => x.title === "COLLECTION (SPA + Fee)"
+        )?.contentMetaData;
       }
-      return this.requestTypeFlowMapList.find(x => x.title === "COLLECTION (Only Fee)" )?.contentMetaData;
-      
+      return this.requestTypeFlowMapList.find(
+        (x) => x.title === "COLLECTION (Only Fee)"
+      )?.contentMetaData;
     }
     // return this.requestTypeFlowMapList.find(x => x.key === this.fiPaymentDetails.paymentType.id)?.contentMetaData;
   }
@@ -138,8 +185,7 @@ export default class CFPaymentDetails extends Vue {
     this.getFiCreditorInfo();
   }
 
-
-   getFiCreditorInfo() {
+  getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(
       this.clientFileId,
       (output) => {}
@@ -152,7 +198,6 @@ export default class CFPaymentDetails extends Vue {
     this.findClientFileSummary();
   }
 
-
   get requestTypeFlowMapList() {
     return [
       {
@@ -161,23 +206,23 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFSettlementFFormMDP({
           taskRoot: this,
         }).getMetaData(),
-        code: "settlement"
+        code: "settlement",
       },
-       {
+      {
         key: "SETTLEMENT",
         title: "SETTLEMENT TO CLIENT",
         contentMetaData: new CFSettlementToClientFFormMDP({
           taskRoot: this,
         }).getMetaData(),
-        code: "settlement-to-client"
+        code: "settlement-to-client",
       },
-       {
+      {
         key: "SETTLEMENT",
         title: "SETTLEMENT TO CREDITOR",
         contentMetaData: new CFSettlementToCreditorFFormMDP({
           taskRoot: this,
         }).getMetaData(),
-        code: "settlement-to-creditor"
+        code: "settlement-to-creditor",
       },
       {
         key: "COLLECTION",
@@ -185,7 +230,7 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFCollectionSPAFFormMDP({
           taskRoot: this,
         }).getMetaData(),
-        code: "collectionSpa"
+        code: "collectionSpa",
       },
       {
         key: "COLLECTION",
@@ -193,7 +238,7 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFCollectionFeeFFormMDP({
           taskRoot: this,
         }).getMetaData(),
-        code: "collectionFee"
+        code: "collectionFee",
       },
       {
         key: "REFUND",
@@ -201,7 +246,7 @@ export default class CFPaymentDetails extends Vue {
         contentMetaData: new CFRefundFFormMDP({
           taskRoot: this,
         }).getMetaData(),
-        code: "collection-refund"
+        code: "collection-refund",
       },
     ];
   }
@@ -214,28 +259,31 @@ export default class CFPaymentDetails extends Vue {
 
   presentPayment() {
     Action.ClientFile.PresentPayment.execute1(this.paymentId, (output) => {
-      setTimeout(this.loadPaymentDetails, 1000)
+      setTimeout(this.loadPaymentDetails, 1000);
     });
   }
 
   checkPaymentStatus() {
     Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
       FSnackbar.success("Check payment status is clicked");
-      setTimeout(this.loadPaymentDetails, 1000)
+      setTimeout(this.loadPaymentDetails, 1000);
     });
   }
 
   updateFundSplitStatus() {
-    Action.ClientFile.UpdateFundSplitStatus.execute1(this.paymentId, (output) => {
-      FSnackbar.success("Check fund split status is clicked");
-      setTimeout(this.loadPaymentDetails, 1000)
-    });
+    Action.ClientFile.UpdateFundSplitStatus.execute1(
+      this.paymentId,
+      (output) => {
+        FSnackbar.success("Check fund split status is clicked");
+        setTimeout(this.loadPaymentDetails, 1000);
+      }
+    );
   }
 
   requestFundSplit() {
     Action.ClientFile.RequestFundSplit.execute1(this.paymentId, (output) => {
       FSnackbar.success("Requested the fund split");
-      setTimeout(this.loadPaymentDetails, 1000)
+      setTimeout(this.loadPaymentDetails, 1000);
     });
   }
 
@@ -264,13 +312,18 @@ export default class CFPaymentDetails extends Vue {
     { text: "Txn Date", value: "txnDate" },
   ];
 
+  // MetaData
+  get cfTransactionListFDataTableMetaData() {
+    return new CFTransactionListFDataTableMDP({ parent: this }).getMetaData();
+  }
+  // MetaData
 
   //ACTION
   getPaymentTransactionList() {
     Action.ClientFile.GetPaymentTransactionList.execute1(
       this.paymentId,
       (output) => {
-        this.paymentTransactionList = output
+        this.paymentTransactionList = output;
       }
     );
   }

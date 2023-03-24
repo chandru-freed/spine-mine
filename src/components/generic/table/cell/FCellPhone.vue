@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-list-item-subtitle class="text--secondary text-body-1"> {{selectModel(modelValue ,dataSelectorKey)| phone}}</v-list-item-subtitle>
+    <v-list-item-subtitle v-if="!!selectModel(modelValue ,dataSelectorKey)" class="text--secondary text-body-1"> {{selectModel(modelValue ,dataSelectorKey)| phone}}</v-list-item-subtitle>
+    <div v-else>--</div>
   </div>
 </template>
 <script lang="ts">

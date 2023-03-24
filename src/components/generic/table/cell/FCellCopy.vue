@@ -37,8 +37,8 @@ export default class FCellCopy extends ModelVue {
 
   copyToClipBoard() {
     const textToCopy = this.dataSelectorKeyToCopy
-      ? this.modelValue[this.dataSelectorKeyToCopy]
-      : this.modelValue[this.dataSelectorKey];
+      ? this.selectModel(this.modelValue,this.dataSelectorKeyToCopy)
+      : this.selectModel(this.modelValue,this.dataSelectorKey)
     Helper.copyToClipBoard(textToCopy);
   }
 }

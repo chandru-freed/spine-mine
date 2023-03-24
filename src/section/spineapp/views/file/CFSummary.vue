@@ -57,12 +57,12 @@
                 <!-- <v-list-item-icon v-if="hover" > -->
                 <!-- </v-list-item-icon> -->
 
-                <v-list-item-action>
-                  <v-chip small v-if="fileSummary.eMandateActive" class="mx-2" color="green lighten-3"
+                <v-list-item-action >
+                  <v-chip @click="gotoEmandateList" small v-if="fileSummary.eMandateActive" class="mx-2" color="green lighten-3"
                     >EMandate Active</v-chip
                   >
 
-                  <v-chip small v-else class="mx-2" color="secondary lighten-3"
+                  <v-chip @click="gotoEmandateList" small v-else class="mx-2" color="secondary lighten-3"
                     >EMandate Pending</v-chip
                   >
                 </v-list-item-action>
@@ -143,7 +143,7 @@
         <v-card
           outlined
           elevation="0"
-          @click="gotoPaymentPlan"
+          @click="gotoMSFPaymentPlan"
           min-height="123"
         >
           <v-list class="py-0">
@@ -180,7 +180,7 @@
     </div>
 
     <div class="col" v-if="fileSummary.msfSummary">
-      <v-card outlined color="secondary" @click="gotoPaymentPlan">
+      <v-card outlined color="secondary" @click="gotoMSFPaymentPlan">
         <v-list class="py-0">
           <v-list-item dense>
             <v-list-item-content>
@@ -697,8 +697,17 @@ export default class CFSummary extends Vue {
   gotoPaymentPlan() {
     this.$router.push({ name: "Root.CFile.CFInfo.CFPaymentPlanInfo" });
   }
+
+  gotoMSFPaymentPlan() {
+    this.$router.push({ name: "Root.CFile.CFInfo.CFPaymentPlanMSFInfo"});
+  }
+
   gotoPayment() {
     this.$router.push({ name: "Root.CFile.CFPayment.CFPaymentList" });
+  }
+
+  gotoEmandateList() {
+    this.$router.push({ name: "Root.CFile.CFPayment.CFEMandateList" });
   }
 
   copyToClipBoard(text: string) {

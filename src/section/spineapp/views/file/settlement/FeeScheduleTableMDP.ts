@@ -15,10 +15,7 @@ export default class FeeScheduleTableMDP extends FDataTableMDP {
         });
         this.root = root;
 
-        this.addColumn({
-            label: "Payment Provider",
-            align: "start",
-            sortable: false,
+        this.addPaymentProviderColumn({
             dataSelectorKey: "paymentProvider",
         })
             .addCurrencyColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount" })

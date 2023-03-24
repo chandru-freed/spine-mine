@@ -54,11 +54,9 @@
 
       <!-- <v-divider></v-divider> -->
 
-       <v-list-item @click="goto('Root.User.ChangePassword')" link>
+      <v-list-item @click="goto('Root.User.ChangePassword')" link>
         <v-list-item-icon class="me-2">
-          <v-icon small>
-             mdi-key-outline 
-          </v-icon>
+          <v-icon small> mdi-key-outline </v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>Change Password</v-list-item-title>
@@ -179,14 +177,15 @@ export default class AppBarUserMenu extends Vue {
   logout() {
     window.localStorage.removeItem("userName");
     this.$router.push({ name: "Login.Login" });
+    AmeyoService.logout();
   }
 
   goto(routerName: string) {
-      this.$router.push({ name: routerName });
+    this.$router.push({ name: routerName });
   }
 
   private logoutByAmeyo() {
-    AmeyoService.logout();
+    // AmeyoService.logout();
   }
 }
 </script>

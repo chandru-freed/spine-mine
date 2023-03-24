@@ -82,5 +82,9 @@ export default class ECFTSummaryStep extends ModelVue {
         actionMetaData.condition === true
     );
   }
+
+  handleExceptionSwitchChange(value: boolean) {
+    console.log(value,"Exception have?");
+  }
 }
 </script>

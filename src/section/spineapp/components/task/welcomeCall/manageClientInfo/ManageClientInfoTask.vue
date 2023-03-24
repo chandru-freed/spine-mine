@@ -268,7 +268,7 @@ export default class ManageClientInfoTask
         : new Data.Spine.BudgetInfo(),
       bankInfo: this.bankInfoStore
         ? Data.Spine.BankInfo.fromJson(this.bankInfoStore)
-        : new Data.Spine.BankInfo(),
+        : undefined,
       paymentPlan: this.fiPaymentPlanInfoStore
         ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
         : new Data.Spine.PaymentPlan(),

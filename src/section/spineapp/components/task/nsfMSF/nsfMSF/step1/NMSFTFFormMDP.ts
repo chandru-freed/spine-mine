@@ -76,7 +76,7 @@ export default class NMSFTFFormMDP extends FFormMDP {
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.msfScheduledDraftDate",
-          label: "Msf Scheduled Draft Date",
+          label: "MSF Scheduled Draft Date",
           mandatory: true,
           pastDaysDisabled: true,
           boundaryClass: "col-6",

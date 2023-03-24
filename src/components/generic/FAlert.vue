@@ -16,9 +16,10 @@
           outlined
           :color="color"
           class="mx-2"
+          small
           >Cancel</v-btn
         >
-        <v-btn @click="() => $emit('confirmClick')" outlined :color="color" class="mx-2">
+        <v-btn small @click="() => $emit('confirmClick')" outlined :color="color" class="mx-2">
           Confirm
         </v-btn>
       </div>

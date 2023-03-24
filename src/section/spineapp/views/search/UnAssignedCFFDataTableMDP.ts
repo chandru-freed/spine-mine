@@ -19,44 +19,20 @@ export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
 
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Client File Number",
-      dataSelectorKey: "clientFileNumber",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
-    })
-      .addColumn({
-        label: "Client File Status",
-        dataSelectorKey: "clientFileStatus.name",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.CLIENT_FILE_STATUS,
-          outlined: true,
-        }),
-      })
-      .addColumn({
-        label: "Client Name",
-        dataSelectorKey: "fullName",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
-      })
+    this.addClientFileNumberColumn({ dataSelectorKey: "clientFileNumber", })
+      .addClientFileStatusColumn({ dataSelectorKey: "clientFileStatus.name", })
+      .addClientNameColumn({ dataSelectorKey: "fullName", })
       .addColumn({
         label: "Mobile",
         dataSelectorKey: "mobile",
         columnCellMDP: new FCellPhoneMDP(),
+        // enableCopy: true
       })
       .addColumn({
         label: "E-mail",
         dataSelectorKey: "emailId",
         columnCellMDP: new FCellEmailMDP(),
+        // enableCopy: true
       })
       .addColumn({
         label: "City",
@@ -79,12 +55,8 @@ export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
         label: "Assign RM",
         onClick: (item) => this.handleAssignRMClick(item),
         type: ActionType.OTHERS,
+        disabled: this.parent.isSalesLead || this.parent.isSalesRep
       })
-      .addFilter({
-        dataSelectorKey: "clientFileStatus.name",
-        filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
-        label: "Client file Status",
-      });
   }
 
   handleClientFileClick(item: any) {

@@ -1,24 +1,11 @@
 <template>
   <div class="CFTransactionList">
-    <v-col class="col-12">
-      <v-card flat outlined>
-        <v-data-table
-          :headers="headers"
-          :items="fiPaymentTransactionList"
-          sort-by="draftDate"
-          class="elevation-0"
-        >
-          <template v-slot:[`item.txnDate`]="{ item }">
-            <span class="grey--text">
-              {{ item.txnDate | date }}
-            </span>
-          </template>
-          <template v-slot:[`item.amount`]="{ item }">
-            {{ item.debit ? "- " : "+ " }}{{ item.amount | toINR }}
-          </template>
-        </v-data-table>
-      </v-card>
-    </v-col>
+            <component
+          :is="cfTransactionListFDataTableMetaData.componentName"
+          :ref="cfTransactionListFDataTableMetaData.myRefName"
+          :value="fiPaymentTransactionList"
+          v-bind="cfTransactionListFDataTableMetaData.props"
+        ></component>
   </div>
 </template>
 <script lang="ts">
@@ -30,11 +17,13 @@ import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
-
+import CFTransactionListFDataTableMDP from "./CFTransactionListFDataTableMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable,
   },
 })
 export default class CFTransactionList extends ModelVue {
@@ -44,19 +33,15 @@ export default class CFTransactionList extends ModelVue {
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
-
-  headers = [
-    { text: "Account Identifier", value: "accountIdentifier" },
-    { text: "Intent", value: "intent" },
-    { text: "Amount", value: "amount" },
-    { text: "Payment Ref Number", value: "paymentRefNumber" },
-    { text: "Remote Txn Ref Number", value: "remoteTxnRefNumber" },
-    { text: "Txn Date", value: "txnDate" },
-  ];
-
   mounted() {
     this.getFiPaymentTransactionList();
   }
+
+  //metadata
+  get cfTransactionListFDataTableMetaData() {
+    return new CFTransactionListFDataTableMDP({ parent: this }).getMetaData();
+  }
+  //metadata
 
   //ACTION
   getFiPaymentTransactionList() {

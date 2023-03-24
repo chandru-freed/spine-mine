@@ -88,6 +88,13 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
     );
 
     Action.Spine.RecalculatePSPlanForPM.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.ChangeMSFEntryDraftDate.interested(this.getFiPaymentWithDelayHandler)
+    Action.Spine.DraftPSPlanForPM.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.PaymentScheduleMarkPaid.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.MSFMarkPaid.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.SetSPADraftDate.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.SetMsfDraftDate.interested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.ChangePSEntryDraftDate.interested(this.getFiPaymentWithDelayHandler);
   }
 
   public destroyed() {
@@ -108,8 +115,14 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
     Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(
       this.getFiPaymentWithDelayHandler
     );
-
+    Action.Spine.DraftPSPlanForPM.notInterested(this.getFiPaymentWithDelayHandler);
     Action.Spine.RecalculatePSPlanForPM.notInterested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.ChangeMSFEntryDraftDate.notInterested(this.getFiPaymentWithDelayHandler)
+    Action.Spine.PaymentScheduleMarkPaid.notInterested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.MSFMarkPaid.notInterested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.SetSPADraftDate.notInterested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.SetMsfDraftDate.notInterested(this.getFiPaymentWithDelayHandler);
+    Action.Spine.ChangePSEntryDraftDate.notInterested(this.getFiPaymentWithDelayHandler);
   }
 
   getFiPaymentWithDelay() {
@@ -142,6 +155,9 @@ export default class CFAdminPaymentPlanInfo extends ModelVue {
     
       Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
         this.newPaymentPlan = output;
+      },
+      error => {
+
       });
   }
 

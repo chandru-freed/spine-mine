@@ -124,7 +124,7 @@ export default class CFNoteAllList extends ModelVue {
 
   addNote() {
     this.addNoteInput.clientFileId = this.clientFileBasicInfo.clientFileId;
-    if (this.addNoteInput.noteMessage.length > 1) {
+    if (this.addNoteInput.noteMessage.trim().length > 1) {
     Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
       this.addNoteInput = new Data.FiNote.AddNoteInput();
       this.getFiNoteList();

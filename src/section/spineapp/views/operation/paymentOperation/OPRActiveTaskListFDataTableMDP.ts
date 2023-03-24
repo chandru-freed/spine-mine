@@ -58,14 +58,7 @@ export default class OPRActiveTaskListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "priority",
         columnCellMDP: new FCellStatusMDP({ outlined: true }),
       })
-      .addColumn({
-        label: "Status",
-        dataSelectorKey: "taskState.name",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.CLIENT_FILE_STATUS,
-          outlined: true,
-        }),
-      })
+      .addClientFileStatusColumn({ label: "Status", dataSelectorKey: "taskState.name", })
       .addColumn({
         label: "allocated To",
         dataSelectorKey: "allocatedTo",

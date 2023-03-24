@@ -77,6 +77,47 @@
         </v-data-table>
       </v-card>
       <!--GRID END-->
+
+
+
+       <!--GRID START-->
+      <v-card v-if="fiERPDocumentList.length>0" flat outlined class="my-3">
+        <v-data-table
+          :headers="headers"
+          :items="fiERPDocumentList"
+          class="elevation-0"
+        >
+          <template v-slot:[`item.documentPath`]="{ item }">
+            <a @click="openERPUnsignedFileURL(item.documentPath)">
+              <v-icon small>mdi-file</v-icon>
+              {{ getFileNameFromDocPath(item.documentPath) }}
+            </a>
+          </template>
+
+          <template v-slot:[`item.uploadedOn`]="{ item }">
+            {{ item.uploadedOn | datetime }}
+          </template>
+          <template v-slot:top>
+            <v-toolbar flat>
+              <v-toolbar-title>Erp Document(s)</v-toolbar-title>
+              <v-divider class="mx-4" inset vertical></v-divider>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+          <template v-slot:[`item.actions`]="{ item, index }">
+            <v-icon
+              :disabled="disabled"
+              small
+              @click="selectDeleteDocument(item, index)"
+            >
+              mdi-delete
+            </v-icon>
+          </template>
+        </v-data-table>
+      </v-card>
+      <!--GRID END-->
+
+
       <!--ACTION START-->
       <div
         class="
@@ -122,6 +163,9 @@ import axios from "axios";
 export default class FDocument extends ModelVue {
     @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiERPDocumentList
+  fiERPDocumentList: Data.ClientFile.FiDocument[];
 
   uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
   uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
@@ -266,6 +310,12 @@ export default class FDocument extends ModelVue {
 
   openUnsignedFileURL(key: string) {
     Action.Spine.GetFileUrl.execute1(key, (output) => {
+      window.open(output.url);
+    });
+  }
+
+  openERPUnsignedFileURL(key: string) {
+    Action.Spine.GetErpFileUrl.execute1(key, (output) => {
       window.open(output.url);
     });
   }

@@ -49,6 +49,10 @@ export default class AddUserToUserGroup extends ModelVue {
     this.addUserInput.leadSquaredUserId = leadSquareId;
     }
   }
+
+  gotoDetailsPage() {
+    this.$router.push({name: "Root.Admin.Gompa.UserDetails", params: {userName: this.addUserInput.userName}})
+  }
 }
 </script>
 

@@ -104,7 +104,7 @@ export default class ActionList extends Vue {
         {
           actionName: "Daily Sales",
           icon: "mdi-chevron-right",
-          routerName: "Root.Report.SalesReport.DailySalesReport",
+          routerName: "Report.SalesReport.DailySalesReport",
         },
         {
           actionName: "DCP",
@@ -172,19 +172,65 @@ export default class ActionList extends Vue {
     {
       groupName: "Admin",
       actionList: [
+        // {
+        //   actionName: "Create User",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.Admin.Gompa.CreateUser",
+        // },
         {
-          actionName: "Create User",
+          actionName: "Inhouse Users",
           icon: "mdi-chevron-right",
-          routerName: "Root.Admin.Gompa.CreateUser",
-        },
-        {
-          actionName: "Add User To User Group",
-          icon: "mdi-chevron-right",
-          routerName: "Root.Admin.Gompa.AddUserToUserGroup",
+          routerName: "Root.Admin.Gompa.UserList",
         },
         
       ],
     },
+
+    {
+      groupName: "Creditor Module",
+      actionList: [
+        {
+          actionName: "Top Creditors",
+          icon: "mdi-chevron-right",
+          routerName: "Root.CreditorModule.StatisticsListForTopCreditors",
+        },
+
+        {
+          actionName: "Settled Creditors",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Settlement.FiCreditorSettledList",
+        },
+
+        
+
+        
+      ],
+    },
+     {
+      groupName: "Master",
+      actionList: [
+        {
+          actionName: "Add Creditor",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Admin.Master.AddCreditorToMaster",
+        },
+
+        
+      ],
+    },
+    // {
+    //   groupName: "Creditor",
+    //   actionList: [
+    //     {
+    //       actionName: "Agent List",
+    //       icon: "mdi-chevron-right",
+    //       routerName: "Root.CreditorModule.Agency.AgentList",
+    //     },
+        
+        
+    //   ],
+    // },
+    
   ];
 
   get getActionList() {

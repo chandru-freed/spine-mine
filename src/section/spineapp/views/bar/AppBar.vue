@@ -63,7 +63,7 @@
       </v-list>
     </v-menu>
     <v-btn
-      v-if="!isSalesRep"
+      v-if="!isSalesRep&&!isSalesLead"
       text
       @click="$router.push({ name: 'Root.ActionList' })"
     >
@@ -153,6 +153,10 @@ export default class AppBar extends Vue {
 
   get isSalesRep() {
     return this.roleList.includes("SalesRep");
+  }
+
+  get isSalesLead() {
+    return this.roleList.includes("SalesLead");
   }
 
   goto(routerName: string) {

@@ -28,15 +28,17 @@
               Math.round(result.monthlyPayment) | toINR
             }}</span>
           </v-chip>
+
+
           <v-chip
             class="mr-2"
             color="primary"
             label
             outlined
             large
-            v-if="result.affordability>0&&result.monthlyObligation&&monthlyObligationLessThan"
+            v-if="result.monthlyObligation&&monthlyObligationLessThan"
           >
-            TMO/Affordability : &nbsp;&nbsp;<span
+            TMO: &nbsp;&nbsp;<span
               class="font-weight-bold secondary--text"
               >{{ Math.round(result.monthlyObligation) | toINR }}</span
             >
@@ -47,7 +49,7 @@
             label
             outlined
             large
-            v-if="result.affordability>0&&monthlyObligationGreaterThanEqual"
+            v-if="monthlyObligationGreaterThanEqual"
           >
             TMO/Affordability : &nbsp;&nbsp;<span
               class="font-weight-bold warning--text"
@@ -401,7 +403,7 @@ export const getMSFWithFreed = (amount: number) => {
   if (amount >= 0 && amount < 100000) return 649;
   if (amount >= 100000 && amount < 200000) return 899;
   if (amount >= 200000 && amount < 300000) return 999;
-  if (amount >= 300000 && amount < 450000) return 1299;
+  if (amount >= 300000 && amount < 450000) return 1249;
   if (amount >= 450000 && amount < 600000) return 1499;
   if (amount >= 600000 && amount < 800000) return 1799;
   if (amount >= 800000 && amount < 1000000) return 1999;

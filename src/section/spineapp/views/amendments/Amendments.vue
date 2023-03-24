@@ -47,7 +47,7 @@ export default class Amendment extends ModelVue {
 
   getActiveAmendmentList() {
     this.activeAendmentListInput.offset = 0;
-    this.activeAendmentListInput.count = 100;
+    this.activeAendmentListInput.count =5000;
     Action.ClientFile.GetActiveAmendmentList.execute(
       this.activeAendmentListInput,
       (output) => {

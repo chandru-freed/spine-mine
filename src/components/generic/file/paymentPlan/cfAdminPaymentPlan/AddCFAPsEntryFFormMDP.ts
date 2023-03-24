@@ -66,7 +66,7 @@ export default class AddCFAPsEntryFFormMDP extends FFormMDP {
     ).addField(new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "spaAmount",
-        label: "Spa Amount",
+        label: "SPA Amount",
         boundaryClass: "col-3",
     })).addField(new FCurrencyFieldMDP({
         parentMDP: this.childMDP,

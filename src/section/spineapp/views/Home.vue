@@ -123,6 +123,23 @@
         </v-card>
       </div>
 
+      <div class="col-4">
+        <v-card class="mx-auto" outlined @click="gotoRouter('Root.CreditorModule.StatisticsListForTopCreditors')">
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">Creditor Module</div>
+              <v-list-item-title class="text-h4 mb-1">
+                {{ totalNumberOfCreditors }}
+              </v-list-item-title>
+              <v-list-item-subtitle>Creditors </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-clipboard-text-clock-outline</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+
       <!-- <div class="col-4">
         <v-card
           class="mx-auto"
@@ -181,6 +198,8 @@ import FBtn from "@/components/generic/FBtn.vue";
 export default class Home extends Vue {
   myDashboardSummary: Data.Spine.GetMyDashboardSummary =
     new Data.Spine.GetMyDashboardSummary();
+
+  totalNumberOfCreditors: number = 0;  
   get items() {
     return [
       {
@@ -212,6 +231,7 @@ export default class Home extends Vue {
   }
   mounted() {
     this.getMyDashboardSummary();
+    this.getTotalNumberOfCreditors();
   }
   getMyDashboardSummary() {
     Action.Spine.GetMyDashboardSummary.execute((output) => {
@@ -221,6 +241,12 @@ export default class Home extends Vue {
 
   gotoRouter(routerName: string) {
     this.$router.push({ name: routerName });
+  }
+
+  getTotalNumberOfCreditors() {
+    Action.Spine.SearchCreditor.execute1("", output => {
+      this.totalNumberOfCreditors = output.length;
+    })
   }
 }
 </script>

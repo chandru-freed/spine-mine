@@ -1,20 +1,24 @@
 import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
-import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import FExpansionFDataTableMDP from "@/components/generic/table/expansion/FExpansionFDataTableMDP";
 
-export default class SalesRepSalesListFDataTableMDP extends FDataTableMDP {
+export default class SalesRepSalesListFDataTableMDP extends FExpansionFDataTableMDP {
     constructor(props: {
         dataSelectorKey: string
     }) {
-        super({myRefName: "SalesRepSalesListFDataTableRef",dataSelectorKey: props.dataSelectorKey, hideDefaultFooter: true, outlined: false
+        super({myRefName: "SalesRepSalesListFDataTableRef",dataSelectorKey: props.dataSelectorKey, hideDefaultFooter: true, outlined: false, enableSearch: false
     });
 
-        this.addColumn({
+        this.addClientFileNumberColumn({
             label: "Client File",
             dataSelectorKey: "clientFleNumber",
-            width:"20%"
+        }).addCurrencyColumn({
+            label: "SPA Amount",
+            dataSelectorKey: "spaAmount",
+            width:"15%"
         }).addCurrencyColumn({
             label: "Total Debt",
-            dataSelectorKey: "spaAmount",
+            dataSelectorKey: "totalOutstanding",
+            
         }).addCurrencyColumn({
             label: "Total MSF",
             dataSelectorKey: "msfAmount"

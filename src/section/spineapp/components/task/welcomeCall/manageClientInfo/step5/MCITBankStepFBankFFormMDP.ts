@@ -36,7 +36,7 @@ export default class MCITBankStepFBankFFormMDP extends FBankFFormMDP {
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
-    input.taskId = this.taskRoot.taskId;
+    // input.taskId = this.taskRoot.taskId;
     Action.Spine.UpdateBankInfo.execute(input, (output: any) => {
       Snackbar.show({
         text: "Succesfully Saved",

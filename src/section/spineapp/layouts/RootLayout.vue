@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{showAmeyoSideBar}} -->
     <!-- <left-navigation-bar></left-navigation-bar> -->
 
     <!-- <v-app-bar app dense  flat class="grey lighten-2">
@@ -67,7 +66,7 @@ export default class RootLayout extends Vue {
 
   @Store.Getter.ClientFile.ClientFileSummary.showAmeyoSideBar
   showAmeyoSideBar: boolean;
-
+  // showAmeyoSideBar: boolean = false;
   showHide: boolean = false;
   get clientFileId() {
     return this.$route.params.clientFileId;

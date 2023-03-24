@@ -20,14 +20,16 @@ export default class POFilterFFormMDP extends FFormMDP {
           dataSelectorKey: "scheduledDraftDate",
           label: "Schedule Draft Date",
           boundaryClass: "col-4",
+          onSelect:  this.searchPaymentOperations()
         })
       )
-      .addAction(
-        new FBtnMDP({
-          label: "Search",
-          onClick: this.searchPaymentOperations(),
-        })
-      );
+      
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Search",
+      //     onClick: this.searchPaymentOperations(),
+      //   })
+      // );
   }
 
   getMyRef(): any {
@@ -36,7 +38,8 @@ export default class POFilterFFormMDP extends FFormMDP {
 
   searchPaymentOperations() {
     return () => {
-      this.parent.searchPaymentOperations();
+      this.parent.handleSearchPaymentOperations();
+      
     };
   }
 }

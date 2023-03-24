@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{isSalesRep()}} -->
     <div v-if="useAsDropDown">
       <v-autocomplete
         outlined
@@ -38,9 +39,9 @@
           :key="i"
         >
           <v-card outlined color="grey lighten-3">
-            <v-card-subtitle class="px-2 py-1 overline">{{
-              actionGroup.groupName
-            }}</v-card-subtitle>
+            <v-card-subtitle class="px-2 py-1 overline"
+              >{{ actionGroup.groupName }}
+            </v-card-subtitle>
             <v-list dense class="py-0">
               <v-list-item
                 v-for="(actionItem, j) in actionGroup.actionList"
@@ -87,6 +88,9 @@ export default class CFActionList extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
+
   @Prop({
     default: false,
   })
@@ -97,225 +101,240 @@ export default class CFActionList extends Vue {
   searchText: string = "";
   createCollectMSFThroughCashfreeInput: Data.Spine.CreateCollectMSFThroughCashfreeInput =
     new Data.Spine.CreateCollectMSFThroughCashfreeInput();
-  actionGroupList = [
-    {
-      groupName: "Flow",
-      actionList: [
-        // {
-        //   actionName: "Create Flow",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.CFCreateRequest",
-        // },
-        {
-          actionName: "Enrollment",
-          icon: "mdi-chevron-right",
-          command: this.createEnrollmentFlowV1,
-        },
-        {
-          actionName: "Collect First MSF",
-          icon: "mdi-chevron-right",
-          command: this.createCollectFirstMSF,
-        },
-        {
-          actionName: "OnBoarding Call",
-          icon: "mdi-chevron-right",
-          command: this.createWelcomeCall,
-        },
-        {
-          actionName: "CHPP",
-          icon: "mdi-chevron-right",
-          command: this.createCHPPFlow,
-        },
-        // {
-        //   actionName: "Nsf MSF",
-        //   icon: "mdi-chevron-right",
-        //   command: this.createNsfMSFFlow,
-        // },
-        {
-          actionName: "Monthly Followup Call",
-          icon: "mdi-chevron-right",
-          command: this.createMFC,
-        },
-        // {
-        //   actionName: "Nsf SPA",
-        //   icon: "mdi-chevron-right",
-        //   command: this.createNsfSPA,
-        // },
-        {
-          actionName: "Amendment",
-          icon: "mdi-chevron-right",
-          command: this.createAmendmentFlow,
-        },
-        {
-          actionName: "EMandate",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFCreateRequest",
-          query: { flowName: "EMandate" },
-        },
-        // {
-        //   actionName: "Settlement Plan",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.CFCreateRequest",
-        //   query: { flowName: "Settlement Plan" },
-        // },
-        {
-          actionName: "Refund Fee",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFCreateRequest",
-          query: { flowName: "Refund Fee" },
-        },
+  get actionGroupList() {
+    return [
+      {
+        groupName: "Flow",
+        condition: this.isClientFileNotHold(),
+        actionList: [
+          // {
+          //   actionName: "Create Flow",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.CFCreateRequest",
+          // },
+          {
+            actionName: "Enrollment",
+            icon: "mdi-chevron-right",
+            command: this.createEnrollmentFlowV1,
+          },
+          {
+            actionName: "Collect First MSF",
+            icon: "mdi-chevron-right",
+            command: this.createCollectFirstMSF,
+          },
+          {
+            actionName: "OnBoarding Call",
+            icon: "mdi-chevron-right",
+            command: this.createWelcomeCall,
+            condition: this.isNotSalesRepOrLead(),
+          },
+          {
+            actionName: "CHPP",
+            icon: "mdi-chevron-right",
+            command: this.createCHPPFlow,
+            condition: this.isNotSalesRepOrLead(),
+          },
+          // {
+          //   actionName: "Nsf MSF",
+          //   icon: "mdi-chevron-right",
+          //   command: this.createNsfMSFFlow,
+          // },
+          {
+            actionName: "Monthly Followup Call",
+            icon: "mdi-chevron-right",
+            command: this.createMFC,
+            condition: this.isNotSalesRepOrLead(),
+          },
+          // {
+          //   actionName: "Nsf SPA",
+          //   icon: "mdi-chevron-right",
+          //   command: this.createNsfSPA,
+          // },
+          {
+            actionName: "Amendment",
+            icon: "mdi-chevron-right",
+            command: this.createAmendmentFlow,
+            condition: this.isNotSalesRepOrLead(),
+          },
+          {
+            actionName: "EMandate",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFCreateRequest",
+            query: { flowName: "EMandate" },
+          },
+          // {
+          //   actionName: "Settlement Plan",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.CFCreateRequest",
+          //   query: { flowName: "Settlement Plan" },
+          // },
+          {
+            actionName: "Refund Fee",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFCreateRequest",
+            query: { flowName: "Refund Fee" },
+            condition: this.isNotSalesRepOrLead(),
+          },
 
-        {
-          actionName: "Refund SPA",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFCreateRequest",
-          query: { flowName: "Refund SPA" },
-        },
-        {
-          actionName: "Collect MSF Through Cashfree",
-          icon: "mdi-chevron-right",
-          command: this.createCollectMSFThroughCashfree,
-        },
-        
-      ],
-    },
-    {
-      groupName: "Communication",
-      actionList: [
-        {
-          actionName: "Send Email",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFSendEmail",
-        },
-        {
-          actionName: "Send SMS",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFSendSMS",
-        },
-        {
-          actionName: "Send Whatsapp",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFSendWhatsapp",
-        },
-      ],
-    },
-    {
-      groupName: "Assign",
-      actionList: [
-        {
-          actionName: "Assign RM (Relationship Manager)",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFAssignRM",
-        },
-        {
-          actionName: "Assign Sales Rep",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFAssignSalesRep",
-        },
-      ],
-    },
-    {
-      groupName: "Payment",
-      actionList: [
-        // {
-        //   actionName: "Record Payment",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.CFRecordPayment",
-        // },
-        // {
-        //   actionName: "Receive Payment",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.CFReceivePayment",
-        // },
-        // {
-        //   actionName: "Receive MSF",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
-        // },
-        // {
-        //   actionName: "Draft Payment",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.CFDraftPayment",
-        // },
-      ],
-    },
+          {
+            actionName: "Refund SPA",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFCreateRequest",
+            query: { flowName: "Refund SPA" },
+            condition: this.isNotSalesRepOrLead(),
+          },
+          {
+            actionName: "Collect MSF Through Cashfree",
+            icon: "mdi-chevron-right",
+            command: this.createCollectMSFThroughCashfree,
+          },
+        ],
+      },
+      {
+        groupName: "Communication",
+        actionList: [
+          {
+            actionName: "Send Email",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFSendEmail",
+          },
+          {
+            actionName: "Send SMS",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFSendSMS",
+          },
+          {
+            actionName: "Send Whatsapp",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFSendWhatsapp",
+          },
+        ],
+      },
+      {
+        groupName: "Assign",
+        condition: this.isNotSalesRepOrLead(),
+        actionList: [
+          {
+            actionName: "Assign RM (Relationship Manager)",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFAssignRM",
+          },
+          {
+            actionName: "Assign Sales Rep",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFAssignSalesRep",
+          },
+        ],
+      },
+      {
+        groupName: "Payment",
+        actionList: [
+          // {
+          //   actionName: "Record Payment",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.CFRecordPayment",
+          // },
+          // {
+          //   actionName: "Receive Payment",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.CFReceivePayment",
+          // },
+          // {
+          //   actionName: "Receive MSF",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.CFReceiveMSFPayment",
+          // },
+          // {
+          //   actionName: "Draft Payment",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.CFDraftPayment",
+          // },
+        ],
+      },
 
-    {
-      groupName: "Other Action",
-      actionList: [
-        {
-          actionName: "Mark File As Activate",
-          icon: "mdi-chevron-right",
-          command: this.activate,
-        },
-        {
-          actionName: "Mark File As Hold",
-          icon: "mdi-chevron-right",
-          command: this.hold,
-        },
-        {
-          actionName: "Mark File As Resume",
-          icon: "mdi-chevron-right",
-          command: this.resume,
-        },
-        // {
-        //   actionName: "Mark File As Request Cancel",
-        //   icon: "mdi-chevron-right",
-        //   command: this.requestCancel,
-        // },
-        // {
-        //   actionName: "Mark File As Graduate",
-        //   icon: "mdi-chevron-right",
-        //   command: this.graduate,
-        // },
-        // {
-        //   actionName: "Mark File As Cancel",
-        //   icon: "mdi-chevron-right",
-        //   command: this.cancel,
-        // },
-      ],
-    },
-    {
-      groupName: "Personal Info",
-      actionList: [
-        {
-          actionName: "Update Contact Info",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFUpdateContactInfo",
-        },
-        {
-          actionName: " Update Client Details",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFUpdateClientDetails",
-        },
-      ],
-    },
-    {
-      groupName: "Payment",
-      actionList: [
-        // {
-        //   actionName: "Record MSF Payment",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.RecordMSFPayment",
-        // },
-        // {
-        //   actionName: "Record SPA Payment",
-        //   icon: "mdi-chevron-right",
-        //   routerName: "Root.CFile.CFAction.RecordSPAPayment",
-        // },
-        {
-          actionName: "Record Settled Payment",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.CFRecordPayment",
-        },
-        {
-          actionName: "Record Emandate",
-          icon: "mdi-chevron-right",
-          routerName: "Root.CFile.CFAction.RecordEMandate",
-        },
-      ],
-    },
-  ];
+      {
+        groupName: "Other Action",
+        condition: this.isNotSalesRepOrLead(),
+        actionList: [
+          {
+            actionName: "Mark File As Activate",
+            icon: "mdi-chevron-right",
+            command: this.activate,
+            condition: this.isClientFileNotHold(),
+          },
+          {
+            actionName: "Mark File As Hold",
+            icon: "mdi-chevron-right",
+            command: this.hold,
+            condition: this.isClientFileNotHold(),
+          },
+          {
+            actionName: "Resume File",
+            icon: "mdi-chevron-right",
+            command: this.resume,
+          },
+          // {
+          //   actionName: "Mark File As Request Cancel",
+          //   icon: "mdi-chevron-right",
+          //   command: this.requestCancel,
+          // },
+          {
+            actionName: "Mark File As Graduate",
+            icon: "mdi-chevron-right",
+            command: this.graduate,
+            condition: this.isClientFileNotHold(),
+          },
+          // {
+          //   actionName: "Mark File As Cancel",
+          //   icon: "mdi-chevron-right",
+          //   command: this.cancel,
+          // },
+        ],
+      },
+      {
+        groupName: "Personal Info",
+        condition: this.isNotSalesRepOrLead(),
+        actionList: [
+          {
+            actionName: "Update Contact Info",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFUpdateContactInfo",
+          },
+          {
+            actionName: " Update Client Details",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFUpdateClientDetails",
+          },
+        ],
+      },
+      {
+        groupName: "Payment",
+        condition: this.isNotSalesRepOrLead(),
+        actionList: [
+          // {
+          //   actionName: "Record MSF Payment",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.RecordMSFPayment",
+          // },
+          // {
+          //   actionName: "Record SPA Payment",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.RecordSPAPayment",
+          // },
+          {
+            actionName: "Record Settled Payment",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.CFRecordPayment",
+          },
+          {
+            actionName: "Record Emandate",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.RecordEMandate",
+          },
+        ],
+      },
+    ];
+  }
 
   get getActionList() {
     let flattenedList: any[] = this.actionGroupList.map((actionGroup) => {
@@ -549,12 +568,15 @@ export default class CFActionList extends Vue {
 
   get filteredActionGroupList() {
     const filteredValList = this.actionGroupList
+      .filter((ag) => ag.condition == undefined || ag.condition == true)
       .map((actionGroup) => {
         let ag = { ...actionGroup };
-        ag.actionList = (ag.actionList as any).filter((action: any) =>
-          action.actionName
-            .toLowerCase()
-            .includes(this.searchText.toLowerCase())
+        ag.actionList = (ag.actionList as any).filter(
+          (action: any) =>
+            action.actionName
+              .toLowerCase()
+              .includes(this.searchText.toLowerCase()) &&
+            (action.condition == undefined || action.condition == true)
         );
         return ag;
       })
@@ -564,18 +586,38 @@ export default class CFActionList extends Vue {
 
   get actionListForAutoComplete() {
     let actionsList: any = [];
-    this.actionGroupList.map((item) => {
-      actionsList.push(...item.actionList);
-    });
+    this.actionGroupList
+      .filter((ag) => ag.condition == undefined || ag.condition == true)
+      .map((item) => {
+        actionsList.push(...item.actionList);
+      });
     const filteredValList =
       this.searchText?.length > 1
-        ? actionsList.filter((action: any) =>
-            action.actionName
-              .toLowerCase()
-              .includes(this.searchText.toLowerCase())
+        ? actionsList.filter(
+            (action: any) =>
+              action.actionName
+                .toLowerCase()
+                .includes(this.searchText.toLowerCase()) &&
+              (action.condition == undefined || action.condition == true)
           )
         : [];
     return filteredValList;
+  }
+
+  isSalesRep() {
+    return this.roleList?.includes("SalesRep");
+  }
+
+  isSalesLead() {
+    return this.roleList?.includes("SalesLead");
+  }
+
+  isClientFileNotHold() {
+    return this.clientFileBasicInfo.clientFileStatus.id !== "HOLD";
+  }
+
+  isNotSalesRepOrLead() {
+    return !(this.isSalesRep() || this.isSalesLead());
   }
 }
 </script>

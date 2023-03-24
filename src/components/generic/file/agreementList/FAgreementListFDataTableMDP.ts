@@ -7,11 +7,13 @@ import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
 import FSnackbar from "@/fsnackbar";
 import FCellLinkMDP from "../../table/cell/FCellLinkMDP";
 import FCellCopyMDP from "../../table/cell/FCellCopyMDP";
+import FCellStandardDateTimeMDP from "../../table/cell/FCellStandardDateTimeMDP";
+import FCellDateTimeMDP from "../../table/cell/FCellDateTimeMDP";
 export default class FAgreementListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any;taskRoot: any}) {
         super({myRefName:"fAgreementListFDataTableMDP", title: "Agreement List",disabled:props.taskRoot.taskStateTerminated,
-      itemKey:"ssaToken"
+      itemKey:"ssaToken",
       });
         this.parent = props.parent;
         this.addColumn({
@@ -25,7 +27,7 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
           .addColumn({
             label: "Generated On",
             dataSelectorKey: "generatedOn",
-            columnCellMDP: new FCellDateMDP()
+            columnCellMDP: new FCellDateTimeMDP()
           }).addColumn({
             label: "Signed",
             dataSelectorKey: "signed",
@@ -33,7 +35,7 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
           }).addColumn({
             label: "Signed On",
             dataSelectorKey: "signedOn",
-            columnCellMDP: new FCellDateMDP()
+            columnCellMDP: new FCellDateTimeMDP()
           }).
 
           addColumn({
@@ -46,7 +48,7 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
           })   .addAction({
             label: "Refresh",
             onClick: this.handleRefreshClick(),
-            type: ActionType.OTHERS,
+            type: ActionType.REFRESH,
             noSelect: true
           }).addAction({
             label: "Resend Mail",
@@ -66,8 +68,10 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
         })
       }
     }
+
     handleRefreshClick(){
       return () => {
+        
         return new Promise(res => {
           Action.ClientFile.GetAllSignAgreementList.execute1(this.parent.clientFileId, output => {
           });

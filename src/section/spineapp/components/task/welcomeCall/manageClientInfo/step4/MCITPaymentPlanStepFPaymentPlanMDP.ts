@@ -1,7 +1,8 @@
 
-import FCFPaymentPlanMDP from "@/components/generic/file/paymentPlan/cfPaymentPlan/FCFPaymentPlanMDP";
 
-export default class MCITPaymentPlanStepFPaymentPlanMDP extends FCFPaymentPlanMDP {
+import FCFTPaymentPlanMDP from "@/components/generic/file/paymentPlan/cfTaskPaymentPlan/FCFTPaymentPlanMDP";
+
+export default class MCITPaymentPlanStepFPaymentPlanMDP extends FCFTPaymentPlanMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
       taskRoot: taskRoot,

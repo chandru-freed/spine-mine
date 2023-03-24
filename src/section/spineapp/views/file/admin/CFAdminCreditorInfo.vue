@@ -1,7 +1,7 @@
 <template>
   <div class="CFCreditorInfo">
     <component
-      v-if="!!creditorInfo.creditorList"
+      v-if="!!creditorInfo?.creditorList"
       :ref="creditorInfoMetaData.myRefName"
       :is="creditorInfoMetaData.componentName"
       :value="selectModel(creditorInfo, creditorInfoMetaData.dataSelectorKey)"

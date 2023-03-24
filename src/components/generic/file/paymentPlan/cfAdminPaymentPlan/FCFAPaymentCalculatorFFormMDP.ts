@@ -73,7 +73,7 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
         label: "First Draft Date",
         mandatory: true,
         boundaryClass: "col-3",
-        pastDaysDisabled: true,
+        // pastDaysDisabled: true,
       })
     ).addField(
       new FNumberFieldMDP({
@@ -90,7 +90,7 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
         label: "Fee First Draft Date",
         mandatory: true,
         boundaryClass: "col-3",
-        pastDaysDisabled: true
+        // pastDaysDisabled: true
       })
     ).addField(
       new FNumberFieldMDP({
@@ -157,7 +157,7 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
   calculatePaymentSchedule() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.schedulePaymentPlan();
+        this.scheduleorDraftPaymentPlan();
       });
     };
   }
@@ -183,5 +183,31 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
         callback();
       }
     });
+  }
+
+  draftPaymentPlan() {
+    const parentComponent = this.parent.getMyRef();
+    const input: Data.Spine.DraftPSPlanForPMInput =
+    new Data.Spine.DraftPSPlanForPMInput();
+  input.clientFileId = parentComponent.clientFileId;
+  input.outstanding = parentComponent.modelValue.creditorInfo.totalDebt;
+  input.tenor = parentComponent.modelValue.paymentPlan.ppCalculator.tenor;
+  input.settlementPercentage = parentComponent.modelValue.paymentPlan.ppCalculator.settlementPercentage;
+  // input.spaFirstDraftDate = moment()
+  //   .add(2, "days")
+  //   .format(Helper.DATE_FORMAT);
+  input.spaFirstDraftDate = parentComponent.modelValue.paymentPlan.ppCalculator.firstDraftDate;
+  Action.Spine.DraftPSPlanForPM.execute(input, (output) => {
+    
+  });
+  }
+
+  scheduleorDraftPaymentPlan() {
+    const parentComponent = this.parent.getMyRef();
+    if (parentComponent.isPaymentPlanDataAvailable()) {
+      this.schedulePaymentPlan();
+    } else {
+      this.draftPaymentPlan();
+    }
   }
 }

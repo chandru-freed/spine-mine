@@ -22,6 +22,7 @@ export default class CustomFilters {
     this.toRoundedINR();
     this.toMonthDayShort();
     this.truncate();
+    this.toStdDateTime();
   }
 
   private static toUSD() {
@@ -34,10 +35,11 @@ export default class CustomFilters {
   private static toINR() {
     Vue.filter("toINR", (value: any) => {
       // return `₹ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-      return "₹" + Number(value).toLocaleString("en-IN", {
+      const val = value?Number(value).toLocaleString("en-IN", {
         maximumFractionDigits: + "0",
         minimumFractionDigits: + "0",
-      })
+      }):0;
+      return "₹" + val;
     });
   }
 
@@ -104,6 +106,12 @@ export default class CustomFilters {
         Moment(new Date(value)).fromNow() +
         " ) "
       );
+    });
+  }
+
+  private static toStdDateTime() {
+    Vue.filter("std-date-time", (value: any) => {
+      return value ? Moment(new Date(value)).format("DD-MM-YY, hh:mm A") : '--';
     });
   }
 

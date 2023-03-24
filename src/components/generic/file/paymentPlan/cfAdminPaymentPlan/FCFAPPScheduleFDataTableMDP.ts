@@ -24,7 +24,7 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
       label: "Draft Date",
       dataSelectorKey: "draftDate",
       columnCellMDP: new FCellDateMDP(),
-      hidden: true
+      // hidden: true
     })
       .addColumn({
         label: "Status Updated On",
@@ -42,14 +42,7 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
         rounded: true,
       })
       .addCurrencyColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount" })
-      .addColumn({
-        label: "Status",
-        dataSelectorKey: "status",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.PS_ENTRY_STATUS,
-          outlined: true
-        }),
-      })
+      .addPsEntryStatusColumn({dataSelectorKey: "status"})
       .addInfo({
         label: "Total",
         value: this.parent.modelValue.paymentPlan.psEntryTotalAmount,
@@ -86,6 +79,18 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
         onClick: (itemList) => this.handleModifyClick(itemList),
         type: ActionType.OTHERS,
       }).addAction({
+        label: "Modify SPA Draft Day",
+        onClick: () => this.handleSetSPADraftClick(),
+        type: ActionType.OTHERS,
+        noSelect: true
+      }).addAction({
+        label: "Change SPA Entry Draft Date",
+        onClick: this.handleChangePSPlanDraftClick(),
+        type: ActionType.OTHERS,
+        singleSelect: true
+      })
+      
+      .addAction({
         label: "Download Ps Plan Excel",
         onClick: (item) => this.handleDownloadActiveExcel(),
         type: ActionType.OTHERS,
@@ -96,6 +101,11 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
         onClick: (itemList) => this.handleUploadExcel(),
         type: ActionType.OTHERS,
         noSelect: true
+      }).addAction({
+        label: "Mark Paid",
+        onClick: (item) => this.handleMarkPaid(item),
+        type: ActionType.OTHERS,
+        singleSelect: true
       });
   }
   handlePresentClick(item: any): Promise<any> {
@@ -141,6 +151,36 @@ export default class FCFAPPScheduleFDataTableMDP extends FDataTableMDP {
   handleAddEntryClick() {
     return new Promise((resolve) => {
       this.parent.showAddPsEntryForm = true;
+    });
+  }
+
+  handleSetSPADraftClick() {
+    return new Promise((resolve) => {
+      this.parent.showSetSPADraftDate = true;
+    });
+  }
+
+  handleChangePSPlanDraftClick() {
+    return (item: any) => {
+      return new Promise(( res) => {
+        console.log(item)
+        this.parent.changePSEntryDraftDateInput.psEntryId = item.psEntryId;
+        this.parent.changePSEntryDraftDateInput.newDraftDate = item.draftDate;
+        this.parent.showChangeSPADraftDate = true;
+      });
+    }
+    // return new Promise((resolve) => {
+    //   this.parent.showChangeSPADraftDate = true;
+    // });
+  }
+
+  handleMarkPaid(item: any) {
+    return new Promise((resolve) => {
+      console.log(item.psEntryId)
+      Action.Spine.PaymentScheduleMarkPaid.execute1(item.psEntryId, output => {
+        resolve(true)
+      })
+      // this.parent.showAddPsEntryForm = true;
     });
   }
 

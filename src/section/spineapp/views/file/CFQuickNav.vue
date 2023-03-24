@@ -53,7 +53,7 @@
             <v-list-item-content class="pa-0">
               <v-list-item-title>
                 <v-btn
-                color="primary"
+                  color="primary"
                   class="px-0 text-left"
                   text
                   small
@@ -72,7 +72,6 @@
 
                   {{ cfTask.taskName }}
                 </v-btn>
-               
               </v-list-item-title>
             </v-list-item-content>
             <!-- <v-list-item-content>
@@ -190,6 +189,48 @@
         </v-card-text>
       </v-card>
     </div>
+
+    <div class="col-12">
+      <v-card outlined>
+        <v-card-text class="py-1 d-flex align-center">
+          Documents <v-spacer /><v-btn x-small @click="gotoDocumentList">
+            All
+          </v-btn>
+        </v-card-text>
+        <div class="px-4">
+          <v-select
+            :outlined="true"
+            dense
+            :hideDetails="true"
+            class="mt-2"
+            label="Document Type"
+            :items="fileOptions"
+            v-model="uploadDocumentForm.docType"
+          ></v-select>
+          <v-file-input
+            prepend-inner-icon="mdi-attachment"
+            prepend-icon=""
+            :outlined="true"
+            dense
+            :hide-details="true"
+            class="my-2"
+            label="Document File"
+            v-model="uploadDocumentForm.fileDoc"
+          />
+
+          <v-btn
+            small
+            :disabled="uploadButtonDisabled"
+            class="col-12 mb-2"
+            color="primary"
+            outlined
+            @click="getPresignedURLAndUpload()"
+            >Upload</v-btn
+          >
+        </div>
+      </v-card>
+    </div>
+
     <div class="col-12">
       <v-card outlined>
         <v-card-text class="py-1 d-flex align-center">
@@ -257,15 +298,19 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import Helper from "../../util/Helper";
-import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
+// import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 import CFActionList from "./action/CFActionList.vue";
 import FBtn from "@/components/generic/FBtn.vue";
+import FFileField from "@/components/generic/form/field/FFileField.vue";
+import axios from "axios";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
-    AmeyoToolbarDialog,
+    // AmeyoToolbarDialog,
     CFActionList,
     "f-btn": FBtn,
+    FFileField,
   },
 })
 export default class CFQuickNav extends Vue {
@@ -290,6 +335,23 @@ export default class CFQuickNav extends Vue {
   @Store.Getter.Ticket.TicketSummary.myTicketCompletedList
   myTicketCompletedList: Data.Ticket.MyTicketTaskDetailsGet;
 
+  selectedFileForUpload: any = null;
+
+  fileOptions: string[] = [
+    "Aadhaar",
+    "PAN",
+    "Credit Report",
+    "Photo",
+    "Call Recordings",
+    "CHPP",
+    "Others",
+  ];
+  uploadDocumentForm: Data.ClientFile.UploadDocumentForm =
+    new Data.ClientFile.UploadDocumentForm();
+  uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
+
+  presignedUrl: string;
+
   clientFileId = this.$route.params.clientFileId;
   selectedToggleType: any = 0;
   selectedToggleTypeTicket: any = 0;
@@ -307,10 +369,12 @@ export default class CFQuickNav extends Vue {
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
   addNote() {
     this.addNoteInput.clientFileId = this.clientFileId;
+    if (this.addNoteInput.noteMessage.trim().length>0) {
     Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
       this.addNoteInput = new Data.FiNote.AddNoteInput();
       this.getFiNoteList();
     });
+    }
   }
 
   // get fiHighlightedNoteListQuick() {
@@ -340,8 +404,7 @@ export default class CFQuickNav extends Vue {
 
   getFiNoteList() {
     setTimeout(() => {
-      Action.FiNote.GetFiNoteList.execute1(this.clientFileId, (output) => {
-      });
+      Action.FiNote.GetFiNoteList.execute1(this.clientFileId, (output) => {});
     }, 700);
   }
 
@@ -439,6 +502,10 @@ export default class CFQuickNav extends Vue {
     });
   }
 
+  gotoDocumentList() {
+    this.$router.push({ name: "Root.CFile.CFInfo.CFDocumentInfo" });
+  }
+
   createEnrollmentFlow() {
     Action.Spine.CreateEnrollment.execute2(
       this.clientFileBasicInfo.clientFileNumber,
@@ -504,6 +571,68 @@ export default class CFQuickNav extends Vue {
     Action.TaskList.PullStartAndMerge.execute1(item.taskId, (output) => {
       this.gotoTaskDetails(item);
     });
+  }
+
+  getPresignedURLAndUpload() {
+    const fileName = this.generateRandomUrl(this.uploadDocumentForm.fileDoc);
+    Action.Spine.GetFiPresignedURLForUpload.execute2(
+      this.clientFileBasicInfo.clientFileNumber,
+      fileName,
+      (output) => {
+        this.presignedUrl = output.url;
+        this.uploadedDocument.documentPath = output.docUploadedPath;
+        this.uploadFile();
+      }
+    );
+  }
+
+  async uploadFile() {
+    const options: any = {
+      headers: {
+        "Content-Type": this.uploadDocumentForm.fileDoc?.type,
+      },
+    };
+    const axiosResponse = await axios.put(
+      this.presignedUrl,
+      this.uploadDocumentForm.fileDoc,
+      options
+    );
+    this.attachAndSaveUploadedFile();
+  }
+
+  attachAndSaveUploadedFile() {
+    this.uploadedDocument.documentType = this.uploadDocumentForm.docType;
+    this.uploadedDocument.uploadedOn = new Date();
+    // this.uploadedDocument.documentDetails =
+    //   this.uploadDocumentForm.documentDetails;
+    const input = Data.Spine.AttachDocumentInput.fromJson(
+      this.uploadedDocument
+    );
+    input.documentDetails = this.uploadDocumentForm.documentDetails;
+    input.clientFileId = this.clientFileId;
+    // input.taskId = this.taskRoot.taskId;
+    Action.Spine.AttachDocument.execute(input, (output) => {
+      FSnackbar.success("Succesfully Added")
+      this.resetDownloadForms();
+    });
+  }
+
+
+  generateRandomUrl(file: File | null) {
+    if (file) {
+      const dateValue = new Date().valueOf();
+      return dateValue + file.name;
+    }
+    return "";
+  }
+
+  resetDownloadForms() {
+    this.uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
+    this.uploadedDocument = new Data.Spine.FileDocument();
+  }
+
+  get uploadButtonDisabled() {
+    return !this.uploadDocumentForm.docType || !this.uploadDocumentForm.fileDoc;
   }
 }
 </script>

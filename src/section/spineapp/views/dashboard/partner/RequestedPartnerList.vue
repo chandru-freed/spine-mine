@@ -1,13 +1,26 @@
 <template>
   <div class="ActivePartnerList">
     <task-tab></task-tab>
-    <component
-      v-if="!!requestedPLFDataTableMetaData"
-      :ref="requestedPLFDataTableMetaData.myRefName"
-      :is="requestedPLFDataTableMetaData.componentName"
-      :value="selectModel(requestedPartnerList, undefined)"
-      v-bind="requestedPLFDataTableMetaData.props"
-    ></component>
+    <v-card class="pa-0 ma-0" color="transparent">
+      <component
+        v-if="!!requestedPartnerListDateSearchFormMetaData"
+        :ref="requestedPartnerListDateSearchFormMetaData.myRefName"
+        :is="requestedPartnerListDateSearchFormMetaData.componentName"
+        :value="selectModel(getNonActivePartnerListInput, undefined)"
+        @input="
+          (newValue) =>
+            updateModel(getNonActivePartnerListInput, newValue, undefined)
+        "
+        v-bind="requestedPartnerListDateSearchFormMetaData.props"
+      ></component>
+      <component
+        v-if="!!requestedPLFDataTableMetaData"
+        :ref="requestedPLFDataTableMetaData.myRefName"
+        :is="requestedPLFDataTableMetaData.componentName"
+        :value="selectModel(requestedPartnerList, undefined)"
+        v-bind="requestedPLFDataTableMetaData.props"
+      ></component>
+    </v-card>
   </div>
 </template>
 
@@ -22,6 +35,7 @@ import * as Action from "@/../src-gen/action";
 import RequestedPartnerListFDataTableMDP from "./RequestedPartnerListFDataTableMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import DashboardTab from "@/section/spineapp/components/tab/DashboardTab.vue";
+import RequestedPartnerListDateSearchFFormMDP from "./RequestedPartnerListDateSearchFFormMDP";
 
 @Component({
   components: {
@@ -32,9 +46,11 @@ import DashboardTab from "@/section/spineapp/components/tab/DashboardTab.vue";
 })
 export default class RequestedPartnerList extends ModelVue {
   requestedPartnerList: Data.Spine.Partner[] = [];
+  getNonActivePartnerListInput: Data.Spine.GetNonActivePartnerListInput =
+    new Data.Spine.GetNonActivePartnerListInput();
 
   public mounted() {
-    this.getRequestedPartnerList();
+    this.getNonActivePartnerList();
     Action.Spine.ActivatePartner.interested(
       this.getRequestedPartnerListHandler
     );
@@ -52,14 +68,17 @@ export default class RequestedPartnerList extends ModelVue {
 
   getRequestedPartnerListHandler = () => {
     setTimeout(() => {
-      this.getRequestedPartnerList();
+      this.getNonActivePartnerList();
     }, 1000);
   };
 
-  getRequestedPartnerList() {
-    Action.Spine.GetOnboardingRequestedPartnerList.execute((output) => {
-      this.requestedPartnerList = output;
-    });
+  getNonActivePartnerList() {
+    Action.Spine.GetNonActivePartnerList.execute(
+      this.getNonActivePartnerListInput,
+      (output) => {
+        this.requestedPartnerList = output;
+      }
+    );
   }
 
   // Meta data
@@ -69,8 +88,13 @@ export default class RequestedPartnerList extends ModelVue {
       parent: this,
     }).getMetaData();
   }
+
+  get requestedPartnerListDateSearchFormMetaData(): any {
+    return new RequestedPartnerListDateSearchFFormMDP({
+      taskRoot: this,
+    }).getMetaData();
+  }
 }
 </script>
 
-<style>
-</style>
+<style></style>

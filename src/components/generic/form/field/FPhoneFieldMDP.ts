@@ -22,6 +22,7 @@ export default class FPhoneFieldMDP extends FNumberTextFieldMDP {
       mask: "##### #####",
       unmask: "##########",
       prefix: "+91",
+      rules: props.rules || "min:10"
     });
     // this.defaultValue = defaultValue;
   }

@@ -65,15 +65,44 @@ export default class PaymentOperation extends ModelVue {
     new Data.Spine.PaymentOperationFilter();
   paymentScheduleTab: number = 0;
 
-  psEntryList: Data.Spine.FiPSPlanEntryWithClientFile[] = [];
-  msfEntryList: Data.Spine.FiPSPlanFeeEntry[] = [];
+  psEntryList: Data.Spine.FiPSEntryPresentable[] = [];
+  msfEntryList: Data.Spine.FiMSFEntryPresentable[] = [];
   allPaymentList: any[] = [];
 
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
+
   mounted() {
-    this.paymentOperationFilter.scheduledDraftDate = moment().toISOString();
+    this.setPaymentOperationFilter();
     this.searchPaymentOperations();
+    Action.Spine.PresentPSEntryList.interested(
+      this.searchPaymentOperationsHandler
+    );
+    Action.Spine.PresentMSFScheduleEntryList.interested(
+      this.searchPaymentOperationsHandler
+    );
   }
+
+  destroyed() {
+    Action.Spine.PresentPSEntryList.notInterested(
+      this.searchPaymentOperationsHandler
+    );
+    Action.Spine.PresentMSFScheduleEntryList.notInterested(
+      this.searchPaymentOperationsHandler
+    );
+  }
+
+  setPaymentOperationFilter() {
+    const draftDate: any = this.$route.query.draftDate;
+    this.paymentOperationFilter.scheduledDraftDate = draftDate
+      ? moment(draftDate).toISOString()
+      : moment().toISOString();
+  }
+
+  searchPaymentOperationsHandler = () => {
+    setTimeout(() => {
+      this.searchPaymentOperations();
+    }, 1000);
+  };
 
   getAllPSEntryListScheduledOnDate() {
     Action.Spine.GetAllPSEntryListScheduledOnDate.execute(
@@ -140,18 +169,37 @@ export default class PaymentOperation extends ModelVue {
     });
   }
 
-
   openPaymentDetails(item: any) {
     if (item.paymentId) {
       this.$router.push({
         name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
         params: {
           clientFileNumber: item.clientFileNumber,
-          clientFileId:item.clientFileBasicInfo.clientFileId,
+          clientFileId: item.clientFileBasicInfo.clientFileId,
           paymentId: item.paymentId,
         },
       });
     }
+  }
+  openEMandateDetails(item: any) {
+  if (item.eMandate.eMandateId) {
+      this.$router.push({
+        name: "Root.CFile.CFPayment.CFEMandateDetails.CFEMandateDetails",
+        params: {
+          clientFileNumber: item.clientFileNumber,
+          clientFileId: item.clientFileBasicInfo.clientFileId,
+          eMandateId: item.eMandate.eMandateId,
+        },
+      });
+    }
+  }
+
+  handleSearchPaymentOperations() {
+    setTimeout(() => {
+      this.$router.push({
+        query: { draftDate: this.paymentOperationFilter.scheduledDraftDate },
+      });
+    }, 500);
   }
 }
 </script>

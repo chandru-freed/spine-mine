@@ -13,7 +13,6 @@ export default class ModelVue extends Vue {
     this.$emit("input", newModelValue);
   }
 
-
   selectModel(modelData: any, modelSelectorKey: string | undefined) {
     if(!modelSelectorKey) {
       return modelData
@@ -21,7 +20,7 @@ export default class ModelVue extends Vue {
       const arr = modelSelectorKey.split(".")
       let ret = modelData
       arr.forEach(elem => { 
-        ret = ret[elem]
+        ret = ret?ret[elem]:ret
       })
 
       return ret

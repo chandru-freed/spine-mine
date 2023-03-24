@@ -3,7 +3,6 @@
     <component
       :ref="budgetInfoFormMetaData.myRefName"
       :is="budgetInfoFormMetaData.componentName"
-      v-if="taskFormData.taskOutput.personalInfo"
       :value="selectModel(taskFormData, budgetInfoFormMetaData.dataSelectorKey)"
       v-bind="budgetInfoFormMetaData.props"
     ></component>
@@ -47,7 +46,7 @@ export default class CFAdminBudgetInfo extends ModelVue {
         clRegistrationDetails: this.clientFileBasicInfo.clientBasicInfo,
       },
       taskOutput: {
-        personalInfo: this.personalInfo,
+        personalInfo: this.personalInfo || {},
         budgetInfo: this.budgetInfoForm,
       },
     };

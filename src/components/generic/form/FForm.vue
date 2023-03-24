@@ -90,6 +90,8 @@ import FAgeField from "./field/FAgeField.vue";
 
 import FAddressMiniForm from "./field/FAddressMiniForm.vue";
 import FGenLeadSquareIdField from "./field/FGenLeadSquareIdField.vue";
+import FCityAutoCompleteField from "./field/FCityAutoCompleteField.vue";
+import FStateSelectField from "./field/FStateSelectField.vue";
 
 @Component({
   components: {
@@ -124,7 +126,9 @@ import FGenLeadSquareIdField from "./field/FGenLeadSquareIdField.vue";
     FClientLanguageSelectField,
     FAgeField,
     FAddressMiniForm,
-    FGenLeadSquareIdField
+    FGenLeadSquareIdField,
+    FCityAutoCompleteField,
+    FStateSelectField
   },
 })
 export default class FForm extends ModelVue {

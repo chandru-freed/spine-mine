@@ -166,7 +166,7 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
     
     .addAction(new FBtnMDP({
       label: "Record EMandate",
-      onClick: this.createUser()
+      onClick: this.recordEMandate()
     }))
   }
   getMyRef(): any {
@@ -179,7 +179,7 @@ export default class CFAddEmandateFFormMDP extends FFormMDP {
   }
 
 
-  createUser() {
+  recordEMandate() {
     return () => {
       this.getMyRef().submitForm(() => {
         this.parent.addEmandateInput.clientFileId = this.parent.clientFileId;

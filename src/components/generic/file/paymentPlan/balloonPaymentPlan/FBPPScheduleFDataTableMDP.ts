@@ -20,10 +20,11 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
         }).addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true }) })
             .addColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount", columnCellMDP: new FCellCurrencyMDP({rounded:true}) })
             // .addColumn({ label: "Fee Amount", dataSelectorKey: "feeAmount", columnCellMDP: new FCellCurrencyMDP({}) })
-            .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({
-                colorCodeData: Data.Color.PS_ENTRY_STATUS,
-                outlined: true
-            }) })
+            .addPsEntryStatusColumn({dataSelectorKey: "status"})
+            // .addColumn({ label: "Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({
+            //     colorCodeData: Data.Color.PS_ENTRY_STATUS,
+            //     outlined: true
+            // }) })
             .addInfo({label:"Total",value: this.parent.modelValue.taskOutput?.paymentPlan?.psEntryTotalAmount,infoMDP: new FInfoINRMDP({rounded: true})})
             .addInfo({label:"Tenure",value: this.parent.modelValue.taskOutput?.paymentPlan?.ppCalculator.tenor,})
             ;

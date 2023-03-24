@@ -1,8 +1,8 @@
 import FColumnCellMDP from '../FColumnCellMDP';
 export default class FCellListMDP implements FColumnCellMDP {
-    itemDataSelectorKey: string;
+    itemDataSelectorKey?: string;
     constructor(props: {
-        itemDataSelectorKey: string
+        itemDataSelectorKey?: string
     }) {
         this.itemDataSelectorKey = props.itemDataSelectorKey;
     }

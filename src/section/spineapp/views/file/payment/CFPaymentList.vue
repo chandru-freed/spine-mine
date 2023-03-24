@@ -1,49 +1,12 @@
 <template>
   <div class="CFPaymentList">
     <v-col class="col-12">
-      <v-card flat outlined>
-        <v-data-table
-          :headers="headers"
-          :items="fiPaymentList"
-          sort-by="draftDate"
-          class="elevation-0"
-        >
-          <template v-slot:[`item.presentedDate`]="{ item }">
-            <span class="grey--text">
-              {{ item.presentedDate | date }}
-            </span>
-          </template>
-          <template v-slot:[`item.status`]="{ item }">
-            <v-chip small outlined>{{ item.status.name }}</v-chip>
-          </template>
-
-          
-          
-          <template v-slot:[`item.totalAmount`]="{ item }">
-          
-           <v-btn
-              text
-              color="secondary"
-              @click="goto(item)"
-            >
-             {{item.totalAmount | toINR}}
-            </v-btn>
-          </template>
-          <!-- <template v-slot:[`item.accountHolderName`]="{ item }">
-            <f-btn
-              :label="item.accountHolderName"
-              text
-              color="secondary"
-            ></f-btn>
-          </template> -->
-          <template v-slot:[`item.receivedBy`]="{ item }">
-            <v-chip small class="" v-if="item.receivedBy" label>
-              <v-icon small left> mdi-account-circle-outline </v-icon>
-              {{ item.receivedBy }}
-            </v-chip>
-          </template>
-        </v-data-table>
-      </v-card>
+           <component
+          :is="cfPaymentListFDataTableMetaData.componentName"
+          :ref="cfPaymentListFDataTableMetaData.myRefName"
+          :value="fiPaymentList"
+          v-bind="cfPaymentListFDataTableMetaData.props"
+        ></component>
     </v-col>
   </div>
 </template>
@@ -56,12 +19,14 @@ import FBtn from "@/components/generic/FBtn.vue";
 import * as Data from "@/../src-gen/data";
 import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
-import smileRouter from "src-gen/smile-router";
+import CFPaymentListFDataTableMDP from './CFPaymentListFDataTableMDP';
+import FDataTable from "@/components/generic/table/FDataTable.vue";
 
 @Component({
   components: {
     FForm,
     FBtn,
+    FDataTable
   },
 })
 export default class CFPaymentList extends ModelVue {
@@ -72,19 +37,19 @@ export default class CFPaymentList extends ModelVue {
     return this.$route.params.clientFileId;
   }
 
-  headers = [
-    { text: "Payment Type", value: "paymentType.name" },
-    { text: "Amount", value: "totalAmount", align: "right" },
-    { text: "Account Holder Name", value: "accountHolderName" },
-    { text: "Payment Provider", value: "paymentProvider.name" },
-    { text: "Status", value: "status" },
-    { text: "Presented Date", value: "presentedDate" },
-    { text: "Received By", value: "receivedBy" },
-  ];
+
 
   mounted() {
     this.getFiPaymentList();
   }
+
+  //Meta Data
+
+    get cfPaymentListFDataTableMetaData() {
+      return new CFPaymentListFDataTableMDP({parent: this}).getMetaData();
+    }
+
+  //Meta Data
 
   //ACTION
   getFiPaymentList() {
@@ -94,7 +59,7 @@ export default class CFPaymentList extends ModelVue {
     );
   }
 
-  goto(item: any) {
+  openPaymentDetails(item: any) {
     this.$router.push({
       name: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
       params: {

@@ -11,6 +11,8 @@ import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 
 import * as Action from '@/../src-gen/action';
+import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 
 export default class RequestedPartnerListFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -18,13 +20,15 @@ export default class RequestedPartnerListFDataTableMDP extends FDataTableMDP {
         super({
             myRefName: "requestedPartnerListFDataTableRef",
             enableSearch: true,
-            title: "Requested Partners",
-            itemKey: "partnerId"
+            title: "Pending Activation Partners",
+            itemKey: "partnerId",
+            enableShowHideColumns: true,
+            enableSerialNumber: true
         });
         this.parent = props.parent;
-        this
+        this 
             .addColumn({
-                label: "Full Name",
+                label: "PARTNER NAME",
                 dataSelectorKey: "fullname",
                 columnCellMDP: new FCellBtnMDP({
                     onClick: () => { },
@@ -32,40 +36,44 @@ export default class RequestedPartnerListFDataTableMDP extends FDataTableMDP {
                 })
             })
             .addColumn({
-                label: "Unique Referral Code",
-                dataSelectorKey: "uniqueReferralCode",
-                columnCellMDP: new FCellCopyMDP({}),
-                width: "15%"
-            })
-            .addColumn({
-                label: "Mobile",
-                dataSelectorKey: "mobile",
-                columnCellMDP: new FCellPhoneMDP()
-            })
-            .addColumn({
-                label: "EmailId",
+                label: "EMAIL",
                 dataSelectorKey: "emailId",
                 columnCellMDP: new FCellEmailMDP()
             })
             .addColumn({
+                label: "PHONE",
+                dataSelectorKey: "mobile",
+                columnCellMDP: new FCellPhoneMDP()
+            }).addColumn({
+                label: "Registered On",
+                dataSelectorKey: "registeredOn",
+                columnCellMDP: new FCellDateTimeMDP()
+            })
+           
+            .addStatusColumn({
                 label: "Status",
                 dataSelectorKey: "status.name",
-                columnCellMDP: new FCellStatusMDP({ outlined: true,colorCodeData:Data.Color.PARTNER_STATUS }),
-            })
-            .addCurrencyColumn({
-                label: "Total Earnings",
-                dataSelectorKey: "totalEarnings",
-
-            }).addCurrencyColumn({
-                label: "Current Earnings",
-                dataSelectorKey: "currentEarnings",
+                outlined: true,
+                colorCodeData:Data.Color.PARTNER_STATUS,
+                filterItemList: Data.Spine.PARTNER_STATUS.list()
 
             })
 
-            .addNumberColumn({
-                label: "Onboarded Files Count",
-                dataSelectorKey: "onboardedFilesCount",
-            })
+            // .addNumberColumn({
+            //     label: "Active Clients",
+            //     dataSelectorKey: "onboardedFilesCount",
+            // })
+            // .addCurrencyColumn({
+            //     label: "Total Earnings",
+            //     dataSelectorKey: "totalEarnings",
+            //     hidden: true
+
+            // }).addCurrencyColumn({
+            //     label: "Current Earnings",
+            //     dataSelectorKey: "currentEarnings",
+            //     hidden: true
+
+            // })
             .addAction({
                 label: "Activate",
                 onClick: this.handleActivation(),

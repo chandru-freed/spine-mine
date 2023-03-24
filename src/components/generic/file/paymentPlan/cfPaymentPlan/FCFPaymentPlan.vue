@@ -40,11 +40,8 @@
 
     <v-card flat outlined class="row ma-2">
       <v-toolbar>
-        <v-tabs v-model="tab" background-color="transparent" color="secondary">
-          <v-tab> Payment Schedule </v-tab>
-          <v-tab v-if="!hideMSFTab"> MSF Schedule </v-tab>
-        </v-tabs>
-        <div class="d-flex col-7 align-center justify-end">
+        <CFPaymentPlanFTab />
+        <div class="d-flex col align-center justify-end">
           <span class="mx-3">
             <span class="mx-2">Ps Plan Status: </span>
             <v-chip small>{{ modelValue.paymentPlan.psPlanStatus }}</v-chip>
@@ -52,80 +49,50 @@
         </div>
       </v-toolbar>
 
-      <v-tabs-items v-model="tab" class="col-12">
-        <v-tab-item>
-          <v-card flat>
-            <component
-              v-if="showAddPsEntryForm"
-              :is="addPsEntryFFormMetaData.componentName"
-              :ref="addPsEntryFFormMetaData.myRefName"
-              :value="
-                selectModel(
-                  addPsEntryInput,
-                  addPsEntryFFormMetaData.dataSelectorKey
-                )
-              "
-              @input="
-                (newValue) =>
-                  updateModel(
-                    addPsEntryInput,
-                    newValue,
-                    addPsEntryFFormMetaData.dataSelectorKey
-                  )
-              "
-              v-bind="addPsEntryFFormMetaData.props"
-            ></component>
+      <v-card flat class="col-12">
+        <component
+          v-if="showAddPsEntryForm"
+          :is="addPsEntryFFormMetaData.componentName"
+          :ref="addPsEntryFFormMetaData.myRefName"
+          :value="
+            selectModel(
+              addPsEntryInput,
+              addPsEntryFFormMetaData.dataSelectorKey
+            )
+          "
+          @input="
+            (newValue) =>
+              updateModel(
+                addPsEntryInput,
+                newValue,
+                addPsEntryFFormMetaData.dataSelectorKey
+              )
+          "
+          v-bind="addPsEntryFFormMetaData.props"
+        ></component>
 
-            <component
-              :is="fPaymentScheduleFDataTableMetaData.componentName"
-              :ref="fPaymentScheduleFDataTableMetaData.myRefName"
-              :value="psEntrySchelduledList"
-              v-bind="fPaymentScheduleFDataTableMetaData.props"
-            ></component>
-          </v-card>
-          <v-divider></v-divider>
-          <v-card flat class="mt-5">
-            <component
-              :is="fcfPaymentTableMetaData.componentName"
-              :ref="fcfPaymentTableMetaData.myRefName"
-              :value="fiPaymentSPAList"
-              v-bind="fcfPaymentTableMetaData.props"
-            ></component>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card flat>
-            <component
-              :is="fFeeFDataTableMetaData.componentName"
-              :ref="fFeeFDataTableMetaData.myRefName"
-              :value="subscriptionFeeScheduleList"
-              v-bind="fFeeFDataTableMetaData.props"
-            ></component>
-          </v-card>
-          <v-divider></v-divider>
-          <v-card flat class="mt-5">
-            <component
-              :is="fcfPaymentTableMetaData.componentName"
-              :ref="fcfPaymentTableMetaData.myRefName"
-              :value="fiPaymentMSFList"
-              v-bind="fcfPaymentTableMetaData.props"
-            ></component>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
+        <component
+          :is="fPaymentScheduleFDataTableMetaData.componentName"
+          :ref="fPaymentScheduleFDataTableMetaData.myRefName"
+          :value="psEntrySchelduledList"
+          v-bind="fPaymentScheduleFDataTableMetaData.props"
+        ></component>
+
+        <component
+          :is="fcfPaymentTableMetaData.componentName"
+          :ref="fcfPaymentTableMetaData.myRefName"
+          :value="fiPaymentSPAList"
+          v-bind="fcfPaymentTableMetaData.props"
+          class="mt-5"
+        ></component>
+      </v-card>
+      <v-divider></v-divider>
+      <v-card flat class="mt-5"> </v-card>
     </v-card>
 
     <div
       v-if="!disabled"
-      class="
-        d-flex
-        flex-row
-        align-start
-        flex-wrap
-        justify-space-around
-        pa-2
-        my-5
-      "
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
     >
       <div
         :class="actionMetaData.boundaryClass"
@@ -157,6 +124,7 @@ import FCFFeeFDataTableMDP from "./FCFFeeFDataTableMDP";
 import AddCFPsEntryFFormMDP from "./AddCFPsEntryFFormMDP";
 import FCFPaymentFDataTableMDP from "./FCFPaymentFDataTableMDP";
 import Helper from "@/section/spineapp/util/Helper";
+import CFPaymentPlanFTab from "@/section/spineapp/components/tab/CFPaymentPlanFTab.vue";
 
 @Component({
   components: {
@@ -164,6 +132,7 @@ import Helper from "@/section/spineapp/util/Helper";
     FBtn,
     FDataTable,
     TMOStimulator,
+    CFPaymentPlanFTab,
   },
 })
 export default class FCFPaymentPlan extends ModelVue {
@@ -279,7 +248,8 @@ export default class FCFPaymentPlan extends ModelVue {
   }
 
   createCollectMSFThroughCashfree(selectedMSFRow: any) {
-    this.createCollectMSFThroughCashfreeInput.msfScheduledEntryId = selectedMSFRow.msfEntryId;
+    this.createCollectMSFThroughCashfreeInput.msfScheduledEntryId =
+      selectedMSFRow.msfEntryId;
     this.createCollectMSFThroughCashfreeInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
     Action.Spine.CreateCollectMSFThroughCashfree.execute(
@@ -302,7 +272,9 @@ export default class FCFPaymentPlan extends ModelVue {
   get fiPaymentSPAList() {
     return this.getFiPaymentListLocal.filter(
       (psEntry: any) =>
-        psEntry.spaAmount + psEntry.feeAmount > psEntry.msfAmount
+        {
+          return psEntry.spaAmount > 0 ||  psEntry.feeAmount > 0
+        }
     );
   }
   get fiPaymentMSFList() {

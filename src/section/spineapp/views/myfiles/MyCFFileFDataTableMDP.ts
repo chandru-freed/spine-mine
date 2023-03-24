@@ -8,6 +8,8 @@ import FDataTableMDP, {
 } from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
 import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
+import FCellCopyMDP from "@/components/generic/table/cell/FCellCopyMDP";
+import FCellRouterLinkMDP from "@/components/generic/table/cell/FCellRouterLinkMDP";
 
 export default class MyCFFileFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -18,45 +20,26 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
       title: "My Client files",
     });
     this.parent = props.parent;
-    this.addColumn({
+    this.addClientFileNumberColumn({
       label: "Client File Number",
       dataSelectorKey: "clientFileNumber",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-file-account",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
     })
-      .addColumn({
-        label: "Client File Status",
-        dataSelectorKey: "clientFileStatus.name",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.CLIENT_FILE_STATUS,
-          outlined: true,
-        }),
-      })
-      .addColumn({
+      .addClientFileStatusColumn({dataSelectorKey: "clientFileStatus.name",})
+      .addClientNameColumn({
         label: "Client Name",
         dataSelectorKey: "fullName",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
       })
       .addColumn({
         label: "Mobile",
         dataSelectorKey: "mobile",
         columnCellMDP: new FCellPhoneMDP(),
+        // enableCopy: true
       })
       .addColumn({
         label: "E-mail",
         dataSelectorKey: "emailId",
         columnCellMDP: new FCellEmailMDP(),
+        // enableCopy: true
       })
       .addColumn({
         label: "Created On",
@@ -86,10 +69,6 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
         onClick: (item) => this.addMyClientFile(item),
       })
       .addFilter({
-        dataSelectorKey: "clientFileStatus.name",
-        filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
-        label: "Client file Status",
-      }).addFilter({
         dataSelectorKey: "eMandateActive",
         // filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),
         label: "EMandate Active",

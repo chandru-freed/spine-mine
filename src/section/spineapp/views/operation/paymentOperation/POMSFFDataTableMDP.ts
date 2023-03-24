@@ -4,23 +4,17 @@ import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
 import * as Data from "@/../src-gen/data";
+import * as Action from "@/../src-gen/action";
 
 export default class POMSFFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ title: "MSF Payment Schedule", myRefName: "fFeeFDataTableMDP", enableExport: true });
+        super({
+            title: "MSF Payment Schedule", myRefName: "fFeeFDataTableMDP", enableExport: true, itemKey: "msfEntryId", multiSelect: true,
+            groupBySummaryFunction: (itemList) => this.calculateTotalAmount(itemList)
+        });
         this.parent = parent;
-        this.addColumn({
-            label: "ClientFile Number",
-            dataSelectorKey: "clientFileBasicInfo.clientFileNumber",
-            columnCellMDP: new FCellBtnMDP({
-                color: "secondary",
-                icon: "mdi-file-account",
-                onClick: (item) => {
-                    this.handleClientFileClick(item);
-                },
-            }),
-        })
+        this.addClientFileNumberColumn({ dataSelectorKey: "clientFileBasicInfo.clientFileNumber", })
             .addColumn({
                 label: "Mobile Number",
                 dataSelectorKey: "clientBasicInfo.mobile",
@@ -30,18 +24,44 @@ export default class POMSFFDataTableMDP extends FDataTableMDP {
                         this.handleClientClick(item);
                     },
                 }),
+                hidden: true
             }).addColumn({
                 label: "Draft Date",
                 dataSelectorKey: "draftDate",
                 columnCellMDP: new FCellDateMDP(),
-            }).addColumn({ label: "Fee Code", dataSelectorKey: "feeCode" })
-            .addColumn({ label: "Amount", dataSelectorKey: "amount", columnCellMDP: new FCellCurrencyMDP({}) })
-            // .addColumn({ label: "Tax Amount", dataSelectorKey: "taxAmount", columnCellMDP: new FCellCurrencyMDP({}) })
-            // .addColumn({ label: "Total Amount", dataSelectorKey: "totalAmount", columnCellMDP: new FCellStatusMDP({}) })
-            .addColumn({ label: "Payment Status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({
-                colorCodeData: Data.Color.PS_ENTRY_STATUS,
-                outlined: true
-            }) });
+            }).addColumn({ label: "Fee Code", dataSelectorKey: "feeCode", hidden: true })
+            .addPsEntryStatusColumn({ dataSelectorKey: "status.name" })
+            .addPaymentStatusColumn({ dataSelectorKey: "paymentStatus.name", })
+            .addPsPlanStatusColumn({ dataSelectorKey: "psPlanStatus.name", })
+            .addCurrencyColumn({
+                label: "MSF Amount",
+                dataSelectorKey: "msfAmount"
+            })
+            .addCurrencyColumn({ label: "Total Amount", dataSelectorKey: "totalAmount" })
+            .addPaymentProviderColumn({ dataSelectorKey: "paymentProvider.name", hidden: true })
+            .addColumn({ label: "UMRN", dataSelectorKey: "umrn", hidden: true })
+            .addColumn({
+                label: "Remote EMandate Id", dataSelectorKey: "remoteEMandateId", hidden: true,
+                columnCellMDP: new FCellBtnMDP({
+                    onClick: (item) => this.parent.openEMandateDetails(item),
+                    color: "primary"
+                }),
+            })
+            .addEMandateStatusColumn({ dataSelectorKey: "eMandateStatus.name", })
+            .addColumn({ label: "Account Number", dataSelectorKey: "accountNumber", hidden: true })
+            .addColumn({ label: "Account Holder Name", dataSelectorKey: "accountHolderName", hidden: true })
+            .addCurrencyColumn({ label: "EMandate Approved Amount", dataSelectorKey: "eMandateApprovedAmount", hidden: true })
+            .addStatusColumn({
+                dataSelectorKey: "presentableState",
+                label: "Presentable State",
+                filterItemList: Data.Spine.PRESENTABLE_STATE.list()
+            })
+            .addAction({
+                label: "Present",
+                onClick: this.handlePresentClick(),
+                type: ActionType.OTHERS,
+                confirmation: true,
+            });
     }
 
     handleClientFileClick(item: any) {
@@ -50,5 +70,26 @@ export default class POMSFFDataTableMDP extends FDataTableMDP {
 
     handleClientClick(item: any) {
         this.parent.gotoClient(item.clientBasicInfo.clientId);
+    }
+
+    handlePresentClick() {
+        return (itemList: any[]) => {
+            return new Promise(res => {
+                const msfEntryIdList: string[] = itemList.map(item => item.msfEntryId)
+                Action.Spine.PresentMSFScheduleEntryList.execute1(msfEntryIdList, output => {
+                    res(true)
+                });
+            })
+        }
+    }
+
+
+    calculateTotalAmount(itemList: any) {
+        const totalAmount = itemList.reduce((acc: number, item: any) => {
+            const val = typeof (item['totalAmount']) == 'number' ? item['totalAmount'] : 0;
+            acc = acc + val;
+            return acc
+        }, 0)
+        return 'Total Amount: ' + totalAmount;
     }
 }

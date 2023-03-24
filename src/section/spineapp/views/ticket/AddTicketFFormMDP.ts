@@ -31,12 +31,12 @@ export default class AddTicketFFormMDP extends FFormMDP {
             label: "Description",
             parentMDP: new FFormChildMDP(),
         })).addField(new FRemoteAutoCompleteFieldMDP({
-            dataSelectorKey: "clientFileNumber",
-            label: "Client File Number",
+            dataSelectorKey: "clientFileId",
+            label: "Client File",
             parentMDP: new FFormChildMDP(),
             queryUrl: "/spineapi/clientfile/search-client-file?clientFileNumberContains=",
             itemText: "clientFileNumber",
-            itemValue: "clientFileNumber",
+            itemValue: "clientFileId",
             boundaryClass:"col-4",
         }))
         .addField(new FGompaUserRemoteAutoCompleteFieldMDP({

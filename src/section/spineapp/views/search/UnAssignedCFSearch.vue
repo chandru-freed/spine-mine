@@ -58,6 +58,9 @@ export default class UnAssignedCFSearch
   @Store.Getter.ClientFile.ClientFileSearchStore.searchResultList
   searchResultList: Data.ClientFile.SearchClientFileOutput;
 
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
+
   assignRMInputList: Data.ClientFile.AssignRMInput[] = [];
   showAssignRMFForm: boolean = false;
   searchClientFileInput: Data.ClientFile.SearchClientFileInput =
@@ -93,13 +96,12 @@ export default class UnAssignedCFSearch
   }
 
   searchClientFile() {
-    this.searchClientFileInput.clientFileStatus =
-      Data.ClientFile.CLIENT_FILE_STATUS.ENROLLED.name;
+    // this.searchClientFileInput.clientFileStatus =
+    //   Data.ClientFile.CLIENT_FILE_STATUS.ENROLLED.name;
     this.searchClientFileInput.rmNotAssigned = true;
     Action.ClientFile.SearchClientFile.execute(
       this.searchClientFileInput,
-      (output) => {
-      }
+      (output) => {}
     );
   }
 
@@ -141,7 +143,7 @@ export default class UnAssignedCFSearch
   }
 
   hideAssignRMFForm() {
-      this.showAssignRMFForm = false;
+    this.showAssignRMFForm = false;
   }
 
   gotoClient(clientId: string) {
@@ -149,6 +151,12 @@ export default class UnAssignedCFSearch
       name: "Root.Client.ClientDetails",
       params: { clientId: clientId },
     });
+  }
+  get isSalesLead() {
+    return this.roleList.includes("SalesLead");
+  }
+  get isSalesRep() {
+    return this.roleList.includes("SalesRep");
   }
 }
 </script>

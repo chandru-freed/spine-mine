@@ -14,7 +14,6 @@
       v-if="showDeleteConfirmation == true"
       color="red"
     />
-
     <v-data-table
       :value="selectedItemList"
       @input="handleSelectChange"
@@ -31,6 +30,9 @@
       :expanded.sync="expanded"
       :show-expand="!!expansionComponent"
       :hide-default-footer="hideDefaultFooter"
+      :disable-pagination="!enablePagination"
+      :loading="loading"
+      :group-by="groupBy.value"
     >
       <template
         v-if="
@@ -40,12 +42,12 @@
           infoMetaDataList.length > 0
         "
         v-slot:top
-      > 
+      >
         <v-toolbar class="mx-1 py-0 ma-0" flat>
-          <slot name="top-action"></slot>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
-
           <v-divider v-if="title" vertical class="mx-3" inset />
+          <slot name="top-action"></slot>
+          
           <div
             v-for="(info, index) in infoMetaDataList"
             :key="info.label + index"
@@ -83,8 +85,9 @@
                   link
                   :disabled="isActionDisabled(action)"
                   @click="() => handleOtherActionClick(action)"
+                  dense
                 >
-                  <v-list-item-title>{{ action.label }}</v-list-item-title>
+                  <div class="text-caption">{{ action.label }}</div>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -106,8 +109,17 @@
             </v-btn>
           </div>
 
+          <v-btn
+            icon
+            v-if="refreshBtnData"
+            @click="refreshBtnData.onClick"
+            :disabled="disabled || refreshBtnData.disabled"
+            class="ml-2"
+          >
+            <v-icon color="primary">mdi-refresh</v-icon>
+          </v-btn>
           <f-add-btn
-            class="ml-3"
+            class="ml-2"
             v-if="addBtnData"
             outlined
             :label="addBtnData.label"
@@ -129,57 +141,130 @@
             style="width: 180px"
           ></v-text-field>
 
-          <v-btn
-            v-if="enableExport"
-            icon
-            color="primary"
-            toas="Export as csv"
-            @click="exportAsCsv"
+          <v-menu
+            v-model="showMoreActionsMenu"
+            :close-on-content-click="false"
+            location="bottom"
+            :offset-y="true"
+            left
+            top
           >
-            <v-icon>mdi-file-excel-outline</v-icon>
-          </v-btn>
+            <template v-slot:activator="{ on, props }">
+              <v-btn
+                class="ml-1"
+                color="primary"
+                v-bind="props"
+                icon
+                small
+                v-on="on"
+              >
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
 
-          <!-- Show and Hide Headers -->
-          <div v-if="enableShowHideColumns">
-            <v-menu z-index="99999" offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ on }">
-                <v-icon class="mx-2" color="primary" v-on="on">
-                  mdi-flip-horizontal
-                </v-icon>
-              </template>
-              <v-card max-height="400px">
-                <v-list dense>
-                  <v-list-item v-for="(item, index) in columnList" :key="index">
-                    <!-- <v-list-tile-action> -->
-                    <v-checkbox
-                      v-model="selectedColumnListToView"
-                      :value="item"
-                      :label="item.text"
-                      :hide-details="true"
-                    ></v-checkbox>
-                    <!-- </v-list-tile-action> -->
-                  </v-list-item>
-                </v-list>
-              </v-card>
-            </v-menu>
-          </div>
-          <!-- Show and Hide Headers -->
+            <v-card min-width="180">
+              <v-toolbar>
+                <v-btn
+                  v-if="enableExport"
+                  icon
+                  small
+                  class="mx-2"
+                  color="primary"
+                  toas="Export as csv"
+                  @click="exportAsCsv"
+                >
+                  <v-icon size="20">mdi-file-excel-outline</v-icon>
+                </v-btn>
 
-          <v-btn
-            v-if="columnFilterList.length > 0"
-            icon
-            @click="filterButtonPressed()"
-            color="primary"
-          >
-            <v-icon>
-              {{ showFilterForm ? "mdi-filter" : "mdi-filter-outline" }}
-            </v-icon>
-          </v-btn>
-          
+                <!-- Show and Hide Headers -->
+                <div v-if="enableShowHideColumns">
+                  <v-menu
+                    z-index="99999"
+                    :offset-y="true"
+                    bottom
+                    :close-on-content-click="false"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-btn v-on="on" icon class="mx-2" small>
+                        <v-icon class="mx-2" color="primary" size="20">
+                          mdi-flip-horizontal
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card max-height="400px">
+                      <v-list dense>
+                        <v-list-item
+                          v-for="(item, index) in columnList"
+                          :key="index"
+                        >
+                          <v-checkbox
+                            v-model="selectedColumnListToView"
+                            :value="item"
+                            :label="item.text"
+                            :hide-details="true"
+                            dense
+                          >
+                            <template v-slot:label>
+                              <span class="text-caption">
+                              {{item.text}}
+                              </span>
+                            </template>
+                          </v-checkbox>
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-menu>
+                </div>
+                <!-- Show and Hide Headers -->
+
+                <!-- Group By Headers -->
+                <div v-if="groupByList.length > 0">
+                  <v-menu z-index="99999" offset-y>
+                    <template v-slot:activator="{ on }">
+                      <v-btn class="mx-2" v-on="on" icon small>
+                        <v-icon color="primary" size="20">
+                          mdi-format-list-group
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card max-height="400px">
+                      <v-list dense>
+                        <v-list-item
+                          v-for="(item, index) in groupByList"
+                          :key="index"
+                          @click="handleGroupBySelect(item)"
+                          class="text-caption"
+                        >
+                          {{ item.text }}
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-menu>
+                </div>
+                <!-- Group By Headers -->
+
+                <v-btn
+                  v-if="columnFilterList.length > 0"
+                  icon
+                  @click="filterButtonPressed()"
+                  color="primary"
+                  small
+                  class="mx-2"
+                >
+                  <v-icon size="20">
+                    {{ showFilterForm ? "mdi-filter" : "mdi-filter-outline" }}
+                  </v-icon>
+                </v-btn>
+              </v-toolbar>
+            </v-card>
+          </v-menu>
         </v-toolbar>
 
         <!-- Filters -->
         <v-toolbar flat class="align-right" v-if="showFilterForm">
+          <v-chip small outlined label color="primary"
+            >Total Filtered: {{ tableData().length }}</v-chip
+          >
           <v-spacer />
           <div
             v-for="(filter, index) in columnFilterList"
@@ -190,6 +275,7 @@
                 v-if="columnFilterListWithValues.length > 0"
                 outlined
                 dense
+                small-chips
                 hide-details
                 multiple
                 :items="filter.filterItems"
@@ -212,6 +298,12 @@
             </div>
           </div>
 
+          <v-btn class="ml-3" small icon @click="filterButtonPressed()">
+            <v-icon small>
+              mdi-close-circle
+            </v-icon>
+          </v-btn>
+
           <!-- <v-btn class="mx-2" outlined @click="clearTableFilter()"
             >Clear Filter</v-btn
           > -->
@@ -219,7 +311,24 @@
 
         <!-- Filters -->
       </template>
+      <template
+        v-slot:[`group.header`]="{ group, headers, toggle, isOpen, items }"
+      >
+        <td v-if="groupBy !== null" :colspan="headers.length">
+          <v-btn small @click="toggle" x-small icon :ref="group">
+            <v-icon small v-if="isOpen">mdi-minus</v-icon>
+            <v-icon small v-else>mdi-plus</v-icon>
+          </v-btn>
+          <span class="mx-5  text-caption"
+            >{{ groupBy.label }} ( {{ items.length }} ) : {{ group }}</span
+          >
 
+          <span class="mx-3 text-caption" v-if="groupBySummaryFunction"
+            ><strong>{{ groupBySummaryFunction(items) }}</strong></span
+          >
+          <v-btn small icon @click="resetGroupBy"><v-icon small>mdi-close</v-icon></v-btn>
+        </td>
+      </template>
       <template
         v-for="header in columnList"
         v-slot:[`item.${header.value}`]="{ item }"
@@ -232,9 +341,17 @@
             v-bind="header.columnCellMetaData.props"
             :dataSelectorKey="header.value"
           ></component>
+          <f-copy
+            v-if="header.enableCopy"
+            :value="selectModel(item, header.value)"
+          >
+          </f-copy>
         </slot>
       </template>
 
+      <template v-slot:[`item.siNo`]="{ index }">
+        {{ index + 1 }}
+      </template>
       <template v-slot:[`item.actions`]="{ item, index }">
         <div class="d-flex">
           <v-btn
@@ -320,6 +437,13 @@ import FCellBlank from "./cell/FCellBlank.vue";
 import FCellBooleanList from "./cell/FCellBooleanList.vue";
 import FCellList from "./cell/FCellList.vue";
 import FCellCopy from "./cell/FCellCopy.vue";
+import FCellStandardDateTime from "./cell/FCellStandardDateTime.vue";
+import FCellAmountPaymentList from "./cell/FCellAmountPaymentList.vue";
+import FHoverCopy from "../FHoverCopy.vue";
+import FForm from "../form/FForm.vue";
+import FExpansionFDataTable from "./expansion/FExpansionFDataTable.vue";
+import FCopy from "../FCopyBtn.vue";
+import FCellRouterLink from "./cell/FCellRouterLink.vue";
 
 @Component({
   components: {
@@ -353,7 +477,14 @@ import FCellCopy from "./cell/FCellCopy.vue";
     FCellBlank,
     FCellBooleanList,
     FCellList,
-    FCellCopy
+    FCellCopy,
+    FCellStandardDateTime,
+    FCellAmountPaymentList,
+    FHoverCopy,
+    FForm,
+    FExpansionFDataTable,
+    FCopy,
+    FCellRouterLink,
   },
 })
 export default class FDataTable extends ModelVue {
@@ -389,6 +520,9 @@ export default class FDataTable extends ModelVue {
   })
   infoMetaDataList: any[];
 
+  @Prop()
+  groupBySummaryFunction: (itemList: any) => any;
+
   @Prop({
     default: false,
   })
@@ -410,6 +544,11 @@ export default class FDataTable extends ModelVue {
   hideDefaultFooter: boolean;
 
   @Prop({
+    default: false,
+  })
+  loading: boolean;
+
+  @Prop({
     default: null,
   })
   title: string;
@@ -427,10 +566,21 @@ export default class FDataTable extends ModelVue {
   @Prop()
   expansionComponent: any;
 
+  @Prop()
+  enableSerialNumber: any;
+
+  @Prop()
+  enablePagination: boolean;
+
   expanded: any = [];
+  groupBy: any = {
+    label: null,
+    value: null,
+  };
 
   search = "";
   showConfirmation: boolean = false;
+  showMoreActionsMenu: boolean = false;
   showDeleteConfirmation: boolean = false;
   selectedItemList: any[] = [];
   selectedItemForDelete: any;
@@ -516,7 +666,6 @@ export default class FDataTable extends ModelVue {
     this.infoBtnData.onClick(item, index);
   }
 
-
   get deleteBtnData(): FTableActionField {
     return this.actions.find((item) => item.type === ActionType.DELETE);
   }
@@ -533,6 +682,10 @@ export default class FDataTable extends ModelVue {
     return this.actions.find((item) => item.type === ActionType.ADD);
   }
 
+  get refreshBtnData() {
+    return this.actions.find((item) => item.type === ActionType.REFRESH);
+  }
+
   get filteredHeaders() {
     let headers = [...this.columnList];
     headers = headers.filter((item) => {
@@ -547,7 +700,16 @@ export default class FDataTable extends ModelVue {
       headers.push({ text: "", value: "data-table-expand", width: "3%" });
     }
 
+    if (this.enableSerialNumber) {
+      headers.unshift({ text: "Si No", value: "siNo", align: "left" });
+    }
+
     return headers;
+  }
+
+  get groupByList() {
+    let headerList = [...this.columnList];
+    return headerList.filter((header) => header.enableGroupBy);
   }
 
   get filteredActions() {
@@ -559,7 +721,8 @@ export default class FDataTable extends ModelVue {
       (item) => item.type === ActionType.OTHERS
     );
     return (
-      otherActions.filter((item) => !item.disabled&&!item.noSelect).length > 0 && !this.disabled
+      otherActions.filter((item) => !item.disabled && !item.noSelect).length >
+        0 && !this.disabled
     );
   }
 
@@ -617,22 +780,29 @@ export default class FDataTable extends ModelVue {
 
   applyTableFilter() {
     let filteredDataList = [...this.value];
-    this.columnFilterListWithValues.forEach((columnFilter) => {
+    console.log(this.columnFilterListWithValues);
+    for (let columnFilter of this.columnFilterListWithValues) {
+      // this.columnFilterListWithValues.forEach((columnFilter) => {
       filteredDataList = filteredDataList.filter((filteredData: any) => {
         if (columnFilter.booleanFilter === true) {
           return (
+            columnFilter.value == undefined ||
             columnFilter.value ===
-            this.selectModel(filteredData, columnFilter.dataSelectorKey)
+              this.selectModel(filteredData, columnFilter.dataSelectorKey)
           );
         } else if (columnFilter.value.length > 0) {
-          return columnFilter.value.includes(
-            this.selectModel(filteredData, columnFilter.dataSelectorKey)
+          return (
+            columnFilter.value == undefined ||
+            columnFilter.value.includes(
+              this.selectModel(filteredData, columnFilter.dataSelectorKey)
+            )
           );
         } else {
           return true;
         }
       });
-    });
+    }
+    // });
     this.filteredTableData = this.selectModel(
       filteredDataList,
       this.dataSelectorKey
@@ -666,6 +836,17 @@ export default class FDataTable extends ModelVue {
       ? this.filteredTableData
       : this.selectModel(this.modelValue, this.dataSelectorKey);
   }
+
+  handleGroupBySelect(item: any) {
+    this.groupBy.value = item.value;
+    this.groupBy.label = item.text;
+  }
+  resetGroupBy(item: any) {
+    this.groupBy = {
+      label: null,
+      value: null,
+    };
+  }
 }
 
 export enum ActionType {
@@ -673,6 +854,7 @@ export enum ActionType {
   DELETE = "DELETE",
   EDIT = "EDIT",
   OTHERS = "OTHERS",
-  INFO="INFO"
+  INFO = "INFO",
+  REFRESH = "REFRESH",
 }
 </script>

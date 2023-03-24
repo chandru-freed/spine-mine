@@ -1,10 +1,10 @@
 <template>
-  <v-btn text :color="color" @click="onClick(modelValue)">
+  <a text :class="`${color}--text`" @click="onClick(modelValue)">
     <v-icon :color="color" v-if="icon" dense small class="mr-1"> {{icon}} </v-icon>
     <span class="overline">
     {{ selectModel(modelValue, dataSelectorKey) }}
     </span>
-  </v-btn>
+  </a>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";

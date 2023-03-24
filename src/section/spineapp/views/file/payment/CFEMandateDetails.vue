@@ -1,61 +1,78 @@
 <template>
   <div class="CFEMandateDetails">
-    <h1>CFEMandateDetails</h1>
-    <h2>Counter: {{counter}}</h2>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <h3> Computed (Double) : {{computedCounter}}</h3>
-    <h3> Watching Old Value: {{oldCounterValue}}</h3>
-    <h3> Watching New Value: {{newCounterValue}}</h3>
+    <v-card outlined>
+      <v-card-title>EMandate Details</v-card-title>
+      <component
+        :ref="eMandateDetailsFFormMetaData.myRefName"
+        :is="eMandateDetailsFFormMetaData.componentName"
+        :value="selectModel(eMandateDetals, undefined)"
+        v-bind="eMandateDetailsFFormMetaData.props"
+      ></component>
+    </v-card>
   </div>
-
 </template>
 
 <script lang="ts">
-
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-// import store, * as Store from '@/../src-gen/store';
-// import * as Data from '@/../src-gen/data';
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import store, * as Store from "@/../src-gen/store";
+import * as Data from "@/../src-gen/data";
 // import * as ServerData from '@/../src-gen/server-data';
-// import * as Action from '@/../src-gen/action';
+import * as Action from "@/../src-gen/action";
+import CFEMandateDetailsFFormMDP from "./CFEMandateDetailsFFormMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import ModelVue from "@/components/generic/ModelVue";
+import FForm from "@/components/generic/form/FForm.vue";
+import FSnackbar from "@/fsnackbar";
+@Component({
+  components: {
+    FDataTable,
+    FForm,
+  },
+})
+export default class CFPaymentTransactionList extends ModelVue {
+  eMandateDetals: Data.ClientFile.FiEMandateSummary =
+    new Data.ClientFile.FiEMandateSummary();
 
-@Component
-export default class CFPaymentTransactionList extends Vue {
-
-  public counter: number = 0 ;
-
-  public oldCounterValue: number = 0;
-  public newCounterValue: number = 0;
-
-
-  public mounted() {
-
+  eMandateId: string = this.$route.params.eMandateId;
+  //Meta data
+  get eMandateDetailsFFormMetaData() {
+    return new CFEMandateDetailsFFormMDP({ parent: this }).getMetaData();
+  }
+  // Meta data
+  mounted() {
+    this.getEMandateDetails();
   }
 
-  public created() {
-
+  getEMandateDetails() {
+    Action.ClientFile.GetEMandateDetails.execute1(
+      this.eMandateId,
+      (output: any) => {
+        this.eMandateDetals = output;
+      }
+    );
   }
 
-  @Watch('counter') private onCounterChanged(value: number, oldValue: number) {
-    this.oldCounterValue = oldValue;
-    this.newCounterValue = value;
-
+  isActive() {
+    return (
+      this.eMandateDetals.status.id ===
+      Data.ClientFile.EMANDATE_STATUS.ACTIVE.id
+    );
   }
 
-  private increment() {
-    this.counter += 1;
+  closeEMandateDetails() {
+    this.$router.go(-1);
   }
 
-  private decrement() {
-    this.counter -= 1;
+  checkAndUpdateEMandate() {
+    Action.ClientFile.CheckAndUpdateEMandate.execute1(
+      this.eMandateId,
+      (output) => {
+        this.getEMandateDetails();
+        FSnackbar.success("Successfully checked the emandate status");
+      }
+    );
   }
-
-  private get computedCounter(): number {
-    return this.counter * 2;
-  }
-
 }
-
 </script>
 
 <style>

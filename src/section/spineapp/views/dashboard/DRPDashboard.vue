@@ -54,7 +54,7 @@ export default class DRPDashboard extends ModelVue {
     new Data.Spine.DCPDashboardDatainput();
 
  assignSalesRepToSelfEnrolFileInput: Data.Spine.AssignSalesRepToSelfEnrolFileInput = new Data.Spine.AssignSalesRepToSelfEnrolFileInput();
-  drpDashboardList: Data.Spine.DCPDashboardDataOutput[] = [];
+  drpDashboardList: Data.Spine.DRPDashboardDataOutput[] = [];
 
   tab = 0;
     taskIdList = [];

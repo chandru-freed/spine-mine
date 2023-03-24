@@ -1,5 +1,5 @@
 <template>
-  <div class="CFPaymentPlanInfo">
+  <div class="CFPaymentPlanInfo col-12">
     <component
       v-if="!!paymentPlanWithTotalDebt"
       :ref="paymentPlanInfoMetaData.myRefName"

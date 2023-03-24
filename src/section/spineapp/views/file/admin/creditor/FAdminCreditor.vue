@@ -172,7 +172,7 @@ export default class FAdminCreditor extends ModelVue {
   }
 
   get creditorList() {
-    return this.modelValue.creditorList;
+    return this.modelValue?.creditorList;
   }
 
   get totalDebt() {

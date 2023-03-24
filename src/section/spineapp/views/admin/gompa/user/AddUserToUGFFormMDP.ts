@@ -4,7 +4,7 @@ import FPasswordFieldMDP from "@/components/generic/form/field/FPasswordFieldMDP
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import * as Data from '@/../src-gen/data';
-import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FPhoneFieldMDP from "@/components/generic/form/field/FPhoneFieldMDP";
 import FEmailFieldMDP from "@/components/generic/form/field/FEmailFieldMDP";
 // import * as ServerData from '@/../src-gen/server-data';
@@ -81,8 +81,8 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
       })
     ).addField(new FClientLanguageSelectFieldMDP({
       parentMDP: this.childMDP,
-      dataSelectorKey: "laguageList",
-      label: "LaguageList",
+      dataSelectorKey: "languageList",
+      label: "LanguageList",
       boundaryClass: "col-4",
       multiple: true
     }))
@@ -107,6 +107,10 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
         // multiple: true
       })
     ).addAction(new FBtnMDP({
+      label: "Cancel",
+      onClick: this.handleCancelClick(),
+      btnType: BtnType.TEXT
+    })).addAction(new FBtnMDP({
       label: "Create User",
       onClick: this.createUser()
     }))
@@ -122,6 +126,7 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
     return () => {
       this.getMyRef().submitForm(() => {
         Action.Spine.AddUserToUserGroup.execute(this.parent.addUserInput, (output) => {
+          this.parent.gotoDetailsPage(this.parent.addUserInput.userName);
           this.parent.resetAddUserInput();
           this.getMyRef().reset();
           FSnackbar.success("Successfully added the user");
@@ -129,31 +134,42 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
       })
     }
   }
+  handleCancelClick() {
+    return () => {
+      this.parent.showCreateUserForm = false;
+    }
+  }
 }
+
+
 
 const userGroupList = [
   {
-    name: "Sales Rep ",
+    name: "Sales Rep - (ug-sales-rep)",
     value: ["ug-sales-rep"]
   },
   {
-    name: "Sales Manager",
+    name: "Sales Lead - (ug-sales-lead)",
+    value: ["ug-sales-lead"]
+  },
+  {
+    name: "Sales Manager - (ug-sales-rep-mgr)",
     value: ["ug-sales-rep-mgr"]
   },
   {
-    name: "Customer Service",
+    name: "Customer Service - (ug-customer-service)",
     value: ["ug-customer-service"]
   },
   {
-    name: "Customer Service Manager",
+    name: "Customer Service Manager - (ug-customer-service,ug-customer-service-mgr)",
     value: ["ug-customer-service","ug-customer-service-mgr"]
   },
   {
-    name: "Admin",
+    name: "Admin - (ug-customer-service,ug-spine-admin,ug-customer-service-mgr)",
     value: ["ug-customer-service","ug-spine-admin","ug-customer-service-mgr"]
   },
   {
-    name: "MIS",
+    name: "MIS - (ug-customer-service,ug-operations,ug-customer-service-mgr)",
     value: ["ug-customer-service","ug-operations","ug-customer-service-mgr"]
   }
 ]

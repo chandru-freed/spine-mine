@@ -19,17 +19,7 @@ export default class ClientSearchFDataTableMDP extends FDataTableMDP {
 
     });
     this.parent = props.parent;
-    this.addColumn({
-        label: "Client Name",
-        dataSelectorKey: "fullName",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
-      })
+    this.addClientNameColumn({ dataSelectorKey: "fullName", })
       .addColumn({
         label: "Mobile",
         dataSelectorKey: "mobile",
@@ -60,7 +50,4 @@ export default class ClientSearchFDataTableMDP extends FDataTableMDP {
     });
   }
 
-  handleClientClick(item: any) {
-    this.parent.gotoClient(item.clientId);
-  }
 }

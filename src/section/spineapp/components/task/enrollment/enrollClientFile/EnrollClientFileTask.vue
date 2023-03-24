@@ -71,6 +71,10 @@ export default class EnrollClientFileTask extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiDocumentList
   fiDocumentListStore: Data.ClientFile.FiDocument[];
 
+  //ERP Document List
+  @Store.Getter.ClientFile.ClientFileSummary.fiERPDocumentList
+  fiERPDocumentListStore: Data.ClientFile.FiDocument[];
+
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
   // URl we are getting taskId and clientFileId
@@ -142,12 +146,14 @@ export default class EnrollClientFileTask extends ModelVue {
         ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
+      fileERPDocumentList: this.fiERPDocumentListStore || [],
       needVerification: (this.taskDetails.outputJson as any).needVerification,
       exceptionTakenList: this.getExceptionTakenListOutput.exceptionTakenList,
       exceptionApprovedBy: this.getExceptionTakenListOutput.exceptionApprovedBy,
       collectMSFNow: this.taskDetails.isOutputEmpty
         ? this.taskFormOutputLocal.collectMSFNow
         : (this.taskDetails.outputJson as any).collectMSFNow,
+      haveException: this.getExceptionTakenListOutput.exceptionTakenList && this.getExceptionTakenListOutput.exceptionTakenList.length>0
     };
 
     return this.taskFormOutputLocal;
@@ -238,6 +244,7 @@ export default class EnrollClientFileTask extends ModelVue {
     this.getFiPaymentPlanInfo();
     this.getFiBankInfo();
     this.getFiDocumentList();
+    this.getFiERPDocumentList();
     this.getAllSignAgreementList();
     this.getEMandateList();
     this.getExceptionTakenList();
@@ -438,6 +445,13 @@ export default class EnrollClientFileTask extends ModelVue {
 
   getFiDocumentList() {
     Action.ClientFile.GetDocumentList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getFiERPDocumentList() {
+    Action.ClientFile.GetErpDocumentList.execute1(
       this.clientFileId,
       (output) => {}
     );

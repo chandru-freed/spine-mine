@@ -5,6 +5,7 @@ import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
+import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
 
 export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -15,63 +16,52 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
             title: "Payment List",
             myRefName: "poAllPaymentFDataTableRef",
             enableExport: true,
+            groupBySummaryFunction: (itemList) => this.calculateTotalAmount(itemList)
         });
         this.parent = parent;
-        this.addColumn({
+        this.addClientFileNumberColumn({
             label: "ClientFile Number",
             dataSelectorKey: "clientFileBasicInfo.clientFileNumber",
-            columnCellMDP: new FCellBtnMDP({
-                color: "secondary",
-                icon: "mdi-file-account",
-                onClick: (item) => {
-                  this.handleClientFileClick(item);
-                },
-              }),
         }).addColumn({
             label: "Mobile Number",
             dataSelectorKey: "clientBasicInfo.mobile",
-            columnCellMDP: new FCellBtnMDP({
-                color: "deep-purple",
-                onClick: (item) => {
-                    this.handleClientClick(item);
-                },
-            }),
+            columnCellMDP: new FCellPhoneMDP(),
+            hidden: true
         })
-        .addColumn({
-            label: "Payment Type",
-            dataSelectorKey: "paymentType.name",
-              columnCellMDP: new FCellStatusMDP({}),
-        })
-        
+            .addStatusColumn({
+                label: "Payment Type",
+                dataSelectorKey: "paymentType.name",
+                filterItemList: Data.Spine.PAYMENT_TYPE.list()
+            })
+
             .addColumn({
-                label: "Total Amount",
-                dataSelectorKey: "totalAmount",
-                columnCellMDP: new FCellCurrencyBtnMDP({
+                label:"Payment Ref Number",
+                dataSelectorKey:"paymentRefNumber",
+                columnCellMDP: new FCellBtnMDP({
                     color: "secondary",
                     onClick: (item) => {
                         this.parent.openPaymentDetails(item);
                     },
                 }),
-                align:'right'
+            })
+
+            .addCurrencyColumn({
+                label: "Total Amount",
+                dataSelectorKey: "totalAmount",
             })
             .addColumn({
                 label: "Account Holder Name",
                 dataSelectorKey: "accountHolderName",
                 // columnCellMDP: new FCellCurrencyMDP({}),
             })
-            .addColumn({
+            .addStatusColumn({
                 label: "Payment Provider",
                 dataSelectorKey: "paymentProvider.name",
-                columnCellMDP: new FCellStatusMDP({}),
+                filterItemList: Data.Spine.PAYMENT_PROVIDER.list(),
+
             })
+            .addPaymentStatusColumn({ label: "Status", dataSelectorKey: "status.name",})
             .addColumn({
-                label: "Status",
-                dataSelectorKey: "status.name",
-                columnCellMDP: new FCellStatusMDP({
-                    colorCodeData: Data.Color.PAYMENT_STATUS ,
-                    outlined: true
-                }),
-            }).addColumn({
                 label: "Presented Date",
                 dataSelectorKey: "presentedDate",
                 columnCellMDP: new FCellDateMDP(),
@@ -79,23 +69,19 @@ export default class POAllPaymentFDataTableMDP extends FDataTableMDP {
             .addColumn({
                 label: "Received By",
                 dataSelectorKey: "receivedBy",
-                
-            }).addFilter({
-                label:"Status",
-                dataSelectorKey:"status.name",
-                filterItems: Data.Spine.PAYMENT_STATUS.list(),
-            }).addFilter({
-                label:"Payment Provider",
-                dataSelectorKey:"paymentProvider.name",
-                filterItems: Data.Spine.PAYMENT_PROVIDER.list(),
-            });
+
+            })
     }
 
-    handleClientFileClick(item: any) {
-        this.parent.gotoFile(item.clientFileNumber);
-      }
-
-      handleClientClick(item: any) {
+    calculateTotalAmount(itemList: any) {
+        const totalAmount =  itemList.reduce((acc: number, item: any) => {
+              const val = typeof(item['totalAmount'])=='number'?item['totalAmount']: 0;
+              acc = acc + val;
+              return acc
+            },0)
+        return 'Total Amount:'+ totalAmount;
+    }
+    handleClientClick(item: any) {
         this.parent.gotoClient(item.clientBasicInfo.clientId);
     }
 }

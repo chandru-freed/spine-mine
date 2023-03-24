@@ -3,7 +3,7 @@
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
     <!-- TASK TAB -->
-    <v-card>
+    <v-card flat>
       <component
         v-if="!!showSuspendForm"
         :ref="suspendTaskFFormMetaData.myRefName"

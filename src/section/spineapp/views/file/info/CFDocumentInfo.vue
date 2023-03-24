@@ -52,6 +52,7 @@ export default class CFDocumentInfo extends ModelVue {
 
   mounted() {
     this.getFiDocumentList();
+    this.getFiErpDocumentList();
     Action.Spine.AttachDocument.interested(this.getFiDocumentListHandler);
     Action.Spine.DetachDocument.interested(this.getFiDocumentListHandler);
   }
@@ -64,6 +65,13 @@ export default class CFDocumentInfo extends ModelVue {
   //ACTION
   getFiDocumentList() {
     Action.ClientFile.GetDocumentList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getFiErpDocumentList() {
+     Action.ClientFile.GetErpDocumentList.execute1(
       this.clientFileId,
       (output) => {}
     );

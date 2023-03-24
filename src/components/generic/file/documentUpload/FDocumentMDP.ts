@@ -38,7 +38,7 @@ export default class FDocumentMDP implements MDP {
     return (nextCallback: () => void) => {
       const fileDocumentList = this.taskRoot.taskFormOutput?.fileDocumentList || [];
       const filteredFileDocumentList=  fileDocumentList.filter((item: any) => {
-        return item.documentType === 'Credit Report'
+        return item.documentType === 'Credit Report'||item.documentType === 'CreditReport'
       })
       if(filteredFileDocumentList.length>0) {
       nextCallback()

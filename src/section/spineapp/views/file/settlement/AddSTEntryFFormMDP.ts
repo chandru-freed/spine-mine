@@ -30,7 +30,20 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
         optionValue: "id",
         mandatory: true
       })
-    ).addField(
+    )
+    .addField(
+      new FSelectFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "settledFrom",
+        label: "Settled From",
+        boundaryClass: "col-3",
+        options: Data.ClientFile.SETTLED_FROM.list(),
+        optionLabel: "name",
+        optionValue: "id",
+        mandatory: true
+      })
+    )
+    .addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentProvider",

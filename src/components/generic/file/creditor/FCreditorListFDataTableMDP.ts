@@ -60,10 +60,17 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           })
           .addAction({
             type: ActionType.OTHERS,
+            onClick: item => this.handleAddCreditorFromPDF(),
+            label: "Add Creditors From PDF",
+            noSelect: true
+          })
+          .addAction({
+            type: ActionType.OTHERS,
             onClick: item => this.handleAddCreditScore(),
             label: "Update Credit Score",
             noSelect: true
           })
+          
           
           .addInfo({
             label: "Total Amount",
@@ -112,6 +119,13 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
         resolve(true);
       })
       
+    }
+
+    handleAddCreditorFromPDF() {
+      return new Promise(resolve => {
+        this.parent.showParseCreditReportForm = true;
+        resolve(true);
+      })
     }
     
 }

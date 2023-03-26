@@ -1,5 +1,6 @@
 <template>
   <div ref="creditorListRef">
+    <f-loader v-if="showLoader" />
     <component
       v-if="addCreditorDialog"
       :is="addCreditorFormMetaData.componentName"
@@ -7,6 +8,17 @@
       :value="selectModel(addCreditorForm, undefined)"
       @input="(newValue) => updateModel(addCreditorForm, newValue, undefined)"
       v-bind="addCreditorFormMetaData.props"
+    ></component>
+
+    <component
+      v-if="showParseCreditReportForm && !showLoader"
+      :is="parseCreditReportMetaData.componentName"
+      :ref="parseCreditReportMetaData.myRefName"
+      :value="selectModel(parseCreditReportInput, undefined)"
+      @input="
+        (newValue) => updateModel(parseCreditReportInput, newValue, undefined)
+      "
+      v-bind="parseCreditReportMetaData.props"
     ></component>
 
     <component
@@ -23,7 +35,9 @@
       :is="updateCreditScoreFFormMetaData.componentName"
       :ref="updateCreditScoreFFormMetaData.myRefName"
       :value="selectModel(updateCreditScoreForm, undefined)"
-      @input="(newValue) => updateModel(updateCreditScoreForm, newValue, undefined)"
+      @input="
+        (newValue) => updateModel(updateCreditScoreForm, newValue, undefined)
+      "
       v-bind="updateCreditScoreFFormMetaData.props"
     ></component>
     <v-alert dense outlined text color="error" v-if="deleteCreditorDialog">
@@ -49,12 +63,11 @@
       </div>
     </v-alert>
 
-
     <v-col class="col-12">
       <!--GRID START-->
-      <v-card flat >
-      <component
-        :value="creditorList"
+      <v-card flat>
+        <component
+          :value="creditorList"
           :is="fCreditorListFDataTableMetaData.componentName"
           :ref="fCreditorListFDataTableMetaData.myRefName"
           v-bind="fCreditorListFDataTableMetaData.props"
@@ -151,19 +164,24 @@ import FAddCreditorFFormMDP from "./FAddCreditorFFormMDP";
 import FEditCreditorFFormMDP from "./FEditCreditorFFormMDP";
 import FCreditorListFDataTableMDP from "./FCreditorListFDataTableMDP";
 import FDataTable from "../../table/FDataTable.vue";
-import FUpdateCreditScoreFFormMDP from './FUpdateCreditScoreFFormMDP';
+import FUpdateCreditScoreFFormMDP from "./FUpdateCreditScoreFFormMDP";
+import FParseCreditReportFFormMDP from "./FParseCreditReportFFormMDP";
+import FLoader from "../../FLoader.vue";
+import ErrorResponse from "@/error-response";
 
 @Component({
   components: {
     FForm,
     FBtn,
-    FDataTable
+    FDataTable,
+    FLoader,
   },
 })
 export default class FCreditor extends ModelVue {
   addCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   editCreditorForm: Data.Spine.Creditor = new Data.Spine.Creditor();
-  updateCreditScoreForm: Data.ClientFile.UpdateCreditInfoInput = new Data.ClientFile.UpdateCreditInfoInput();
+  updateCreditScoreForm: Data.ClientFile.UpdateCreditInfoInput =
+    new Data.ClientFile.UpdateCreditInfoInput();
 
   selectedCreditorItem: Data.Spine.Creditor;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
@@ -171,6 +189,14 @@ export default class FCreditor extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  showParseCreditReportForm: boolean = false;
+  showLoader: boolean = false;
+
+  parseCreditReportInput: Data.Spine.ParseCreditReportInput =
+    new Data.Spine.ParseCreditReportInput();
+
+  clientFileId = this.$route.params.clientFileId;
 
   headers = [
     {
@@ -182,7 +208,7 @@ export default class FCreditor extends ModelVue {
     { text: "Creditor Balance", value: "creditorBalance" },
     { text: "Last Date Of Payment", value: "lastDateOfPayment" },
     { text: "Days Delinquent", value: "daysDelinquentAsOnOnboarding" },
-    
+
     { text: "Debt Type", value: "debtType" },
     { text: "Account Number", value: "accountNumber" },
     { text: "Actions", value: "actions" },
@@ -221,16 +247,16 @@ export default class FCreditor extends ModelVue {
   showAddCreditScoreForm() {
     this.closeDialogs();
     this.addCreditScoreDialog = true;
-    this.updateCreditScoreForm.creditScore = this.clientFileBasicInfo.creditScore || 0;
-    this.updateCreditScoreForm.creditBureau = this.clientFileBasicInfo.creditBureau || "";
+    this.updateCreditScoreForm.creditScore =
+      this.clientFileBasicInfo.creditScore || 0;
+    this.updateCreditScoreForm.creditBureau =
+      this.clientFileBasicInfo.creditBureau || "";
   }
 
   showEditForm() {
     this.closeDialogs();
     this.editCreditorDialog = true;
   }
-
-
 
   showDeletePopup() {
     this.closeAndClearAllForms();
@@ -245,6 +271,9 @@ export default class FCreditor extends ModelVue {
     this.editCreditorDialog = false;
     this.deleteCreditorDialog = false;
     this.addCreditScoreDialog = false;
+    this.showParseCreditReportForm = false;
+    this.showLoader = false;
+    this.parseCreditReportInput = new Data.Spine.ParseCreditReportInput();
   }
   resetForms() {
     this.addCreditorForm = new Data.Spine.Creditor();
@@ -316,31 +345,92 @@ export default class FCreditor extends ModelVue {
 
   get editCreditorFormMetaData() {
     return new FEditCreditorFFormMDP({
-       taskRoot: this.taskRoot,
+      taskRoot: this.taskRoot,
       parent: this,
     }).getMetaData();
   }
 
   get updateCreditScoreFFormMetaData() {
     return new FUpdateCreditScoreFFormMDP({
-       taskRoot: this.taskRoot,
+      taskRoot: this.taskRoot,
       parent: this,
     }).getMetaData();
   }
 
-  
-
   isCreditCard(): boolean {
-    if(this.addCreditorDialog) {
-    return this.addCreditorForm.debtType === 'Credit Card'
+    if (this.addCreditorDialog) {
+      return this.addCreditorForm.debtType === "Credit Card";
     } else {
-      return this.editCreditorForm.debtType === 'Credit Card'
+      return this.editCreditorForm.debtType === "Credit Card";
     }
   }
 
-  get fCreditorListFDataTableMetaData() {
-    return new FCreditorListFDataTableMDP({parent:this}).getMetaData();
+  addCreditorFromPDF() {
+    this.showLoader = true;
+    this.parseCreditReportInput.clientFileId = this.clientFileId;
+    Action.Spine.ParseCreditReport.execute(
+      this.parseCreditReportInput,
+      (output) => {
+        this.updateClPersonalInfo(output.experianPersonalInfo);
+        output.fiCreditorInfo.creditorList.map((creditor, index: number) => {
+          this.addCreditor(creditor);
+          if (index === output.fiCreditorInfo.creditorList.length - 1) {
+            this.closeAndClearAllForms();
+          }
+        });
+        if(output.fiCreditorInfo.creditorList.length===0) {
+          this.closeAndClearAllForms();
+        }
+      },
+      (error) => {
+        ErrorResponse.handle(error);
+        this.showLoader = false;
+      }
+    );
   }
-  
+
+  get fCreditorListFDataTableMetaData() {
+    return new FCreditorListFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get parseCreditReportMetaData() {
+    return new FParseCreditReportFFormMDP({ parent: this }).getMetaData();
+  }
+
+  addCreditor(item: any) {
+    const input = new Data.Spine.AddCreditorInput();
+    input.accountNumber = item.accountNumber;
+    input.clientFileId = this.clientFileId;
+    input.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
+    input.creditorBalance = item.creditorBalance;
+    input.creditorName = item.creditorName;
+    input.debtType = item.debtType;
+    input.lastDateOfPayment = item.lastDateOfPayment;
+
+    input.taskId = this.taskRoot.taskId;
+    Action.Spine.AddCreditor.execute(
+      input,
+      (output) => {},
+      (error) => {}
+    );
+  }
+
+  updateClPersonalInfo(experianPersonalInfo: any) {
+    const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(
+      this.taskRoot.taskFormData.taskOutput.personalInfo
+    );
+    input.clientId = (
+      this.taskRoot as any
+    ).clientFileBasicInfo.clientBasicInfo.clientId;
+
+    input.dob = experianPersonalInfo.dob;
+    input.gender = experianPersonalInfo.gender=="Male"?Data.ClientFile.GENDER.MALE.id:Data.ClientFile.GENDER.FEMALE.id;
+    input.residentialAddress.addressLine1 = experianPersonalInfo.address;
+    input.pan = experianPersonalInfo.pan;
+    console.log(input)
+    Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
+
+    });
+  }
 }
 </script>

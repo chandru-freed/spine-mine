@@ -9,9 +9,11 @@
       @input="(newValue) => updateModel(addCreditorForm, newValue, undefined)"
       v-bind="addCreditorFormMetaData.props"
     ></component>
-
+    <div v-if="showParseCreditReportForm && !showLoader">
+      <v-alert class="ma-5" color="warning" outlined >
+        <v-icon color="warning">mdi-alert</v-icon>
+        This will update the credit score, personal info and add creditors from the credit report you upload </v-alert>
     <component
-      v-if="showParseCreditReportForm && !showLoader"
       :is="parseCreditReportMetaData.componentName"
       :ref="parseCreditReportMetaData.myRefName"
       :value="selectModel(parseCreditReportInput, undefined)"
@@ -20,6 +22,7 @@
       "
       v-bind="parseCreditReportMetaData.props"
     ></component>
+    </div>
 
     <component
       v-if="editCreditorDialog"
@@ -168,6 +171,8 @@ import FUpdateCreditScoreFFormMDP from "./FUpdateCreditScoreFFormMDP";
 import FParseCreditReportFFormMDP from "./FParseCreditReportFFormMDP";
 import FLoader from "../../FLoader.vue";
 import ErrorResponse from "@/error-response";
+import axios from "axios";
+import ParsePDF from './ParsePDF';
 
 @Component({
   components: {
@@ -367,26 +372,8 @@ export default class FCreditor extends ModelVue {
 
   addCreditorFromPDF() {
     this.showLoader = true;
-    this.parseCreditReportInput.clientFileId = this.clientFileId;
-    Action.Spine.ParseCreditReport.execute(
-      this.parseCreditReportInput,
-      (output) => {
-        this.updateClPersonalInfo(output.experianPersonalInfo);
-        output.fiCreditorInfo.creditorList.map((creditor, index: number) => {
-          this.addCreditor(creditor);
-          if (index === output.fiCreditorInfo.creditorList.length - 1) {
-            this.closeAndClearAllForms();
-          }
-        });
-        if(output.fiCreditorInfo.creditorList.length===0) {
-          this.closeAndClearAllForms();
-        }
-      },
-      (error) => {
-        ErrorResponse.handle(error);
-        this.showLoader = false;
-      }
-    );
+    const parsePdf = new ParsePDF({parent: this, taskRoot: this.taskRoot});
+    parsePdf.handleUploadCreditReportPDF();
   }
 
   get fCreditorListFDataTableMetaData() {
@@ -397,40 +384,8 @@ export default class FCreditor extends ModelVue {
     return new FParseCreditReportFFormMDP({ parent: this }).getMetaData();
   }
 
-  addCreditor(item: any) {
-    const input = new Data.Spine.AddCreditorInput();
-    input.accountNumber = item.accountNumber;
-    input.clientFileId = this.clientFileId;
-    input.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
-    input.creditorBalance = item.creditorBalance;
-    input.creditorName = item.creditorName;
-    input.debtType = item.debtType;
-    input.lastDateOfPayment = item.lastDateOfPayment;
 
-    input.taskId = this.taskRoot.taskId;
-    Action.Spine.AddCreditor.execute(
-      input,
-      (output) => {},
-      (error) => {}
-    );
-  }
 
-  updateClPersonalInfo(experianPersonalInfo: any) {
-    const input = Data.Spine.UpdateClPersonalInfoInput.fromJson(
-      this.taskRoot.taskFormData.taskOutput.personalInfo
-    );
-    input.clientId = (
-      this.taskRoot as any
-    ).clientFileBasicInfo.clientBasicInfo.clientId;
-
-    input.dob = experianPersonalInfo.dob;
-    input.gender = experianPersonalInfo.gender=="Male"?Data.ClientFile.GENDER.MALE.id:Data.ClientFile.GENDER.FEMALE.id;
-    input.residentialAddress.addressLine1 = experianPersonalInfo.address;
-    input.pan = experianPersonalInfo.pan;
-    console.log(input)
-    Action.Spine.UpdateClPersonalInfo.execute(input, (output: any) => {
-
-    });
-  }
+  
 }
 </script>

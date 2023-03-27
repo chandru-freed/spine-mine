@@ -282,7 +282,7 @@ export default class CFActionList extends Vue {
             actionName: "Mark File As Graduate",
             icon: "mdi-chevron-right",
             command: this.graduate,
-            condition: this.isClientFileNotHold(),
+            condition: this.isClientFileNotHold() && this.isAdmin(),
           },
           // {
           //   actionName: "Mark File As Cancel",
@@ -610,6 +610,9 @@ export default class CFActionList extends Vue {
 
   isSalesLead() {
     return this.roleList?.includes("SalesLead");
+  }
+  isAdmin() {
+    return this.roleList?.includes("Admin");
   }
 
   isClientFileNotHold() {

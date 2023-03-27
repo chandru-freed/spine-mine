@@ -3,6 +3,7 @@ import * as Action from "@/../src-gen/action";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import * as Snackbar from "node-snackbar";
+import * as Data from "@/../src-gen/data";
 
 export default class SPAScheduleTableMDP extends FDataTableMDP {
 
@@ -10,7 +11,7 @@ export default class SPAScheduleTableMDP extends FDataTableMDP {
   constructor({ root }: { root: any }) {
     super({
       myRefName: "spaScheduleTableRef",
-      dataSelectorKey: "stSpaEntryList",
+      // dataSelectorKey: "stSpaEntryList",
       itemKey: "stEntryId"
     });
     this.root = root;
@@ -20,10 +21,12 @@ export default class SPAScheduleTableMDP extends FDataTableMDP {
     })
       .addCurrencyColumn({ label: "SPA Amount", dataSelectorKey: "spaAmount" })
       .addColumn({ label: "Settled To", dataSelectorKey: "settledTo" })
-      .addColumn({ label: "Payment Provider", dataSelectorKey: "paymentProvider" })
+      .addStatusColumn({ label: "Payment Mode", dataSelectorKey: "paymentMode", filterItemList: Data.ClientFile.PAYMENT_MODE.list(), })
+      .addStatusColumn({ label: "Settlement Entry Type", dataSelectorKey: "settlementEntryType.name", filterItemList: Data.ClientFile.SETTLEMENT_ENTRY_TYPE.list() })
+      
 
       .addColumn({ label: "DraftDate", dataSelectorKey: "draftDate", columnCellMDP: new FCellDateMDP() })
-      .addColumn({ label: "status", dataSelectorKey: "status", columnCellMDP: new FCellStatusMDP({ outlined: false }) },)
+      .addStatusColumn({ label: "status", dataSelectorKey: "status", filterItemList: Data.Spine.ST_ENTRY_STATUS.list() },)
 
 
 

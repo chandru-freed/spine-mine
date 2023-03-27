@@ -3,6 +3,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import ErrorResponse from "@/error-response";
 import axios from "axios";
+import FSnackbar from "@/fsnackbar";
 
 export default class ParsePDF {
     parent: any;
@@ -41,15 +42,26 @@ export default class ParsePDF {
 
 
     addCreditorFromCreditorList() {
-        this.parseCreditReportOutput.fiCreditorInfo.creditorList.map((creditor: any, index: number) => {
-            this.addCreditor(creditor);
-            if (index === this.parseCreditReportOutput.fiCreditorInfo.creditorList.length - 1) {
-                this.parent.closeAndClearAllForms();
-            }
-        });
-        if (this.parseCreditReportOutput.fiCreditorInfo.creditorList.length === 0) {
+        let creditorList: Data.Spine.CreditorFromPdfParse[] = this.parseCreditReportOutput.fiCreditorInfo.creditorList.map((creditor: any) => {
+            return Data.Spine.CreditorFromPdfParse.fromJson(creditor);
+        })
+        
+        Action.Spine.AddExperianCreditorListFromPDFParsed.execute2(this.parent.clientFileId, creditorList, output => {
             this.parent.closeAndClearAllForms();
-        }
+            FSnackbar.success("Successfully added creditors")
+        },
+        error => {
+            ErrorResponse.handle(error);
+        })
+        // this.parseCreditReportOutput.fiCreditorInfo.creditorList.map((creditor: any, index: number) => {
+        //     this.addCreditor(creditor);
+        //     if (index === this.parseCreditReportOutput.fiCreditorInfo.creditorList.length - 1) {
+        //         this.parent.closeAndClearAllForms();
+        //     }
+        // });
+        // if (this.parseCreditReportOutput.fiCreditorInfo.creditorList.length === 0) {
+        //     this.parent.closeAndClearAllForms();
+        // }
     }
 
     // Codes for updation via credit report pdf

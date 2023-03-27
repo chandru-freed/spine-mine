@@ -1,4 +1,5 @@
 import FCellBtnMDP from "@/components/generic/table/cell/FCellBtnMDP";
+import FCellCopyMDP from "@/components/generic/table/cell/FCellCopyMDP";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
@@ -16,32 +17,21 @@ export default class AmendmentsFDataTableMDP extends FDataTableMDP {
       title: "Active Amendments",
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Client File Number",
-      dataSelectorKey: "clientFileNumber",
-      columnCellMDP: new FCellStatusMDP({}),
-    })
+    this.addClientFileNumberColumn({dataSelectorKey: "clientFileNumber"})
       .addColumn({
         label: "Amendment Token",
         dataSelectorKey: "amndToken",
-        columnCellMDP: new FCellTextMDP({}),
+        columnCellMDP: new FCellCopyMDP({
+          dataSelectorKeyToCopy:"amendmentLink",
+          tooltipText:"Click here to copy the amendment link"
+        }),
       })
       .addColumn({
         label: "Created Date",
         dataSelectorKey: "createdOn",
         columnCellMDP: new FCellDateTimeMDP(),
       })
-      .addColumn({
-        label: "Action",
-        dataSelectorKey: "amndToken",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleCancelClick(item);
-          },
-        }),
-      });
+      ;
   }
 
   handleCancelClick(item: any) {

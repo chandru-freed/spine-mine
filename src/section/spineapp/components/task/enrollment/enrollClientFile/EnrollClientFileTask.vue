@@ -270,6 +270,10 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientCreditorInfoAndInfoHandler
     );
 
+    Action.Spine.AddExperianCreditorListFromPDFParsed.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
+
     Action.Spine.UpdateCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
@@ -362,6 +366,10 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getEMandateListHandler
     );
     Action.ClientFile.UpdateExceptionTakenList.notInterested(this.getExceptionTakenListHandler);
+
+    Action.Spine.AddExperianCreditorListFromPDFParsed.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
 
     // getEMandateListHandler
   }

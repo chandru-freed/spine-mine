@@ -218,6 +218,18 @@ export default class ActionList extends Vue {
         
       ],
     },
+    {
+      groupName: "Utility",
+      actionList: [
+        {
+          actionName: "Spine Dump Link",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Admin.Master.SpineDumpLink",
+        },
+
+        
+      ],
+    },
     // {
     //   groupName: "Creditor",
     //   actionList: [

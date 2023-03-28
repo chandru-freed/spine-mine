@@ -60,7 +60,7 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
         type: ActionType.INFO,
         noSelect: true
       }).addAction({
-        label: "Resend Mail",
+        label: "Resend",
         onClick: this.handleResendClick(),
         type: ActionType.OTHERS,
         confirmation: true
@@ -103,7 +103,7 @@ export default class FEMandateListFDataTableMDP extends FDataTableMDP {
         input.fiEMandateId = item.eMandateId;
         input.byEmail = true;
         input.bySMS = false;
-        input.byWhatsapp = false;
+        input.byWhatsapp = true;
         Action.ClientFile.SendEmandate.execute(input, output => {
           FSnackbar.success("Succesfully resend the agreement")
           res(true);

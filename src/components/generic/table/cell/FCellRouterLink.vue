@@ -4,11 +4,13 @@
       {{ icon }}
     </v-icon>
     <router-link
+    v-if="selectModel(modelValue, dataSelectorKey)"
       style="text-decoration: none; color: inherit"
       :to="routerObject"
     >
-      {{ selectModel(modelValue, dataSelectorKey)?selectModel(modelValue, dataSelectorKey):'--' }}
+      {{ selectModel(modelValue, dataSelectorKey) }}
     </router-link>
+    <div v-else>--</div>
   </a>
 </template>
 <script lang="ts">

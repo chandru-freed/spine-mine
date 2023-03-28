@@ -263,7 +263,7 @@
         <!-- Filters -->
         <v-toolbar flat class="align-right" v-if="showFilterForm">
           <v-chip small outlined label color="primary"
-            >Total Filtered: {{ tableData().length }}</v-chip
+            >Total: {{ tableData().length }} / {{selectModel(modelValue, dataSelectorKey).length }}</v-chip
           >
           <v-spacer />
           <div

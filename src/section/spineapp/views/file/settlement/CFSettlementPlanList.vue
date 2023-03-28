@@ -4,9 +4,9 @@
       <component
         :ref="addSettlementPlanMetaData.myRefName"
         :is="addSettlementPlanMetaData.componentName"
-        :value="selectModel(addSettlementPlanInput, undefined)"
+        :value="selectModel(addSettlementFormData, undefined)"
         @input="
-          (newValue) => updateModel(addSettlementPlanInput, newValue, undefined)
+          (newValue) => updateModel(addSettlementFormData, newValue, undefined)
         "
         v-bind="addSettlementPlanMetaData.props"
       ></component>
@@ -58,12 +58,11 @@
       </template>
     </v-data-table> -->
     <component
-        :ref="CFStPlanListFDataTableMetaData.myRefName"
-        :is="CFStPlanListFDataTableMetaData.componentName"
-        :value="selectModel(fiSettlementPlanList, undefined)"
-        v-bind="CFStPlanListFDataTableMetaData.props"
-      ></component>
-    
+      :ref="CFStPlanListFDataTableMetaData.myRefName"
+      :is="CFStPlanListFDataTableMetaData.componentName"
+      :value="selectModel(fiSettlementPlanList, undefined)"
+      v-bind="CFStPlanListFDataTableMetaData.props"
+    ></component>
   </v-col>
 </template>
 
@@ -76,12 +75,12 @@ import * as Action from "@/../src-gen/action";
 import AddSettlementPlanFFormMDP from "./AddSettlementPlanFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
-import CFStPlanListFDataTableMDP from './CFStPlanListFDataTableMDP';
+import CFStPlanListFDataTableMDP from "./CFStPlanListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 @Component({
   components: {
     FForm,
-    FDataTable
+    FDataTable,
   },
 })
 export default class CFSettlementPlanList extends ModelVue {
@@ -93,6 +92,8 @@ export default class CFSettlementPlanList extends ModelVue {
 
   addSettlementPlanInput: Data.ClientFile.PlanPaymentSettlementInput =
     new Data.ClientFile.PlanPaymentSettlementInput();
+
+  sifDocument: Data.ClientFile.FiDocument = new Data.ClientFile.FiDocument();
 
   @Watch("addSettlementPlanInput.fiCreditorId") fiCreditorIdChanged(
     newVal: string,
@@ -112,8 +113,12 @@ export default class CFSettlementPlanList extends ModelVue {
   fiSettlementPlanListGridHeaderList = [
     { text: "Creditor Name", value: "fiCreditor.creditorName", align: "start" },
     { text: "Settlement Amount", value: "settlementAmount", align: "right" },
-    { text: "Total Outstanding", value: "totalOutstanding", align: "right"},
-    { text: "Settlement Percentage", value: "settlementPercentage", align: "right"},
+    { text: "Total Outstanding", value: "totalOutstanding", align: "right" },
+    {
+      text: "Settlement Percentage",
+      value: "settlementPercentage",
+      align: "right",
+    },
     { text: "Status", value: "status" },
   ];
 
@@ -121,6 +126,13 @@ export default class CFSettlementPlanList extends ModelVue {
 
   get addSettlementPlanMetaData() {
     return new AddSettlementPlanFFormMDP({ root: this }).getMetaData();
+  }
+
+  get addSettlementFormData() {
+    return {
+      addSettlementPlanInput: this.addSettlementPlanInput,
+      sifDocument: this.sifDocument,
+    };
   }
 
   public mounted() {
@@ -143,10 +155,15 @@ export default class CFSettlementPlanList extends ModelVue {
   }
 
   addSettlement() {
+    console.log(this.addSettlementPlanInput, "this.addSettlementPlanInput");
+    this.addSettlementFormData.addSettlementPlanInput.sifDocumentId =
+      this.addSettlementFormData.sifDocument?.fiDocumentId || "";
     Action.ClientFile.PlanPaymentSettlement.execute(
-      this.addSettlementPlanInput,
+      this.addSettlementFormData.addSettlementPlanInput,
       (output) => {
-        this.getSettlementPlanList();
+        setTimeout(() => {
+          this.getSettlementPlanList();
+        }, 1000);
         this.closeAndResetForms();
       }
     );
@@ -154,8 +171,9 @@ export default class CFSettlementPlanList extends ModelVue {
 
   closeAndResetForms() {
     this.showAddSettlementPlanForm = false;
-    this.addSettlementPlanInput =
+    this.addSettlementFormData.addSettlementPlanInput =
       new Data.ClientFile.PlanPaymentSettlementInput();
+    this.addSettlementFormData.sifDocument = new Data.ClientFile.FiDocument();
   }
 
   gotoPaymentPlan(stPlanId: string) {
@@ -164,12 +182,10 @@ export default class CFSettlementPlanList extends ModelVue {
       params: { stPlanId },
     });
   }
-  
-
 
   get CFStPlanListFDataTableMetaData() {
     return new CFStPlanListFDataTableMDP({
-      root: this
+      root: this,
     }).getMetaData();
   }
 }

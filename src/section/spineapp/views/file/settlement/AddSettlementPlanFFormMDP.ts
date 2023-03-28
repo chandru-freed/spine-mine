@@ -2,6 +2,9 @@ import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
+import FCFAWSUploadFileFieldMDP from "@/components/generic/form/field/FCFAWSUploadFileFieldMDP";
+import FAWSUploadFileFieldMDP from "@/components/generic/form/field/FAWSUploadFileFieldMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class AddSettlementPlanFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -15,7 +18,7 @@ export default class AddSettlementPlanFFormMDP extends FFormMDP {
     // this.parent = parent;
 
     this.addField(new FSelectFieldMDP({
-      dataSelectorKey: "fiCreditorId",
+      dataSelectorKey: "addSettlementPlanInput.fiCreditorId",
       options:root.fiCreditorInfo.creditorList,
       label:"Creditor",
       parentMDP: this.childMDP,
@@ -28,7 +31,7 @@ export default class AddSettlementPlanFFormMDP extends FFormMDP {
     .addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "outstandingAmount",
+        dataSelectorKey: "addSettlementPlanInput.outstandingAmount",
         label: "Outstanding Amount",
         boundaryClass: "col-4",
         mandatory: true,
@@ -38,12 +41,21 @@ export default class AddSettlementPlanFFormMDP extends FFormMDP {
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "settlementAmount",
+          dataSelectorKey: "addSettlementPlanInput.settlementAmount",
           label: "Settlement Amount",
           boundaryClass: "col-4",
           mandatory: true
         })
       )
+      .addField(new FCFAWSUploadFileFieldMDP(
+        {
+          parentMDP: this.childMDP,
+          dataSelectorKey: "sifDocument",
+          label: "Sif Document",
+          mandatory: true,
+          boundaryClass: "col-6",
+        },
+      ))
       .addAction(
         new FBtnMDP({
           btnType: BtnType.TEXT,

@@ -30,7 +30,7 @@ export default class SubscribedTicketListFDataTableMDP extends FDataTableMDP {
           this.handleClientFileClick(item);
         },
       }),
-    })
+    }).addClientFileNumberColumn({dataSelectorKey: "clientFile.clientFileNumber",})
       .addColumn({
         label: "Subject",
         dataSelectorKey: "displayId",

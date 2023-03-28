@@ -28,15 +28,19 @@ export default class ActiveTicketListFDataTableMDP extends FDataTableMDP {
         color: "secondary",
         icon: "mdi-ticket-confirmation",
         onClick: (item) => {
-          this.handleClientFileClick(item);
+          this.handleTicketClick(item);
         },
       }),
     })
+      .addClientFileNumberColumn({
+        dataSelectorKey: "clientFile.clientFileNumber",
+      })
       .addColumn({
         label: "Subject",
         dataSelectorKey: "displayId",
-        columnCellMDP: new FCellUppercaseMDP()
-      }).addColumn({
+        columnCellMDP: new FCellUppercaseMDP(),
+      })
+      .addColumn({
         label: "SLA",
         dataSelectorKey: "sla",
         columnCellMDP: new FCellSLAMDP(),
@@ -61,10 +65,12 @@ export default class ActiveTicketListFDataTableMDP extends FDataTableMDP {
       });
   }
 
-  handleClientFileClick(item: any) {
+  handleTicketClick(item: any) {
     this.parent.gotoTask(item);
   }
-
+  handleClientFileClick(item: any) {
+    this.parent.handleClientFileClick(item);
+  }
   addMyClientFile(item: any) {
     return new Promise((res) => {
       this.parent.showRegisterMyCFForm = true;

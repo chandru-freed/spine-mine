@@ -1,19 +1,19 @@
 <template>
   <div class="SpineDumpLink">
     <v-row no-gutters>
-      <v-col md="4" offset-md="4">
-        <v-card class="ma-10">
+      <v-col md="4">
+        <v-card class="ma-10" flat>
           <v-list class="py-0">
             <v-list-item >
               <v-btn text color="primary" @click="fileInfoDump()"
-                ><v-icon size="60" small class="mr-2">mdi-file-account</v-icon>File Info
+                ><v-icon size="60" small class="mr-2">mdi-cloud-download</v-icon>File Info
                 Dump</v-btn
               >
             </v-list-item>
             <v-list-item>
               <v-btn text color="primary" @click="fileCreditorsDump()"
                 >
-                <v-icon size="60" small class="mr-2">mdi-clipboard-text-clock-outline</v-icon>
+                <v-icon size="60" small class="mr-2">mdi-cloud-download</v-icon>
                 File Creditors Dump</v-btn
               >
             </v-list-item>

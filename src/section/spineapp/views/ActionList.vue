@@ -142,6 +142,11 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.MISReports.AccountBalance",
         },
+        {
+          actionName: "Daywise Payment",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Payment.DaywisePayment",
+        },
       ],
     },
     {

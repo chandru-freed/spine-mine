@@ -5,6 +5,7 @@
       <div class="text-center py-3">
         Are you sure want to close this ticket?
       </div>
+      
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
@@ -39,6 +40,7 @@
     <v-card flat outlined>
       <v-card-title
         >Ticket Summary<v-spacer />
+        <v-chip small outlined color="primary" class="mx-3" label>Assigned to {{taskSummary.allocatedTo}}</v-chip>
         <v-btn
           class="mx-2"
           v-if="taskSummary.clientFileNumber"
@@ -60,7 +62,7 @@
           :disabled="taskCompleted"
           color="primary"
           class="mx-2"
-          @click="closeTicketDialog = true"
+          @click="handleCloseTicketClick()"
           >Close Ticket</v-btn
         >
       </v-card-title>
@@ -89,6 +91,7 @@ import FBtn from "@/components/generic/FBtn.vue";
 import TicketComment from "./TicketComment.vue";
 import ReAssignTicketFFormMDP from "./ReAssignTicketFFormMDP";
 import FFooTab from "@/components/generic/FFooTab.vue";
+import FSnackbar from "@/fsnackbar";
 @Component({
   components: {
     FForm,
@@ -99,6 +102,9 @@ import FFooTab from "@/components/generic/FFooTab.vue";
 export default class MyTicketTaskDetails extends Vue {
   @Store.Getter.Ticket.TicketSummary.ticketTaskDetails
   ticketTaskDetails: Data.Ticket.MyTicketDetails;
+
+  @Store.Getter.Login.LoginDetails.loggedInUser
+  loggedInUser: Data.Login.LoginDetails;
 
   @Store.Getter.Ticket.TicketSummary.ticketCommentsList
   ticketCommentsList: Data.Ticket.MyTicketCommentDetails[];
@@ -143,6 +149,9 @@ export default class MyTicketTaskDetails extends Vue {
     Action.Ticket.AddSubscriberList.interested(
       this.getMyTicketTaskDetailsWithDelayHandler
     );
+    Action.Ticket.ReassignTicket.interested(
+      this.getMyTicketTaskDetailsWithDelayHandler
+    )
   }
 
   public destroyed() {
@@ -153,6 +162,9 @@ export default class MyTicketTaskDetails extends Vue {
     Action.Ticket.AddSubscriberList.notInterested(
       this.getMyTicketTaskDetailsWithDelayHandler
     );
+    Action.Ticket.ReassignTicket.notInterested(
+      this.getMyTicketTaskDetailsWithDelayHandler
+    )
   }
 
   getMyTicketTaskDetails() {
@@ -181,6 +193,14 @@ export default class MyTicketTaskDetails extends Vue {
   reAssignClicked() {
     this.reAssignTicketInput = new Data.Ticket.ReAssignTicketInput();
     this.reAssignTicketDialog = true;
+  }
+
+  handleCloseTicketClick() {
+    if(this.loggedInUser.userName !== this.ticketTaskDetails.allocatedTo) {
+      FSnackbar.error(`This ticket is allocated to ${this.taskSummary.allocatedTo}.Please assign it to yourself to close this ticket`)
+    } else {
+      this.closeTicketDialog = true;
+    }
   }
   goBack() {
     this.$router.back();

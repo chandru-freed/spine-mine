@@ -7,7 +7,7 @@
       style="text-decoration: none; color: inherit"
       :to="routerObject"
     >
-      {{ selectModel(modelValue, dataSelectorKey) }}
+      {{ selectModel(modelValue, dataSelectorKey)?selectModel(modelValue, dataSelectorKey):'--' }}
     </router-link>
   </a>
 </template>

@@ -342,7 +342,7 @@
             :dataSelectorKey="header.value"
           ></component>
           <f-copy
-            v-if="header.enableCopy"
+            v-if="header.enableCopy&&!!selectModel(item, header.value)"
             :value="selectModel(item, header.value)"
           >
           </f-copy>

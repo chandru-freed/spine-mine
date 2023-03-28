@@ -80,7 +80,7 @@
               v-if="stPlanDetails.stPlanInfo"
               :ref="spaScheduleTableMetaData.myRefName"
               :is="spaScheduleTableMetaData.componentName"
-              :value="stPlanDetails"
+              :value="stPlanDetails.stSpaEntryList"
               v-bind="spaScheduleTableMetaData.props"
             ></component>
           </v-tab-item>

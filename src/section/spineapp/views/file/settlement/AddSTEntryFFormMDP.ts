@@ -19,30 +19,43 @@ export default class AddSTEntryFFormMDP extends FFormMDP {
     });
     this.taskRoot = taskRoot;
 
-    this.addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "settledTo",
-        label: "Settled To",
-        boundaryClass: "col-3",
-        options: Data.ClientFile.SETTLED_TO.list(),
-        optionLabel: "name",
-        optionValue: "id",
-        mandatory: true
-      })
-    )
-    .addField(
-      new FSelectFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "settledFrom",
-        label: "Settled From",
-        boundaryClass: "col-3",
-        options: Data.ClientFile.SETTLED_FROM.list(),
-        optionLabel: "name",
-        optionValue: "id",
-        mandatory: true
-      })
-    )
+    this
+    // .addField(
+    //   new FSelectFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "settledTo",
+    //     label: "Settled To",
+    //     boundaryClass: "col-3",
+    //     options: Data.ClientFile.SETTLED_TO.list(),
+    //     optionLabel: "name",
+    //     optionValue: "id",
+    //     mandatory: true
+    //   })
+    // )
+    // .addField(
+    //   new FSelectFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "settledFrom",
+    //     label: "Settled From",
+    //     boundaryClass: "col-3",
+    //     options: Data.ClientFile.SETTLED_FROM.list(),
+    //     optionLabel: "name",
+    //     optionValue: "id",
+    //     mandatory: true
+    //   })
+    // )
+
+    
+    .addField( new FSelectFieldMDP({
+      parentMDP: this.childMDP,
+      dataSelectorKey: "settlementEntryType",
+      label: "Settlement Entry Type",
+      boundaryClass: "col-3",
+      options: Data.ClientFile.SETTLEMENT_ENTRY_TYPE.list(),
+      optionLabel: "name",
+      optionValue: "id",
+      mandatory: true
+    }))
     .addField(
       new FSelectFieldMDP({
         parentMDP: this.childMDP,

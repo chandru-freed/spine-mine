@@ -1,8 +1,8 @@
 <template>
   <div class="OPRActiveTicketList">
     <!-- TASK TAB -->
-    <misreports-tab :value="3"></misreports-tab>
-    <v-card>
+    <!-- <misreports-tab :value="3"></misreports-tab> -->
+    <v-card flat>
       <component
         v-if="!!showReassignForm"
         :ref="reassignTaskFFormMetaData.myRefName"

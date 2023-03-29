@@ -17,6 +17,7 @@ import MISReportsFTabMDP from "./MISReportsFTabMDP";
   },
 })
 export default class MISReportsTab extends Vue {
+  // TO_BE_REMOVED
   get misReportsTabMetaData(): any {
     return new MISReportsFTabMDP({ taskRoot: this }).getMetaData();
   }

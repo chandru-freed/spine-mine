@@ -27,7 +27,7 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
-import CollectClientInfoTask from "@/section/spineapp/components/task/enrollment/collectClientInfo/CollectClientInfoTask.vue";
+
 import ClientInfoVerificationTask from "@/section/spineapp/components/task/enrollment/clientInfoVerification/ClientInfoVerificationTask.vue";
 import EMandateFailedTask from "@/section/spineapp/components/task/enrollment/eMandateFailed/EMandateFailedTask.vue";
 import SignServiceAgreementFailedTask from "@/section/spineapp/components/task/enrollment/signServiceAgreementFailed/SignServiceAgreementFailedTask.vue";
@@ -90,7 +90,6 @@ import EnrollClientFileTask from "@/section/spineapp/components/task/enrollment/
 
 @Component({
   components: {
-    CollectClientInfoTask,
     ClientInfoVerificationTask,
     EMandateFailedTask,
     UnderwrittingTask,
@@ -175,7 +174,6 @@ export default class CFTaskDetails extends Vue {
   }
 
   TASK_COMPONENT_MAP = new Map([
-    ["Enrollment::CollectClientInfo", "CollectClientInfoTask"],
     ["Enrollment::EnrollClientFile", "EnrollClientFileTask"],
     ["Enrollment::ClientInfoVerification", "ClientInfoVerificationTask"],
     ["Enrollment::SignServiceAgreement", "SignServiceAgreementTask"],

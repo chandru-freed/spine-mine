@@ -135,22 +135,27 @@ export default class ActionList extends Vue {
         {
           actionName: "Upcoming Payments",
           icon: "mdi-chevron-right",
-          routerName: "Root.MISReports.UpcomingPayments",
+          routerName: "Root.Operation.Payment.UpcomingPayments",
         },
         {
           actionName: "Account Balance",
           icon: "mdi-chevron-right",
-          routerName: "Root.MISReports.AccountBalance",
+          routerName: "Root.Operation.Payment.AccountBalance",
         },
         {
           actionName: "Daywise Payment",
           icon: "mdi-chevron-right",
-          routerName: "Root.Payment.DaywisePayment",
+          routerName: "Root.Operation.Payment.DaywisePayment",
+        },
+           {
+          actionName: "Pending Payment List",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Operation.Payment.PendingPaymentList",
         },
       ],
     },
     {
-      groupName: "File",
+      groupName: "Operations",
       actionList: [
         {
           actionName: "Active Tasks",
@@ -162,16 +167,21 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRActiveTicketList",
         },
-        {
-          actionName: "Payment Operation",
-          icon: "mdi-chevron-right",
-          routerName: "Root.Operation.PaymentOperation",
-        },
-        {
-          actionName: "Pending Payment List",
-          icon: "mdi-chevron-right",
-          routerName: "Root.Operation.PendingPaymentList",
-        },
+        // {
+        //   actionName: "Payment Operation",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.Operation.PaymentOperation",
+        // },
+        // {
+        //   actionName: "Pending Payment List",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.Operation.Payment.PendingPaymentList",
+        // },
+        // {
+        //   actionName: "Daywise Payment",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.Operation.Payment.DaywisePayment",
+        // },
       ],
     },
     {

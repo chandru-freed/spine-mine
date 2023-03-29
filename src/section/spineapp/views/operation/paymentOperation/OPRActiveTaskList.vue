@@ -1,8 +1,8 @@
 <template>
   <div class="OPRActiveTaskList">
     <!-- TASK TAB -->
-    <misreports-tab :value="2"></misreports-tab>
-    <v-card>
+    <!-- <misreports-tab :value="2"></misreports-tab> -->
+    <v-card flat>
       <component
         v-if="!!showAssignForm"
         :ref="assignTaskFFormMetaData.myRefName"

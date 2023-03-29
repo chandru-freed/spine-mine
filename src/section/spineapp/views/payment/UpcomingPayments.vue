@@ -1,10 +1,10 @@
 <template>
   <div class="UpcomingPayments">
     <!-- MIS REPORTS TAB -->
-    <misreports-tab v-model="tab"></misreports-tab>
+    <!-- <misreports-tab v-model="tab"></misreports-tab> -->
     <!-- MIS REPORTS TAB -->
 
-    <v-card class="pa-0 ma-0" color="transparent">
+    <v-card  flat class="pa-0 ma-0" color="transparent">
       <component
         v-if="!!upcomingPaymentsDateSearchFormMetaData"
         :ref="upcomingPaymentsDateSearchFormMetaData.myRefName"
@@ -16,7 +16,7 @@
         v-bind="upcomingPaymentsDateSearchFormMetaData.props"
       ></component>
     </v-card>
-    <v-card>
+    <v-card flat>
       <component
         v-if="!!upcomingPaymentsFDataTableMetaData"
         :ref="upcomingPaymentsFDataTableMetaData.myRefName"

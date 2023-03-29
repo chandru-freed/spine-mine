@@ -1,6 +1,6 @@
 <template>
   <div class="PaymentOperation">
-    <misreports-tab :value="2"></misreports-tab>
+    <!-- <misreports-tab :value="2"></misreports-tab> -->
     <component
       v-if="!!poFilterFFormMetaData"
       :ref="poFilterFFormMetaData.myRefName"

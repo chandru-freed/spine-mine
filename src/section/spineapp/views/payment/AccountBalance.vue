@@ -1,9 +1,9 @@
 <template>
   <div class="TaskAssignedToMe">
     <!-- MIS REPORTS TAB -->
-    <misreports-tab v-model="tab"></misreports-tab>
+    <!-- <misreports-tab v-model="tab"></misreports-tab> -->
     <!-- MIS REPORTS TAB -->
-    <v-card>
+    <v-card flat>
       <component
         v-if="!!accountBalanceFDataTableMetaData"
         :ref="accountBalanceFDataTableMetaData.myRefName"
@@ -81,7 +81,6 @@ export default class AccountBalance extends ModelVue {
 
   getAccountBalanceList(){
     Action.TaskList.GetAccountBalanceList.execute((output) => {
-      console.log("kjhkjh", output.misAccountBalanceEntryList);
       this.allocatedTaskList = output.misAccountBalanceEntryList;
     });
   }

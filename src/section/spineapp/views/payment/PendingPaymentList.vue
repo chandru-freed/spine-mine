@@ -1,6 +1,6 @@
 <template>
   <div class="UpcomingPaymentList">
-    <misreports-tab :value="2"></misreports-tab>
+    <!-- <misreports-tab :value="2"></misreports-tab> -->
     <component
       class="my-2"
       :is="poPendingPaymentFDataTableMetaData.componentName"

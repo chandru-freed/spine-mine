@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{isAmeyoToolbarDialogRole()}} -->
     <!-- <left-navigation-bar></left-navigation-bar> -->
 
     <!-- <v-app-bar app dense  flat class="grey lighten-2">
@@ -10,9 +11,10 @@
       <app-bar-notification-menu/>
       <app-bar-user-menu/>
     </v-app-bar> -->
+
     <div
       :class="['sidenavBar', showAmeyoSideBar ? 'right0' : '']"
-      v-if="clientFileId"
+      v-if="clientFileId || isAmeyoToolbarDialogRole()"
     >
       <AmeyoToolbarDialog />
     </div>
@@ -20,7 +22,13 @@
       :class="['phoneCall', showAmeyoSideBar ? 'right0' : '']"
       v-if="clientFileId"
     >
-      <v-btn color="green" dark fab @click="openNavShow()">
+      <v-btn
+        color="green"
+        dark
+        fab
+        @click="openNavShow()"
+        v-if="isAmeyoToolbarDialogRole()"
+      >
         <v-icon v-if="!showAmeyoSideBar">mdi-phone-in-talk</v-icon>
         <v-icon v-if="showAmeyoSideBar">mdi-close</v-icon>
       </v-btn>
@@ -62,7 +70,7 @@ import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vu
 })
 export default class RootLayout extends Vue {
   @Store.Getter.Login.LoginDetails.roleList
-  roleList: [];
+  roleList: string[];
 
   @Store.Getter.ClientFile.ClientFileSummary.showAmeyoSideBar
   showAmeyoSideBar: boolean;
@@ -86,6 +94,18 @@ export default class RootLayout extends Vue {
       new Data.Login.MyAppId(),
       (output: any) => {}
     );
+  }
+
+  isSalesRepManager() {
+    return this.roleList?.includes("SalesRepManager");
+  }
+
+  isOperation() {
+    return this.roleList?.includes("Operation");
+  }
+
+  isAmeyoToolbarDialogRole() {
+    return this.isSalesRepManager() || this.isOperation();
   }
 
   openNavShow() {
@@ -123,4 +143,3 @@ export default class RootLayout extends Vue {
   right: 330px;
 }
 </style>
-

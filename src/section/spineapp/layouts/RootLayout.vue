@@ -96,16 +96,16 @@ export default class RootLayout extends Vue {
     );
   }
 
-  isSalesRepManager() {
-    return this.roleList?.includes("SalesRepManager");
+  isCS() {
+    return this.roleList?.includes("CS");
   }
 
-  isOperation() {
-    return this.roleList?.includes("Operation");
+  isCSManager() {
+    return this.roleList?.includes("CSManager");
   }
 
   isAmeyoToolbarDialogRole() {
-    return this.isSalesRepManager() || this.isOperation();
+    return this.isCS() || this.isCSManager();
   }
 
   openNavShow() {

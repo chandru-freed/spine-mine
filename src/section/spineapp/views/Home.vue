@@ -21,7 +21,7 @@
               <v-list-item-title class="text-h4 mb-1">
                 {{ myDashboardSummary.myClientFileCount }}
               </v-list-item-title>
-              <v-list-item-subtitle>Files Owned</v-list-item-subtitle>
+              <v-list-item-subtitle>Files Owned </v-list-item-subtitle>
               <!-- <v-list-item-title class="text-h6 mb-1" v-if="item.subHeading">
                 {{ item.subHeading + " (" + item.subCount + ")" }}
               </v-list-item-title> -->
@@ -85,6 +85,74 @@
       </div>
 
       <div class="col-4">
+        <v-card class="mx-auto" outlined>
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">Emandate Status</div>
+
+              <div class="row">
+                <div class="col-4">
+                  <v-list-item-title class="text-h4 mb-1">
+                    <a @click="gotoRouter('Root.MyClientFilesActiveEmandate')"
+                      >{{ myDashboardSummary.myClientFileActiveEmandateCount }}
+                      <v-list-item-subtitle>Active </v-list-item-subtitle>
+                    </a>
+                  </v-list-item-title>
+                </div>
+                <div class="col-4">
+                  <v-list-item-title class="text-h4 mb-1">
+                    <a @click="gotoRouter('Root.MyClientFilesPendingEmandate')"
+                      >{{
+                        myDashboardSummary.pendingEmandateOfActiveClientsCount
+                      }}
+                      <v-list-item-subtitle>Pending </v-list-item-subtitle>
+                    </a></v-list-item-title
+                  >
+                </div>
+              </div>
+            </v-list-item-content>
+
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-credit-card-outline</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+
+      <div class="col-4">
+        <v-card class="mx-auto" outlined>
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">First MSF Status</div>
+
+              <div class="row">
+                <div class="col-4">
+                  <v-list-item-title class="text-h4 mb-1">
+                    <a @click="gotoRouter('Root.MyClientFiles', 'ACTIVE')"
+                      >{{ myDashboardSummary.myClientFileActiveCount }}
+                      <v-list-item-subtitle>Active </v-list-item-subtitle>
+                    </a>
+                  </v-list-item-title>
+                </div>
+                <div class="col-4">
+                  <v-list-item-title class="text-h4 mb-1">
+                    <a @click="gotoRouter('Root.MyClientFilesFMSFPending')"
+                      >{{ myDashboardSummary.pendingFirstMSFCount }}
+                      <v-list-item-subtitle>Pending </v-list-item-subtitle>
+                    </a>
+                  </v-list-item-title>
+                </div>
+              </div>
+            </v-list-item-content>
+
+            <v-list-item-avatar tile size="60">
+              <v-icon size="60">mdi-cash-multiple</v-icon>
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-card>
+      </div>
+
+      <div class="col-4">
         <v-card
           class="mx-auto"
           outlined
@@ -124,7 +192,13 @@
       </div>
 
       <div class="col-4">
-        <v-card class="mx-auto" outlined @click="gotoRouter('Root.CreditorModule.StatisticsListForTopCreditors')">
+        <v-card
+          class="mx-auto"
+          outlined
+          @click="
+            gotoRouter('Root.CreditorModule.StatisticsListForTopCreditors')
+          "
+        >
           <v-list-item three-line>
             <v-list-item-content>
               <div class="text-overline mb-4">Creditor Module</div>
@@ -199,7 +273,7 @@ export default class Home extends Vue {
   myDashboardSummary: Data.Spine.GetMyDashboardSummary =
     new Data.Spine.GetMyDashboardSummary();
 
-  totalNumberOfCreditors: number = 0;  
+  totalNumberOfCreditors: number = 0;
   get items() {
     return [
       {
@@ -239,14 +313,17 @@ export default class Home extends Vue {
     });
   }
 
-  gotoRouter(routerName: string) {
-    this.$router.push({ name: routerName });
+  gotoRouter(routerName: string, clientFileStatus: string) {
+    this.$router.push({
+      name: routerName,
+      query: { clientFileStatus: clientFileStatus },
+    });
   }
 
   getTotalNumberOfCreditors() {
-    Action.Spine.SearchCreditor.execute1("", output => {
+    Action.Spine.SearchCreditor.execute1("", (output) => {
       this.totalNumberOfCreditors = output.length;
-    })
+    });
   }
 }
 </script>

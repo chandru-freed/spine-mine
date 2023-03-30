@@ -26,6 +26,7 @@
                   <div class="d-flex">
                     <!-- <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
               <v-chip x-small class="mx-2" v-if="clientFileBasicInfo.isFirstMSFPaid" color="green" outlined>FMSF Paid</v-chip> -->
+                    <v-chip v-if="fileSummary.ppCode" x-small color="secondary" outlined >{{fileSummary.ppCode}}</v-chip>
                     <v-chip x-small class="mx-2">{{
                       fileSummary.clientFileStatus.name
                     }}</v-chip>
@@ -185,9 +186,10 @@
           <v-list-item dense>
             <v-list-item-content>
               <v-list-item-title class="secondary--text text-subtitle-1"
-                >MSF
+                >MSF 
               </v-list-item-title>
             </v-list-item-content>
+            
 
             <v-list-item-action class="py-0 my-0">
               <div class="d-flex secondary--text text-h6 font-weight-semibold">

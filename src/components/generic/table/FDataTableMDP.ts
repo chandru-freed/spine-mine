@@ -11,6 +11,8 @@ import FTabelInfoMDP from "./FTableInfoMDP";
 import * as Data from "@/../src-gen/data";
 import FCellRouterLinkMDP from "./cell/FCellRouterLinkMDP";
 import FCellBooleanMDP from "./cell/FCellBooleanMDP";
+import FCellDateMDP from "./cell/FCellDateMDP";
+import FCellDateTimeMDP from "./cell/FCellDateTimeMDP";
 export default class FDataTableMDP implements MDP {
   componentName = "FDataTable";
   columnList: FColumnMDP[] = [];
@@ -330,6 +332,24 @@ export default class FDataTableMDP implements MDP {
     })
 
     return this;
+  }
+
+  addDateColumn({label, dataSelectorKey, hidden}: {label:string, dataSelectorKey:string, hidden?: boolean}) {
+    this.addColumn({
+      label: label,
+      dataSelectorKey: dataSelectorKey,
+      columnCellMDP: new FCellDateMDP(),
+      hidden: hidden
+    })
+  }
+
+  addDateTimeColumn({label, dataSelectorKey, hidden}: {label:string, dataSelectorKey:string, hidden?: boolean}) {
+    this.addColumn({
+      label: label,
+      dataSelectorKey: dataSelectorKey,
+      columnCellMDP: new FCellDateTimeMDP(),
+      hidden: hidden
+    })
   }
 
 

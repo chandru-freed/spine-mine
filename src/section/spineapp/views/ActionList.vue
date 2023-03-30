@@ -143,6 +143,11 @@ export default class ActionList extends Vue {
           routerName: "Root.Operation.Payment.AccountBalance",
         },
         {
+          actionName: "Search Payments",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Operation.Payment.SearchPayment",
+        },
+        {
           actionName: "Daywise Payment",
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.Payment.DaywisePayment",

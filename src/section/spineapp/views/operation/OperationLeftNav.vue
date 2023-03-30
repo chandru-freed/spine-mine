@@ -74,9 +74,11 @@ export default class OperationLeftNav extends Vue {
       icon: "mdi-credit-card-outline - payment icon",
       items: [
         { title: "Upcoming Payments", routerName: "Root.Operation.Payment.UpcomingPayments" },
+        { title: "Search Payments", routerName: "Root.Operation.Payment.SearchPayment" },
         { title: "Daywise Payment", routerName: "Root.Operation.Payment.DaywisePayment" },
         { title: "Pending Payment List", routerName: "Root.Operation.Payment.PendingPaymentList" },
         { title: "Account Balance", routerName: "Root.Operation.Payment.AccountBalance" },
+
       ],
     },
 

@@ -86,16 +86,16 @@ export default class AddUserToUGFFormMDP extends FFormMDP {
           condition: this.parent.userDetails.leadSquaredUserId !==undefined
         })
       )
-    .addField(
-      new FTextareaMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "userGroupListString",
-        label: "User Group",
-        mandatory: true,
-        boundaryClass: "col-4",
-        condition: this.parent.userDetails.userGroupListString !==''
-      })
-    )
+    // .addField(
+    //   new FTextareaMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "userGroupListString",
+    //     label: "User Group",
+    //     mandatory: true,
+    //     boundaryClass: "col-4",
+    //     condition: this.parent.userDetails.userGroupListString !==''
+    //   })
+    // )
     // .addAction(new FBtnMDP({
     //   label: "Edit",
     //   onClick: this.syncLeadSquaredId()

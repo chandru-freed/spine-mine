@@ -8,8 +8,30 @@
       </template>
     </v-breadcrumbs>
     <v-card flat>
-      <div class="col d-flex align-center justify-space-between">
+      <v-card v-if="showAddUserGroupForm" class="py-5 px-2" outlined>
+        <v-card-title>Add User Group</v-card-title>
+        <component
+          :ref="addUserGroupToUserMetaData.myRefName"
+          :is="addUserGroupToUserMetaData.componentName"
+          :value="selectModel(updateUserGroupInput, undefined)"
+          @input="
+            (newValue) => updateModel(updateUserGroupInput, newValue, undefined)
+          "
+          v-bind="addUserGroupToUserMetaData.props"
+        ></component>
+      </v-card>
+
+      <div class="col d-flex align-center">
         <v-card-title>User Details</v-card-title>
+        <v-spacer />
+        <f-btn
+          label="Add User Group"
+          :onClick="() => (showAddUserGroupForm = true)"
+          color="primary"
+          outlined
+          class="mx-4"
+        >
+        </f-btn>
         <f-btn
           label="Sync LeadSquared Id"
           :onClick="syncLeadSquaredId()"
@@ -18,6 +40,7 @@
         >
         </f-btn>
       </div>
+
       <component
         v-if="!!userDetailsFFormMetaData"
         :ref="userDetailsFFormMetaData.myRefName"
@@ -26,6 +49,28 @@
         @input="(newValue) => updateModel(userDetails, newValue, undefined)"
         v-bind="userDetailsFFormMetaData.props"
       ></component>
+
+      <f-alert
+        v-if="showRemoveUserGroupConfirmation"
+        @cancelClick="showRemoveUserGroupConfirmation = false"
+        @confirmClick="removeUserGroupClick"
+        :message="`Are you sure want to remove '${selectedUserGroupForDelete}' role from this user`"
+      />
+      <div class="col-12 mx-3">
+        <v-toolbar-title v-if="userDetails.userGroupList.length>0" class="mb-3">User Groups</v-toolbar-title>
+        <v-chip
+          label
+          outlined
+          color="primary"
+          class="my-2 mr-3"
+          v-for="(userGroup, index) of userDetails.userGroupList"
+          :key="index"
+          @click:close="handleRemoveUGClick(userGroup)"
+          close
+        >
+          {{ userGroup.userGroupName }}
+        </v-chip>
+      </div>
     </v-card>
   </div>
 </template>
@@ -41,16 +86,26 @@ import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import FSnackbar from "@/fsnackbar";
 import FBtn from "@/components/generic/FBtn.vue";
-
+import AddUserGroupToUserFFormMDP from "./AddUserGroupToUserFFormMDP";
+import FDataTable from "@/components/generic/table/FDataTable.vue";
+import FAlert from "@/components/generic/FAlert.vue";
 @Component({
   components: {
     FForm,
     "f-btn": FBtn,
+    FAlert,
   },
 })
 export default class UserDetails extends ModelVue {
-  public addUserInput: Data.Spine.AddUserInput = new Data.Spine.AddUserInput();
-  public userDetails: Data.Spine.GompaUserDetails = new Data.Spine.GompaUserDetails();
+  public updateUserGroupInput: Data.Spine.UpdateUserGroupInput =
+    new Data.Spine.UpdateUserGroupInput();
+  public userDetails: Data.Spine.GompaUserDetails =
+    new Data.Spine.GompaUserDetails();
+  public userGroupList: Data.Spine.UserGroup[] = [];
+  showRemoveUserGroupConfirmation: boolean = false;
+  showAddUserGroupForm: boolean = false;
+  selectedUserGroupForDelete: any;
+  userName = this.$route.params.userName;
   breadcrumbList = [
     {
       title: "User",
@@ -67,19 +122,41 @@ export default class UserDetails extends ModelVue {
       parent: this,
     }).getMetaData();
   }
+
+  get addUserGroupToUserMetaData() {
+    return new AddUserGroupToUserFFormMDP({
+      parent: this,
+    }).getMetaData();
+  }
+
   // META DATA
 
   mounted() {
     this.getUserDetails();
+    this.resetUserGroupInput();
+    this.getUserGroupList();
   }
 
   getUserDetails() {
-    const userName = this.$route.params.userName;
-    Action.Spine.GetUserDetails.execute1(userName, (output) => {
+    Action.Spine.GetUserDetails.execute1(this.userName, (output) => {
       console.log(output);
       this.userDetails = output;
-      this.userDetails.userGroupListString = this.userDetails.userGroupList.map(item => item.userGroupName).toString();
+      this.userDetails.userGroupListString = this.userDetails.userGroupList
+        .map((item) => item.userGroupName)
+        .toString();
     });
+  }
+
+  getUserGroupList() {
+    Action.Spine.GetAllUserGroupList.execute((output) => {
+      this.userGroupList = output;
+    });
+  }
+
+  resetUserGroupInput() {
+    this.updateUserGroupInput = new Data.Spine.UpdateUserGroupInput();
+    this.updateUserGroupInput.userName = this.userName;
+    this.showAddUserGroupForm = false;
   }
 
   syncLeadSquaredId() {
@@ -96,6 +173,21 @@ export default class UserDetails extends ModelVue {
 
   goto(routerName: string) {
     this.$router.push({ name: routerName });
+  }
+  handleRemoveUGClick(userGroup: any) {
+    this.selectedUserGroupForDelete = userGroup.userGroupName;
+    this.showRemoveUserGroupConfirmation = true;
+  }
+
+  removeUserGroupClick() {
+    Action.Spine.RemoveUserFromUserGroup.execute2(
+      this.userName,
+      this.selectedUserGroupForDelete,
+      (output) => {
+        this.showRemoveUserGroupConfirmation = false;
+        this.getUserDetails();
+      }
+    );
   }
 }
 </script>

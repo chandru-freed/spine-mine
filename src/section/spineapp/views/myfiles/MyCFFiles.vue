@@ -36,19 +36,12 @@ import FForm from "@/components/generic/form/FForm.vue";
   },
 })
 export default class MyCFFiles extends ModelVue {
-  myClientFileListGridHeaderList = [
-    { text: "Client File Number", value: "clientFileNumber", align: "start" },
-    { text: "Client Name", value: "fullName" },
-    { text: "Mobile", value: "mobile" },
-    { text: "E-mail", value: "emailId" },
-    { text: "City", value: "city" },
-    { text: "State", value: "state" },
-  ];
   myClientFileList: Data.ClientFile.MyClientFile[] = [];
-  search: string = "";
   showRegisterMyCFForm: boolean = false;
   registerClientFormData: Data.Client.RegisterAndAddClientFileForm =
     new Data.Client.RegisterAndAddClientFileForm();
+
+  clientFileStatus = this.$route.query.clientFileStatus;
 
   mounted() {
     this.getMyClientFileList();
@@ -56,7 +49,11 @@ export default class MyCFFiles extends ModelVue {
 
   getMyClientFileList() {
     Action.ClientFile.GetMyClientFileList.execute((output) => {
-      this.myClientFileList = output;
+      this.myClientFileList = output.filter((value: any) =>
+        this.clientFileStatus === "ACTIVE"
+          ? value.clientFileStatus.id == "ACTIVE"
+          : value
+      );
     });
   }
 

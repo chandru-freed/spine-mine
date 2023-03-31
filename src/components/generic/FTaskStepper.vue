@@ -212,7 +212,9 @@
               "
               v-bind="step.stepContent.props"
             />
+            <f-scroll-up-btn />
           </v-card-text>
+          
         </v-card>
       </v-stepper-content>
     </v-stepper-items>
@@ -253,6 +255,7 @@ import FAgreementList from "./file/agreementList/FAgreementList.vue";
 import FEMandateList from "./file/eMandateList/FEMandateList.vue";
 import Helper from "@/section/spineapp/util/Helper";
 import FCFTPaymentPlan from "./file/paymentPlan/cfTaskPaymentPlan/FCFTPaymentPlan.vue";
+import FScrollUpBtn from "./FScrollUpBtn.vue";
 
 @Component({
   components: {
@@ -277,7 +280,8 @@ import FCFTPaymentPlan from "./file/paymentPlan/cfTaskPaymentPlan/FCFTPaymentPla
     ECFTSummaryStep,
     FAgreementList,
     FEMandateList,
-    FCFTPaymentPlan
+    FCFTPaymentPlan,
+    FScrollUpBtn
   },
 })
 export default class FTaskStepper extends ModelVue {
@@ -536,4 +540,5 @@ export default class FTaskStepper extends ModelVue {
 .v-stepper__step {
   padding: 0px 12px !important;
 }
+
 </style>

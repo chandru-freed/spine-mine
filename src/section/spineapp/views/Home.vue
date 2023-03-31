@@ -130,7 +130,7 @@
                   <v-list-item-title class="text-h4 mb-1">
                     <a @click="gotoRouter('Root.MyClientFiles', 'ACTIVE')"
                       >{{ myDashboardSummary.myClientFileActiveCount }}
-                      <v-list-item-subtitle>Active </v-list-item-subtitle>
+                      <v-list-item-subtitle>MSF Paid </v-list-item-subtitle>
                     </a>
                   </v-list-item-title>
                 </div>
@@ -138,7 +138,7 @@
                   <v-list-item-title class="text-h4 mb-1">
                     <a @click="gotoRouter('Root.MyClientFilesFMSFPending')"
                       >{{ myDashboardSummary.pendingFirstMSFCount }}
-                      <v-list-item-subtitle>Pending </v-list-item-subtitle>
+                      <v-list-item-subtitle>MSF Pending </v-list-item-subtitle>
                     </a>
                   </v-list-item-title>
                 </div>

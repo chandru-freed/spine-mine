@@ -340,7 +340,8 @@ export default class FDataTableMDP implements MDP {
       dataSelectorKey: dataSelectorKey,
       columnCellMDP: new FCellDateMDP(),
       hidden: hidden
-    })
+    });
+    return this;
   }
 
   addDateTimeColumn({label, dataSelectorKey, hidden}: {label:string, dataSelectorKey:string, hidden?: boolean}) {

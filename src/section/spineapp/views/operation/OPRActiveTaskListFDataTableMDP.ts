@@ -24,27 +24,10 @@ export default class OPRActiveTaskListFDataTableMDP extends FDataTableMDP {
       multiSelect: true,
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Client File Number",
-      dataSelectorKey: "cid",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-file-account",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
-    })
-      .addColumn({
-        label: "Client Name",
+    this.addClientFileNumberColumn({ dataSelectorKey: "cid", })
+      .addClientNameColumn({
         dataSelectorKey: "displayId",
-        columnCellMDP: new FCellBtnMDP({
-          color: "deep-purple",
-          icon: "mdi-account",
-          onClick: (item) => {
-            this.handleClientClick(item);
-          },
-        }),
+        paramKey: "taskInput.clRegistrationDetails.clientId"
       })
       .addColumn({
         label: "Task",
@@ -53,10 +36,10 @@ export default class OPRActiveTaskListFDataTableMDP extends FDataTableMDP {
           color: "primary",
         }),
       })
-      .addColumn({
+      .addStatusColumn({
         label: "",
         dataSelectorKey: "priority",
-        columnCellMDP: new FCellStatusMDP({ outlined: true }),
+        outlined: true
       })
       .addClientFileStatusColumn({ label: "Status", dataSelectorKey: "taskState.name", })
       .addColumn({

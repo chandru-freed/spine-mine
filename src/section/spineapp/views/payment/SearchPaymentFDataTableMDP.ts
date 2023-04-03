@@ -51,10 +51,9 @@ export default class SearchPaymentFDataTableMDP extends FDataTableMDP {
         label: "Ifsc Code",
         dataSelectorKey: "ifscCode",
         hidden: true
-      }).addColumn({
+      }).addDateColumn({
         label: "Presented Date",
         dataSelectorKey: "presentedDate",
-        columnCellMDP: new FCellDateMDP()
       }).addCurrencyColumn({
         label: "Total Amount",
         dataSelectorKey: "totalAmount",
@@ -99,10 +98,9 @@ export default class SearchPaymentFDataTableMDP extends FDataTableMDP {
         label: "Ref Id",
         dataSelectorKey: "refId",
         hidden: true
-      }).addColumn({
+      }).addDateTimeColumn({
         label: "Last Updated Time",
         dataSelectorKey: "lastUpdatedTime",
-        columnCellMDP: new FCellDateTimeMDP(),
         hidden: true
       })
   }

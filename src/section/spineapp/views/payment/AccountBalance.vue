@@ -1,8 +1,5 @@
 <template>
   <div class="TaskAssignedToMe">
-    <!-- MIS REPORTS TAB -->
-    <!-- <misreports-tab v-model="tab"></misreports-tab> -->
-    <!-- MIS REPORTS TAB -->
     <v-card flat>
       <component
         v-if="!!accountBalanceFDataTableMetaData"
@@ -21,7 +18,6 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
 
 import moment from "moment";
 import FBtn from "@/components/generic/FBtn.vue";
@@ -33,7 +29,6 @@ import FForm from "@/components/generic/form/FForm.vue";
 
 @Component({
   components: {
-    "misreports-tab": MISReportsTab,
     "f-btn": FBtn,
     FDataTable,
     FForm,

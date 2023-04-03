@@ -1,7 +1,6 @@
 <template>
   <div class="OPRActiveTaskList">
     <!-- TASK TAB -->
-    <!-- <misreports-tab :value="2"></misreports-tab> -->
     <v-card flat>
       <component
         v-if="!!showAssignForm"
@@ -46,7 +45,6 @@ import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import OPRActiveTaskListFDataTableMDP from "./OPRActiveTaskListFDataTableMDP";
-import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
 import AssignTaskFFormMDP from "./AssignTaskFFormMDP";
 import ReassignTaskFFormMDP from "./ReassignTaskFFormMDP";
 import FSnackbar from "@/fsnackbar";
@@ -55,7 +53,6 @@ import FSnackbar from "@/fsnackbar";
     "f-btn": FBtn,
     FDataTable,
     FForm,
-    "misreports-tab": MISReportsTab,
   },
 })
 export default class OPRActiveTaskList extends ModelVue {

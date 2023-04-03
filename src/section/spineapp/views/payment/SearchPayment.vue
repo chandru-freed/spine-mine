@@ -30,7 +30,6 @@ import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
 
 import moment from "moment";
 import FBtn from "@/components/generic/FBtn.vue";
@@ -43,7 +42,6 @@ import SPDateSearchFFormMDP from "./SPDateSearchFFormMDP";
 
 @Component({
   components: {
-    "misreports-tab": MISReportsTab,
     "f-btn": FBtn,
     FDataTable,
     FForm,

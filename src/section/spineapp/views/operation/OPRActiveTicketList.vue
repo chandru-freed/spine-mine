@@ -1,7 +1,6 @@
 <template>
   <div class="OPRActiveTicketList">
     <!-- TASK TAB -->
-    <!-- <misreports-tab :value="3"></misreports-tab> -->
     <v-card flat>
       <component
         v-if="!!showReassignForm"
@@ -37,7 +36,6 @@ import FBtn from "@/components/generic/FBtn.vue";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
 import OPRActiveTicketListFDataTableMDP from "./OPRActiveTicketListFDataTableMDP";
 import ReassignTicketFFormMDP from "./ReassignTicketFFormMDP";
 import FSnackbar from "@/fsnackbar";
@@ -47,7 +45,6 @@ import FSnackbar from "@/fsnackbar";
     "f-btn": FBtn,
     FDataTable,
     FForm,
-    "misreports-tab": MISReportsTab,
   },
 })
 export default class OPRActiveTicketList extends ModelVue {

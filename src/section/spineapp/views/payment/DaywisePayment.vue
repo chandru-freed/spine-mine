@@ -1,6 +1,5 @@
 <template>
   <div class="PaymentOperation">
-    <!-- <misreports-tab :value="2"></misreports-tab> -->
     <component
       v-if="!!poFilterFFormMetaData"
       :ref="poFilterFFormMetaData.myRefName"
@@ -51,13 +50,11 @@ import ModelVue from "@/components/generic/ModelVue";
 import DPMSFFDataTableMDP from "./DPMSFFDataTableMDP";
 import DPPaymentScheduleFDataTableMDP from "./DPPaymentScheduleFDataTableMDP";
 import DPAllPaymentFDataTableMDP from "./DPAllPaymentFDataTableMDP";
-import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
 import Helper from "@/section/spineapp/util/Helper";
 @Component({
   components: {
     FForm,
     FDataTable,
-    "misreports-tab": MISReportsTab,
   },
 })
 export default class DaywisePayment extends ModelVue {

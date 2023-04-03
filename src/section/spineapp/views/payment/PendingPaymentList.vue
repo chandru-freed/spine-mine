@@ -1,6 +1,5 @@
 <template>
   <div class="UpcomingPaymentList">
-    <!-- <misreports-tab :value="2"></misreports-tab> -->
     <component
       class="my-2"
       :is="poPendingPaymentFDataTableMetaData.componentName"
@@ -22,13 +21,11 @@ import FDataTable from "@/components/generic/table/FDataTable.vue";
 import ModelVue from "@/components/generic/ModelVue";
 
 import PendingPaymentListFDataTable from "./PendingPaymentListFDataTable";
-import MISReportsTab from "@/section/spineapp/components/tab/MISReportsTab.vue";
 import Helper from "@/section/spineapp/util/Helper";
 @Component({
   components: {
     FForm,
     FDataTable,
-    "misreports-tab": MISReportsTab,
   },
 })
 export default class PaymentOperation extends ModelVue {

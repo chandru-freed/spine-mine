@@ -3,9 +3,11 @@
     <template v-slot="{ hover }">
       <div class="d-flex align-center">
         <slot> </slot>
+        <v-fab-transition>
         <a class="mx-3" v-if="hover" @click="copyToClipBoard()">
           <v-icon small>mdi-content-copy</v-icon>
         </a>
+        </v-fab-transition>
       </div>
     </template>
   </v-hover>

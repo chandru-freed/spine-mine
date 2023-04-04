@@ -20,17 +20,8 @@ export default class SubscribedTicketListFDataTableMDP extends FDataTableMDP {
       title: "My Subscribed Ticket",
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Ticket Number",
-      dataSelectorKey: "cid",
-      columnCellMDP: new FCellBtnMDP({
-        color: "secondary",
-        icon: "mdi-ticket-confirmation",
-        onClick: (item) => {
-          this.handleClientFileClick(item);
-        },
-      }),
-    }).addClientFileNumberColumn({dataSelectorKey: "clientFile.clientFileNumber",})
+    this.addTicketNumberColumn({ dataSelectorKey: "cid", paramKey: "taskId" })
+      .addClientFileNumberColumn({ dataSelectorKey: "clientFile.clientFileNumber", })
       .addColumn({
         label: "Subject",
         dataSelectorKey: "displayId",

@@ -147,10 +147,11 @@
                     v-for="(action, index) in filteredActions"
                     :key="index"
                     link
+                    dense
                     :disabled="!action.condition()"
                     @click="() => action.handleOtherActionClick()"
                   >
-                    <v-list-item-title>{{ action.label }}</v-list-item-title>
+                    <div class="text-caption">{{ action.label }}</div>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -289,6 +290,10 @@ export default class FTaskStepper extends ModelVue {
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
   @Store.Getter.Login.LoginDetails.roleList
   roleList: string[];
+
+  @Store.Getter.Login.LoginDetails.loggedInUser
+  loggedInUser: Data.Login.LoginDetails;
+
   suspendTaskInput: Data.TaskList.SuspendTaskInput =
     new Data.TaskList.SuspendTaskInput();
 
@@ -327,6 +332,12 @@ export default class FTaskStepper extends ModelVue {
 
   get filteredActions() {
     this.filteredActionsLocal = [
+
+      {
+        label: "Assign myself",
+        handleOtherActionClick: this.assignToMyself,
+        condition: () => true,
+      },
       {
         label: "Suspend",
         handleOtherActionClick: this.suspendTaskAdd,
@@ -498,6 +509,33 @@ export default class FTaskStepper extends ModelVue {
   closeCancelTask() {
     this.cancelTaskForm = false;
   }
+
+  assignToMyself() {
+    if(!!this.taskDetails.allocatedTo && this.taskDetails.allocatedTo!=="") {
+      this.reAssignTask();
+    } else {
+      this.assignTask();
+    }
+  }
+
+  assignTask() {
+    const assignTaskInput:Data.Spine.AssignInput = new Data.Spine.AssignInput();
+    assignTaskInput.taskId = this.taskId;
+    assignTaskInput.toUserName = this.loggedInUser.userName;
+    Action.Spine.Assign.execute(assignTaskInput, (output) => {
+      FSnackbar.success("Succesfully assigned the task to yourself");
+    });
+  }
+
+  reAssignTask() {
+    const assignTaskInput:Data.Spine.ReassignInput = new Data.Spine.ReassignInput();
+    assignTaskInput.taskId = this.taskId;
+    assignTaskInput.toUserName = this.loggedInUser.userName;
+    Action.Spine.Reassign.execute(assignTaskInput, (output) => {
+      FSnackbar.success("Succesfully reassigned the task to yourself");
+    });
+  }
+
 
   proceedTask() {
     Action.TaskList.Proceed.execute1(this.taskId, output => {

@@ -314,7 +314,25 @@ export default class FDataTableMDP implements MDP {
 
     return this;
   }
+  addTicketNumberColumn({
+    label = "Ticket Number", dataSelectorKey,paramKey
+  }: { label?: string; dataSelectorKey: string;paramKey?: string }) {
+    this.addColumn({
+      label: label,
+      dataSelectorKey: dataSelectorKey,
+      columnCellMDP: new FCellRouterLinkMDP({
+        routerName: "Root.MyTicket.MyTicketDetails.MyTicketCommentList",
+        paramName: "myTicketId",
+        color: "primary",
+        paramKey:paramKey,
+        // icon: "mdi-ticket-confirmation"
+      }),
+      enableCopy: true,
+      width: "15%"
+    })
 
+    return this;
+  }
   addClientNameColumn({
     label = "Client Name", dataSelectorKey, paramKey = "clientId", width
   }: { label?: string; dataSelectorKey: string; paramKey?: string;width?:string }) {

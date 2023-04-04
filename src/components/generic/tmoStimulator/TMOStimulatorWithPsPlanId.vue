@@ -10,74 +10,74 @@
       ></component>
       <div class="px-5 pb-5">
         <div class="d-flex flex-column justify-center align-center">
-        <div class="d-flex align-start mb-5">
-          <!-- <v-chip class="mr-2" color="primary" label outlined large>
+          <div class="d-flex align-start mb-5">
+            <!-- <v-chip class="mr-2" color="primary" label outlined large>
             Repayment Amount:&nbsp;&nbsp;<span
               class="font-weight-bold secondary--text"
               >{{ Math.round(result.repaymentAmount) | toINR }}</span
             >
           </v-chip> -->
 
-          <v-chip class="mr-2" color="primary" label outlined large
-            >MSF: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-              result.msfAmount | toINR
-            }}</span>
-          </v-chip>
-          <v-chip class="mr-2" color="primary" label outlined large>
-            SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-              Math.round(result.monthlyPayment) | toINR
-            }}</span>
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="primary"
-            label
-            outlined
-            large
-            v-if="monthlyObligationLessThan"
-          >
-            TMO: &nbsp;&nbsp;<span
-              class="font-weight-bold secondary--text"
-              >{{ Math.round(result.monthlyObligation) | toINR }}</span
+            <v-chip class="mr-2" color="primary" label outlined large
+              >MSF: &nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ result.msfAmount | toINR }}</span
+              >
+            </v-chip>
+            <v-chip class="mr-2" color="primary" label outlined large>
+              SPA: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
+                Math.round(result.monthlyPayment) | toINR
+              }}</span>
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="primary"
+              label
+              outlined
+              large
+              v-if="monthlyObligationLessThan"
             >
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="warning"
-            label
-            outlined
-            large
-            v-if="monthlyObligationGreaterThanEqual"
-          >
-            TMO: &nbsp;&nbsp;<span
-              class="font-weight-bold warning--text"
-              >{{ Math.round(result.monthlyObligation) | toINR }}</span
+              TMO: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
+                Math.round(result.monthlyObligation) | toINR
+              }}</span>
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="warning"
+              label
+              outlined
+              large
+              v-if="monthlyObligationGreaterThanEqual"
             >
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="primary"
-            label
-            outlined
-            large
-            v-if="tenureLessThan"
-            >Tenure: &nbsp;&nbsp;<span class="font-weight-bold secondary--text"
-              >{{ result.tenure }} mth</span
-            >
-          </v-chip>
-          <v-chip
-            class="mr-2"
-            color="error"
-            label
-            outlined
-            large
-            v-if="tenureLessGreaterThanEqual"
-            >Tenure: &nbsp;&nbsp;<span class="font-weight-bold"
-              >{{ result.tenure }} mths</span
-            >
-          </v-chip>
-        </div>
-        <div class="d-flex align-center mb-5">
+              TMO: &nbsp;&nbsp;<span class="font-weight-bold warning--text">{{
+                Math.round(result.monthlyObligation) | toINR
+              }}</span>
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="primary"
+              label
+              outlined
+              large
+              v-if="tenureLessThan"
+              >Tenure: &nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ result.tenure }} mth</span
+              >
+            </v-chip>
+            <v-chip
+              class="mr-2"
+              color="error"
+              label
+              outlined
+              large
+              v-if="tenureLessGreaterThanEqual"
+              >Tenure: &nbsp;&nbsp;<span class="font-weight-bold"
+                >{{ result.tenure }} mths</span
+              >
+            </v-chip>
+          </div>
+          <div class="d-flex align-center mb-5">
             <v-chip class="mx-2" color="primary" label outlined large>
               Repayment to Creditor:&nbsp;&nbsp;<span
                 class="font-weight-bold secondary--text"
@@ -237,7 +237,12 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   // }
 
   @Watch("simulatorInput") modelValueChanged(newVal: any, oldVal: any) {
-    this.resultLocal.tenure = this.modelValue.paymentPlan?.ppCalculator?.tenor || getTenureWithFreed(this.modelValue.creditorInfo?.totalDebt);
+    this.resultLocal.tenure =
+      this.modelValue.paymentPlan?.ppCalculator?.tenor ||
+      getTenureWithFreed(
+        this.modelValue.creditorInfo?.totalDebt,
+        this.modelValue.creditorInfo?.creditorList
+      );
     // this.resultLocal.tenure =
     //   this.modelValue.paymentPlan?.ppCalculator?.tenor || 30;
     this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
@@ -246,13 +251,12 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     this.resultLocal.affordability =
       this.modelValue.budgetInfo?.proposedDSPayment || 0;
     this.resultLocal.firstSPADraftDate =
-      this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate || moment()
-      .add(2, "days")
-      .format(Helper.DATE_FORMAT);;
+      this.modelValue.paymentPlan?.ppCalculator?.firstDraftDate ||
+      moment().add(2, "days").format(Helper.DATE_FORMAT);
   }
 
   maxTenureSlab() {
-    return 35
+    return 35;
   }
 
   isPaymentPlanDataAvailable() {
@@ -273,17 +277,19 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     this.resultLocal.repaymentAmount =
       (this.resultLocal.outstanding * totalPercentage) / 100;
     this.resultLocal.tenureApproval = getTenureWithFreed(
-      this.resultLocal.outstanding
+      this.resultLocal.outstanding,
+      this.modelValue.creditorInfo?.creditorList
     );
     // this.resultLocal.msfAmount = getMSFWithFreed(this.resultLocal.outstanding);
-    this.resultLocal.msfAmount = this.simulatorInput.paymentPlan?.ppCalculator?.msfDraftAmount || 0;
+    this.resultLocal.msfAmount =
+      this.simulatorInput.paymentPlan?.ppCalculator?.msfDraftAmount || 0;
     this.resultLocal.monthlyObligation =
       this.resultLocal.monthlyPayment + this.resultLocal.msfAmount;
     this.resultLocal.freedFee =
       (this.resultLocal.outstanding * this.feeGSTPercentage) / 100;
     this.resultLocal.actualRepaymentToCred =
       (this.resultLocal.outstanding * this.resultLocal.settlementPercentage) /
-      100;  
+      100;
     return this.resultLocal;
   }
 
@@ -292,7 +298,10 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   }
 
   isOutstandingChanged() {
-    return this.result.outstanding !== this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
+    return (
+      this.result.outstanding !==
+      this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
+    );
   }
   scheduleorDraftPaymentPlan() {
     if (this.isPaymentPlanDataAvailable()) {
@@ -322,9 +331,14 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   }
 
   isFormDirty(): boolean {
-    return this.simulatorInput?.paymentPlan.ppCalculator?.tenor!== this.result.tenure ||
-    this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage!== this.result.settlementPercentage||
-    this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate!== this.result.firstSPADraftDate
+    return (
+      this.simulatorInput?.paymentPlan.ppCalculator?.tenor !==
+        this.result.tenure ||
+      this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage !==
+        this.result.settlementPercentage ||
+      this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate !==
+        this.result.firstSPADraftDate
+    );
   }
 
   draftPaymentPlan() {
@@ -343,7 +357,6 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     });
   }
 
-
   handleEditClick() {
     this.editMode = true;
   }
@@ -351,10 +364,11 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   handleCancelEditClick() {
     this.editMode = false;
     this.result.tenure = this.simulatorInput?.paymentPlan.ppCalculator?.tenor;
-    this.result.settlementPercentage=this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage;
-    this.result.firstSPADraftDate = this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate;
+    this.result.settlementPercentage =
+      this.simulatorInput?.paymentPlan.ppCalculator?.settlementPercentage;
+    this.result.firstSPADraftDate =
+      this.simulatorInput?.paymentPlan.ppCalculator?.firstDraftDate;
   }
-
 
   get taskDisabled(): boolean {
     return Task.isTaskNotActionable(
@@ -363,8 +377,8 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     );
   }
 
-   isRecalculationNotAllowed(): boolean {
-    return this.isSalesRep&& this.tenureLessGreaterThanEqual
+  isRecalculationNotAllowed(): boolean {
+    return this.isSalesRep && this.tenureLessGreaterThanEqual;
   }
 
   get isSalesRep() {
@@ -372,18 +386,27 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
   }
 }
 
-export const getTenureWithFreed = (amount: number) => {
-  if (amount > 0 && amount <= 75000) return 15;
-  if (amount > 75000 && amount <= 200000) return 23;
-  if (amount > 200000 && amount <= 400000) return 33;
-  if (amount > 400000 && amount <= 600000) return 36;
-  if (amount > 600000 && amount <= 800000) return 41;
-  if (amount > 800000 && amount <= 1000000) return 46;
-  if (amount > 1000000 && amount <= 1200000) return 51;
-  if (amount > 1200000 && amount <= 1500000) return 58;
-  if (amount > 1500000 && amount <= 2000000) return 60;
-  if (amount > 2000000 && amount <= 2500000) return 65;
-  if (amount > 2500000) return 72;
+export const getTenureWithFreed = (
+  amount: number,
+  creditorList: any[] = []
+) => {
+  if (creditorList.length === 1) {
+    if (amount <= 200000) return 6;
+    if (amount > 200000 && amount <= 400000) return 9;
+    if (amount > 200000) return 12;
+  } else {
+    if (amount > 0 && amount <= 75000) return 15;
+    if (amount > 75000 && amount <= 200000) return 23;
+    if (amount > 200000 && amount <= 400000) return 33;
+    if (amount > 400000 && amount <= 600000) return 36;
+    if (amount > 600000 && amount <= 800000) return 41;
+    if (amount > 800000 && amount <= 1000000) return 46;
+    if (amount > 1000000 && amount <= 1200000) return 51;
+    if (amount > 1200000 && amount <= 1500000) return 58;
+    if (amount > 1500000 && amount <= 2000000) return 60;
+    if (amount > 2000000 && amount <= 2500000) return 65;
+    if (amount > 2500000) return 72;
+  }
 };
 
 export const getFreedTenure = (months: number): number => {
@@ -404,3 +427,5 @@ export const getMSFWithFreed = (amount: number) => {
   if (amount >= 20000000) return 2999;
 };
 </script>
+
+

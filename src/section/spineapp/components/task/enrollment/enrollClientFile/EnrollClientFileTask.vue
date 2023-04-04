@@ -168,6 +168,14 @@ export default class EnrollClientFileTask extends ModelVue {
     }
   }
 
+  isOutstandingChanged() {
+    return (
+      this.taskFormData.taskOutput.creditorInfo?.totalDebt !==
+      this.taskFormData.taskOutput.paymentPlan?.ppCalculator?.outstanding
+    );
+  }
+
+
   set taskFormOutput(newVal) {
     this.taskFormOutputLocal = newVal;
   }

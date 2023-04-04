@@ -54,15 +54,21 @@ export default class FEPaymentPlanMDP implements MDP {
     return (nextCallback: () => void) => {
       const editMode = this.getMyRef().$refs['tmosSimulator'].editMode;
       const paymentScheduleList = this.taskRoot.taskFormOutput?.paymentPlan?.paymentScheduleList || [];
+      const isOutstandingChanged = this.taskRoot.isOutstandingChanged();
       if (editMode) {
         FSnackbar.error("Please click recalculate or cancel to proceed")
       } else if (paymentScheduleList.length === 0) {
         FSnackbar.error("There should be atleast one entry")
+      } else if(isOutstandingChanged) {
+        FSnackbar.error("Total outstanding changed.Please recalculate to proceed")
       } else {
         nextCallback()
       }
     };
   }
+
+
+
 
   getMyRef(): any {
     return this.parent.getMyRef()[0].$refs[this.myRefName];

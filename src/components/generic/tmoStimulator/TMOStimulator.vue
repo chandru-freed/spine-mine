@@ -45,9 +45,10 @@
               large
               v-if="monthlyObligationLessThan"
             >
-              TMO: &nbsp;&nbsp;<span class="font-weight-bold secondary--text">{{
-                Math.round(result.monthlyObligation) | toINR
-              }}</span>
+              TMO: &nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ Math.round(result.monthlyObligation) | toINR }}</span
+              >
             </v-chip>
             <v-chip
               class="mr-2"
@@ -57,9 +58,10 @@
               large
               v-if="monthlyObligationGreaterThanEqual"
             >
-              TMO: &nbsp;&nbsp;<span class="font-weight-bold warning--text">{{
-                Math.round(result.monthlyObligation) | toINR
-              }}</span>
+              TMO: &nbsp;&nbsp;<span
+                class="font-weight-bold warning--text"
+                >{{ Math.round(result.monthlyObligation) | toINR }}</span
+              >
             </v-chip>
             <v-chip
               class="mr-2"
@@ -258,7 +260,7 @@ export default class TMOStimulator extends ModelVue {
   @Watch("simulatorInput") modelValueChanged(newVal: any, oldVal: any) {
     this.resultLocal.tenure =
       this.modelValue.paymentPlan?.ppCalculator?.tenor ||
-      getTenureWithFreed(this.modelValue.creditorInfo?.totalDebt, this.modelValue.creditorInfo?.creditorList);
+      getTenureWithFreed(this.modelValue.creditorInfo?.totalDebt);
     // this.resultLocal.tenure =
     //   this.modelValue.paymentPlan?.ppCalculator?.tenor || 30;
     this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
@@ -294,10 +296,8 @@ export default class TMOStimulator extends ModelVue {
       this.resultLocal.tenure;
     this.resultLocal.repaymentAmount =
       (this.resultLocal.outstanding * totalPercentage) / 100;
-
     this.resultLocal.tenureApproval = getTenureWithFreed(
-      this.resultLocal.outstanding,
-      this.modelValue.creditorInfo.creditorList
+      this.resultLocal.outstanding
     );
     this.resultLocal.msfAmount = getMSFWithFreed(this.resultLocal.outstanding);
     this.resultLocal.monthlyObligation =
@@ -381,7 +381,7 @@ export default class TMOStimulator extends ModelVue {
     this.result.tenure =
       this.modelValue?.paymentPlan.ppCalculator?.tenor !== 0
         ? this.modelValue?.paymentPlan.ppCalculator?.tenor
-        : getTenureWithFreed(this.result.outstanding,this.modelValue.creditorInfo?.creditorList);
+        : getTenureWithFreed(this.result.outstanding);
     this.result.settlementPercentage =
       this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage;
     this.result.firstSPADraftDate =
@@ -396,10 +396,7 @@ export default class TMOStimulator extends ModelVue {
   }
 
   isOutstandingChanged() {
-    return (
-      this.result.outstanding !==
-      this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
-    );
+    return this.result.outstanding !== this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
   }
 
   isRecalculationNotAllowed(): boolean {
@@ -411,27 +408,18 @@ export default class TMOStimulator extends ModelVue {
   }
 }
 
-export const getTenureWithFreed = (
-  amount: number,
-  creditorList: any[] = []
-) => {
-  if (creditorList.length === 1) {
-    if (amount <= 200000) return 6;
-    if (amount > 200000 && amount <= 400000) return 9;
-    if (amount > 200000) return 12;
-  } else {
-    if (amount > 0 && amount <= 75000) return 15;
-    if (amount > 75000 && amount <= 200000) return 23;
-    if (amount > 200000 && amount <= 400000) return 33;
-    if (amount > 400000 && amount <= 600000) return 36;
-    if (amount > 600000 && amount <= 800000) return 41;
-    if (amount > 800000 && amount <= 1000000) return 46;
-    if (amount > 1000000 && amount <= 1200000) return 51;
-    if (amount > 1200000 && amount <= 1500000) return 58;
-    if (amount > 1500000 && amount <= 2000000) return 60;
-    if (amount > 2000000 && amount <= 2500000) return 65;
-    if (amount > 2500000) return 72;
-  }
+export const getTenureWithFreed = (amount: number) => {
+  if (amount > 0 && amount <= 75000) return 15;
+  if (amount > 75000 && amount <= 200000) return 23;
+  if (amount > 200000 && amount <= 400000) return 33;
+  if (amount > 400000 && amount <= 600000) return 36;
+  if (amount > 600000 && amount <= 800000) return 41;
+  if (amount > 800000 && amount <= 1000000) return 46;
+  if (amount > 1000000 && amount <= 1200000) return 51;
+  if (amount > 1200000 && amount <= 1500000) return 58;
+  if (amount > 1500000 && amount <= 2000000) return 60;
+  if (amount > 2000000 && amount <= 2500000) return 65;
+  if (amount > 2500000) return 72;
 };
 
 export const getFreedTenure = (months: number): number => {

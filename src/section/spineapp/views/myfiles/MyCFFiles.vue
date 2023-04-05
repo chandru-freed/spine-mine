@@ -11,7 +11,7 @@
       v-if="!!myCFFileFDataTableMetaData"
       :ref="myCFFileFDataTableMetaData.myRefName"
       :is="myCFFileFDataTableMetaData.componentName"
-      :value="selectModel(clientFileList, undefined)"
+      :value="selectModel(myClientFileList, undefined)"
       v-bind="myCFFileFDataTableMetaData.props"
     ></component>
   </v-card>

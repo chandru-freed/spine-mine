@@ -18,10 +18,10 @@ export default class CMSFTCTFStepperMDP extends FTaskStepperMDP {
             name: "Draft Payment",
             stepContent: new CMSFTCDraftPaymentStepMDP({parent: this, taskRoot: this.taskRoot})
         })
-        .addStep({
-            name: "Mark Complete",
-            stepContent: new CMSFTCTFinalStepFFormMDP({parent: this, taskRoot: this.taskRoot})
-        })
+        // .addStep({
+        //     name: "Mark Complete",
+        //     stepContent: new CMSFTCTFinalStepFFormMDP({parent: this, taskRoot: this.taskRoot})
+        // })
     }
 
     getMyRef() {

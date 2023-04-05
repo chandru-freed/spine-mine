@@ -6,10 +6,12 @@ import MDP from "@/components/generic/MDP";
 export default class FPaymentDetailsMDP implements MDP {
   componentName = "FPaymentDetails";
   myRefName: string = "fPaymentDetailsRef"
-    paymentId: string;
+  paymentId: string;
+  onSuccess?: (status: string) => void
 
-  constructor({ paymentId }: { paymentId: string }) {
+  constructor({ paymentId, onSuccess }: { paymentId: string,onSuccess?: (status: string) => void }) {
     this.paymentId = paymentId;
+    this.onSuccess = onSuccess;
   }
 
 
@@ -19,7 +21,8 @@ export default class FPaymentDetailsMDP implements MDP {
       componentName: this.componentName,
       myRefName: this.myRefName,
       props: {
-        paymentId:this.paymentId
+        paymentId:this.paymentId,
+        onSuccess: this.onSuccess
       },
     };
   }

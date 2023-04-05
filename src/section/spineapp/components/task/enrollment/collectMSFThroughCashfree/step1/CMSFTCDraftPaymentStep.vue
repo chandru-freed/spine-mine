@@ -63,7 +63,15 @@ export default class CMSFTCDraftPaymentStep extends ModelVue {
   }
 
   get fPaymentDetailsMetaData() {
-    return new FPaymentDetailsMDP({paymentId: this.modelValue[this.dataSelectorKey].paymentId}).getMetaData();
+    return new FPaymentDetailsMDP({paymentId: this.modelValue[this.dataSelectorKey].paymentId,
+    onSuccess:(status: string) => this.handleOnPaymentSuccess(status)}).getMetaData();
+  }
+
+  handleOnPaymentSuccess(status: any) {
+    console.log(status,"status")
+    if(status === Data.Spine.PAYMENT_STATUS.SETTLED.name) {
+      this.taskRoot.saveAndMarkCompleteTask();
+    }
   }
 
   receiveCashfreePayment() {

@@ -41,7 +41,6 @@ export default class MyClientFilesFMSFPending extends ModelVue {
       this.myClientFileList = output.filter(
         (value: any) =>
           value.firstMSFPaid === false &&
-          value.clientFileStatus.id == "AGREEMENT_SIGNED" &&
           value.eMandateActive === true
       );
     });

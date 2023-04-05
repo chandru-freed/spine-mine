@@ -13,6 +13,14 @@ export default class TaskSearchFFormMDP extends FFormMDP {
         super({ myRefName: "TaskSearchRef" });
         this.parent = parent;
         this
+        .addField(
+            new FTextFieldMDP({
+                parentMDP: this.childMDP,
+                dataSelectorKey: "clientFileNumber",
+                label: "Client File Number",
+                boundaryClass:"col-4"
+            })
+        )
             .addField(
                 new FTextFieldMDP({
                     parentMDP: this.childMDP,
@@ -25,7 +33,7 @@ export default class TaskSearchFFormMDP extends FFormMDP {
                     parentMDP: this.childMDP,
                     dataSelectorKey: "taskState",
                     label: "Task State",
-                    options: Data.Spine.TaskState.list(),
+                    options: taskStateList,
                     boundaryClass:"col-4",
                     optionLabel:"name",
                     optionValue:"id",
@@ -40,11 +48,13 @@ export default class TaskSearchFFormMDP extends FFormMDP {
                     boundaryClass:"col-4"
                 })
             ).addField(
-                new FNumberFieldMDP({
+                new FSelectFieldMDP({
                     parentMDP: this.childMDP,
                     dataSelectorKey: "priority",
                     label: "Priority",
-                    boundaryClass:"col-4"
+                    boundaryClass:"col-4",
+                    options: getPriorityList(),
+                    clearable: true
                 })
             ).addField(
                 new FSelectFieldMDP({
@@ -79,3 +89,32 @@ const allocatedToOptions = [
         id: false
     }
 ]
+
+const taskStateList = [
+    {
+        name: "Active",
+        id: Data.Spine.ActiveTaskState.list().map(item => item.id)
+    },
+    {
+        name: "Not Allocated",
+        id: Data.Spine.NotAllocatedTaskState.list().map(item => item.id)
+    },
+    {
+
+        name: "Exception",
+        id: Data.Spine.ExceptionTaskState.list().map(item => item.id)
+    },
+    {
+        name: "Closed",
+        id: Data.Spine.ClosedTaskState.list().map(item => item.id)
+    }
+]
+
+const getPriorityList = () => {
+    const priority = [];
+    for(let i=0;i<10;i++) {
+        priority.push(i+1);
+    }
+
+    return priority;
+}

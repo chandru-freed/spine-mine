@@ -43,6 +43,9 @@ import FSnackbar from "@/fsnackbar";
 export default class FPaymentDetails extends ModelVue {
   @Prop({})
   paymentId: string;
+  
+  @Prop()
+  onSuccess: (status: string) => void;
 
   fiPaymentDetails: Data.ClientFile.FiPaymentDetails =
     new Data.ClientFile.FiPaymentDetails();
@@ -61,6 +64,10 @@ export default class FPaymentDetails extends ModelVue {
     Action.ClientFile.CheckPaymentStatus.execute1(this.paymentId, (output) => {
       FSnackbar.success("Check payment status is clicked")
       setTimeout(this.getFiPaymentDetails, 1000);
+      if(this.onSuccess) {
+        this.onSuccess(output.paymentStatus.name);
+      }
+      
     });
   }
 

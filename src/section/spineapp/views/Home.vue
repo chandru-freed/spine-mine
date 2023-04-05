@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <!-- {{clientFileDashboardSummary}} -->
     <div class="row">
       <!-- <div class="col-12 px-6">
         <v-text-field

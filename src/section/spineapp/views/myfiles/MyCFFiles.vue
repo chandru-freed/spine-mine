@@ -11,7 +11,7 @@
       v-if="!!myCFFileFDataTableMetaData"
       :ref="myCFFileFDataTableMetaData.myRefName"
       :is="myCFFileFDataTableMetaData.componentName"
-      :value="selectModel(myClientFileList, undefined)"
+      :value="selectModel(clientFileList, undefined)"
       v-bind="myCFFileFDataTableMetaData.props"
     ></component>
   </v-card>
@@ -36,12 +36,29 @@ import FForm from "@/components/generic/form/FForm.vue";
   },
 })
 export default class MyCFFiles extends ModelVue {
-  myClientFileList: Data.ClientFile.MyClientFile[] = [];
+  @Store.Getter.ClientFile.MyClientFileStore.myClientFileList
+  myClientFileList: Data.ClientFile.MyClientFile[];
+
+  @Store.Getter.ClientFile.MyClientFileStore.myEMandateActiveCFList
+  myEMandateActiveCFList: Data.ClientFile.MyClientFile[];
+
+  @Store.Getter.ClientFile.MyClientFileStore.myEMandatePendingCFList
+  myEMandatePendingCFList: Data.ClientFile.MyClientFile[];
+
+  @Store.Getter.ClientFile.MyClientFileStore.myMSFPaidCFList
+  myMSFPaidCFList: Data.ClientFile.MyClientFile[];
+
+  @Store.Getter.ClientFile.MyClientFileStore.myMSFPendingCFList
+  myMSFPendingCFList: Data.ClientFile.MyClientFile[];
+
+  
   showRegisterMyCFForm: boolean = false;
   registerClientFormData: Data.Client.RegisterAndAddClientFileForm =
     new Data.Client.RegisterAndAddClientFileForm();
 
   clientFileStatus = this.$route.query.clientFileStatus;
+  filterQuery: any =  this.$route.query.filter;
+
 
   mounted() {
     this.getMyClientFileList();
@@ -49,11 +66,11 @@ export default class MyCFFiles extends ModelVue {
 
   getMyClientFileList() {
     Action.ClientFile.GetMyClientFileList.execute((output) => {
-      this.myClientFileList = output.filter((value: any) =>
-        this.clientFileStatus === "ACTIVE"
-          ? value.clientFileStatus.id == "ACTIVE"
-          : value
-      );
+      // this.myClientFileList = output.filter((value: any) =>
+      //   this.clientFileStatus === "ACTIVE"
+      //     ? value.clientFileStatus.id == "ACTIVE"
+      //     : value
+      // );
     });
   }
 
@@ -101,6 +118,17 @@ export default class MyCFFiles extends ModelVue {
 
   get registerMyCFFFormMetaData() {
     return new RegisterMyCFFFormMDP({ root: this }).getMetaData();
+  }
+
+  get clientFileList() {
+    console.log(this.filterQuery);
+    switch(this.filterQuery) {
+      case 'emandate_active':  return this.myEMandateActiveCFList
+      case 'emandate_pending':  return this.myEMandateActiveCFList
+      case 'msf_paid':  return this.myMSFPaidCFList
+      case 'msf_pending':  return this.myMSFPendingCFList
+      default:  return this.myClientFileList
+    }
   }
 }
 </script>

@@ -33,14 +33,14 @@ import * as Action from "@/../src-gen/action";
 import moment from "moment";
 import FForm from "@/components/generic/form/FForm.vue";
 
-import ClientFileSearchIntf from "./ClientFileSearchIntf";
 import ModelVue from "@/components/generic/ModelVue";
-import Helper from "../../util/Helper";
+
 import FBtn from "@/components/generic/FBtn.vue";
 import UnAssignedCFFDataTableMDP from "./UnAssignedCFFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import AssignRMFFormMDP from "./AssignRMFFormMDP";
 import * as Snackbar from "node-snackbar";
+import Helper from "@/section/spineapp/util/Helper";
 @Component({
   components: {
     FForm,
@@ -48,9 +48,8 @@ import * as Snackbar from "node-snackbar";
     FDataTable,
   },
 })
-export default class UnAssignedCFSearch
+export default class OPRUnAssignedCFSearch
   extends ModelVue
-  implements ClientFileSearchIntf
 {
   @Store.Getter.ClientFile.ClientFileSearchStore.searchCriteria
   searchCriteria: Data.ClientFile.SearchClientFileInput;

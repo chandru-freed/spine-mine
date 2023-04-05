@@ -199,5 +199,5 @@ export enum NsfSPAOptions {
   // ClientDeferred = "Call Back Requested",
   // SystemDeferred = "Follow Up Required",
   // ReceivePayment = "Receive Payment",
-  DraftRescheduled = "Draft Rescheduled",
+  DraftRescheduled = "Reschedule Draft Date",
 }

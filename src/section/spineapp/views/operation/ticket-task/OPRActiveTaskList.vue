@@ -1,5 +1,14 @@
 <template>
   <div class="OPRActiveTaskList">
+    <component
+      v-if="!!taskSearchFFormMetaData"
+      :ref="taskSearchFFormMetaData.myRefName"
+      :is="taskSearchFFormMetaData.componentName"
+      :value="selectModel(searchTaskInput, undefined)"
+      @input="(newValue) => updateModel(searchTaskInput, newValue, undefined)"
+      v-bind="taskSearchFFormMetaData.props"
+    ></component>
+
     <!-- TASK TAB -->
     <v-card flat>
       <component
@@ -48,6 +57,7 @@ import OPRActiveTaskListFDataTableMDP from "./OPRActiveTaskListFDataTableMDP";
 import AssignTaskFFormMDP from "./AssignTaskFFormMDP";
 import ReassignTaskFFormMDP from "./ReassignTaskFFormMDP";
 import FSnackbar from "@/fsnackbar";
+import TaskSearchFFormMDP from "./TaskSearchFFormMDP";
 @Component({
   components: {
     "f-btn": FBtn,
@@ -58,6 +68,8 @@ import FSnackbar from "@/fsnackbar";
 export default class OPRActiveTaskList extends ModelVue {
   assignTaskInput: Data.Spine.AssignInput = new Data.Spine.AssignInput();
   reassignTaskInput: Data.Spine.ReassignInput = new Data.Spine.ReassignInput();
+  searchTaskInput: Data.Spine.SearchTaskInput =
+    new Data.Spine.SearchTaskInput();
 
   taskTableRefName: string = "oprActiveTaskListFDataTableRef";
 
@@ -84,11 +96,15 @@ export default class OPRActiveTaskList extends ModelVue {
     }).getMetaData();
   }
 
-  mounted() {
-    this.getAllActiveManualTaskList();
+  get taskSearchFFormMetaData() {
+    return new TaskSearchFFormMDP({ parent: this }).getMetaData();
   }
-  getAllActiveManualTaskList() {
-    Action.Spine.GetAllActiveManualTaskList.execute((output) => {
+
+  mounted() {
+    this.searchTask();
+  }
+  searchTask() {
+    Action.Spine.SearchTask.execute(this.searchTaskInput, (output) => {
       this.TaskListByCidList = output;
     });
   }
@@ -111,6 +127,7 @@ export default class OPRActiveTaskList extends ModelVue {
 
   handleAssignClick(item: any) {
     this.showAssignForm = true;
+    this.showReassignForm = false;
     this.taskIdList = item;
   }
 
@@ -124,7 +141,7 @@ export default class OPRActiveTaskList extends ModelVue {
     this.assignTaskInput.taskId = taskId;
     Action.Spine.Assign.execute(this.assignTaskInput, (output) => {
       FSnackbar.success("Succesfully Updated");
-      this.getAllActiveManualTaskList();
+      this.searchTask();
       this.showAssignForm = false;
       this.clearSelectedItems();
     });
@@ -132,6 +149,7 @@ export default class OPRActiveTaskList extends ModelVue {
 
   handleReassignClick(item: any) {
     this.showReassignForm = true;
+    this.showAssignForm = false;
     this.taskIdList = item;
   }
 
@@ -145,7 +163,7 @@ export default class OPRActiveTaskList extends ModelVue {
     this.reassignTaskInput.taskId = taskId;
     Action.Spine.Reassign.execute(this.reassignTaskInput, (output) => {
       FSnackbar.success("Succesfully Updated");
-      this.getAllActiveManualTaskList();
+      this.searchTask();
       this.showReassignForm = false;
       this.clearSelectedItems();
     });

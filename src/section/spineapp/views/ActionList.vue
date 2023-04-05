@@ -172,6 +172,16 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRActiveTicketList",
         },
+        {
+          actionName: "Search Files",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Operation.OPRClientFile.OPRClientFileSearch",
+        },
+        {
+          actionName: "Unassigned Files",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Operation.OPRClientFile.OPRUnAssignedCFSearch",
+        },
         // {
         //   actionName: "Payment Operation",
         //   icon: "mdi-chevron-right",

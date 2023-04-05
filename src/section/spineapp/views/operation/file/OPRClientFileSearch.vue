@@ -1,9 +1,22 @@
 <template>
   <div>
-    <!-- CLIENT FILE LIST -->
-    <v-card class="pa-0 ma-0">
+    <v-card class="pa-0 ma-0" color="transparent">
       <component
-        v-if="showAssignRMFForm"
+        v-if="!!clientFileSearchFormMetaData"
+        :ref="clientFileSearchFormMetaData.myRefName"
+        :is="clientFileSearchFormMetaData.componentName"
+        :value="selectModel(clientFileSearchForm, undefined)"
+        @input="
+          (newValue) => updateModel(clientFileSearchForm, newValue, undefined)
+        "
+        v-bind="clientFileSearchFormMetaData.props"
+      ></component>
+    </v-card>
+    <!-- CLIENT FILE LIST -->
+    <!-- <v-card class="pa-0 ma-0" color="transparent"> -->
+    <v-card flat v-if="showAssignRMFForm">
+      <v-card-title>Assign RM</v-card-title>
+      <component
         :ref="assignRMFFormMetaData.myRefName"
         :is="assignRMFFormMetaData.componentName"
         :value="selectModel(assignRMListInput, undefined)"
@@ -12,14 +25,16 @@
         "
         v-bind="assignRMFFormMetaData.props"
       ></component>
-      <component
-        v-if="!!unAssignedCFFDataTableMetaData"
-        :ref="unAssignedCFFDataTableMetaData.myRefName"
-        :is="unAssignedCFFDataTableMetaData.componentName"
-        :value="selectModel(searchResultList, undefined)"
-        v-bind="unAssignedCFFDataTableMetaData.props"
-      ></component>
     </v-card>
+
+    <component
+      v-if="!!allClientFileListFDataTableMetaData"
+      :ref="allClientFileListFDataTableMetaData.myRefName"
+      :is="allClientFileListFDataTableMetaData.componentName"
+      :value="selectModel(searchResultList, undefined)"
+      v-bind="allClientFileListFDataTableMetaData.props"
+    ></component>
+    <!-- </v-card> -->
     <!-- CLIENT FILE LIST  -->
   </div>
 </template>
@@ -33,14 +48,16 @@ import * as Action from "@/../src-gen/action";
 import moment from "moment";
 import FForm from "@/components/generic/form/FForm.vue";
 
-import ClientFileSearchIntf from "./ClientFileSearchIntf";
+import ClientFileSearchFFormMDP from "./ClientFileSearchFFormMDP";
+
 import ModelVue from "@/components/generic/ModelVue";
-import Helper from "../../util/Helper";
+
 import FBtn from "@/components/generic/FBtn.vue";
-import UnAssignedCFFDataTableMDP from "./UnAssignedCFFDataTableMDP";
+import AllClientFileListFDataTableMDP from "./AllClientFileListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
+import Helper from "@/section/spineapp/util/Helper";
 import AssignRMFFormMDP from "./AssignRMFFormMDP";
-import * as Snackbar from "node-snackbar";
+
 @Component({
   components: {
     FForm,
@@ -48,31 +65,30 @@ import * as Snackbar from "node-snackbar";
     FDataTable,
   },
 })
-export default class UnAssignedCFSearch
-  extends ModelVue
-  implements ClientFileSearchIntf
-{
+export default class OPRClientFileSearch extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSearchStore.searchCriteria
   searchCriteria: Data.ClientFile.SearchClientFileInput;
 
   @Store.Getter.ClientFile.ClientFileSearchStore.searchResultList
   searchResultList: Data.ClientFile.SearchClientFileOutput;
 
-  @Store.Getter.Login.LoginDetails.roleList
-  roleList: string[];
+  search = "";
 
-  assignRMInputList: Data.ClientFile.AssignRMInput[] = [];
+  clientFileSearchFormLocal: any = new Data.ClientFile.SearchClientFileInput();
+
   showAssignRMFForm: boolean = false;
-  searchClientFileInput: Data.ClientFile.SearchClientFileInput =
-    new Data.ClientFile.SearchClientFileInput();
+  assignRMInputList: Data.ClientFile.AssignRMInput[] = [];
   assignRMListInput: any = {
     assignedRM: "",
   };
 
-  unAssignedCFTableRef: string = "UnAssignedCFTableRef";
+  get clientFileSearchForm() {
+    this.clientFileSearchFormLocal = this.searchCriteria;
+    return this.clientFileSearchFormLocal;
+  }
 
-  get unAssignedCFFDataTableMetaData() {
-    return new UnAssignedCFFDataTableMDP({
+  get allClientFileListFDataTableMetaData() {
+    return new AllClientFileListFDataTableMDP({
       parent: this,
     }).getMetaData();
   }
@@ -81,27 +97,25 @@ export default class UnAssignedCFSearch
     return new AssignRMFFormMDP({ taskRoot: this }).getMetaData();
   }
 
+  set clientFileSearchForm(value: any) {
+    this.clientFileSearchFormLocal = value;
+  }
+
+  get clientFileSearchFormMetaData(): any {
+    return new ClientFileSearchFFormMDP({ taskRoot: this }).getMetaData();
+  }
+
   mounted() {
+    this.resetClientSearchInput();
     this.searchClientFile();
   }
-
   resetClientSearchInput() {
-    Store.Mutation.ClientFile.ClientFileSearchStore.UPDATE_SEARCH_CRITERIA(
-      new Data.ClientFile.SearchClientFileInput()
-    );
-  }
-
-  destroyed() {
-    this.resetClientSearchInput();
+    this.clientFileSearchForm = new Data.ClientFile.SearchClientFileInput();
   }
 
   searchClientFile() {
-    // this.searchClientFileInput.clientFileStatus =
-    //   Data.ClientFile.CLIENT_FILE_STATUS.ENROLLED.name;
-    this.searchClientFileInput.rmNotAssigned = true;
-    this.searchClientFileInput.clientFileStatus = Data.ClientFile.CLIENT_FILE_STATUS.ACTIVE.name
     Action.ClientFile.SearchClientFile.execute(
-      this.searchClientFileInput,
+      this.clientFileSearchFormLocal,
       (output) => {}
     );
   }
@@ -110,6 +124,13 @@ export default class UnAssignedCFSearch
     Helper.Router.gotoFile({
       router: this.$router,
       clientFileNumber: clientFileNumber,
+    });
+  }
+
+  gotoClient(clientId: string) {
+    this.$router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
     });
   }
 
@@ -127,8 +148,10 @@ export default class UnAssignedCFSearch
         assignRMInput.assignedRM = this.assignRMListInput.assignedRM;
         Action.ClientFile.AssignRM.execute(assignRMInput, (output) => {
           if (index === this.assignRMInputList.length - 1) {
-            this.searchClientFile();
-            this.resetFormAndTable();
+            setTimeout(() => {
+              this.searchClientFile();
+              this.resetFormAndTable();
+            }, 500);
           }
         });
       }
@@ -137,7 +160,7 @@ export default class UnAssignedCFSearch
 
   resetFormAndTable() {
     this.hideAssignRMFForm();
-    (this.$refs["unAssignedCFListFDataTableRef"] as any).clearSelectedItems();
+    (this.$refs["allClientFileListFDataTableRef"] as any).clearSelectedItems();
     this.assignRMListInput = {
       assignedRM: "",
     };
@@ -145,19 +168,6 @@ export default class UnAssignedCFSearch
 
   hideAssignRMFForm() {
     this.showAssignRMFForm = false;
-  }
-
-  gotoClient(clientId: string) {
-    this.$router.push({
-      name: "Root.Client.ClientDetails",
-      params: { clientId: clientId },
-    });
-  }
-  get isSalesLead() {
-    return this.roleList.includes("SalesLead");
-  }
-  get isSalesRep() {
-    return this.roleList.includes("SalesRep");
   }
 }
 </script>

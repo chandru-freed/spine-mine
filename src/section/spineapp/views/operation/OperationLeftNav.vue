@@ -86,7 +86,7 @@ export default class OperationLeftNav extends Vue {
       title: "Tasks",
       icon: "mdi-checkbox-marked-circle-outline",
       items: [
-        { title: "Active Tasks", routerName: "Root.Operation.OPRActiveTaskList" },
+        { title: "Search Tasks", routerName: "Root.Operation.OPRActiveTaskList" },
       ],
     },
 
@@ -94,7 +94,16 @@ export default class OperationLeftNav extends Vue {
       title: "Tickets",
       icon: "mdi-ticket-confirmation",
       items: [
-        { title: "Active Tickets", routerName: "Root.Operation.OPRActiveTicketList" },
+        { title: "Search Tickets", routerName: "Root.Operation.OPRActiveTicketList" },
+      ],
+    },
+
+      {
+      title: "File",
+      icon: "mdi-file-account",
+      items: [
+        { title: "Search Files", routerName: "Root.Operation.OPRClientFile.OPRClientFileSearch" },
+        { title: "Unassigned Files", routerName: "Root.Operation.OPRClientFile.OPRUnAssignedCFSearch" },
       ],
     },
   ];

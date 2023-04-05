@@ -266,6 +266,10 @@ export default class EnrollClientFileTask extends ModelVue {
     this.getEMandateList();
     this.getExceptionTakenList();
 
+    if(this.clientFileSummary.isFirstMSFPaid === true && !this.taskStateTerminated) {
+      this.saveAndMarkCompleteTask();
+    }
+
     Action.Spine.UpdateClPersonalInfo.interested(
       this.findClPersonalInfoHandler
     );

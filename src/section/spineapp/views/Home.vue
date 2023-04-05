@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <!-- {{clientFileDashboardSummary}} -->
     <div class="row">
       <!-- <div class="col-12 px-6">
         <v-text-field
@@ -270,6 +271,9 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class Home extends Vue {
+  @Store.Getter.ClientFile.MyClientFileStore.clientFileDashboardSummary
+  clientFileDashboardSummary: Data.ClientFile.ClientFileDashboardSummary
+
   myDashboardSummary: Data.Spine.GetMyDashboardSummary =
     new Data.Spine.GetMyDashboardSummary();
 

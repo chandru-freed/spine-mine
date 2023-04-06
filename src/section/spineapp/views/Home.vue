@@ -270,6 +270,9 @@ import FBtn from "@/components/generic/FBtn.vue";
   },
 })
 export default class Home extends Vue {
+  @Store.Getter.ClientFile.MyClientFileStore.clientFileDashboardSummary
+  clientFileDashboardSummary: Data.ClientFile.ClientFileDashboardSummary
+
   myDashboardSummary: Data.Spine.GetMyDashboardSummary =
     new Data.Spine.GetMyDashboardSummary();
 

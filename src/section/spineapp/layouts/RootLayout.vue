@@ -82,6 +82,13 @@ export default class RootLayout extends Vue {
   mounted() {
     Store.Mutation.Spine.RouterStore.UPDATE_FLATTENED_ROUTER_LIST();
     this.getLoggedInUser();
+    this.getMyClientFileList();
+  }
+
+  getMyClientFileList() {
+    Action.ClientFile.GetMyClientFileList.execute((output) => {
+      
+    });
   }
   getLoggedInUser() {
     const userName: any = localStorage.getItem("userName");

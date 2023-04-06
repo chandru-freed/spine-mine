@@ -108,3 +108,16 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
     };
   }
 }
+
+
+const allocatedToOptions = [
+  {
+      name: "Yes",
+      id: true
+  },
+  {
+      name: "No",
+      id: false
+  }
+]
+

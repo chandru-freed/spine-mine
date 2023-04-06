@@ -108,6 +108,7 @@ export default class OPRActiveTaskList extends ModelVue {
     searchTaskInput.taskState = searchTaskInput.taskState.flat();
     console.log(searchTaskInput,"searchTaskInput")
     Action.Spine.SearchTask.execute(searchTaskInput, (output) => {
+
       this.TaskListByCidList = output;
     });
   }

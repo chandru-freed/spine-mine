@@ -21,6 +21,7 @@ export default class TaskSearchFFormMDP extends FFormMDP {
                 boundaryClass:"col-4"
             })
         )
+
             .addField(
                 new FTextFieldMDP({
                     parentMDP: this.childMDP,
@@ -33,7 +34,9 @@ export default class TaskSearchFFormMDP extends FFormMDP {
                     parentMDP: this.childMDP,
                     dataSelectorKey: "taskState",
                     label: "Task State",
+
                     options: taskStateList,
+
                     boundaryClass:"col-4",
                     optionLabel:"name",
                     optionValue:"id",
@@ -48,6 +51,7 @@ export default class TaskSearchFFormMDP extends FFormMDP {
                     boundaryClass:"col-4"
                 })
             ).addField(
+
                 new FSelectFieldMDP({
                     parentMDP: this.childMDP,
                     dataSelectorKey: "priority",
@@ -55,6 +59,7 @@ export default class TaskSearchFFormMDP extends FFormMDP {
                     boundaryClass:"col-4",
                     options: getPriorityList(),
                     clearable: true
+
                 })
             ).addField(
                 new FSelectFieldMDP({
@@ -90,6 +95,7 @@ const allocatedToOptions = [
     }
 ]
 
+
 const taskStateList = [
     {
         name: "Active",
@@ -118,3 +124,4 @@ const getPriorityList = () => {
 
     return priority;
 }
+

@@ -9,6 +9,7 @@ import FCellLinkMDP from "../../table/cell/FCellLinkMDP";
 import FCellCopyMDP from "../../table/cell/FCellCopyMDP";
 import FCellStandardDateTimeMDP from "../../table/cell/FCellStandardDateTimeMDP";
 import FCellDateTimeMDP from "../../table/cell/FCellDateTimeMDP";
+import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 export default class FAgreementListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any;taskRoot: any}) {
@@ -28,6 +29,13 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
             label: "Generated On",
             dataSelectorKey: "generatedOn",
             columnCellMDP: new FCellDateTimeMDP()
+          }).addColumn({
+            label: "Status",
+            dataSelectorKey: "status.name",
+            columnCellMDP:new  FCellStatusMDP({
+              colorCodeData: Data.Color.AGREEMENT_STATUS,
+              outlined: true
+            })
           }).addColumn({
             label: "Signed",
             dataSelectorKey: "signed",

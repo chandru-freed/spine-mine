@@ -36,11 +36,13 @@ export default class FAgreementListFDataTableMDP extends FDataTableMDP {
               colorCodeData: Data.Color.AGREEMENT_STATUS,
               outlined: true
             })
-          }).addColumn({
-            label: "Signed",
-            dataSelectorKey: "signed",
-            columnCellMDP: new FCellBooleanMDP({})
-          }).addColumn({
+          })
+          // .addColumn({
+          //   label: "Signed",
+          //   dataSelectorKey: "signed",
+          //   columnCellMDP: new FCellBooleanMDP({})
+          // })
+          .addColumn({
             label: "Signed On",
             dataSelectorKey: "signedOn",
             columnCellMDP: new FCellDateTimeMDP()

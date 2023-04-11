@@ -1,6 +1,11 @@
 <template>
   <!--  @change="(newVal) => changeStepQuery(newVal)" -->
-  <v-stepper :value="selectModel(selectedStep, undefined)" flat non-linear>
+  <v-stepper
+    :value="selectModel(selectedStep, undefined)"
+    flat
+    non-linear
+    class="elevation-0"
+  >
     <v-stepper-header flat>
       <v-stepper-step
         :editable="!linearProgress"
@@ -106,7 +111,6 @@
                 >Retry</v-btn
               >
 
-              
               <!-- <v-btn
                 class="mr-2 elevation-0"
                 color="primary"
@@ -215,7 +219,6 @@
             />
             <f-scroll-up-btn />
           </v-card-text>
-          
         </v-card>
       </v-stepper-content>
     </v-stepper-items>
@@ -257,6 +260,7 @@ import FEMandateList from "./file/eMandateList/FEMandateList.vue";
 import Helper from "@/section/spineapp/util/Helper";
 import FCFTPaymentPlan from "./file/paymentPlan/cfTaskPaymentPlan/FCFTPaymentPlan.vue";
 import FScrollUpBtn from "./FScrollUpBtn.vue";
+import FCashfreeList from "./file/cashfreeList/FCashfreeList.vue";
 
 @Component({
   components: {
@@ -282,7 +286,8 @@ import FScrollUpBtn from "./FScrollUpBtn.vue";
     FAgreementList,
     FEMandateList,
     FCFTPaymentPlan,
-    FScrollUpBtn
+    FScrollUpBtn,
+    FCashfreeList,
   },
 })
 export default class FTaskStepper extends ModelVue {
@@ -317,7 +322,7 @@ export default class FTaskStepper extends ModelVue {
     );
   }
 
-    get taskRetry(): boolean {
+  get taskRetry(): boolean {
     return (
       this.taskDetails.taskState === "EXCEPTION_Q" ||
       this.taskDetails.taskState === "EXIT_Q"
@@ -332,7 +337,6 @@ export default class FTaskStepper extends ModelVue {
 
   get filteredActions() {
     this.filteredActionsLocal = [
-
       {
         label: "Assign myself",
         handleOtherActionClick: this.assignToMyself,
@@ -351,7 +355,7 @@ export default class FTaskStepper extends ModelVue {
       {
         label: "Proceed",
         handleOtherActionClick: this.proceedTask,
-        condition: this.proceedStatus
+        condition: this.proceedStatus,
       },
       {
         label: "Cancel Flow",
@@ -363,7 +367,6 @@ export default class FTaskStepper extends ModelVue {
         handleOtherActionClick: this.cancelTask,
         condition: this.cancelStatus,
       },
-      
     ];
     return this.filteredActionsLocal;
   }
@@ -376,7 +379,7 @@ export default class FTaskStepper extends ModelVue {
     return this.isTaskActionable() && !this.taskDetails.isSuspended;
   }
   proceedStatus() {
-    return this.isTaskActionable()
+    return this.isTaskActionable();
   }
   resumeStatus() {
     return this.isTaskActionable() && this.taskDetails.isSuspended;
@@ -384,7 +387,7 @@ export default class FTaskStepper extends ModelVue {
 
   cancelStatus() {
     return this.isTaskActionable() && this.roleList.includes("Admin");
-  }  
+  }
 
   // get selectedStep(): number {
   //   if (this.$route.query.step) {
@@ -511,7 +514,7 @@ export default class FTaskStepper extends ModelVue {
   }
 
   assignToMyself() {
-    if(!!this.taskDetails.allocatedTo && this.taskDetails.allocatedTo!=="") {
+    if (!!this.taskDetails.allocatedTo && this.taskDetails.allocatedTo !== "") {
       this.reAssignTask();
     } else {
       this.assignTask();
@@ -519,7 +522,8 @@ export default class FTaskStepper extends ModelVue {
   }
 
   assignTask() {
-    const assignTaskInput:Data.Spine.AssignInput = new Data.Spine.AssignInput();
+    const assignTaskInput: Data.Spine.AssignInput =
+      new Data.Spine.AssignInput();
     assignTaskInput.taskId = this.taskId;
     assignTaskInput.toUserName = this.loggedInUser.userName;
     Action.Spine.Assign.execute(assignTaskInput, (output) => {
@@ -528,7 +532,8 @@ export default class FTaskStepper extends ModelVue {
   }
 
   reAssignTask() {
-    const assignTaskInput:Data.Spine.ReassignInput = new Data.Spine.ReassignInput();
+    const assignTaskInput: Data.Spine.ReassignInput =
+      new Data.Spine.ReassignInput();
     assignTaskInput.taskId = this.taskId;
     assignTaskInput.toUserName = this.loggedInUser.userName;
     Action.Spine.Reassign.execute(assignTaskInput, (output) => {
@@ -536,11 +541,10 @@ export default class FTaskStepper extends ModelVue {
     });
   }
 
-
   proceedTask() {
-    Action.TaskList.Proceed.execute1(this.taskId, output => {
+    Action.TaskList.Proceed.execute1(this.taskId, (output) => {
       this.gotoCFActiveTaskList();
-    })
+    });
   }
   handleCancelTaskClick() {
     this.cancelTaskInput.taskId = this.taskId;
@@ -563,15 +567,16 @@ export default class FTaskStepper extends ModelVue {
     this.suspendTaskInput = new Data.TaskList.SuspendTaskInput();
   }
 
-    gotoCFActiveTaskList() {
+  gotoCFActiveTaskList() {
     Helper.Router.gotoCFActiveTaskList({
       router: this.$router,
       clientFileId: this.clientFileId,
     });
   }
+
 }
 </script>
-<style scoped>
+<style>
 .v-stepper__header {
   height: 48px !important;
 }
@@ -579,4 +584,15 @@ export default class FTaskStepper extends ModelVue {
   padding: 0px 12px !important;
 }
 
+.v-stepper__step__step{
+  display: none !important;
+}
+
+.theme--light.v-stepper .v-stepper__step--active .v-stepper__label{
+  color: #f36f21 !important;
+  /* font-weight: bold; */
+}
+.theme--light.v-stepper .v-stepper__step--active{
+  border-bottom: 4px solid #f36f21;
+}
 </style>

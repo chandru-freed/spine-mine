@@ -2,7 +2,7 @@
   <div class="collectClientInfoTask">
     <!-- {{taskFormData}} -->
     <!-- Used in Active State -->
-    <template >
+    <template>
       <component
         :ref="stepperMetaData.myRefName"
         :is="stepperMetaData.componentName"
@@ -81,7 +81,8 @@ export default class EnrollClientFileTask extends ModelVue {
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
 
-  getExceptionTakenListOutput: Data.ClientFile.GetExceptionTakenListOutput = new Data.ClientFile.GetExceptionTakenListOutput();
+  getExceptionTakenListOutput: Data.ClientFile.GetExceptionTakenListOutput =
+    new Data.ClientFile.GetExceptionTakenListOutput();
 
   // Parse JSON String => As taskOutput and taskInput comes as Json String
   // get taskDetailsOutput() {
@@ -153,18 +154,21 @@ export default class EnrollClientFileTask extends ModelVue {
       collectMSFNow: this.taskDetails.isOutputEmpty
         ? this.taskFormOutputLocal.collectMSFNow
         : (this.taskDetails.outputJson as any).collectMSFNow,
-      haveException: this.exceptionTakenStatus()
+      haveException: this.exceptionTakenStatus(),
     };
 
     return this.taskFormOutputLocal;
   }
 
   exceptionTakenStatus() {
-    if(this.getExceptionTakenListOutput.exceptionTakenList) {
-    return (
-    this.getExceptionTakenListOutput.exceptionTakenList.includes(Data.ClientFile.EXCEPTION_TAKEN.NO.id))?
-    "NO": 
-    this.getExceptionTakenListOutput.exceptionTakenList.length>0?"YES": undefined
+    if (this.getExceptionTakenListOutput.exceptionTakenList) {
+      return this.getExceptionTakenListOutput.exceptionTakenList.includes(
+        Data.ClientFile.EXCEPTION_TAKEN.NO.id
+      )
+        ? "NO"
+        : this.getExceptionTakenListOutput.exceptionTakenList.length > 0
+        ? "YES"
+        : undefined;
     }
   }
 
@@ -174,7 +178,6 @@ export default class EnrollClientFileTask extends ModelVue {
       this.taskFormData.taskOutput.paymentPlan?.ppCalculator?.outstanding
     );
   }
-
 
   set taskFormOutput(newVal) {
     this.taskFormOutputLocal = newVal;
@@ -241,6 +244,12 @@ export default class EnrollClientFileTask extends ModelVue {
     }, 1000);
   };
 
+  public getMSFCashfreeLinkPaymentListHandler = (output: any) => {
+    setTimeout(() => {
+      this.getMSFCashfreeLinkPaymentList();
+    }, 1000);
+  };
+
   public getEMandateListHandler = () => {
     setTimeout(() => {
       this.getEMandateList();
@@ -253,7 +262,6 @@ export default class EnrollClientFileTask extends ModelVue {
     }, 1000);
   };
 
-
   mounted() {
     this.findClPersonalInfo();
     this.getFiCreditorInfo();
@@ -263,10 +271,14 @@ export default class EnrollClientFileTask extends ModelVue {
     this.getFiDocumentList();
     this.getFiERPDocumentList();
     this.getAllSignAgreementList();
+    this.getMSFCashfreeLinkPaymentList();
     this.getEMandateList();
     this.getExceptionTakenList();
 
-    if(this.clientFileSummary.isFirstMSFPaid === true && !this.taskStateTerminated) {
+    if (
+      this.clientFileSummary.isFirstMSFPaid === true &&
+      !this.taskStateTerminated
+    ) {
       this.saveAndMarkCompleteTask();
     }
 
@@ -284,7 +296,7 @@ export default class EnrollClientFileTask extends ModelVue {
 
     Action.Spine.AddExperianCreditorListFromPDFParsed.interested(
       this.getClientCreditorInfoAndInfoHandler
-    )
+    );
 
     Action.Spine.UpdateCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
@@ -315,12 +327,16 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.interested(
       this.getAllSignAgreementListHandler
     );
+    Action.ClientFile.ReceiveFirstMSFPayment.interested(
+      this.getMSFCashfreeLinkPaymentListHandler
+    );
     Action.ClientFile.InitiateEMandate.interested(this.getEMandateListHandler);
     Action.ClientFile.CheckAndUpdateEMandate.interested(
       this.getEMandateListHandler
     );
-    Action.ClientFile.UpdateExceptionTakenList.interested(this.getExceptionTakenListHandler);
-    
+    Action.ClientFile.UpdateExceptionTakenList.interested(
+      this.getExceptionTakenListHandler
+    );
   }
 
   public destroyed() {
@@ -371,17 +387,22 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.notInterested(
       this.getAllSignAgreementListHandler
     );
+    Action.ClientFile.ReceiveFirstMSFPayment.notInterested(
+      this.getMSFCashfreeLinkPaymentListHandler
+    );
     Action.ClientFile.InitiateEMandate.notInterested(
       this.getEMandateListHandler
     );
     Action.ClientFile.CheckAndUpdateEMandate.notInterested(
       this.getEMandateListHandler
     );
-    Action.ClientFile.UpdateExceptionTakenList.notInterested(this.getExceptionTakenListHandler);
+    Action.ClientFile.UpdateExceptionTakenList.notInterested(
+      this.getExceptionTakenListHandler
+    );
 
     Action.Spine.AddExperianCreditorListFromPDFParsed.notInterested(
       this.getClientCreditorInfoAndInfoHandler
-    )
+    );
 
     // getEMandateListHandler
   }
@@ -406,7 +427,6 @@ export default class EnrollClientFileTask extends ModelVue {
       });
     });
   }
-  
 
   getExceptionTakenList() {
     Action.ClientFile.GetExceptionTakenList.execute1(
@@ -498,6 +518,13 @@ export default class EnrollClientFileTask extends ModelVue {
 
   getAllSignAgreementList() {
     Action.ClientFile.GetAllSignAgreementList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getMSFCashfreeLinkPaymentList() {
+    Action.ClientFile.GetMSFCashfreeLinkPaymentList.execute1(
       this.clientFileId,
       (output) => {}
     );

@@ -80,6 +80,9 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
     return state.fiERPDocumentList;
   }
 
+ public fiCashfreeLinkList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCashfreeLinkPayment[] {
+    return state.fiCashfreeLinkList;
+  }
 
 }
 

@@ -8,6 +8,7 @@ import ECFTUploadStepFDocumentMDP from "./step5/ECFTUploadStepFDocumentMDP";
 import ECFTSummaryStepMDP from "./step6/ECFTSummaryStepMDP";
 import ECFTSSAStepMDP from "./step7/ECFTSSAStepMDP";
 import ECFTEMandateListStepMDP from "./step8/ECFTEMandateListStepMDP";
+import ECFTCashfreeStepMDP from "./step9/ECFTCashfreeStepMDP";
 
 
 export default class ECFTFStepperMDP extends FTaskStepperMDP {
@@ -83,6 +84,11 @@ export default class ECFTFStepperMDP extends FTaskStepperMDP {
       }).addStep({
         name: "EMandate",
         stepContent: new ECFTEMandateListStepMDP({
+          taskRoot: this.taskRoot, parent: this
+        }),
+      }).addStep({
+        name: "Cashfree",
+        stepContent: new ECFTCashfreeStepMDP({
           taskRoot: this.taskRoot, parent: this
         }),
       })

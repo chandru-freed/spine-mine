@@ -85,6 +85,10 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.fiERPDocumentList = fiDocumentList;
   }
 
+ public updateFiCashfreeLinkList(state: Data.ClientFile.ClientFileSummary, fiCashfreeLinkList: Data.ClientFile.FiCashfreeLinkPayment[]): void {
+    state.fiCashfreeLinkList = fiCashfreeLinkList;
+  }
+
 
 }
 

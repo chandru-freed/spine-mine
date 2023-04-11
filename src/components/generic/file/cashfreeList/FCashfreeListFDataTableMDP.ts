@@ -26,7 +26,7 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
       dataSelectorKey: "paymentLink",
       columnCellMDP: new FCellCopyMDP({
         dataSelectorKeyToCopy: "paymentLink",
-        tooltipText: "Click here to copy the agreement link",
+        tooltipText: "Click here to copy the Cashfree link",
       }),
     })
       .addCurrencyColumn({

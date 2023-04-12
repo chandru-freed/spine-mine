@@ -33,14 +33,34 @@ export default class TMOStimulatorMDP extends FFormMDP {
         onClick: this.editClicked(),
         condition: !this.taskRoot.editMode
       })
-    )
+    ).addAction(
+      new FBtnMDP({
+        label: "Fixed Tenure",
+        onClick: this.fixedTenure()
+      })
+    ).addAction(
+      new FBtnMDP({
+        label: "Fixed TMO",
+        onClick: this.fixedTOM()
+      })
+    );
   }
 
   getMyRef(): any {
     return this.taskRoot.$refs[this.myRefName];
   }
   
-  
+  fixedTenure() {
+    return () => {
+      this.taskRoot.recalculateWithTenure();
+    }
+  }
+
+  fixedTOM() {
+    return () => {
+      this.taskRoot.recalculateWithTOM();
+    }
+  }
 
 
   editClicked() {

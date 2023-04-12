@@ -126,10 +126,10 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
 import store, * as Store from "@/../src-gen/store";
-import TMOStimulatorFFormMDP from "./TMOStimulatorFFormMDP";
+import TMOStimulatorFFormWithPsPlanIdMDP from "./TMOStimulatorFFormWithPsPlanIdMDP";
 import FForm from "../form/FForm.vue";
 import Task from "@/section/spineapp/util/Task";
-import TMOStimulatorMDP from "./TMOStimulatorMDP";
+import TMOStimulatorWithPsPlanIdMDP from "./TMOStimulatorWithPsPlanIdMDP";
 import moment from "moment";
 import Helper from "@/section/spineapp/util/Helper";
 
@@ -211,12 +211,12 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
 
   //METADATA
   get tmoStimulatorFormMetaData() {
-    return new TMOStimulatorFFormMDP({
+    return new TMOStimulatorFFormWithPsPlanIdMDP({
       taskRoot: this,
     }).getMetaData();
   }
   get tmoStimulatorMDP() {
-    return new TMOStimulatorMDP({
+    return new TMOStimulatorWithPsPlanIdMDP({
       taskRoot: this,
     }).getMetaData();
   }
@@ -328,6 +328,42 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
       });
       this.editMode = false;
     });
+  }
+
+  recalculateWithTenure() {
+    const input: Data.Spine.RecalculatePSPlanWithTenureInput =
+      Data.Spine.RecalculatePSPlanWithTenureInput.fromJson(
+        this.modelValue.paymentPlan
+      );
+    input.clientFileId = this.clientFileId;
+    input.psPlanId = this.modelValue.paymentPlan.psPlanId;
+    input.outstanding = this.result.outstanding;
+    
+    Action.Spine.RecalculatePSPlanWithTenure.execute(input, (output: any) => {
+      Snackbar.show({
+        text: "Succesfully Saved",
+        pos: "bottom-center",
+      });
+      this.editMode = false;
+    });
+  }
+
+  recalculateWithTOM(){
+      const input: Data.Spine.RecalculatePSPlanWithTMOInput =
+        Data.Spine.RecalculatePSPlanWithTMOInput.fromJson(
+          this.modelValue.paymentPlan
+        );
+      input.clientFileId = this.clientFileId;
+      input.psPlanId = this.modelValue.paymentPlan.psPlanId;
+      input.outstanding = this.result.outstanding;
+      
+      Action.Spine.RecalculatePSPlanWithTMO.execute(input, (output: any) => {
+        Snackbar.show({
+          text: "Succesfully Saved",
+          pos: "bottom-center",
+        });
+        this.editMode = false;
+      });
   }
 
   isFormDirty(): boolean {

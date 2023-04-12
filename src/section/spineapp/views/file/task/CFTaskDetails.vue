@@ -87,6 +87,7 @@ import RefundSPATask from "@/section/spineapp/components/task/refundspa/refundSP
 import GenericTask from "@/section/spineapp/components/task/genericTask/GenericTask.vue";
 import UpdateRefundSPAPaymentStatusTaskTask from "@/section/spineapp/components/task/refundspa/updateRefundSPAPaymentStatusTask/UpdateRefundSPAPaymentStatusTaskTask.vue";
 import EnrollClientFileTask from "@/section/spineapp/components/task/enrollment/enrollClientFile/EnrollClientFileTask.vue";
+import ApproveAmendmentTask from "@/section/spineapp/components/task/amendment/approveAmendment/ApproveAmendmentTask.vue";
 
 @Component({
   components: {
@@ -146,7 +147,8 @@ import EnrollClientFileTask from "@/section/spineapp/components/task/enrollment/
     RefundSPATask,
     GenericTask,
     UpdateRefundSPAPaymentStatusTaskTask,
-    EnrollClientFileTask
+    EnrollClientFileTask,
+    ApproveAmendmentTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -251,6 +253,9 @@ export default class CFTaskDetails extends Vue {
     ["RefundFee::RefundFee", "RefundFeeTask"],
     ["RefundSPA::UpdateRefundSPAPaymentStatus", "UpdateRefundSPAPaymentStatusTaskTask"],
     ["CollectMSF::CollectMSFThroughCashfree", "CollectMSFThroughCashfreeTask"],
+    ["Amendment::ApproveAmendment", "ApproveAmendmentTask"],
+    
+    
   ]);
 
   taskId = this.$route.params.taskId;

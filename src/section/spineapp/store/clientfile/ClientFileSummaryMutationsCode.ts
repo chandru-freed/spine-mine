@@ -89,6 +89,10 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.fiCashfreeLinkList = fiCashfreeLinkList;
   }
 
+  public updateClientFileEnrollmentSummary(state: Data.ClientFile.ClientFileSummary, fiClientFileEnrollmentSummary: Data.ClientFile.ClientFileEnrollmentSummary): void {
+    state.fiClientFileEnrollmentSummary = fiClientFileEnrollmentSummary;
+  }
+
 
 }
 

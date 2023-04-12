@@ -77,6 +77,11 @@ export default class EnrollClientFileTask extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
+
+    // clientFileEnrollmentSummary Info
+  @Store.Getter.ClientFile.ClientFileSummary.fiClientFileEnrollmentSummary
+  clientFileEnrollmentSummary: Data.ClientFile.ClientFileEnrollmentSummary;
+
   // URl we are getting taskId and clientFileId
   taskId = this.$route.params.taskId;
   clientFileId = this.$route.params.clientFileId;
@@ -274,6 +279,7 @@ export default class EnrollClientFileTask extends ModelVue {
     this.getMSFCashfreeLinkPaymentList();
     this.getEMandateList();
     this.getExceptionTakenList();
+    this.getClientFileEnrollmentSummary();
 
     if (
       this.clientFileSummary.isFirstMSFPaid === true &&
@@ -526,6 +532,13 @@ export default class EnrollClientFileTask extends ModelVue {
   getMSFCashfreeLinkPaymentList() {
     Action.ClientFile.GetMSFCashfreeLinkPaymentList.execute1(
       this.clientFileId,
+      (output) => {}
+    );
+  }
+
+   getClientFileEnrollmentSummary() {
+    Action.ClientFile.GetClientFileEnrollmentSummary.execute1(
+      this.clientFileBasicInfo.clientBasicInfo.clientId,
       (output) => {}
     );
   }

@@ -84,6 +84,10 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
     return state.fiCashfreeLinkList;
   }
 
+ public fiClientFileEnrollmentSummary(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.ClientFileEnrollmentSummary {
+    return state.fiClientFileEnrollmentSummary;
+  }
+
 }
 
 

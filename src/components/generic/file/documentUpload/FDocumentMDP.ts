@@ -15,7 +15,19 @@ export default class FDocumentMDP implements MDP {
   actionList: FBtnMDP[] = [];
   disabled: boolean;
 
-  constructor({ taskRoot, parent, myRefName, dataSelectorKey, disabled }: { taskRoot: any; parent: any; myRefName: string; dataSelectorKey?: string; disabled: boolean }) {
+  constructor({
+    taskRoot,
+    parent,
+    myRefName,
+    dataSelectorKey,
+    disabled,
+  }: {
+    taskRoot: any;
+    parent: any;
+    myRefName: string;
+    dataSelectorKey?: string;
+    disabled: boolean;
+  }) {
     this.taskRoot = taskRoot;
     this.parent = parent;
     this.myRefName = myRefName;
@@ -26,7 +38,6 @@ export default class FDocumentMDP implements MDP {
       taskRoot: this.taskRoot,
       parent: this,
     });
-    
   }
 
   addAction(newAction: FBtnMDP) {
@@ -36,14 +47,27 @@ export default class FDocumentMDP implements MDP {
 
   validateDocuments() {
     return (nextCallback: () => void) => {
-      const fileDocumentList = this.taskRoot.taskFormOutput?.fileDocumentList || [];
-      const filteredFileDocumentList=  fileDocumentList.filter((item: any) => {
-        return item.documentType === 'Credit Report'||item.documentType === 'CreditReport'
-      })
-      if(filteredFileDocumentList.length>0) {
-      nextCallback()
+      if (
+        this.taskRoot.clientFileEnrollmentSummary.enrollmentSummary
+          .isAggrementSigned
+      ) {
+        nextCallback();
       } else {
-        FSnackbar.error("Please upload a credit report")
+        const fileDocumentList =
+          this.taskRoot.taskFormOutput?.fileDocumentList || [];
+        const filteredFileDocumentList = fileDocumentList.filter(
+          (item: any) => {
+            return (
+              item.documentType === "Credit Report" ||
+              item.documentType === "CreditReport"
+            );
+          }
+        );
+        if (filteredFileDocumentList.length > 0) {
+          nextCallback();
+        } else {
+          FSnackbar.error("Please upload a credit report");
+        }
       }
     };
   }
@@ -59,7 +83,7 @@ export default class FDocumentMDP implements MDP {
           action.getMetaData()
         ),
         disabled: this.disabled,
-        taskRoot: this.taskRoot
+        taskRoot: this.taskRoot,
       },
     };
   }

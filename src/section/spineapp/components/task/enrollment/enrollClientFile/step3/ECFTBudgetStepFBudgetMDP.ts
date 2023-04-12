@@ -26,9 +26,15 @@ export default class ECFTBudgetStepFBudgetMDP extends FBudgetMDP {
   // new implement
   validateAndSubmit() {
     return (nextCallback?: () => void) => {
-      this.getBudgetFormRef().submitForm(() => {
+      if (
+        this.taskRoot.clientFileEnrollmentSummary.enrollmentSummary.isBudgetDone
+      ) {
         this.updateBudgetInfo(nextCallback);
-      });
+      } else {
+        this.getBudgetFormRef().submitForm(() => {
+          this.updateBudgetInfo(nextCallback);
+        });
+      }
     };
   }
 

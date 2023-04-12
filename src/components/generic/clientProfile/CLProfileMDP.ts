@@ -5,7 +5,7 @@ import ManualTaskIntf from "@/section/spineapp/util/task_intf/ManualTaskIntf";
 
 export default class CLProfileMDP implements MDP {
     componentName = "CLProfile";
-    taskRoot: ManualTaskIntf;
+    taskRoot: any;
     parent: any;
     myRefName: string;
     dataSelectorKey: string | undefined;

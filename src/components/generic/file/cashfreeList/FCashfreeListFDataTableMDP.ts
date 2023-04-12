@@ -23,9 +23,9 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
     this.parent = props.parent;
     this.addColumn({
       label: "Payment Link",
-      dataSelectorKey: "paymentLink",
+      dataSelectorKey: "paymentId",
       columnCellMDP: new FCellCopyMDP({
-        dataSelectorKeyToCopy: "paymentLink",
+        dataSelectorKeyToCopy: "selfEnrolPaymentLink",
         tooltipText: "Click here to copy the Cashfree link",
       }),
     })

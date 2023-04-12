@@ -52,9 +52,16 @@ export default class ECFTProfileStepMDP extends CLProfileMDP {
   // new implement
   validateAndSubmit() {
     return (nextCallback?: () => void) => {
-      this.getProfileFormRef().submitForm(() => {
+      if (
+        this.taskRoot.clientFileEnrollmentSummary.enrollmentSummary
+          .isAggrementSigned
+      ) {
         this.updateClPersonalInfo(nextCallback);
-      });
+      } else {
+        this.getProfileFormRef().submitForm(() => {
+          this.updateClPersonalInfo(nextCallback);
+        });
+      }
     };
   }
 

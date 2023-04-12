@@ -244,7 +244,8 @@ export default class FBPaymentPlan extends ModelVue {
   get psEntrySchelduledList() {
     return (
       this.paymentPlan?.paymentScheduleList.filter(
-        (psEntry: any) => psEntry.status === "SCHEDULED"
+        (psEntry: any) => psEntry
+        // psEntry.status === "SCHEDULED" @umesh i have change this for showing a all entries
       ) || []
     );
   }

@@ -330,7 +330,7 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     });
   }
 
-  recalculateWithTenure() {
+  recalculateWithTenure(isTenure: boolean) {
     const input: Data.Spine.RecalculatePSPlanWithTenureInput =
       Data.Spine.RecalculatePSPlanWithTenureInput.fromJson(
         this.modelValue.paymentPlan
@@ -338,6 +338,7 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     input.clientFileId = this.clientFileId;
     input.psPlanId = this.modelValue.paymentPlan.psPlanId;
     input.outstanding = this.result.outstanding;
+    if(isTenure){input.tenure = this.result.tenure }
     
     Action.Spine.RecalculatePSPlanWithTenure.execute(input, (output: any) => {
       Snackbar.show({

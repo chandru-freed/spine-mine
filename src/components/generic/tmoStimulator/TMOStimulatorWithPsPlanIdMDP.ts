@@ -19,10 +19,18 @@ export default class TMOStimulatorMDP extends FFormMDP {
         condition: this.taskRoot.editMode,
       })
     )
+    // .addAction(
+    //   new FBtnMDP({
+    //     label: this.taskRoot.isPaymentPlanDataAvailable() ? "Recacluate Payment Plan" : "Calculate Payment Plan",
+    //     onClick: this.calculateOrDraftPaymentSchedule(),
+    //     condition: this.taskRoot.editMode,
+    //     disabled: this.taskRoot.isRecalculationNotAllowed()
+    //   })
+    // )
     .addAction(
       new FBtnMDP({
-        label: this.taskRoot.isPaymentPlanDataAvailable() ? "Recacluate Payment Plan" : "Calculate Payment Plan",
-        onClick: this.calculateOrDraftPaymentSchedule(),
+        label: "Recacluate Payment Plan",
+        onClick: this.recalculateWithTenureChange(true),
         condition: this.taskRoot.editMode,
         disabled: this.taskRoot.isRecalculationNotAllowed()
       })
@@ -36,12 +44,15 @@ export default class TMOStimulatorMDP extends FFormMDP {
     ).addAction(
       new FBtnMDP({
         label: "Fixed Tenure",
-        onClick: this.fixedTenure()
+        onClick: this.fixedTenure(false),
+        condition: !this.taskRoot.editMode
+
       })
     ).addAction(
       new FBtnMDP({
         label: "Fixed TMO",
-        onClick: this.fixedTOM()
+        onClick: this.fixedTOM(),
+        condition: !this.taskRoot.editMode
       })
     );
   }
@@ -50,9 +61,9 @@ export default class TMOStimulatorMDP extends FFormMDP {
     return this.taskRoot.$refs[this.myRefName];
   }
   
-  fixedTenure() {
+  fixedTenure(isTenure: boolean) {
     return () => {
-      this.taskRoot.recalculateWithTenure();
+      this.taskRoot.recalculateWithTenure(isTenure);
     }
   }
 
@@ -73,12 +84,19 @@ export default class TMOStimulatorMDP extends FFormMDP {
       this.taskRoot.handleCancelEditClick();
     }
   }
-  calculateOrDraftPaymentSchedule() {
+  // calculateOrDraftPaymentSchedule() {
+  //   return () => {
+  //     this.getTMOSSimulatorFormRef().submitForm(() => {
+  //       this.taskRoot.scheduleorDraftPaymentPlan();
+  //     })
+  //   };
+  // }
+
+  recalculateWithTenureChange(isTenure: boolean){
     return () => {
       this.getTMOSSimulatorFormRef().submitForm(() => {
-        this.taskRoot.scheduleorDraftPaymentPlan();
+        this.taskRoot.recalculateWithTenure(isTenure);
       })
-      // this.taskRoot.scheduleorDraftPaymentPlan();
     };
   }
 

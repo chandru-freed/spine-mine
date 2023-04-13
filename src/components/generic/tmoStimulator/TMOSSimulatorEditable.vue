@@ -355,7 +355,7 @@ export default class TMOSSimulatorEditable extends ModelVue {
   handleEditClick() {
     this.editMode = true;
   }
-
+  
   handleCancelEditClick() {
     this.editMode = false;
     this.result.tenure = this.simulatorInput?.paymentPlan.ppCalculator?.tenor;

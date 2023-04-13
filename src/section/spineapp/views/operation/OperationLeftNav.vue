@@ -106,6 +106,23 @@ export default class OperationLeftNav extends Vue {
         { title: "Unassigned Files", routerName: "Root.Operation.OPRClientFile.OPRUnAssignedCFSearch" },
       ],
     },
+    {
+      title: "Settlement",
+      icon: "mdi-cash",
+      items: [
+        { title: "Accounts nearing settlement", routerName: "Root.Operation.OPRSettlement.OPRCreditorSettlementList" },
+        { title: "Accounts settled", routerName: "Root.Operation.OPRSettlement.OPRCreditorSettledList" },
+      ],
+    },
+    {
+      title: "Amendment",
+      icon: "mdi-clipboard-text-clock-outline",
+      items: [
+        { title: "My Amendements", routerName: "Root.Operation.OPRAmendments" },
+        
+      ],
+    },
+    
   ];
   
   get filteredCfNavList() {

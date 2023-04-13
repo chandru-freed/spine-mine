@@ -1,26 +1,35 @@
 
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
-import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import Task from "@/section/spineapp/util/Task";
 
 
 
 
 
-export default class PATFinalStepFFormMDP extends FFormMDP {
+export default class AATFinalStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: any;
     parent: any;
     constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
         super({
-            myRefName: "prepareAmendmentFinalFormRef",
+            myRefName: "approveAmendmentFinalFormRef",
             disabled: taskRoot.taskDisabled,
         });
         this.taskRoot = taskRoot;
         this.parent = parent;
-        this.addField(
+        this
+        .addField(
+          new FSwitchMDP({
+            parentMDP: this.childMDP,
+            dataSelectorKey: "taskOutput.amendmentApproved",
+            label: "Approve",
+            boundaryClass: "col-12",
+          })
+        )
+        .addField(
             new FTextareaMDP({
               parentMDP: this.childMDP,
               dataSelectorKey: "taskOutput.reviewNote",
@@ -28,8 +37,8 @@ export default class PATFinalStepFFormMDP extends FFormMDP {
               mandatory: true,
               boundaryClass: "col-12",
             })
-          )
-          .addAction(
+          ).
+        addAction(
             new FBtnMDP({
                 label: "Mark Complete",
                 onClick: this.saveAndMarkCompleteTask(),
@@ -40,7 +49,6 @@ export default class PATFinalStepFFormMDP extends FFormMDP {
     }
 
     saveAndMarkCompleteTask() {
-        console.log(this.taskRoot.taskDetails);
         return () => {
           this.taskRoot.saveAndMarkCompleteTask();
         };

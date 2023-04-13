@@ -16,15 +16,25 @@ export class TicketSummaryGettersCode implements TicketSummaryGetters {
     return state.ticketCommentsList
   }
 
- public myTicketActiveList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketDetails[] {
-   return state.myTicketActiveList;
- }
+  public myTicketActiveList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketDetails[] {
+    return state.myTicketActiveList;
+  }
 
- public myTicketCompletedList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketDetails[] {
-   return state.myTicketCompletedList;
- }
+  public myTicketCompletedList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketDetails[] {
+    return state.myTicketCompletedList;
+  }
 
- public myTicketSubscribedList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketDetails[] {
-   return state.myTicketSubscribedList;
- }
+  public myTicketSubscribedList(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketDetails[] {
+    return state.myTicketSubscribedList;
+  }
+
+  myTicketDashboardSummary(state: Data.Ticket.TicketTaskSummary): Data.Ticket.MyTicketDashboardSummary {
+    const summary = state.myTicketDashboardSummary;
+    summary.myActiveTicketCount = state.myTicketActiveList.length;
+    summary.myCompletedTicketCount = state.myTicketCompletedList.length;
+    summary.mySubscribedTicketCount = state.myTicketSubscribedList.length;
+    summary.myTotalTicketCount = summary.myActiveTicketCount + summary.myCompletedTicketCount + summary.mySubscribedTicketCount;
+
+    return summary;
+  }
 }

@@ -182,6 +182,18 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRClientFile.OPRUnAssignedCFSearch",
         },
+        {
+          actionName: "Accounts nearing settlement",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Operation.OPRSettlement.OPRCreditorSettlementList",
+        },
+        {
+          actionName: "Amendments",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Operation.OPRAmendments",
+        },
+        
+        
         // {
         //   actionName: "Payment Operation",
         //   icon: "mdi-chevron-right",

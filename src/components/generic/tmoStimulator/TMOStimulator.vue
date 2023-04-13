@@ -258,7 +258,10 @@ export default class TMOStimulator extends ModelVue {
   @Watch("simulatorInput") modelValueChanged(newVal: any, oldVal: any) {
     this.resultLocal.tenure =
       this.modelValue.paymentPlan?.ppCalculator?.tenor ||
-      getTenureWithFreed(this.modelValue.creditorInfo?.totalDebt, this.modelValue.creditorInfo?.creditorList);
+      getTenureWithFreed(
+        this.modelValue.creditorInfo?.totalDebt,
+        this.modelValue.creditorInfo?.creditorList
+      );
     // this.resultLocal.tenure =
     //   this.modelValue.paymentPlan?.ppCalculator?.tenor || 30;
     this.resultLocal.outstanding = this.modelValue.creditorInfo?.totalDebt;
@@ -381,7 +384,10 @@ export default class TMOStimulator extends ModelVue {
     this.result.tenure =
       this.modelValue?.paymentPlan.ppCalculator?.tenor !== 0
         ? this.modelValue?.paymentPlan.ppCalculator?.tenor
-        : getTenureWithFreed(this.result.outstanding,this.modelValue.creditorInfo?.creditorList);
+        : getTenureWithFreed(
+            this.result.outstanding,
+            this.modelValue.creditorInfo?.creditorList
+          );
     this.result.settlementPercentage =
       this.modelValue?.paymentPlan.ppCalculator?.settlementPercentage;
     this.result.firstSPADraftDate =

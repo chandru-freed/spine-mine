@@ -7,8 +7,6 @@ export class MyClientFileStoreInit {
 }
 
 export class MyClientFileStoreGettersCode implements MyClientFileStoreGetters {
-
-
   public myClientFileList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
     return state.myClientFileList
   }
@@ -17,8 +15,7 @@ export class MyClientFileStoreGettersCode implements MyClientFileStoreGetters {
     return state.myEMandatePendingCFList;
   }
   public myEMandateActiveCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
-    return state.myEMandateActiveCFList;
-    
+    return state.myEMandateActiveCFList; 
   }
   public myMSFPendingCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
     return state.myMSFPendingCFList;
@@ -26,6 +23,24 @@ export class MyClientFileStoreGettersCode implements MyClientFileStoreGetters {
   public myMSFPaidCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
     return state.myMSFPaidCFList;
   }
+
+  public myActiveCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
+    return state.myActiveCFList
+  }
+  public myAgreementCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
+    return state.myAgreementCFList
+  }
+  public myLeadCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
+    return state.myLeadCFList
+  }
+
+  public msfEMandateEligibleCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
+    return state.msfEMandateEligibleCFList;
+  }
+  public myHoldCFList(state: Data.ClientFile.MyClientFileStore): Data.ClientFile.MyClientFile[] {
+    return state.myHoldCFList;
+  }
+
 
 
 
@@ -36,6 +51,11 @@ export class MyClientFileStoreGettersCode implements MyClientFileStoreGetters {
     summary.eMandatePendingCount = state.myEMandatePendingCFList.length
     summary.msfPaidCount = state.myMSFPaidCFList.length
     summary.msfPendingCount = state.myMSFPendingCFList.length
+    summary.activeCFCount = state.myActiveCFList.length;
+    summary.leadCFCount = state.myLeadCFList.length;
+    summary.agreementCFCount = state.myAgreementCFList.length
+    summary.msfEMandateEligibleCFCount = state.msfEMandateEligibleCFList.length;
+    summary.holdCFCount = state.myHoldCFList.length;
     return summary;
   }
 

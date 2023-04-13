@@ -63,7 +63,6 @@
       </v-list>
     </v-menu>
     <v-btn
-      v-if="!isSalesRep&&!isSalesLead"
       text
       @click="$router.push({ name: 'Root.ActionList' })"
     >

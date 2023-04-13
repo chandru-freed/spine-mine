@@ -84,6 +84,8 @@ export default class ApproveAmendmentTask extends ModelVue {
       //   this.taskDetails.inputJson as any
       // ).paymentPlan;
     this.taskFormOutputLocal.paymentPlan = this.newPaymentPlan;
+    this.taskFormOutputLocal.amendmentApproved = true;
+    
     return this.taskFormOutputLocal;
   }
 
@@ -137,7 +139,7 @@ export default class ApproveAmendmentTask extends ModelVue {
     console.log(this.taskFormData.taskOutput)
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
-      taskOutput: this.taskFormData.taskInput,
+      taskOutput: this.taskFormData.taskOutput,
     });
   }
   saveTask() {

@@ -2,7 +2,7 @@ import FAmendmentCreditorMDP from "@/components/generic/file/amendmentCreditor/F
 
 export default class AATCreditorStepFCreditorMDP extends FAmendmentCreditorMDP {
     constructor(props: {parent: any, taskRoot: any}) {
-        super({myRefName: "PATFStepperMDP",parent: props.parent, taskRoot: props.taskRoot,disabled: true,
+        super({myRefName: "PATFStepperMDP",parent: props.parent, taskRoot: props.taskRoot,disabled: props.taskRoot.taskDisabled,
         readonly: true,
     dataSelectorKey:"taskOutput.creditorInfo"
     });

@@ -7,7 +7,7 @@ export default class  AATPPFAPaymentPlanMDP extends FBPaymentPlanMDP {
           taskRoot: taskRoot,
           parent: parent,
           myRefName: "paymentPlanRef",
-          disabled: true,
+          disabled: taskRoot.taskDisabled,
           // dataSelectorKey: "taskOutput",
           hideMSFTab: true,
           disabledActionBtn: true,

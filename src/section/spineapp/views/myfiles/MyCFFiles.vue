@@ -11,7 +11,7 @@
       v-if="!!myCFFileFDataTableMetaData"
       :ref="myCFFileFDataTableMetaData.myRefName"
       :is="myCFFileFDataTableMetaData.componentName"
-      :value="selectModel(myClientFileList, undefined)"
+      :value="selectModel(clientFileList, undefined)"
       v-bind="myCFFileFDataTableMetaData.props"
     ></component>
   </v-card>
@@ -50,7 +50,17 @@ export default class MyCFFiles extends ModelVue {
 
   @Store.Getter.ClientFile.MyClientFileStore.myMSFPendingCFList
   myMSFPendingCFList: Data.ClientFile.MyClientFile[];
+  @Store.Getter.ClientFile.MyClientFileStore.myHoldCFList
+  myHoldCFList: Data.ClientFile.MyClientFile[];
 
+  @Store.Getter.ClientFile.MyClientFileStore.myLeadCFList
+  myLeadCFList: Data.ClientFile.MyClientFile[];
+
+  @Store.Getter.ClientFile.MyClientFileStore.myAgreementCFList
+  myAgreementCFList: Data.ClientFile.MyClientFile[];
+
+  @Store.Getter.ClientFile.MyClientFileStore.myActiveCFList
+  myActiveCFList: Data.ClientFile.MyClientFile[];
   
   showRegisterMyCFForm: boolean = false;
   registerClientFormData: Data.Client.RegisterAndAddClientFileForm =
@@ -124,9 +134,14 @@ export default class MyCFFiles extends ModelVue {
     console.log(this.filterQuery);
     switch(this.filterQuery) {
       case 'emandate_active':  return this.myEMandateActiveCFList
-      case 'emandate_pending':  return this.myEMandateActiveCFList
+      case 'emandate_pending':  return this.myEMandatePendingCFList
       case 'msf_paid':  return this.myMSFPaidCFList
       case 'msf_pending':  return this.myMSFPendingCFList
+      case 'file_active':  return this.myActiveCFList
+      case 'file_lead':  return this.myLeadCFList
+      case 'file_agreement':  return this.myAgreementCFList
+      case 'file_hold':  return this.myHoldCFList
+      
       default:  return this.myClientFileList
     }
   }

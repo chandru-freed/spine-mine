@@ -60,6 +60,8 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import store, * as Store from "@/../src-gen/store";
 import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
+import moment from "moment";
+import Helper from "../util/Helper";
 
 @Component({
   components: {
@@ -83,12 +85,58 @@ export default class RootLayout extends Vue {
     Store.Mutation.Spine.RouterStore.UPDATE_FLATTENED_ROUTER_LIST();
     this.getLoggedInUser();
     this.getMyClientFileList();
+    this.getAllTaskList();
+    this.getAllTicketList();
+  }
+
+  
+  getAllTaskList() {
+    this.getMyActiveTaskList();
+    this.getMyCompletedTaskList();
+    this.getMySuspendedTaskList();
+  }
+
+  getMyActiveTaskList() {
+    Action.TaskList.GetActiveTaskListAllocated.execute((output) => {});
+  }
+
+  getMyCompletedTaskList() {
+    const toDate = moment().format(Helper.DATE_FORMAT);
+    const fromDate = moment().subtract(7, "d").format(Helper.DATE_FORMAT);
+    Action.TaskList.GetCompletedTaskList.execute2(
+      fromDate,
+      toDate,
+      (output) => {}
+    );
+  }
+
+
+  getMySuspendedTaskList() {
+    Action.TaskList.GetSuspendedTaskList.execute((output) => {});
+  }
+
+
+getAllTicketList() {
+  this.getActiveTicketList();
+  this.getCompletedTicketList();
+  this.getSubscribedTicketList();
+}
+
+
+  getActiveTicketList() {
+    Action.Ticket.GetMyTicketActiveList.execute(output => {})
+  }
+
+  getCompletedTicketList() {
+    Action.Ticket.GetMyTicketCompletedList.execute(output => {})
+  }
+
+  getSubscribedTicketList() {
+    Action.Ticket.GetMyTicketSubscribedList.execute(output => {})
   }
 
   getMyClientFileList() {
-    Action.ClientFile.GetMyClientFileList.execute((output) => {
-      
-    });
+    Action.ClientFile.GetMyClientFileList.execute((output) => {});
   }
   getLoggedInUser() {
     const userName: any = localStorage.getItem("userName");

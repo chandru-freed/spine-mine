@@ -1,10 +1,10 @@
 import FTaskStepperMDP, {
   FTaskStepMDP,
 } from "@/components/generic/FTaskStepperMDP";
-import PATCreditorStepFCreditorMDP from "./step1/PATCreditorStepFCreditorMDP";
-import PATPPFAPaymentPlanMDP from "./step2/PATPPFAPaymentPlanMDP";
+import AATCreditorStepFCreditorMDP from "./step1/AATCreditorStepFCreditorMDP";
+import AATPPFAPaymentPlanMDP from "./step2/AATPPFAPaymentPlanMDP";
 
-import PATFinalStepFFormMDP from "./step3/PATFinalStepFFormMDP";
+import AATFinalStepFFormMDP from "./step3/AATFinalStepFFormMDP";
 
 export default class PATFStepperMDP extends FTaskStepperMDP {
   taskRoot: any;
@@ -18,14 +18,14 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
     this.taskRoot = taskRoot;
     this.parent = taskRoot;
 
-    const patppFAPaymentPlanMDP =  new PATPPFAPaymentPlanMDP({
+    const patppFAPaymentPlanMDP =  new AATPPFAPaymentPlanMDP({
       parent: this,
       taskRoot: this.taskRoot,
     })
 
     this.addStep({
       name: "Creditor",
-      stepContent: new PATCreditorStepFCreditorMDP({
+      stepContent: new AATCreditorStepFCreditorMDP({
         parent: this,
         taskRoot: this.taskRoot,
       }),
@@ -37,7 +37,7 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
       })
       .addStep({
         name: "Review",
-        stepContent: new PATFinalStepFFormMDP({
+        stepContent: new AATFinalStepFFormMDP({
           parent: this,
           taskRoot: this.taskRoot,
         }),

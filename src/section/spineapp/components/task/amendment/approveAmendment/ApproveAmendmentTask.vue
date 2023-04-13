@@ -19,14 +19,14 @@ import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
-import PATFStepperMDP from "./PATFStepperMDP";
+import AATFStepperMDP from "./AATFStepperMDP";
 import * as Action from "@/../src-gen/action";
 @Component({
   components: {
     FTaskStepper,
   },
 })
-export default class PrepareAmendmentTask extends ModelVue {
+export default class ApproveAmendmentTask extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 
@@ -41,7 +41,7 @@ export default class PrepareAmendmentTask extends ModelVue {
   taskId = this.$route.params.taskId;
 
   get stepperMetaData(): any {
-    return new PATFStepperMDP({ taskRoot: this }).getMetaData();
+    return new AATFStepperMDP({ taskRoot: this }).getMetaData();
   }
 
   //FORM
@@ -64,22 +64,29 @@ export default class PrepareAmendmentTask extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: Data.Spine.AmendmentTaskOutput =
-    new Data.Spine.AmendmentTaskOutput();
+  taskFormOutputLocal: Data.Spine.ApproveAmendmentTaskOutput =
+    new Data.Spine.ApproveAmendmentTaskOutput();
 
   get taskFormOutput() {
     if (this.taskDetails.isOutputEmpty) {
       this.taskFormOutputLocal.creditorInfo = (
         this.taskDetails.inputJson as any
-      ).existingCreditorInfo;
+      ).creditorInfo;
     } else {
-      this.taskFormOutputLocal = Data.Spine.AmendmentTaskOutput.fromJson(
+      this.taskFormOutputLocal = Data.Spine.ApproveAmendmentTaskOutput.fromJson(
         this.taskDetails.outputJson
       );
+
       // this.taskFormOutputLocal.creditorInfo.totalDebt =
     }
-    this.taskFormOutputLocal.reviewNote = (this.taskDetails.inputJson as any).reviewNote
+
+      // const newPaymentPlan = (
+      //   this.taskDetails.inputJson as any
+      // ).paymentPlan;
     this.taskFormOutputLocal.paymentPlan = this.newPaymentPlan;
+    this.taskFormOutputLocal.amendmentApproved = true;
+    this.taskFormOutputLocal.reviewNote = (this.taskDetails.inputJson as any).reviewNote
+    
     return this.taskFormOutputLocal;
   }
 
@@ -122,18 +129,15 @@ export default class PrepareAmendmentTask extends ModelVue {
     Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfoHandler)
     Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getPSPlanInfoHandler);
     Action.Spine.UploadPaymentSchedulePlanExcel.interested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTenure.interested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTMO.interested(this.getPSPlanInfoHandler);
   }
 
   destroyed() {
     Action.Spine.RecalculatePSPlanForPM.notInterested(this.getPSPlanInfoHandler)
     Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getPSPlanInfoHandler);
     Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTenure.interested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTMO.interested(this.getPSPlanInfoHandler);
   }
   saveAndMarkCompleteTask() {
+    console.log(this.taskFormData.taskOutput)
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

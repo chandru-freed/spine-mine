@@ -7,10 +7,10 @@
   >
     <template v-slot:item="data">
       <v-list-item-content>
-        <v-list-item-title v-html="data.item.nupayBankName"></v-list-item-title>
+        <v-list-item-title>{{ data.item.nupayBankName }}</v-list-item-title>
         <v-list-item-subtitle>
           {{ data.item.amount | toRoundedINR }},
-          {{ data.item.accountNumber | masked-account-number }}
+          {{ data.item.accountNumber | (masked - account - number) }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </template>
@@ -57,10 +57,14 @@ export default class FEMandateSelectField extends VSelect {
   }
 
   getMandateList() {
-    Action.ClientFile.GetEMandateList.execute1(
-      this.clientFileId,
-      (output) => {}
-    );
+    Action.ClientFile.GetEMandateList.execute1(this.clientFileId, (output) => {
+      const defaultEMandate: any = output.find(
+        (item) => item.isDefault === true
+      );
+      if (defaultEMandate) {
+        this.modelValue = defaultEMandate[this.$props.itemValue];
+      }
+    });
   }
 
   set modelValue(newModelValue: string) {

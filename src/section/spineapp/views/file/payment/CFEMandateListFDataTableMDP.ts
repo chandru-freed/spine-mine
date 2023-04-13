@@ -18,7 +18,7 @@ export default class CFEMandateListFDataTableMDP extends FDataTableMDP {
             label: "Nupay Cust Id",
             dataSelectorKey: "remoteEMandateId",
             columnCellMDP: new FCellCopyMDP({
-                dataSelectorKeyToCopy: "redirectUrl",
+                dataSelectorKeyToCopy: "selfEnrolEMandateLink",
                 tooltipText: "Click here to copy the EMandate link"
             })
         }).addColumn({

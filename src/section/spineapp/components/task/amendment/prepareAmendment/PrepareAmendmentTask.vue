@@ -76,9 +76,9 @@ export default class PrepareAmendmentTask extends ModelVue {
       this.taskFormOutputLocal = Data.Spine.AmendmentTaskOutput.fromJson(
         this.taskDetails.outputJson
       );
-
       // this.taskFormOutputLocal.creditorInfo.totalDebt =
     }
+    this.taskFormOutputLocal.reviewNote = (this.taskDetails.inputJson as any).reviewNote
     this.taskFormOutputLocal.paymentPlan = this.newPaymentPlan;
     return this.taskFormOutputLocal;
   }

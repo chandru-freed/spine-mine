@@ -36,7 +36,7 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
         submitFunc: patppFAPaymentPlanMDP.validateEntries()
       })
       .addStep({
-        name: "Mark Complete",
+        name: "Review",
         stepContent: new PATFinalStepFFormMDP({
           parent: this,
           taskRoot: this.taskRoot,

@@ -85,6 +85,7 @@ export default class ApproveAmendmentTask extends ModelVue {
       // ).paymentPlan;
     this.taskFormOutputLocal.paymentPlan = this.newPaymentPlan;
     this.taskFormOutputLocal.amendmentApproved = true;
+    this.taskFormOutputLocal.reviewNote = (this.taskDetails.inputJson as any).reviewNote
     
     return this.taskFormOutputLocal;
   }

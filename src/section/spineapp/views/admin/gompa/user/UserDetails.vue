@@ -8,6 +8,7 @@
       </template>
     </v-breadcrumbs>
     <v-card flat>
+      
       <v-card v-if="showAddUserGroupForm" class="py-5 px-2" outlined>
         <v-card-title>Add User Group</v-card-title>
         <component
@@ -22,7 +23,10 @@
       </v-card>
 
       <div class="col d-flex align-center">
-        <v-card-title>User Details</v-card-title>
+        <v-card-title>User Details
+          <v-chip color="green" class="mx-3" outlined small v-if="userDetails.active">Active</v-chip>
+          <v-chip v-else color="grey" class="mx-3" small outlined>Disabled</v-chip>
+          </v-card-title>
         <v-spacer />
         <f-btn
           label="Add User Group"
@@ -30,6 +34,8 @@
           color="primary"
           outlined
           class="mx-4"
+          dense
+          small
         >
         </f-btn>
         <f-btn
@@ -37,8 +43,37 @@
           :onClick="syncLeadSquaredId()"
           color="primary"
           outlined
+          dense
+          small
         >
         </f-btn>
+
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              dark
+              v-bind="attrs"
+              v-on="on"
+              dense
+              small
+              outlined
+              class="mx-2"
+            >
+              Actions
+              <v-icon small>mdi-chevron-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item link @click="() => activateUser()">
+              <div class="text-caption">Activate</div>
+            </v-list-item>
+
+            <v-list-item link @click="() => deActivateUser()">
+              <div class="text-caption">Deactivate</div>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
 
       <component
@@ -57,7 +92,11 @@
         :message="`Are you sure want to remove '${selectedUserGroupForDelete}' role from this user`"
       />
       <div class="col-12 mx-3">
-        <v-toolbar-title v-if="userDetails.userGroupList.length>0" class="mb-3">User Groups</v-toolbar-title>
+        <v-toolbar-title
+          v-if="userDetails.userGroupList.length > 0"
+          class="mb-3"
+          >User Groups</v-toolbar-title
+        >
         <v-chip
           label
           outlined
@@ -139,7 +178,7 @@ export default class UserDetails extends ModelVue {
 
   getUserDetails() {
     Action.Spine.GetUserDetails.execute1(this.userName, (output) => {
-      console.log(output);
+      console.log(output.active);
       this.userDetails = output;
       this.userDetails.userGroupListString = this.userDetails.userGroupList
         .map((item) => item.userGroupName)
@@ -188,6 +227,17 @@ export default class UserDetails extends ModelVue {
         this.getUserDetails();
       }
     );
+  }
+  deActivateUser() {
+    Action.Spine.DeActivateUser.execute1(this.userName, (output) => {
+      this.getUserDetails();
+    });
+  }
+
+  activateUser() {
+    Action.Spine.ActivateUser.execute1(this.userName, (output) => {
+      this.getUserDetails();
+    });
   }
 }
 </script>

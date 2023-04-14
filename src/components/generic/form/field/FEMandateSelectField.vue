@@ -10,7 +10,9 @@
         <v-list-item-title>{{ data.item.nupayBankName }}</v-list-item-title>
         <v-list-item-subtitle>
           {{ data.item.amount | toRoundedINR }},
-          {{ data.item.accountNumber | (masked - account - number) }}
+          {{ data.item.accountNumber | masked-account-number }}
+          <span class="ml-3 green--text" >{{ data.item.isDefault? 'Default':'' }}</span>
+          
         </v-list-item-subtitle>
       </v-list-item-content>
     </template>

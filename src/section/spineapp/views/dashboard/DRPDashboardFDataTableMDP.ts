@@ -45,6 +45,7 @@ export default class DRPDashboardFDataTableMDP extends FDataTableMDP {
         label: "Mobile",
         dataSelectorKey: "mobile",
         columnCellMDP: new FCellPhoneMDP(),
+        enableCopy: true
       })
       .addColumn({
         label: "E-mail",

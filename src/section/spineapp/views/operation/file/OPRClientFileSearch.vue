@@ -27,6 +27,20 @@
       ></component>
     </v-card>
 
+    <v-card flat v-if="showAssignSalesRepFForm">
+      <v-card-title>Assign Sales Rep</v-card-title>
+      <component
+        :ref="assignSalesRepFFormMetaData.myRefName"
+        :is="assignSalesRepFFormMetaData.componentName"
+        :value="selectModel(assignSalesRepListInput, undefined)"
+        @input="
+          (newValue) => updateModel(assignSalesRepListInput, newValue, undefined)
+        "
+        v-bind="assignSalesRepFFormMetaData.props"
+      ></component>
+    </v-card>
+    
+
     <component
       v-if="!!allClientFileListFDataTableMetaData"
       :ref="allClientFileListFDataTableMetaData.myRefName"
@@ -57,7 +71,7 @@ import AllClientFileListFDataTableMDP from "./AllClientFileListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import Helper from "@/section/spineapp/util/Helper";
 import AssignRMFFormMDP from "./AssignRMFFormMDP";
-
+import AssignSalesRepFFormMDP from './AssignSalesRepFFormMDP';
 @Component({
   components: {
     FForm,
@@ -78,8 +92,14 @@ export default class OPRClientFileSearch extends ModelVue {
 
   showAssignRMFForm: boolean = false;
   assignRMInputList: Data.ClientFile.AssignRMInput[] = [];
+  showAssignSalesRepFForm: boolean = false;
+  assignSalesRepInputList: Data.ClientFile.AssignSalesRepInput[] = [];
   assignRMListInput: any = {
     assignedRM: "",
+  };
+
+  assignSalesRepListInput: any = {
+    assignedSalesRep: "",
   };
 
   get clientFileSearchForm() {
@@ -104,6 +124,11 @@ export default class OPRClientFileSearch extends ModelVue {
   get clientFileSearchFormMetaData(): any {
     return new ClientFileSearchFFormMDP({ taskRoot: this }).getMetaData();
   }
+  get assignSalesRepFFormMetaData(): any {
+    return new AssignSalesRepFFormMDP({ taskRoot: this }).getMetaData();
+  }
+
+  
 
   mounted() {
     this.resetClientSearchInput();
@@ -158,16 +183,45 @@ export default class OPRClientFileSearch extends ModelVue {
     );
   }
 
+    handleAssignSalesRepClick(itemList: any[]) {
+    this.assignSalesRepInputList = itemList.map((item) => {
+      const assignSalesRepInput = Data.ClientFile.AssignSalesRepInput.fromJson(item);
+      return assignSalesRepInput;
+    });
+    this.showAssignSalesRepFForm = true;
+  }
+
+  assignSalesRep() {
+    this.assignSalesRepInputList.forEach(
+      (assignSalesRepInput: Data.ClientFile.AssignSalesRepInput, index: number) => {
+        assignSalesRepInput.assignedSalesRep = this.assignSalesRepListInput.assignedSalesRep;
+        Action.ClientFile.AssignSalesRep.execute(assignSalesRepInput, (output) => {
+          if (index === this.assignSalesRepInputList.length - 1) {
+            setTimeout(() => {
+              this.searchClientFile();
+              this.resetFormAndTable();
+            }, 500);
+          }
+        });
+      }
+    );
+  }
+
   resetFormAndTable() {
     this.hideAssignRMFForm();
     (this.$refs["allClientFileListFDataTableRef"] as any).clearSelectedItems();
     this.assignRMListInput = {
       assignedRM: "",
     };
+
+    this.assignSalesRepListInput = {
+      assignedSalesRep: "",
+    };
   }
 
   hideAssignRMFForm() {
     this.showAssignRMFForm = false;
+    this.showAssignSalesRepFForm = false;
   }
 }
 </script>

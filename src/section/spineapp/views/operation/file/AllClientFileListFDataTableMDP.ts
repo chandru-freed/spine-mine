@@ -68,6 +68,12 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         type: ActionType.OTHERS,
         disabled: this.parent.isSalesLead || this.parent.isSalesRep
       })
+      .addAction({
+        label: "Assign Sales Rep",
+        onClick: (item) => this.handleAssignSalesRepClick(item),
+        type: ActionType.OTHERS,
+        disabled: this.parent.isSalesLead || this.parent.isSalesRep
+      })
       ;
   }
 
@@ -83,6 +89,12 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
   handleAssignRMClick(itemList: any): Promise<any> {
     return new Promise((resolve) => {
       this.parent.handleAssignRMClick(itemList);
+    });
+  }
+
+  handleAssignSalesRepClick(itemList: any): Promise<any> {
+    return new Promise((resolve) => {
+      this.parent.handleAssignSalesRepClick(itemList);
     });
   }
 }

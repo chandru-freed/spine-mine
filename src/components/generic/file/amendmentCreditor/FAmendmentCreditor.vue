@@ -21,7 +21,7 @@
     <v-col class="col-12">
       <v-card flat>
         <component
-          :value="modelValue"
+          :value="creditorList"
           :is="fCreditorListFDataTableMetaData.componentName"
           :ref="fCreditorListFDataTableMetaData.myRefName"
           v-bind="fCreditorListFDataTableMetaData.props"
@@ -127,7 +127,7 @@ export default class FAmendmentCreditor extends ModelVue {
   }
 
   get creditorList() {
-    return this.modelValue.creditorList;
+    return this.modelValue.creditorList?.filter((creditor: any) => !creditor.ineligible);
   }
 
   get totalDebt() {

@@ -9,7 +9,7 @@ import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
-        super({myRefName:"fCreditorListFDataTableRef", title: "Creditors",enableSearch: true,dataSelectorKey:"creditorList",disabled:props.parent.disabled});
+        super({myRefName:"fCreditorListFDataTableRef", title: "Creditors",enableSearch: true,disabled:props.parent.disabled});
         this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",

@@ -52,6 +52,18 @@ export default class FollowUpAmendmentEMandateTask extends ModelVue {
 
   mounted() {
     this.getEMandateList();
+
+    Action.ClientFile.InitiateEMandate.interested(this.getEMandateListHandler);
+    Action.ClientFile.CheckAndUpdateEMandate.interested(
+      this.getEMandateListHandler
+    );
+  }
+
+  destroyed() {
+    Action.ClientFile.InitiateEMandate.notInterested(this.getEMandateListHandler);
+    Action.ClientFile.CheckAndUpdateEMandate.notInterested(
+      this.getEMandateListHandler
+    );
   }
 
     getEMandateList() {
@@ -95,6 +107,13 @@ export default class FollowUpAmendmentEMandateTask extends ModelVue {
       taskOutput: this.taskFormData.taskOutput,
     });
   }
+
+
+  public getEMandateListHandler = () => {
+    setTimeout(() => {
+      this.getEMandateList();
+    }, 1000);
+  };
   
   //Action
 }

@@ -95,7 +95,9 @@ export default class PrepareAmendmentTask extends ModelVue {
   getPSPlanInfo() {
     setTimeout(() => {
       const newPSPlanId = (this.taskDetails.inputJson as any).newPSPlanId;
+      console.log(newPSPlanId,"New PS Plan id")
       Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
+        console.log(output,"New output")
         this.newPaymentPlan = output;
       });
     }, 1000);

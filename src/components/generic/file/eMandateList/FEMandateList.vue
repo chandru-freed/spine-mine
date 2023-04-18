@@ -191,7 +191,7 @@ export default class FEMandateList extends ModelVue {
     Action.ClientFile.GetEMandateDetails.execute1(eMandateId, (output: any) => {
       console.log(this.selectedEMandateSummaryToView.status)
       if(this.selectedEMandateSummaryToView.status.id !== output.status.id && output.status.id==='ACTIVE') {
-        this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
+        // this.$router.push({ name: "Root.CFile.CFTask.CFActiveTasks" });
       }
       this.selectedEMandateSummaryToView = output;
     });

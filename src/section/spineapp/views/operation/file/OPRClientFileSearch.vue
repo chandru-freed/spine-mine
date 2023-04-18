@@ -34,12 +34,12 @@
         :is="assignSalesRepFFormMetaData.componentName"
         :value="selectModel(assignSalesRepListInput, undefined)"
         @input="
-          (newValue) => updateModel(assignSalesRepListInput, newValue, undefined)
+          (newValue) =>
+            updateModel(assignSalesRepListInput, newValue, undefined)
         "
         v-bind="assignSalesRepFFormMetaData.props"
       ></component>
     </v-card>
-    
 
     <component
       v-if="!!allClientFileListFDataTableMetaData"
@@ -71,7 +71,7 @@ import AllClientFileListFDataTableMDP from "./AllClientFileListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import Helper from "@/section/spineapp/util/Helper";
 import AssignRMFFormMDP from "./AssignRMFFormMDP";
-import AssignSalesRepFFormMDP from './AssignSalesRepFFormMDP';
+import AssignSalesRepFFormMDP from "./AssignSalesRepFFormMDP";
 @Component({
   components: {
     FForm,
@@ -91,16 +91,12 @@ export default class OPRClientFileSearch extends ModelVue {
   clientFileSearchFormLocal: any = new Data.ClientFile.SearchClientFileInput();
 
   showAssignRMFForm: boolean = false;
-  assignRMInputList: Data.ClientFile.AssignRMInput[] = [];
   showAssignSalesRepFForm: boolean = false;
-  assignSalesRepInputList: Data.ClientFile.AssignSalesRepInput[] = [];
-  assignRMListInput: any = {
-    assignedRM: "",
-  };
+  assignRMListInput: Data.ClientFile.AssignRMListInput =
+    new Data.ClientFile.AssignRMListInput();
 
-  assignSalesRepListInput: any = {
-    assignedSalesRep: "",
-  };
+  assignSalesRepListInput: Data.ClientFile.AssignSalesRepListInput =
+    new Data.ClientFile.AssignSalesRepListInput();
 
   get clientFileSearchForm() {
     this.clientFileSearchFormLocal = this.searchCriteria;
@@ -127,8 +123,6 @@ export default class OPRClientFileSearch extends ModelVue {
   get assignSalesRepFFormMetaData(): any {
     return new AssignSalesRepFFormMDP({ taskRoot: this }).getMetaData();
   }
-
-  
 
   mounted() {
     this.resetClientSearchInput();
@@ -160,49 +154,36 @@ export default class OPRClientFileSearch extends ModelVue {
   }
 
   handleAssignRMClick(itemList: any[]) {
-    this.assignRMInputList = itemList.map((item) => {
-      const assignRMInput = Data.ClientFile.AssignRMInput.fromJson(item);
-      return assignRMInput;
+    this.assignRMListInput.clientFileIdList = itemList.map((item) => {
+      return item.clientFileId;
     });
     this.showAssignRMFForm = true;
   }
 
   assignRM() {
-    this.assignRMInputList.forEach(
-      (assignRMInput: Data.ClientFile.AssignRMInput, index: number) => {
-        assignRMInput.assignedRM = this.assignRMListInput.assignedRM;
-        Action.ClientFile.AssignRM.execute(assignRMInput, (output) => {
-          if (index === this.assignRMInputList.length - 1) {
-            setTimeout(() => {
-              this.searchClientFile();
-              this.resetFormAndTable();
-            }, 500);
-          }
-        });
-      }
-    );
+    Action.ClientFile.AssignRMList.execute(this.assignRMListInput, (output) => {
+      setTimeout(() => {
+        this.searchClientFile();
+        this.resetFormAndTable();
+      }, 500);
+    });
   }
 
-    handleAssignSalesRepClick(itemList: any[]) {
-    this.assignSalesRepInputList = itemList.map((item) => {
-      const assignSalesRepInput = Data.ClientFile.AssignSalesRepInput.fromJson(item);
-      return assignSalesRepInput;
+  handleAssignSalesRepClick(itemList: any[]) {
+    this.assignSalesRepListInput.clientFileIdList = itemList.map((item) => {
+      return item.clientFileId;
     });
     this.showAssignSalesRepFForm = true;
   }
 
   assignSalesRep() {
-    this.assignSalesRepInputList.forEach(
-      (assignSalesRepInput: Data.ClientFile.AssignSalesRepInput, index: number) => {
-        assignSalesRepInput.assignedSalesRep = this.assignSalesRepListInput.assignedSalesRep;
-        Action.ClientFile.AssignSalesRep.execute(assignSalesRepInput, (output) => {
-          if (index === this.assignSalesRepInputList.length - 1) {
-            setTimeout(() => {
-              this.searchClientFile();
-              this.resetFormAndTable();
-            }, 500);
-          }
-        });
+    Action.ClientFile.AssignSalesRepList.execute(
+      this.assignSalesRepListInput,
+      (output) => {
+        setTimeout(() => {
+          this.searchClientFile();
+          this.resetFormAndTable();
+        }, 500);
       }
     );
   }
@@ -210,13 +191,10 @@ export default class OPRClientFileSearch extends ModelVue {
   resetFormAndTable() {
     this.hideAssignRMFForm();
     (this.$refs["allClientFileListFDataTableRef"] as any).clearSelectedItems();
-    this.assignRMListInput = {
-      assignedRM: "",
-    };
+    this.assignRMListInput = new Data.ClientFile.AssignRMListInput();
 
-    this.assignSalesRepListInput = {
-      assignedSalesRep: "",
-    };
+    this.assignSalesRepListInput =
+      new Data.ClientFile.AssignSalesRepListInput();
   }
 
   hideAssignRMFForm() {

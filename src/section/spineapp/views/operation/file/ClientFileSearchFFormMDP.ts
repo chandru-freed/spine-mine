@@ -8,6 +8,7 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import * as Data from "@/../src-gen/data";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
 import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
+import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
 
 export default class ClientFileSearchFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -77,6 +78,18 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
+      .addField(new FSwitchMDP({
+        dataSelectorKey:"rmNotAssigned",
+        label:"RM Unassigned",
+        parentMDP: this.childMDP,
+        boundaryClass: "col-3",
+      }))
+      .addField(new FSwitchMDP({
+        dataSelectorKey:"salesRepNotAssigned",
+        label:"SalesRep Unassigned",
+        parentMDP: this.childMDP,
+        boundaryClass: "col-3",
+      }))
       // .addField(
       //   new FSelectFieldMDP({
       //     parentMDP: this.childMDP,

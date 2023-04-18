@@ -8,6 +8,7 @@
     :inset="inset"
     :label="label"
     :disabled="disabled"
+    class="mt-0"
   ></v-switch>
 </template>
 <script lang="ts">

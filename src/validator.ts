@@ -17,6 +17,7 @@ export default class Validator {
     this.validateIfsc();
     this.validatePan();
     this.validateAge();
+    this.validateIFSC();
   }
 
   private static verifyPassword() {
@@ -151,6 +152,18 @@ export default class Validator {
       validate: (value: any): boolean => {
         //::TODO 5th place has to be 0
         const regex = /^[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}$/;
+        return value.match(regex);
+      },
+    });
+  }
+
+
+  private static validateIFSC() {
+    extend("validate_ifsc", {
+      message: (field: any) => "IFSC is not valid",
+      validate: (value: any): boolean => {
+        //::TODO 5th place has to be 0
+        const regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
         return value.match(regex);
       },
     });

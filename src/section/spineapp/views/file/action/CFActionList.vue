@@ -289,6 +289,12 @@ export default class CFActionList extends Vue {
           //   icon: "mdi-chevron-right",
           //   command: this.cancel,
           // },
+          {
+            actionName: "Exception On MSFAmount",
+            icon: "mdi-chevron-right",
+            routerName: "Root.CFile.CFAction.ExceptionOnMSFAmount",
+            condition: this.isClientFileNotHold() && this.isAdmin(),
+          },
         ],
       },
       {

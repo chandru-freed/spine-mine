@@ -9,13 +9,13 @@ import Task from "@/section/spineapp/util/Task";
 
 
 
-export default class AATFinalStepFFormMDP extends FFormMDP {
+export default class AATApproveStepFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     taskRoot: any;
     parent: any;
     constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
         super({
-            myRefName: "approveAmendmentFinalFormRef",
+            myRefName: "approveAmendmentFormRef",
             disabled: taskRoot.taskDisabled,
         });
         this.taskRoot = taskRoot;
@@ -37,15 +37,7 @@ export default class AATFinalStepFFormMDP extends FFormMDP {
               mandatory: true,
               boundaryClass: "col-12",
             })
-          ).
-        addAction(
-            new FBtnMDP({
-                label: "Mark Complete",
-                onClick: this.saveAndMarkCompleteTask(),
-                btnType: BtnType.FILLED,
-                condition: Task.isMarkCompleteEnabled(this.taskRoot.taskDetails)
-            })
-        );
+          );
     }
 
     saveAndMarkCompleteTask() {

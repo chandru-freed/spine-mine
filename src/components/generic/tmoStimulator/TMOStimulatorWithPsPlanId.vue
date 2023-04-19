@@ -142,6 +142,9 @@ import Helper from "@/section/spineapp/util/Helper";
   },
 })
 export default class TMOStimulatorWithPsPlanId extends ModelVue {
+    @Store.Getter.ClientFile.ClientFileSummary.fileSummary
+  fileSummary: Data.ClientFile.FileSummary;
+  
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
 

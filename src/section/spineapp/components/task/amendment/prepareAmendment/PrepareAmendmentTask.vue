@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <!-- Root Data : {{ taskFormData.taskOutput }}  -->
@@ -78,7 +77,9 @@ export default class PrepareAmendmentTask extends ModelVue {
       );
       // this.taskFormOutputLocal.creditorInfo.totalDebt =
     }
-    this.taskFormOutputLocal.reviewNote = (this.taskDetails.inputJson as any).reviewNote
+    this.taskFormOutputLocal.reviewNote = (
+      this.taskDetails.inputJson as any
+    ).reviewNote;
     this.taskFormOutputLocal.paymentPlan = this.newPaymentPlan;
     return this.taskFormOutputLocal;
   }
@@ -90,14 +91,14 @@ export default class PrepareAmendmentTask extends ModelVue {
 
   public getPSPlanInfoHandler = (output: any) => {
     this.getPSPlanInfo();
-  }
+  };
 
   getPSPlanInfo() {
     setTimeout(() => {
       const newPSPlanId = (this.taskDetails.inputJson as any).newPSPlanId;
-      console.log(newPSPlanId,"New PS Plan id")
+      console.log(newPSPlanId, "New PS Plan id");
       Action.Spine.GetPSPlanInfo.execute1(newPSPlanId, (output) => {
-        console.log(output,"New output")
+        console.log(output, "New output");
         this.newPaymentPlan = output;
       });
     }, 1000);
@@ -105,7 +106,10 @@ export default class PrepareAmendmentTask extends ModelVue {
 
   //DATA
   get taskDisabled(): boolean {
-    return Task.isTaskNotActionable(this.taskDetails.taskState, this.taskDetails.isSuspended);
+    return Task.isTaskNotActionable(
+      this.taskDetails.taskState,
+      this.taskDetails.isSuspended
+    );
   }
 
   get taskStateTerminated() {
@@ -121,18 +125,32 @@ export default class PrepareAmendmentTask extends ModelVue {
   mounted() {
     this.getFiCreditorInfo();
     this.getPSPlanInfo();
-    Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfoHandler)
-    Action.ClientFile.ModifyAmountWithFixedTenure.interested(this.getPSPlanInfoHandler);
-    Action.Spine.UploadPaymentSchedulePlanExcel.interested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTenure.interested(this.getPSPlanInfoHandler);
+    Action.Spine.RecalculatePSPlanForPM.interested(this.getPSPlanInfoHandler);
+    Action.ClientFile.ModifyAmountWithFixedTenure.interested(
+      this.getPSPlanInfoHandler
+    );
+    Action.Spine.UploadPaymentSchedulePlanExcel.interested(
+      this.getPSPlanInfoHandler
+    );
+    Action.Spine.RecalculatePSPlanWithTenure.interested(
+      this.getPSPlanInfoHandler
+    );
     Action.Spine.RecalculatePSPlanWithTMO.interested(this.getPSPlanInfoHandler);
   }
 
   destroyed() {
-    Action.Spine.RecalculatePSPlanForPM.notInterested(this.getPSPlanInfoHandler)
-    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getPSPlanInfoHandler);
-    Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTenure.interested(this.getPSPlanInfoHandler);
+    Action.Spine.RecalculatePSPlanForPM.notInterested(
+      this.getPSPlanInfoHandler
+    );
+    Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(
+      this.getPSPlanInfoHandler
+    );
+    Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(
+      this.getPSPlanInfoHandler
+    );
+    Action.Spine.RecalculatePSPlanWithTenure.interested(
+      this.getPSPlanInfoHandler
+    );
     Action.Spine.RecalculatePSPlanWithTMO.interested(this.getPSPlanInfoHandler);
   }
   saveAndMarkCompleteTask() {
@@ -157,4 +175,3 @@ export default class PrepareAmendmentTask extends ModelVue {
   //Action
 }
 </script>
-

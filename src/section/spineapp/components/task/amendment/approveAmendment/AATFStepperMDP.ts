@@ -4,7 +4,8 @@ import FTaskStepperMDP, {
 import AATCreditorStepFCreditorMDP from "./step1/AATCreditorStepFCreditorMDP";
 import AATPPFAPaymentPlanMDP from "./step2/AATPPFAPaymentPlanMDP";
 
-import AATFinalStepFFormMDP from "./step3/AATFinalStepFFormMDP";
+import AATApproveStepFFormMDP from "./step3/AATApproveStepFFormMDP";
+import AATFinalStepFFormMDP from "./step4/AATFinalStepFFormMDP";
 
 export default class PATFStepperMDP extends FTaskStepperMDP {
   taskRoot: any;
@@ -34,6 +35,12 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
         name: "Payment Plan",
         stepContent:patppFAPaymentPlanMDP,
         submitFunc: patppFAPaymentPlanMDP.validateEntries()
+      }).addStep({
+        name: "Approve",
+        stepContent: new AATApproveStepFFormMDP({
+          parent: this,
+          taskRoot: this.taskRoot,
+        }),
       })
       .addStep({
         name: "Review",

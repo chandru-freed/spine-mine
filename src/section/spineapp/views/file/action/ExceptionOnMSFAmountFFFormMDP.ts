@@ -48,6 +48,7 @@ export default class ExceptionOnMSFAmountFFFormMDP extends FFormMDP {
         new FGompaUserRemoteAutoCompleteFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "approvedBy",
+          mandatory: true,
           label: "Approved By",
           boundaryClass: "col-6",
         })

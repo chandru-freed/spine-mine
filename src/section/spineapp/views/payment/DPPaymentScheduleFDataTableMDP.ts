@@ -99,10 +99,15 @@ export default class DPPaymentScheduleFDataTableMDP extends FDataTableMDP {
         return (itemList: any[]) => {
             return new Promise(res => {
                 console.log(itemList)
-                const psEntryIdList: string[] = itemList.map(item => item.psEntryId)
-                Action.Spine.PresentPSEntryList.execute1(psEntryIdList, output => {
-                    res(true)
-                });
+                itemList.forEach(item=>{
+                    Action.Spine.PresentPSEntry.execute(item.psEntryId, output => {
+                        res(true)
+                    });
+                })
+                // const psEntryIdList: string[] = itemList.map(item => item.psEntryId)
+                // Action.Spine.PresentPSEntryList.execute1(psEntryIdList, output => {
+                //     res(true)
+                // });
             })
         }
     }

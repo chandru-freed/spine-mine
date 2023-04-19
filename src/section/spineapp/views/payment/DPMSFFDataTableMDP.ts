@@ -75,10 +75,15 @@ export default class DPMSFFDataTableMDP extends FDataTableMDP {
     handlePresentClick() {
         return (itemList: any[]) => {
             return new Promise(res => {
-                const msfEntryIdList: string[] = itemList.map(item => item.msfEntryId)
-                Action.Spine.PresentMSFScheduleEntryList.execute1(msfEntryIdList, output => {
-                    res(true)
-                });
+                itemList.forEach(item=>{
+                    Action.Spine.PresentMSFScheduleEntry.execute(item.msfEntryId, output => {
+                        res(true)
+                    });
+                })
+                // const msfEntryIdList: string[] = itemList.map(item => item.msfEntryId)
+                // Action.Spine.PresentMSFScheduleEntryList.execute1(msfEntryIdList, output => {
+                //     res(true)
+                // });
             })
         }
     }

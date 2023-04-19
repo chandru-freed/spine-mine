@@ -71,19 +71,17 @@ export default class DaywisePayment extends ModelVue {
   mounted() {
     this.setPaymentOperationFilter();
     this.searchPaymentOperations();
-    Action.Spine.PresentPSEntryList.interested(
-      this.searchPaymentOperationsHandler
-    );
-    Action.Spine.PresentMSFScheduleEntryList.interested(
+    Action.Spine.PresentPSEntry.interested(this.searchPaymentOperationsHandler);
+    Action.Spine.PresentMSFScheduleEntry.interested(
       this.searchPaymentOperationsHandler
     );
   }
 
   destroyed() {
-    Action.Spine.PresentPSEntryList.notInterested(
+    Action.Spine.PresentPSEntry.notInterested(
       this.searchPaymentOperationsHandler
     );
-    Action.Spine.PresentMSFScheduleEntryList.notInterested(
+    Action.Spine.PresentMSFScheduleEntry.notInterested(
       this.searchPaymentOperationsHandler
     );
   }
@@ -179,7 +177,7 @@ export default class DaywisePayment extends ModelVue {
     }
   }
   openEMandateDetails(item: any) {
-  if (item.eMandate.eMandateId) {
+    if (item.eMandate.eMandateId) {
       this.$router.push({
         name: "Root.CFile.CFPayment.CFEMandateDetails.CFEMandateDetails",
         params: {
@@ -201,5 +199,4 @@ export default class DaywisePayment extends ModelVue {
 }
 </script>
 
-<style>
-</style>
+<style></style>

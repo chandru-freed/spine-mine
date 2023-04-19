@@ -1,5 +1,14 @@
 <template>
   <div class="OPRActiveTicketList">
+    <component
+      v-if="!!ticketSearchFFormMetaData"
+      :ref="ticketSearchFFormMetaData.myRefName"
+      :is="ticketSearchFFormMetaData.componentName"
+      :value="selectModel(searchTicketInput, undefined)"
+      @input="(newValue) => updateModel(searchTicketInput, newValue, undefined)"
+      v-bind="ticketSearchFFormMetaData.props"
+    ></component>
+
     <!-- TASK TAB -->
     <v-card flat>
       <component
@@ -39,6 +48,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import OPRActiveTicketListFDataTableMDP from "./OPRActiveTicketListFDataTableMDP";
 import ReassignTicketFFormMDP from "./ReassignTicketFFormMDP";
 import FSnackbar from "@/fsnackbar";
+import TicketSearchFFormMDP from "./TicketSearchFFormMDP";
 
 @Component({
   components: {
@@ -48,6 +58,9 @@ import FSnackbar from "@/fsnackbar";
   },
 })
 export default class OPRActiveTicketList extends ModelVue {
+  searchTicketInput: Data.Spine.SearchTicketInput =
+    new Data.Spine.SearchTicketInput();
+
   reAssignTicketInput: Data.Ticket.ReAssignTicketInput =
     new Data.Ticket.ReAssignTicketInput();
 
@@ -64,6 +77,10 @@ export default class OPRActiveTicketList extends ModelVue {
     return new OPRActiveTicketListFDataTableMDP({ parent: this }).getMetaData();
   }
 
+  get ticketSearchFFormMetaData() {
+    return new TicketSearchFFormMDP({ parent: this }).getMetaData();
+  }
+
   get reassignTaskFFormMetaData() {
     return new ReassignTicketFFormMDP({
       root: this,
@@ -71,13 +88,21 @@ export default class OPRActiveTicketList extends ModelVue {
   }
 
   mounted() {
-    this.getAllTicketActiveList();
+    this.searchTicket();
   }
-  getAllTicketActiveList() {
-    Action.Spine.GetAllTicketActiveList.execute((output) => {
+  searchTicket() {
+    const searchTicketInput = Data.Spine.SearchTicketInput.fromJson(this.searchTicketInput.toJson());
+    searchTicketInput.ticketState = searchTicketInput.ticketState.flat();
+    Action.Spine.SearchTicket.execute(searchTicketInput, (output) => {
       this.TicketListByCidList = output;
     });
   }
+
+  // getAllTicketActiveList() {
+  //   Action.Spine.GetAllTicketActiveList.execute((output) => {
+  //     this.TicketListByCidList = output;
+  //   });
+  // }
 
   gotoTask(item: any) {
     this.$router.push({
@@ -107,7 +132,7 @@ export default class OPRActiveTicketList extends ModelVue {
     this.reAssignTicketInput.taskId = taskId;
     Action.Ticket.ReassignTicket.execute(this.reAssignTicketInput, (output) => {
       FSnackbar.success("Succesfully Updated");
-      this.getAllTicketActiveList();
+      this.searchTicket();
       this.showReassignForm = false;
       this.clearSelectedItems();
     });

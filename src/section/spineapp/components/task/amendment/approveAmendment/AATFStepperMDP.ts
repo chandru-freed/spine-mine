@@ -25,7 +25,7 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
     })
 
     this.addStep({
-      name: "Approve",
+      name: "Review",
       stepContent: new AATApproveStepFFormMDP({
         parent: this,
         taskRoot: this.taskRoot,
@@ -44,7 +44,7 @@ export default class PATFStepperMDP extends FTaskStepperMDP {
         submitFunc: patppFAPaymentPlanMDP.validateEntries()
       })
       .addStep({
-        name: "Review",
+        name: "Approve",
         stepContent: new AATFinalStepFFormMDP({
           parent: this,
           taskRoot: this.taskRoot,

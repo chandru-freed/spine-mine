@@ -117,11 +117,11 @@ export default class CFActionList extends Vue {
             icon: "mdi-chevron-right",
             command: this.createEnrollmentFlowV1,
           },
-          {
-            actionName: "Collect First MSF",
-            icon: "mdi-chevron-right",
-            command: this.createCollectFirstMSF,
-          },
+          // {
+          //   actionName: "Collect First MSF",
+          //   icon: "mdi-chevron-right",
+          //   command: this.createCollectFirstMSF,
+          // },
           {
             actionName: "OnBoarding Call",
             icon: "mdi-chevron-right",
@@ -183,11 +183,11 @@ export default class CFActionList extends Vue {
             query: { flowName: "Refund SPA" },
             condition: this.isNotSalesRepOrLead(),
           },
-          {
-            actionName: "Collect MSF Through Cashfree",
-            icon: "mdi-chevron-right",
-            command: this.createCollectMSFThroughCashfree,
-          },
+          // {
+          //   actionName: "Collect MSF Through Cashfree",
+          //   icon: "mdi-chevron-right",
+          //   command: this.createCollectMSFThroughCashfree,
+          // },
         ],
       },
       {

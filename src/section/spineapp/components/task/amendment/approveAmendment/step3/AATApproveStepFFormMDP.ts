@@ -27,6 +27,7 @@ export default class AATApproveStepFFormMDP extends FFormMDP {
             dataSelectorKey: "taskOutput.amendmentApproved",
             label: "Approve",
             boundaryClass: "col-12",
+            disabled: true
           })
         )
         .addField(

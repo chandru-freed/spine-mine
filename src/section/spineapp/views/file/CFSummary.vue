@@ -4,70 +4,84 @@
     <div class="col-4">
       <v-card outlined color="primary">
         <v-list class="py-0">
-              <v-list-item dense>
-                <v-list-item-icon class="mr-2">
-                  <v-icon color="secondary"> mdi-file-account </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  
-                  <v-list-item-title
-                    class="font-weight-bold secondary--text text-body-1"
-                    >
-                    <f-hover-copy v-model="clientFileBasicInfo.clientFileNumber">
-                    {{ clientFileBasicInfo.clientFileNumber }}
-                    </f-hover-copy>
-                  </v-list-item-title>
-                  
-                </v-list-item-content>
-                 
+          <v-list-item dense>
+            <v-list-item-icon class="mr-2">
+              <v-icon color="secondary"> mdi-file-account </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title
+                class="font-weight-bold secondary--text text-body-1"
+              >
+                <f-hover-copy v-model="clientFileBasicInfo.clientFileNumber">
+                  {{ clientFileBasicInfo.clientFileNumber }}
+                </f-hover-copy>
+              </v-list-item-title>
+            </v-list-item-content>
 
-                <v-list-item-action>
-                  <!-- <v-list-item-action-text >{{fileSummary.clientFileStatus}} </v-list-item-action-text> -->
-                  <div class="d-flex">
-                    <!-- <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
+            <v-list-item-action>
+              <!-- <v-list-item-action-text >{{fileSummary.clientFileStatus}} </v-list-item-action-text> -->
+              <div class="d-flex">
+                <!-- <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
               <v-chip x-small class="mx-2" v-if="clientFileBasicInfo.isFirstMSFPaid" color="green" outlined>FMSF Paid</v-chip> -->
-                    <v-chip v-if="fileSummary.ppCode" x-small color="secondary" outlined >{{fileSummary.ppCode}}</v-chip>
-                    <v-chip x-small class="mx-2">{{
-                      fileSummary.clientFileStatus.name
-                    }}</v-chip>
-                  </div>
-                </v-list-item-action>
-              </v-list-item>
-            
-            
+                <v-chip
+                  v-if="fileSummary.ppCode"
+                  x-small
+                  color="secondary"
+                  outlined
+                  >{{ fileSummary.ppCode }}</v-chip
+                >
+                <v-chip x-small class="mx-2">{{
+                  fileSummary.clientFileStatus.name
+                }}</v-chip>
+              </div>
+            </v-list-item-action>
+          </v-list-item>
+
           <v-divider></v-divider>
-              <v-list-item dense>
-                <v-list-item-icon class="mr-2">
-                  <v-icon color="deep-purple"> mdi-account </v-icon>
-                </v-list-item-icon>
+          <v-list-item dense>
+            <v-list-item-icon class="mr-2">
+              <v-icon color="deep-purple"> mdi-account </v-icon>
+            </v-list-item-icon>
 
-                <v-list-item-content >
-                  <f-hover-copy v-model="clientFileBasicInfo.clientBasicInfo.fullName">
-                  <a @click="gotoProfile">
-                    <v-list-item-title
-                      class="deep-purple--text text-body-1 overline"
-                      >{{
-                        clientFileBasicInfo.clientBasicInfo.fullName
-                      }}</v-list-item-title
-                    >
-                  </a>
-                  </f-hover-copy>
-                  <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
-                </v-list-item-content>
-
-                <!-- <v-list-item-icon v-if="hover" > -->
-                <!-- </v-list-item-icon> -->
-
-                <v-list-item-action >
-                  <v-chip @click="gotoEmandateList" small v-if="fileSummary.eMandateActive" class="mx-2" color="green lighten-3"
-                    >EMandate Active</v-chip
+            <v-list-item-content>
+              <f-hover-copy
+                v-model="clientFileBasicInfo.clientBasicInfo.fullName"
+              >
+                <a @click="gotoProfile">
+                  <v-list-item-title
+                    class="deep-purple--text text-body-1 overline"
+                    >{{
+                      clientFileBasicInfo.clientBasicInfo.fullName
+                    }}</v-list-item-title
                   >
+                </a>
+              </f-hover-copy>
+              <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
+            </v-list-item-content>
 
-                  <v-chip @click="gotoEmandateList" small v-else class="mx-2" color="secondary lighten-3"
-                    >EMandate Pending</v-chip
-                  >
-                </v-list-item-action>
-              </v-list-item>
+            <!-- <v-list-item-icon v-if="hover" > -->
+            <!-- </v-list-item-icon> -->
+
+            <v-list-item-action>
+              <v-chip
+                @click="gotoEmandateList"
+                small
+                v-if="fileSummary.eMandateActive"
+                class="mx-2"
+                color="green lighten-3"
+                >EMandate Active</v-chip
+              >
+
+              <v-chip
+                @click="gotoEmandateList"
+                small
+                v-else
+                class="mx-2"
+                color="secondary lighten-3"
+                >EMandate Pending</v-chip
+              >
+            </v-list-item-action>
+          </v-list-item>
           <v-list-item dense>
             <v-list-item-icon class="mr-2">
               <v-btn
@@ -86,17 +100,21 @@
                 class="text-body-1"
                 @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
               >
-              <f-hover-copy v-model="clientFileBasicInfo.clientBasicInfo.mobile">
-                {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
-              </f-hover-copy>
+                <f-hover-copy
+                  v-model="clientFileBasicInfo.clientBasicInfo.mobile"
+                >
+                  {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
+                </f-hover-copy>
               </v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <f-hover-copy v-model="clientFileBasicInfo.clientBasicInfo.emailId">
-              <span class="caption mr-2"
-                >{{ clientFileBasicInfo.clientBasicInfo.emailId }}
-              </span>
+              <f-hover-copy
+                v-model="clientFileBasicInfo.clientBasicInfo.emailId"
+              >
+                <span class="caption mr-2"
+                  >{{ clientFileBasicInfo.clientBasicInfo.emailId }}
+                </span>
               </f-hover-copy>
             </v-list-item-action>
           </v-list-item>
@@ -186,10 +204,9 @@
           <v-list-item dense>
             <v-list-item-content>
               <v-list-item-title class="secondary--text text-subtitle-1"
-                >MSF 
+                >MSF
               </v-list-item-title>
             </v-list-item-content>
-            
 
             <v-list-item-action class="py-0 my-0">
               <div class="d-flex secondary--text text-h6 font-weight-semibold">
@@ -205,8 +222,8 @@
             >
               <div class="font-weight-bold">
                 {{
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate
-                    | monthday
+                  fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate |
+                    monthday
                 }}
               </div>
               <!-- <div >{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id}}</div>     -->
@@ -219,8 +236,8 @@
               />
               <div class="font-weight-bold secondary--text text-right">
                 {{
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount
-                    | toINR
+                  fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount |
+                    toINR
                 }}
               </div>
             </v-list-item-subtitle>
@@ -320,8 +337,8 @@
             >
               <div class="font-weight-bold">
                 {{
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.draftDate
-                    | monthday
+                  fileSummary.spaSummary.upcomingSPAScheduledEntry.draftDate |
+                    monthday
                 }}
               </div>
               <!-- <div >{{ fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id}}</div>     -->
@@ -334,8 +351,8 @@
               />
               <div class="font-weight-bold secondary--text text-right">
                 {{
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount
-                    | toINR
+                  fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount |
+                    toINR
                 }}
               </div>
             </v-list-item-subtitle>
@@ -654,10 +671,13 @@ import FHoverCopy from "@/components/generic/FHoverCopy.vue";
     "f-text-field": FTextField,
     AboutView,
     FCellStatus,
-    FHoverCopy
+    FHoverCopy,
   },
 })
 export default class CFSummary extends Vue {
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
+
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
@@ -680,11 +700,13 @@ export default class CFSummary extends Vue {
   }
 
   openNavShow(phoneNumber: string) {
-    this.callByAmeyo(phoneNumber);
-    if (this.showAmeyoSideBar === false) {
-      Store.Mutation.ClientFile.ClientFileSummary.TOGGLE_AMEYO_SIDE_BAR(
-        !this.showAmeyoSideBar
-      );
+    if (this.isAmeyoToolbarDialogRole()) {
+      this.callByAmeyo(phoneNumber);
+      if (this.showAmeyoSideBar === false) {
+        Store.Mutation.ClientFile.ClientFileSummary.TOGGLE_AMEYO_SIDE_BAR(
+          !this.showAmeyoSideBar
+        );
+      }
     }
   }
 
@@ -701,7 +723,7 @@ export default class CFSummary extends Vue {
   }
 
   gotoMSFPaymentPlan() {
-    this.$router.push({ name: "Root.CFile.CFInfo.CFPaymentPlanMSFInfo"});
+    this.$router.push({ name: "Root.CFile.CFInfo.CFPaymentPlanMSFInfo" });
   }
 
   gotoPayment() {
@@ -714,6 +736,18 @@ export default class CFSummary extends Vue {
 
   copyToClipBoard(text: string) {
     Helper.copyToClipBoard(text);
+  }
+
+  isCS() {
+    return this.roleList?.includes("CS");
+  }
+
+  isCSManager() {
+    return this.roleList?.includes("CSManager");
+  }
+
+  isAmeyoToolbarDialogRole() {
+    return this.isCS() || this.isCSManager();
   }
 }
 </script>

@@ -156,12 +156,12 @@ export default class CFActionList extends Vue {
             command: this.createAmendmentFlow,
             condition: this.isNotSalesRepOrLead(),
           },
-          {
-            actionName: "EMandate",
-            icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFCreateRequest",
-            query: { flowName: "EMandate" },
-          },
+          // {
+          //   actionName: "EMandate",
+          //   icon: "mdi-chevron-right",
+          //   routerName: "Root.CFile.CFAction.CFCreateRequest",
+          //   query: { flowName: "EMandate" },
+          // },
           // {
           //   actionName: "Settlement Plan",
           //   icon: "mdi-chevron-right",

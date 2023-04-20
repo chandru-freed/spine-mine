@@ -76,7 +76,7 @@ export default class DPMSFFDataTableMDP extends FDataTableMDP {
         return (itemList: any[]) => {
             return new Promise(res => {
                 itemList.forEach(item=>{
-                    Action.Spine.PresentMSFScheduleEntry.execute(item.msfEntryId, output => {
+                    Action.Spine.PresentMSFScheduleEntry.execute1(item.msfEntryId, output => {
                         res(true)
                     });
                 })

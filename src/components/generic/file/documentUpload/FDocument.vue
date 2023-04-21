@@ -36,7 +36,7 @@
       <v-card flat outlined>
         <v-data-table
           :headers="headers"
-          :items="modelValue"
+          :items="fileDocumentList"
           class="elevation-0"
         >
           <template v-slot:[`item.documentPath`]="{ item }">
@@ -44,6 +44,11 @@
               <v-icon small>mdi-file</v-icon>
               {{ getFileNameFromDocPath(item.documentPath) }}
             </a>
+          </template>
+
+
+          <template v-slot:[`item.archived`]="{ item }">
+            <div>{{item.archived?"Yes": "No"}}</div>
           </template>
 
           <template v-slot:[`item.uploadedOn`]="{ item }">
@@ -54,6 +59,17 @@
               <v-toolbar-title>Document(s)</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
+          <div>
+              <v-select
+              label="File Type"
+              outlined
+              dense
+              hide-details
+              small
+              :items="fileTypeList"
+              v-model="fileType"
+              />
+          </div>
               <v-btn
                 :disabled="disabled"
                 icon
@@ -93,6 +109,11 @@
               {{ getFileNameFromDocPath(item.documentPath) }}
             </a>
           </template>
+
+          <template v-slot:[`item.archived`]="{ item }">
+            <div>{{item.archived?"Yes": "No"}}</div>
+          </template>
+          
 
           <template v-slot:[`item.uploadedOn`]="{ item }">
             {{ item.uploadedOn | datetime }}
@@ -170,11 +191,14 @@ export default class FDocument extends ModelVue {
   uploadDocumentForm = new Data.ClientFile.UploadDocumentForm();
   uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();
   selectedCreditorIndex: number;
+  fileType: string = 'Active';
+  fileTypeList:string[]=['All','Active','Archived']
   headers = [
     { text: "DocumentType", value: "documentType" },
     { text: "Document Name", value: "documentPath" },
     { text: "Details", value: "documentDetails" },
     { text: "Uploaded On", value: "uploadedOn" },
+    { text: "Archived", value: "archived" },
     { text: "Actions", value: "actions" },
   ];
 
@@ -318,6 +342,18 @@ export default class FDocument extends ModelVue {
     Action.Spine.GetErpFileUrl.execute1(key, (output) => {
       window.open(output.url);
     });
+  }
+
+  get fileDocumentList() {
+    let docList = [];
+    if(this.fileType==="All") {
+      docList=this.modelValue;
+    } else if(this.fileType==="Active") {
+      docList=(this.modelValue as Data.ClientFile.FiDocument[]).filter(item => item.archived === false);
+    } else {
+      docList=(this.modelValue as Data.ClientFile.FiDocument[]).filter(item => item.archived === true);
+    }
+    return docList;
   }
 }
 </script>

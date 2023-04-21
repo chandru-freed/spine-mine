@@ -2,22 +2,26 @@
   <div class="DRPDashboard">
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
+    ehello
     <!-- TASK TAB -->
-      <component
-        v-if="!!showAssignForm"
-        :ref="assignSalesRepToSelfEnrolFileFFormMetaData.myRefName"
-        :is="assignSalesRepToSelfEnrolFileFFormMetaData.componentName"
-        :value="selectModel(assignSalesRepToSelfEnrolFileInput, undefined)"
-        @input="(newValue) => updateModel(assignSalesRepToSelfEnrolFileInput, newValue, undefined)"
-        v-bind="assignSalesRepToSelfEnrolFileFFormMetaData.props"
-      ></component>
-      <component
-        v-if="!!drpDashboardFDataTableMetaData"
-        :ref="drpDashboardFDataTableMetaData.myRefName"
-        :is="drpDashboardFDataTableMetaData.componentName"
-        :value="selectModel(drpDashboardList, undefined)"
-        v-bind="drpDashboardFDataTableMetaData.props"
-      ></component>
+    <component
+      v-if="!!showAssignForm"
+      :ref="assignSalesRepToSelfEnrolFileFFormMetaData.myRefName"
+      :is="assignSalesRepToSelfEnrolFileFFormMetaData.componentName"
+      :value="selectModel(assignSalesRepToSelfEnrolFileInput, undefined)"
+      @input="
+        (newValue) =>
+          updateModel(assignSalesRepToSelfEnrolFileInput, newValue, undefined)
+      "
+      v-bind="assignSalesRepToSelfEnrolFileFFormMetaData.props"
+    ></component>
+    <component
+      v-if="!!drpDashboardFDataTableMetaData"
+      :ref="drpDashboardFDataTableMetaData.myRefName"
+      :is="drpDashboardFDataTableMetaData.componentName"
+      :value="selectModel(drpDashboardList, undefined)"
+      v-bind="drpDashboardFDataTableMetaData.props"
+    ></component>
   </div>
 </template>
 
@@ -53,11 +57,12 @@ export default class DRPDashboard extends ModelVue {
   drpDashboardDataInput: Data.Spine.DCPDashboardDatainput =
     new Data.Spine.DCPDashboardDatainput();
 
- assignSalesRepToSelfEnrolFileInput: Data.Spine.AssignSalesRepToSelfEnrolFileInput = new Data.Spine.AssignSalesRepToSelfEnrolFileInput();
+  assignSalesRepToSelfEnrolFileInput: Data.Spine.AssignSalesRepToSelfEnrolFileInput =
+    new Data.Spine.AssignSalesRepToSelfEnrolFileInput();
   drpDashboardList: Data.Spine.DRPDashboardDataOutput[] = [];
 
   tab = 0;
-    taskIdList = [];
+  clientFileList = [];
   showAssignForm: boolean = false;
   taskTableRefName: string = "drpDashboardFDataTableRef";
 
@@ -100,33 +105,39 @@ export default class DRPDashboard extends ModelVue {
     });
   }
 
-  assignTask() {
-    this.taskIdList.map((item: any) => {
-      this.submitAssignTask(item.clientFileId);
+  assignSalesRep() {
+    const clientFileList: string[] =  this.clientFileList.map((item: any) => {
+      return item.clientFileId;
+    });
+    Action.ClientFile.AssignSalesRepList.execute2(this.assignSalesRepToSelfEnrolFileInput.assignedSalesRep, clientFileList, output => {
+FSnackbar.success("Succesfully Updated");
+        this.getDRPDashboardData();
+        this.showAssignForm = false;
+        this.clearSelectedItems();
     });
   }
 
   handleAssignClick(item: any) {
     this.showAssignForm = true;
-    this.taskIdList = item;
+    this.clientFileList = item;
   }
 
   clearSelectedItems() {
     (this.$refs[this.taskTableRefName] as any).clearSelectedItems();
   }
 
-  submitAssignTask(clientFileId: string) {
-    this.assignSalesRepToSelfEnrolFileInput.clientFileId = clientFileId;
-    Action.Spine.AssignSalesRepToSelfEnrolFile.execute(
-      this.assignSalesRepToSelfEnrolFileInput,
-      (output) => {
-        FSnackbar.success("Succesfully Updated");
-        this.getDRPDashboardData();
-        this.showAssignForm = false;
-        this.clearSelectedItems();
-      }
-    );
-  }
+  // submitAssignTask(clientFileId: string) {
+  //   this.assignSalesRepToSelfEnrolFileInput.clientFileId = clientFileId;
+  //   Action.ClientFile.AssignSalesRep.execute(
+  //     this.assignSalesRepToSelfEnrolFileInput,
+  //     (output) => {
+  //       FSnackbar.success("Succesfully Updated");
+  //       this.getDRPDashboardData();
+  //       this.showAssignForm = false;
+  //       this.clearSelectedItems();
+  //     }
+  //   );
+  // }
 }
 </script>
 

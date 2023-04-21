@@ -53,7 +53,7 @@ export default class AssignSalesRepToSelfEnrolFileFFormMDP extends FFormMDP {
   }
 
   handleAssignClick() {
-    this.root.assignTask();
+    this.root.assignSalesRep();
   }
 
   handleCancelClick(){

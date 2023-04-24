@@ -145,6 +145,9 @@ export default class MyCFFiles extends ModelVue {
       default:  return this.myClientFileList
     }
   }
+  handleRegisterFormCancelClick() {
+    this.showRegisterMyCFForm = false;
+  }
 }
 </script>
 

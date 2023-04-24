@@ -84,7 +84,7 @@ export default class RegisterMyCFFFormMDP extends FFormMDP {
 
   cancel() {
     return () => {
-      this.root.showRegisterMyCFForm = false
+      this.root.handleRegisterFormCancelClick()
     }
   }
 

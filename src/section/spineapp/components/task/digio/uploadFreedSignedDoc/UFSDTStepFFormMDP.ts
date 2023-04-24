@@ -40,7 +40,7 @@ export default class UFSDTStepFFormMDP extends FFormMDP {
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskInput.freedSignedFilePath",
-          label: "Freed Signed Filepath",
+          label: "FREED Signed Filepath",
           mandatory: true,
           boundaryClass: "col-6",
           readonly: true,

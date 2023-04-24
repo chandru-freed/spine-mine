@@ -12,7 +12,7 @@ export default class UFSDTFStepperMDP extends FTaskStepperMDP {
     this.parent = taskRoot;
     const uFSDTStepFFormMDP = new UFSDTStepFFormMDP({ taskRoot: taskRoot, parent: this })
     this.addStep({
-      name: "Upload Freed Signed Doc",
+      name: "Upload FREED Signed Doc",
       stepContent: uFSDTStepFFormMDP,
       rescueFunc: uFSDTStepFFormMDP.validateAndSubmit()
     });

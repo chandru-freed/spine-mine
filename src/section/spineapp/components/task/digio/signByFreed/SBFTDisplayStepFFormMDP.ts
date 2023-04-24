@@ -56,7 +56,7 @@ export default class SBFTDisplayStepFFormMDP extends FFormMDP {
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "taskOutput.freedSignedFilePath",
-          label: "Freed Signed File Path",
+          label: "FREED Signed File Path",
           readonly: true,
           boundaryClass: "col-6",
         })

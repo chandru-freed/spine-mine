@@ -88,7 +88,7 @@
             </v-chip>
             <v-icon>mdi-plus-thick</v-icon>
             <v-chip class="mx-2" color="primary" label outlined large>
-              Freed Fee:&nbsp;&nbsp;<span
+              FREED Fee:&nbsp;&nbsp;<span
                 class="font-weight-bold secondary--text"
                 >{{ Math.round(result.freedFee) | toINR }}</span
               >

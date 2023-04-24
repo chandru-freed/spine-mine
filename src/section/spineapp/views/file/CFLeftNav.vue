@@ -96,6 +96,10 @@ export default class CFLeftNav extends Vue {
           title: "EMandate",
           routerName: "Root.CFile.CFPayment.CFEMandateList",
         },
+        {
+          title: "Adhoc",
+          routerName: "Root.CFile.CFPayment.CFQRCodeList",
+        },
       ],
     },
     {

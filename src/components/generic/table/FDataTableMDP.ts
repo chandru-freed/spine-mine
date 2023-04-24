@@ -368,7 +368,8 @@ export default class FDataTableMDP implements MDP {
       dataSelectorKey: dataSelectorKey,
       columnCellMDP: new FCellDateTimeMDP(),
       hidden: hidden
-    })
+    });
+    return this;
   }
 
 

@@ -1,6 +1,8 @@
 <template>
   <a @click="onClick(modelValue)">
-    {{selectModel(modelValue,dataSelectorKey)}}
+  <v-icon small color="primary" v-if="!!icon">{{icon}}</v-icon>
+    {{linkText?linkText:selectModel(modelValue,dataSelectorKey)}}
+    
   </a>
 </template>
 <script lang="ts">
@@ -16,6 +18,12 @@ export default class FCellLink extends ModelVue {
   @Prop()
   onClick: (item: any) => void;
   
+  @Prop()
+  linkText: string;
+
+  @Prop()
+  icon: string;
+
   @Prop()
   dataSelectorKey: string;
 }

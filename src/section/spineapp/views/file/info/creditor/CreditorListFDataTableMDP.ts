@@ -15,6 +15,7 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
       myRefName: "fCreditorListFDataTableRef",
       enableSearch: true,
       itemKey: "fiCreditorId",
+      title: "Eligible Creditors"
     });
     this.parent = props.parent;
     this.addColumn({

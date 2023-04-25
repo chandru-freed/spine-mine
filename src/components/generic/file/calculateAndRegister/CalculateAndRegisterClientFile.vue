@@ -1,6 +1,7 @@
 <template>
   <v-card flat>
     <v-card outlined flat class="PaymentCalculator">
+      <f-loader v-if="showLoader" />
       <component
         v-if="showParseCreditReportForm && !showLoader"
         :is="parseCreditReportMetaData.componentName"
@@ -29,13 +30,16 @@
         :value="simulatorResultLocal"
         :simulatorInput="paymentPlanInfo"
       />
-
-      <!-- <component
-          :value="[]"
-          :is="fCreditorListFDataTableMetaData.componentName"
-          :ref="fCreditorListFDataTableMetaData.myRefName"
-          v-bind="fCreditorListFDataTableMetaData.props"
-        ></component> -->
+        <component
+          v-if="
+            !!parsedCreditorListFDataTableMetaData &&
+            parseCreditReportOutput.fiCreditorInfo.creditorList.length > 0
+          "
+          :ref="parsedCreditorListFDataTableMetaData.myRefName"
+          :is="parsedCreditorListFDataTableMetaData.componentName"
+          :value="parseCreditReportOutput.fiCreditorInfo.creditorList"
+          v-bind="parsedCreditorListFDataTableMetaData.props"
+        ></component>
 
       <v-card-title>Register a client</v-card-title>
 
@@ -64,15 +68,16 @@ import RegisterMyCFFFormMDP from "@/section/spineapp/views/myfiles/RegisterMyCFF
 import FBtn from "../../FBtn.vue";
 import FParseCreditReportFFormMDP from "../creditor/FParseCreditReportFFormMDP";
 import ErrorResponse from "@/error-response";
-import FCreditorListFDataTableMDP from "../creditor/FCreditorListFDataTableMDP";
 import FDataTable from "../../table/FDataTable.vue";
-
+import ParsedCreditorListFDataTableMDP from "./ParsedCreditorListFDataTableMDP";
+import FLoader from "../../FLoader.vue";
 @Component({
   components: {
     TMOSSimulatorEditable,
     FForm,
     FBtn,
-    FDataTable
+    FDataTable,
+    FLoader,
   },
 })
 export default class CalculateAndRegisterClientFile extends ModelVue {
@@ -87,7 +92,8 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
   clientFileNumber: string;
   showParseCreditReportForm: boolean = false;
-  parseCreditReportOutput: Data.Spine.ParseCreditReportOutput = new Data.Spine.ParseCreditReportOutput();
+  parseCreditReportOutput: Data.Spine.ParseCreditReportOutput =
+    new Data.Spine.ParseCreditReportOutput();
   simulatorResultLocal: any = {
     tenure: 0,
     settlementPercentage: 0,
@@ -138,6 +144,11 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
     return (this.$refs["tmosSimulator"] as any)?.result;
   }
 
+  setSimulatorResult() {
+    (this.$refs["tmosSimulator"] as any).result.outstanding =
+      this.parseCreditReportOutput.fiCreditorInfo.totalDebt;
+  }
+
   addNote() {
     const result = this.getSimulatorResult();
     this.addNoteInput.clientFileId = this.clientFileBasicInfo.clientFileId;
@@ -182,7 +193,20 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
     Action.Spine.ParseCreditReport.execute(
       this.parseCreditReportInput,
       (output) => {
+        this.closeAndClearAllForms();
         this.parseCreditReportOutput = output;
+        this.setSimulatorResult();
+        const splitNameList =
+          this.parseCreditReportOutput.experianPersonalInfo.name.split(" ");
+        this.registerClientFormData.firstName = splitNameList[0]
+          ? splitNameList[0]
+          : "";
+        this.registerClientFormData.middleName = splitNameList[1]
+          ? splitNameList[1]
+          : "";
+        this.registerClientFormData.lastName = splitNameList[2]
+          ? splitNameList[2]
+          : "";
         this.showLoader = false;
       },
       (error) => {
@@ -191,9 +215,8 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
       }
     );
   }
-
-  get fCreditorListFDataTableMetaData() {
-    return new FCreditorListFDataTableMDP({ parent: this }).getMetaData();
+  get parsedCreditorListFDataTableMetaData() {
+    return new ParsedCreditorListFDataTableMDP({ parent: this }).getMetaData();
   }
 }
 </script>

@@ -28,59 +28,14 @@
         :ref="creditorListFDataTableMetaData.myRefName"
         v-bind="creditorListFDataTableMetaData.props"
         :value="creditorList"
+        class="my-4"
       ></component>
-      <!--GRID START-->
-      <!-- <v-card flat outlined>
-        <v-data-table
-          :headers="filteredHeaders"
-          :items="creditorList"
-          sort-by="lastDateOfPayment"
-          class="elevation-0"
-        >
-          <template v-slot:[`item.lastDateOfPayment`]="{ item }">
-            <span class="grey--text">
-              {{ item.lastDateOfPayment | date }}
-            </span>
-          </template>
-          <template v-slot:top>
-            <v-toolbar flat>
-              <v-toolbar-title>Creditors</v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
-              <v-chip label outlined color="primary"
-                >Total Debt - {{ totalDebt | toINR }}</v-chip
-              >
-              <v-chip
-                v-if="clientFileSummary?.wad"
-                label
-                outlined
-                color="primary"
-                class="mx-2"
-                >WAD - {{ clientFileSummary.wad }}</v-chip
-              >
-
-              <v-spacer></v-spacer>
-            </v-toolbar>
-          </template>
-          <template v-slot:[`item.creditorBalance`]="{ item }">
-            {{ item.creditorBalance | toINR }}
-          </template>
-          <template v-slot:[`item.actions`]="{ item, index }">
-            <v-btn
-              :disabled="item.settlementStatus === 'SETTLED'"
-              small
-              dense
-              outlined
-              color="primary"
-              class="ml-2"
-              @click="selectSettleCreditor(item, index)"
-            >
-              Mark Settle
-            </v-btn>
-          </template>
-        </v-data-table>
-      </v-card> -->
-      <!--GRID END-->
-      <!--ACTION START-->
+      <component
+        :is="creditorListIEFDataTableMetaData.componentName"
+        :ref="creditorListIEFDataTableMetaData.myRefName"
+        v-bind="creditorListIEFDataTableMetaData.props"
+        :value="ineligibleCreditorList"
+      ></component>
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
@@ -110,6 +65,7 @@ import CreditorListFDataTableMDP from "./CreditorListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import CFUpdateCreditScoreFFormMDP from "./CFUpdateCreditScoreFFormMDP";
 import CFUpdateAccountNoFFormMDP from "./CFUpdateAccountNoFFormMDP";
+import CreditorListInEligibleFDataTableMDP from './CreditorListInEligibleFDataTableMDP';
 @Component({
   components: {
     FForm,
@@ -194,10 +150,13 @@ export default class FCreditor extends ModelVue {
       this.clientFileBasicInfo.creditBureau || "";
   }
 
-  get creditorList() {
-    return this.modelValue.creditorList;
+get creditorList() {
+    return (this.modelValue.creditorList as Data.ClientFile.FiCreditor[])?.filter(item => !item.ineligible);
   }
 
+  get ineligibleCreditorList() {
+    return (this.modelValue.creditorList as any[])?.filter(item => item.ineligible);
+  }
   get totalDebt() {
     return this.modelValue.totalDebt;
   }
@@ -265,6 +224,10 @@ export default class FCreditor extends ModelVue {
 
   get creditorListFDataTableMetaData() {
     return new CreditorListFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get creditorListIEFDataTableMetaData() {
+    return new CreditorListInEligibleFDataTableMDP({parent: this}).getMetaData();
   }
   get updateCreditScoreFFormMetaData() {
     return new CFUpdateCreditScoreFFormMDP({

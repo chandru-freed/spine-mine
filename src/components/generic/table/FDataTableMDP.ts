@@ -100,12 +100,13 @@ export default class FDataTableMDP implements MDP {
     return this;
   }
 
-  addBooleanColumn({ label , dataSelectorKey }: { label: string, dataSelectorKey: string }) {
+  addBooleanColumn({ label , dataSelectorKey, hidden = false }: { label: string, dataSelectorKey: string;hidden?: boolean }) {
     this.addColumn({
       label: label,
       dataSelectorKey: dataSelectorKey,
       columnCellMDP: new FCellBooleanMDP({}),
       sortable: true,
+      hidden: hidden
     })
 
     this.addFilter({

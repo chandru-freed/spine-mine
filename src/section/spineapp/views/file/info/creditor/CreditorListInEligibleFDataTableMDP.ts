@@ -1,16 +1,16 @@
-import FCellCurrencyMDP from "../../table/cell/FCellCurrencyMDP";
-import FDataTableMDP, { ActionType } from "../../table/FDataTableMDP"
-import FInfoINRMDP from "../../table/info/FInfoINRMDP";
+
+
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import * as Snackbar from "node-snackbar";
-import FCellDateMDP from "../../table/cell/FCellDateMDP";
-import FCellTextEllipsisMDP from "../../table/cell/FCellTextEllipsisMDP";
-export default class FCreditorListFDataTableMDP extends FDataTableMDP {
+import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
+import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
+import FCellTextEllipsisMDP from "@/components/generic/table/cell/FCellTextEllipsisMDP";
+
+export default class CreditorListInEligibleFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
-        super({myRefName:"fCreditorListFDataTableRef", enableSearch: true, disabled: props.parent.disabled, itemKey:"fiCreditorId",
-      title:"Eligible Creditors"});
+        super({myRefName:"fCreditorListIEFDataTableRef", enableSearch: true, disabled: props.parent.disabled, itemKey:"fiCreditorId", title: "Ineligible Creditors"});
         this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",
@@ -19,11 +19,9 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           .addCurrencyColumn({
             label: "Creditor Balance",
             dataSelectorKey: "creditorBalance",
-          }).addColumn({
+          }).addDateColumn({
             label: "Last Date Of Payment",
             dataSelectorKey: "lastDateOfPayment",
-            columnCellMDP: new FCellDateMDP(),
-            align: 'right'
           }).addNumberColumn({
             label: "Days Delinquent",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
@@ -44,58 +42,11 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             dataSelectorKey: "details",
             columnCellMDP: new FCellTextEllipsisMDP(),
           })
-          .addAction({
-            type: ActionType.DELETE,
-            onClick: item => this.deleteCreditorData(item),
-            label: "",
-            confirmation: true
-          }).addAction({
-            type: ActionType.EDIT,
-            onClick: item => this.selectEditCreditor(item),
-            label: "",
-            confirmation: true
-          }).addAction({
-            type: ActionType.ADD,
-            onClick: item => this.handleAddClick(),
-            label: "Add Creditor",
-          })
-          .addAction({
-            type: ActionType.OTHERS,
-            onClick: item => this.handleAddCreditorFromPDF(),
-            label: "Upload Credit Report PDF",
-            noSelect: true
-          })
-          .addAction({
-            type: ActionType.OTHERS,
-            onClick: item => this.handleAddCreditScore(),
-            label: "Update Credit Score",
-            noSelect: true
-          })
-          .addAction({
-            type: ActionType.OTHERS,
-            onClick: item => this.handleAddCreditScore(),
-            label: "Exclude from program",
-            singleSelect: true,
-            confirmation: true
-          })
           .addBooleanColumn({
             label: "InEligible",
             dataSelectorKey: "ineligible",
             hidden: true
           })
-          
-          
-          .addInfo({
-            label: "Total Amount",
-            value: this.parent.totalDebt,
-            infoMDP: new FInfoINRMDP({})
-          }).addInfo({
-            label: "WAD",
-            value: this.parent.clientFileBasicInfo.wad || 0,
-          }).addInfo({
-            label: "Credit Score",
-            value: this.parent.clientFileBasicInfo.creditScore,
-          });
         
     }
 
@@ -124,6 +75,15 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
         resolve(true);
       })
       
+    }
+
+    handleIncludeInProgram() {
+        return (item: any) => {
+            return new Promise(resolve => {
+                this.parent.handleIncludeInProgram(item);
+                resolve(true);
+              })
+        }
     }
 
     handleAddCreditScore() {

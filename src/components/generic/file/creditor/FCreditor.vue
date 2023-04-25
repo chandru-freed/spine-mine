@@ -68,73 +68,21 @@
 
     <v-col class="col-12">
       <!--GRID START-->
-      <v-card flat>
+      <v-card class="my-4" flat>
         <component
           :value="creditorList"
           :is="fCreditorListFDataTableMetaData.componentName"
           :ref="fCreditorListFDataTableMetaData.myRefName"
           v-bind="fCreditorListFDataTableMetaData.props"
         ></component>
-        <!-- <v-data-table
-          :headers="filteredHeaders"
-          :items="creditorList"
-          sort-by="lastDateOfPayment"
-          class="elevation-0"
-        >
-          <template v-slot:[`item.lastDateOfPayment`]="{ item }">
-            <span class="grey--text">
-              {{ item.lastDateOfPayment | date }}
-            </span>
-          </template>
-          <template v-slot:top>
-            <v-toolbar flat>
-              <v-toolbar-title>Creditors</v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
-              <v-chip label outlined color="primary"
-                >Total Debt - {{ totalDebt | toINR }}</v-chip
-              >
-              <v-chip
-                v-if="clientFileSummary?.wad"
-                label
-                outlined
-                color="primary"
-                class="mx-2"
-                >WAD - {{ clientFileSummary.wad }}</v-chip
-              >
-
-              <v-spacer></v-spacer>
-              <v-btn
-                :disabled="disabled"
-                icon
-                color="primary"
-                class="mb-2"
-                @click="showAddForm"
-              >
-                <v-icon>mdi-plus-circle-outline</v-icon>
-              </v-btn>
-            </v-toolbar>
-          </template>
-          <template v-slot:[`item.creditorBalance`]="{ item }">
-            {{ item.creditorBalance | toINR }}
-          </template>
-          <template v-slot:[`item.actions`]="{ item, index }">
-            <v-icon
-              :disabled="disabled"
-              small
-              class="mr-2"
-              @click="selectEditCreditor(item)"
-            >
-              mdi-pencil
-            </v-icon>
-            <v-icon
-              :disabled="disabled"
-              small
-              @click="selectDeleteCreditor(item, index)"
-            >
-              mdi-delete
-            </v-icon>
-          </template>
-        </v-data-table> -->
+      </v-card>
+      <v-card flat>
+        <component
+          :value="ineligibleCreditorList"
+          :is="creditorListIEFDataTableMetaData.componentName"
+          :ref="creditorListIEFDataTableMetaData.myRefName"
+          v-bind="creditorListIEFDataTableMetaData.props"
+        ></component>
       </v-card>
       <!--GRID END-->
       <!--ACTION START-->
@@ -173,6 +121,7 @@ import FLoader from "../../FLoader.vue";
 import ErrorResponse from "@/error-response";
 import axios from "axios";
 import ParsePDF from './ParsePDF';
+import FCreditorListInEligibleFDataTableMDP from './FCreditorListInEligibleFDataTableMDP';
 
 @Component({
   components: {
@@ -286,7 +235,11 @@ export default class FCreditor extends ModelVue {
   }
 
   get creditorList() {
-    return this.modelValue.creditorList;
+    return (this.modelValue.creditorList as Data.ClientFile.FiCreditor[])?.filter(item => !item.ineligible);
+  }
+
+  get ineligibleCreditorList() {
+    return (this.modelValue.creditorList as any[])?.filter(item => item.ineligible);
   }
 
   get totalDebt() {
@@ -380,8 +333,16 @@ export default class FCreditor extends ModelVue {
     return new FCreditorListFDataTableMDP({ parent: this }).getMetaData();
   }
 
+  get creditorListIEFDataTableMetaData() {
+  return new FCreditorListInEligibleFDataTableMDP({ parent: this }).getMetaData();
+  }
+
   get parseCreditReportMetaData() {
     return new FParseCreditReportFFormMDP({ parent: this }).getMetaData();
+  }
+
+  handleIncludeInProgram(item: any) {
+
   }
 
 

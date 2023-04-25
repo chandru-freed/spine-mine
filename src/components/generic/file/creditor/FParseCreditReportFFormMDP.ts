@@ -6,6 +6,7 @@ import * as Data from "@/../src-gen/data";
 import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 import * as Action from "@/../src-gen/action";
 import FFileFieldMDP from "../../form/field/FFileFieldMDP";
+import FPasswordFieldMDP from "../../form/field/FPasswordFieldMDP";
 
 export default class FUpdateCreditScoreFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
@@ -18,9 +19,26 @@ export default class FUpdateCreditScoreFFormMDP extends FFormMDP {
             parentMDP: this.childMDP,
             dataSelectorKey: "creditReport",
             label: "Credit Report",
-            boundaryClass: "col-6",
+            boundaryClass: "col-4",
             mandatory: true
-        })).addAction(new FBtnMDP({
+        }))
+        .addField(new FSelectFieldMDP({
+            dataSelectorKey: "creditBureau",
+            label: "Credit Bureau",
+            options: Data.Spine.CREDIT_BUREAU.list(),
+            parentMDP: this.childMDP,
+            returnObject: true,
+            optionLabel: "name",
+            boundaryClass: "col-4",
+            mandatory: true
+        }))
+        .addField(new FPasswordFieldMDP({
+            label:"Password",
+            dataSelectorKey: "password",
+            parentMDP: this.childMDP,
+            boundaryClass: "col-4",
+        }))
+        .addAction(new FBtnMDP({
             label: "Cancel",
             onClick: this.closeAndClearAllForms()
         })).addAction(new FBtnMDP({

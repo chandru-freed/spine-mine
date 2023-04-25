@@ -10,7 +10,8 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
 
   public fiCreditorInfo(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiCreditorInfo | undefined {
     const fiCreditorInfo: any = state.fiCreditorInfo || new Data.ClientFile.FiCreditorInfo();
-    fiCreditorInfo.creditorList = state.fiCreditorInfo?.creditorList.filter(creditor => creditor.ineligible == false)
+    // fiCreditorInfo.creditorList = state.fiCreditorInfo?.creditorList.filter(creditor => creditor.ineligible == false)
+    fiCreditorInfo.creditorList = state.fiCreditorInfo?.creditorList;
     return fiCreditorInfo
   }
 

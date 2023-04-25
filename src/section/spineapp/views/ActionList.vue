@@ -272,6 +272,18 @@ export default class ActionList extends Vue {
         
       ],
     },
+    {
+      groupName: "MIS Reports",
+      actionList: [
+        {
+          actionName: "SPA Dashboard",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Admin.Mis.SpaDashboard",
+        },
+
+        
+      ],
+    },
     // {
     //   groupName: "Creditor",
     //   actionList: [

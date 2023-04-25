@@ -81,7 +81,7 @@ export default class CFCollectionFeeFFormMDP extends FFormMDP {
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "remoteTxnRefDetails.paymentLink",
+          dataSelectorKey: "selfEnrolPaymentLink",
           label: "Payment Link",
           boundaryClass: "col-6",
           disabled: true,

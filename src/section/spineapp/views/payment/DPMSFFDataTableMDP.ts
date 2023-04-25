@@ -84,6 +84,7 @@ export default class DPMSFFDataTableMDP extends FDataTableMDP {
                 Action.Spine.PresentMSFScheduleEntryList.execute1(msfEntryIdList, output => {
                     res(true)
                 });
+
             })
         }
     }

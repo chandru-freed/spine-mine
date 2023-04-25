@@ -444,6 +444,7 @@ import FForm from "../form/FForm.vue";
 import FExpansionFDataTable from "./expansion/FExpansionFDataTable.vue";
 import FCopy from "../FCopyBtn.vue";
 import FCellRouterLink from "./cell/FCellRouterLink.vue";
+import FCellBtnPreview from "./cell/FCellBtnPreview.vue";
 import FCellUrlLink from "./cell/FCellUrlLink.vue";
 
 @Component({
@@ -486,6 +487,7 @@ import FCellUrlLink from "./cell/FCellUrlLink.vue";
     FExpansionFDataTable,
     FCopy,
     FCellRouterLink,
+    FCellBtnPreview
     FCellUrlLink
   },
 })

@@ -487,7 +487,7 @@ import FCellUrlLink from "./cell/FCellUrlLink.vue";
     FExpansionFDataTable,
     FCopy,
     FCellRouterLink,
-    FCellBtnPreview
+    FCellBtnPreview,
     FCellUrlLink
   },
 })

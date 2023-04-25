@@ -24,8 +24,8 @@ import RegisterMyCFFFormMDP from "../myfiles/RegisterMyCFFFormMDP";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
 import Helper from "../../util/Helper";
-import CalculateAndRegisterClientFile from "@/components/generic/file/CalculateAndRegisterClientFile.vue";
-import CalculateAndRegisterClientFileMDP from "@/components/generic/file/CalculateAndRegisterClientFileMDP";
+import CalculateAndRegisterClientFile from "@/components/generic/file/calculateAndRegister/CalculateAndRegisterClientFile.vue";
+import CalculateAndRegisterClientFileMDP from "@/components/generic/file/calculateAndRegister/CalculateAndRegisterClientFileMDP";
 
 
 @Component({

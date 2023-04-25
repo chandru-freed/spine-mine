@@ -23,7 +23,6 @@ export default class ParsePDF {
 
     handleUploadCreditReportPDF() {
         this.parent.showLoader = true;
-        this.parent.parseCreditReportInput.clientFileId = this.parent.clientFileId;
         Action.Spine.ParseCreditReport.execute(
             this.parent.parseCreditReportInput,
             (output) => {

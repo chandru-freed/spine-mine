@@ -1,5 +1,5 @@
-import FBtnMDP from "../FBtnMDP";
-import MDP from "../MDP";
+import FBtnMDP from "../../FBtnMDP";
+import MDP from "../../MDP";
 
 export default class CalculateAndRegisterClientFileMDP implements MDP {
     onCancelClick?: () => void;

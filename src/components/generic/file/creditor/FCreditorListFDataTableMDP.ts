@@ -73,7 +73,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           })
           .addAction({
             type: ActionType.OTHERS,
-            onClick: item => this.handleAddCreditScore(),
+            onClick: this.handleExcludeInProgram(),
             label: "Exclude from program",
             singleSelect: true,
             confirmation: true
@@ -81,6 +81,10 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           .addBooleanColumn({
             label: "InEligible",
             dataSelectorKey: "ineligible",
+            hidden: true
+          }).addBooleanColumn({
+            label: "Exception Taken",
+            dataSelectorKey: "exceptionTaken",
             hidden: true
           })
           
@@ -140,5 +144,14 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
         resolve(true);
       })
     }
+
+    handleExcludeInProgram() {
+      return (item: any) => {
+          return new Promise(resolve => {
+              this.parent.handleExcludeInProgram(item);
+              resolve(true);
+            })
+      }
+  }
     
 }

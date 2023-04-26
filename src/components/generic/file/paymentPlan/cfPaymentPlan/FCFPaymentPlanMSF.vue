@@ -102,6 +102,7 @@ import AddCFPsEntryFFormMDP from "./AddCFPsEntryFFormMDP";
 import FCFPaymentFDataTableMDP from "./FCFPaymentFDataTableMDP";
 import Helper from "@/section/spineapp/util/Helper";
 import CFPaymentPlanFTab from "@/section/spineapp/components/tab/CFPaymentPlanFTab.vue";
+import FSnackbar from "@/fsnackbar";
 
 @Component({
   components: {
@@ -188,12 +189,6 @@ export default class FCFPaymentPlanMSF extends ModelVue {
     this.getFiPaymentList();
   }
 
-  get fPaymentScheduleFDataTableMetaData() {
-    return new FCFPPScheduleFDataTableMDP({
-      parent: this,
-      refName: this.fPaymentScheduleFDataTableRefName,
-    }).getMetaData();
-  }
 
   // get fPSkipedPresentedTableMetaData() {
   //   return new FCFPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
@@ -237,6 +232,20 @@ export default class FCFPaymentPlanMSF extends ModelVue {
         }, 400);
       }
     );
+  }
+
+  createNsfMsfTask(selectedMSFRow: Data.ClientFile.FiFeeEntry) {
+    if(selectedMSFRow.status === "NSF") {
+    const createNsfMSFInput = new Data.Spine.CreateNsfMSFInput();
+    createNsfMSFInput.clientFileNumber = this.clientFileBasicInfo.clientFileNumber;
+    createNsfMSFInput.msfEntryId = selectedMSFRow.msfEntryId;
+    createNsfMSFInput.paymentId = selectedMSFRow.paymentId || "";
+    Action.Spine.CreateNsfMSF.execute(createNsfMSFInput, output => {
+      console.log(output);
+    });
+    } else {
+      FSnackbar.error("The payment status should be NSF inorder to reschedule")
+    }
   }
 
   gotoCFActiveTaskList() {

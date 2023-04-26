@@ -53,6 +53,12 @@ export default class FCFFeeFDataTableMDP extends FDataTableMDP {
         label: "Collect",
         onClick: this.collectMSF(),
         type: ActionType.OTHERS
+      })
+      
+      .addAction({
+        label: "Reschedule",
+        onClick: this.rescheduleMsf(),
+        type: ActionType.OTHERS
       });
   }
 
@@ -60,6 +66,13 @@ export default class FCFFeeFDataTableMDP extends FDataTableMDP {
     return (item: any) => {
       return new Promise(res => {
         this.parent.createCollectMSFThroughCashfree(item);
+      })
+    }
+  }
+  rescheduleMsf() {
+    return (item: any) => {
+      return new Promise(res => {
+        this.parent.createNsfMsfTask(item);
       })
     }
   }

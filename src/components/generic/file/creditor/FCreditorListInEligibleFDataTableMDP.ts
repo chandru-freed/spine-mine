@@ -48,6 +48,11 @@ export default class FCreditorListInEligibleFDataTableMDP extends FDataTableMDP 
             dataSelectorKey: "ineligible",
             hidden: true
           })
+          .addBooleanColumn({
+            label: "Exception Taken",
+            dataSelectorKey: "exceptionTaken",
+            hidden: true
+          })
           .addAction({
             type: ActionType.DELETE,
             onClick: item => this.deleteCreditorData(item),

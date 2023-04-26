@@ -304,6 +304,15 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientCreditorInfoAndInfoHandler
     );
 
+    Action.ClientFile.ExcludeFiCreditorFromProgram.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
+
+
+    Action.ClientFile.IncludeFiCreditorToProgram.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
+
     Action.Spine.AddExperianCreditorListFromPDFParsed.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
@@ -365,6 +374,14 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.Spine.RemoveCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
+
+    Action.ClientFile.ExcludeFiCreditorFromProgram.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
+
+    Action.ClientFile.IncludeFiCreditorToProgram.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
 
     Action.Spine.UpdateBudgetInfo.notInterested(this.getBudgetInfoHandler);
 

@@ -342,7 +342,16 @@ export default class FCreditor extends ModelVue {
   }
 
   handleIncludeInProgram(item: any) {
+    Action.ClientFile.IncludeFiCreditorToProgram.execute1(item.fiCreditorId, output => {
 
+    });
+  }
+
+  handleExcludeInProgram(item: any) {
+    
+    Action.ClientFile.ExcludeFiCreditorFromProgram.execute1(item.fiCreditorId, output => {
+
+    });
   }
 
 

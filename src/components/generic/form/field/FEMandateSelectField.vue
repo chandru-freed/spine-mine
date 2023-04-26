@@ -63,7 +63,7 @@ export default class FEMandateSelectField extends VSelect {
       const defaultEMandate: any = output.find(
         (item) => item.isDefault === true
       );
-      if (defaultEMandate) {
+      if (defaultEMandate && !this.modelValue) {
         this.modelValue = defaultEMandate[this.$props.itemValue];
       }
     });

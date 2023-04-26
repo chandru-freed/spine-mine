@@ -92,6 +92,8 @@ export default class FDataTableMDP implements MDP {
     hidden?: boolean;
     width?: string;
     enableCopy?: boolean;
+    dataSelectorKeyToCopy?: string;
+    copyTooltipText?: string;
     enableGroupBy?: boolean;
   }) {
     this.columnList.push(

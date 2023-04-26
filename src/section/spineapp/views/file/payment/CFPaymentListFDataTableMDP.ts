@@ -3,7 +3,7 @@ import FCellCurrencyBtnMDP from "@/components/generic/table/cell/FCellCurrencyBt
 import FCellCurrencyMDP from "@/components/generic/table/cell/FCellCurrencyMDP";
 import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
-import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 import * as Data from "@/../src-gen/data";
 import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 
@@ -18,21 +18,29 @@ export default class CFPaymentListFDataTableMDP extends FDataTableMDP {
       groupBySummaryFunction: (itemList) => this.calculateTotal(itemList)
     });
     this.parent = parent;
-    this.addStatusColumn({
-      label: "Payment Type",
-      dataSelectorKey: "paymentType.name",
-      filterItemList: Data.ClientFile.PAYMENT_TYPE.list()
-      //   columnCellMDP: new FCellDateMDP(),
-    })
+    this
       .addColumn({
-        label: "Total Amount",
-        dataSelectorKey: "totalAmount",
-        columnCellMDP: new FCellCurrencyBtnMDP({
+        label: "Payment Ref Number",
+        dataSelectorKey: "paymentRefNumber",
+        columnCellMDP: new FCellBtnMDP({
           color: "secondary",
           onClick: (item) => {
             this.parent.openPaymentDetails(item);
           },
         }),
+        enableCopy: true,
+        copyTooltipText: "Click here to copy the payment link",
+        dataSelectorKeyToCopy: "selfEnrolPaymentLink",
+        width: "23%"
+      }).addStatusColumn({
+        label: "Payment Type",
+        dataSelectorKey: "paymentType.name",
+        filterItemList: Data.ClientFile.PAYMENT_TYPE.list()
+        //   columnCellMDP: new FCellDateMDP(),
+      })
+      .addCurrencyColumn({
+        label: "Total Amount",
+        dataSelectorKey: "totalAmount",
       })
       .addColumn({
         label: "Account Holder Name",
@@ -51,31 +59,39 @@ export default class CFPaymentListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "lastUpdatedTime",
         columnCellMDP: new FCellDateTimeMDP(),
         hidden: true
-        
+
       })
       .addColumn({
-        label:"Payment Ref Number",
-        dataSelectorKey:"paymentRefNumber",
+        label: "Ach Seq Number",
+        dataSelectorKey: "achSeqNumber",
         hidden: true
       })
-      .addColumn({
-        label:"Ach Seq Number",
-        dataSelectorKey:"achSeqNumber",
-        hidden: true
-      })
-      
+
       .addStatusColumn({
         label: "Received By",
         dataSelectorKey: "receivedBy",
-      });
+      })
+      .addAction({
+        label: "Info",
+        onClick: this.handleInfoClick(),
+        type: ActionType.INFO
+      })
+      ;
   }
   calculateTotal(itemList: any[]) {
     const totalAmount = itemList.reduce((acc: number, item: any) => {
       const val = typeof (item['totalAmount']) == 'number' ? item['totalAmount'] : 0;
       acc = acc + val;
       return acc
-  }, 0)
-  return 'Total Amount: ' + totalAmount;
-    
+    }, 0)
+    return 'Total Amount: ' + totalAmount;
+  }
+
+  handleInfoClick() {
+    return (item: any) => { 
+      return new Promise(res => {
+        this.parent.handleInfoClick(item);
+        res(true);
+      }) }
   }
 }

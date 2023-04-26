@@ -64,6 +64,9 @@ export default class FCashfreeList extends ModelVue {
   @Prop()
   taskRoot: any;
 
+  showViewPaymentForm: boolean = false;
+  selectedPaymentSummaryToView: any;
+
   clientFileId = this.$route.params.clientFileId;
   taskId = this.$route.params.taskId;
 
@@ -99,6 +102,11 @@ export default class FCashfreeList extends ModelVue {
       this.clientFileBasicInfo.clientFileNumber,
       (output) => {}
     );
+  }
+
+   handleInfoClick(item: Data.ClientFile.FiEMandateSummary) {
+    this.selectedPaymentSummaryToView = item;
+    this.showViewPaymentForm = true;
   }
 }
 </script>

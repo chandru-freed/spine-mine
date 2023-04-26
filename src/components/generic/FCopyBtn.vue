@@ -1,7 +1,12 @@
 <template>
-  <a  @click="copyToClipBoard()">
-    <v-icon small>mdi-content-copy</v-icon>
-  </a>
+<v-tooltip bottom max-width="300">
+      <template v-slot:activator="{ on, attrs }">
+        <a v-bind="attrs" v-on="on" @click="copyToClipBoard()">
+          <v-icon small>mdi-content-copy</v-icon>
+        </a>
+      </template>
+      <span>{{ tooltipText }}</span>
+</v-tooltip>
 </template>
 <script lang="ts">
 import Helper from "@/section/spineapp/util/Helper";
@@ -13,6 +18,9 @@ import ModelVue from "./ModelVue";
   components: {},
 })
 export default class FCopy extends ModelVue {
+  @Prop({default:"Copy"})
+  tooltipText: string;
+  
   copyToClipBoard() {
     Helper.copyToClipBoard(this.modelValue);
   }

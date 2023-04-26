@@ -1,10 +1,10 @@
 <template>
-  <a  :class="`${color}--text`" >
+  <a :class="`${color}--text`">
     <v-icon :color="color" v-if="icon" dense small class="mr-1">
       {{ icon }}
     </v-icon>
     <router-link
-    v-if="selectModel(modelValue, dataSelectorKey)"
+      v-if="selectModel(modelValue, dataSelectorKey)"
       style="text-decoration: none; color: inherit"
       :to="routerObject"
     >
@@ -16,6 +16,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ModelVue from "../../ModelVue";
+import { Param } from "./FCellRouterLinkMDP";
 
 @Component({
   components: {},
@@ -33,12 +34,15 @@ export default class FCellRouterLink extends ModelVue {
   @Prop()
   paramKey: string;
 
+  @Prop({ default: () => [] })
+  paramsList: Param[];
+
   @Prop({
     default: "default",
   })
   color: string;
 
-   @Prop()
+  @Prop()
   icon: string;
 
   get routerObject() {
@@ -46,9 +50,16 @@ export default class FCellRouterLink extends ModelVue {
     if (this.paramName) {
       params[this.paramName] = this.selectModel(
         this.modelValue,
-        this.paramKey?this.paramKey:this.dataSelectorKey
+        this.paramKey ? this.paramKey : this.dataSelectorKey
       );
-    }
+    } // NEED TO REMOVE param name and param key and use paramsList
+
+    this.paramsList.forEach((item) => {
+      params[item.paramKey] = this.selectModel(
+        this.modelValue,
+        item.paramKey ? item.paramKey : this.dataSelectorKey
+      );
+    });
 
     return { name: this.routerName, params: params };
   }

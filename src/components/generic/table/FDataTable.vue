@@ -343,7 +343,8 @@
           ></component>
           <f-copy
             v-if="header.enableCopy&&!!selectModel(item, header.value)"
-            :value="selectModel(item, header.value)"
+            :value="selectModel(item, header.dataSelectorKeyToCopy?header.dataSelectorKeyToCopy:header.value)"
+            :tooltipText="header.copyTooltipText"
           >
           </f-copy>
         </slot>

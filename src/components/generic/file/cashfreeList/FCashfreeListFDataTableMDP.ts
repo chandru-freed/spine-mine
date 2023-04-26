@@ -11,6 +11,7 @@ import FCellCopyMDP from "../../table/cell/FCellCopyMDP";
 import FCellStandardDateTimeMDP from "../../table/cell/FCellStandardDateTimeMDP";
 import FCellDateTimeMDP from "../../table/cell/FCellDateTimeMDP";
 import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
+import FCellRouterLinkMDP from "../../table/cell/FCellRouterLinkMDP";
 export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor(props: { parent: any; taskRoot: any }) {
@@ -29,17 +30,23 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
         tooltipText: "Click here to copy the Cashfree link",
       }),
     })
+    .addColumn({
+      label:"Link",
+      dataSelectorKey: "clientFileNumber",
+      columnCellMDP: new FCellRouterLinkMDP({
+        routerName:"Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
+        paramsList: [{paramName: "clientFileNumber",paramKey: "clientFileNumber"},{paramName: "paymentId",paramKey: "paymentId"}]
+      })
+    })
       .addCurrencyColumn({
         label: "MSF Amount",
         dataSelectorKey: "msfAmount",
       })
-      .addColumn({
+      .addPaymentStatusColumn({
         label: "Status",
         dataSelectorKey: "status",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.PAYMENT_STATUS,
-          outlined: true,
-        }),
+        // colorCodeData: Data.Color.PAYMENT_STATUS,
+        // outlined: true,
       })
       .addColumn({
         label: "Payment Provider",
@@ -55,7 +62,13 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
         onClick: this.handleRefreshClick(),
         type: ActionType.REFRESH,
         noSelect: true,
-      });
+      })
+      .addAction({
+        label: "Details",
+        onClick: this.handleDetailsClick(),
+        type: ActionType.INFO,
+      })
+      ;
   }
 
   handleGenerateLink() {
@@ -73,6 +86,15 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
         res(true);
       });
     };
+  }
+
+
+  handleDetailsClick() {
+      return () => {
+        return new Promise(res => {
+          
+        });
+      }
   }
 
   handleRefreshClick() {
@@ -95,6 +117,7 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
         window.open(item.agreementUrl);
       }
     };
+
   }
 
   // handleResendClick() {

@@ -30,16 +30,16 @@
         :value="simulatorResultLocal"
         :simulatorInput="paymentPlanInfo"
       />
-        <component
-          v-if="
-            !!parsedCreditorListFDataTableMetaData &&
-            parseCreditReportOutput.fiCreditorInfo.creditorList.length > 0
-          "
-          :ref="parsedCreditorListFDataTableMetaData.myRefName"
-          :is="parsedCreditorListFDataTableMetaData.componentName"
-          :value="parseCreditReportOutput.fiCreditorInfo.creditorList"
-          v-bind="parsedCreditorListFDataTableMetaData.props"
-        ></component>
+      <component
+        v-if="
+          !!parsedCreditorListFDataTableMetaData &&
+          parseCreditReportOutput.fiCreditorInfo.creditorList.length > 0
+        "
+        :ref="parsedCreditorListFDataTableMetaData.myRefName"
+        :is="parsedCreditorListFDataTableMetaData.componentName"
+        :value="parseCreditReportOutput.fiCreditorInfo.creditorList"
+        v-bind="parsedCreditorListFDataTableMetaData.props"
+      ></component>
 
       <v-card-title>Register a client</v-card-title>
 
@@ -71,6 +71,7 @@ import ErrorResponse from "@/error-response";
 import FDataTable from "../../table/FDataTable.vue";
 import ParsedCreditorListFDataTableMDP from "./ParsedCreditorListFDataTableMDP";
 import FLoader from "../../FLoader.vue";
+import ParseCRPDF from "../creditor/ParseCRPDF";
 @Component({
   components: {
     TMOSSimulatorEditable,
@@ -94,6 +95,9 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
   showParseCreditReportForm: boolean = false;
   parseCreditReportOutput: Data.Spine.ParseCreditReportOutput =
     new Data.Spine.ParseCreditReportOutput();
+  addDetailsFromParsedCRInput: Data.Spine.AddDetailsFromParsedCreditReportInput =
+    new Data.Spine.AddDetailsFromParsedCreditReportInput();
+  parseCreditReportInput: any = new Data.Spine.ParseCreditReportInput();
   simulatorResultLocal: any = {
     tenure: 0,
     settlementPercentage: 0,
@@ -106,28 +110,7 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
     firstSPADraftDate: "",
     tenureApproval: 0,
   };
-  parseCreditReportInput: Data.Spine.ParseCreditReportInput =
-    new Data.Spine.ParseCreditReportInput();
   showLoader: boolean = false;
-
-  get registerMyCFFFormMetaData() {
-    return new RegisterMyCFFFormMDP({
-      root: this,
-      hideCancel: !this.onCancelClick,
-    }).getMetaData();
-  }
-
-  registerClient() {
-    Action.Client.RegisterAndEnroll.execute(
-      this.registerClientFormData,
-      (output) => {
-        setTimeout(() => {
-          this.clientFileNumber = output.clientFileNumber;
-          this.getCFBasicInfoAndAddNote();
-        }, 500);
-      }
-    );
-  }
 
   getCFBasicInfoAndAddNote() {
     Action.ClientFile.GetClientFileBasicInfo.execute1(
@@ -172,41 +155,28 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
   handleUploadCRClick() {
     this.showParseCreditReportForm = true;
   }
-
-  get parseCreditReportMetaData() {
-    return new FParseCreditReportFFormMDP({ parent: this }).getMetaData();
-  }
-
   closeAndClearAllForms() {
     this.showParseCreditReportForm = false;
-    this.parseCreditReportInput = new Data.Spine.ParseCreditReportInput();
   }
 
   addCreditorFromPDF() {
     this.showLoader = true;
-    // const parsePdf = new ParsePDF({ parent: this, taskRoot: this.taskRoot });
     this.handleUploadCreditReportPDF();
   }
 
   handleUploadCreditReportPDF() {
     this.showLoader = true;
+    console.log(this.parseCreditReportInput);
     Action.Spine.ParseCreditReport.execute(
       this.parseCreditReportInput,
       (output) => {
         this.closeAndClearAllForms();
         this.parseCreditReportOutput = output;
         this.setSimulatorResult();
-        const splitNameList =
-          this.parseCreditReportOutput.experianPersonalInfo.name.split(" ");
-        this.registerClientFormData.firstName = splitNameList[0]
-          ? splitNameList[0]
-          : "";
-        this.registerClientFormData.middleName = splitNameList[1]
-          ? splitNameList[1]
-          : "";
-        this.registerClientFormData.lastName = splitNameList[2]
-          ? splitNameList[2]
-          : "";
+        this.registerClientFormData.firstName =
+          this.parseCreditReportOutput.personalInfo.firstName;
+        this.registerClientFormData.lastName =
+          this.parseCreditReportOutput.personalInfo.lastName;
         this.showLoader = false;
       },
       (error) => {
@@ -215,8 +185,38 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
       }
     );
   }
+
+  registerClient() {
+    Action.Client.RegisterAndEnroll.execute(
+      this.registerClientFormData,
+      (output) => {
+        setTimeout(() => {
+          this.clientFileNumber = output.clientFileNumber;
+          this.getCFBasicInfoAndAddNote();
+          const parsePDF = new ParseCRPDF({
+            clientFileNumber: output.clientFileNumber,
+            parseCreditReportInput: this.parseCreditReportInput,
+            parseCreditReportOutput: this.parseCreditReportOutput,
+          });
+          parsePDF.addDetailsFromParsedCR();
+        }, 500);
+      }
+    );
+  }
+
   get parsedCreditorListFDataTableMetaData() {
     return new ParsedCreditorListFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get parseCreditReportMetaData() {
+    return new FParseCreditReportFFormMDP({ parent: this }).getMetaData();
+  }
+
+  get registerMyCFFFormMetaData() {
+    return new RegisterMyCFFFormMDP({
+      root: this,
+      hideCancel: !this.onCancelClick,
+    }).getMetaData();
   }
 }
 </script>

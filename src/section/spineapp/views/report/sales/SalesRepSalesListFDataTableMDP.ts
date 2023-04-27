@@ -17,7 +17,7 @@ export default class SalesRepSalesListFDataTableMDP extends FExpansionFDataTable
             width:"15%"
         }).addCurrencyColumn({
             label: "Total Debt",
-            dataSelectorKey: "totalOutstanding",
+            dataSelectorKey: "outstanding",
             
         }).addCurrencyColumn({
             label: "Total MSF",

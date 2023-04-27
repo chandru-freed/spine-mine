@@ -172,7 +172,7 @@
           dense
           dateDisplayFormat="Do MMM YY (ddd)"
           hide-details
-          :value="selectModel(getDayWiseSalesReportInput.saleDate, undefined)"
+          :value="selectModel(getDailySaleReportInput.saleDate, undefined)"
           @input="(newValue) => handleDatechange(newValue)"
           outlined
           label="Select Date"
@@ -182,11 +182,11 @@
           <v-card large label outlined class="px-4">
             <div class="text-h6">
               {{ targetForTheDay }}
-              <span v-if="targetForTheDay - totalDashboard.totalSales>=0" class="text-caption grey--text"
-                >({{ targetForTheDay - totalDashboard.totalSales }} sales behind)</span
+              <span v-if="targetForTheDay - reportData.totalSale>=0" class="text-caption grey--text"
+                >({{ targetForTheDay - reportData.totalSale }} sales behind)</span
               >
               <span v-else class="text-caption green--text"
-                >({{ (targetForTheDay - totalDashboard.totalSales) * -1 }} sales ahead)</span
+                >({{ (targetForTheDay - reportData.totalSale) * -1 }} sales ahead)</span
               >
             </div>
             <div class="text-caption">Target for the day</div>
@@ -196,7 +196,7 @@
         <v-sheet outlined rounded class="ml-4">
           <v-card large label outlined class="px-4">
             <div class="text-h6">
-              {{ totalDashboard.totalSales }}
+              {{ reportData.totalSale }}
             </div>
             <div class="text-caption">Total Sales</div>
           </v-card>
@@ -205,7 +205,7 @@
         <v-sheet outlined rounded class="ml-4">
           <v-card large label outlined class="px-4">
             <div class="text-h6">
-              {{ totalDashboard.totalSPACollected | toINR }}
+              {{ reportData.debtLoadTotal | toINR }}
             </div>
             <div class="text-caption">Total Amount</div>
           </v-card>
@@ -214,7 +214,7 @@
         <v-sheet outlined rounded class="ml-4">
           <v-card large label outlined class="px-4">
             <div class="text-h6">
-              {{ totalDashboard.totalMSF | toINR }}
+              {{ reportData.msfTotal | toINR }}
             </div>
             <div class="text-caption">Total MSF</div>
           </v-card>
@@ -228,13 +228,13 @@
                 :size="25"
                 :width="3"
                 :value="
-                  (totalDashboard.totalMSFCount / totalDashboard.totalSales) *
+                  (reportData.firstMsfPaidCount / reportData.totalSale) *
                   100
                 "
                 color="primary"
               >
                 <div class="caption">
-                  {{ totalDashboard.totalMSFCount }}
+                  {{ reportData.firstMsfPaidCount }}
                 </div>
               </v-progress-circular>
             </div>
@@ -270,11 +270,14 @@ import FDateSelectField from "@/components/generic/form/field/FDateSelectField.v
   },
 })
 export default class DailySalesReport extends ModelVue {
-  getDayWiseSalesReportInput: Data.Spine.GetCFSalesListForDateInput =
-    new Data.Spine.GetCFSalesListForDateInput();
-  reportSalesClientFileList: Data.Spine.CFSales[] = [];
-  cfSalesForSalesRepList: Data.Spine.CFSalesForSalesRep[] = [];
-  salesRepDailySaleList: Data.Spine.SalesRepDailySale[] = [];
+  // getDayWiseSalesReportInput: Data.Spine.GetCFSalesListForDateInput =
+  //   new Data.Spine.GetCFSalesListForDateInput();
+
+  getDailySaleReportInput: Data.Spine.GetSalesRepDailySaleReportInput = new Data.Spine.GetSalesRepDailySaleReportInput();
+  // reportSalesClientFileList: Data.Spine.CFSales[] = [];
+  // cfSalesForSalesRepList: Data.Spine.CFSalesForSalesRep[] = [];
+  salesRepDailySaleList: Data.Spine.SalesRepCfList[] = [];
+  reportData: Data.Spine.DailySaleReportData = new Data.Spine.DailySaleReportData();
   apiCallInterval: any;
   targetForTheDay: number = 24;
 
@@ -305,34 +308,56 @@ export default class DailySalesReport extends ModelVue {
   getCFSalesListForDate() {
     const { selectedDate }: any = this.$route.query;
     if (selectedDate) {
-      this.getDayWiseSalesReportInput.saleDate = selectedDate;
+      console.log(selectedDate)
+      // this.getDayWiseSalesReportInput.saleDate = selectedDate;
+      this.getDailySaleReportInput.saleDate = selectedDate;
     }
-    Action.Spine.GetCFSalesListForDate.execute(
-      this.getDayWiseSalesReportInput,
-      (output) => {
-        // if (output.length > this.salesRepDailySaleList.length) {
-        //   const audio = new Audio(
-        //     "https://www.pacdv.com/sounds/applause-sound/app-5.mp3"
-        //   );
-        //   audio.play();
-        // }
-        this.salesRepDailySaleList = output;
+
+    Action.Spine.GetSalesRepDailySaleReport.execute(this.getDailySaleReportInput, output => {
+          this.salesRepDailySaleList = output.saleReportData.salesRepCFList;
+          this.reportData = output.saleReportData;
         this.deriveSalesRepDailySalesListData();
-      }
-    );
+    })
+    // Action.Spine.GetCFSalesListForDate.execute(
+    //   this.getDayWiseSalesReportInput,
+    //   (output) => {
+    //     // if (output.length > this.salesRepDailySaleList.length) {
+    //     //   const audio = new Audio(
+    //     //     "https://www.pacdv.com/sounds/applause-sound/app-5.mp3"
+    //     //   );
+    //     //   audio.play();
+    //     // }
+    //     this.salesRepDailySaleList = output;
+    //     this.deriveSalesRepDailySalesListData();
+    //   }
+    // );
   }
 
   handleDatechange(newValue: any) {
-    this.getDayWiseSalesReportInput.saleDate = newValue;
+    // this.getDayWiseSalesReportInput.saleDate = newValue;
+    this.getDailySaleReportInput.saleDate = newValue;
     this.showDatePicker = false;
     this.$router.push({ query: { selectedDate: newValue } });
     this.getCFSalesListForDate();
   }
 
   deriveSalesRepDailySalesListData() {
+    this.reportData.msfTotal = this.salesRepDailySaleList.reduce((acc: number, salesRepDailySale) => {
+      return acc + salesRepDailySale.fiClientFileSaleList.reduce((acc: number,currVal) => {
+        const msf = currVal.isFirstMSFPaid?currVal.msfAmount:0;
+        return acc + msf;
+      },0 )
+    },0)
     this.salesRepDailySaleList.map((salesRepDailySale) => {
-      salesRepDailySale.totalSales = salesRepDailySale.cfSales.length;
-      salesRepDailySale.msfDoneList = salesRepDailySale.cfSales.reduce(
+    salesRepDailySale.totalDebt = salesRepDailySale.fiClientFileSaleList.reduce(
+        (acc: number, currVal) => {
+          
+          return acc + currVal.outstanding;
+        },
+        0
+      );
+      salesRepDailySale.totalSales = salesRepDailySale.fiClientFileSaleList.length;
+      salesRepDailySale.msfDoneList = salesRepDailySale.fiClientFileSaleList.reduce(
         (acc: any[], currVal) => {
           acc.push(currVal.isFirstMSFPaid);
           return acc;
@@ -340,15 +365,15 @@ export default class DailySalesReport extends ModelVue {
         []
       );
 
-      salesRepDailySale.enachDoneList = salesRepDailySale.cfSales.reduce(
+      salesRepDailySale.enachDoneList = salesRepDailySale.fiClientFileSaleList.reduce(
         (acc: any[], currVal) => {
-          acc.push(currVal.isEMandateDone);
+          acc.push(currVal.isEMandateActive);
           return acc;
         },
         []
       );
 
-      salesRepDailySale.ccDoneList = salesRepDailySale.cfSales.reduce(
+      salesRepDailySale.ccDoneList = salesRepDailySale.fiClientFileSaleList.reduce(
         (acc: any[], currVal) => {
           acc.push(currVal.isCCDone);
           return acc;
@@ -360,63 +385,6 @@ export default class DailySalesReport extends ModelVue {
     });
   }
 
-  get totalDashboard() {
-    return {
-      totalSales: this.salesRepDailySaleList.reduce((acc: number, currVal) => {
-        acc = acc + (currVal?.totalSales || 0);
-        return acc;
-      }, 0),
-      totalMSF: this.salesRepDailySaleList.reduce((acc: number, currVal) => {
-        acc = acc + currVal.totalMSF;
-        return acc;
-      }, 0),
-      totalSPACollected: this.salesRepDailySaleList.reduce(
-        (acc: number, currVal) => {
-          acc = acc + currVal.totalDebt;
-          return acc;
-        },
-        0
-      ),
-      totalSPACount: this.salesRepDailySaleList.reduce(
-        (acc: number, currVal) => {
-          acc =
-            acc + currVal.enachDoneList.filter((item) => item === true).length;
-          return acc;
-        },
-        0
-      ),
-      totalMSFCount: this.salesRepDailySaleList.reduce(
-        (acc: number, currVal) => {
-          acc =
-            acc + currVal.msfDoneList.filter((item) => item === true).length;
-          return acc;
-        },
-        0
-      ),
-      totalMSFCollected: this.salesRepDailySaleList.reduce(
-        (acc: number, currVal) => {
-          acc = acc + currVal.totalMSF;
-          return acc;
-        },
-        0
-      ),
-      // totalSPACount: this.reportSalesClientFileList.filter((reportSales) => {
-      //   return reportSales.isEMandateDone === true;
-      // }).length,
-      // totalMSFCount: this.reportSalesClientFileList.filter((reportSales) => {
-      //   return reportSales.isFirstMSFPaid === true;
-      // }).length,
-      // totalMSFCollected: this.reportSalesClientFileList.reduce(
-      //   (acc: number, currVal) => {
-      //     if (currVal.isFirstMSFPaid) {
-      //       acc = acc + currVal.msfAmount;
-      //     }
-      //     return acc;
-      //   },
-      //   0
-      // ),
-    };
-  }
 }
 </script>
 

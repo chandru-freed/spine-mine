@@ -34,7 +34,7 @@ export default class DailySalesReportFDataTableMDP extends FDataTableMDP {
                 dataSelectorKey: "totalDebt",
                 label: "Total Debt",
             }).addColumn({
-                dataSelectorKey: "cfSales",
+                dataSelectorKey: "fiClientFileSaleList",
                 label: "MSF",
                 columnCellMDP: new FCellAmountPaymentListMDP({
                     itemDataSelectorKey: "msfAmount",
@@ -69,6 +69,6 @@ export default class DailySalesReportFDataTableMDP extends FDataTableMDP {
             //     infoMDP: new FInfoGamifiedINRMDP({})
             // })
 
-            .setExpansionComponent(new SalesRepSalesListFDataTableMDP({ dataSelectorKey: "cfSales" }))
+            .setExpansionComponent(new SalesRepSalesListFDataTableMDP({ dataSelectorKey: "fiClientFileSaleList" }))
     }
 }

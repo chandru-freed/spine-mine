@@ -120,7 +120,7 @@ import FParseCreditReportFFormMDP from "./FParseCreditReportFFormMDP";
 import FLoader from "../../FLoader.vue";
 import ErrorResponse from "@/error-response";
 import axios from "axios";
-import ParsePDF from './ParsePDF';
+import ParseCRPDF from './ParseCRPDF';
 import FCreditorListInEligibleFDataTableMDP from './FCreditorListInEligibleFDataTableMDP';
 
 @Component({
@@ -149,6 +149,10 @@ export default class FCreditor extends ModelVue {
 
   parseCreditReportInput: Data.Spine.ParseCreditReportInput =
     new Data.Spine.ParseCreditReportInput();
+  parseCreditReportOutput: Data.Spine.ParseCreditReportOutput =
+    new Data.Spine.ParseCreditReportOutput();
+  addDetailsFromParsedCRInput: Data.Spine.AddDetailsFromParsedCreditReportInput =
+    new Data.Spine.AddDetailsFromParsedCreditReportInput();  
 
   clientFileId = this.$route.params.clientFileId;
 
@@ -325,8 +329,33 @@ export default class FCreditor extends ModelVue {
 
   addCreditorFromPDF() {
     this.showLoader = true;
-    const parsePdf = new ParsePDF({parent: this, taskRoot: this.taskRoot});
-    parsePdf.handleUploadCreditReportPDF();
+    this.handleUploadCreditReportPDF();
+    // const parsePdf = new ParsePDF({parent: this, taskRoot: this.taskRoot});
+    // parsePdf.handleUploadCreditReportPDF();
+  }
+
+  handleUploadCreditReportPDF() {
+    this.showLoader = true;
+    console.log(this.parseCreditReportInput);
+    Action.Spine.ParseCreditReport.execute(
+      this.parseCreditReportInput,
+      (output) => {
+        this.closeAndClearAllForms();
+        this.parseCreditReportOutput = output;
+        this.showLoader = false;
+        const parsePDF = new ParseCRPDF({
+            clientFileNumber: this.clientFileBasicInfo.clientFileNumber,
+            parseCreditReportInput: this.parseCreditReportInput,
+            parseCreditReportOutput: this.parseCreditReportOutput,
+          });
+
+        parsePDF.addDetailsFromParsedCR();  
+      },
+      (error) => {
+        ErrorResponse.handle(error);
+        this.showLoader = false;
+      }
+    );
   }
 
   get fCreditorListFDataTableMetaData() {

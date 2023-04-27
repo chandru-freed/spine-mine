@@ -27,8 +27,9 @@ export default class FUpdateCreditScoreFFormMDP extends FFormMDP {
             label: "Credit Bureau",
             options: Data.Spine.CREDIT_BUREAU.list(),
             parentMDP: this.childMDP,
-            returnObject: true,
+            // returnObject: true,
             optionLabel: "name",
+            optionValue: "id",
             boundaryClass: "col-4",
             mandatory: true
         }))

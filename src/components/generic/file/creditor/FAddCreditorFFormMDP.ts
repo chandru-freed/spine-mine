@@ -46,6 +46,16 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
         })
       )
       .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "emiAmount",
+          label: "Emi Amount",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      
+      .addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "lastDateOfPayment",

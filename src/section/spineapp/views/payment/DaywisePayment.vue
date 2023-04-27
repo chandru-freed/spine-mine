@@ -72,18 +72,18 @@ export default class DaywisePayment extends ModelVue {
     this.setPaymentOperationFilter();
     this.searchPaymentOperations();
     Action.Spine.PresentPSEntry.interested(this.searchPaymentOperationsHandler);
-    Action.Spine.PresentMSFScheduleEntry.interested(
-      this.searchPaymentOperationsHandler
-    );
+    // Action.Spine.PresentMSFScheduleEntry.interested(
+    //   this.searchPaymentOperationsHandler
+    // );
   }
 
   destroyed() {
     Action.Spine.PresentPSEntry.notInterested(
       this.searchPaymentOperationsHandler
     );
-    Action.Spine.PresentMSFScheduleEntry.notInterested(
-      this.searchPaymentOperationsHandler
-    );
+    // Action.Spine.PresentMSFScheduleEntry.notInterested(
+    //   this.searchPaymentOperationsHandler
+    // );
   }
 
   setPaymentOperationFilter() {

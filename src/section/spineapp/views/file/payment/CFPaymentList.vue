@@ -102,7 +102,6 @@ export default class CFPaymentList extends ModelVue {
       (item) => item.paymentId === this.selectedPaymentSummaryToView.paymentId
     );
     if (paymentDetailsIndex !== -1) {
-      console.log("Item found");
       this.selectedPaymentSummaryToView = this.fiPaymentList[paymentDetailsIndex];
     }
   }

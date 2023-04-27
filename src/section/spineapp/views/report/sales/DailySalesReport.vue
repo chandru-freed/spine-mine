@@ -241,6 +241,8 @@
             <div class="text-caption">Total MSF Done</div>
           </v-card>
         </v-sheet>
+      <v-spacer />
+        <v-btn @click="gotoDailyCFListPage" small outlined color="primary">Daily Client File List</v-btn>
       </template>
     </component>
   </div>
@@ -383,6 +385,13 @@ export default class DailySalesReport extends ModelVue {
 
       return salesRepDailySale;
     });
+  }
+
+
+  gotoDailyCFListPage() {
+    this.$router.push({name:"Root.Operation.OPRClientFile.OPRDailyClientFileSalesReport",
+    query: { selectedDate: this.getDailySaleReportInput.saleDate } 
+    })
   }
 
 }

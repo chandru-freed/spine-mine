@@ -104,6 +104,7 @@ export default class OperationLeftNav extends Vue {
       items: [
         { title: "Search Files", routerName: "Root.Operation.OPRClientFile.OPRClientFileSearch" },
         { title: "Unassigned Files", routerName: "Root.Operation.OPRClientFile.OPRUnAssignedCFSearch" },
+        { title: "Daily Sales", routerName: "Root.Operation.OPRClientFile.OPRDailyClientFileSalesReport" },
       ],
     },
     {

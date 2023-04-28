@@ -261,6 +261,8 @@ import Helper from "@/section/spineapp/util/Helper";
 import FCFTPaymentPlan from "./file/paymentPlan/cfTaskPaymentPlan/FCFTPaymentPlan.vue";
 import FScrollUpBtn from "./FScrollUpBtn.vue";
 import FCashfreeList from "./file/cashfreeList/FCashfreeList.vue";
+import FAmendmentCreditorV4 from "./file/amendmentCreditorV4/FAmendmentCreditorV4.vue";
+import FAmendmentV4PaymentPlan from "./file/amendmentPaymentPlanV4/FAmendmentV4PaymentPlan.vue";
 
 @Component({
   components: {
@@ -288,6 +290,8 @@ import FCashfreeList from "./file/cashfreeList/FCashfreeList.vue";
     FCFTPaymentPlan,
     FScrollUpBtn,
     FCashfreeList,
+    FAmendmentCreditorV4,
+    FAmendmentV4PaymentPlan,
   },
 })
 export default class FTaskStepper extends ModelVue {

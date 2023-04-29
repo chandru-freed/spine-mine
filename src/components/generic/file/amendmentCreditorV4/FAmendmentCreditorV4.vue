@@ -290,5 +290,17 @@ export default class FAmendmentCreditorV4 extends ModelVue {
       },
     });
   }
+
+  handleIncludeInProgram(item: any) {
+    Action.ClientFile.IncludeFiCreditorInProgramAmendment.execute2(this.taskRoot.amendmentToken,item.amendmentFiCreditorId, output => {
+
+    });
+  }
+
+  handleExcludeInProgram(item: any) {
+    Action.ClientFile.ExcludeFiCreditorInProgramAmendment.execute2(this.taskRoot.amendmentToken,item.amendmentFiCreditorId, output => {
+
+    });
+  }
 }
 </script>

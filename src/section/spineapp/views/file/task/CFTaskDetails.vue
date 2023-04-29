@@ -91,6 +91,7 @@ import ApproveAmendmentTask from "@/section/spineapp/components/task/amendment/a
 import SignedByClientTask from "@/section/spineapp/components/task/amendment/signedByClient/SignedByClientTask.vue";
 import FollowUpAmendmentEMandateTask from "@/section/spineapp/components/task/amendment/followUpAmendmentEMandate/FollowUpAmendmentEMandateTask.vue";
 import PrepareAmendmentV4Task from "@/section/spineapp/components/task/amendment/prepareAmendmentV4/prepareAmendmentV4Task.vue";
+import ApproveAmendmentV4Task from "@/section/spineapp/components/task/amendment/approveAmendmentV4/approveAmendmentV4Task.vue";
 
 @Component({
   components: {
@@ -154,7 +155,8 @@ import PrepareAmendmentV4Task from "@/section/spineapp/components/task/amendment
     ApproveAmendmentTask,
     SignedByClientTask,
     FollowUpAmendmentEMandateTask,
-    PrepareAmendmentV4Task
+    PrepareAmendmentV4Task,
+    ApproveAmendmentV4Task
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -263,6 +265,7 @@ export default class CFTaskDetails extends Vue {
     ["Amendment::SignedByClient", "SignedByClientTask"],
     ["Amendment::FollowUpAmendmentEMandate", "FollowUpAmendmentEMandateTask"],
     ["Amendment::PrepareAmendmentV4", "PrepareAmendmentV4Task"],
+    ["Amendment::ApproveAmendmentV4", "ApproveAmendmentV4Task"],
     
     
     

@@ -9,7 +9,7 @@ import FCellTextEllipsisMDP from "../../table/cell/FCellTextEllipsisMDP";
 export default class FAV4CreditorListInEligibleFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
-        super({myRefName:"fACreditorListFDataTableRef", enableSearch: true, disabled: props.parent.disabled, itemKey:"fiCreditorId", title: "Ineligible Creditors"});
+        super({myRefName:"fACreditorListFDataTableRef", enableSearch: true, disabled: props.parent.disabled, itemKey:"amendmentFiCreditorId", title: "Ineligible Creditors"});
         this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",

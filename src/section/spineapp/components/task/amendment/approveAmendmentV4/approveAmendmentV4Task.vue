@@ -18,14 +18,14 @@ import ModelVue from "@/components/generic/ModelVue";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import FTaskStepper from "@/components/generic/FTaskStepper.vue";
-import PAVTFStepperMDP from "./PAVTFStepperMDP";
+import AAVTFStepperMDP from "./AAVTFStepperMDP";
 import * as Action from "@/../src-gen/action";
 @Component({
   components: {
     FTaskStepper,
   },
 })
-export default class PrepareAmendmentV4Task extends ModelVue {
+export default class ApproveAmendmentV4Task extends ModelVue {
   @Store.Getter.TaskList.Summary.executiveTaskDetails
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
@@ -37,7 +37,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   clientFileId = this.$route.params.clientFileId;
 
   get stepperMetaData(): any {
-    return new PAVTFStepperMDP({ taskRoot: this }).getMetaData();
+    return new AAVTFStepperMDP({ taskRoot: this }).getMetaData();
   }
 
   mounted() {
@@ -143,13 +143,15 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: Data.ClientFile.AmendmentV4TaskOutput =
-    new Data.ClientFile.AmendmentV4TaskOutput();
+  taskFormOutputLocal: Data.Spine.ApproveAmendmentTaskOutput =
+    new Data.Spine.ApproveAmendmentTaskOutput();
 
   get taskFormOutput() {
     this.taskFormOutputLocal.creditorInfo =
-      this.amendmentDetails.amendmentFiCreditorInfo;
-    this.taskFormOutputLocal.paymentPlan = this.amendmentDetails.newPaymentPlan;
+      (this.amendmentDetails.amendmentFiCreditorInfo as any);
+    this.taskFormOutputLocal.paymentPlan = (this.amendmentDetails.newPaymentPlan as any);
+    this.taskFormOutputLocal.amendmentApproved = true;
+    this.taskFormOutputLocal.reviewNote = (this.taskDetails.inputJson as any)?.reviewNote
     return this.taskFormOutputLocal;
   }
 
@@ -167,9 +169,14 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   }
   //ACTION
   saveAndMarkCompleteTask() {
+    const output = {
+      amendmentApproved:this.taskFormData.taskOutput.amendmentApproved,
+      reviewNote:this.taskFormData.taskOutput?.reviewNote
+
+    }
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+      taskOutput: output,
     });
   }
   saveTask() {

@@ -105,7 +105,7 @@ export default class DCPDashboard extends ModelVue {
     });
   }
 
-  assignTask() {
+  assignSalesRep() {
     this.taskIdList.map((item: any) => {
       this.submitAssignTask(item.clientFileId);
     });

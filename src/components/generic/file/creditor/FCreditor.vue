@@ -172,7 +172,7 @@ import FParseCreditReportFFormMDP from "./FParseCreditReportFFormMDP";
 import FLoader from "../../FLoader.vue";
 import ErrorResponse from "@/error-response";
 import axios from "axios";
-import ParsePDF from './ParsePDF';
+// import ParsePDF from './ParsePDF';
 
 @Component({
   components: {
@@ -372,8 +372,8 @@ export default class FCreditor extends ModelVue {
 
   addCreditorFromPDF() {
     this.showLoader = true;
-    const parsePdf = new ParsePDF({parent: this, taskRoot: this.taskRoot});
-    parsePdf.handleUploadCreditReportPDF();
+    // const parsePdf = new ParsePDF({parent: this, taskRoot: this.taskRoot});
+    // parsePdf.handleUploadCreditReportPDF();
   }
 
   get fCreditorListFDataTableMetaData() {

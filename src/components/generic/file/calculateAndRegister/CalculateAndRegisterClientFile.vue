@@ -33,11 +33,11 @@
       <component
         v-if="
           !!parsedCreditorListFDataTableMetaData &&
-          parseCreditReportOutput.fiCreditorInfo.creditorList.length > 0
+          parseCreditReportOutput.clCreditorCreditReportInfo.clCreditorCreditReportList.length > 0
         "
         :ref="parsedCreditorListFDataTableMetaData.myRefName"
         :is="parsedCreditorListFDataTableMetaData.componentName"
-        :value="parseCreditReportOutput.fiCreditorInfo.creditorList"
+        :value="parseCreditReportOutput.clCreditorCreditReportInfo.clCreditorCreditReportList"
         v-bind="parsedCreditorListFDataTableMetaData.props"
       ></component>
 
@@ -129,7 +129,7 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
 
   setSimulatorResult() {
     (this.$refs["tmosSimulator"] as any).result.outstanding =
-      this.parseCreditReportOutput.fiCreditorInfo.totalDebt;
+      this.parseCreditReportOutput.clCreditorCreditReportInfo.totalDebt;
   }
 
   addNote() {
@@ -168,10 +168,10 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
   handleUploadCreditReportPDF() {
     this.showLoader = true;
     console.log(this.parseCreditReportInput);
-    const parseCreditReportInput:Data.Spine.ParseCreditReportInput = Data.Spine.ParseCreditReportInput.fromJson(this.parseCreditReportInput.toJson());
-    parseCreditReportInput.filename = this.getFileName(parseCreditReportInput.filename);
+    // const parseCreditReportInput:Data.Spine.ParseCreditReportInput = Data.Spine.ParseCreditReportInput.fromJson(this.parseCreditReportInput.toJson());
+    this.parseCreditReportInput.filename = this.getFileName(this.parseCreditReportInput.filename);
     Action.Spine.ParseCreditReport.execute(
-      parseCreditReportInput,
+      this.parseCreditReportInput,
       (output) => {
         this.closeAndClearAllForms();
         this.parseCreditReportOutput = output;

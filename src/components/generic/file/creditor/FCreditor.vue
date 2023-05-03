@@ -231,7 +231,7 @@ export default class FCreditor extends ModelVue {
     this.addCreditScoreDialog = false;
     this.showParseCreditReportForm = false;
     this.showLoader = false;
-    this.parseCreditReportInput = new Data.Spine.ParseCreditReportInput();
+    // this.parseCreditReportInput = new Data.Spine.ParseCreditReportInput();
   }
   resetForms() {
     this.addCreditorForm = new Data.Spine.Creditor();
@@ -337,6 +337,7 @@ export default class FCreditor extends ModelVue {
   handleUploadCreditReportPDF() {
     this.showLoader = true;
     console.log(this.parseCreditReportInput);
+    this.parseCreditReportInput.filename = this.getFileName(this.parseCreditReportInput.filename)
     Action.Spine.ParseCreditReport.execute(
       this.parseCreditReportInput,
       (output) => {
@@ -381,6 +382,11 @@ export default class FCreditor extends ModelVue {
     Action.ClientFile.ExcludeFiCreditorFromProgram.execute1(item.fiCreditorId, output => {
 
     });
+  }
+
+
+  getFileName(filePath: string = '') {
+    return filePath?.split("/").pop()||'';
   }
 
 

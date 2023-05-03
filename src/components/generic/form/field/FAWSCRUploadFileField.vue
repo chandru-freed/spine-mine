@@ -22,7 +22,11 @@
        
       <!-- </div> -->
       <!-- <div class="col-3"> -->
-        <v-btn class="ml-3" :disabled="!selectedFile" @click="getPresignedURLAndUpload" color="primary">Upload </v-btn>
+        <v-btn class="ml-3"
+        :disabled="!selectedFile"
+        @click="getPresignedURLAndUpload" color="primary"
+        :loading="uploadButtonLoading"
+        >Upload </v-btn>
       <!-- </div> -->
     </div>
      <div v-if="fileName" class="d-flex align-center my-2 col">
@@ -47,6 +51,7 @@ import axios from "axios";
   },
 })
 export default class FAWSCRUploadFileField extends Vue {
+  uploadButtonLoading: boolean = false;
   // MODEL VALUE - START
   @Prop()
   value: any;
@@ -110,6 +115,7 @@ export default class FAWSCRUploadFileField extends Vue {
   //For upload
 
   getPresignedURLAndUpload() {
+    this.uploadButtonLoading = true;
     const fileName = this.generateRandomUrl(this.selectedFile);
     this.getPresignedURLForUploadInput.fileName = fileName;
     this.getPresignedURLForUploadInput.documentRefType = this.documentRefType;
@@ -120,6 +126,9 @@ export default class FAWSCRUploadFileField extends Vue {
         this.presignedUrl = output.url;
         this.docPath = output.docUploadedPath;
         this.uploadFile();
+      },
+      error => {
+        this.uploadButtonLoading = false;
       }
     );
   }
@@ -137,6 +146,7 @@ export default class FAWSCRUploadFileField extends Vue {
       this.selectedFile,
       options
     );
+    this.uploadButtonLoading = false;
     this.handlePostUploadFile();
   }
 

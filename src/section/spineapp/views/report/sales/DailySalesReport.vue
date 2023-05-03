@@ -1,5 +1,6 @@
 <template>
   <div class="DailySalesReport">
+    <!-- <div class="firework"></div> -->
     <div class="row mx-3 my-1">
       <!-- <div class="col-4">
         <v-sheet outlined color="primary" rounded>
@@ -398,4 +399,49 @@ export default class DailySalesReport extends ModelVue {
 </script>
 
 <style>
+.firework {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5vmin;
+  aspect-ratio: 1;
+  background: black;
+      /* background intentionally blank */
+    /* ; */
+  background-size: 0.5vmin 0.5vmin;
+  background-repeat: no-repeat;
+  animation: firework 2s infinite;
+  border-radius: 100%;
+
+}
+
+@keyframes firework {
+  0% { 
+    transform: translate(-20%, 60vh);
+    width: 0.5vmin;
+    opacity: 1;
+  }
+  50% { 
+    width: 0.5vmin;
+    opacity: 1;
+  }
+  100% { 
+    width: 105vmin; 
+    opacity: 0; 
+    background: red;
+  }
+}
+
+.firework,
+.firework::before,
+.firework::after {
+  content: "";
+}
+.firework::before {
+  transform: translate(-50%, -50%) rotate(25deg) !important; 
+}
+.firework::after {
+  transform: translate(-50%, -50%) rotate(-37deg) !important;
+}
 </style>

@@ -36,16 +36,15 @@ export default class ParseCRPDF {
                 this.clientFileId = output.clientFileId;
                 this.addDetailsFromParsedCRInput.clientFileId = output.clientFileId;
                 this.addDetailsFromParsedCRInput.creditorList =
-                    this.parseCreditReportOutput.fiCreditorInfo.creditorList.map((item) => {
+                    this.parseCreditReportOutput.clCreditorCreditReportInfo.clCreditorCreditReportList.map((item) => {
                         return Data.Spine.CreditorFromPdfParse.fromJson(item.toJson());
                     });
                 this.addDetailsFromParsedCRInput.personalInfo =
                     this.parseCreditReportOutput.personalInfo;
-
                 Action.Spine.AddDetailsFromParsedCreditReport.execute(
                     this.addDetailsFromParsedCRInput,
                     (output) => {
-                        this.getPresignedURLAndUpload();
+                        // this.getPresignedURLAndUpload();
                     }
                 );
             });

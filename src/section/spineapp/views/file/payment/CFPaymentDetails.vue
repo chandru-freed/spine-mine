@@ -36,6 +36,12 @@
             :value="fiPaymentDetails"
             v-bind="selectedRequestType.props"
           ></component>
+          <div v-if="fiPaymentDetails.paymentExceptionList && fiPaymentDetails.paymentExceptionList.length>0">
+            <div class="text-h5 my-3">Exceptions</div>
+          <v-alert outlined color="red" small v-for="(exception, index) of fiPaymentDetails.paymentExceptionList" :key="'exception'+index">
+            {{exception}}
+          </v-alert>
+          </div>
         </v-card-text>
         <v-card-actions class="px-10">
           <v-btn outlined disabled>{{ fiPaymentDetails.status.name }}</v-btn>

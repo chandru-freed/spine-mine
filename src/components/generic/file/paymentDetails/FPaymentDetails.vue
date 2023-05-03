@@ -1,6 +1,5 @@
 <template>
   <div class="col-12">
-    {{fiPaymentDetails}}
     <component
       v-if="fiPaymentDetails.paymentId"
       :ref="fMsfPaymentDetailsFFormMetaData.myRefName"

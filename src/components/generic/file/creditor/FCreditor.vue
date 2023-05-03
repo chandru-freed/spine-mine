@@ -147,7 +147,7 @@ export default class FCreditor extends ModelVue {
   showParseCreditReportForm: boolean = false;
   showLoader: boolean = false;
 
-  parseCreditReportInput: Data.Spine.ParseCreditReportInput =
+  parseCreditReportInput: any =
     new Data.Spine.ParseCreditReportInput();
   parseCreditReportOutput: Data.Spine.ParseCreditReportOutput =
     new Data.Spine.ParseCreditReportOutput();

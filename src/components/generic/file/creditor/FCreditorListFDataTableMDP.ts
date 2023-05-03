@@ -64,12 +64,12 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             onClick: item => this.handleAddClick(),
             label: "Add Creditor",
           })
-          .addAction({
-            type: ActionType.OTHERS,
-            onClick: item => this.handleAddCreditorFromPDF(),
-            label: "Upload Credit Report PDF",
-            noSelect: true
-          })
+          // .addAction({
+          //   type: ActionType.OTHERS,
+          //   onClick: item => this.handleAddCreditorFromPDF(),
+          //   label: "Upload Credit Report PDF",
+          //   noSelect: true
+          // })
           .addAction({
             type: ActionType.OTHERS,
             onClick: item => this.handleAddCreditScore(),

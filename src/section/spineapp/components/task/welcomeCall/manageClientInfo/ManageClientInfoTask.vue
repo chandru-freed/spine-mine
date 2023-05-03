@@ -185,7 +185,7 @@ export default class ManageClientInfoTask
   }
 
   setConfirmAccountNumber() {
-    if (this.taskDetailsOutput.bankInfo) {
+    if (this.taskDetailsOutput?.bankInfo) {
       this.taskFormOutput.bankInfo.confirmAccountNumber =
         this.taskDetailsOutput.bankInfo.accountNumber;
     }
@@ -198,8 +198,9 @@ export default class ManageClientInfoTask
   }
   // DATA
   get taskDetailsOutput() {
+    const taskOutput: any = this.taskDetails.taskOutput?JSON.parse(this.taskDetails.taskOutput): {};
     return !!this.taskDetails && !!this.taskDetails.taskOutput
-      ? JSON.parse(this.taskDetails.taskOutput)
+      ? taskOutput.payload
       : {};
   }
 
@@ -273,7 +274,7 @@ export default class ManageClientInfoTask
         ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
         : new Data.Spine.PaymentPlan(),
       fileDocumentList: this.fiDocumentListStore || [],
-      needVerification: this.taskDetailsOutput.needVerification,
+      needVerification: this.taskDetailsOutput?.needVerification,
     };
     return this.taskFormOutputLocal;
   }
@@ -292,9 +293,12 @@ export default class ManageClientInfoTask
   }
   //ACTION
   saveAndMarkCompleteTask() {
+    const taskOutput = {
+      payload: this.taskFormData.taskOutput
+    }
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
-      taskOutput: this.taskFormData.taskOutput,
+      taskOutput: taskOutput,
     });
   }
   saveTask(successCallBack = () => {}) {

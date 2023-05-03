@@ -7,6 +7,7 @@ import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 import * as Action from "@/../src-gen/action";
 import FFileFieldMDP from "../../form/field/FFileFieldMDP";
 import FPasswordFieldMDP from "../../form/field/FPasswordFieldMDP";
+import FAWSCRUploadFileFieldMDP from "../../form/field/FAWSCRUploadFileFieldMDP";
 
 export default class FUpdateCreditScoreFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
@@ -15,12 +16,12 @@ export default class FUpdateCreditScoreFFormMDP extends FFormMDP {
     constructor({ parent }: {  parent: any }) {
         super({ myRefName: "fUpdateCreditScoreFFormRef" });
         this.parent = parent;
-        this.addField(new FFileFieldMDP({
+        this.addField(new FAWSCRUploadFileFieldMDP({
             parentMDP: this.childMDP,
-            dataSelectorKey: "creditReport",
+            dataSelectorKey: "filename",
             label: "Credit Report",
             boundaryClass: "col-4",
-            mandatory: true
+            mandatory: true,
         }))
         .addField(new FSelectFieldMDP({
             dataSelectorKey: "creditBureau",

@@ -93,7 +93,7 @@ export default class ParseCRPDF {
         });
     }
 
-    generateRandomUrl(file: File | null) {
+    generateRandomUrl(file: File | undefined) {
         if (file) {
             const dateValue = new Date().valueOf();
             return dateValue + file.name;

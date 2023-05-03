@@ -92,6 +92,7 @@ import FAddressMiniForm from "./field/FAddressMiniForm.vue";
 import FGenLeadSquareIdField from "./field/FGenLeadSquareIdField.vue";
 import FCityAutoCompleteField from "./field/FCityAutoCompleteField.vue";
 import FStateSelectField from "./field/FStateSelectField.vue";
+import FAWSCRUploadFileField from "./field/FAWSCRUploadFileField.vue";
 
 @Component({
   components: {
@@ -128,7 +129,8 @@ import FStateSelectField from "./field/FStateSelectField.vue";
     FAddressMiniForm,
     FGenLeadSquareIdField,
     FCityAutoCompleteField,
-    FStateSelectField
+    FStateSelectField,
+    FAWSCRUploadFileField
   },
 })
 export default class FForm extends ModelVue {

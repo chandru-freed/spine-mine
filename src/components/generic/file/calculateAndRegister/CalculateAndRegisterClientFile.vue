@@ -164,11 +164,14 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
     this.handleUploadCreditReportPDF();
   }
 
+
   handleUploadCreditReportPDF() {
     this.showLoader = true;
     console.log(this.parseCreditReportInput);
+    const parseCreditReportInput:Data.Spine.ParseCreditReportInput = Data.Spine.ParseCreditReportInput.fromJson(this.parseCreditReportInput.toJson());
+    parseCreditReportInput.filename = this.getFileName(parseCreditReportInput.filename);
     Action.Spine.ParseCreditReport.execute(
-      this.parseCreditReportInput,
+      parseCreditReportInput,
       (output) => {
         this.closeAndClearAllForms();
         this.parseCreditReportOutput = output;
@@ -217,6 +220,10 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
       root: this,
       hideCancel: !this.onCancelClick,
     }).getMetaData();
+  }
+
+  getFileName(filePath: string = '') {
+    return filePath?.split("/").pop()||'';
   }
 }
 </script>

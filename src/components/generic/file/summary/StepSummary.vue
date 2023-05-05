@@ -78,7 +78,7 @@ export default class StepSummary extends ModelVue {
   get creditorInfo() {
     return {
       creditosCount:
-        this.modelValue.taskOutput.creditorInfo?.creditorList.length,
+        this.modelValue.taskOutput.creditorInfo?.includedCreditorList?.length,
       totalDebt: this.modelValue.taskOutput.creditorInfo?.totalDebt || "NA",
     };
   }
@@ -148,7 +148,7 @@ export default class StepSummary extends ModelVue {
       fiPaymentPlanInfoStore: this.fiPaymentPlanInfoStore || new Data.ClientFile.FiPaymentPlanInfo(),
       bankInfoStore: this.bankInfoStore || new Data.ClientFile.FiBankInfo(),
       personalInfoStore: this.personalInfoStore || new Data.ClientFile.ClPersonalInfo(),
-      creditorList: this.fiCreditorStore?.creditorList || []
+      creditorList: this.fiCreditorStore?.includedCreditorList || []
     };
   }
 

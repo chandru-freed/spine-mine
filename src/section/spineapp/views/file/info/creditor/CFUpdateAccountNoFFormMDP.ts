@@ -52,13 +52,13 @@ export default class CFUpdateAccountNoFFormMDP extends FFormMDP {
     }
 
     updateCreditor() {
-        const input = Data.Spine.UpdateCreditorInput.fromJson(
+        const input = Data.ClientFile.UpdateFiCreditorInput.fromJson(
             this.parent.editCreditorForm
         );
         input.clientFileId = (
             this.taskRoot as any
         ).clientFileBasicInfo.clientFileId;
-        Action.Spine.UpdateCreditor.execute(input, (output) => {
+        Action.ClientFile.UpdateFiCreditor.execute(input, (output) => {
             this.parent.closeAndClearAllForms();
             FSnackbar.success("Succesfully Updated the account number")
         });

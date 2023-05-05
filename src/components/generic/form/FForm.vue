@@ -93,6 +93,7 @@ import FGenLeadSquareIdField from "./field/FGenLeadSquareIdField.vue";
 import FCityAutoCompleteField from "./field/FCityAutoCompleteField.vue";
 import FStateSelectField from "./field/FStateSelectField.vue";
 import FAWSCRUploadFileField from "./field/FAWSCRUploadFileField.vue";
+import FClCreditorSelectField from "./field/FClCreditorSelectField.vue";
 
 @Component({
   components: {
@@ -130,7 +131,8 @@ import FAWSCRUploadFileField from "./field/FAWSCRUploadFileField.vue";
     FGenLeadSquareIdField,
     FCityAutoCompleteField,
     FStateSelectField,
-    FAWSCRUploadFileField
+    FAWSCRUploadFileField,
+    FClCreditorSelectField
   },
 })
 export default class FForm extends ModelVue {

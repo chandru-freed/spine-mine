@@ -93,6 +93,9 @@ export class ClientFileSummaryMutationsCode implements ClientFileSummaryMutation
     state.fiClientFileEnrollmentSummary = fiClientFileEnrollmentSummary;
   }
 
+  public updateClCreditorList(state: Data.ClientFile.ClientFileSummary, clCreditorList: Data.ClientFile.ClCreditor[]): void {
+    state.clCreditorList = clCreditorList;
+  }
 
 }
 

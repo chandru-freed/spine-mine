@@ -172,7 +172,7 @@ export default class FAdminCreditor extends ModelVue {
   }
 
   get creditorList() {
-    return this.modelValue?.creditorList;
+    return this.modelValue?.fiCreditorList;
   }
 
   get totalDebt() {
@@ -255,6 +255,10 @@ export default class FAdminCreditor extends ModelVue {
     }).getMetaData();
   }
 
+
+  handleClientCreditorChange(item: any) {
+    this.addCreditorForm = Data.Spine.Creditor.fromJson(item);
+  }
 
   // META DATA
 }

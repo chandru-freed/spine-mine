@@ -88,7 +88,7 @@ export default class CFAEditCreditorFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-4",
           condition: !this.parent.isCreditCard(),
-          rules: "min:9|max:20",
+          rules: "min:4|max:20",
         })
       ).addField(
         new FTextFieldMDP({
@@ -133,14 +133,14 @@ export default class CFAEditCreditorFFormMDP extends FFormMDP {
   }
 
   updateCreditor() {
-    const input = Data.Spine.UpdateCreditorInput.fromJson(
+    const input = Data.ClientFile.UpdateFiCreditorInput.fromJson(
       this.parent.editCreditorForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
     // input.taskId = this.taskRoot.taskId;
-    Action.Spine.UpdateCreditor.execute(input, (output) => {
+    Action.ClientFile.UpdateFiCreditor.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully Updated",

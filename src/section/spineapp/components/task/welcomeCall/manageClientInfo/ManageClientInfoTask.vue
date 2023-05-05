@@ -137,10 +137,10 @@ export default class ManageClientInfoTask
       this.findClPersonalInfoHandler
     );
 
-    Action.Spine.AddCreditor.interested(
+    Action.ClientFile.AddIncludeFiCreditor.interested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
-    Action.Spine.UpdateCreditor.interested(
+    Action.ClientFile.UpdateFiCreditor.interested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
     Action.Spine.RemoveCreditor.interested(
@@ -161,11 +161,11 @@ export default class ManageClientInfoTask
       this.findClPersonalInfoHandler
     );
 
-    Action.Spine.AddCreditor.notInterested(
+    Action.ClientFile.AddIncludeFiCreditor.notInterested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
 
-    Action.Spine.UpdateCreditor.notInterested(
+    Action.ClientFile.UpdateFiCreditor.notInterested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
     Action.Spine.RemoveCreditor.notInterested(

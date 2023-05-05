@@ -13,6 +13,7 @@ import FRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FRemote
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FCreditCardFieldMDP from "@/components/generic/form/field/FCreditCardFieldMDP";
+import FClCreditorSelectFieldMDP from "@/components/generic/form/field/FClCreditorSelectFieldMDP";
 
 export default class CFAAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -26,7 +27,13 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
+    this  .addField(new FClCreditorSelectFieldMDP({
+      dataSelectorKey: "clCreditorId",
+      label: "Search Client Creditor(Optional)",
+      parentMDP: this.childMDP,
+      boundaryClass: "col-4",
+      onSelect: this.handleClientCreditorChange()
+    })).addField(
       new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorName",
@@ -91,7 +98,7 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-4",
           condition: !this.parent.isCreditCard(),
-          rules: "min:9|max:20",
+          rules: "min:4|max:20",
         })
       )
       .addField(
@@ -132,19 +139,19 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
 
   closeAddForm() {
     return () => {
-    this.parent.closeAndClearAllForms();
+      this.parent.closeAndClearAllForms();
     }
   }
 
   addCreditor() {
-    const input = Data.Spine.AddCreditorInput.fromJson(
+    const input = Data.ClientFile.AddIncludeFiCreditorInput.fromJson(
       this.parent.addCreditorForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
-    input.taskId = this.taskRoot.taskId;
-    Action.Spine.AddCreditor.execute(input, (output) => {
+    // input.taskId = this.taskRoot.taskId;
+    Action.ClientFile.AddIncludeFiCreditor.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",
@@ -152,4 +159,10 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
       });
     });
   }
+
+  handleClientCreditorChange() {
+    return (item: any) => {
+      this.parent.handleClientCreditorChange(item);
+    }
+  }  
 }

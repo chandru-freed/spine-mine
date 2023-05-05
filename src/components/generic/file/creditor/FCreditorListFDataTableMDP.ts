@@ -10,7 +10,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
         super({myRefName:"fCreditorListFDataTableRef", enableSearch: true, disabled: props.parent.disabled, itemKey:"fiCreditorId",
-      title:"Eligible Creditors"});
+      title:"Creditors"});
         this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",
@@ -51,7 +51,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
           })
           .addAction({
             type: ActionType.DELETE,
-            onClick: item => this.deleteCreditorData(item),
+            onClick: this.handleExcludeInProgram(),
             label: "",
             confirmation: true
           }).addAction({
@@ -76,13 +76,13 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             label: "Update Credit Score",
             noSelect: true
           })
-          .addAction({
-            type: ActionType.OTHERS,
-            onClick: this.handleExcludeInProgram(),
-            label: "Exclude from program",
-            singleSelect: true,
-            confirmation: true
-          })
+          // .addAction({
+          //   type: ActionType.OTHERS,
+          //   onClick: this.handleExcludeInProgram(),
+          //   label: "Exclude from program",
+          //   singleSelect: true,
+          //   confirmation: true
+          // })
           .addBooleanColumn({
             label: "InEligible",
             dataSelectorKey: "ineligible",

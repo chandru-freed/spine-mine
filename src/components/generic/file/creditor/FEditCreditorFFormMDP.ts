@@ -148,14 +148,14 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
   }
 
   updateCreditor() {
-    const input = Data.Spine.UpdateCreditorInput.fromJson(
+    const input = Data.ClientFile.UpdateFiCreditorInput.fromJson(
       this.parent.editCreditorForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
-    input.taskId = this.taskRoot.taskId;
-    Action.Spine.UpdateCreditor.execute(input, (output) => {
+    // input.taskId = this.taskRoot.taskId;
+    Action.ClientFile.UpdateFiCreditor.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully Updated",

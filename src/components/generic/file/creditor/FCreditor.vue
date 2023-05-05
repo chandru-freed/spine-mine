@@ -70,20 +70,29 @@
       <!--GRID START-->
       <v-card class="my-4" flat>
         <component
-          :value="creditorList"
+          :value="fiCreditorList"
           :is="fCreditorListFDataTableMetaData.componentName"
           :ref="fCreditorListFDataTableMetaData.myRefName"
           v-bind="fCreditorListFDataTableMetaData.props"
         ></component>
       </v-card>
-      <v-card flat>
+
+      <!-- <v-card class="my-4" flat>
         <component
-          :value="ineligibleCreditorList"
+          :is="fClientCreditorListMetaData.componentName"
+          :ref="fClientCreditorListMetaData.myRefName"
+          v-bind="fClientCreditorListMetaData.props"
+        ></component>
+      </v-card> -->
+      
+      <!-- <v-card flat>
+        <component
+          :value="excludedCreditorList"
           :is="creditorListIEFDataTableMetaData.componentName"
           :ref="creditorListIEFDataTableMetaData.myRefName"
           v-bind="creditorListIEFDataTableMetaData.props"
         ></component>
-      </v-card>
+      </v-card> -->
       <!--GRID END-->
       <!--ACTION START-->
       <div
@@ -122,6 +131,8 @@ import ErrorResponse from "@/error-response";
 import axios from "axios";
 import ParseCRPDF from './ParseCRPDF';
 import FCreditorListInEligibleFDataTableMDP from './FCreditorListInEligibleFDataTableMDP';
+import FClientCreditorList from "../clientCreditor/FClientCreditorList.vue";
+import FClientCreditorListMDP from "../clientCreditor/FClientCreditorListMDP";
 
 @Component({
   components: {
@@ -129,6 +140,7 @@ import FCreditorListInEligibleFDataTableMDP from './FCreditorListInEligibleFData
     FBtn,
     FDataTable,
     FLoader,
+    FClientCreditorList
   },
 })
 export default class FCreditor extends ModelVue {
@@ -238,12 +250,12 @@ export default class FCreditor extends ModelVue {
     this.editCreditorForm = new Data.Spine.Creditor();
   }
 
-  get creditorList() {
-    return (this.modelValue.creditorList as Data.ClientFile.FiCreditor[])?.filter(item => !item.ineligible);
+  get fiCreditorList() {
+    return (this.modelValue.fiCreditorList);
   }
 
-  get ineligibleCreditorList() {
-    return (this.modelValue.creditorList as any[])?.filter(item => item.ineligible);
+  get excludedCreditorList() {
+    return (this.modelValue.excludedCreditorList );
   }
 
   get totalDebt() {
@@ -319,6 +331,12 @@ export default class FCreditor extends ModelVue {
     }).getMetaData();
   }
 
+  get fClientCreditorListMetaData() {
+    return new FClientCreditorListMDP({
+      parent: this
+    }).getMetaData();
+  }
+
   isCreditCard(): boolean {
     if (this.addCreditorDialog) {
       return this.addCreditorForm.debtType === "Credit Card";
@@ -372,14 +390,14 @@ export default class FCreditor extends ModelVue {
   }
 
   handleIncludeInProgram(item: any) {
-    Action.ClientFile.IncludeFiCreditorToProgram.execute1(item.fiCreditorId, output => {
+    Action.ClientFile.IncludeFiCreditorToProgram.execute2(this.clientFileId,item.clCreditorId, output => {
 
     });
   }
 
   handleExcludeInProgram(item: any) {
     
-    Action.ClientFile.ExcludeFiCreditorFromProgram.execute1(item.fiCreditorId, output => {
+    Action.ClientFile.ExcludeFiCreditorFromProgram.execute2(this.clientFileId,item.fiCreditorId, output => {
 
     });
   }
@@ -387,6 +405,10 @@ export default class FCreditor extends ModelVue {
 
   getFileName(filePath: string = '') {
     return filePath?.split("/").pop()||'';
+  }
+
+  handleClientCreditorChange(item: any) {
+    this.addCreditorForm = Data.Spine.Creditor.fromJson(item);
   }
 
 

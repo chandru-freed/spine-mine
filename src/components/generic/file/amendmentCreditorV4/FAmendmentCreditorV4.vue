@@ -22,7 +22,7 @@
     <v-col class="col-12">
       <v-card flat>
         <component
-          :value="creditorList"
+          :value="includedCreditorList"
           :is="fCreditorListFDataTableMetaData.componentName"
           :ref="fCreditorListFDataTableMetaData.myRefName"
           v-bind="fCreditorListFDataTableMetaData.props"
@@ -30,7 +30,7 @@
       </v-card>
       <v-card flat>
         <component
-          :value="ineligibleCreditorList"
+          :value="excludedCreditorList"
           :is="creditorListIEFDataTableMetaData.componentName"
           :ref="creditorListIEFDataTableMetaData.myRefName"
           v-bind="creditorListIEFDataTableMetaData.props"
@@ -137,12 +137,12 @@ export default class FAmendmentCreditorV4 extends ModelVue {
   }
 
   
-  get creditorList() {
-    return (this.modelValue.creditorList as Data.ClientFile.FiCreditor[])?.filter(item => !item.ineligible);
+  get includedCreditorList() {
+    return (this.modelValue.includedCreditorList as Data.ClientFile.FiCreditor[])
   }
 
-  get ineligibleCreditorList() {
-    return (this.modelValue.creditorList as any[])?.filter(item => item.ineligible);
+  get excludedCreditorList() {
+    return (this.modelValue.excludedCreditorList as any[]);
   }
 
 
@@ -150,18 +150,9 @@ export default class FAmendmentCreditorV4 extends ModelVue {
     return this.modelValue.totalDebt;
   }
 
-  updateCreditor() {
-    this.editCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(
-      this.editCreditorForm
-    );
-    this.modelValue.creditorList[this.selectedCreditorIndex] =
-      this.editCreditorForm;
-    this.modelValue.totalDebt = this.calculateTotadDebt();
-    this.saveTask();
-  }
 
   calculateTotadDebt() {
-    return this.modelValue.creditorList.reduce(
+    return this.modelValue.includedCreditorList.reduce(
       (accumulator: number, curVal: any) => {
         return accumulator + curVal.creditorBalance;
       },
@@ -171,7 +162,7 @@ export default class FAmendmentCreditorV4 extends ModelVue {
 
   getWAD() {
     const totalCreditorBalance = this.calculateTotadDebt();
-    const wad = this.modelValue.creditorList.reduce(
+    const wad = this.modelValue.includedCreditorList.reduce(
       (accumulator: number, curCreditorVal: Data.ClientFile.FiCreditor) => {
         const creditorPercentage =
           curCreditorVal.creditorBalance / totalCreditorBalance;

@@ -1,7 +1,7 @@
 <template>
   <div class="CFCreditorInfo">
     <component
-      v-if="!!creditorInfo?.creditorList"
+      v-if="!!creditorInfo?.fiCreditorList"
       :ref="creditorInfoMetaData.myRefName"
       :is="creditorInfoMetaData.componentName"
       :value="selectModel(creditorInfo, creditorInfoMetaData.dataSelectorKey)"
@@ -93,13 +93,13 @@ export default class CFAdminCreditorInfo extends ModelVue {
     Action.ClientFile.UpdateCreditInfo.interested(
       this.getClientFileBasicInfoHandler
     );
-    Action.Spine.AddCreditor.interested(
+    Action.ClientFile.AddIncludeFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
     Action.Spine.RemoveCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
-    Action.Spine.UpdateCreditor.interested(
+    Action.ClientFile.UpdateFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
   }
@@ -109,14 +109,14 @@ export default class CFAdminCreditorInfo extends ModelVue {
       this.getClientFileBasicInfoHandler
     );
 
-    Action.Spine.AddCreditor.notInterested(
+    Action.ClientFile.AddIncludeFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
     Action.Spine.RemoveCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
 
-    Action.Spine.UpdateCreditor.notInterested(
+    Action.ClientFile.UpdateFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
   }

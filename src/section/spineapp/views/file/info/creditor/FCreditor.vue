@@ -30,12 +30,12 @@
         :value="creditorList"
         class="my-4"
       ></component>
-      <component
+      <!-- <component
         :is="creditorListIEFDataTableMetaData.componentName"
         :ref="creditorListIEFDataTableMetaData.myRefName"
         v-bind="creditorListIEFDataTableMetaData.props"
         :value="ineligibleCreditorList"
-      ></component>
+      ></component> -->
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
@@ -151,11 +151,11 @@ export default class FCreditor extends ModelVue {
   }
 
 get creditorList() {
-    return (this.modelValue.creditorList as Data.ClientFile.FiCreditor[])?.filter(item => !item.ineligible);
+    return (this.modelValue.fiCreditorList);
   }
 
   get ineligibleCreditorList() {
-    return (this.modelValue.creditorList as any[])?.filter(item => item.ineligible);
+    return (this.modelValue.fiCreditorList as any[])?.filter(item => item.ineligible);
   }
   get totalDebt() {
     return this.modelValue.totalDebt;

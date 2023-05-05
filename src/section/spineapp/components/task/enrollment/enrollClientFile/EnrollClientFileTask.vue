@@ -140,8 +140,8 @@ export default class EnrollClientFileTask extends ModelVue {
         ? Data.Spine.PersonalInfo.fromJson(this.personalInfoStore)
         : new Data.Spine.PersonalInfo(),
       creditorInfo: this.fiCreditorStore
-        ? Data.Spine.CreditorInfo.fromJson(this.fiCreditorStore)
-        : new Data.Spine.CreditorInfo(),
+        ? Data.ClientFile.FiCreditorInfo.fromJson(this.fiCreditorStore)
+        : new Data.ClientFile.FiCreditorInfo(),
       budgetInfo: this.budgetInfoStore
         ? Data.Spine.BudgetInfo.fromJson(this.budgetInfoStore)
         : new Data.Spine.BudgetInfo(),
@@ -300,7 +300,7 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientFileBasicInfoHandler
     );
 
-    Action.Spine.AddCreditor.interested(
+    Action.ClientFile.AddIncludeFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
 
@@ -317,7 +317,7 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientCreditorInfoAndInfoHandler
     );
 
-    Action.Spine.UpdateCreditor.interested(
+    Action.ClientFile.UpdateFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
 
@@ -363,11 +363,11 @@ export default class EnrollClientFileTask extends ModelVue {
       this.findClPersonalInfoHandler
     );
 
-    Action.Spine.AddCreditor.notInterested(
+    Action.ClientFile.AddIncludeFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
 
-    Action.Spine.UpdateCreditor.notInterested(
+    Action.ClientFile.UpdateFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
 

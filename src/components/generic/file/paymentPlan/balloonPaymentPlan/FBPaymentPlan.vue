@@ -230,14 +230,14 @@ export default class FBPaymentPlan extends ModelVue {
     return this.$route.params.clientFileId;
   }
   get paymentPlan(): Data.ClientFile.FiPaymentPlanInfo {
-    return this.modelValue.taskOutput.paymentPlan;
+    return this.modelValue.taskOutput.payload.paymentPlan;
   }
 
   get tmosSimulatorInput() {
     return {
       paymentPlan: this.paymentPlan,
-      creditorInfo: this.modelValue.taskOutput.creditorInfo,
-      budgetInfo: this.modelValue.taskInput.existingBudgetInfo,
+      creditorInfo: this.modelValue.taskOutput.payload.creditorInfo,
+      budgetInfo: this.modelValue.taskInput?.existingBudgetInfo,
     };
   }
 
@@ -295,7 +295,7 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   downloadActiveExcel() {
-    const { psPlanId } = this.modelValue.taskInput.existingPaymentPlan;
+    const { psPlanId } = this.modelValue.taskInput?.existingPaymentPlan;
     const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${psPlanId}`;
     const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`;
     Helper.downloadFile(url, fileName);

@@ -4,7 +4,7 @@ import FAmendmentCreditorV4MDP from "@/components/generic/file/amendmentCreditor
 export default class PATV4CreditorStepFCreditorMDP extends FAmendmentCreditorV4MDP {
     constructor(props: {parent: any, taskRoot: any}) {
         super({myRefName: "PATV4FStepperMDP",parent: props.parent, taskRoot: props.taskRoot,disabled: props.taskRoot.taskDisabled,
-    dataSelectorKey:"taskOutput.creditorInfo"
+    dataSelectorKey:"taskOutput.payload.creditorInfo"
     });
     }
 

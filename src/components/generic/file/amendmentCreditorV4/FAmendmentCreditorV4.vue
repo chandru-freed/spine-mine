@@ -1,6 +1,5 @@
 <template>
   <div ref="creditorListRef">
-    
     <component
       v-if="addCreditorDialog"
       :is="addCreditorFormMetaData.componentName"
@@ -22,20 +21,20 @@
     <v-col class="col-12">
       <v-card flat>
         <component
-          :value="includedCreditorList"
+          :value="fiCreditorList"
           :is="fCreditorListFDataTableMetaData.componentName"
           :ref="fCreditorListFDataTableMetaData.myRefName"
           v-bind="fCreditorListFDataTableMetaData.props"
         ></component>
       </v-card>
-      <v-card flat>
+      <!-- <v-card flat>
         <component
           :value="excludedCreditorList"
           :is="creditorListIEFDataTableMetaData.componentName"
           :ref="creditorListIEFDataTableMetaData.myRefName"
           v-bind="creditorListIEFDataTableMetaData.props"
         ></component>
-      </v-card>
+      </v-card> -->
       <!--ACTION START-->
       <div
         class="
@@ -137,13 +136,10 @@ export default class FAmendmentCreditorV4 extends ModelVue {
   }
 
   
-  get includedCreditorList() {
-    return (this.modelValue.includedCreditorList as Data.ClientFile.FiCreditor[])
+  get fiCreditorList() {
+    return (this.modelValue.fiCreditorList as Data.ClientFile.FiCreditor[])
   }
 
-  get excludedCreditorList() {
-    return (this.modelValue.excludedCreditorList as any[]);
-  }
 
 
   get totalDebt() {
@@ -152,7 +148,7 @@ export default class FAmendmentCreditorV4 extends ModelVue {
 
 
   calculateTotadDebt() {
-    return this.modelValue.includedCreditorList.reduce(
+    return this.modelValue.fiCreditorList.reduce(
       (accumulator: number, curVal: any) => {
         return accumulator + curVal.creditorBalance;
       },
@@ -162,7 +158,7 @@ export default class FAmendmentCreditorV4 extends ModelVue {
 
   getWAD() {
     const totalCreditorBalance = this.calculateTotadDebt();
-    const wad = this.modelValue.includedCreditorList.reduce(
+    const wad = this.modelValue.fiCreditorList.reduce(
       (accumulator: number, curCreditorVal: Data.ClientFile.FiCreditor) => {
         const creditorPercentage =
           curCreditorVal.creditorBalance / totalCreditorBalance;
@@ -183,7 +179,7 @@ export default class FAmendmentCreditorV4 extends ModelVue {
   }
 
   addCreditor() {
-    const creditorList: any[] = this.modelValue.creditorList || [];
+    const creditorList: any[] = this.modelValue.fiCreditorList || [];
     this.addCreditorForm.fiCreditorId = undefined;
     this.addCreditorForm.settlementStatus = "ACTIVE";
     this.addCreditorForm.daysDelinquentAsOnOnboarding = this.getDaysDelinquent(
@@ -205,7 +201,7 @@ export default class FAmendmentCreditorV4 extends ModelVue {
         FSnackbar.error("Creditor status should not be settled or partialy settled");
       } else {
         // const creditorList: any[] = this.modelValue.creditorList || [];
-        this.modelValue.creditorList.splice(index, 1);
+        this.modelValue.fiCreditorList.splice(index, 1);
         this.modelValue.totalDebt = this.calculateTotadDebt();
         this.saveTask();
       }
@@ -292,6 +288,11 @@ export default class FAmendmentCreditorV4 extends ModelVue {
     Action.ClientFile.ExcludeFiCreditorInProgramAmendment.execute2(this.taskRoot.amendmentToken,item.amendmentFiCreditorId, output => {
 
     });
+  }
+
+
+  handleClientCreditorChange(item: any) {
+    this.addCreditorForm = Data.Spine.Creditor.fromJson(item);
   }
 }
 </script>

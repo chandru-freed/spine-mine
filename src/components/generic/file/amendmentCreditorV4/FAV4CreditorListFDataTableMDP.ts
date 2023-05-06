@@ -52,7 +52,7 @@ export default class FAV4CreditorListFDataTableMDP extends FDataTableMDP {
 
       .addAction({
         type: ActionType.DELETE,
-        onClick: (item, index) => this.deleteCreditorData(item, index),
+        onClick: this.handleExcludeInProgram(),
         label: "",
         confirmation: true
       }).addAction({
@@ -65,13 +65,13 @@ export default class FAV4CreditorListFDataTableMDP extends FDataTableMDP {
         onClick: item => this.handleAddClick(),
         label: "Add Creditor",
       })
-      .addAction({
-        type: ActionType.OTHERS,
-        onClick: this.handleExcludeInProgram(),
-        label: "Exclude from program",
-        singleSelect: true,
-        confirmation: true
-      })
+      // .addAction({
+      //   type: ActionType.OTHERS,
+      //   onClick: this.handleExcludeInProgram(),
+      //   label: "Exclude from program",
+      //   singleSelect: true,
+      //   confirmation: true
+      // })
 
       .addInfo({
         label: "Total Amount",

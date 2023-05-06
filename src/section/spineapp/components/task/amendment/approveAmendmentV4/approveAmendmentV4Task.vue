@@ -143,13 +143,13 @@ export default class ApproveAmendmentV4Task extends ModelVue {
   //FORM
 
   //Task Output
-  taskFormOutputLocal: Data.Spine.ApproveAmendmentTaskOutput =
-    new Data.Spine.ApproveAmendmentTaskOutput();
+  taskFormOutputLocal: Data.ClientFile.ApproveAmendmentV4TaskOutput =
+    new Data.ClientFile.ApproveAmendmentV4TaskOutput();
 
   get taskFormOutput() {
-    this.taskFormOutputLocal.creditorInfo =
+    this.taskFormOutputLocal.payload.creditorInfo =
       (this.amendmentDetails.amendmentFiCreditorInfo as any);
-    this.taskFormOutputLocal.paymentPlan = (this.amendmentDetails.newPaymentPlan as any);
+    this.taskFormOutputLocal.payload.paymentPlan = (this.amendmentDetails.newPaymentPlan as any);
     this.taskFormOutputLocal.amendmentApproved = true;
     this.taskFormOutputLocal.reviewNote = (this.taskDetails.inputJson as any)?.reviewNote
     return this.taskFormOutputLocal;
@@ -169,14 +169,13 @@ export default class ApproveAmendmentV4Task extends ModelVue {
   }
   //ACTION
   saveAndMarkCompleteTask() {
-    const output = {
-      amendmentApproved:this.taskFormData.taskOutput.amendmentApproved,
-      reviewNote:this.taskFormData.taskOutput?.reviewNote
-
-    }
+    // const output = {
+    //   amendmentApproved:this.taskFormData.taskOutput.amendmentApproved,
+    //   reviewNote:this.taskFormData.taskOutput?.reviewNote
+    // }
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
-      taskOutput: output,
+      taskOutput: this.taskFormData.taskOutput,
     });
   }
   saveTask() {

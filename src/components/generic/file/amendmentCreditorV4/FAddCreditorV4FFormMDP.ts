@@ -13,6 +13,7 @@ import * as Snackbar from "node-snackbar";
 import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
 import FCreditCardFieldMDP from "../../form/field/FCreditCardFieldMDP";
 import FRemoteAutoCompleteFieldMDP from "../../form/field/FRemoteAutoCompleteFieldMDP";
+import FClCreditorSelectFieldMDP from "../../form/field/FClCreditorSelectFieldMDP";
 
 export default class FAddCreditorFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -26,7 +27,15 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
+    this
+    .addField(new FClCreditorSelectFieldMDP({
+      dataSelectorKey: "clCreditorId",
+      label: "Search Client Creditor(Optional)",
+      parentMDP: this.childMDP,
+      boundaryClass: "col-4",
+      onSelect: this.handleClientCreditorChange()
+    }))
+    .addField(
       new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorName",
@@ -131,17 +140,24 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
   }
 
   addCreditor() {
-    const input = Data.ClientFile.AddFiCreditorForAmendmentForm.fromJson(
+    const input = Data.ClientFile.AddIncludeFiCreditorForAmendmentInput.fromJson(
       this.parent.addCreditorForm
     );
     input.amendmentToken = 
       this.taskRoot.amendmentToken;
-    Action.ClientFile.AddFiCreditorForAmendment.execute(input, (output) => {
+    Action.ClientFile.AddIncludeFiCreditorForAmendment.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",
         pos: "bottom-center",
       });
     });
+  }
+
+
+  handleClientCreditorChange() {
+    return (item: any) => {
+      this.parent.handleClientCreditorChange(item);
+    }
   }
 }

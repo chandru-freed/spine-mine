@@ -43,7 +43,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   mounted() {
     this.getAmendmentDetails();
     this.getBudgetInfo();
-    Action.ClientFile.AddFiCreditorForAmendment.interested(
+    Action.ClientFile.AddIncludeFiCreditorForAmendment.interested(
       this.getAmendmentDetailsHandler
     );
 
@@ -78,7 +78,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
 
 
   destroyed() {
-    Action.ClientFile.AddFiCreditorForAmendment.notInterested(
+    Action.ClientFile.AddIncludeFiCreditorForAmendment.notInterested(
       this.getAmendmentDetailsHandler
     );
 
@@ -147,9 +147,9 @@ export default class PrepareAmendmentV4Task extends ModelVue {
     new Data.ClientFile.AmendmentV4TaskOutput();
 
   get taskFormOutput() {
-    this.taskFormOutputLocal.creditorInfo =
+    this.taskFormOutputLocal.payload.creditorInfo =
       this.amendmentDetails.amendmentFiCreditorInfo;
-    this.taskFormOutputLocal.paymentPlan = this.amendmentDetails.newPaymentPlan;
+    this.taskFormOutputLocal.payload.paymentPlan = this.amendmentDetails.newPaymentPlan;
     return this.taskFormOutputLocal;
   }
 

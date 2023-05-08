@@ -15,7 +15,7 @@
       <div class="d-flex align-center">
         <v-card-title>Calculator</v-card-title>
         <v-spacer />
-        <v-btn
+        <!-- <v-btn
           class="mx-4"
           color="primary"
           small
@@ -23,7 +23,7 @@
           @click="handleUploadCRClick"
         >
           Upload CreditReport<v-icon small>mdi-upload</v-icon></v-btn
-        >
+        > -->
       </div>
       <TMOSSimulatorEditable
         ref="tmosSimulator"

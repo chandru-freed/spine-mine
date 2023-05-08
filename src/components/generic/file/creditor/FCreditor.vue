@@ -159,7 +159,7 @@ export default class FCreditor extends ModelVue {
   showParseCreditReportForm: boolean = false;
   showLoader: boolean = false;
 
-  parseCreditReportInput: any =
+  parseCreditReportInput:Data.Spine.ParseCreditReportInput =
     new Data.Spine.ParseCreditReportInput();
   parseCreditReportOutput: Data.Spine.ParseCreditReportOutput =
     new Data.Spine.ParseCreditReportOutput();
@@ -356,19 +356,20 @@ export default class FCreditor extends ModelVue {
     this.showLoader = true;
     console.log(this.parseCreditReportInput);
     this.parseCreditReportInput.filename = this.getFileName(this.parseCreditReportInput.filename)
+    this.parseCreditReportInput.clientFileId = this.clientFileId;
     Action.Spine.ParseCreditReport.execute(
       this.parseCreditReportInput,
       (output) => {
         this.closeAndClearAllForms();
         this.parseCreditReportOutput = output;
         this.showLoader = false;
-        const parsePDF = new ParseCRPDF({
-            clientFileNumber: this.clientFileBasicInfo.clientFileNumber,
-            parseCreditReportInput: this.parseCreditReportInput,
-            parseCreditReportOutput: this.parseCreditReportOutput,
-          });
+        // const parsePDF = new ParseCRPDF({
+        //     clientFileNumber: this.clientFileBasicInfo.clientFileNumber,
+        //     parseCreditReportInput: this.parseCreditReportInput,
+        //     parseCreditReportOutput: this.parseCreditReportOutput,
+        //   });
 
-        parsePDF.addDetailsFromParsedCR();  
+        // parsePDF.addDetailsFromParsedCR();  
       },
       (error) => {
         ErrorResponse.handle(error);

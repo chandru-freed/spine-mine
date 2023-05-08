@@ -16,6 +16,11 @@ export default class PAVTFStepperMDP extends FTaskStepperMDP {
         this.parent = taskRoot;
 
         this
+
+        .addStep({
+            name: "Note",
+            stepContent: new AATApproveStepFFormMDP({parent: this, taskRoot: this.taskRoot})
+        })
         .addStep({
             name: "Creditor",
             stepContent: new AATV4CreditorStepFCreditorMDP({parent: this, taskRoot: this.taskRoot})
@@ -25,10 +30,6 @@ export default class PAVTFStepperMDP extends FTaskStepperMDP {
             stepContent: new AATV4PPFAPaymentPlanMDP({parent: this, taskRoot: this.taskRoot})
         })
 
-        // .addStep({
-        //     name: "Approve Step",
-        //     stepContent: new AATApproveStepFFormMDP({parent: this, taskRoot: this.taskRoot})
-        // })
         
         .addStep({
             name: "Mark Complete",

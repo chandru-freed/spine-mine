@@ -41,12 +41,12 @@ export default class ParseCRPDF {
                     });
                 this.addDetailsFromParsedCRInput.personalInfo =
                     this.parseCreditReportOutput.personalInfo;
-                Action.Spine.AddDetailsFromParsedCreditReport.execute(
-                    this.addDetailsFromParsedCRInput,
-                    (output) => {
-                        // this.getPresignedURLAndUpload();
-                    }
-                );
+                // Action.Spine.AddDetailsFromParsedCreditReport.execute(
+                //     this.addDetailsFromParsedCRInput,
+                //     (output) => {
+                //         // this.getPresignedURLAndUpload();
+                //     }
+                // );
             });
     }
 

@@ -21,15 +21,15 @@ export default class AATApproveStepFFormMDP extends FFormMDP {
         this.taskRoot = taskRoot;
         this.parent = parent;
         this
-        .addField(
-          new FSwitchMDP({
-            parentMDP: this.childMDP,
-            dataSelectorKey: "taskOutput.amendmentApproved",
-            label: "Approve",
-            boundaryClass: "col-12",
-            // disabled: true
-          })
-        )
+        // .addField(
+        //   new FSwitchMDP({
+        //     parentMDP: this.childMDP,
+        //     dataSelectorKey: "taskOutput.amendmentApproved",
+        //     label: "Approve",
+        //     boundaryClass: "col-12",
+        //     // disabled: true
+        //   })
+        // )
         .addField(
             new FTextareaMDP({
               parentMDP: this.childMDP,

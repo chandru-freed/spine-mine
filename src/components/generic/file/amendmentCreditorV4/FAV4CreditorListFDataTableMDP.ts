@@ -31,15 +31,18 @@ export default class FAV4CreditorListFDataTableMDP extends FDataTableMDP {
       }).addColumn({
         label: "Account Number",
         dataSelectorKey: "accountNumber",
+      }).addBooleanColumn({
+        label: "Settled",
+        dataSelectorKey: "isSettled",
       })
-      .addColumn({
-        label: "Settlement Status",
-        dataSelectorKey: "settlementStatus",
-        columnCellMDP: new FCellStatusMDP({
-          colorCodeData: Data.Color.FICREDITOR_STATUS,
-          outlined: true
-        })
-      })
+      // .addColumn({
+      //   label: "Settlement Status",
+      //   dataSelectorKey: "settlementStatus",
+      //   columnCellMDP: new FCellStatusMDP({
+      //     colorCodeData: Data.Color.FICREDITOR_STATUS,
+      //     outlined: true
+      //   })
+      // })
       .addBooleanColumn({
         label: "InEligible",
         dataSelectorKey: "ineligible",

@@ -52,13 +52,13 @@ export default class CreditorListInEligibleFDataTableMDP extends FDataTableMDP {
 
     deleteCreditorData(item: any) {
       return new Promise(resolve => {
-        Action.Spine.RemoveCreditor.execute1(item.fiCreditorId, (output) => {
-          Snackbar.show({
-            text: "Succesfully Removed",
-            pos: "bottom-center",
-          });
-          resolve(true);
-        });
+        // Action.Spine.RemoveCreditor.execute1(item.fiCreditorId, (output) => {
+        //   Snackbar.show({
+        //     text: "Succesfully Removed",
+        //     pos: "bottom-center",
+        //   });
+        //   resolve(true);
+        // });
       })
       
     }

@@ -52,13 +52,17 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "details",
         columnCellMDP: new FCellTextEllipsisMDP()
       })
-      .addStatusColumn({
-        label: "Settlement Status",
-        dataSelectorKey: "settlementStatus",
-        colorCodeData: Data.Color.FICREDITOR_STATUS,
-        outlined: true,
-        filterItemList: Data.Spine.FICREDITOR_STATUS.list()
+      .addBooleanColumn({
+          label: "Settled",
+        dataSelectorKey: "isSettled",
       })
+      // .addStatusColumn({
+      //   label: "Settlement Status",
+      //   dataSelectorKey: "settlementStatus",
+      //   colorCodeData: Data.Color.FICREDITOR_STATUS,
+      //   outlined: true,
+      //   filterItemList: Data.Spine.FICREDITOR_STATUS.list()
+      // })
       .addAction({
         type: ActionType.OTHERS,
         onClick: (item) => this.handleMarkSettleClick(item),

@@ -260,6 +260,14 @@ export default class FAdminCreditor extends ModelVue {
     this.addCreditorForm = Data.Spine.Creditor.fromJson(item);
   }
 
+    handleExcludeInProgram(item: any) {
+    
+    Action.ClientFile.ExcludeFiCreditorFromProgram.execute2(this.clientFileId,item.fiCreditorId, output => {
+
+    });
+  }
+
+
   // META DATA
 }
 </script>

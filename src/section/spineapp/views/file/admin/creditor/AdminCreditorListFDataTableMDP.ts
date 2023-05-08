@@ -78,7 +78,7 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
       })
       .addAction({
         type: ActionType.DELETE,
-        onClick: (item) => this.deleteCreditorData(item),
+        onClick: this.handleExcludeInProgram(),
         label: "Delete Creditor",
         noSelect: true,
         confirmation: true
@@ -139,25 +139,23 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
   }
 
 
-  deleteCreditorData(item: any) {
-    return new Promise(resolve => {
-      Action.Spine.RemoveCreditor.execute1(item.fiCreditorId, (output) => {
-        Snackbar.show({
-          text: "Succesfully Removed",
-          pos: "bottom-center",
-        });
-        resolve(true);
-      });
-    })
-    
-  }
-
+  
   handleEditCreditor(item: any) {
     return new Promise(res => {
       this.parent.selectEditCreditor(item);
       res(true)
     })
   }
+
+
+  handleExcludeInProgram() {
+    return (item: any) => {
+        return new Promise(resolve => {
+            this.parent.handleExcludeInProgram(item);
+            resolve(true);
+          })
+    }
+}
 
 
 }

@@ -102,6 +102,10 @@ export default class CFAdminCreditorInfo extends ModelVue {
     Action.ClientFile.UpdateFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
+    Action.ClientFile.ExcludeFiCreditorFromProgram.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
+
   }
 
   destroyed() {

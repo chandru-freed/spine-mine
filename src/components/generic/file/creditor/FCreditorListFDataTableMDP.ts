@@ -108,18 +108,6 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
         
     }
 
-    deleteCreditorData(item: any) {
-      return new Promise(resolve => {
-        Action.Spine.RemoveCreditor.execute1(item.fiCreditorId, (output) => {
-          Snackbar.show({
-            text: "Succesfully Removed",
-            pos: "bottom-center",
-          });
-          resolve(true);
-        });
-      })
-      
-    }
 
     selectEditCreditor(item: any) {
       return new Promise(resolve => {

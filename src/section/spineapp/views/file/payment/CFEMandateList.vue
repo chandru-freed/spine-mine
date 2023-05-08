@@ -151,7 +151,18 @@ export default class FEMandate extends ModelVue {
   mounted() {
     this.getEMandateList();
     this.getFiPaymentPlanInfo();
+    Action.ClientFile.InitiateEMandate.interested(this.getEMandateListHandler);
   }
+
+  destroyed() {
+    Action.ClientFile.InitiateEMandate.notInterested(this.getEMandateListHandler);
+  }
+
+  public getEMandateListHandler = () => {
+    setTimeout(() => {
+      this.getEMandateList();
+    }, 1000);
+  };
 
   //MEtadata
 

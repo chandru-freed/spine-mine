@@ -137,7 +137,7 @@ export default class FAmendmentCreditorV4 extends ModelVue {
 
   
   get fiCreditorList() {
-    return (this.modelValue.fiCreditorList as Data.ClientFile.FiCreditor[])
+    return (this.modelValue.fiCreditorList as Data.ClientFile.AmendmentFiCreditor[])
   }
 
 

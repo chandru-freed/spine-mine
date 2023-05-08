@@ -135,7 +135,7 @@ export default class FEditCreditorV4FFormMDP extends FFormMDP {
       this.parent.editCreditorForm
     );
     console.log(this.parent.selectedCreditorItem,"selectedCreditorItem")
-    
+    input.amendmentFiCreditorId = this.parent.selectedCreditorItem.amendmentFiCreditorId;
     input.amendmentToken = this.taskRoot.amendmentToken;
     // input.amendmentFiCreditorId = this.taskRoot.fiCreditorId
     Action.ClientFile.UpdateFiCreditorForAmendment.execute(input, (output) => {

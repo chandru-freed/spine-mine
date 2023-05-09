@@ -175,9 +175,12 @@ export default class AppBarUserMenu extends Vue {
   roleList: string[];
 
   logout() {
-    window.localStorage.removeItem("userName");
-    this.$router.push({ name: "Login.Login" });
     AmeyoService.logout();
+    setTimeout(() => {
+        window.localStorage.removeItem("userName");
+        this.$router.push({ name: "Login.Login" });
+      }, 2000); 
+    
   }
 
   goto(routerName: string) {

@@ -84,8 +84,9 @@
             <v-list-item-content>
               <v-list-item-subtitle
                 class="text-body-1"
-                @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
+                
               >
+              <!-- @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)" -->
               <f-hover-copy v-model="clientFileBasicInfo.clientBasicInfo.mobile">
                 {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
               </f-hover-copy>

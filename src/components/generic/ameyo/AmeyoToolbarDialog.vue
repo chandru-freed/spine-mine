@@ -68,6 +68,7 @@ export default class AmeyoToolbarDialog extends Vue {
     // this.dragElement(document.getElementById("mydiv"));
   }
 
+
   dragElement(elmnt: any) {
     var pos1 = 0,
       pos2 = 0,

@@ -321,9 +321,9 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientCreditorInfoAndInfoHandler
     );
 
-    Action.Spine.RemoveCreditor.interested(
-      this.getClientCreditorInfoAndInfoHandler
-    );
+    // Action.Spine.RemoveCreditor.interested(
+    //   this.getClientCreditorInfoAndInfoHandler
+    // );
 
     Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
     Action.Spine.SchedulePaymentPlan.interested(
@@ -371,9 +371,9 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientCreditorInfoAndInfoHandler
     );
 
-    Action.Spine.RemoveCreditor.notInterested(
-      this.getClientCreditorInfoAndInfoHandler
-    );
+    // Action.Spine.RemoveCreditor.notInterested(
+    //   this.getClientCreditorInfoAndInfoHandler
+    // );
 
     Action.ClientFile.ExcludeFiCreditorFromProgram.notInterested(
       this.getClientCreditorInfoAndInfoHandler

@@ -15,6 +15,7 @@ export const ValeyApi = axios;
 export const DspApi = axios;
 export const PartnerProgramApi = axios;
 export const SpineReportApi = axios;
+export const MigrationApi = axios;
 
 //////////////// define the remote-api-point ///////////
 // for default to local, could use for example  'export const GompaApi = axios;'

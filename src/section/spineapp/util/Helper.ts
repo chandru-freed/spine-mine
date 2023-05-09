@@ -33,4 +33,12 @@ export default class Helper  {
         }
       );
     }
+
+    static generateRandomUrl(file: File | null) {
+      if (file) {
+        const dateValue: string = new Date().valueOf().toString();
+        return dateValue.slice(-4) + file.name;
+      }
+      return "";
+    }
 }

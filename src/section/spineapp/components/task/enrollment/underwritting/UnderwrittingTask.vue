@@ -219,9 +219,7 @@ export default class UnderwrittingTask extends ModelVue {
     Action.ClientFile.UpdateFiCreditor.interested(
       this.getClientCreditorInfoAndSummaryHandler
     );
-    Action.Spine.RemoveCreditor.interested(
-      this.getClientCreditorInfoAndSummaryHandler
-    );
+    
 
     Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
 
@@ -254,9 +252,6 @@ export default class UnderwrittingTask extends ModelVue {
     );
 
     Action.ClientFile.UpdateFiCreditor.notInterested(
-      this.getClientCreditorInfoAndSummaryHandler
-    );
-    Action.Spine.RemoveCreditor.notInterested(
       this.getClientCreditorInfoAndSummaryHandler
     );
 

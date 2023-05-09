@@ -3,7 +3,7 @@ import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 export default class NupaySummaryFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ title: "Nupay Summary", myRefName: "NupaySummaryRef" });
+        super({ myRefName: "NupaySummaryRef" });
         this.parent = parent;
         this
             .addCurrencyColumn({

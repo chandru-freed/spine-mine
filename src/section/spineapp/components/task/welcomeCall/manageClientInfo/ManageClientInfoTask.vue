@@ -143,9 +143,6 @@ export default class ManageClientInfoTask
     Action.ClientFile.UpdateFiCreditor.interested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
-    Action.Spine.RemoveCreditor.interested(
-      this.getFiCreditorInfoAndSchedulePPHandler
-    );
 
     Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
     Action.Spine.SchedulePaymentPlan.interested(
@@ -166,9 +163,6 @@ export default class ManageClientInfoTask
     );
 
     Action.ClientFile.UpdateFiCreditor.notInterested(
-      this.getFiCreditorInfoAndSchedulePPHandler
-    );
-    Action.Spine.RemoveCreditor.notInterested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
 

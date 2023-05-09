@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <div class="row col">
+    <div >
       <!-- <div class="col-9"> -->
         <v-file-input
           v-bind="$props"
@@ -17,16 +17,17 @@
           :error-messages="errorMessages"
           prepend-inner-icon="mdi-paperclip"
           prepend-icon=""
+          :loading="uploadFileFieldLoading"
         >
         </v-file-input>
        
       <!-- </div> -->
       <!-- <div class="col-3"> -->
-        <v-btn class="ml-3"
+        <!-- <v-btn class="ml-3"
         :disabled="!selectedFile"
         @click="getPresignedURLAndUpload" color="primary"
         :loading="uploadButtonLoading"
-        >Upload </v-btn>
+        >Upload </v-btn> -->
       <!-- </div> -->
     </div>
      <div v-if="fileName" class="d-flex align-center my-2 col">
@@ -51,7 +52,7 @@ import axios from "axios";
   },
 })
 export default class FAWSCRUploadFileField extends Vue {
-  uploadButtonLoading: boolean = false;
+  uploadFileFieldLoading: boolean = false;
   // MODEL VALUE - START
   @Prop()
   value: any;
@@ -106,7 +107,10 @@ export default class FAWSCRUploadFileField extends Vue {
   
   fileSelected(newValue: any) {
     this.selectedFile = newValue;
-    // this.getPresignedURLAndUpload();
+    console.log(newValue)
+    if(!!newValue) {
+    this.getPresignedURLAndUpload();
+    }
   }
 
   
@@ -115,7 +119,7 @@ export default class FAWSCRUploadFileField extends Vue {
   //For upload
 
   getPresignedURLAndUpload() {
-    this.uploadButtonLoading = true;
+    this.uploadFileFieldLoading = true;
     const fileName = this.generateRandomUrl(this.selectedFile);
     this.getPresignedURLForUploadInput.fileName = fileName;
     this.getPresignedURLForUploadInput.documentRefType = this.documentRefType;
@@ -128,7 +132,7 @@ export default class FAWSCRUploadFileField extends Vue {
         this.uploadFile();
       },
       error => {
-        this.uploadButtonLoading = false;
+        this.uploadFileFieldLoading = false;
       }
     );
   }
@@ -146,7 +150,7 @@ export default class FAWSCRUploadFileField extends Vue {
       this.selectedFile,
       options
     );
-    this.uploadButtonLoading = false;
+    this.uploadFileFieldLoading = false;
     this.handlePostUploadFile();
   }
 

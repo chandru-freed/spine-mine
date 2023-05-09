@@ -274,13 +274,13 @@ export default class FCreditor extends ModelVue {
 
   deleteCreditorData() {
     const fiCreditorId = this.selectedCreditorItem.fiCreditorId;
-    Action.Spine.RemoveCreditor.execute1(fiCreditorId, (output) => {
-      this.closeDialogs();
-      Snackbar.show({
-        text: "Succesfully Removed",
-        pos: "bottom-center",
-      });
-    });
+    // Action.Spine.RemoveCreditor.execute1(fiCreditorId, (output) => {
+    //   this.closeDialogs();
+    //   Snackbar.show({
+    //     text: "Succesfully Removed",
+    //     pos: "bottom-center",
+    //   });
+    // });
   }
 
   selectEditCreditor(item: any) {

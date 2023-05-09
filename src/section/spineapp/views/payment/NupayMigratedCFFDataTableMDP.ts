@@ -9,13 +9,14 @@ import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 
 export default class NupayMigratedCFFDataTableMDP extends FDataTableMDP {
   parent: any;
-  constructor({ parent }: { parent: any }) {
+  constructor({ parent, dataSelectorKey }: { parent: any;dataSelectorKey?:string }) {
     super({
       itemKey: "psEntryId",
       disabled: parent.disabledActionBtn,
-      title: "Migrated CF Payment Summary",
-      myRefName: "fCFPaymentFDataTableRef",
-      groupBySummaryFunction: (itemList) => this.calculateTotal(itemList)
+      // title: "Migrated CF Payment Summary",
+      myRefName: "nupayMigratedCFFDataTableRef",
+      groupBySummaryFunction: (itemList) => this.calculateTotal(itemList),
+      dataSelectorKey:dataSelectorKey
     });
     this.parent = parent;
     this

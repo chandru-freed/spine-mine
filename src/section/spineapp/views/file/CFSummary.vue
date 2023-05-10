@@ -27,6 +27,9 @@
                     <!-- <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
               <v-chip x-small class="mx-2" v-if="clientFileBasicInfo.isFirstMSFPaid" color="green" outlined>FMSF Paid</v-chip> -->
                     <v-chip v-if="fileSummary.ppCode" x-small color="secondary" outlined >{{fileSummary.ppCode}}</v-chip>
+                    <v-chip x-small class="mx-2" outlined>{{
+                      clientFileBasicInfo.programCode
+                    }}</v-chip>
                     <v-chip x-small class="mx-2">{{
                       fileSummary.clientFileStatus.name
                     }}</v-chip>

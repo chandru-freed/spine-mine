@@ -273,6 +273,13 @@ export default class CFActionList extends Vue {
             icon: "mdi-chevron-right",
             command: this.resume,
           },
+          {
+            actionName: "Switch Program To DRP",
+            icon: "mdi-chevron-right",
+            command: this.switchProgram,
+            condition: this.isAdmin(),
+          },
+          
           // {
           //   actionName: "Mark File As Request Cancel",
           //   icon: "mdi-chevron-right",
@@ -520,6 +527,18 @@ export default class CFActionList extends Vue {
     Action.ClientFile.Activate.execute1(this.clientFileId, (ootput) => {
       setTimeout(() => {
         FSnackbar.success("Succesfully assigned");
+        this.gotoCFActiveTaskList();
+      }, 400);
+    });
+  }
+
+  switchProgram() {
+    const switchInput: Data.ClientFile.SwitchProgramInput = new Data.ClientFile.SwitchProgramInput();
+    switchInput.clientFileId = this.clientFileId;
+    switchInput.programCode = "DRP";
+    Action.ClientFile.SwitchProgram.execute(switchInput, (ootput) => {
+      setTimeout(() => {
+        FSnackbar.success("Succesfully switched the program");
         this.gotoCFActiveTaskList();
       }, 400);
     });

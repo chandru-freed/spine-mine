@@ -1,6 +1,11 @@
 <template>
   <div>
     <!-- {{isSalesRep()}} -->
+    <f-alert message="Are you sure want to proceed?"
+    v-if="showConfirmAlert"
+    @confirmClick="switchProgram"
+    @cancelClick="showConfirmAlert = false"
+    />
     <div v-if="useAsDropDown">
       <v-autocomplete
         outlined
@@ -82,8 +87,13 @@ import * as Action from "@/../src-gen/action";
 import Helper from "@/section/spineapp/util/Helper";
 import * as Snackbar from "node-snackbar";
 import FSnackbar from "@/fsnackbar";
+import FAlert from "@/components/generic/FAlert.vue";
 
-@Component
+@Component({
+  components:{
+    FAlert
+  }
+})
 export default class CFActionList extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
@@ -91,12 +101,15 @@ export default class CFActionList extends Vue {
   @Store.Getter.Login.LoginDetails.roleList
   roleList: string[];
 
+  confirmationFunction: () => void;
+
   @Prop({
     default: false,
   })
   useAsDropDown: boolean;
 
   clientFileId = this.$route.params.clientFileId;
+  showConfirmAlert: boolean = false;
 
   searchText: string = "";
   createCollectMSFThroughCashfreeInput: Data.Spine.CreateCollectMSFThroughCashfreeInput =
@@ -276,8 +289,9 @@ export default class CFActionList extends Vue {
           {
             actionName: "Switch Program To DRP",
             icon: "mdi-chevron-right",
-            command: this.switchProgram,
+            command: this.switchProgramConfirmation,
             condition: this.isAdmin(),
+            confirmation: true
           },
           
           // {
@@ -530,6 +544,10 @@ export default class CFActionList extends Vue {
         this.gotoCFActiveTaskList();
       }, 400);
     });
+  }
+
+  switchProgramConfirmation() {
+    this.showConfirmAlert = true;
   }
 
   switchProgram() {

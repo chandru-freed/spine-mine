@@ -1,5 +1,18 @@
 <template>
   <div class="col-12">
+
+     <component
+        v-if="!!showViewPaymentForm"
+        :ref="paymentDetailsFFormMetaData.myRefName"
+        :is="paymentDetailsFFormMetaData.componentName"
+        :value="selectModel(selectedPaymentSummaryToView, undefined)"
+        @input="
+          (newValue) =>
+            updateModel(selectedPaymentSummaryToView, newValue, undefined)
+        "
+        v-bind="paymentDetailsFFormMetaData.props"
+      ></component>
+
     <component
       :ref="ecfCashfreeListMetaData.myRefName"
       :is="ecfCashfreeListMetaData.componentName"
@@ -46,6 +59,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
 import FCashfreeListFDataTableMDP from "./FCashfreeListFDataTableMDP";
+import PaymentDetailsFFormMDP from "@/section/spineapp/views/file/payment/PaymentDetailsFFormMDP";
 
 @Component({
   components: {
@@ -104,9 +118,20 @@ export default class FCashfreeList extends ModelVue {
     );
   }
 
-   handleInfoClick(item: Data.ClientFile.FiEMandateSummary) {
+   handleInfoClick(item: any) {
     this.selectedPaymentSummaryToView = item;
     this.showViewPaymentForm = true;
+    console.log(item);
   }
+
+    get paymentDetailsFFormMetaData() {
+    return new PaymentDetailsFFormMDP({ parent: this }).getMetaData();
+  }
+
+  resetPaymentForm() {
+    this.showViewPaymentForm = false;
+    this.selectedPaymentSummaryToView = new Data.ClientFile.FiPayment();
+  }
+
 }
 </script>

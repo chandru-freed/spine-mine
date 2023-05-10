@@ -90,9 +90,9 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
 
 
   handleDetailsClick() {
-      return () => {
+      return (item: any) => {
         return new Promise(res => {
-          
+          this.parent.handleInfoClick(item);
         });
       }
   }

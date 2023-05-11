@@ -14,13 +14,12 @@
 
     <div
       :class="['sidenavBar', showAmeyoSideBar ? 'right0' : '']"
-      v-if="clientFileId || isAmeyoToolbarDialogRole()"
+      v-if="isAmeyoToolbarDialogRole()"
     >
       <AmeyoToolbarDialog />
     </div>
     <div
       :class="['phoneCall', showAmeyoSideBar ? 'right0' : '']"
-      v-if="clientFileId"
     >
       <v-btn
         color="green"

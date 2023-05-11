@@ -23,19 +23,37 @@
               <div class="d-flex">
                 <!-- <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
               <v-chip x-small class="mx-2" v-if="clientFileBasicInfo.isFirstMSFPaid" color="green" outlined>FMSF Paid</v-chip> -->
-                <v-chip
-                  v-if="fileSummary.ppCode"
-                  x-small
-                  color="secondary"
-                  outlined
-                  >{{ fileSummary.ppCode }}</v-chip
-                >
-                <v-chip x-small class="mx-2">{{
-                  fileSummary.clientFileStatus.name
-                }}</v-chip>
-              </div>
-            </v-list-item-action>
-          </v-list-item>
+                    <v-chip v-if="fileSummary.ppCode" x-small color="secondary" outlined >{{fileSummary.ppCode}}</v-chip>
+                    <v-chip x-small class="mx-2" outlined>{{
+                      clientFileBasicInfo.programCode
+                    }}</v-chip>
+                    <v-chip x-small class="mx-2">{{
+                      fileSummary.clientFileStatus.name
+                    }}</v-chip>
+                  </div>
+                </v-list-item-action>
+              </v-list-item>
+            
+            
+          <v-divider></v-divider>
+              <v-list-item dense>
+                <v-list-item-icon class="mr-2">
+                  <v-icon color="deep-purple"> mdi-account </v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-content >
+                  <f-hover-copy v-model="clientFileBasicInfo.clientBasicInfo.fullName">
+                  <a @click="gotoProfile">
+                    <v-list-item-title
+                      class="deep-purple--text text-body-1 overline"
+                      >{{
+                        clientFileBasicInfo.clientBasicInfo.fullName
+                      }}</v-list-item-title
+                    >
+                  </a>
+                  </f-hover-copy>
+                  <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
+                </v-list-item-content>
 
           <v-divider></v-divider>
           <v-list-item dense>
@@ -98,13 +116,20 @@
             <v-list-item-content>
               <v-list-item-subtitle
                 class="text-body-1"
-                @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)"
+                
               >
+<<<<<<< HEAD
                 <f-hover-copy
                   v-model="clientFileBasicInfo.clientBasicInfo.mobile"
                 >
                   {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
                 </f-hover-copy>
+=======
+              <!-- @click="callByAmeyo(clientFileBasicInfo.clientBasicInfo.mobile)" -->
+              <f-hover-copy v-model="clientFileBasicInfo.clientBasicInfo.mobile">
+                {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
+              </f-hover-copy>
+>>>>>>> 2e56894a3de72b3173e1515e9c1ed4c60057e63e
               </v-list-item-subtitle>
             </v-list-item-content>
 

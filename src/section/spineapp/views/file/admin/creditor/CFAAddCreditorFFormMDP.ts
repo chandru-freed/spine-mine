@@ -27,13 +27,15 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this  .addField(new FClCreditorSelectFieldMDP({
-      dataSelectorKey: "clCreditorId",
-      label: "Search Client Creditor(Optional)",
-      parentMDP: this.childMDP,
-      boundaryClass: "col-4",
-      onSelect: this.handleClientCreditorChange()
-    })).addField(
+    this
+    // .addField(new FClCreditorSelectFieldMDP({
+    //   dataSelectorKey: "clCreditorId",
+    //   label: "Search Client Creditor(Optional)",
+    //   parentMDP: this.childMDP,
+    //   boundaryClass: "col-4",
+    //   onSelect: this.handleClientCreditorChange()
+    // }))
+    .addField(
       new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorName",
@@ -52,6 +54,18 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
+
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "emiAmount",
+          label: "EMI Amount",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      
+
       .addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
@@ -106,7 +120,6 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "details",
           label: "Details",
-          boundaryClass: "col-4",
         })
       )
 
@@ -151,6 +164,7 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
     // input.taskId = this.taskRoot.taskId;
+    input.skipUnderwrittingRule = false;
     Action.ClientFile.AddIncludeFiCreditor.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({

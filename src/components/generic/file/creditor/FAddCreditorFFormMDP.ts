@@ -163,7 +163,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
-    input.skipUnderwrittingRule = false
+    input.skipUnderwrittingRule = false;
     console.table(input)
       // input.clientId =   (this.taskRoot as any
       // ).clientFileBasicInfo.clientBasicInfo.clientId

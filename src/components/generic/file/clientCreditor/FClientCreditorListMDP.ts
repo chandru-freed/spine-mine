@@ -9,7 +9,7 @@ export default class FClientCreditorListMDP implements MDP {
   disabled?: boolean;
   readonly?: boolean;
   taskRoot: any;
-  creditorType: CreditorType;
+  processType: ProcessType;
 
   constructor({
     parent,
@@ -17,21 +17,21 @@ export default class FClientCreditorListMDP implements MDP {
     disabled,
     readonly,
     taskRoot,
-    creditorType = CreditorType.Normal
+    processType = ProcessType.Normal
   }: {
     parent: any;
     taskRoot: any;
     myRefName?: string;
     disabled?: boolean;
     readonly?: boolean;
-    creditorType?: CreditorType ;
+    processType?: ProcessType ;
   }) {
     this.parent = parent;
     this.myRefName = myRefName;
     this.disabled = disabled;
     this.readonly = readonly;
     this.taskRoot = taskRoot;
-    this.creditorType = creditorType;
+    this.processType = processType;
   }
 
 
@@ -43,14 +43,14 @@ export default class FClientCreditorListMDP implements MDP {
         disabled: this.disabled,
         readonly: this.readonly,
         taskRoot: this.taskRoot,
-        creditorType: this.creditorType,
+        processType: this.processType,
         includedCreditorList: this.parent.fiCreditorList
       },
     };
   }
 }
 
-export enum CreditorType {
+export enum ProcessType {
   Normal="Normal",
   Amendment= "Amendment"
 }

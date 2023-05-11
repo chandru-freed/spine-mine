@@ -45,7 +45,7 @@ import IncludeCCToProgramFFormMDP from "./IncludeCCToProgramFFormMDP";
 import IncludeCCToAmendmentFFormMDP from "./IncludeCCToAmendmentFFormMDP";
 import FForm from "../../form/FForm.vue";
 import ModelVue from "../../ModelVue";
-import { CreditorType } from "./FClientCreditorListMDP";
+import { ProcessType } from "./FClientCreditorListMDP";
 @Component({
   components: {
     FDataTable,
@@ -60,7 +60,7 @@ export default class FClientCreditorList extends ModelVue {
   clCreditorList: Data.ClientFile.ClCreditor[];
 
   @Prop()
-  creditorType: CreditorType;
+  processType: ProcessType;
 
   @Prop()
   taskRoot: any;
@@ -102,7 +102,7 @@ export default class FClientCreditorList extends ModelVue {
   }
 
   handleIncludeCreditor(item: any) {
-    if (this.creditorType === CreditorType.Normal) {
+    if (this.processType === ProcessType.Normal) {
       this.includeCreditorToCCDialog = true;
       this.includeCreditorToCCForm = Data.Spine.Creditor.fromJson(item);
     } else {
@@ -153,7 +153,7 @@ export default class FClientCreditorList extends ModelVue {
   }
 
   isCreditCard(): boolean {
-    if (this.creditorType === CreditorType.Normal) {
+    if (this.processType === ProcessType.Normal) {
       return this.includeCreditorToCCForm.debtType === "Credit Card";
     } else {
       return this.includeCreditorToAmendmentForm.debtType === "Credit Card";

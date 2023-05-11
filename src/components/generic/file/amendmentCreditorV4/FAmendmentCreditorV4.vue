@@ -85,7 +85,7 @@ import FDataTable from "../../table/FDataTable.vue";
 import moment from "moment";
 import FSnackbar from "@/fsnackbar";
 import FAV4CreditorListInEligibleFDataTableMDP from './FAV4CreditorListInEligibleFDataTableMDP';
-import FClientCreditorListMDP, { CreditorType } from "../clientCreditor/FClientCreditorListMDP";
+import FClientCreditorListMDP, { ProcessType } from "../clientCreditor/FClientCreditorListMDP";
 import FClientCreditorList from "../clientCreditor/FClientCreditorList.vue";
 
 @Component({
@@ -267,7 +267,7 @@ export default class FAmendmentCreditorV4 extends ModelVue {
     return new FClientCreditorListMDP({
       parent: this,
       taskRoot: this.taskRoot,
-      creditorType: CreditorType.Amendment
+      processType: ProcessType.Amendment
     }).getMetaData();
   }
 

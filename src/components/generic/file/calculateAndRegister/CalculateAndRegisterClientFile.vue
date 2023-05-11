@@ -119,6 +119,9 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
         setTimeout(() => {
           this.addNote();
         }, 1000);
+      },
+      error => {
+        this.showLoader = false;
       }
     );
   }
@@ -142,10 +145,14 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
     `;
     if (this.addNoteInput.noteMessage.length > 1) {
       Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
+        this.showLoader = false;
         this.$router.replace({
           name: "Root.CFile.CFInfo.CFCreditorInfo",
           params: { clientFileId: this.clientFileBasicInfo.clientFileId },
         });
+      },
+      error => {
+        this.showLoader = false;
       });
     }
   }
@@ -190,19 +197,23 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
   }
 
   registerClient() {
+    this.showLoader = true;
     Action.Client.RegisterAndEnroll.execute(
       this.registerClientFormData,
       (output) => {
         setTimeout(() => {
           this.clientFileNumber = output.clientFileNumber;
           this.getCFBasicInfoAndAddNote();
-          const parsePDF = new ParseCRPDF({
-            clientFileNumber: output.clientFileNumber,
-            parseCreditReportInput: this.parseCreditReportInput,
-            parseCreditReportOutput: this.parseCreditReportOutput,
-          });
-          parsePDF.addDetailsFromParsedCR();
+          // const parsePDF = new ParseCRPDF({
+          //   clientFileNumber: output.clientFileNumber,
+          //   parseCreditReportInput: this.parseCreditReportInput,
+          //   parseCreditReportOutput: this.parseCreditReportOutput,
+          // });
+          // parsePDF.addDetailsFromParsedCR();
         }, 500);
+      },
+      error => {
+        this.showLoader = false;
       }
     );
   }

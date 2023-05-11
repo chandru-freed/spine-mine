@@ -86,7 +86,8 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
 
   addMyClientFile(item: any) {
     return new Promise((res) => {
-      this.parent.showRegisterMyCFForm = true;
+      // this.parent.showRegisterMyCFForm = true;
+      this.parent.openCalculatorPage();
     });
   }
 

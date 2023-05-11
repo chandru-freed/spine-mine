@@ -48,7 +48,7 @@
       </template>
 
       <v-list dense>
-        <v-list-item @click="goto('Root.RegisterClient')">
+        <v-list-item @click="goto('Root.PaymentCalculator')">
           <v-list-item-title>
             <v-icon small class="me-2">mdi-account-plus</v-icon>
             Client File

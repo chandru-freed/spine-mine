@@ -43,7 +43,7 @@ export default class ApproveAmendmentV4Task extends ModelVue {
   mounted() {
     this.getAmendmentDetails();
     this.getBudgetInfo();
-    Action.ClientFile.AddFiCreditorForAmendment.interested(
+    Action.ClientFile.AddIncludeFiCreditorForAmendment.interested(
       this.getAmendmentDetailsHandler
     );
 
@@ -78,7 +78,7 @@ export default class ApproveAmendmentV4Task extends ModelVue {
 
 
   destroyed() {
-    Action.ClientFile.AddFiCreditorForAmendment.notInterested(
+    Action.ClientFile.AddIncludeFiCreditorForAmendment.notInterested(
       this.getAmendmentDetailsHandler
     );
 

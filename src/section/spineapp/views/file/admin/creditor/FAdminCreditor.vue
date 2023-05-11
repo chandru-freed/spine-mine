@@ -34,8 +34,17 @@
         :is="creditorListFDataTableMetaData.componentName"
         :ref="creditorListFDataTableMetaData.myRefName"
         v-bind="creditorListFDataTableMetaData.props"
-        :value="creditorList"
+        :value="fiCreditorList"
       ></component>
+
+
+      <v-card class="my-4" flat>
+        <component
+          :is="fClientCreditorListMetaData.componentName"
+          :ref="fClientCreditorListMetaData.myRefName"
+          v-bind="fClientCreditorListMetaData.props"
+        ></component>
+      </v-card>
      
       <!--ACTION START-->
       <div
@@ -76,11 +85,14 @@ import CFAUpdateCreditScoreFFormMDP from "./CFAUpdateCreditScoreFFormMDP";
 import CFAAddCreditorFFormMDP from './CFAAddCreditorFFormMDP';
 import CFAEditCreditorFFormMDP from './CFAEditCreditorFFormMDP';
 import FSnackbar from "@/fsnackbar";
+import FClientCreditorListMDP from "@/components/generic/file/clientCreditor/FClientCreditorListMDP";
+import FClientCreditorList from "@/components/generic/file/clientCreditor/FClientCreditorList.vue";
 @Component({
   components: {
     FForm,
     FBtn,
     FDataTable,
+    FClientCreditorList
   },
 })
 export default class FAdminCreditor extends ModelVue {
@@ -171,7 +183,7 @@ export default class FAdminCreditor extends ModelVue {
       this.clientFileBasicInfo.creditBureau || "";
   }
 
-  get creditorList() {
+  get fiCreditorList() {
     return this.modelValue?.fiCreditorList;
   }
 
@@ -255,6 +267,13 @@ export default class FAdminCreditor extends ModelVue {
     }).getMetaData();
   }
 
+
+ get fClientCreditorListMetaData() {
+    return new FClientCreditorListMDP({
+      parent: this,
+      taskRoot: this.taskRoot
+    }).getMetaData();
+  }
 
   handleClientCreditorChange(item: any) {
     this.addCreditorForm = Data.Spine.Creditor.fromJson(item);

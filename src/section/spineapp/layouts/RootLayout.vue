@@ -188,7 +188,7 @@ getAllTicketList() {
 }
 .phoneCall {
   position: fixed;
-  bottom: 15px;
+  bottom: 65px;
   right: 10px;
   transition: 0.5s;
   z-index: 999;

@@ -77,13 +77,13 @@
         ></component>
       </v-card>
 
-      <!-- <v-card class="my-4" flat>
+      <v-card class="my-4" flat>
         <component
           :is="fClientCreditorListMetaData.componentName"
           :ref="fClientCreditorListMetaData.myRefName"
           v-bind="fClientCreditorListMetaData.props"
         ></component>
-      </v-card> -->
+      </v-card>
       
       <!-- <v-card flat>
         <component

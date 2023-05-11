@@ -50,7 +50,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "emiAmount",
-          label: "Emi Amount",
+          label: "EMI Amount",
           mandatory: true,
           boundaryClass: "col-4",
         })

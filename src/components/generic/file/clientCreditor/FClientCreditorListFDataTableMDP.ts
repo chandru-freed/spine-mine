@@ -13,7 +13,7 @@ export default class FClientCreditorListFDataTableMDP extends FDataTableMDP {
                 label: "Creditor Balance",
                 dataSelectorKey: "creditorBalance"
             }).addCurrencyColumn({
-                label: "Emi Amount",
+                label: "EMI Amount",
                 dataSelectorKey: "emiAmount"
             }).addDateColumn({
                 label: "Last Date Of Payment",

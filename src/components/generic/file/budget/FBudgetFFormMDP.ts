@@ -13,7 +13,7 @@ import FLifeStyleExpensesFBudgetMiniFormMDP from "./FLifeStyleExpensesFBudgetMin
 import FLivingExpensesFBudgetMiniFormMDP from "./FLivingExpensesFBudgetMiniFormMDP";
 import FMiscExpensesFBudgetMiniFormMDP from "./FMiscExpensesFBudgetMiniFormMDP";
 import FPersonalFMiniFormMDP from "./FPersonalFMiniFormMDP";
-
+import FIEUnsecuredDebtFBudgetMiniFormMDP from './FIEUnsecuredDebtFBudgetMiniFormMDP';
 export default class FBudgetFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
@@ -54,6 +54,13 @@ export default class FBudgetFFormMDP extends FFormMDP {
           parent: this,
         })
       )
+      .addField(
+        new FIEUnsecuredDebtFBudgetMiniFormMDP({
+          taskRoot: this.taskRoot,
+          parent: this,
+        })
+      )
+      
       .addField(
         new FLivingExpensesFBudgetMiniFormMDP({
           taskRoot: this.taskRoot,

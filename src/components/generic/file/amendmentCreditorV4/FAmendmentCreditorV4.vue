@@ -27,6 +27,14 @@
           v-bind="fCreditorListFDataTableMetaData.props"
         ></component>
       </v-card>
+
+       <v-card class="my-4" flat>
+        <component
+          :is="fClientCreditorListMetaData.componentName"
+          :ref="fClientCreditorListMetaData.myRefName"
+          v-bind="fClientCreditorListMetaData.props"
+        ></component>
+      </v-card>
       <!-- <v-card flat>
         <component
           :value="excludedCreditorList"
@@ -77,12 +85,15 @@ import FDataTable from "../../table/FDataTable.vue";
 import moment from "moment";
 import FSnackbar from "@/fsnackbar";
 import FAV4CreditorListInEligibleFDataTableMDP from './FAV4CreditorListInEligibleFDataTableMDP';
+import FClientCreditorListMDP, { CreditorType } from "../clientCreditor/FClientCreditorListMDP";
+import FClientCreditorList from "../clientCreditor/FClientCreditorList.vue";
 
 @Component({
   components: {
     FForm,
     FBtn,
     FDataTable,
+    FClientCreditorList
   },
 })
 export default class FAmendmentCreditorV4 extends ModelVue {
@@ -250,6 +261,16 @@ export default class FAmendmentCreditorV4 extends ModelVue {
       parent: this,
     }).getMetaData();
   }
+
+
+  get fClientCreditorListMetaData() {
+    return new FClientCreditorListMDP({
+      parent: this,
+      taskRoot: this.taskRoot,
+      creditorType: CreditorType.Amendment
+    }).getMetaData();
+  }
+
 
   isCreditCard(): boolean {
     if (this.addCreditorDialog) {

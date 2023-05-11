@@ -96,7 +96,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 })
 export default class FBudgetMiniForm extends ModelVue {
   get totalAmount() {
-    return Object.values(this.modelValue).reduce(
+    const objVal: any = this.modelValue?Object.values(this.modelValue):[]
+    return objVal.reduce(
       (accumulator: number, objValue: any) => {
         const val = isNaN(objValue) ? 0 : objValue;
         return accumulator + val;

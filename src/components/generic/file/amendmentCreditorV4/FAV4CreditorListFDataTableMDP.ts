@@ -18,7 +18,12 @@ export default class FAV4CreditorListFDataTableMDP extends FDataTableMDP {
       .addCurrencyColumn({
         label: "Creditor Balance",
         dataSelectorKey: "creditorBalance",
-      }).addColumn({
+      })
+      .addCurrencyColumn({
+        label: "EMI Amount",
+        dataSelectorKey: "emiAmount",
+      })
+      .addColumn({
         label: "Last Date Of Payment",
         dataSelectorKey: "lastDateOfPayment",
         columnCellMDP: new FCellDateMDP()

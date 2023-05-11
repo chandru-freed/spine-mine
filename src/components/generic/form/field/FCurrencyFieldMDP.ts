@@ -62,7 +62,7 @@ export default class FCurrencyFieldMDP implements FFieldMDP {
   }
 
   getRules() {
-    const required = this.mandatory ? "required" : "";
+    const required = this.mandatory ? "positive" : "";
     return `${required}|${this.rules}`;
   }
 

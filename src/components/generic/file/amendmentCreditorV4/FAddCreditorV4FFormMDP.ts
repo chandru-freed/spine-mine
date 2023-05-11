@@ -56,6 +56,15 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
         })
       )
       .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "emiAmount",
+          label: "EMI Amount",
+          mandatory: true,
+          boundaryClass: "col-4",
+        })
+      )
+      .addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "lastDateOfPayment",
@@ -103,6 +112,13 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           condition: !this.parent.isCreditCard(),
           // rules: "min:9|max:20",
           rules: "min:4|max:20",
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "details",
+          label: "Details",
         })
       )
 

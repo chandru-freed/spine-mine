@@ -333,7 +333,8 @@ export default class FCreditor extends ModelVue {
 
   get fClientCreditorListMetaData() {
     return new FClientCreditorListMDP({
-      parent: this
+      parent: this,
+      taskRoot: this.taskRoot
     }).getMetaData();
   }
 

@@ -28,13 +28,13 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this
-    .addField(new FClCreditorSelectFieldMDP({
-      dataSelectorKey: "clCreditorId",
-      label: "Search Client Creditor(Optional)",
-      parentMDP: this.childMDP,
-      boundaryClass: "col-4",
-      onSelect: this.handleClientCreditorChange()
-    }))
+    // .addField(new FClCreditorSelectFieldMDP({
+    //   dataSelectorKey: "clCreditorId",
+    //   label: "Search Client Creditor(Optional)",
+    //   parentMDP: this.childMDP,
+    //   boundaryClass: "col-4",
+    //   onSelect: this.handleClientCreditorChange()
+    // }))
     .addField(
       new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
@@ -120,7 +120,6 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "details",
           label: "Details",
-          boundaryClass: "col-4",
         })
       )
 
@@ -164,6 +163,7 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
+    input.skipUnderwrittingRule = false
     console.table(input)
       // input.clientId =   (this.taskRoot as any
       // ).clientFileBasicInfo.clientBasicInfo.clientId

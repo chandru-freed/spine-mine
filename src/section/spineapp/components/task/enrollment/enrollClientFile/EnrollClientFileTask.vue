@@ -143,8 +143,8 @@ export default class EnrollClientFileTask extends ModelVue {
         ? Data.ClientFile.FiCreditorInfo.fromJson(this.fiCreditorStore)
         : new Data.ClientFile.FiCreditorInfo(),
       budgetInfo: this.budgetInfoStore
-        ? Data.Spine.BudgetInfo.fromJson(this.budgetInfoStore)
-        : new Data.Spine.BudgetInfo(),
+        ? Data.ClientFile.BudgetInfo.fromJson(this.budgetInfoStore)
+        : new Data.ClientFile.BudgetInfo(),
       bankInfo: this.bankInfoStore
         ? Data.Spine.BankInfo.fromJson(this.bankInfoStore)
         : new Data.Spine.BankInfo(),

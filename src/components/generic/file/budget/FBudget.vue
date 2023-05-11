@@ -44,6 +44,20 @@
             </v-list-item-action>
           </v-list-item>
 
+
+            <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
+                >Total Ineligible UnSecured Debt Obligation</v-list-item-title
+              >
+              <v-list-item-subtitle>All total debt</v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text> {{ totalSecuredDebtAmount | toINR }} </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Total Monthly Expenses</v-list-item-title>
@@ -176,6 +190,11 @@ export default class FBudget extends ModelVue {
     return this.modelValueLocal.debtRepayments;
   }
 
+  get ineligibleUnsecuredDebts() {
+    return this.modelValueLocal.ineligibleUnsecuredDebt;
+  }
+
+
   get livingExpenses() {
     return this.modelValueLocal.livingExpenses;
   }
@@ -267,10 +286,17 @@ export default class FBudget extends ModelVue {
     return totalDebtRepayments;
   }
 
+  get totalIneligibleUnsecuredDebts() {
+    const totalIneligibleUnsecuredDebts = this.sumMiniBudgetAmount(this.ineligibleUnsecuredDebts);
+      this.modelValueLocal.totalIneligibleUnsecuredDebts = totalIneligibleUnsecuredDebts;
+    return totalIneligibleUnsecuredDebts;
+  }
+
   get availableIncome() {
     const availableIncome =
       this.totalIncomeAmount -
       this.totalSecuredDebtAmount -
+      this.totalIneligibleUnsecuredDebts -
       this.allExpensesAmount;
     this.modelValueLocal.availableIncome = availableIncome;
     return availableIncome;

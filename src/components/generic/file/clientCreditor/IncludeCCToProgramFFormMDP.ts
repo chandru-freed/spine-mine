@@ -1,32 +1,41 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
+import FDateFieldMDP from "@/components/generic/form/field/FDateFieldMDP";
+import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
-import MDP from "@/components/generic/MDP";
 import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
-import FNumberFieldMDP from "../../form/field/FNumberFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
+import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FAccountFieldMDP from "../../form/field/FAccountFieldMDP";
 import * as Snackbar from "node-snackbar";
-import FRemoteComboBoxFieldMDP from "../../form/field/FRemoteComboBoxFieldMDP";
 import FCurrencyFieldMDP from "../../form/field/FCurrencyFieldMDP";
 import FCreditCardFieldMDP from "../../form/field/FCreditCardFieldMDP";
 import FRemoteAutoCompleteFieldMDP from "../../form/field/FRemoteAutoCompleteFieldMDP";
+import FClCreditorSelectFieldMDP from "../../form/field/FClCreditorSelectFieldMDP";
 
-export default class FEditCreditorFFormMDP extends FFormMDP {
+export default class IncludeCCToProgramFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   taskRoot: any;
   parent: any;
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {
     super({
-      myRefName: "editCreditorFormRef",
+      myRefName: "includeCreditorFormRef",
       disabled: taskRoot.taskDisabled,
     });
     this.taskRoot = taskRoot;
     this.parent = parent;
 
-    this.addField(
+    this
+    // .addField(new FClCreditorSelectFieldMDP({
+    //   dataSelectorKey: "clCreditorId",
+    //   label: "Search Client Creditor(Optional)",
+    //   parentMDP: this.childMDP,
+    //   boundaryClass: "col-4",
+    //   onSelect: this.handleClientCreditorChange()
+    // }))
+    .addField(
       new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "creditorName",
@@ -45,7 +54,6 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
-
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
@@ -55,6 +63,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
+      
       .addField(
         new FSelectDateFieldMDP({
           parentMDP: this.childMDP,
@@ -76,7 +85,6 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           options: [
             "Credit Card",
             "Personal Loans",
-            "Secured",
             "Others (Unsecured)",
           ],
         })
@@ -90,6 +98,7 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           mandatory: true,
           boundaryClass: "col-4",
           condition: this.parent.isCreditCard(),
+          // rules: "min:9|max:20",
           rules: "min:4|max:20",
         })
       )
@@ -105,62 +114,72 @@ export default class FEditCreditorFFormMDP extends FFormMDP {
           // rules: "min:9|max:20",
           rules: "min:4|max:20",
         })
-      ).addField(
+      )
+      .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "details",
           label: "Details",
         })
       )
+
       .addAction(
         new FBtnMDP({
           label: "Cancel",
           btnType: BtnType.TEXT,
           onClick: () => {
-            this.closeEditForm();
+            this.closeAddForm();
           },
         })
       )
       .addAction(
         new FBtnMDP({
-          label: "Update Creditor",
-          onClick: this.submitEditCreditor(),
+          label: "Include Creditor",
+          onClick: this.submitIncludeCreditor(),
         })
       );
   }
 
-  getMyRef(): any {
+  getMyRef() {
     return this.parent.$refs[this.myRefName];
   }
 
-  submitEditCreditor() {
+  submitIncludeCreditor() {
     return () => {
       this.getMyRef().submitForm(() => {
-        // this.parent.getMyRef()[0].editCreditorData();
-        this.updateCreditor();
+        this.addCreditor();
       });
     };
   }
 
-  closeEditForm() {
+  closeAddForm() {
     this.parent.closeAndClearAllForms();
   }
 
-  updateCreditor() {
-    const input = Data.ClientFile.UpdateFiCreditorInput.fromJson(
-      this.parent.editCreditorForm
+  addCreditor() {
+    const input = Data.ClientFile.AddIncludeFiCreditorInput.fromJson(
+      this.parent.includeCreditorToCCForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
+    console.table(input)
+      // input.clientId =   (this.taskRoot as any
+      // ).clientFileBasicInfo.clientBasicInfo.clientId
+    
     // input.taskId = this.taskRoot.taskId;
-    input.skipUnderwrittingRule = true;
-    Action.ClientFile.UpdateFiCreditor.execute(input, (output) => {
+    Action.ClientFile.AddIncludeFiCreditor.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
-        text: "Succesfully Updated",
+        text: "Succesfully included",
         pos: "bottom-center",
       });
     });
+  }
+
+  handleClientCreditorChange() {
+    return (item: any) => {
+      this.parent.handleClientCreditorChange(item);
+    }
   }
 }

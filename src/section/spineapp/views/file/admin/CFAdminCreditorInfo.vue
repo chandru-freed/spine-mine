@@ -72,6 +72,7 @@ export default class CFAdminCreditorInfo extends ModelVue {
   public getClientFileBasicInfoHandler = (output: any) => {
     setTimeout(() => {
       this.getClientFileBasicInfo();
+      this.getClientCreditorList();
     }, 1000);
   };
 
@@ -96,6 +97,9 @@ export default class CFAdminCreditorInfo extends ModelVue {
     Action.ClientFile.AddFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
+    Action.ClientFile.UpdateIncludeClCreditor.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
     Action.ClientFile.UpdateFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
@@ -116,6 +120,12 @@ export default class CFAdminCreditorInfo extends ModelVue {
     Action.ClientFile.UpdateFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
+    Action.ClientFile.UpdateIncludeClCreditor.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
+    Action.ClientFile.ExcludeFiCreditorFromProgram.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    )
   }
 
   //ACTION
@@ -136,6 +146,13 @@ export default class CFAdminCreditorInfo extends ModelVue {
   getClientFileSummary() {
     Action.ClientFile.GetClientFileSummary.execute1(
       this.clientFileId,
+      (output) => {}
+    );
+  }
+
+  getClientCreditorList() {
+    Action.ClientFile.GetClCreditorList.execute1(
+      this.clientFileBasicInfo.clientBasicInfo.clientId,
       (output) => {}
     );
   }

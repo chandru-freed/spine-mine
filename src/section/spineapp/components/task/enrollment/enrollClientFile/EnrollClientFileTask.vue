@@ -134,6 +134,9 @@ export default class EnrollClientFileTask extends ModelVue {
 
   taskFormOutputLocal: any = new Data.Spine.CollectClientInfoTask();
   get taskFormOutput() {
+    const budgetInfo: Data.ClientFile.BudgetInfo = this.budgetInfoStore? Data.ClientFile.BudgetInfo.fromJson(this.budgetInfoStore)
+        : new Data.ClientFile.BudgetInfo();    
+    budgetInfo.ineligibleUnsecuredDebt = this.fiCreditorStore.ineligibleUnsecuredDebt;    
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
@@ -142,9 +145,7 @@ export default class EnrollClientFileTask extends ModelVue {
       creditorInfo: this.fiCreditorStore
         ? Data.ClientFile.FiCreditorInfo.fromJson(this.fiCreditorStore)
         : new Data.ClientFile.FiCreditorInfo(),
-      budgetInfo: this.budgetInfoStore
-        ? Data.ClientFile.BudgetInfo.fromJson(this.budgetInfoStore)
-        : new Data.ClientFile.BudgetInfo(),
+      budgetInfo: budgetInfo,
       bankInfo: this.bankInfoStore
         ? Data.Spine.BankInfo.fromJson(this.bankInfoStore)
         : new Data.Spine.BankInfo(),
@@ -216,7 +217,8 @@ export default class EnrollClientFileTask extends ModelVue {
   public getClientCreditorInfoAndInfoHandler = (output: any) => {
     setTimeout(() => {
       this.getClientCreditorInfoAndInfo();
-      this.getClientFileBasicInfo();
+      this.getClientCreditorList();
+      // this.getClientFileBasicInfo();
     }, 1000);
   };
 
@@ -306,6 +308,10 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientCreditorInfoAndInfoHandler
     );
 
+    Action.ClientFile.UpdateIncludeClCreditor.interested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
+
     Action.ClientFile.ExcludeFiCreditorFromProgram.interested(
       this.getClientCreditorInfoAndInfoHandler
     )
@@ -368,6 +374,11 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.AddFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
+
+    Action.ClientFile.UpdateIncludeClCreditor.notInterested(
+      this.getClientCreditorInfoAndInfoHandler
+    );
+
 
     Action.ClientFile.UpdateFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
@@ -597,6 +608,13 @@ export default class EnrollClientFileTask extends ModelVue {
       (output) => {}
     );
   }
+  getClientCreditorList() {
+    Action.ClientFile.GetClCreditorList.execute1(
+      this.clientFileBasicInfo.clientBasicInfo.clientId,
+      (output) => {}
+    );
+  }
+
 }
 </script>
 

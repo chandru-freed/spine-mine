@@ -40,6 +40,18 @@ export default class NupayMigratedCFFDataTableMDP extends FDataTableMDP {
         //   columnCellMDP: new FCellDateMDP(),
       })
       .addCurrencyColumn({
+        label: "SPA Amount",
+        dataSelectorKey: "spaAmount",
+      })
+      .addCurrencyColumn({
+        label: "Fee Amount",
+        dataSelectorKey: "feeAmount",
+      })
+      .addCurrencyColumn({
+        label: "MSF Amount",
+        dataSelectorKey: "msfAmount",
+      })
+      .addCurrencyColumn({
         label: "Total Amount",
         dataSelectorKey: "totalAmount",
       })

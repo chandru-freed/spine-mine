@@ -2,7 +2,6 @@
   <div class="DRPDashboard">
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
-    ehello
     <!-- TASK TAB -->
     <component
       v-if="!!showAssignForm"

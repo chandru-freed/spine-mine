@@ -6,6 +6,8 @@ import FSelectFieldMDP from "../../form/field/FSelectFieldMDP";
 import FTextFieldMDP from "../../form/field/FTextFieldMDP";
 import FSelectDateFieldMDP from "../../form/field/FDateSelectFieldMDP";
 import FAgeFieldMDP from "../../form/field/FAgeFieldMDP";
+import FRemoteAutoCompleteFieldMDP from "../../form/field/FRemoteAutoCompleteFieldMDP";
+import FRemoteSelectFieldMDP from "../../form/field/FRemoteSelectFieldMDP";
 
 export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
   childMDP = new FFormChildMDP();
@@ -141,8 +143,21 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           dataSelectorKey: "taskOutput.budgetInfo.employeeCompanyName",
           label: "Employee Company Name",
           mandatory: true,
-          boundaryClass: "col-12",
+          boundaryClass: "col-6",
+        })
+      ).addField(
+        new FRemoteSelectFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "taskOutput.budgetInfo.hardshipReasonCodeList",
+          label: "Hardship Reason",
+          mandatory: true,
+          boundaryClass: "col-6",
+          queryUrl:"/spineapi/master/get-hardship-reason-list",
+          optionLabel: "reasonDesc",
+          optionValue: "reasonCode",
+          multiple: true
         })
       );
+      
   }
 }

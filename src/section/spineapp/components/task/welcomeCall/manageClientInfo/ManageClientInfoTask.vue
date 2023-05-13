@@ -137,7 +137,7 @@ export default class ManageClientInfoTask
       this.findClPersonalInfoHandler
     );
 
-    Action.ClientFile.AddIncludeFiCreditor.interested(
+    Action.ClientFile.AddFiCreditor.interested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
     Action.ClientFile.UpdateFiCreditor.interested(
@@ -158,7 +158,7 @@ export default class ManageClientInfoTask
       this.findClPersonalInfoHandler
     );
 
-    Action.ClientFile.AddIncludeFiCreditor.notInterested(
+    Action.ClientFile.AddFiCreditor.notInterested(
       this.getFiCreditorInfoAndSchedulePPHandler
     );
 

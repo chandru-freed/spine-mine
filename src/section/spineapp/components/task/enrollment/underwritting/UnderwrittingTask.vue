@@ -213,7 +213,7 @@ export default class UnderwrittingTask extends ModelVue {
       this.findClPersonalInfoHandler
     );
 
-    Action.ClientFile.AddIncludeFiCreditor.interested(
+    Action.ClientFile.AddFiCreditor.interested(
       this.getClientCreditorInfoAndSummaryHandler
     );
     Action.ClientFile.UpdateFiCreditor.interested(
@@ -247,7 +247,7 @@ export default class UnderwrittingTask extends ModelVue {
       this.findClPersonalInfoHandler
     );
 
-    Action.ClientFile.AddIncludeFiCreditor.notInterested(
+    Action.ClientFile.AddFiCreditor.notInterested(
       this.getClientCreditorInfoAndSummaryHandler
     );
 

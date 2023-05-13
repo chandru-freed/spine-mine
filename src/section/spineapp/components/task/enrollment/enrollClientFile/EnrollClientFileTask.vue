@@ -216,6 +216,7 @@ export default class EnrollClientFileTask extends ModelVue {
   public getClientCreditorInfoAndInfoHandler = (output: any) => {
     setTimeout(() => {
       this.getClientCreditorInfoAndInfo();
+      this.getClientFileBasicInfo();
     }, 1000);
   };
 
@@ -228,6 +229,7 @@ export default class EnrollClientFileTask extends ModelVue {
   public getFiPaymentPlanInfoHandler = (output: any) => {
     setTimeout(() => {
       this.getFiPaymentPlanInfo();
+      this.getClientFileBasicInfo();
     }, 1000);
   };
 
@@ -300,7 +302,7 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getClientFileBasicInfoHandler
     );
 
-    Action.ClientFile.AddIncludeFiCreditor.interested(
+    Action.ClientFile.AddFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
 
@@ -363,7 +365,7 @@ export default class EnrollClientFileTask extends ModelVue {
       this.findClPersonalInfoHandler
     );
 
-    Action.ClientFile.AddIncludeFiCreditor.notInterested(
+    Action.ClientFile.AddFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
 

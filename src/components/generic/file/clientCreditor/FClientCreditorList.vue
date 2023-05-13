@@ -78,13 +78,23 @@ export default class FClientCreditorList extends ModelVue {
 
   public mounted() {
     this.getClientCreditorList();
-    Action.ClientFile.AddIncludeFiCreditor.interested(
+    Action.ClientFile.AddFiCreditor.interested(
+      this.getClientCreditorListHandler
+    );
+    Action.ClientFile.UpdateFiCreditor.interested(
       this.getClientCreditorListHandler
     );
   }
 
   destroyed() {
-    Action.ClientFile.AddIncludeFiCreditor.notInterested(
+    Action.ClientFile.AddFiCreditor.notInterested(
+      this.getClientCreditorListHandler
+    );
+    Action.ClientFile.UpdateFiCreditor.notInterested(
+      this.getClientCreditorListHandler
+    );
+
+    Action.ClientFile.UpdateIncludeClCreditor.notInterested(
       this.getClientCreditorListHandler
     );
   }

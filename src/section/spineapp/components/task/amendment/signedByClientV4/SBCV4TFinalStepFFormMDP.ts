@@ -25,7 +25,15 @@ export default class SBCV4TFinalStepFFormMDP extends FFormMDP {
             dataSelectorKey:"taskOutput.amendmentLink",
             label:"Amendment Link",
             readonly: true
+        }))
+        
+        .addField(new FTextFieldMDP({
+            parentMDP: this.childMDP,
+            dataSelectorKey:"taskInput.previewLink",
+            label:"Preview Link",
+            readonly: true
         }));
+        
         // .addAction(
         //     new FBtnMDP({
         //         label: "Mark Complete",

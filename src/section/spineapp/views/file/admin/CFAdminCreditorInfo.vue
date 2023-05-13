@@ -93,7 +93,7 @@ export default class CFAdminCreditorInfo extends ModelVue {
     Action.ClientFile.UpdateCreditInfo.interested(
       this.getClientFileBasicInfoHandler
     );
-    Action.ClientFile.AddIncludeFiCreditor.interested(
+    Action.ClientFile.AddFiCreditor.interested(
       this.getClientCreditorInfoAndInfoHandler
     );
     Action.ClientFile.UpdateFiCreditor.interested(
@@ -110,7 +110,7 @@ export default class CFAdminCreditorInfo extends ModelVue {
       this.getClientFileBasicInfoHandler
     );
 
-    Action.ClientFile.AddIncludeFiCreditor.notInterested(
+    Action.ClientFile.AddFiCreditor.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
     Action.ClientFile.UpdateFiCreditor.notInterested(

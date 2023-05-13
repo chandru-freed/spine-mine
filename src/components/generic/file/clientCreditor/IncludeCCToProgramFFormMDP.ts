@@ -157,18 +157,17 @@ export default class IncludeCCToProgramFFormMDP extends FFormMDP {
   }
 
   addCreditor() {
-    const input = Data.ClientFile.AddIncludeFiCreditorInput.fromJson(
+    const input = Data.ClientFile.UpdateIncludeClCreditorInput.fromJson(
       this.parent.includeCreditorToCCForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
-    console.table(input)
       // input.clientId =   (this.taskRoot as any
       // ).clientFileBasicInfo.clientBasicInfo.clientId
     
     // input.taskId = this.taskRoot.taskId;
-    Action.ClientFile.AddIncludeFiCreditor.execute(input, (output) => {
+    Action.ClientFile.UpdateIncludeClCreditor.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully included",

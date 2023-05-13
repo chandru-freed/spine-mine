@@ -1,4 +1,5 @@
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import FInfoINRMDP from "@/components/generic/table/info/FInfoINRMDP";
 
 export default class NupaySummaryFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -6,7 +7,10 @@ export default class NupaySummaryFDataTableMDP extends FDataTableMDP {
         super({ myRefName: "NupaySummaryRef" });
         this.parent = parent;
         this
-            .addCurrencyColumn({
+            .addColumn({
+                label: "Nupay Customer Id",
+                dataSelectorKey: "nupayCustomerId"
+            }).addCurrencyColumn({
                 label: "Total Collection Amount",
                 dataSelectorKey: "totalCollectionAmount"
             }).addCurrencyColumn({
@@ -17,21 +21,22 @@ export default class NupaySummaryFDataTableMDP extends FDataTableMDP {
                 dataSelectorKey: "totalTrustAmount"
             }).addColumn({
                 label: "Customer Name",
-                dataSelectorKey: "customerName"
-            }).addColumn({
-                label: "Nupay Customer Id",
-                dataSelectorKey: "nupayCustomerId"
+                dataSelectorKey: "customerName",
+                hidden: true
             }).addInfo({
                 label:"Collection Amount",
-                value:this.parent.nupayPaymentConsolidation.totalTrustAmount
+                value:this.parent.nupayPaymentConsolidation.totalCollectionAmount,
+                infoMDP: new FInfoINRMDP({})
             })
             .addInfo({
                 label:"Partner Amount",
-                value:this.parent.nupayPaymentConsolidation.totalParterAmount
+                value:this.parent.nupayPaymentConsolidation.totalParterAmount,
+                infoMDP: new FInfoINRMDP({})
             })
             .addInfo({
                 label:"Trust Amount",
-                value:this.parent.nupayPaymentConsolidation.totalTrustAmount
+                value:this.parent.nupayPaymentConsolidation.totalTrustAmount,
+                infoMDP: new FInfoINRMDP({})
             })
     }
 }

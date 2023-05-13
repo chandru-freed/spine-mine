@@ -1,4 +1,5 @@
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class NupayPresentationListFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -21,10 +22,7 @@ export default class NupayPresentationListFDataTableMDP extends FDataTableMDP {
             }).addClientFileNumberColumn({
                 label: "Client File Number",
                 dataSelectorKey: "clientFileNumber"
-            }).addStatusColumn({
-                label: "Status",
-                dataSelectorKey: "status"
-            }).addColumn({
+            }).addPaymentStatusColumn({ label: "Status", dataSelectorKey: "status", }).addColumn({
                 label: "Reason Desc",
                 dataSelectorKey: "reasonDesc"
             }).addColumn({

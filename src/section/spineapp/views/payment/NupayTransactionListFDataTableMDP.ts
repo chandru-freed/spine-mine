@@ -1,4 +1,5 @@
 import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
+import * as Data from "@/../src-gen/data";
 
 export default class NupayTransactionListFDataTableMDP extends FDataTableMDP {
     parent: any;
@@ -26,7 +27,8 @@ export default class NupayTransactionListFDataTableMDP extends FDataTableMDP {
                 dataSelectorKey: "utr"
             }).addStatusColumn({
                 label: "Status",
-                dataSelectorKey: "status"
+                dataSelectorKey: "status",
+                colorCodeData: Data.Color.PAYMENT_STATUS
             }).addColumn({
                 label: "Nupay Ref No",
                 dataSelectorKey: "nupayRefNo"

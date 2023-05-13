@@ -13,14 +13,15 @@
       "
     ></component>
 
-    <div class="d-flex justify-space-around">
-      <v-card outlined min-width="600px">
+    <div class="row">
+      <div class="col-6">
+      <v-card class="mx-3" outlined >
         <v-list subheader two-line>
-          <v-subheader class="text-center">Budget Summary</v-subheader>
+          <v-subheader class="text-center">Financial Health Check</v-subheader>
 
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Total Income</v-list-item-title>
+              <v-list-item-title>Monthly Income</v-list-item-title>
               <v-list-item-subtitle
                 >Income earned in total per month</v-list-item-subtitle
               >
@@ -34,7 +35,7 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title
-                >Total Secured Debt Obligation</v-list-item-title
+                >Secured Loan EMI</v-list-item-title
               >
               <v-list-item-subtitle>All total debt</v-list-item-subtitle>
             </v-list-item-content>
@@ -48,13 +49,99 @@
             <v-list-item>
             <v-list-item-content>
               <v-list-item-title
-                >Total Ineligible UnSecured Debt Obligation</v-list-item-title
+                >UnSecured Loan EMI</v-list-item-title
+              >
+              <v-list-item-subtitle>All total debt</v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text> {{ modelValue.taskOutput.creditorInfo.totalUnsecuredDebt | toINR }} </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Monthly Expenses</v-list-item-title>
+              <v-list-item-subtitle>All monthly expenses</v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text>{{ allExpensesAmount | toINR }} </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Available Income Before Enrollment </v-list-item-title>
+              <v-list-item-subtitle
+                >Total Income - (Total Monthly Expense + Total Debt
+                Repayments)</v-list-item-subtitle
+              >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text> {{ financialHealthCheckAmount | toINR }} </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
+                >Financial Health Check Percentage</v-list-item-title
+              >
+              
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text class="font-weight-black" color="secondary">
+                {{ Math.round(financialHealthCheckPercentage)  }} %
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </div>
+      <div class="col-6">
+       <v-card class="mx-3" outlined >
+        <v-list subheader two-line>
+          <v-subheader class="text-center">Budget Summary</v-subheader>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Monthly Income</v-list-item-title>
+              <v-list-item-subtitle
+                >Income earned in total per month</v-list-item-subtitle
+              >
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text> {{ totalIncomeAmount | toINR }} </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
+                >Secured Loan EMI</v-list-item-title
               >
               <v-list-item-subtitle>All total debt</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
               <v-btn text> {{ totalSecuredDebtAmount | toINR }} </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+
+            <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
+                >Ineligible UnSecured Loan EMI</v-list-item-title
+              >
+              <v-list-item-subtitle>All total debt</v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn text> {{ totalIneligibleUnsecuredDebts | toINR }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -112,6 +199,7 @@
           </v-list-item>
         </v-list>
       </v-card>
+      </div>
     </div>
 
     <div
@@ -301,6 +389,21 @@ export default class FBudget extends ModelVue {
     this.modelValueLocal.availableIncome = availableIncome;
     return availableIncome;
   }
+
+  get financialHealthCheckAmount() {
+    const financialHealthCheckAmount =
+      this.totalIncomeAmount -
+      this.totalSecuredDebtAmount -
+      this.modelValue.taskOutput.creditorInfo.totalUnsecuredDebt -
+      this.allExpensesAmount;
+    return financialHealthCheckAmount;
+  }
+
+  get financialHealthCheckPercentage() {
+    return (this.financialHealthCheckAmount * 100) / this.totalIncomeAmount;
+  }
+
+  
 
   get proposedDSPayment() {
     const proposedDSPayment =

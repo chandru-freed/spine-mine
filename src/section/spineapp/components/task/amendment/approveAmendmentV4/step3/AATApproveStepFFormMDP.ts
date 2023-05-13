@@ -2,6 +2,7 @@
 import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FFormMDP, { FFormChildMDP } from "@/components/generic/form/FFormMDP";
 import FSwitchMDP from "@/components/generic/form/field/FSwitchMDP";
+import FTextFieldMDP from "@/components/generic/form/field/FTextFieldMDP";
 import FTextareaMDP from "@/components/generic/form/field/FTextareaMDP";
 import Task from "@/section/spineapp/util/Task";
 
@@ -30,6 +31,16 @@ export default class AATApproveStepFFormMDP extends FFormMDP {
         //     // disabled: true
         //   })
         // )
+        .addField(
+          new FTextFieldMDP({
+            parentMDP: this.childMDP,
+            dataSelectorKey: "taskInput.previewLink",
+            label: "Preview Link",
+            mandatory: true,
+            boundaryClass: "col-12",
+            readonly: true
+          })
+        )
         .addField(
             new FTextareaMDP({
               parentMDP: this.childMDP,

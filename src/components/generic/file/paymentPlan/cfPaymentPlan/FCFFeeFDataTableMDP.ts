@@ -52,7 +52,8 @@ export default class FCFFeeFDataTableMDP extends FDataTableMDP {
       .addAction({
         label: "Collect",
         onClick: this.collectMSF(),
-        type: ActionType.OTHERS
+        type: ActionType.OTHERS,
+        disabled: !this.parent.fileSummary.isFirstMSFPaid
       })
       
       .addAction({

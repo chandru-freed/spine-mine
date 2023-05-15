@@ -28,13 +28,13 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
     this.parent = parent;
 
     this
-    .addField(new FClCreditorSelectFieldMDP({
-      dataSelectorKey: "clCreditorId",
-      label: "Search Client Creditor(Optional)",
-      parentMDP: this.childMDP,
-      boundaryClass: "col-4",
-      onSelect: this.handleClientCreditorChange()
-    }))
+    // .addField(new FClCreditorSelectFieldMDP({
+    //   dataSelectorKey: "clCreditorId",
+    //   label: "Search Client Creditor(Optional)",
+    //   parentMDP: this.childMDP,
+    //   boundaryClass: "col-4",
+    //   onSelect: this.handleClientCreditorChange()
+    // }))
     .addField(
       new FRemoteAutoCompleteFieldMDP({
         parentMDP: this.childMDP,
@@ -156,12 +156,12 @@ export default class FAddCreditorFFormMDP extends FFormMDP {
   }
 
   addCreditor() {
-    const input = Data.ClientFile.AddIncludeFiCreditorForAmendmentInput.fromJson(
+    const input = Data.ClientFile.AddFiCreditorForAmendmentForm.fromJson(
       this.parent.addCreditorForm
     );
     input.amendmentToken = 
       this.taskRoot.amendmentToken;
-    Action.ClientFile.AddIncludeFiCreditorForAmendment.execute(input, (output) => {
+    Action.ClientFile.AddFiCreditorForAmendment.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",

@@ -4,7 +4,7 @@ import FInfoINRMDP from "../../table/info/FInfoINRMDP";
 export default class FClientCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ title: "Excluded Creditors", myRefName: "FClientCreditorListRef", itemKey:"clCreditorId" });
+        super({ title: "Excluded Creditors", myRefName: "FClientCreditorListRef", itemKey:"clCreditorId", disabled: parent.disabled });
         this.parent = parent;
         this
             .addColumn({

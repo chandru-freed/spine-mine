@@ -64,6 +64,10 @@ export default class FClientCreditorList extends ModelVue {
 
   @Prop()
   taskRoot: any;
+  @Prop({
+    default: false
+  })
+  disabled: boolean;
   
   @Prop({
     default: () => []

@@ -27,11 +27,17 @@ export default class FTaskStepperMDP implements MDP {
     stepContent,
     submitFunc,
     rescueFunc,
+    preCondition = true,
+    preConditionMDP,
+    preConditionErrorMsg="Pre condition failed"
   }: {
     name: string;
     stepContent: MDP;
     submitFunc?: (onSuccess: any) => void;
     rescueFunc?: (onSuccess: any) => void;
+    preCondition?: boolean;
+    preConditionMDP?: MDP;
+    preConditionErrorMsg?: string
   }) {
     this.stepList.push(
       new FTaskStepMDP({
@@ -39,6 +45,9 @@ export default class FTaskStepperMDP implements MDP {
         stepContent: stepContent,
         submitFunc,
         rescueFunc,
+        preCondition,
+        preConditionMDP,
+        preConditionErrorMsg
       })
     );
     return this;
@@ -63,21 +72,34 @@ export class FTaskStepMDP implements MDP {
   stepContent: MDP;
   submitFunc: ((onSuccess: any) => void) | undefined;
   rescueFunc: ((onSuccess: any) => void) | undefined;
+  preCondition: boolean;
+  preConditionMDP?: MDP;
+  preConditionErrorMsg?: string;
   constructor({
     name,
     stepContent,
     submitFunc,
     rescueFunc,
+    preCondition=true,
+    preConditionMDP,
+    preConditionErrorMsg
   }: {
     name: string;
     stepContent: MDP;
     submitFunc?: ((onSuccess: any) => void) | undefined;
     rescueFunc?: ((onSuccess: any) => void) | undefined;
+    preCondition?: boolean;
+    confirmationMessage?:string;
+    preConditionMDP?: MDP;
+    preConditionErrorMsg: string;
   }) {
     this.name = name;
     this.stepContent = stepContent;
     this.submitFunc = submitFunc;
     this.rescueFunc = rescueFunc;
+    this.preCondition = preCondition;
+    this.preConditionMDP = preConditionMDP;
+    this.preConditionErrorMsg = preConditionErrorMsg;
   }
 
   getMetaData(): object {
@@ -87,6 +109,9 @@ export class FTaskStepMDP implements MDP {
       stepInstance: this.stepContent,
       submitFunc: this.submitFunc,
       rescueFunc: this.rescueFunc,
+      preCondition: this.preCondition,
+      preConditionMetaData: this.preConditionMDP?.getMetaData(),
+      preConditionErrorMsg: this.preConditionErrorMsg
     };
   }
 }

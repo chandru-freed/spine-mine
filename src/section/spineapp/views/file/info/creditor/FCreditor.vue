@@ -30,11 +30,12 @@
         :value="fiCreditorList"
         class="my-4"
       ></component>
-      <!-- <component
+      <component
+        v-if="clientFileBasicInfo.clientBasicInfo.clientId"
         :is="fClientCreditorListMetaData.componentName"
         :ref="fClientCreditorListMetaData.myRefName"
         v-bind="fClientCreditorListMetaData.props"
-      ></component> -->
+      ></component>
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"

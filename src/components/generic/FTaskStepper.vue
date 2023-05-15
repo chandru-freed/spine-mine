@@ -25,6 +25,10 @@
         v-for="(step, stepIndx) in stepMetaDataList"
         :key="stepIndx"
       >
+        <!-- <f-alert v-if="showConfirmation" :message="confirmationMessage" @cancelClick="showConfirmation=false"
+      @confirmClick="submitAndGotoNextStep(step)"
+      /> -->
+      <!-- {{step.preConditionMetaData}} -->
         <component
           v-if="suspendTask"
           :ref="suspendTaskFFormMetaData.myRefName"
@@ -56,6 +60,7 @@
           v-bind="cancelFlowFFormMetaData.props"
         ></component>
         <v-card color="grey lighten-4" flat min-height="600">
+          
           <v-card-text class="pa-0">
             <div class="d-flex justify-space-around pa-3">
               <v-btn
@@ -184,10 +189,18 @@
                 :disabled="selectedStep === stepMetaDataList.length - 1"
                 outlined
                 color="primary"
-                @click="submitAndGotoNextStep(step)"
+                @click="handleNextClick(step)"
                 >Save & Next</v-btn
               >
             </div>
+             <component
+          v-if="!!step.preConditionMetaData && !step.preCondition"
+          :ref="step.preConditionMetaData.myRefName"
+          :is="step.preConditionMetaData.componentName"
+          :value="selectModel(modelValue, undefined)"
+          @input="(newValue) => updateModel(modelValue, newValue, undefined)"
+          v-bind="step.preConditionMetaData.props"
+        ></component>
             <v-alert
               v-if="taskRescue"
               dense
@@ -263,6 +276,8 @@ import FScrollUpBtn from "./FScrollUpBtn.vue";
 import FCashfreeList from "./file/cashfreeList/FCashfreeList.vue";
 import FAmendmentCreditorV4 from "./file/amendmentCreditorV4/FAmendmentCreditorV4.vue";
 import FAmendmentV4PaymentPlan from "./file/amendmentPaymentPlanV4/FAmendmentV4PaymentPlan.vue";
+import FAlert from "./FAlert.vue";
+import BudgetException from "@/section/spineapp/components/task/enrollment/enrollClientFile/step3/BudgetException.vue";
 
 @Component({
   components: {
@@ -292,6 +307,8 @@ import FAmendmentV4PaymentPlan from "./file/amendmentPaymentPlanV4/FAmendmentV4P
     FCashfreeList,
     FAmendmentCreditorV4,
     FAmendmentV4PaymentPlan,
+    FAlert,
+    BudgetException
   },
 })
 export default class FTaskStepper extends ModelVue {
@@ -338,6 +355,7 @@ export default class FTaskStepper extends ModelVue {
   cancelTaskForm: boolean = false;
   cancelFlowForm: boolean = false;
   filteredActionsLocal: any = [];
+  confirmationMessage: string;
 
   get filteredActions() {
     this.filteredActionsLocal = [
@@ -414,6 +432,9 @@ export default class FTaskStepper extends ModelVue {
   @Prop()
   actionable: boolean;
 
+  // showPreConditionMDP: boolean = false;
+
+  // preConditionMetaData: any;
   // changeStepQuery(val: any) {
   //   this.$router.push({
   //     query: { ...this.$route.query, step: val.toString() },
@@ -450,6 +471,14 @@ export default class FTaskStepper extends ModelVue {
     step.submitFunc(() => {
       this.gotoNextStep(this.selectedStep);
     });
+  }
+
+  handleNextClick(step: any) {
+    if (!step.preCondition) {
+      FSnackbar.error(step.preConditionErrorMsg)
+    } else {
+      this.submitAndGotoNextStep(step);
+    }
   }
 
   gotoNextStep(step: any) {
@@ -577,7 +606,6 @@ export default class FTaskStepper extends ModelVue {
       clientFileId: this.clientFileId,
     });
   }
-
 }
 </script>
 <style>
@@ -588,15 +616,15 @@ export default class FTaskStepper extends ModelVue {
   padding: 0px 12px !important;
 }
 
-.v-stepper__step__step{
+.v-stepper__step__step {
   display: none !important;
 }
 
-.theme--light.v-stepper .v-stepper__step--active .v-stepper__label{
+.theme--light.v-stepper .v-stepper__step--active .v-stepper__label {
   color: #f36f21 !important;
   /* font-weight: bold; */
 }
-.theme--light.v-stepper .v-stepper__step--active{
+.theme--light.v-stepper .v-stepper__step--active {
   border-bottom: 4px solid #f36f21;
 }
 </style>

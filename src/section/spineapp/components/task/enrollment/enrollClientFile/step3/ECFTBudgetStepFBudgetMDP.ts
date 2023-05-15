@@ -27,7 +27,8 @@ export default class ECFTBudgetStepFBudgetMDP extends FBudgetMDP {
   }
 
   getBudgetFormRef() {
-    return this.getMyRef()[0].$refs[this.budgetFormRef];
+    console.log(this.getMyRef())
+    return this.getMyRef().$refs[this.budgetFormRef];
   }
 
   // new implement

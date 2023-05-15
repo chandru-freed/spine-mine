@@ -57,6 +57,7 @@ export default class BudgetException extends ModelVue {
     input.exceptionTakenList =
       this.modelValue.taskOutput.exceptionTakenList;
     input.exceptionTakenList.push(Data.ClientFile.EXCEPTION_TAKEN.HARDSHIP.id);
+    // input.exceptionTakenList.push(Data.ClientFile.EXCEPTION_TAKEN.)
     input.exceptionApprovedBy =
       this.modelValue.taskOutput.exceptionApprovedBy;
     Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {

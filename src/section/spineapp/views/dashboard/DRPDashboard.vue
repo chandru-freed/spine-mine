@@ -2,7 +2,6 @@
   <div class="DRPDashboard">
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
-    {{drpDashboardDataInput}}
 
       <component
       v-if="!!drpDashboardFilterFFormMetaData"

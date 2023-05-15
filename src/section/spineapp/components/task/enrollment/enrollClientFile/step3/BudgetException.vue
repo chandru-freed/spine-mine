@@ -51,6 +51,9 @@ export default class BudgetException extends ModelVue {
   clientFileId = this.$route.params.clientFileId;
 
   updateExceptionTaken() {
+    //TOBE_REMOVED
+    Store.Mutation.ClientFile.ClientFileSummary.UPDATE_BUDGET_INFO(this.modelValue.taskOutput.budgetInfo)
+    
     const input = new Data.ClientFile.UpdateExceptionTakenListInput();
     this.addNoteInput.clientFileId = this.clientFileId;
     input.clientFileId = this.clientFileId;
@@ -64,7 +67,6 @@ export default class BudgetException extends ModelVue {
     
     input.exceptionTakenList.push(Data.ClientFile.EXCEPTION_TAKEN.HARDSHIP.id);
     console.log(this.taskRoot.taskFormData.taskOutput.budgetInfo,"Budget info")
-    Store.Mutation.ClientFile.ClientFileSummary.UPDATE_BUDGET_INFO(this.modelValue.taskOutput.budgetInfo)
 
     // input.exceptionTakenList.push(Data.ClientFile.EXCEPTION_TAKEN.)
     input.exceptionApprovedBy = this.modelValue.taskOutput.exceptionApprovedBy;

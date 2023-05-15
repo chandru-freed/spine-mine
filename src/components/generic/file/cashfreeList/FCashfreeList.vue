@@ -93,8 +93,8 @@ export default class FCashfreeList extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  receiveFirstMSFPaymentInput: Data.ClientFile.ReceiveFirstMSFPaymentInput =
-    new Data.ClientFile.ReceiveFirstMSFPaymentInput();
+  draftFirstMSFPaymentInput: Data.ClientFile.DraftFirstMSFThroughCashfreeInput =
+    new Data.ClientFile.DraftFirstMSFThroughCashfreeInput();
 
   get actionMetaDataListFiltered() {
     return this.actionMetaDataList.filter(

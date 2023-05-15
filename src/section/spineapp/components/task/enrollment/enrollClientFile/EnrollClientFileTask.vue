@@ -355,7 +355,7 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.interested(
       this.getAllSignAgreementListHandler
     );
-    Action.ClientFile.ReceiveFirstMSFPayment.interested(
+    Action.ClientFile.DraftAndPresentFirstMSFThroughCashfree.interested(
       this.getMSFCashfreeLinkPaymentListHandler
     );
     Action.ClientFile.InitiateEMandate.interested(this.getEMandateListHandler);
@@ -428,7 +428,7 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.notInterested(
       this.getAllSignAgreementListHandler
     );
-    Action.ClientFile.ReceiveFirstMSFPayment.notInterested(
+    Action.ClientFile.DraftAndPresentFirstMSFThroughCashfree.notInterested(
       this.getMSFCashfreeLinkPaymentListHandler
     );
     Action.ClientFile.InitiateEMandate.notInterested(

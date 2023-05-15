@@ -2,10 +2,10 @@
   <div class="col">
     <v-alert color="warning" outlined>
       <div class="col text-center">
-        <v-toolbar-text class="text-center"
+        <div class="text-center"
           >Hardship check failed.This is because of the funds available with the
           client are either positive, zero or negative(Upto -5%).
-          <div class="text-center">Take exception before continuing.</div></v-toolbar-text
+          <div class="text-center">Take exception before continuing.</div></div
         >
         <!-- <v-textarea outlined dense rows="2" label="notes"></v-textarea> -->
         <div class="d-flex justify-center">

@@ -337,15 +337,14 @@ export default class CFQuickNav extends Vue {
 
   selectedFileForUpload: any = null;
 
-  fileOptions: string[] = [
-    "Aadhaar",
-    "PAN",
-    "Credit Report",
-    "Photo",
-    "Call Recordings",
-    "CHPP",
-    "Others",
-  ];
+  fileOptions: string[] = ["PAN","Credit Report", "Photo", "Call Recordings","CHPP",
+        "Income Proof - Bank Statement",
+        "Income Proof - Salary Slip",
+        "Income Proof - ITR",
+        "Income Proof - Form 16",
+        "Income Proof - Rent Receipts",
+        "Income Proof - Balance Sheet for Deposit",
+        "Others"]
   uploadDocumentForm: Data.ClientFile.UploadDocumentForm =
     new Data.ClientFile.UploadDocumentForm();
   uploadedDocument: Data.Spine.FileDocument = new Data.Spine.FileDocument();

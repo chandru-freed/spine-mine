@@ -425,7 +425,6 @@ export default class FBudget extends ModelVue {
   }
 
   get financialHealthCheckPercentage() {
-    console.log(this.totalIncomeAmount,"this.totalIncomeAmount")
     if(!!this.totalIncomeAmount && this.totalIncomeAmount!==0) {
     return (this.financialHealthCheckAmount * 100) / this.totalIncomeAmount;
     } else {

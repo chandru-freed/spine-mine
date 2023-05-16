@@ -4,6 +4,15 @@
     <task-tab v-model="tab"></task-tab>
     <!-- TASK TAB -->
 
+      <component
+      v-if="!!dcpDashboardFilterFFormMetaData"
+      :ref="dcpDashboardFilterFFormMetaData.myRefName"
+      :is="dcpDashboardFilterFFormMetaData.componentName"
+      :value="selectModel(dcpDashboardDataInput, undefined)"
+      @input="(newValue) => updateModel(dcpDashboardDataInput, newValue, undefined)"
+      v-bind="dcpDashboardFilterFFormMetaData.props"
+    ></component>
+
     <component
       v-if="!!showAssignForm"
       :ref="assignSalesRepToSelfEnrolFileFFormMetaData.myRefName"
@@ -44,6 +53,7 @@ import DashboardTab from "../../components/tab/DashboardTab.vue";
 import DCPDashboardFDataTableMDP from "./DCPDashboardFDataTableMDP";
 import FSnackbar from "@/fsnackbar";
 import AssignSalesRepToSelfEnrolFileFFormMDP from "./AssignSalesRepToSelfEnrolFileFFormMDP";
+import DCPDashboardFilterFFormMDP from './DCPDashboardFilterFFormMDP'
 
 @Component({
   components: {
@@ -76,6 +86,10 @@ export default class DCPDashboard extends ModelVue {
     return new AssignSalesRepToSelfEnrolFileFFormMDP({
       root: this,
     }).getMetaData();
+  }
+
+  get dcpDashboardFilterFFormMetaData() {
+    return new DCPDashboardFilterFFormMDP({parent: this}).getMetaData()
   }
 
   mounted() {

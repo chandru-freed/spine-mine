@@ -9,6 +9,7 @@ import ECFTSummaryStepMDP from "./step6/ECFTSummaryStepMDP";
 import ECFTSSAStepMDP from "./step7/ECFTSSAStepMDP";
 import ECFTEMandateListStepMDP from "./step8/ECFTEMandateListStepMDP";
 import ECFTCashfreeStepMDP from "./step9/ECFTCashfreeStepMDP";
+import BudgetExceptionMDP from "./step3/BudgetExceptionMDP";
 
 
 export default class ECFTFStepperMDP extends FTaskStepperMDP {
@@ -58,6 +59,9 @@ export default class ECFTFStepperMDP extends FTaskStepperMDP {
         name: "Budget",
         stepContent: ccitBudgetStepFBudgetMDP,
         submitFunc: ccitBudgetStepFBudgetMDP.validateAndSubmit(),
+        preCondition: ccitBudgetStepFBudgetMDP.getBudgetPreCondition(),
+        preConditionMDP:new BudgetExceptionMDP({taskRoot, parent}),
+        preConditionErrorMsg: "Hardship check failed"
       })
       .addStep({
         name: "Payment Plan",

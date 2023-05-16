@@ -156,12 +156,16 @@ export default class IncludeCCToAmendmentFFormMDP extends FFormMDP {
   }
 
   addCreditor() {
-    const input = Data.ClientFile.AddIncludeFiCreditorForAmendmentInput.fromJson(
+    const input = Data.ClientFile.UpdateIncludeClCreditorForAmendmentForm.fromJson(
       this.parent.includeCreditorToAmendmentForm
     );
     input.amendmentToken = 
       this.taskRoot.amendmentToken;
-    Action.ClientFile.AddIncludeFiCreditorForAmendment.execute(input, (output) => {
+      input.skipUnderwrittingRule = true;
+      input.clientFileId = (
+        this.taskRoot as any
+      ).clientFileBasicInfo.clientFileId;
+    Action.ClientFile.UpdateIncludeClCreditorForAmendment.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully included",

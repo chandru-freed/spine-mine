@@ -10,6 +10,7 @@ import FCellEmailMDP from "@/components/generic/table/cell/FCellEmailMDP";
 import FCellStatusMDP from "@/components/generic/table/cell/FCellStatusMDP";
 import DocumentsListFDataTableMDP from "./DocumentsListFDataTableMDP";
 import FCellTaskStatusMDP from "@/components/generic/table/cell/FCellTaskStatusMDP";
+import FCellDateTimeMDP from "@/components/generic/table/cell/FCellDateTimeMDP";
 
 export default class PartnerDetailsListFDataTableMDP extends FDataTableMDP {
   parent: any;
@@ -22,7 +23,7 @@ export default class PartnerDetailsListFDataTableMDP extends FDataTableMDP {
       itemKey: "partnerId",
     });
     this.parent = props.parent;
-    this.addClientFileNumberColumn({ dataSelectorKey: "clientFileNumber",})
+    this.addClientFileNumberColumn({ dataSelectorKey: "clientFileNumber" })
       .addColumn({
         label: "Client Name",
         dataSelectorKey: "clientFullName",
@@ -34,6 +35,30 @@ export default class PartnerDetailsListFDataTableMDP extends FDataTableMDP {
       .addStatusColumn({
         label: "Status",
         dataSelectorKey: "status.name",
+      })
+      .addColumn({
+        label: "City",
+        dataSelectorKey: "city",
+      })
+      .addColumn({
+        label: "Created On",
+        dataSelectorKey: "createdOn",
+        columnCellMDP: new FCellDateTimeMDP(),
+      })
+      .addColumn({
+        label: "Credit Score",
+        dataSelectorKey: "creditScore",
+      })
+      .addColumn({
+        label: "WAD",
+        dataSelectorKey: "wad",
+      })
+      .addCurrencyColumn({
+        label: "Unsecured Loan Amount",
+        dataSelectorKey: "unsecuredLoanAmount",
+      }) .addColumn({
+        label: "Assigned Sales Rep",
+        dataSelectorKey: "assignedSalesRep",
       });
   }
 }

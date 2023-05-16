@@ -54,7 +54,9 @@ export default class ECFTSummaryStepMDP implements MDP {
                 }
                 input.clientFileId = this.taskRoot.clientFileId;
                 Action.ClientFile.UpdateExceptionTakenList.execute(input, (output) => {
+                    if(nextCallback) {
                     nextCallback();
+                    }
                 });
             });
 

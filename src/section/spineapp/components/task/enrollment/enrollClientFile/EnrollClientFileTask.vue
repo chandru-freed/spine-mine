@@ -136,7 +136,7 @@ export default class EnrollClientFileTask extends ModelVue {
   get taskFormOutput() {
     const budgetInfo: Data.ClientFile.BudgetInfo = this.budgetInfoStore? Data.ClientFile.BudgetInfo.fromJson(this.budgetInfoStore)
         : new Data.ClientFile.BudgetInfo();    
-    budgetInfo.ineligibleUnsecuredDebt = this.fiCreditorStore.ineligibleUnsecuredDebt;    
+    budgetInfo.ineligibleUnsecuredDebt = Data.ClientFile.BudgetIneligibleUnsecuredDebts.fromJson(this.fiCreditorStore.ineligibleUnsecuredDebt.toJson());
     this.taskFormOutputLocal = {
       ...this.taskDetails.outputJson,
       personalInfo: this.personalInfoStore
@@ -268,6 +268,7 @@ export default class EnrollClientFileTask extends ModelVue {
   public getExceptionTakenListHandler = () => {
     setTimeout(() => {
       this.getExceptionTakenList();
+      this.getClientFileEnrollmentSummary();
     }, 1000);
   };
 
@@ -354,7 +355,7 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.interested(
       this.getAllSignAgreementListHandler
     );
-    Action.ClientFile.ReceiveFirstMSFPayment.interested(
+    Action.ClientFile.DraftAndPresentFirstMSFThroughCashfree.interested(
       this.getMSFCashfreeLinkPaymentListHandler
     );
     Action.ClientFile.InitiateEMandate.interested(this.getEMandateListHandler);
@@ -427,7 +428,7 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.GenerateAgreement.notInterested(
       this.getAllSignAgreementListHandler
     );
-    Action.ClientFile.ReceiveFirstMSFPayment.notInterested(
+    Action.ClientFile.DraftAndPresentFirstMSFThroughCashfree.notInterested(
       this.getMSFCashfreeLinkPaymentListHandler
     );
     Action.ClientFile.InitiateEMandate.notInterested(

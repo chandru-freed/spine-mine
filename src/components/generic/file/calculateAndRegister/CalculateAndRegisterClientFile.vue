@@ -153,6 +153,7 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
       },
       error => {
         this.showLoader = false;
+        ErrorResponse.handle(error);
       });
     }
   }
@@ -213,6 +214,7 @@ export default class CalculateAndRegisterClientFile extends ModelVue {
         }, 500);
       },
       error => {
+        ErrorResponse.handle(error);
         this.showLoader = false;
       }
     );

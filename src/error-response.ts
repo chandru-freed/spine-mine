@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
+import FSnackbar from './fsnackbar';
 
 
 
@@ -16,6 +17,7 @@ export default abstract class ErrorResponse {
         //     backgroundColor: '#ff5252',
         //     actionTextColor: '#ffffff'
         //   });
+        FSnackbar.error(message);  
     }
     private static showUsingToasr(errorResponse: ErrorResponse): void {
        if (errorResponse instanceof ClientErrors) {

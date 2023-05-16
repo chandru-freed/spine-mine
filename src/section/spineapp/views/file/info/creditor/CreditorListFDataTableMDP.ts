@@ -26,6 +26,10 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         label: "Creditor Balance",
         dataSelectorKey: "creditorBalance",
       })
+      .addCurrencyColumn({
+        label: "Emi Amount",
+        dataSelectorKey: "emiAmount",
+      })
       .addColumn({
         label: "Last Date Of Payment",
         dataSelectorKey: "lastDateOfPayment",

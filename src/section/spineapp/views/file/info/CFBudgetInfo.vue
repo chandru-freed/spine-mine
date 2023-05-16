@@ -33,6 +33,9 @@ export default class CFBudgetInfo extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfo: Data.ClientFile.ClPersonalInfo;
 
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
+
   budgetInfoFormLocal = new Data.ClientFile.BudgetInfo();
 
   get clientFileId() {
@@ -48,6 +51,7 @@ export default class CFBudgetInfo extends ModelVue {
       taskOutput: {
         personalInfo: this.personalInfo,
         budgetInfo: this.budgetInfoForm,
+        creditorInfo: this.fiCreditorStore
       },
     };
   }
@@ -76,10 +80,15 @@ export default class CFBudgetInfo extends ModelVue {
   public mounted() {
     this.getBudgetInfo();
     this.findClPersonalInfo();
+    this.getCreditorInfo();
   }
 
   getBudgetInfo() {
     Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
+  }
+
+  getCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {});
   }
 
   findClPersonalInfo() {

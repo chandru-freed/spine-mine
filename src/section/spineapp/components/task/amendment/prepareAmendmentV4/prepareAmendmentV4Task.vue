@@ -30,6 +30,11 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   taskDetails: Data.TaskList.ExecutiveTaskDetails;
   @Store.Getter.ClientFile.ClientFileSummary.budgetInfo
   budgetInfoStore: Data.ClientFile.BudgetInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  
+
   taskId = this.$route.params.taskId;
   amendmentDetails: Data.ClientFile.AmendmentDetails =
     new Data.ClientFile.AmendmentDetails();
@@ -43,7 +48,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   mounted() {
     this.getAmendmentDetails();
     this.getBudgetInfo();
-    Action.ClientFile.AddIncludeFiCreditorForAmendment.interested(
+    Action.ClientFile.AddFiCreditorForAmendment.interested(
       this.getAmendmentDetailsHandler
     );
 
@@ -51,7 +56,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
       this.getAmendmentDetailsHandler
     );
 
-    Action.ClientFile.IncludeFiCreditorInProgramAmendment.interested(
+    Action.ClientFile.UpdateIncludeClCreditorForAmendment.interested(
       this.getAmendmentDetailsHandler
     );
 
@@ -78,7 +83,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
 
 
   destroyed() {
-    Action.ClientFile.AddIncludeFiCreditorForAmendment.notInterested(
+    Action.ClientFile.AddFiCreditorForAmendment.notInterested(
       this.getAmendmentDetailsHandler
     );
 
@@ -86,7 +91,10 @@ export default class PrepareAmendmentV4Task extends ModelVue {
       this.getAmendmentDetailsHandler
     );
 
-    Action.ClientFile.IncludeFiCreditorInProgramAmendment.notInterested(
+    // Action.ClientFile.IncludeFiCreditorInProgramAmendment.notInterested(
+    //   this.getAmendmentDetailsHandler
+    // );
+    Action.ClientFile.UpdateIncludeClCreditorForAmendment.notInterested(
       this.getAmendmentDetailsHandler
     );
 
@@ -111,6 +119,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   getAmendmentDetailsHandler = () => {
     setTimeout(() => {
       this.getAmendmentDetails();
+      this.getClientCreditorList();
     }, 1000);
   };
   getAmendmentDetails() {
@@ -177,6 +186,13 @@ export default class PrepareAmendmentV4Task extends ModelVue {
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,
     });
+  }
+
+  getClientCreditorList() {
+    Action.ClientFile.GetClCreditorList.execute1(
+      this.clientFileBasicInfo.clientBasicInfo.clientId,
+      (output) => {}
+    );
   }
 
   //Action

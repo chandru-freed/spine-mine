@@ -157,15 +157,15 @@ export default class CFAAddCreditorFFormMDP extends FFormMDP {
   }
 
   addCreditor() {
-    const input = Data.ClientFile.AddIncludeFiCreditorInput.fromJson(
+    const input = Data.ClientFile.AddFiCreditorInput.fromJson(
       this.parent.addCreditorForm
     );
     input.clientFileId = (
       this.taskRoot as any
     ).clientFileBasicInfo.clientFileId;
     // input.taskId = this.taskRoot.taskId;
-    input.skipUnderwrittingRule = false;
-    Action.ClientFile.AddIncludeFiCreditor.execute(input, (output) => {
+    // input.skipUnderwrittingRule = false;
+    Action.ClientFile.AddFiCreditor.execute(input, (output) => {
       this.parent.closeAndClearAllForms();
       Snackbar.show({
         text: "Succesfully saved",

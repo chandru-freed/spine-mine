@@ -25,7 +25,14 @@ export default class FUploadDocumentFFormMDP extends FFormMDP {
         label: "Type of Document",
         mandatory: true,
         boundaryClass: "col-4",
-        options:["Aadhaar", "PAN","Credit Report", "Photo", "Call Recordings","CHPP","Others"]
+        options:["PAN","Credit Report", "Photo", "Call Recordings","CHPP",
+        "Income Proof - Bank Statement",
+        "Income Proof - Salary Slip",
+        "Income Proof - ITR",
+        "Income Proof - Form 16",
+        "Income Proof - Rent Receipts",
+        "Income Proof - Balance Sheet for Deposit",
+        "Others"]
       })).addField(
       new FFileFieldMDP({
         parentMDP: this.childMDP,

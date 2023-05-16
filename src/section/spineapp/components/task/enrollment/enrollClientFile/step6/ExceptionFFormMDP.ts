@@ -58,7 +58,8 @@ export default class ExceptionFFormMDP extends FFormMDP {
       label:"Exception ApprovedBy",
       boundaryClass: "col-4",
       condition: this.taskRoot.taskFormData.taskOutput.haveException === "YES",
-      mandatory: true
+      mandatory: true,
+      minSearchValueLength: 0
     }))
   }
 

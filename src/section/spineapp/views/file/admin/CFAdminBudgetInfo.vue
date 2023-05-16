@@ -29,6 +29,9 @@ export default class CFAdminBudgetInfo extends ModelVue {
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+  
+  @Store.Getter.ClientFile.ClientFileSummary.fiCreditorInfo
+  fiCreditorStore: Data.ClientFile.FiCreditorInfo;
 
   @Store.Getter.ClientFile.ClientFileSummary.personalInfo
   personalInfo: Data.ClientFile.ClPersonalInfo;
@@ -48,6 +51,8 @@ export default class CFAdminBudgetInfo extends ModelVue {
       taskOutput: {
         personalInfo: this.personalInfo || {},
         budgetInfo: this.budgetInfoForm,
+        creditorInfo: this.fiCreditorStore
+
       },
     };
   }
@@ -80,6 +85,7 @@ getBudgetInfoHandler = () => {
   public mounted() {
     this.getBudgetInfo();
     this.findClPersonalInfo();
+    this.getCreditorInfo();
     Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
   }
 
@@ -96,6 +102,11 @@ getBudgetInfoHandler = () => {
       this.clientFileId,
       (output) => {}
     );
+  }
+
+
+  getCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {});
   }
 }
 </script>

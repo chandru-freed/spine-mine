@@ -2,7 +2,16 @@
   <div class="DRPDashboard">
     <!-- TASK TAB -->
     <task-tab v-model="tab"></task-tab>
-    ehello
+
+      <component
+      v-if="!!drpDashboardFilterFFormMetaData"
+      :ref="drpDashboardFilterFFormMetaData.myRefName"
+      :is="drpDashboardFilterFFormMetaData.componentName"
+      :value="selectModel(drpDashboardDataInput, undefined)"
+      @input="(newValue) => updateModel(drpDashboardDataInput, newValue, undefined)"
+      v-bind="drpDashboardFilterFFormMetaData.props"
+    ></component>
+
     <!-- TASK TAB -->
     <component
       v-if="!!showAssignForm"
@@ -44,6 +53,7 @@ import DashboardTab from "../../components/tab/DashboardTab.vue";
 import DRPDashboardFDataTableMDP from "./DRPDashboardFDataTableMDP";
 import AssignSalesRepToSelfEnrolFileFFormMDP from "./AssignSalesRepToSelfEnrolFileFFormMDP";
 import FSnackbar from "@/fsnackbar";
+import DRPDashboardFilterFFormMDP from './DRPDashboardFilterFFormMDP'
 
 @Component({
   components: {
@@ -76,6 +86,10 @@ export default class DRPDashboard extends ModelVue {
     return new AssignSalesRepToSelfEnrolFileFFormMDP({
       root: this,
     }).getMetaData();
+  }
+
+  get drpDashboardFilterFFormMetaData() {
+          return new DRPDashboardFilterFFormMDP({parent: this}).getMetaData()
   }
 
   mounted() {

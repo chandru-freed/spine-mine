@@ -64,6 +64,10 @@ export default class FClientCreditorList extends ModelVue {
 
   @Prop()
   taskRoot: any;
+  @Prop({
+    default: false
+  })
+  disabled: boolean;
   
   @Prop({
     default: () => []
@@ -78,15 +82,34 @@ export default class FClientCreditorList extends ModelVue {
 
   public mounted() {
     this.getClientCreditorList();
-    Action.ClientFile.AddIncludeFiCreditor.interested(
-      this.getClientCreditorListHandler
-    );
+    // Action.ClientFile.AddFiCreditor.interested(
+    //   this.getClientCreditorListHandler
+    // );
+    // Action.ClientFile.UpdateFiCreditor.interested(
+    //   this.getClientCreditorListHandler
+    // );
+    //  Action.ClientFile.UpdateIncludeClCreditor.interested(
+    //   this.getClientCreditorListHandler
+    // );
+    // Action.ClientFile.ExcludeFiCreditorFromProgram.interested(
+    //   this.getClientCreditorListHandler
+    // );
   }
 
   destroyed() {
-    Action.ClientFile.AddIncludeFiCreditor.notInterested(
-      this.getClientCreditorListHandler
-    );
+    // Action.ClientFile.AddFiCreditor.notInterested(
+    //   this.getClientCreditorListHandler
+    // );
+    // Action.ClientFile.UpdateFiCreditor.notInterested(
+    //   this.getClientCreditorListHandler
+    // );
+
+    // Action.ClientFile.UpdateIncludeClCreditor.notInterested(
+    //   this.getClientCreditorListHandler
+    // );
+    // Action.ClientFile.ExcludeFiCreditorFromProgram.notInterested(
+    //   this.getClientCreditorListHandler
+    // );
   }
 
   getClientCreditorListHandler = () => {

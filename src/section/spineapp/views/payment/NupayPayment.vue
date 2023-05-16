@@ -1,5 +1,6 @@
 <template>
   <div class="NupayPayment">
+    
     <component
       v-if="!!nupayFilterFFormMetaData"
       :ref="nupayFilterFFormMetaData.myRefName"
@@ -11,19 +12,45 @@
       v-bind="nupayFilterFFormMetaData.props"
     ></component>
     <v-card flat>
-      <component
+      <!-- <component
         v-if="!!nupayMigratedCfFDataTableMetaData"
         :ref="nupayMigratedCfFDataTableMetaData.myRefName"
         :is="nupayMigratedCfFDataTableMetaData.componentName"
         :value="[]"
         v-bind="nupayMigratedCfFDataTableMetaData.props"
-      ></component>
-      <v-toolbar-title class="mx-5 py-5">Nupay Summary</v-toolbar-title>
+      ></component> -->
+      <v-toolbar-title class="mx-5 py-1" dense>Nupay Summary</v-toolbar-title>
+      <v-row class="my-2">
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ nupayPaymentConsolidation.totalCollectionAmount }}
+            </div>
+            <div class="text-caption">Total Collection Amount</div>
+          </v-card>
+        </v-sheet>
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ nupayPaymentConsolidation.totalParterAmount }}
+            </div>
+            <div class="text-caption">Total Partner Amount</div>
+          </v-card>
+        </v-sheet>
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ nupayPaymentConsolidation.totalTrustAmount }}
+            </div>
+            <div class="text-caption">Total Trust Amount</div>
+          </v-card>
+        </v-sheet>
+      </v-row>
       <component
         v-if="!!nupaySummaryFDataTableMetaData"
         :ref="nupaySummaryFDataTableMetaData.myRefName"
         :is="nupaySummaryFDataTableMetaData.componentName"
-        :value="[]"
+        :value="nupayPaymentConsolidation.nupayCustomerIdSummaryList"
         v-bind="nupaySummaryFDataTableMetaData.props"
       ></component>
       <component
@@ -38,7 +65,57 @@
         v-bind="nupayPaymentFStaticTabMetaData.props"
       />
 
-      <v-toolbar-title class="mx-5 mt-5">CF Migrated Summary</v-toolbar-title>
+      <v-toolbar-title dense class="mx-5 mt-1">CF Migrated Summary</v-toolbar-title>
+      <v-row class="my-2">
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ cfPaymentConsolidation.totalCollectionAmount }}
+            </div>
+            <div class="text-caption">Total Collection Amount</div>
+          </v-card>
+        </v-sheet>
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ cfPaymentConsolidation.totalKFSAmount }}
+            </div>
+            <div class="text-caption">Total KFS Amount</div>
+          </v-card>
+        </v-sheet>
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ cfPaymentConsolidation.totalFeeAmount }}
+            </div>
+            <div class="text-caption">Total Fee Amount</div>
+          </v-card>
+        </v-sheet>
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ cfPaymentConsolidation.totalMSFAmount }}
+            </div>
+            <div class="text-caption">Total MSF Amount</div>
+          </v-card>
+        </v-sheet>
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ cfPaymentConsolidation.totalIncomingTrustAmount }}
+            </div>
+            <div class="text-caption">Total Incoming To Trust</div>
+          </v-card>
+        </v-sheet>
+        <v-sheet outlined rounded class="ml-4">
+          <v-card large label outlined class="px-4">
+            <div class="text-h6">
+              {{ cfPaymentConsolidation.totalTrustAmount }}
+            </div>
+            <div class="text-caption">Total Trust Amount</div>
+          </v-card>
+        </v-sheet>
+      </v-row>
       <component
         :ref="nupayCFMigrationFStaticTabMetaData.myRefName"
         :is="nupayCFMigrationFStaticTabMetaData.componentName"
@@ -86,6 +163,7 @@ export default class NupayPayment extends ModelVue {
     new Data.Spine.CFPaymentConsolidation();
   public mounted() {
     this.getNupayPaymentConsolidation();
+    this.getCFTPaymentSummary();
   }
 
   getNupayPaymentConsolidation() {
@@ -105,7 +183,9 @@ export default class NupayPayment extends ModelVue {
   getCFTPaymentSummary() {
     Action.Spine.GetCFTPaymentSummary.execute(
       this.nupayPaymentFilter,
-      (output) => {}
+      (output) => {
+        this.cfPaymentConsolidation = output;
+      }
     );
   }
 

@@ -74,11 +74,13 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
   handleGenerateLink() {
     return () => {
       return new Promise((res) => {
-        this.parent.receiveFirstMSFPaymentInput.clientFileId =
+        const draftFirstMSFPaymentInput: Data.ClientFile.DraftFirstMSFThroughCashfreeInput =
+        new Data.ClientFile.DraftFirstMSFThroughCashfreeInput();
+        draftFirstMSFPaymentInput.clientFileId =
           this.parent.clientFileId;
-        this.parent.receiveFirstMSFPaymentInput.taskId = this.parent.taskId;
-        Action.ClientFile.ReceiveFirstMSFPayment.execute(
-          this.parent.receiveFirstMSFPaymentInput,
+        // receiveFirstMSFPaymentInput.taskId = this.parent.taskId;
+        Action.ClientFile.DraftAndPresentFirstMSFThroughCashfree.execute(
+          draftFirstMSFPaymentInput,
           (output) => {
             FSnackbar.success("Successfully generated the Cashfree");
           }

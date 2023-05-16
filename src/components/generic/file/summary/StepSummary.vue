@@ -148,7 +148,7 @@ export default class StepSummary extends ModelVue {
       fiPaymentPlanInfoStore: this.fiPaymentPlanInfoStore || new Data.ClientFile.FiPaymentPlanInfo(),
       bankInfoStore: this.bankInfoStore || new Data.ClientFile.FiBankInfo(),
       personalInfoStore: this.personalInfoStore || new Data.ClientFile.ClPersonalInfo(),
-      creditorList: this.fiCreditorStore?.includedCreditorList || []
+      creditorList: this.fiCreditorStore?.fiCreditorList || []
     };
   }
 

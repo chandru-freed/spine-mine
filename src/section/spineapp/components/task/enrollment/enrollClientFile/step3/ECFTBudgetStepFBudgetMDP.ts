@@ -16,11 +16,19 @@ export default class ECFTBudgetStepFBudgetMDP extends FBudgetMDP {
   }
 
   getMyRef() {
-    return this.parent.getMyRef().$refs[this.myRefName];
+    return this.parent.getMyRef()?.$refs[this.myRefName][0];
+  }
+
+
+  getBudgetPreCondition() {
+    const financialHealthCheckPercentage = this.getMyRef()?.financialHealthCheckPercentage || 0;
+    const exceptionTakenOnHardship = this.taskRoot.clientFileEnrollmentSummary?.enrollmentSummary?.exceptionTakenOnHardship;
+    return financialHealthCheckPercentage<-5 || exceptionTakenOnHardship;
   }
 
   getBudgetFormRef() {
-    return this.getMyRef()[0].$refs[this.budgetFormRef];
+    console.log(this.getMyRef())
+    return this.getMyRef().$refs[this.budgetFormRef];
   }
 
   // new implement

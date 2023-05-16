@@ -35,6 +35,10 @@ export default class FBudgetMDP implements MDP {
     return this;
   }
 
+  getMyRef(): any {
+    return this.taskRoot.$refs[this.myRefName];
+  }
+
   getMetaData(): object {
     return {
       componentName: this.componentName,

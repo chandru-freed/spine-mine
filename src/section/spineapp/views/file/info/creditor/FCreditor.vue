@@ -27,15 +27,15 @@
         :is="creditorListFDataTableMetaData.componentName"
         :ref="creditorListFDataTableMetaData.myRefName"
         v-bind="creditorListFDataTableMetaData.props"
-        :value="creditorList"
+        :value="fiCreditorList"
         class="my-4"
       ></component>
-      <!-- <component
-        :is="creditorListIEFDataTableMetaData.componentName"
-        :ref="creditorListIEFDataTableMetaData.myRefName"
-        v-bind="creditorListIEFDataTableMetaData.props"
-        :value="ineligibleCreditorList"
-      ></component> -->
+      <component
+        v-if="clientFileBasicInfo.clientBasicInfo.clientId"
+        :is="fClientCreditorListMetaData.componentName"
+        :ref="fClientCreditorListMetaData.myRefName"
+        v-bind="fClientCreditorListMetaData.props"
+      ></component>
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
         v-if="!disabled"
@@ -66,11 +66,15 @@ import FDataTable from "@/components/generic/table/FDataTable.vue";
 import CFUpdateCreditScoreFFormMDP from "./CFUpdateCreditScoreFFormMDP";
 import CFUpdateAccountNoFFormMDP from "./CFUpdateAccountNoFFormMDP";
 import CreditorListInEligibleFDataTableMDP from './CreditorListInEligibleFDataTableMDP';
+import FClientCreditorListFDataTableMDP from "@/components/generic/file/clientCreditor/FClientCreditorListFDataTableMDP";
+import FClientCreditorListMDP from "@/components/generic/file/clientCreditor/FClientCreditorListMDP";
+import FClientCreditorList from "@/components/generic/file/clientCreditor/FClientCreditorList.vue";
 @Component({
   components: {
     FForm,
     FBtn,
     FDataTable,
+    FClientCreditorList
   },
 })
 export default class FCreditor extends ModelVue {
@@ -150,7 +154,7 @@ export default class FCreditor extends ModelVue {
       this.clientFileBasicInfo.creditBureau || "";
   }
 
-get creditorList() {
+get fiCreditorList() {
     return (this.modelValue.fiCreditorList);
   }
 
@@ -241,6 +245,10 @@ get creditorList() {
       taskRoot: this.taskRoot,
       parent: this,
     }).getMetaData();
+  }
+
+  get fClientCreditorListMetaData() {
+    return new FClientCreditorListMDP({parent: this,taskRoot: this,disabled: true}).getMetaData();
   }
 }
 </script>

@@ -64,6 +64,11 @@ export default class BudgetException extends ModelVue {
       input.exceptionTakenList.splice(noIndex, 1);
     }
 
+    const hardshipIndex = input.exceptionTakenList.indexOf("HARDSHIP");
+    if (hardshipIndex !== -1) {
+      input.exceptionTakenList.splice(hardshipIndex, 1);
+    }
+
     
     input.exceptionTakenList.push(Data.ClientFile.EXCEPTION_TAKEN.HARDSHIP.id);
     console.log(this.taskRoot.taskFormData.taskOutput.budgetInfo,"Budget info")

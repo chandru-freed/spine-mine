@@ -256,8 +256,8 @@ export default class ManageClientInfoTask
         ? Data.Spine.PersonalInfo.fromJson(this.personalInfoStore)
         : new Data.Spine.PersonalInfo(),
       creditorInfo: this.fiCreditorStore
-        ? Data.Spine.CreditorInfo.fromJson(this.fiCreditorStore)
-        : new Data.Spine.CreditorInfo(),
+        ? Data.ClientFile.FiCreditorInfo.fromJson(this.fiCreditorStore)
+        : new Data.ClientFile.FiCreditorInfo(),
       budgetInfo: this.budgetInfoStore
         ? Data.Spine.BudgetInfo.fromJson(this.budgetInfoStore)
         : new Data.Spine.BudgetInfo(),

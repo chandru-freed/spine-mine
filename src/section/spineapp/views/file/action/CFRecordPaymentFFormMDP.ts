@@ -89,7 +89,7 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
           label: "Total Amount",
           boundaryClass: "col-4",
           mandatory: true,
-          disabled: true,
+          readonly: true,
         })
       )
       .addField(
@@ -98,7 +98,7 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
           dataSelectorKey: "spaAmount",
           label: "SPA Amount",
           boundaryClass: "col-4",
-          mandatory: true,
+          // mandatory: true,
         })
       )
       .addField(
@@ -107,7 +107,7 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
           dataSelectorKey: "feeAmount",
           label: "Fee Amount",
           boundaryClass: "col-4",
-          mandatory: true,
+          // mandatory: true,
         })
       )
       .addField(
@@ -116,7 +116,7 @@ export default class CFRecordPaymentFFormMDP extends FFormMDP {
           dataSelectorKey: "msfAmount",
           label: "MSF Amount",
           boundaryClass: "col-4",
-          mandatory: true,
+          // mandatory: true,
         })
       )
       .addAction(

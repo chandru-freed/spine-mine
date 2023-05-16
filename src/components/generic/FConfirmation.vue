@@ -1,28 +1,25 @@
 <template>
 <div>
-  FConfirmation {{confirmationAlertInfo}}
     <v-alert
-      v-if="showAlertBox"
+    v-if="confirmationAlertInfo.show"
       dense
       outlined
       text
-      :color="color"
       class="ma-2"
     >
       <div
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
-        <div class="my-1">{{message}}</div>
+        <div class="my-1">{{confirmationAlertInfo.message}}</div>
         <v-spacer />
         <v-btn
-          @click="() => $emit('cancelClick')"
+          @click="() => handleCancelClick()"
           outlined
-          :color="color"
           class="mx-2"
           small
           >Cancel</v-btn
         >
-        <v-btn small @click="() => $emit('confirmClick')" outlined :color="color" class="mx-2">
+        <v-btn small @click="handleConfirmClick()" outlined class="mx-2">
           Confirm
         </v-btn>
       </div>
@@ -40,30 +37,14 @@ import store, * as Store from "@/../src-gen/store";
 export default class FConfirmation extends Vue {
   @Store.Getter.Spine.GenericStore.confirmationAlertInfo
   confirmationAlertInfo: any;
-  message: string;
-  color: string;
-
-  onConfirmarion: () => void;
-  onCancel?: () => void
-
-  showAlertBox: boolean = false;
-
-  showAlert(message: string, onConfirmation: () => void,onCancel?: () => void) {
-    this.showAlertBox = true;
-    this.message = message; 
-    this.onConfirmarion = onConfirmation;
-    this.onCancel = onCancel;
-  }
-
-  handleConfirmationClick() {
-    this.onConfirmarion();
+  
+  handleConfirmClick() {
+    this.confirmationAlertInfo.onConfirm();
   }
 
   handleCancelClick() {
-    // this.showAlertBox = false;
-    if(this.onCancel) {
-    this.onCancel();
-    }
+      Store.Mutation.Spine.GenericStore.SHOW_CONFIRMATION({show: false,message: "", onConfirm: undefined})
+    
   }
 
 }

@@ -5,32 +5,35 @@
       <v-card outlined color="primary">
         <v-list class="py-0">
           <v-list-item dense>
-            <v-list-item-icon class="mr-2">
+            <!-- <v-list-item-icon class="mr-2">
               <v-icon color="secondary"> mdi-file-account </v-icon>
-            </v-list-item-icon>
+            </v-list-item-icon> -->
             <v-list-item-content>
               <v-list-item-title
-                class="font-weight-bold secondary--text text-body-1"
+                class="font-weight-bold secondary--text text-body-1 d-flex"
               >
+              <v-icon color="secondary"> mdi-file-account </v-icon>
                 <f-hover-copy v-model="clientFileBasicInfo.clientFileNumber">
                   {{ clientFileBasicInfo.clientFileNumber }}
                 </f-hover-copy>
               </v-list-item-title>
             </v-list-item-content>
 
-            <v-list-item-action>
+            <v-list-item-action class="justify-center align-center">
               <!-- <v-list-item-action-text >{{fileSummary.clientFileStatus}} </v-list-item-action-text> -->
-              <div class="d-flex">
+              <div class="d-flex my-1">
                 <!-- <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
               <v-chip x-small class="mx-2" v-if="clientFileBasicInfo.isFirstMSFPaid" color="green" outlined>FMSF Paid</v-chip> -->
                     <v-chip v-if="fileSummary.ppCode" x-small color="secondary" outlined >{{fileSummary.ppCode}}</v-chip>
+                    <v-spacer/>
                     <v-chip v-if="clientFileBasicInfo.programCode" x-small class="mx-2" outlined>{{
                       clientFileBasicInfo.programCode
                     }}</v-chip>
-                    <v-chip x-small class="mx-2">{{
+                    </div>
+                    <v-chip x-small >{{
                       fileSummary.clientFileStatus.name
                     }}</v-chip>
-                  </div>
+                  
                 </v-list-item-action>
               </v-list-item>
             

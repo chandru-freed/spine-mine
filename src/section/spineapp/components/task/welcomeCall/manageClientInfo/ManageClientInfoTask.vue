@@ -250,6 +250,9 @@ export default class ManageClientInfoTask
   taskFormOutputLocal: any = new Data.Spine.WelcomeCallManageClientInfoTask();
 
   get taskFormOutput() {
+    const budgetInfo: Data.ClientFile.BudgetInfo = this.budgetInfoStore? Data.ClientFile.BudgetInfo.fromJson(this.budgetInfoStore)
+        : new Data.ClientFile.BudgetInfo();    
+    budgetInfo.ineligibleUnsecuredDebt = Data.ClientFile.BudgetIneligibleUnsecuredDebts.fromJson(this.fiCreditorStore.ineligibleUnsecuredDebt.toJson());
     this.taskFormOutputLocal = {
       ...this.taskDetailsOutput,
       personalInfo: this.personalInfoStore
@@ -258,9 +261,7 @@ export default class ManageClientInfoTask
       creditorInfo: this.fiCreditorStore
         ? Data.ClientFile.FiCreditorInfo.fromJson(this.fiCreditorStore)
         : new Data.ClientFile.FiCreditorInfo(),
-      budgetInfo: this.budgetInfoStore
-        ? Data.Spine.BudgetInfo.fromJson(this.budgetInfoStore)
-        : new Data.Spine.BudgetInfo(),
+      budgetInfo: budgetInfo,
       bankInfo: this.bankInfoStore
         ? Data.Spine.BankInfo.fromJson(this.bankInfoStore)
         : undefined,

@@ -80,10 +80,15 @@ export default class CFBudgetInfo extends ModelVue {
   public mounted() {
     this.getBudgetInfo();
     this.findClPersonalInfo();
+    this.getCreditorInfo();
   }
 
   getBudgetInfo() {
     Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
+  }
+
+  getCreditorInfo() {
+    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {});
   }
 
   findClPersonalInfo() {

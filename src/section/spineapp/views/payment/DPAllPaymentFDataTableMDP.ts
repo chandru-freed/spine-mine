@@ -75,10 +75,12 @@ export default class DPAllPaymentFDataTableMDP extends FDataTableMDP {
                 label: "Check and update",
                 onClick: this.checkAndUpdate(),
                 type: ActionType.OTHERS,
+                confirmation: true
             }).addAction({
                 label: "Request Fundsplit",
                 onClick: this.handleRequestFundSplit(),
                 type: ActionType.OTHERS,
+                confirmation: true
             })
     }
 
@@ -98,6 +100,7 @@ export default class DPAllPaymentFDataTableMDP extends FDataTableMDP {
                     this.requestFundSplit(payment.paymentId);
                     if (index === paymentList.length - 1) {
                         setTimeout(this.parent.searchPaymentOperations, 1000);
+                        res(true);
                     }
                 });
 
@@ -111,6 +114,7 @@ export default class DPAllPaymentFDataTableMDP extends FDataTableMDP {
                 paymentList.map((payment, index) => {
                     this.checkPaymentStatus(payment.paymentId);
                     if (index === paymentList.length - 1) {
+                        res(true);
                         setTimeout(this.parent.searchPaymentOperations, 1000);
                     }
                 });

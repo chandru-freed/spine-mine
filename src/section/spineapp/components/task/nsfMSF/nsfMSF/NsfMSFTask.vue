@@ -25,7 +25,7 @@ import NMSFFStepperMDP from "./NMSFFStepperMDP";
 import Task from "@/section/spineapp/util/Task";
 import Helper from "@/section/spineapp/util/Helper";
 import { NsfMSFOptions } from "./step1/NMSFTFFormMDP";
-import CFSummary from "@/section/spineapp/views/file/CFSummary.vue";
+import CFSummary from "@/section/spineapp/views/file/drp/CFSummary.vue";
 
 @Component({
   components: {

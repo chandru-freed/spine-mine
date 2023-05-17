@@ -1,5 +1,5 @@
 import FBtnMDP from "@/components/generic/FBtnMDP";
-import FAdminCreditorMDP from '@/section/spineapp/views/file/admin/creditor/FAdminCreditorMDP';
+import FAdminCreditorMDP from '@/section/spineapp/views/file/drp/admin/creditor/FAdminCreditorMDP';
 
 export default class CFCreditorInfoFCreditorMDP extends FAdminCreditorMDP {
   constructor({ taskRoot, parent }: { taskRoot: any; parent: any }) {

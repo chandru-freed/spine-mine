@@ -44,6 +44,7 @@ export default class CFTaskRedirect extends Vue {
       this.clientFileNumber,
       (output) => {
         setTimeout(() => {
+          if(this.clientFileBasicInfo.programCode === "DRP") {
           this.$router.replace({
             name: "Root.CFile.CFTask.CFTaskDetails.CFTaskDetails",
             params: {
@@ -51,6 +52,15 @@ export default class CFTaskRedirect extends Vue {
               taskId: this.taskId,
             },
           });
+          } else {
+              this.$router.replace({
+            name: "Root.DCPCFile.CFTask.CFTaskDetails.CFTaskDetails",
+            params: {
+              clientFileId: this.clientFileBasicInfo.clientFileId,
+              taskId: this.taskId,
+            },
+          });
+          }
         }, 1000);
       }
     );

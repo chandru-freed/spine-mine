@@ -76,6 +76,34 @@ export default class DCPCFLeftNav extends Vue {
         { title: "List Item", routerName: "Root.DCPCFile.DCPCFAction.DCPCFActionList" },
       ],
     },
+
+    {
+      icon: "mdi-checkbox-marked-circle-outline",
+      items: [
+        { title: "Active", routerName: "Root.DCPCFile.DCPCFTask.CFActiveTasks" },
+        {
+          title: "Completed",
+          routerName: "Root.DCPCFile.DCPCFTask.CFCompletedTasks",
+        },
+      ],
+      title: "Task",
+    },
+    {
+      title: "Ticket",
+      icon: "mdi-ticket-confirmation",
+      items: [
+        { title: "Active", routerName: "Root.DCPCFile.DCPCFTicket.CFActiveTickets" },
+        {
+          title: "Completed",
+          routerName: "Root.DCPCFile.DCPCFTicket.CFCompletedTickets",
+        },
+        {
+          title: "Subscribed",
+          routerName: "Root.DCPCFile.DCPCFTicket.CFSubscribedTickets",
+        },
+        { title: "Raise", routerName: "Root.DCPCFile.DCPCFTicket.CFAddTicket" },
+      ],
+    },
   ];
   
   get filteredCfNavList() {

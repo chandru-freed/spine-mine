@@ -54,7 +54,6 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
 import CFSettlementFFormMDP from "./draftPayment/CFSettlementFFormMDP";
 import CFCollectionFFormMDP from "./draftPayment/CFCollectionFFormMDP";
 import CFRefundFFormMDP from "./draftPayment/CFRefundFFormMDP";

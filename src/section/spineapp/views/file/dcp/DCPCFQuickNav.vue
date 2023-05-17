@@ -108,7 +108,7 @@
     <div class="col-12">
       <v-card outlined max-height="200px" class="overflow-y-auto">
         <v-card-text class="py-1 d-flex align-center">
-          <CFActionList :useAsDropDown="true" /> <v-spacer />
+          <DCPCFActionList :useAsDropDown="true" /> <v-spacer />
           <v-btn-toggle mandatory dense>
             <v-btn x-small @click="gotoActionList"> All </v-btn>
           </v-btn-toggle>
@@ -130,7 +130,6 @@
               <v-icon
                 small
                 v-if="actionItem.icon"
-                v-text="actionItem.icon"
               ></v-icon>
             </v-list-item-action>
           </v-list-item>
@@ -173,8 +172,8 @@
                   <template>
                     <v-list-item-content disabled>
                       <v-list-item-subtitle
-                        v-text="note.noteMesssage"
-                      ></v-list-item-subtitle>
+                      >
+                      {{note.noteMesssage}}</v-list-item-subtitle>
                     </v-list-item-content>
                   </template>
                 </v-list-item>
@@ -297,9 +296,9 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
-import Helper from "../../util/Helper";
+import Helper from "../../../util/Helper";
 // import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
-import CFActionList from "./action/CFActionList.vue";
+import DCPCFActionList from "./action/DCPCFActionList.vue";
 import FBtn from "@/components/generic/FBtn.vue";
 import FFileField from "@/components/generic/form/field/FFileField.vue";
 import axios from "axios";
@@ -308,12 +307,12 @@ import FSnackbar from "@/fsnackbar";
 @Component({
   components: {
     // AmeyoToolbarDialog,
-    CFActionList,
+    DCPCFActionList,
     "f-btn": FBtn,
     FFileField,
   },
 })
-export default class CFQuickNav extends Vue {
+export default class DCPCFQuickNav extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 

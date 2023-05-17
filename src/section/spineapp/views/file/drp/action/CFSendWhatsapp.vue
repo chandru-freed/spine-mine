@@ -1,8 +1,7 @@
 <template>
-  <!-- TASK TAB -->
-  <div class="CFSendSMS">
+  <div class="CFSendWhatsapp">
     <div class="d-flex justify-space-between align-center mx-5">
-      <h4>Send SMS</h4>
+      <h4>Send Whatsapp</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
@@ -21,7 +20,7 @@
             flat
             hide-no-data
             hide-details
-            label="Select SMS Template"
+            label="Select Whatsapp Template"
             outlined
             dense
             return-object
@@ -34,7 +33,7 @@
             v-if="!!selectedRequestType.contentMetaData"
             :ref="selectedRequestType.contentMetaData.myRefName"
             :is="selectedRequestType.contentMetaData.componentName"
-            v-model="smsPayload"
+            v-model="whatsappPayload"
             v-bind="selectedRequestType.contentMetaData.props"
           ></component>
         </v-card-text>
@@ -52,65 +51,66 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
-import EMandateRegistrationSMSFFormMDP from "@/section/spineapp/components/task/sendSMS/EMandateRegistrationSMSFFormMDP";
+import Helper from "../../../../util/Helper";
+import EMandateRegistrationWhatsappFFormMDP from "@/section/spineapp/components/task/sendWhatsapp/EMandateRegistrationWhatsappFFormMDP";
 
 @Component({
   components: {
     FForm,
-    EMandateRegistrationSMSFFormMDP,
+    EMandateRegistrationWhatsappFFormMDP,
   },
 })
-export default class CFSendSMS extends Vue {
+export default class CFSendWhatsapp extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfoStore: Data.ClientFile.ClientFileBasicInfo;
   selectedRequestType: any = {};
+  // whatsapp
+  sendWhatsappInputLocal: Data.ClientFile.SendWhatsappInput =
+    new Data.ClientFile.SendWhatsappInput();
 
-  sendSMSInputLocal: Data.ClientFile.SendSMSInput =
-    new Data.ClientFile.SendSMSInput();
+  whatsappPayloadLocal: any = {};
 
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
 
-  smsPayloadLocal: any = {};
-
-  get smsPayload() {
-    // EMandateRegistrationSMSInput
+  get whatsappPayload() {
+    // EMandateRegistrationWhatsappInput
     if (
       this.selectedRequestType.key ===
-      Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
+      Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
     ) {
-      this.smsPayloadLocal = new Data.ClientFile.EMandateRegistrationSMSInput();
+      this.whatsappPayloadLocal =
+        new Data.ClientFile.EMandateRegistrationWhatsappInput();
     }
-    return this.smsPayloadLocal;
+    return this.whatsappPayloadLocal;
   }
 
-  get sendSMSInput() {
-    // EMandateRegistrationSMSInput
+  get sendWhatsappInput() {
     if (
       this.selectedRequestType.key ===
-      Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
+      Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
     ) {
-      this.sendSMSInputLocal = new Data.ClientFile.SendSMSInput(
+      this.sendWhatsappInputLocal = new Data.ClientFile.SendWhatsappInput(
         this.clientFileBasicInfoStore.clientFileId,
-        Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION,
-        JSON.stringify(this.smsPayload)
+        Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION,
+        JSON.stringify(this.whatsappPayload)
       );
     }
-    return this.sendSMSInputLocal;
+    return this.sendWhatsappInputLocal;
   }
 
-  set sendSMSInput(value: any) {
-    this.sendSMSInputLocal = value;
+  set sendWhatsappInput(value: any) {
+    this.sendWhatsappInputLocal = value;
   }
 
   get requestTypeFlowMapList() {
     return [
       {
-        key: Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id,
-        value: Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.name,
-        contentMetaData: new EMandateRegistrationSMSFFormMDP({
+        key: Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id,
+        value:
+          Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.name,
+        contentMetaData: new EMandateRegistrationWhatsappFFormMDP({
           taskRoot: this,
           parent: this,
         }).getMetaData(),
@@ -118,8 +118,8 @@ export default class CFSendSMS extends Vue {
     ];
   }
 
-  sendSMS() {
-    Action.ClientFile.SendSMS.execute(this.sendSMSInput, (output) => {
+  sendWhatsapp() {
+    Action.ClientFile.SendWhatsapp.execute(this.sendWhatsappInput, (output) => {
       setTimeout(() => {
         this.gotoClientFile();
       }, 400);

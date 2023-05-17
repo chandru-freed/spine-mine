@@ -90,8 +90,8 @@ import AddSTEntryFFormMDP from "./AddSTEntryFFormMDP";
 import * as Snackbar from "node-snackbar";
 import FBtn from "@/components/generic/FBtn.vue";
 import UpdateAccountDetailsFFormMDP from "./UpdateAccountDetailsFFormMDP";
-import SPAScheduleTableMDP from "@/section/spineapp/views/file/settlement/SPAScheduleTableMDP";
-import FeeScheduleTableMDP from "@/section/spineapp/views/file/settlement/FeeScheduleTableMDP";
+import SPAScheduleTableMDP from "@/section/spineapp/views/file/drp/settlement/SPAScheduleTableMDP";
+import FeeScheduleTableMDP from "@/section/spineapp/views/file/drp/settlement/FeeScheduleTableMDP";
 import FDataTable from "../../table/FDataTable.vue";
 import FAddBtn from "../../FAddBtn.vue";
 

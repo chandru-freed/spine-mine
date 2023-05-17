@@ -668,7 +668,7 @@ import AboutView from "@/views/AboutView.vue";
 import FTextField from "@/components/generic/form/field/FTextField.vue";
 import AmeyoService from "@/components/generic/ameyo/AmeyoService";
 import FCellStatus from "@/components/generic/table/cell/FCellStatus.vue";
-import Helper from "../../util/Helper";
+import Helper from "../../../util/Helper";
 import FHoverCopy from "@/components/generic/FHoverCopy.vue";
 @Component({
   components: {

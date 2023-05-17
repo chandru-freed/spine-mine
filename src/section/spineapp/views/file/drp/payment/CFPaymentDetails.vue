@@ -118,7 +118,7 @@ import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
+import Helper from "../../../../util/Helper";
 import CFSettlementFFormMDP from "./paymentDetails/CFSettlementFFormMDP";
 import CFRefundFFormMDP from "./paymentDetails/CFRefundFFormMDP";
 import CFCollectionSPAFFormMDP from "./paymentDetails/CFCollectionSPAFFormMDP";

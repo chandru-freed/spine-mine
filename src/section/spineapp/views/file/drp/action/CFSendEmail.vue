@@ -1,7 +1,7 @@
 <template>
-  <div class="CFSendWhatsapp">
+  <div class="CFSendEmail">
     <div class="d-flex justify-space-between align-center mx-5">
-      <h4>Send Whatsapp</h4>
+      <h4>Send Email</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
@@ -20,7 +20,7 @@
             flat
             hide-no-data
             hide-details
-            label="Select Whatsapp Template"
+            label="Select Email Template"
             outlined
             dense
             return-object
@@ -33,7 +33,7 @@
             v-if="!!selectedRequestType.contentMetaData"
             :ref="selectedRequestType.contentMetaData.myRefName"
             :is="selectedRequestType.contentMetaData.componentName"
-            v-model="whatsappPayload"
+            v-model="emailPayload"
             v-bind="selectedRequestType.contentMetaData.props"
           ></component>
         </v-card-text>
@@ -51,66 +51,94 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
-import EMandateRegistrationWhatsappFFormMDP from "@/section/spineapp/components/task/sendWhatsapp/EMandateRegistrationWhatsappFFormMDP";
+import Helper from "../../../../util/Helper";
+import GenericEmailPayloadFFormMDP from "@/section/spineapp/components/task/sendEmailNotification/GenericEmailPayloadFFormMDP";
+import FirstMSFCollectionEmailPayloadFFormMDP from "@/section/spineapp/components/task/sendEmailNotification/FirstMSFCollectionEmailPayloadFFormMDP";
 
 @Component({
   components: {
     FForm,
-    EMandateRegistrationWhatsappFFormMDP,
+    GenericEmailPayloadFFormMDP,
+    FirstMSFCollectionEmailPayloadFFormMDP,
   },
 })
-export default class CFSendWhatsapp extends Vue {
+export default class CFSendEmail extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfoStore: Data.ClientFile.ClientFileBasicInfo;
   selectedRequestType: any = {};
-  // whatsapp
-  sendWhatsappInputLocal: Data.ClientFile.SendWhatsappInput =
-    new Data.ClientFile.SendWhatsappInput();
 
-  whatsappPayloadLocal: any = {};
+  sendEmailInputLocal: Data.ClientFile.SendEmailInput =
+    new Data.ClientFile.SendEmailInput();
 
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
 
-  get whatsappPayload() {
-    // EMandateRegistrationWhatsappInput
+  emailPayloadLocal: any = {};
+
+  get emailPayload() {
+    // GENERIC
     if (
       this.selectedRequestType.key ===
-      Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
+      Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.id
     ) {
-      this.whatsappPayloadLocal =
-        new Data.ClientFile.EMandateRegistrationWhatsappInput();
+      this.emailPayloadLocal = new Data.ClientFile.GenericEmailPayloadInput();
     }
-    return this.whatsappPayloadLocal;
+    // FIRST_MSF_COLLECTION
+    if (
+      this.selectedRequestType.key ===
+      Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.id
+    ) {
+      this.emailPayloadLocal =
+        new Data.ClientFile.FirstMSFCollectionEmailPayloadInput();
+    }
+    return this.emailPayloadLocal;
   }
 
-  get sendWhatsappInput() {
+  get sendEmailInput() {
+    // GENERIC
     if (
       this.selectedRequestType.key ===
-      Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
+      Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.id
     ) {
-      this.sendWhatsappInputLocal = new Data.ClientFile.SendWhatsappInput(
+      this.sendEmailInputLocal = new Data.ClientFile.SendEmailInput(
         this.clientFileBasicInfoStore.clientFileId,
-        Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION,
-        JSON.stringify(this.whatsappPayload)
+        Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC,
+        JSON.stringify(this.emailPayload)
       );
     }
-    return this.sendWhatsappInputLocal;
+    // FIRST_MSF_COLLECTION
+    if (
+      this.selectedRequestType.key ===
+      Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.id
+    ) {
+      this.sendEmailInputLocal = new Data.ClientFile.SendEmailInput(
+        this.clientFileBasicInfoStore.clientFileId,
+        Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION,
+        JSON.stringify(this.emailPayload)
+      );
+    }
+    return this.sendEmailInputLocal;
   }
 
-  set sendWhatsappInput(value: any) {
-    this.sendWhatsappInputLocal = value;
+  set sendEmailInput(value: any) {
+    this.sendEmailInputLocal = value;
   }
 
   get requestTypeFlowMapList() {
     return [
       {
-        key: Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id,
-        value:
-          Data.ClientFile.WHATSAPP_TEMPLATE_TYPE.EMANDATE_REGISTRATION.name,
-        contentMetaData: new EMandateRegistrationWhatsappFFormMDP({
+        key: Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.id,
+        value: Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.name,
+        contentMetaData: new GenericEmailPayloadFFormMDP({
+          taskRoot: this,
+          parent: this,
+        }).getMetaData(),
+      },
+      {
+        key: Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.id,
+        value: Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.name,
+        contentMetaData: new FirstMSFCollectionEmailPayloadFFormMDP({
           taskRoot: this,
           parent: this,
         }).getMetaData(),
@@ -118,8 +146,8 @@ export default class CFSendWhatsapp extends Vue {
     ];
   }
 
-  sendWhatsapp() {
-    Action.ClientFile.SendWhatsapp.execute(this.sendWhatsappInput, (output) => {
+  SendEmail() {
+    Action.ClientFile.SendEmail.execute(this.sendEmailInput, (output) => {
       setTimeout(() => {
         this.gotoClientFile();
       }, 400);

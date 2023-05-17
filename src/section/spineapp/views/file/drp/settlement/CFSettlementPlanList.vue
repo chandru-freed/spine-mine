@@ -99,7 +99,7 @@ export default class CFSettlementPlanList extends ModelVue {
     newVal: string,
     oldVal: string
   ) {
-    const selectedCreditor: any = this.fiCreditorInfo.creditorList.find(
+    const selectedCreditor: any = this.fiCreditorInfo.fiCreditorList.find(
       (item, index) => {
         return item.fiCreditorId === newVal;
       }

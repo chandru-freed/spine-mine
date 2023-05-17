@@ -1,20 +1,18 @@
 <template>
-  <div class="CFAssignSalesRep">
+  <div class="CFAssignRM">
     <div class="d-flex justify-space-between align-center mx-5">
-      <h4>Assign Sales Rep</h4>
+      <h4>Assign RM</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
     </div>
     <div class="d-flex justify-center col-6 ma-auto">
       <component
-        :ref="assignSalesRepMetaData.myRefName"
-        :is="assignSalesRepMetaData.componentName"
-        :value="selectModel(assignSalesRepInput, undefined)"
-        @input="
-          (newValue) => updateModel(assignSalesRepInput, newValue, undefined)
-        "
-        v-bind="assignSalesRepMetaData.props"
+        :ref="assignRMMetaData.myRefName"
+        :is="assignRMMetaData.componentName"
+        :value="selectModel(assignRMInput, undefined)"
+        @input="(newValue) => updateModel(assignRMInput, newValue, undefined)"
+        v-bind="assignRMMetaData.props"
       ></component>
     </div>
   </div>
@@ -36,8 +34,9 @@ import * as Action from "@/../src-gen/action";
 import FBtn from "@/components/generic/FBtn.vue";
 import FForm from "@/components/generic/form/FForm.vue";
 import ModelVue from "@/components/generic/ModelVue";
-import Helper from "../../../util/Helper";
-import CFAssignSalesRepFFormMDP from "./CFAssignSalesRepFFormMDP";
+import * as Snackbar from "node-snackbar";
+import Helper from "../../../../util/Helper";
+import CFAssignRMFFormMDP from "./CFAssignRMFFormMDP";
 import FSnackbar from "@/fsnackbar";
 
 @Component({
@@ -46,11 +45,11 @@ import FSnackbar from "@/fsnackbar";
     FForm,
   },
 })
-export default class CFAssignSalesRep extends ModelVue {
+export default class CFAssignRM extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  assignSalesRepInput = new Data.ClientFile.AssignSalesRepInput();
+  assignRMInput = new Data.ClientFile.AssignRMInput();
   leftFocused = false;
   rightFocused = true;
 
@@ -59,14 +58,14 @@ export default class CFAssignSalesRep extends ModelVue {
   }
 
   //METADATA
-  get assignSalesRepMetaData() {
-    return new CFAssignSalesRepFFormMDP({ taskRoot: this }).getMetaData();
+  get assignRMMetaData() {
+    return new CFAssignRMFFormMDP({ taskRoot: this }).getMetaData();
   }
   //METADATA
 
-  assignSalesRep() {
-    Action.ClientFile.AssignSalesRep.execute2(
-      this.assignSalesRepInput.assignedSalesRep,
+  assignRM() {
+    Action.ClientFile.AssignRM.execute2(
+      this.assignRMInput.assignedRM,
       this.clientFileBasicInfo.clientFileId,
       (output) => {
         this.gotoClientFile();

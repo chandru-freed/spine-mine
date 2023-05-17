@@ -52,7 +52,7 @@ import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
 import EnrollmentFFormMDP from "@/section/spineapp/components/task/createRequestForm/EnrollmentFFormMDP";
-import Helper from "../../../util/Helper";
+import Helper from "../../../../util/Helper";
 import CHPPFFormMDP from "@/section/spineapp/components/task/createRequestForm/CHPPFFormMDP";
 import NsfMSFFFormMDP from "@/section/spineapp/components/task/createRequestForm/NsfMSFFFormMDP";
 import WelcomeCallFFormMDP from "@/section/spineapp/components/task/createRequestForm/WelcomeCallFFormMDP";
@@ -95,7 +95,7 @@ export default class CFCreateRequest extends Vue {
 
   @Watch("fileCreateRequestInput.createSettlementPlanInput.fiCreditorId")
   creditorChanged(newVal: any, oldVal: any) {
-    const totalOutstanding: any = this.fiCreditorInfo.creditorList.find(
+    const totalOutstanding: any = this.fiCreditorInfo.fiCreditorList.find(
       (item) => item.fiCreditorId === newVal
     )?.creditorBalance;
     this.fileCreateRequestInput.createSettlementPlanInput.totalOutstandingAmount =

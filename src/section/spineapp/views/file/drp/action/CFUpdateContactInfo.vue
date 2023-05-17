@@ -28,7 +28,7 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
+import Helper from "../../../../util/Helper";
 import CFUpdateContactInfoFFormMDP from "./CFUpdateContactInfoFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FSnackbar from "@/fsnackbar";

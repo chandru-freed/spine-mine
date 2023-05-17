@@ -1,7 +1,8 @@
 <template>
-  <div class="CFSendEmail">
+  <!-- TASK TAB -->
+  <div class="CFSendSMS">
     <div class="d-flex justify-space-between align-center mx-5">
-      <h4>Send Email</h4>
+      <h4>Send SMS</h4>
       <v-btn @click="gotoAction" text icon color="lighten-2" class="ma-2">
         <v-icon size="20">mdi-close</v-icon>
       </v-btn>
@@ -20,7 +21,7 @@
             flat
             hide-no-data
             hide-details
-            label="Select Email Template"
+            label="Select SMS Template"
             outlined
             dense
             return-object
@@ -33,7 +34,7 @@
             v-if="!!selectedRequestType.contentMetaData"
             :ref="selectedRequestType.contentMetaData.myRefName"
             :is="selectedRequestType.contentMetaData.componentName"
-            v-model="emailPayload"
+            v-model="smsPayload"
             v-bind="selectedRequestType.contentMetaData.props"
           ></component>
         </v-card-text>
@@ -51,94 +52,65 @@ import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 
 import FForm from "@/components/generic/form/FForm.vue";
-import Helper from "../../../util/Helper";
-import GenericEmailPayloadFFormMDP from "@/section/spineapp/components/task/sendEmailNotification/GenericEmailPayloadFFormMDP";
-import FirstMSFCollectionEmailPayloadFFormMDP from "@/section/spineapp/components/task/sendEmailNotification/FirstMSFCollectionEmailPayloadFFormMDP";
+import Helper from "../../../../util/Helper";
+import EMandateRegistrationSMSFFormMDP from "@/section/spineapp/components/task/sendSMS/EMandateRegistrationSMSFFormMDP";
 
 @Component({
   components: {
     FForm,
-    GenericEmailPayloadFFormMDP,
-    FirstMSFCollectionEmailPayloadFFormMDP,
+    EMandateRegistrationSMSFFormMDP,
   },
 })
-export default class CFSendEmail extends Vue {
+export default class CFSendSMS extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfoStore: Data.ClientFile.ClientFileBasicInfo;
   selectedRequestType: any = {};
 
-  sendEmailInputLocal: Data.ClientFile.SendEmailInput =
-    new Data.ClientFile.SendEmailInput();
+  sendSMSInputLocal: Data.ClientFile.SendSMSInput =
+    new Data.ClientFile.SendSMSInput();
 
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
 
-  emailPayloadLocal: any = {};
+  smsPayloadLocal: any = {};
 
-  get emailPayload() {
-    // GENERIC
+  get smsPayload() {
+    // EMandateRegistrationSMSInput
     if (
       this.selectedRequestType.key ===
-      Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.id
+      Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
     ) {
-      this.emailPayloadLocal = new Data.ClientFile.GenericEmailPayloadInput();
+      this.smsPayloadLocal = new Data.ClientFile.EMandateRegistrationSMSInput();
     }
-    // FIRST_MSF_COLLECTION
-    if (
-      this.selectedRequestType.key ===
-      Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.id
-    ) {
-      this.emailPayloadLocal =
-        new Data.ClientFile.FirstMSFCollectionEmailPayloadInput();
-    }
-    return this.emailPayloadLocal;
+    return this.smsPayloadLocal;
   }
 
-  get sendEmailInput() {
-    // GENERIC
+  get sendSMSInput() {
+    // EMandateRegistrationSMSInput
     if (
       this.selectedRequestType.key ===
-      Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.id
+      Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id
     ) {
-      this.sendEmailInputLocal = new Data.ClientFile.SendEmailInput(
+      this.sendSMSInputLocal = new Data.ClientFile.SendSMSInput(
         this.clientFileBasicInfoStore.clientFileId,
-        Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC,
-        JSON.stringify(this.emailPayload)
+        Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION,
+        JSON.stringify(this.smsPayload)
       );
     }
-    // FIRST_MSF_COLLECTION
-    if (
-      this.selectedRequestType.key ===
-      Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.id
-    ) {
-      this.sendEmailInputLocal = new Data.ClientFile.SendEmailInput(
-        this.clientFileBasicInfoStore.clientFileId,
-        Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION,
-        JSON.stringify(this.emailPayload)
-      );
-    }
-    return this.sendEmailInputLocal;
+    return this.sendSMSInputLocal;
   }
 
-  set sendEmailInput(value: any) {
-    this.sendEmailInputLocal = value;
+  set sendSMSInput(value: any) {
+    this.sendSMSInputLocal = value;
   }
 
   get requestTypeFlowMapList() {
     return [
       {
-        key: Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.id,
-        value: Data.ClientFile.EMAIL_TEMPLATE_TYPE.GENERIC.name,
-        contentMetaData: new GenericEmailPayloadFFormMDP({
-          taskRoot: this,
-          parent: this,
-        }).getMetaData(),
-      },
-      {
-        key: Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.id,
-        value: Data.ClientFile.EMAIL_TEMPLATE_TYPE.FIRST_MSF_COLLECTION.name,
-        contentMetaData: new FirstMSFCollectionEmailPayloadFFormMDP({
+        key: Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.id,
+        value: Data.ClientFile.SMS_TEMPLATE_TYPE.EMANDATE_REGISTRATION.name,
+        contentMetaData: new EMandateRegistrationSMSFFormMDP({
           taskRoot: this,
           parent: this,
         }).getMetaData(),
@@ -146,8 +118,8 @@ export default class CFSendEmail extends Vue {
     ];
   }
 
-  SendEmail() {
-    Action.ClientFile.SendEmail.execute(this.sendEmailInput, (output) => {
+  sendSMS() {
+    Action.ClientFile.SendSMS.execute(this.sendSMSInput, (output) => {
       setTimeout(() => {
         this.gotoClientFile();
       }, 400);

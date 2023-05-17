@@ -61,7 +61,7 @@
                   <v-icon
                     small
                     v-if="actionItem.icon"
-                    v-text="actionItem.icon"
+                    :name="actionItem.icon"
                   ></v-icon>
                 </v-list-item-action>
               </v-list-item>

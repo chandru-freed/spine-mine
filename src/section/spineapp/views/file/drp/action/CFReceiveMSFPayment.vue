@@ -40,7 +40,7 @@ export default class CFReceiveMSFPayment extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
 
-  receiveMSFPaymentInput = new Data.ClientFile.ReceiveMSFPaymentInput();
+  // receiveMSFPaymentInput = new Data.ClientFile.ReceiveMSFPaymentInput();
 
   get clientFileId() {
     return this.$route.params.clientFileId;
@@ -52,18 +52,18 @@ export default class CFReceiveMSFPayment extends ModelVue {
   //METADATA
 
   receiveMSFPayment() {
-    this.receiveMSFPaymentInput.clientFileId =
-      this.clientFileBasicInfo.clientFileId;
-    Action.ClientFile.ReceiveMSFPayment.execute(
-      this.receiveMSFPaymentInput,
-      (output) => {
-        this.gotoPaymentDetail(output.paymentId);
-        Snackbar.show({
-          text: "Succesfully assigned",
-          pos: "bottom-center",
-        });
-      }
-    );
+    // this.receiveMSFPaymentInput.clientFileId =
+    //   this.clientFileBasicInfo.clientFileId;
+    // Action.ClientFile.ReceiveMSFPayment.execute(
+    //   this.receiveMSFPaymentInput,
+    //   (output) => {
+    //     this.gotoPaymentDetail(output.paymentId);
+    //     Snackbar.show({
+    //       text: "Succesfully assigned",
+    //       pos: "bottom-center",
+    //     });
+    //   }
+    // );
   }
 
   gotoPaymentDetail(paymentId: string) {

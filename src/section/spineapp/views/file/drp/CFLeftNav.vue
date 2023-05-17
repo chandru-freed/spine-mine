@@ -31,7 +31,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-title >{{item.title}}</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -41,7 +41,7 @@
             @click="goto(child.routerName)"
           >
             <v-list-item-content>
-              <v-list-item-title v-text="child.title"></v-list-item-title>
+              <v-list-item-title >{{child.title}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>

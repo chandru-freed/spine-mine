@@ -59,7 +59,7 @@ import store, * as Store from "@/../src-gen/store";
 import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
 import FCashfreeListFDataTableMDP from "./FCashfreeListFDataTableMDP";
-import PaymentDetailsFFormMDP from "@/section/spineapp/views/file/payment/PaymentDetailsFFormMDP";
+import PaymentDetailsFFormMDP from "@/section/spineapp/views/file/drp/payment/PaymentDetailsFFormMDP";
 
 @Component({
   components: {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <f-confirmation />
     <!-- {{isAmeyoToolbarDialogRole()}} -->
     <!-- <left-navigation-bar></left-navigation-bar> -->
 
@@ -61,12 +62,14 @@ import store, * as Store from "@/../src-gen/store";
 import AmeyoToolbarDialog from "@/components/generic/ameyo/AmeyoToolbarDialog.vue";
 import moment from "moment";
 import Helper from "../util/Helper";
+import FConfirmation from "@/components/generic/FConfirmation.vue";
 
 @Component({
   components: {
     LeftNavigationBar,
     AmeyoToolbarDialog,
     AppBar,
+    FConfirmation
   },
 })
 export default class RootLayout extends Vue {

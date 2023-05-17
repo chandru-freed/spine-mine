@@ -105,6 +105,7 @@ import FDataTableMDP from "@/components/generic/table/FDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FScrollUpBtn from "@/components/generic/FScrollUpBtn.vue";
 import FCopy from "@/components/generic/FCopyBtn.vue";
+import FSnackbar from "@/fsnackbar";
 
 interface Column {
   label: string;
@@ -136,7 +137,10 @@ export default class Test extends Vue {
   tab: any = null;
 
   generateTable() {
-    const smileData = this.smileData;
+
+    FSnackbar.confirm({
+      onConfirm: () => {
+ const smileData = this.smileData;
     console.log(smileData.trim());
     const unwantedSpaceRemovedString = smileData
       .replace(/[\r\n\t]+/gm, "")
@@ -157,6 +161,10 @@ export default class Test extends Vue {
     this.title = this.title || splittedCodeWithData[0];
     // this.columns = columns;
     console.log(this.columns);
+      },
+    })
+
+   
   }
 
   getDataType(type: string = "") {

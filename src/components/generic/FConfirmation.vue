@@ -1,30 +1,22 @@
 <template>
-<div>
-    <v-alert
-    v-if="confirmationAlertInfo.show"
-      dense
-      outlined
-      text
-      class="ma-2"
+  <div>
+    <v-snackbar
+      min-width="500px"
+      top
+      :vertical="true"
+      :value="confirmationAlertInfo.show"
+      :timeout="-1"
     >
-      <div
-        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
-      >
-        <div class="my-1">{{confirmationAlertInfo.message}}</div>
-        <v-spacer />
-        <v-btn
-          @click="() => handleCancelClick()"
-          outlined
-          class="mx-2"
-          small
-          >Cancel</v-btn
-        >
-        <v-btn small @click="handleConfirmClick()" outlined class="mx-2">
+      {{ confirmationAlertInfo.message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="handleCancelClick()"> Cancel </v-btn>
+        <v-btn color="green" text v-bind="attrs" @click="handleConfirmClick()">
           Confirm
         </v-btn>
-      </div>
-    </v-alert>
-</div>
+      </template>
+    </v-snackbar>
+  </div>
 </template>
 
 
@@ -32,20 +24,22 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { VBtn } from "vuetify/lib/components";
 import store, * as Store from "@/../src-gen/store";
+import Helper from "@/section/spineapp/util/Helper";
+import FSnackbar from "@/fsnackbar";
 
 @Component
 export default class FConfirmation extends Vue {
   @Store.Getter.Spine.GenericStore.confirmationAlertInfo
   confirmationAlertInfo: any;
-  
+
   handleConfirmClick() {
+    console.log(this.confirmationAlertInfo);
     this.confirmationAlertInfo.onConfirm();
+    FSnackbar.hide();
   }
 
   handleCancelClick() {
-      Store.Mutation.Spine.GenericStore.SHOW_CONFIRMATION({show: false,message: "", onConfirm: undefined})
-    
+    FSnackbar.hide();
   }
-
 }
 </script>

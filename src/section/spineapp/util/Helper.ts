@@ -1,7 +1,6 @@
 import MyRouter from "./MyRouter";
 import moment from "moment";
 import FSnackbar from "@/fsnackbar";
-import store, * as Store from "@/../src-gen/store";
 
 export default class Helper  {
     static Router = MyRouter;
@@ -42,8 +41,5 @@ export default class Helper  {
       }
       return "";
     }
-
-    static showConfirmation(props: {message: string,onConfirm: () => void}) {
-      Store.Mutation.Spine.GenericStore.SHOW_CONFIRMATION({message: props.message, show: true, onConfirm: props.onConfirm})
-    }
+    
 }

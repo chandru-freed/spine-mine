@@ -1,11 +1,6 @@
 <template>
   <div>
     <!-- {{isSalesRep()}} -->
-    <f-alert message="Are you sure want to proceed?"
-    v-if="showConfirmAlert"
-    @confirmClick="switchProgram"
-    @cancelClick="showConfirmAlert = false"
-    />
     <div v-if="useAsDropDown">
       <v-autocomplete
         outlined
@@ -90,9 +85,9 @@ import FSnackbar from "@/fsnackbar";
 import FAlert from "@/components/generic/FAlert.vue";
 
 @Component({
-  components:{
-    FAlert
-  }
+  components: {
+    FAlert,
+  },
 })
 export default class CFActionList extends Vue {
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
@@ -109,7 +104,6 @@ export default class CFActionList extends Vue {
   useAsDropDown: boolean;
 
   clientFileId = this.$route.params.clientFileId;
-  showConfirmAlert: boolean = false;
 
   searchText: string = "";
   createCollectMSFThroughCashfreeInput: Data.Spine.CreateCollectMSFThroughCashfreeInput =
@@ -289,11 +283,11 @@ export default class CFActionList extends Vue {
           {
             actionName: "Switch Program To DRP",
             icon: "mdi-chevron-right",
-            command: this.switchProgramConfirmation,
+            command: this.switchProgram,
             condition: this.isAdmin(),
-            confirmation: true
+            confirmation: true,
           },
-          
+
           // {
           //   actionName: "Mark File As Request Cancel",
           //   icon: "mdi-chevron-right",
@@ -538,54 +532,76 @@ export default class CFActionList extends Vue {
   // }
 
   activate() {
-    Action.ClientFile.Activate.execute1(this.clientFileId, (ootput) => {
-      setTimeout(() => {
-        FSnackbar.success("Succesfully assigned");
-        this.gotoCFActiveTaskList();
-      }, 400);
-    });
-  }
-
-  switchProgramConfirmation() {
-    this.showConfirmAlert = true;
+    FSnackbar.confirm({
+      message:"Are you sure want to activate this file?",
+      onConfirm: () => {
+        Action.ClientFile.Activate.execute1(this.clientFileId, (ootput) => {
+          setTimeout(() => {
+            FSnackbar.success("Succesfully assigned");
+            this.gotoCFActiveTaskList();
+          }, 400);
+        });
+      }
+    })
+    
   }
 
   switchProgram() {
-    const switchInput: Data.ClientFile.SwitchProgramInput = new Data.ClientFile.SwitchProgramInput();
-    switchInput.clientFileId = this.clientFileId;
-    switchInput.programCode = "DRP";
-    Action.ClientFile.SwitchProgram.execute(switchInput, (ootput) => {
-      setTimeout(() => {
-        FSnackbar.success("Succesfully switched the program");
-        this.gotoCFActiveTaskList();
-      }, 400);
+    FSnackbar.confirm({
+      message: "Are you sure want to switch the program to DRP?",
+      onConfirm: () => {
+        const switchInput: Data.ClientFile.SwitchProgramInput =
+          new Data.ClientFile.SwitchProgramInput();
+        switchInput.clientFileId = this.clientFileId;
+        switchInput.programCode = "DRP";
+        Action.ClientFile.SwitchProgram.execute(switchInput, (ootput) => {
+          setTimeout(() => {
+            FSnackbar.success("Succesfully switched the program");
+            this.gotoCFActiveTaskList();
+          }, 400);
+        });
+      },
     });
   }
 
   hold() {
-    Action.ClientFile.Hold.execute1(this.clientFileId, (output) => {
-      setTimeout(() => {
-        FSnackbar.success("Succesfully assigned");
-        this.gotoCFActiveTaskList();
-      }, 400);
-    });
+    FSnackbar.confirm({
+      message:"Are you sure want to mark this file as HOLD?",
+      onConfirm: () => {
+        Action.ClientFile.Hold.execute1(this.clientFileId, (output) => {
+            setTimeout(() => {
+              FSnackbar.success("Succesfully assigned");
+              this.gotoCFActiveTaskList();
+            }, 400);
+          });
+      }
+    })
+   
   }
 
   resume() {
-    Action.ClientFile.Resume.execute1(this.clientFileId, (output) => {
-      setTimeout(() => {
-        FSnackbar.success("Succesfully assigned");
-        this.gotoCFActiveTaskList();
-      }, 400);
-    });
+    FSnackbar.confirm({message: "Are you sure want to resume this file?", onConfirm: () => {
+      Action.ClientFile.Resume.execute1(this.clientFileId, (output) => {
+            setTimeout(() => {
+              FSnackbar.success("Succesfully assigned");
+              this.gotoCFActiveTaskList();
+            }, 400);
+          });
+    }})
+   
   }
 
   graduate() {
-    Action.ClientFile.Graduate.execute1(this.clientFileId, (output) => {
-      setTimeout(() => {
-        FSnackbar.success("Succesfully assigned");
-        this.gotoCFActiveTaskList();
-      }, 400);
+    FSnackbar.confirm({
+      message: "Are you sure want to mark this file as GRADUATE?",
+      onConfirm: () => {
+        Action.ClientFile.Graduate.execute1(this.clientFileId, (output) => {
+          setTimeout(() => {
+            FSnackbar.success("Succesfully assigned");
+            this.gotoCFActiveTaskList();
+          }, 400);
+        });
+      },
     });
   }
 

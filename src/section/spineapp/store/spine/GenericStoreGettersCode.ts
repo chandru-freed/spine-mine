@@ -9,7 +9,7 @@ export class GenericStoreInit {
 export class GenericStoreGettersCode implements GenericStoreGetters {
 
 
-   public confirmationAlertInfo(state: Data.Spine.GenericStore): object {
+   public confirmationAlertInfo(state: Data.Spine.GenericStore): Data.Spine.ConfirmationAlertInfo {
      return state.confirmationAlertInfo;
    }
 

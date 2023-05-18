@@ -12,59 +12,15 @@
       v-bind="nupayFilterFFormMetaData.props"
     ></component>
     <v-card flat>
-      <!-- <component
-        v-if="!!nupayMigratedCfFDataTableMetaData"
-        :ref="nupayMigratedCfFDataTableMetaData.myRefName"
-        :is="nupayMigratedCfFDataTableMetaData.componentName"
-        :value="[]"
-        v-bind="nupayMigratedCfFDataTableMetaData.props"
-      ></component> -->
-      <v-toolbar-title class="mx-5 py-1" dense>Nupay Summary</v-toolbar-title>
-      <v-row class="my-2">
-        <v-sheet outlined rounded class="ml-4">
-          <v-card large label outlined class="px-4">
-            <div class="text-h6">
-              {{ nupayPaymentConsolidation.totalCollectionAmount }}
-            </div>
-            <div class="text-caption">Total Collection Amount</div>
-          </v-card>
-        </v-sheet>
-        <v-sheet outlined rounded class="ml-4">
-          <v-card large label outlined class="px-4">
-            <div class="text-h6">
-              {{ nupayPaymentConsolidation.totalParterAmount }}
-            </div>
-            <div class="text-caption">Total Partner Amount</div>
-          </v-card>
-        </v-sheet>
-        <v-sheet outlined rounded class="ml-4">
-          <v-card large label outlined class="px-4">
-            <div class="text-h6">
-              {{ nupayPaymentConsolidation.totalTrustAmount }}
-            </div>
-            <div class="text-caption">Total Trust Amount</div>
-          </v-card>
-        </v-sheet>
-      </v-row>
-      <component
-        v-if="!!nupaySummaryFDataTableMetaData"
-        :ref="nupaySummaryFDataTableMetaData.myRefName"
-        :is="nupaySummaryFDataTableMetaData.componentName"
-        :value="nupayPaymentConsolidation.nupayCustomerIdSummaryList"
-        v-bind="nupaySummaryFDataTableMetaData.props"
-      ></component>
-      <component
-        :ref="nupayPaymentFStaticTabMetaData.myRefName"
-        :is="nupayPaymentFStaticTabMetaData.componentName"
-        :value="
-          selectModel(
-            nupayPaymentConsolidation,
-            nupayPaymentFStaticTabMetaData.dataSelectorKey
-          )
-        "
-        v-bind="nupayPaymentFStaticTabMetaData.props"
-      />
 
+      <component
+        v-if="!!fNupayPaymentMetaData"
+        :ref="fNupayPaymentMetaData.myRefName"
+        :is="fNupayPaymentMetaData.componentName"
+        :value="nupayPaymentConsolidation"
+        v-bind="fNupayPaymentMetaData.props"
+      ></component>
+      
       <v-toolbar-title dense class="mx-5 mt-1">CF Migrated Summary</v-toolbar-title>
       <v-row class="my-2">
         <v-sheet outlined rounded class="ml-4">
@@ -146,11 +102,14 @@ import FForm from "@/components/generic/form/FForm.vue";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import NupayMigratedCFFDataTableMDP from "./NupayMigratedCFFDataTableMDP";
 import NupayCFMigrationFStaticTabMDP from "./NupayCFMigrationFStaticTabMDP";
+import FNupayPayment from "@/components/generic/file/payment/nupayPayment/FNupayPayment.vue";
+import FNupayPaymentMDP from "@/components/generic/file/payment/nupayPayment/FNupayPaymentMDP";
 @Component({
   components: {
     FStaticTab,
     FForm,
     FDataTable,
+    FNupayPayment
   },
 })
 export default class NupayPayment extends ModelVue {
@@ -212,6 +171,11 @@ export default class NupayPayment extends ModelVue {
   get nupayCFMigrationFStaticTabMetaData() {
     return new NupayCFMigrationFStaticTabMDP({ parent: this }).getMetaData();
   }
+  get fNupayPaymentMetaData() {
+    return new FNupayPaymentMDP({ parent: this }).getMetaData();
+  }
+
+  
 
   // get nupayMigratedCfFDataTableMetaData() {
   //         return new NupayMigratedCFFDataTableMDP({parent: this}).getMetaData()

@@ -18,15 +18,13 @@ import ModelVue from "./ModelVue";
 @Component({
   components: {},
 })
-export default class FPagination extends VPagination {
+export default class FPagination extends ModelVue {
   @Prop({ default: 0 })
   paginationLength: number;
 
   @Prop({ default: 10 })
   count: number;
 
-  @Prop()
-  value: number;
   page: number = 1;
 
   mounted() {}

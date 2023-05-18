@@ -4,23 +4,18 @@
     <component
       :is="fiCreditorSettlementListMetaData.componentName"
       :ref="fiCreditorSettlementListMetaData.myRefName"
-      :value="fiCreditorSettlementList"
+      :value="getSpaSavingPercentageOutput.spaSavingPercentageList"
       v-bind="fiCreditorSettlementListMetaData.props"
       :loading="showLoader"
     >
-    <template v-slot:top-action>
-      <v-select
-              :items="savingPercentageList"
-              v-model="savingPercentage"
-              label="Saving %"
-              hide-details
-              outlined
-              dense
-              class="shrink"
-              @input="handleSavingPercentageChange"
-            ></v-select>
-    </template>
     </component>
+
+    <f-pagination 
+      :paginationLength="paginationLength"
+      :count="getSpaSavingPercentageInput.count"
+      :value="getSpaSavingPercentageInput.offset"
+      @input="handlePaginationChange"
+    />
 
   </v-card>
 </template>
@@ -36,23 +31,29 @@ import FDataTable from "@/components/generic/table/FDataTable.vue";
 // import MySettlementFTab from "../../components/tab/MySettlementFTab.vue";
 import Helper from "@/section/spineapp/util/Helper";
 import OPRCreditorSettlementFDataTableMDP from "./OPRCreditorSettlementFDataTableMDP";
+import FPagination from "@/components/generic/FPagination.vue";
+import ErrorResponse from "@/error-response";
 @Component({
   components: {
     FDataTable,
-    // MySettlementFTab
+    // MySettlementFTab,
+    FPagination
   },
 })
 export default class OPRCreditorSettlementList extends Vue {
-  @Store.Getter.ClientFile.SettlementDetails.fiCreditorSettlementList
-  fiCreditorSettlementList: Data.ClientFile.FiCreditorApprochingSettlement[];
+  // @Store.Getter.ClientFile.SettlementDetails.fiCreditorSettlementList
+  // fiCreditorSettlementList: Data.ClientFile.FiCreditorApprochingSettlement[];
   search: string = "";
   savingPercentage: number = 30;
   showLoader: boolean = false;
+  getSpaSavingPercentageInput: Data.Spine.GetSpaSavingPercentageInput = new Data.Spine.GetSpaSavingPercentageInput();
+  getSpaSavingPercentageOutput: Data.Spine.GetSpaSavingPercentageOutput = new Data.Spine.GetSpaSavingPercentageOutput();
 
 
 
   public mounted() {
-    this.getFiCreditorList();
+    this.getSpaSavingPercentageInput.count = 10;
+    this.getSpaSavingPercentageList();
   }
 
   //Metadata
@@ -63,27 +64,32 @@ export default class OPRCreditorSettlementList extends Vue {
   }
   //Metadata
 
-  get savingPercentageList() {
-    const diff = 5;
-    return [...Array(100 / diff + 1).keys()].map((i) => i * diff);
-  }
-  getFiCreditorList() {
+  getSpaSavingPercentageList() {
     this.showLoader = true;
-    Action.ClientFile.GetFiCreditorListForSettlement.execute1(
-      this.savingPercentage,
+    Action.Spine.GetSpaSavingPercentage.execute(
+      this.getSpaSavingPercentageInput,
       (output) => {
+        this.getSpaSavingPercentageOutput = output;
         this.showLoader = false;
       },
       (error) => {
+        ErrorResponse.handle(error);
         this.showLoader = false;
       }
     );
   }
 
-  handleSavingPercentageChange(savingPercentage: number) {
-    this.getFiCreditorList();
+    handlePaginationChange(newVal: any) {
+      console.log(newVal)
+    this.getSpaSavingPercentageInput.offset = newVal;
+    this.getSpaSavingPercentageList();
   }
 
+    get paginationLength() {
+    return Math.ceil(this.getSpaSavingPercentageOutput.totalRecordCount / this.getSpaSavingPercentageInput.count);
+  }
+
+  
   gotoFile(clientFileNumber: string) {
     Helper.Router.gotoFile({
       router: this.$router,

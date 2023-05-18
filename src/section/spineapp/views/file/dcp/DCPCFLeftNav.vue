@@ -68,6 +68,13 @@ export default class DCPCFLeftNav extends Vue {
   loggedInUserRoleList: string[];
 
   cfNavList = [
+     {
+      title: "Info",
+      icon: "mdi-file-account",
+      items: [
+        { title: "Agreement", routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo" },
+      ],
+    },
     
     {
       title: "Actions",

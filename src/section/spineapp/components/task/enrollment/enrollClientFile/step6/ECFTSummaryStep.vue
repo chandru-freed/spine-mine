@@ -1,7 +1,6 @@
 <template>
   <div class="col-12">
      <div class="mt-5" v-for="formMetaData in formMetaDataList" :key="formMetaData.myRefName">
-      {{modelValue.taskOutput.exceptionApprovedBy}}
       <component
         :ref="formMetaData.myRefName"
         :is="formMetaData.componentName"

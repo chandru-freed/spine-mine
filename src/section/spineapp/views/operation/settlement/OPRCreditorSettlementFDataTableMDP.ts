@@ -34,7 +34,7 @@ export default class FiCreditorSettlementFDataTableMDP extends FDataTableMDP {
       }).addCurrencyColumn({
         label: "Spa  Saving  Amount",
         dataSelectorKey: "spaSavingAmount"
-      }).addColumn({
+      }).addDateColumn({
         label: "Last  Payment  Date",
         dataSelectorKey: "lastPaymentDate"
       }).addCurrencyColumn({

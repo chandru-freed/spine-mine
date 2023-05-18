@@ -121,6 +121,11 @@ export default class ApproveAmendmentV4Task extends ModelVue {
       this.getAmendmentDetailsHandler
     );
     Action.Spine.RecalculatePSPlanWithTMO.notInterested(this.getAmendmentDetailsHandler);
+    this.getPaymentPlan();
+  }
+
+  getPaymentPlan() {
+    Action.ClientFile.GetPaymentPlanInfo.execute1(this.clientFileId, (output) => {});
   }
   getAmendmentDetailsHandler = () => {
     setTimeout(() => {

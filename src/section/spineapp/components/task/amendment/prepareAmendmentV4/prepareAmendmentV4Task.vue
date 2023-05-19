@@ -48,6 +48,7 @@ export default class PrepareAmendmentV4Task extends ModelVue {
   mounted() {
     this.getAmendmentDetails();
     this.getBudgetInfo();
+    this.getPaymentPlan();
     Action.ClientFile.AddFiCreditorForAmendment.interested(
       this.getAmendmentDetailsHandler
     );
@@ -79,6 +80,10 @@ export default class PrepareAmendmentV4Task extends ModelVue {
 
     getBudgetInfo() {
     Action.ClientFile.GetBudgetInfo.execute1(this.clientFileId, (output) => {});
+  }
+
+  getPaymentPlan() {
+    Action.ClientFile.GetPaymentPlanInfo.execute1(this.clientFileId, (output) => {});
   }
 
 

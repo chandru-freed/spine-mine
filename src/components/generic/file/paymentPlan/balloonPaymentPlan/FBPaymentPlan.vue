@@ -216,6 +216,8 @@ export default class FBPaymentPlan extends ModelVue {
     new Data.ClientFile.AddPSEntryInput();
   modifyAmountPSEListInput: Data.ClientFile.ModifyAmountWithFixedTenureInput =
     new Data.ClientFile.ModifyAmountWithFixedTenureInput();
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
+    fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;  
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
@@ -295,14 +297,15 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   downloadActiveExcel() {
-    const { psPlanId } = this.modelValue.taskInput?.existingPaymentPlan;
+    console.log(this.modelValue.taskInput)
+    const { psPlanId } = this.fiPaymentPlanInfoStore;
     const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${psPlanId}`;
     const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`;
     Helper.downloadFile(url, fileName);
   }
 
   downloadDraftExcel() {
-    const newPSPlanId = this.modelValue.taskInput.newPSPlanId;
+    const newPSPlanId = this.modelValue.taskOutput.payload.paymentPlan.psPlanId;
     const url = `/spineapi/paymentscheduleplan/download-payment-plan-excel?psPlanId=${newPSPlanId}`;
     const fileName = `PaymentPlan_${this.clientFileBasicInfo.clientFileNumber}.xlsx`;
     Helper.downloadFile(url, fileName);
@@ -310,7 +313,7 @@ export default class FBPaymentPlan extends ModelVue {
 
   uploadExcel() {
     this.uploadPSPlanExcelInput.newPSPlanId =
-      this.modelValue.taskInput.newPSPlanId;
+      this.modelValue.taskOutput.payload.paymentPlan.psPlanId;
     Action.Spine.UploadPaymentSchedulePlanExcel.execute(
       this.uploadPSPlanExcelInput,
       (output) => {

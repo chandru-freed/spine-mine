@@ -1,89 +1,60 @@
-import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
-import FCellPhoneMDP from "@/components/generic/table/cell/FCellPhoneMDP";
-
+import * as Action from "@/../src-gen/action";
+import Helper from "@/section/spineapp/util/Helper";
 export default class FiCreditorSettlementFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor({ parent }: { parent: any }) {
-    super({ title: "Accounts Nearing Settlement", myRefName: "FiCreditorSettlementListRef" });
+    super({ title: "Accounts nearing settlement", myRefName: "FiCreditorSettlementRef" });
     this.parent = parent;
     this
-    .addClientFileNumberColumn({
-      dataSelectorKey:"clientFile.clientFileNumber",
-    })
-    .addClientNameColumn({
-      dataSelectorKey:"clientFile.clientBasicInfo.fullName",
-      width:"15%"
-    })
-    .addColumn({
-      label: "Creditor Name",
-      dataSelectorKey: "creditorName",
-      enableGroupBy: true,
-    }).addStatusColumn({
-        dataSelectorKey: "debtType",
-        label: "Debt Type",
-      })
-      .addCurrencyColumn({
-        label: "Creditor Balance",
-        dataSelectorKey: "creditorBalance",
-      })
-      .addCurrencyColumn({
-        label: "SPA Balance",
-        dataSelectorKey: "spaSavingAmount",
-      })
-      .addColumn({
-        label:"Mobile",
-        dataSelectorKey:"clientFile.clientBasicInfo.mobile",
-        columnCellMDP: new FCellPhoneMDP(),
-        hidden: true
-      })
-
-      .addColumn({
-        label: "Last Date Of Payment",
-        dataSelectorKey: "lastDateOfPayment",
-        columnCellMDP: new FCellDateMDP()
+      .addClientFileNumberColumn({
+        label: "Client  File  Number",
+        dataSelectorKey: "clientFileNumber"
+      }).addClientFileStatusColumn({
+        label: "Client  File  Status",
+        dataSelectorKey: "clientFileStatus.name"
+      }).addColumn({
+        label: "Full  Name",
+        dataSelectorKey: "fullName"
+      }).addColumn({
+        label: "Mobile",
+        dataSelectorKey: "mobile"
+      }).addColumn({
+        label: "Creditor  Name",
+        dataSelectorKey: "creditorName"
+      }).addStatusColumn({
+        label: "Debt  Type",
+        dataSelectorKey: "debtType"
+      }).addColumn({
+        label: "Account  Number",
+        dataSelectorKey: "accountNumber"
+      }).addCurrencyColumn({
+        label: "Creditor  Balance",
+        dataSelectorKey: "creditorBalance"
+      }).addCurrencyColumn({
+        label: "Spa  Saving  Amount",
+        dataSelectorKey: "spaSavingAmount"
+      }).addDateColumn({
+        label: "Last  Payment  Date",
+        dataSelectorKey: "lastPaymentDate"
+      }).addCurrencyColumn({
+        label: "Days  Delinquent  As  On  Onboarding",
+        dataSelectorKey: "daysDelinquentAsOnOnboarding"
       }).addNumberColumn({
-        dataSelectorKey: "daysDelinquentAsOnOnboarding",
-        label: "Days Delinquent"
+        label: "Saving  Percentage",
+        dataSelectorKey: "savingPercentage"
       })
-      .addColumn({
-        label:"PAN",
-        dataSelectorKey:"clientFile.clientBasicInfo.pan",
-        hidden: true
-      })
-      .addColumn({
-        label:"City",
-        dataSelectorKey:"clientFile.clientBasicInfo.city",
-        enableGroupBy: true,
-      })
-      .addColumn({
-        label:"State",
-        dataSelectorKey:"clientFile.clientBasicInfo.state",
-        enableGroupBy: true,
-        hidden: true
-      })
-      .
-      addColumn({
-        dataSelectorKey: "accountNumber",
-        label: "Account Number",
-        hidden: true
-      }).
-      addCurrencyColumn({
-        dataSelectorKey: "settlementAmount",
-        label: "Settlement Amount"
-      })
-
-      this.addNumberColumn({
-        dataSelectorKey: "savingPercentage",
-        label: "Saving Percentage",
-        enableGroupBy: true,
+      .addAction({
+        label: "Download",
+        onClick: this.handleDownloadClick(),
+        type: ActionType.OTHERS,
+        noSelect: true
       })
   }
-
-  collectMSF() {
-    return (item: any) => {
+  handleDownloadClick() {
+    return () => {
       return new Promise(res => {
-        this.parent.createCollectMSFThroughCashfree(item);
+        Helper.downloadFile("spinereportapi/misreports/spa-saving-percentage-dump", "spaSavingPercentageDump.csv")
       })
     }
   }

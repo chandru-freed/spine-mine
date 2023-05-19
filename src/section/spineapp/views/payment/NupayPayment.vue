@@ -12,7 +12,6 @@
       v-bind="nupayFilterFFormMetaData.props"
     ></component>
     <v-card flat>
-
       <component
         v-if="!!fNupayPaymentMetaData"
         :ref="fNupayPaymentMetaData.myRefName"
@@ -71,6 +70,7 @@
             <div class="text-caption">Total Trust Amount</div>
           </v-card>
         </v-sheet>
+        <v-btn outlined small color="primary" class="ma-3" @click="migrateNupayPayment()">Migrate nupay payment</v-btn>
       </v-row>
       <component
         :ref="nupayCFMigrationFStaticTabMetaData.myRefName"
@@ -174,7 +174,14 @@ export default class NupayPayment extends ModelVue {
   get fNupayPaymentMetaData() {
     return new FNupayPaymentMDP({ parent: this }).getMetaData();
   }
+ 
 
+  migrateNupayPayment() {
+    const clientFileNumberList = [this.nupayPaymentFilter.clientFileNumber];
+    Action.Spine.MigrateNupayPayment.execute1(clientFileNumberList, output => {
+
+    });
+  }
   
 
   // get nupayMigratedCfFDataTableMetaData() {

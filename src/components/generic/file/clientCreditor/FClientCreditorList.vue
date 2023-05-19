@@ -11,6 +11,15 @@
       v-bind="includeCreditorToCCFormMetaData.props"
     ></component>
 
+      <component
+      v-if="updateCCDialog"
+      :ref="fUpdateClientCreditorFFormMetaData.myRefName"
+      :is="fUpdateClientCreditorFFormMetaData.componentName"
+      :value="selectModel(updateClCreditorInput, undefined)"
+      @input="(newValue) => updateModel(updateClCreditorInput, newValue, undefined)"
+      v-bind="fUpdateClientCreditorFFormMetaData.props"
+    ></component>
+
     <component
       v-if="includeCreditorToAmendmentDialog"
       :is="includeCreditorToAmendmentFormMetaData.componentName"
@@ -46,6 +55,7 @@ import IncludeCCToAmendmentFFormMDP from "./IncludeCCToAmendmentFFormMDP";
 import FForm from "../../form/FForm.vue";
 import ModelVue from "../../ModelVue";
 import { ProcessType } from "./FClientCreditorListMDP";
+import FUpdateClientCreditorFFormMDP from './FUpdateClientCreditorFFormMDP'
 @Component({
   components: {
     FDataTable,
@@ -75,10 +85,13 @@ export default class FClientCreditorList extends ModelVue {
   includedCreditorList: any[];
   includeCreditorToCCForm: Data.Spine.Creditor = new Data.Spine.Creditor();
   includeCreditorToCCDialog = false;
+  updateCCDialog = false;
 
   includeCreditorToAmendmentForm: Data.ClientFile.AmendmentFiCreditor =
     new Data.ClientFile.AmendmentFiCreditor();
   includeCreditorToAmendmentDialog = false;
+
+  updateClCreditorInput: Data.ClientFile.UpdateClCreditorInput = new Data.ClientFile.UpdateClCreditorInput();
 
   public mounted() {
     this.getClientCreditorList();
@@ -94,6 +107,12 @@ export default class FClientCreditorList extends ModelVue {
     // Action.ClientFile.ExcludeFiCreditorFromProgram.interested(
     //   this.getClientCreditorListHandler
     // );
+    Action.ClientFile.RemoveClCreditor.interested(
+      this.getClientCreditorListHandler
+    );
+    Action.ClientFile.UpdateClCreditor.interested(
+      this.getClientCreditorListHandler
+    );
   }
 
   destroyed() {
@@ -110,6 +129,12 @@ export default class FClientCreditorList extends ModelVue {
     // Action.ClientFile.ExcludeFiCreditorFromProgram.notInterested(
     //   this.getClientCreditorListHandler
     // );
+    Action.ClientFile.RemoveClCreditor.notInterested(
+      this.getClientCreditorListHandler
+    );
+    Action.ClientFile.UpdateClCreditor.notInterested(
+      this.getClientCreditorListHandler
+    );
   }
 
   getClientCreditorListHandler = () => {
@@ -143,16 +168,22 @@ export default class FClientCreditorList extends ModelVue {
   closeDialogs() {
     this.includeCreditorToCCDialog = false;
     this.includeCreditorToAmendmentDialog = false;
+    this.updateCCDialog = false;
     // this.parseCreditReportInput = new Data.Spine.ParseCreditReportInput();
   }
   resetForms() {
     this.includeCreditorToCCForm = new Data.Spine.Creditor();
     this.includeCreditorToAmendmentForm =
       new Data.ClientFile.AmendmentFiCreditor();
+      this.updateClCreditorInput = new Data.ClientFile.UpdateClCreditorInput();
   }
 
   get fClientCreditorListFDataTableMetaData() {
     return new FClientCreditorListFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get fUpdateClientCreditorFFormMetaData() {
+      return new FUpdateClientCreditorFFormMDP({parent: this,taskRoot: this.taskRoot}).getMetaData()
   }
 
   get includeCreditorToCCFormMetaData() {
@@ -181,6 +212,12 @@ export default class FClientCreditorList extends ModelVue {
     } else {
       return this.includeCreditorToAmendmentForm.debtType === "Credit Card";
     }
+  }
+
+  handleEditClick(item: Data.ClientFile.ClCreditor) {
+    this.updateClCreditorInput = Data.ClientFile.UpdateClCreditorInput.fromJson(item);
+    this.updateClCreditorInput.clientId = this.clientFileBasicInfo.clientBasicInfo.clientId;
+    this.updateCCDialog = true;
   }
 
   get totalCreditorBalance() {

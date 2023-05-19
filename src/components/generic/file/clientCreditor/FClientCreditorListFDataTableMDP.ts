@@ -1,6 +1,8 @@
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 import FInfoINRMDP from "../../table/info/FInfoINRMDP";
-
+import * as Data from "@/../src-gen/data";
+// import * as ServerData from '@/../src-gen/server-data';
+import * as Action from "@/../src-gen/action";
 export default class FClientCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor({ parent }: { parent: any }) {
@@ -38,7 +40,39 @@ export default class FClientCreditorListFDataTableMDP extends FDataTableMDP {
                 label: "Total Amount",
                 value:this.parent.totalCreditorBalance,
                 infoMDP: new FInfoINRMDP({})
+            }).addAction({
+                label: "remove",
+                onClick: this.handleDeleteClientCreditor(),
+                type: ActionType.DELETE,
+                confirmation: true,
+                disabled: false
+            }).addAction({
+                label: "Edit",
+                onClick: this.handleEditClick(),
+                type: ActionType.EDIT,
+                confirmation: true,
+                disabled: false
             })
+    }
+
+    handleDeleteClientCreditor() {
+        return (item: Data.ClientFile.ClCreditor) => {
+            return new Promise(res => {
+                console.log(item)
+                const input:Data.ClientFile.RemoveClCreditorInput = new Data.ClientFile.RemoveClCreditorInput();
+                input.clCreditorId = item.clCreditorId;
+                Action.ClientFile.RemoveClCreditor.execute(input, output => {
+                    res(true);
+                })
+            })
+        }
+    }
+    handleEditClick() {
+        return (item: Data.ClientFile.ClCreditor) => {
+            return new Promise(res => {
+                this.parent.handleEditClick(item)
+            })
+        }
     }
 
     handleIncludeClick() {

@@ -447,6 +447,7 @@ import FCopy from "../FCopyBtn.vue";
 import FCellRouterLink from "./cell/FCellRouterLink.vue";
 import FCellBtnPreview from "./cell/FCellBtnPreview.vue";
 import FCellUrlLink from "./cell/FCellUrlLink.vue";
+import FCellAccountNumber from "./cell/FCellAccountNumber.vue";
 
 @Component({
   components: {
@@ -487,9 +488,11 @@ import FCellUrlLink from "./cell/FCellUrlLink.vue";
     FForm,
     FExpansionFDataTable,
     FCopy,
+
     FCellRouterLink,
     FCellBtnPreview,
-    FCellUrlLink
+    FCellUrlLink,
+    FCellAccountNumber
   },
 })
 export default class FDataTable extends ModelVue {

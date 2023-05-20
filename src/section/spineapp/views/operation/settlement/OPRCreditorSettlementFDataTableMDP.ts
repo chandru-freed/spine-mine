@@ -1,6 +1,7 @@
 import FDataTableMDP, { ActionType } from "@/components/generic/table/FDataTableMDP";
 import * as Action from "@/../src-gen/action";
 import Helper from "@/section/spineapp/util/Helper";
+import FCellAccountNumberMDP from "@/components/generic/table/cell/FCellAccountNumberMDP";
 export default class FiCreditorSettlementFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor({ parent }: { parent: any }) {
@@ -27,7 +28,8 @@ export default class FiCreditorSettlementFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "debtType"
       }).addColumn({
         label: "Account  Number",
-        dataSelectorKey: "accountNumber"
+        dataSelectorKey: "accountNumber",
+        columnCellMDP: new FCellAccountNumberMDP()
       }).addCurrencyColumn({
         label: "Creditor  Balance",
         dataSelectorKey: "creditorBalance"
@@ -37,7 +39,7 @@ export default class FiCreditorSettlementFDataTableMDP extends FDataTableMDP {
       }).addDateColumn({
         label: "Last  Payment  Date",
         dataSelectorKey: "lastPaymentDate"
-      }).addCurrencyColumn({
+      }).addColumn({
         label: "Days  Delinquent  As  On  Onboarding",
         dataSelectorKey: "daysDelinquentAsOnOnboarding"
       }).addNumberColumn({

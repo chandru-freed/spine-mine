@@ -65,6 +65,14 @@ export default class ActivePartnerListFDataTableMDP extends FDataTableMDP {
         label: "Onboarded Files Count",
         dataSelectorKey: "onboardedFilesCount",
       })
+      .addColumn({
+        label: "Age Range",
+        dataSelectorKey: "ageRange.name",
+      })
+      .addColumn({
+        label: "State",
+        dataSelectorKey: "state",
+      })
       .addCurrencyColumn({
         label: "Total Earnings",
         dataSelectorKey: "totalEarnings",

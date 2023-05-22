@@ -40,13 +40,15 @@ export default class FClientCreditorListFDataTableMDP extends FDataTableMDP {
                 label: "Total Amount",
                 value:this.parent.totalCreditorBalance,
                 infoMDP: new FInfoINRMDP({})
-            }).addAction({
-                label: "remove",
-                onClick: this.handleDeleteClientCreditor(),
-                type: ActionType.DELETE,
-                confirmation: true,
-                disabled: false
-            }).addAction({
+            })
+            // .addAction({
+            //     label: "remove",
+            //     onClick: this.handleDeleteClientCreditor(),
+            //     type: ActionType.DELETE,
+            //     confirmation: true,
+            //     disabled: false
+            // })
+            .addAction({
                 label: "Edit",
                 onClick: this.handleEditClick(),
                 type: ActionType.EDIT,
@@ -58,12 +60,12 @@ export default class FClientCreditorListFDataTableMDP extends FDataTableMDP {
     handleDeleteClientCreditor() {
         return (item: Data.ClientFile.ClCreditor) => {
             return new Promise(res => {
-                console.log(item)
-                const input:Data.ClientFile.RemoveClCreditorInput = new Data.ClientFile.RemoveClCreditorInput();
-                input.clCreditorId = item.clCreditorId;
-                Action.ClientFile.RemoveClCreditor.execute(input, output => {
-                    res(true);
-                })
+                // console.log(item)
+                // const input:Data.ClientFile.RemoveClCreditorInput = new Data.ClientFile.RemoveClCreditorInput();
+                // input.clCreditorId = item.clCreditorId;
+                // Action.ClientFile.RemoveClCreditor.execute(input, output => {
+                //     res(true);
+                // })
             })
         }
     }

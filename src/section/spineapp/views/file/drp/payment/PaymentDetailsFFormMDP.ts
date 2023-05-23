@@ -11,7 +11,7 @@ export default class PaymentDetailsFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
     parent: any;
     constructor({ parent }: { parent: any }) {
-        super({ myRefName: "PaymentDetailsRef", readonly: true });
+        super({ myRefName: "PaymentDetailsRef", readonly: true});
         this.parent = parent;
         this
             .addField(
@@ -20,7 +20,8 @@ export default class PaymentDetailsFFormMDP extends FFormMDP {
                     dataSelectorKey: "paymentRefNumber",
                     label: "Payment Ref Number",
                     boundaryClass: "col-3",
-                    condition: !!this.parent.selectedPaymentSummaryToView.paymentRefNumber
+                    condition: !!this.parent.selectedPaymentSummaryToView.paymentRefNumber,
+                    hidden:true
                 })
             ).addField(
                 new FTextFieldMDP({

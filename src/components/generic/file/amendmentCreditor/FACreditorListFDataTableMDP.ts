@@ -23,7 +23,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
             dataSelectorKey: "lastDateOfPayment",
             columnCellMDP: new FCellDateMDP()
           }).addNumberColumn({
-            label: "Days Delinquent",
+            label: "Delinquency(at Enrolment)",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
           }).addColumn({
             label: "Debt Type",

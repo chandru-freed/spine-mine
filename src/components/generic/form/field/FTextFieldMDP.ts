@@ -19,6 +19,7 @@ export default class FTextFieldMDP implements FFieldMDP {
   hint: string;
   placeholder: string;
   readonly: boolean;
+  hidden?: boolean;
   // defaultValue?: string;
 
   constructor({
@@ -37,6 +38,7 @@ export default class FTextFieldMDP implements FFieldMDP {
     placeholder = "",
     hint = "",
     readonly = false,
+    hidden=false
   }: // defaultValue
   {
     parentMDP: FFormChildMDP;
@@ -54,6 +56,7 @@ export default class FTextFieldMDP implements FFieldMDP {
     placeholder?: string;
     hint?: string;
     readonly?: boolean;
+    hidden?: boolean;
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -72,6 +75,7 @@ export default class FTextFieldMDP implements FFieldMDP {
     this.placeholder = placeholder;
     this.condition = condition;
     this.readonly = readonly;
+    this.hidden = hidden;
     // this.defaultValue = defaultValue;
   }
 
@@ -98,6 +102,7 @@ export default class FTextFieldMDP implements FFieldMDP {
       rules: this.getRules(),
       boundaryClass: this.getBoundaryClass(),
       condition: this.condition,
+      hidden: this.hidden,
       props: {
         id: this.dataSelectorKey,
         label: this.label,

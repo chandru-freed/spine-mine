@@ -31,11 +31,11 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellDateMDP(),
       })
       .addNumberColumn({
-        label: "Days Delinquent",
+        label: "Delinquency(at Enrolment)",
         dataSelectorKey: "daysDelinquentAsOnOnboarding",
       })
       .addNumberColumn({
-        label: "DPD",
+        label: "Delinquency(as on date)",
         dataSelectorKey: "daysPastDue",
       })
       .addColumn({

@@ -23,11 +23,11 @@ export default class CreditorListInEligibleFDataTableMDP extends FDataTableMDP {
             label: "Last Date Of Payment",
             dataSelectorKey: "lastDateOfPayment",
           }).addNumberColumn({
-            label: "Days Delinquent",
+            label: "Delinquency(at Enrolment)",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
           })
           .addNumberColumn({
-            label: "DPD",
+            label: "Delinquency(as on date)",
             dataSelectorKey: "daysPastDue",
           })
           .addColumn({

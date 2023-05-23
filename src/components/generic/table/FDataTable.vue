@@ -1,5 +1,29 @@
 <template>
   <v-card :ref="myRefName" flat :outlined="outlined">
+<v-card flat  class="my-5" v-if="showInfoForm&&enableInfo && selectedRowIndex!==-1">
+  <v-toolbar flat><v-spacer/><v-icon @click="showInfoForm=false">mdi-close</v-icon></v-toolbar>
+       <component
+            :is="infoFormFDataTableMetaData.componentName"
+            :value="selectModel(tableData()[selectedRowIndex], infoFormFDataTableMetaData.dataSelectorKey)"
+            v-bind="infoFormFDataTableMetaData.props"
+      ></component>
+
+      <div
+        v-if="!disabled"
+        class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
+      >
+        <div
+          :class="actionMetaData.boundaryClass"
+          v-for="(actionMetaData, indx) in infoActionMetaDataList"
+          :key="indx"
+        >
+          <component
+            :is="actionMetaData.componentName"
+            v-bind="actionMetaData.props"
+          ></component>
+        </div>
+      </div>
+</v-card>
     <f-alert
       message="Are you sure want to proceed?"
       @confirmClick="fireActionClick"
@@ -353,6 +377,7 @@
       <template v-slot:[`item.siNo`]="{ index }">
         {{ index + 1 }}
       </template>
+
       <template v-slot:[`item.actions`]="{ item, index }">
         <div class="d-flex">
           <v-btn
@@ -363,6 +388,8 @@
           >
             <v-icon small> mdi-information</v-icon>
           </v-btn>
+
+          <v-icon v-if="enableInfo" @click="handleDetailsClick(index)" small> mdi-information</v-icon>
           <v-btn
             :disabled="disabled"
             icon
@@ -447,6 +474,10 @@ import FCopy from "../FCopyBtn.vue";
 import FCellRouterLink from "./cell/FCellRouterLink.vue";
 import FCellBtnPreview from "./cell/FCellBtnPreview.vue";
 import FCellUrlLink from "./cell/FCellUrlLink.vue";
+import FFormMDP, { FFormChildMDP } from "../form/FFormMDP";
+import FTextField from "../form/field/FTextField.vue";
+import FTextFieldMDP from "../form/field/FTextFieldMDP";
+import FColumnMDP from "./FColumnMDP";
 
 @Component({
   components: {
@@ -489,7 +520,7 @@ import FCellUrlLink from "./cell/FCellUrlLink.vue";
     FCopy,
     FCellRouterLink,
     FCellBtnPreview,
-    FCellUrlLink
+    FCellUrlLink,
   },
 })
 export default class FDataTable extends ModelVue {
@@ -576,6 +607,14 @@ export default class FDataTable extends ModelVue {
 
   @Prop()
   enablePagination: boolean;
+  
+  @Prop()
+  enableInfo: boolean;
+  
+  @Prop({
+      default: () => [],
+  })
+  infoActionMetaDataList: any[];
 
   expanded: any = [];
   groupBy: any = {
@@ -590,10 +629,11 @@ export default class FDataTable extends ModelVue {
   selectedItemList: any[] = [];
   selectedItemForDelete: any;
   selectedAction: FTableActionField;
-  selectedRowIndex: number | undefined;
+  selectedRowIndex: number | undefined = -1;
   columnFilterListWithValues: any[] = [];
   showFilterForm: boolean = false;
   filteredTableData: any = [];
+  showInfoForm: boolean = false;
 
   getValue(item: any, path: any) {
     return path.split(".").reduce((res: any, prop: any) => res[prop], item);
@@ -671,6 +711,12 @@ export default class FDataTable extends ModelVue {
     this.infoBtnData.onClick(item, index);
   }
 
+   handleDetailsClick(index: number) {
+    this.selectedRowIndex = index;
+    this.showInfoForm = true;
+    // this.infoBtnData.onClick(item, index);
+  }
+
   get deleteBtnData(): FTableActionField {
     return this.actions.find((item) => item.type === ActionType.DELETE);
   }
@@ -698,7 +744,7 @@ export default class FDataTable extends ModelVue {
         return item.value === viewItem.value;
       });
     });
-    if (this.deleteBtnData || this.editBtnData || this.infoBtnData) {
+    if (this.deleteBtnData || this.editBtnData || this.infoBtnData || this.enableInfo) {
       headers.push({ text: "", value: "actions", align: "right" });
     }
     if (this.expansionComponent) {
@@ -812,6 +858,23 @@ export default class FDataTable extends ModelVue {
       filteredDataList,
       this.dataSelectorKey
     );
+  }
+
+  get infoFormFDataTableMetaData() {
+    const fFormMDP =  new FFormMDP({myRefName: "infoForm"})
+    this.columnList.map((column) => {
+      console.log(column,"column")
+      fFormMDP.addField(new FTextFieldMDP({
+        dataSelectorKey: column.value || "",
+        label: column.text,
+        parentMDP: new FFormChildMDP(),
+        boundaryClass:"col-4",
+        readonly: true,
+        hidden: column.hidden
+      }))
+    });
+
+    return fFormMDP.getMetaData();
   }
 
   clearTableFilter() {

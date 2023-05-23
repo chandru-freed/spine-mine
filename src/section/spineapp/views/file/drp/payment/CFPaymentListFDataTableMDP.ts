@@ -15,7 +15,8 @@ export default class CFPaymentListFDataTableMDP extends FDataTableMDP {
       disabled: parent.disabledActionBtn,
       title: "Payment List",
       myRefName: "fCFPaymentFDataTableRef",
-      groupBySummaryFunction: (itemList) => this.calculateTotal(itemList)
+      groupBySummaryFunction: (itemList) => this.calculateTotal(itemList),
+      enableInfo: true
     });
     this.parent = parent;
     this
@@ -71,11 +72,11 @@ export default class CFPaymentListFDataTableMDP extends FDataTableMDP {
         label: "Received By",
         dataSelectorKey: "receivedBy",
       })
-      .addAction({
-        label: "Info",
-        onClick: this.handleInfoClick(),
-        type: ActionType.INFO
-      })
+      // .addAction({
+      //   label: "Info",
+      //   onClick: this.handleInfoClick(),
+      //   type: ActionType.INFO
+      // })
       ;
   }
   calculateTotal(itemList: any[]) {

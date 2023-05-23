@@ -26,11 +26,11 @@ export default class FCreditorListInEligibleFDataTableMDP extends FDataTableMDP 
             columnCellMDP: new FCellDateMDP(),
             align: 'right'
           }).addNumberColumn({
-            label: "Days Delinquent",
+            label: "Delinquency(at Enrolment)",
             dataSelectorKey: "daysDelinquentAsOnOnboarding",
           })
           .addNumberColumn({
-            label: "DPD",
+            label: "Delinquency(as on date)",
             dataSelectorKey: "daysPastDue",
           })
           .addColumn({

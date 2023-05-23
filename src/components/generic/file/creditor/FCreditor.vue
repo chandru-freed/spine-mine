@@ -177,7 +177,7 @@ export default class FCreditor extends ModelVue {
     },
     { text: "Creditor Balance", value: "creditorBalance" },
     { text: "Last Date Of Payment", value: "lastDateOfPayment" },
-    { text: "Days Delinquent", value: "daysDelinquentAsOnOnboarding" },
+    { text: "Delinquency(at Enrolment)", value: "daysDelinquentAsOnOnboarding" },
 
     { text: "Debt Type", value: "debtType" },
     { text: "Account Number", value: "accountNumber" },

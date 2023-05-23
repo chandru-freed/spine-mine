@@ -26,7 +26,7 @@ export default class OPRCreditorSettledListFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellDateMDP()
       }).addNumberColumn({
         dataSelectorKey: "daysDelinquentAsOnOnboarding",
-        label: "Days Delinquent"
+        label: "Delinquency(at Enrolment)"
       })
       .addStatusColumn({
         dataSelectorKey: "debtType",

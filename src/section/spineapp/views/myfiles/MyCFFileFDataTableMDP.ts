@@ -18,6 +18,7 @@ export default class MyCFFileFDataTableMDP extends FDataTableMDP {
       myRefName: "myCFFileFDataTableRef",
       enableSearch: true,
       title: "My Client files",
+      enableInfo: true
     });
     this.parent = props.parent;
     this.addClientFileNumberColumn({

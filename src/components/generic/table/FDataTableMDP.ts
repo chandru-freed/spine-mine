@@ -13,6 +13,7 @@ import FCellRouterLinkMDP from "./cell/FCellRouterLinkMDP";
 import FCellBooleanMDP from "./cell/FCellBooleanMDP";
 import FCellDateMDP from "./cell/FCellDateMDP";
 import FCellDateTimeMDP from "./cell/FCellDateTimeMDP";
+import FBtnMDP from "../FBtnMDP";
 export default class FDataTableMDP implements MDP {
   componentName = "FDataTable";
   columnList: FColumnMDP[] = [];
@@ -33,6 +34,8 @@ export default class FDataTableMDP implements MDP {
   outlined?: boolean;
   enableSerialNumber?: boolean;
   enablePagination?: boolean;
+  enableInfo?: boolean;
+  infoActionList: FBtnMDP[] = [];
   groupBySummaryFunction?: (itemList:any) => number
   constructor({
     dataSelectorKey,
@@ -48,7 +51,8 @@ export default class FDataTableMDP implements MDP {
     outlined = true,
     enableSerialNumber = false,
     enablePagination = true,
-    groupBySummaryFunction
+    groupBySummaryFunction,
+    enableInfo = false
 
   }: {
     dataSelectorKey?: string;
@@ -64,7 +68,8 @@ export default class FDataTableMDP implements MDP {
     outlined?: boolean;
     enableSerialNumber?: boolean;
     enablePagination?: boolean;
-    groupBySummaryFunction?: (itemList:any) => any
+    groupBySummaryFunction?: (itemList:any) => any;
+    enableInfo?: boolean;
   }) {
     this.dataSelectorKey = dataSelectorKey;
     this.itemKey = itemKey;
@@ -79,6 +84,7 @@ export default class FDataTableMDP implements MDP {
     this.outlined = outlined;
     this.enableSerialNumber = enableSerialNumber;
     this.enablePagination = enablePagination;
+    this.enableInfo = enableInfo;
     this.groupBySummaryFunction = groupBySummaryFunction;
   }
 
@@ -381,6 +387,12 @@ export default class FDataTableMDP implements MDP {
     return this;
   }
 
+
+  addInfoAction(newAction: FBtnMDP) {
+    this.infoActionList.push(newAction);
+    return this;
+  }
+
   addInfo(newAction: { label: string, value?: string; infoMDP?: MDP; }) {
     this.infoList.push(new FTabelInfoMDP(newAction));
     return this;
@@ -414,7 +426,11 @@ export default class FDataTableMDP implements MDP {
         outlined: this.outlined,
         enableSerialNumber: this.enableSerialNumber,
         enablePagination: this.enablePagination,
-        groupBySummaryFunction: this.groupBySummaryFunction
+        groupBySummaryFunction: this.groupBySummaryFunction,
+        enableInfo: this.enableInfo,
+        infoActionMetaDataList: this.infoActionList.map((action) =>
+          action.getMetaData()
+        ),
       }
     }
   }

@@ -44,7 +44,7 @@ export default class FiCreditorSettlementFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellDateMDP()
       }).addNumberColumn({
         dataSelectorKey: "daysDelinquentAsOnOnboarding",
-        label: "Days Delinquent"
+        label: "Delinquency(at Enrolment)"
       })
       .addColumn({
         label:"PAN",

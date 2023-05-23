@@ -34,6 +34,34 @@
             ></component>
           </ValidationProvider>
         </div>
+  <!-- Hidden field implementation -->
+      <template v-if="showHiddenFields">
+         <div
+          v-for="(fieldMetaData, indx) in hiddenFieldMetaDataList"
+          :key="'hidden'+indx"
+          :class="fieldMetaData.boundaryClass"
+        >
+            <component
+              :is="fieldMetaData.componentName"
+              :ref="fieldMetaData.myRefName"
+              v-bind="fieldMetaData.props"
+              :value="selectModel(modelValue, fieldMetaData.dataSelectorKey)"
+              @input="
+                (newValue) =>
+                  updateModel(
+                    modelValue,
+                    newValue,
+                    fieldMetaData.dataSelectorKey
+                  )
+              "
+            ></component>
+        </div>
+      </template>
+
+      <v-btn v-if="hiddenFieldMetaDataList.length>0" text color="primary" class="text-center" @click="showHiddenFields = !showHiddenFields">{{showHiddenFields?'Show less':'Show more'}} </v-btn>
+
+      <!-- Hidden field implementation -->
+        
       </v-form>
       <div
         v-if="!disabled"
@@ -156,6 +184,8 @@ export default class FForm extends ModelVue {
   @Prop({ default: "" })
   boundaryClass: string;
 
+  showHiddenFields: boolean = false;
+
   submitForm(action: () => void) {
     const observerRef: any = this.$refs[this.myRefName];
     observerRef.validate().then((success: boolean) => {
@@ -175,8 +205,16 @@ export default class FForm extends ModelVue {
   get fieldMetaDataListFiltered() {
     return this.fieldMetaDataList.filter(
       (fieldMetaData) =>
-        fieldMetaData.condition === undefined ||
-        fieldMetaData.condition === true
+        (fieldMetaData.condition === undefined ||
+        fieldMetaData.condition === true)&&!fieldMetaData.hidden
+    );
+  }
+
+  get hiddenFieldMetaDataList() {
+    return this.fieldMetaDataList.filter(
+      (fieldMetaData) =>
+        (fieldMetaData.condition === undefined ||
+        fieldMetaData.condition === true)&&fieldMetaData.hidden===true
     );
   }
 

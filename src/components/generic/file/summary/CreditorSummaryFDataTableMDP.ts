@@ -20,7 +20,7 @@ export default class CreditorSummaryFDataTableMDP extends FDataTableMDP {
             label: "Outstanding Amount",
             dataSelectorKey:"creditorBalance"
         }).addColumn({
-            label: "Days Delinquent",
+            label: "Delinquency(at Enrolment)",
             dataSelectorKey:"daysDelinquentAsOnOnboarding"
         })
         .addInfo({

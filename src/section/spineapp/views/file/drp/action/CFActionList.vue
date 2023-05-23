@@ -299,6 +299,13 @@ export default class CFActionList extends Vue {
             command: this.graduate,
             condition: this.isClientFileNotHold() && this.isAdmin(),
           },
+           {
+            actionName: "Retain File",
+            icon: "mdi-chevron-right",
+            command: this.initiateRetain,
+            condition: this.isAdmin()&&this.isClientFileCancelled(),
+            confirmation: true,
+          },
           // {
           //   actionName: "Mark File As Cancel",
           //   icon: "mdi-chevron-right",
@@ -605,6 +612,17 @@ export default class CFActionList extends Vue {
     });
   }
 
+  initiateRetain() {
+    FSnackbar.confirm({
+      onConfirm: () => {
+        Action.ClientFile.RetainDrpFile.execute1(this.clientFileId, output => {
+          this.clientFileId = output.newClientFileId;
+          this.gotoCFActiveTaskList();
+        })
+      }
+    })
+  }
+
   cancel() {
     Action.ClientFile.Cancel.execute1(this.clientFileId, (output) => {
       setTimeout(() => {
@@ -676,6 +694,11 @@ export default class CFActionList extends Vue {
 
   isClientFileNotHold() {
     return this.clientFileBasicInfo.clientFileStatus.id !== "HOLD";
+  }
+
+  isClientFileCancelled() {
+    console.log(this.clientFileBasicInfo.clientFileStatus)
+    return this.clientFileBasicInfo.clientFileStatus.id === Data.ClientFile.CLIENT_FILE_STATUS.CANCELLED.id;
   }
 
   isNotSalesRepOrLead() {

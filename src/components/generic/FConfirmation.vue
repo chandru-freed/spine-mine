@@ -1,21 +1,34 @@
 <template>
   <div>
-    <v-snackbar
+    <v-dialog
       min-width="600px"
-      top
-      :vertical="true"
       :value="confirmationAlertInfo.show"
-      :timeout="-1"
+      @click:outside="handleCancelClick()"
+      width="500"
+      content-class="dialog-top-align"
     >
-      {{ confirmationAlertInfo.message }}
+      <v-card>
+        <v-card-title> Confirmation </v-card-title>
+        <v-card-text>
+          {{ confirmationAlertInfo.message }}
+        </v-card-text>
 
-      <template v-slot:action="{ attrs }">
-        <v-btn text v-bind="attrs" @click="handleCancelClick()"> Cancel </v-btn>
-        <v-btn color="green" text v-bind="attrs" @click="handleConfirmClick()">
-          Confirm
-        </v-btn>
-      </template>
-    </v-snackbar>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn text v-bind="attrs" @click="handleCancelClick()">
+            Cancel
+          </v-btn>
+          <v-btn
+            color="green"
+            text
+            v-bind="attrs"
+            @click="handleConfirmClick()"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -43,3 +56,11 @@ export default class FConfirmation extends Vue {
   }
 }
 </script>
+
+<style scoped>
+::v-deep .dialog-top-align {
+  position: fixed;
+  top: 0;
+  transform: translateY(0%) !important;
+}
+</style>

@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-snackbar
-      min-width="500px"
+      min-width="400px"
+      max-width="500px"
       top
       :vertical="true"
       :value="confirmationAlertInfo.show"

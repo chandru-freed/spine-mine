@@ -660,7 +660,7 @@ export default class FDataTable extends ModelVue {
         this.disabled ||
         action.disabled ||
         (this.selectedItemList.length > 1 && action.singleSelect)) &&
-      !action.noSelect
+      !(action.noSelect&&!action.disabled)
     );
   }
 

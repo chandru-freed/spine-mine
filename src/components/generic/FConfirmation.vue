@@ -15,13 +15,12 @@
 
         <v-card-actions>
           <v-spacer/>
-          <v-btn text v-bind="attrs" @click="handleCancelClick()">
+          <v-btn text @click="handleCancelClick()">
             Cancel
           </v-btn>
           <v-btn
             color="green"
             text
-            v-bind="attrs"
             @click="handleConfirmClick()"
           >
             Confirm

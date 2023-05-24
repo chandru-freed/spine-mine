@@ -1,17 +1,16 @@
 <template>
   <div class="col-12">
-
-     <component
-        v-if="!!showViewPaymentForm"
-        :ref="paymentDetailsFFormMetaData.myRefName"
-        :is="paymentDetailsFFormMetaData.componentName"
-        :value="selectModel(selectedPaymentSummaryToView, undefined)"
-        @input="
-          (newValue) =>
-            updateModel(selectedPaymentSummaryToView, newValue, undefined)
-        "
-        v-bind="paymentDetailsFFormMetaData.props"
-      ></component>
+    <component
+      v-if="!!showViewPaymentForm"
+      :ref="paymentDetailsFFormMetaData.myRefName"
+      :is="paymentDetailsFFormMetaData.componentName"
+      :value="selectModel(selectedPaymentSummaryToView, undefined)"
+      @input="
+        (newValue) =>
+          updateModel(selectedPaymentSummaryToView, newValue, undefined)
+      "
+      v-bind="paymentDetailsFFormMetaData.props"
+    ></component>
 
     <component
       :ref="ecfCashfreeListMetaData.myRefName"
@@ -84,14 +83,19 @@ export default class FCashfreeList extends ModelVue {
   clientFileId = this.$route.params.clientFileId;
   taskId = this.$route.params.taskId;
 
-  fiCashfreeList = []
+  fiCashfreeList = [];
 
-    @Store.Getter.ClientFile.ClientFileSummary.fiCashfreeLinkList
+  @Store.Getter.ClientFile.ClientFileSummary.fiCashfreeLinkList
   fiCashfreeLinkList: Data.ClientFile.FiCashfreeLinkPayment[];
-
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
+  @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
+  fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
+
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
 
   draftFirstMSFPaymentInput: Data.ClientFile.DraftFirstMSFThroughCashfreeInput =
     new Data.ClientFile.DraftFirstMSFThroughCashfreeInput();
@@ -118,13 +122,13 @@ export default class FCashfreeList extends ModelVue {
     );
   }
 
-   handleInfoClick(item: any) {
+  handleInfoClick(item: any) {
     this.selectedPaymentSummaryToView = item;
     this.showViewPaymentForm = true;
     console.log(item);
   }
 
-    get paymentDetailsFFormMetaData() {
+  get paymentDetailsFFormMetaData() {
     return new PaymentDetailsFFormMDP({ parent: this }).getMetaData();
   }
 
@@ -133,5 +137,8 @@ export default class FCashfreeList extends ModelVue {
     this.selectedPaymentSummaryToView = new Data.ClientFile.FiPayment();
   }
 
+  isAdmin() {
+    return this.roleList?.includes("Admin");
+  }
 }
 </script>

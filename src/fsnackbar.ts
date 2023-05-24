@@ -43,7 +43,7 @@ export default class FSnackbar {
   }
 
 
-  static confirm(props: {message: string;onConfirm: () => void}) {
+  static confirm(props: {message?: string;onConfirm: () => void}) {
     this.hide();
     const confirmationInfo = Data.Spine.ConfirmationAlertInfo.fromJson(props);
     confirmationInfo.show = true;

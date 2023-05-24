@@ -30,14 +30,14 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
         tooltipText: "Click here to copy the Cashfree link",
       }),
     })
-    .addColumn({
-      label:"Link",
-      dataSelectorKey: "clientFileNumber",
-      columnCellMDP: new FCellRouterLinkMDP({
-        routerName:"Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
-        paramsList: [{paramName: "clientFileNumber",paramKey: "clientFileNumber"},{paramName: "paymentId",paramKey: "paymentId"}]
+      .addColumn({
+        label: "Link",
+        dataSelectorKey: "clientFileNumber",
+        columnCellMDP: new FCellRouterLinkMDP({
+          routerName: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
+          paramsList: [{ paramName: "clientFileNumber", paramKey: "clientFileNumber" }, { paramName: "paymentId", paramKey: "paymentId" }]
+        })
       })
-    })
       .addCurrencyColumn({
         label: "MSF Amount",
         dataSelectorKey: "msfAmount",
@@ -58,6 +58,13 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
         type: ActionType.ADD,
       })
       .addAction({
+        label: "Generate Cashfree with discount(20%)",
+        onClick: this.handleGenerateWithDiscount(),
+        type: ActionType.OTHERS,
+        noSelect: true,
+        disabled: !this.parent.isAdmin()
+      })
+      .addAction({
         label: "Refresh",
         onClick: this.handleRefreshClick(),
         type: ActionType.REFRESH,
@@ -75,7 +82,7 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
     return () => {
       return new Promise((res) => {
         const draftFirstMSFPaymentInput: Data.ClientFile.DraftFirstMSFThroughCashfreeInput =
-        new Data.ClientFile.DraftFirstMSFThroughCashfreeInput();
+          new Data.ClientFile.DraftFirstMSFThroughCashfreeInput();
         draftFirstMSFPaymentInput.clientFileId =
           this.parent.clientFileId;
         // receiveFirstMSFPaymentInput.taskId = this.parent.taskId;
@@ -90,13 +97,39 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
     };
   }
 
+  handleGenerateWithDiscount() {
+    return () => {
+      return new Promise((res) => {
+        const { msfDraftAmount = 0 } = this.parent.fiPaymentPlanInfoStore.ppCalculator;
+        const discount = msfDraftAmount * 20 / 100;
+        const msfDraftAmountAfterDiscount = Math.ceil(msfDraftAmount - discount);
+        FSnackbar.confirm({
+          message: `Msf amount will be ${msfDraftAmountAfterDiscount} after applying 20% discount.Are you sure want to continue?`, onConfirm: () => {
+            const draftFirstMSFPaymentInput: Data.ClientFile.DraftFirstMSFThroughCashfreeInput =
+              new Data.ClientFile.DraftFirstMSFThroughCashfreeInput();
+            draftFirstMSFPaymentInput.clientFileId =
+              this.parent.clientFileId;
+            draftFirstMSFPaymentInput.msfAmount = msfDraftAmountAfterDiscount;
+            Action.ClientFile.DraftAndPresentFirstMSFThroughCashfree.execute(
+              draftFirstMSFPaymentInput,
+              (output) => {
+                FSnackbar.success("Successfully generated the Cashfree");
+              }
+            );
+            res(true);
+          }
+        })
+      });
+    }
+  }
+
 
   handleDetailsClick() {
-      return (item: any) => {
-        return new Promise(res => {
-          this.parent.handleInfoClick(item);
-        });
-      }
+    return (item: any) => {
+      return new Promise(res => {
+        this.parent.handleInfoClick(item);
+      });
+    }
   }
 
   handleRefreshClick() {
@@ -104,7 +137,7 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
       return new Promise((res) => {
         Action.ClientFile.GetMSFCashfreeLinkPaymentList.execute1(
           this.parent.clientFileId,
-          (output) => {}
+          (output) => { }
         );
         this.parent.getClientFileBasicInfo();
         res(true);

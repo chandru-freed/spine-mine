@@ -52,7 +52,7 @@
               <f-hover-copy
                 v-model="clientFileBasicInfo.clientBasicInfo.fullName"
               >
-                <a @click="gotoProfile">
+                <a @click="gotoClient">
                   <v-list-item-title
                     class="deep-purple--text text-body-1 overline"
                     >{{
@@ -737,6 +737,14 @@ export default class CFSummary extends Vue {
 
   gotoEmandateList() {
     this.$router.push({ name: "Root.CFile.CFPayment.CFEMandateList" });
+  }
+
+  gotoClient() {
+    const clientId = this.clientFileBasicInfo.clientBasicInfo.clientId;
+    this.$router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
+    });
   }
 
   copyToClipBoard(text: string) {

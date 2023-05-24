@@ -478,6 +478,7 @@ import FFormMDP, { FFormChildMDP } from "../form/FFormMDP";
 import FTextField from "../form/field/FTextField.vue";
 import FTextFieldMDP from "../form/field/FTextFieldMDP";
 import FColumnMDP from "./FColumnMDP";
+import FCellAccountNumber from "./cell/FCellAccountNumber.vue";
 
 @Component({
   components: {
@@ -518,9 +519,11 @@ import FColumnMDP from "./FColumnMDP";
     FForm,
     FExpansionFDataTable,
     FCopy,
+
     FCellRouterLink,
     FCellBtnPreview,
     FCellUrlLink,
+    FCellAccountNumber
   },
 })
 export default class FDataTable extends ModelVue {
@@ -697,7 +700,7 @@ export default class FDataTable extends ModelVue {
         this.disabled ||
         action.disabled ||
         (this.selectedItemList.length > 1 && action.singleSelect)) &&
-      !action.noSelect
+      !(action.noSelect&&!action.disabled)
     );
   }
 

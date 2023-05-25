@@ -1,10 +1,13 @@
 import FColumnCellMDP from '../FColumnCellMDP';
 export default class FCellUrlLinkMDP implements FColumnCellMDP {
     dataSelectorKey?: string;
+    placeholder?: string;
     constructor({
-        dataSelectorKey
-    }: {  dataSelectorKey?: string }) {
+        dataSelectorKey,
+        placeholder
+    }: {  dataSelectorKey?: string;placeholder?: string }) {
         this.dataSelectorKey = dataSelectorKey;
+        this.placeholder = placeholder;
     }
     // dataSelectorKey: string;
     componentName: string = "FCellUrlLink";
@@ -12,7 +15,8 @@ export default class FCellUrlLinkMDP implements FColumnCellMDP {
         return {
             componentName: this.componentName,
             props: {
-                dataSelectorKey: this.dataSelectorKey
+                dataSelectorKey: this.dataSelectorKey,
+                placeholder: this.placeholder
             }
         }
     }

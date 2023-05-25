@@ -1,10 +1,10 @@
 <template>
-<div>
-  <a v-if="selectModel(modelValue,dataSelectorKey)" :href="selectModel(modelValue,dataSelectorKey)">
-    Url
+<span>
+  <a class="mr-1" v-if="selectModel(modelValue,dataSelectorKey)" :href="selectModel(modelValue,dataSelectorKey)">
+    {{placeholder}}
   </a>
   <div v-else>--</div>
-</div>
+</span>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -15,7 +15,10 @@ import ModelVue from "../../ModelVue";
   },
 })
 export default class FCellUrlLink extends ModelVue {
- 
+ @Prop({
+  default: "Url"
+ })
+ placeholder: string;
   
   @Prop()
   dataSelectorKey: string;

@@ -57,7 +57,7 @@ export default class FConfirmation extends Vue {
 </script>
 
 <style scoped>
-::v-deep .dialog-top-align {
+:v-deep .dialog-top-align {
   position: fixed;
   top: 0;
   transform: translateY(0%) !important;

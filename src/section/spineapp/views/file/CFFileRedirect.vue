@@ -46,14 +46,14 @@ export default class CFFileRedirect extends Vue {
       (output) => {
         setTimeout(() => {
           if(output.programCode === "DCP") {
-          // this.$router.replace({
-          //   name: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
-          //   params: { clientFileId: this.clientFileBasicInfo.clientFileId },
-          // });
           this.$router.replace({
-            name: "Root.CFile.CFInfo.CFClientInfo",
+            name: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
             params: { clientFileId: this.clientFileBasicInfo.clientFileId },
-          }); 
+          });
+          // this.$router.replace({
+          //   name: "Root.CFile.CFInfo.CFClientInfo",
+          //   params: { clientFileId: this.clientFileBasicInfo.clientFileId },
+          // }); 
           } else {
           this.$router.replace({
             name: "Root.CFile.CFInfo.CFClientInfo",

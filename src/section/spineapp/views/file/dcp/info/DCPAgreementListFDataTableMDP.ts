@@ -60,6 +60,12 @@ export default class DCPAgreementListFDataTableMDP extends FDataTableMDP {
         type: ActionType.ADD,
       })
       .addAction({
+        label: "Refresh",
+        onClick: this.handleRefreshClick(),
+        type: ActionType.REFRESH,
+        noSelect: true,
+      })
+      .addAction({
         label: "Resend Mail",
         onClick: this.handleResendClick(),
         type: ActionType.OTHERS,
@@ -89,6 +95,15 @@ export default class DCPAgreementListFDataTableMDP extends FDataTableMDP {
             res(true);
           }
         );
+      });
+    };
+  }
+
+  handleRefreshClick() {
+    return () => {
+      return new Promise((res) => {
+        this.parent.getAllAgreementList();
+        res(true);
       });
     };
   }

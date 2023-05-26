@@ -15,7 +15,7 @@ export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
     super({
       itemKey: "psEntryId",
       disabled: parent.disabledActionBtn,
-      title: "Payment Schedule",
+      // title: "Payment Schedule",
       myRefName: refName,
     });
     this.parent = parent;
@@ -61,17 +61,31 @@ export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
         value: this.parent.modelValue.paymentPlan.ppCalculator.tenor,
       })
       .addAction({
+        label: "Apply discount on MSF",
+        onClick: (item) => this.handleWaiveClick(),
+        type: ActionType.OTHERS,
+        disabled: this.disabled,
+        noSelect: true,
+        condition: this.parent.taskDetails.taskName == 'RetainCancelledFile'
+      })
+      .addAction({
         label: "Add Entry",
         onClick: (item) => this.handleAddEntryClick(),
         type: ActionType.ADD,
         confirmation: true,
         disabled: this.disabled,
+
       });
   }
 
   handleAddEntryClick() {
     return new Promise((resolve) => {
       this.parent.showAddPsEntryForm = true;
+    });
+  }
+  handleWaiveClick() {
+    return new Promise((resolve) => {
+      this.parent.showApplyDiscountOnMsfForm = true;
     });
   }
 }

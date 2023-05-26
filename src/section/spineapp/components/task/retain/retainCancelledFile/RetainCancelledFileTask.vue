@@ -347,6 +347,8 @@ export default class RetainCancelledFileTask extends ModelVue {
       this.getFiPaymentPlanInfoHandler
     );
 
+    Action.ClientFile.ApplyDiscountOnMsf.interested(this.getFiPaymentPlanInfoHandler);
+
     Action.Spine.UpdateBankInfo.interested(this.getFiBankInfoHandler);
     Action.Spine.AttachDocument.interested(this.getFiDocumentListHandler);
     Action.Spine.DetachDocument.interested(this.getFiDocumentListHandler);
@@ -444,6 +446,7 @@ export default class RetainCancelledFileTask extends ModelVue {
     Action.Spine.ParseCreditReport.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
+    Action.ClientFile.ApplyDiscountOnMsf.notInterested(this.getFiPaymentPlanInfoHandler);
 
     // getEMandateListHandler
   }

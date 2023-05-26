@@ -767,7 +767,7 @@ export default class FDataTable extends ModelVue {
   }
 
   get filteredActions() {
-    return this.actions.filter((item) => item.type === ActionType.OTHERS);
+    return this.actions.filter((item) => item.type === ActionType.OTHERS&&(item.condition==true || item.condition==undefined));
   }
 
   get showCheckbox() {

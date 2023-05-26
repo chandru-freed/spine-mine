@@ -24,6 +24,12 @@
                 >{{ result.msfAmount | toINR }}</span
               >
             </v-chip>
+            <v-chip v-if="showMsfDiscountAmount" class="mr-2" color="primary" label outlined large
+              >MSF Discount: &nbsp;&nbsp;<span
+                class="font-weight-bold secondary--text"
+                >{{ modelValue.paymentPlan.ppCalculator.msfDiscountAmount | toINR }}</span
+              >
+            </v-chip>
             <v-chip
               v-if="result.monthlyPayment"
               class="mr-2"
@@ -414,6 +420,9 @@ export default class TMOStimulator extends ModelVue {
 
   get isSalesRep() {
     return this.roleList.includes("SalesRep");
+  }
+  get showMsfDiscountAmount() {
+    return this.modelValue?.paymentPlan?.ppCalculator?.msfDiscountAmount > 0
   }
 }
 

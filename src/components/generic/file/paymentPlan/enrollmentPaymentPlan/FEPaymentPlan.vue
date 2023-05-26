@@ -1,7 +1,7 @@
 <template>
   <div>
     <component
-    v-if="taskStateTerminated"
+      v-if="taskStateTerminated"
       :is="paymentCalculatorFormMetaData.componentName"
       :ref="paymentCalculatorFormMetaData.myRefName"
       :value="
@@ -20,7 +20,7 @@
 
     <TMOStimulator
       ref="tmosSimulator"
-      v-if="modelValue&&!taskStateTerminated"
+      v-if="modelValue && !taskStateTerminated"
       :value="modelValue"
       :percentage="modelValue.paymentPlan.ppCalculator?.settlementPercentage"
       :simulatorInput="modelValue"
@@ -59,6 +59,20 @@
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>
           <v-card flat>
+            <v-card flat v-if="showApplyDiscountOnMsfForm">
+              <v-card-title>Apply discount on MSF</v-card-title>
+              <component
+                v-if="!!waiveMsfFFormMetaData"
+                :ref="waiveMsfFFormMetaData.myRefName"
+                :is="waiveMsfFFormMetaData.componentName"
+                :value="selectModel(waiveMsfInput, undefined)"
+                @input="
+                  (newValue) => updateModel(waiveMsfInput, newValue, undefined)
+                "
+                v-bind="waiveMsfFFormMetaData.props"
+              ></component>
+            </v-card>
+
             <component
               v-if="showAddPsEntryForm"
               :is="addPsEntryFFormMetaData.componentName"
@@ -102,15 +116,7 @@
 
     <div
       v-if="!disabled"
-      class="
-        d-flex
-        flex-row
-        align-start
-        flex-wrap
-        justify-space-around
-        pa-2
-        my-5
-      "
+      class="d-flex flex-row align-start flex-wrap justify-space-around pa-2 my-5"
     >
       <div
         :class="actionMetaData.boundaryClass"
@@ -141,6 +147,7 @@ import AddEPsEntryFFormMDP from "./AddEPsEntryFFormMDP";
 import * as Store from "@/../src-gen/store";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import TMOStimulator from "@/components/generic/tmoStimulator/TMOStimulator.vue";
+import ApplyDiscountOnMsfFFormMDP from "./ApplyDiscountOnMsfFFormMDP";
 
 @Component({
   components: {
@@ -156,6 +163,9 @@ export default class FEPaymentPlan extends ModelVue {
   showAddPsEntryForm: boolean = false;
   addPsEntryInput: Data.ClientFile.AddPSEntryInput =
     new Data.ClientFile.AddPSEntryInput();
+  waiveMsfInput: Data.ClientFile.ApplyDiscountOnMsfInput =
+    new Data.ClientFile.ApplyDiscountOnMsfInput();
+  showApplyDiscountOnMsfForm: boolean = false;
 
   fPaymentScheduleFDataTableRefName: string = "fEPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
@@ -211,7 +221,9 @@ export default class FEPaymentPlan extends ModelVue {
 
   resetFormsTableAndData() {
     this.showAddPsEntryForm = false;
+    this.showApplyDiscountOnMsfForm = false;
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
+    this.waiveMsfInput = new Data.ClientFile.ApplyDiscountOnMsfInput();
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();
@@ -226,6 +238,10 @@ export default class FEPaymentPlan extends ModelVue {
 
   get fPSkipedPresentedTableMetaData() {
     return new FEPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
+  }
+
+  get waiveMsfFFormMetaData() {
+    return new ApplyDiscountOnMsfFFormMDP({ parent: this }).getMetaData();
   }
 
   get addPsEntryFFormMetaData() {

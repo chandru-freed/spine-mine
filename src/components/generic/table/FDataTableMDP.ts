@@ -455,5 +455,6 @@ export interface FTableActionField {
   confirmation?: boolean;
   singleSelect?: boolean;
   noSelect?: boolean;
+  condition?: boolean;
 }
 

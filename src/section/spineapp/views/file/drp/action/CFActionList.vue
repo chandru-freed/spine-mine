@@ -615,7 +615,9 @@ export default class CFActionList extends Vue {
   initiateRetain() {
     FSnackbar.confirm({
       onConfirm: () => {
-        Action.ClientFile.RetainDrpFile.execute1(this.clientFileId, output => {
+        const RetainCancelledInput = new Data.ClientFile.RetainCancelledInput();
+        RetainCancelledInput.cancelledClientFileId = this.clientFileId;
+        Action.ClientFile.RetainCancelled.execute(RetainCancelledInput, output => {
           this.clientFileId = output.newClientFileId;
           this.gotoCFActiveTaskList();
         })
@@ -624,7 +626,9 @@ export default class CFActionList extends Vue {
   }
 
   cancel() {
-    Action.ClientFile.Cancel.execute1(this.clientFileId, (output) => {
+    const CancelInput = new Data.ClientFile.CancelInput();
+    CancelInput.clientFileId = this.clientFileId;
+    Action.ClientFile.Cancel.execute(CancelInput, (output) => {
       setTimeout(() => {
         FSnackbar.success("Succesfully assigned");
         this.gotoCFActiveTaskList();
@@ -633,7 +637,9 @@ export default class CFActionList extends Vue {
   }
 
   requestCancel() {
-    Action.ClientFile.RequestCancel.execute1(this.clientFileId, (output) => {
+    const CancelInput = new Data.ClientFile.CancelInput();
+    CancelInput.clientFileId = this.clientFileId;
+    Action.ClientFile.RequestCancel.execute(CancelInput, (output) => {
       setTimeout(() => {
         FSnackbar.success("Succesfully assigned");
         this.gotoCFActiveTaskList();

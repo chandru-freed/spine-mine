@@ -288,11 +288,12 @@ export default class CFActionList extends Vue {
             confirmation: true,
           },
 
-          // {
-          //   actionName: "Mark File As Request Cancel",
-          //   icon: "mdi-chevron-right",
-          //   command: this.requestCancel,
-          // },
+          {
+            actionName: "Mark File As Request Cancel",
+            icon: "mdi-chevron-right",
+            command: this.requestCancel,
+            condition: this.isAdmin(),
+          },
           {
             actionName: "Mark File As Graduate",
             icon: "mdi-chevron-right",
@@ -637,6 +638,8 @@ export default class CFActionList extends Vue {
   }
 
   requestCancel() {
+    FSnackbar.confirm({
+      onConfirm: () => {
     const CancelInput = new Data.ClientFile.CancelInput();
     CancelInput.clientFileId = this.clientFileId;
     Action.ClientFile.RequestCancel.execute(CancelInput, (output) => {
@@ -645,6 +648,7 @@ export default class CFActionList extends Vue {
         this.gotoCFActiveTaskList();
       }, 400);
     });
+      }});
   }
 
   recordMSFPayment() {}

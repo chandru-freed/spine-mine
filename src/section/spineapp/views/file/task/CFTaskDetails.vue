@@ -95,6 +95,7 @@ import ApproveAmendmentV4Task from "@/section/spineapp/components/task/amendment
 import SignedByClientV4Task from "@/section/spineapp/components/task/amendment/signedByClientV4/SignedByClientV4Task.vue";
 import FollowUpAmendmentEMandateV4Task from "@/section/spineapp/components/task/amendment/followUpAmendmentEMandateV4/FollowUpAmendmentEMandateV4Task.vue";
 import RetainCancelledFileTask from "@/section/spineapp/components/task/retain/retainCancelledFile/RetainCancelledFileTask.vue";
+import RetainPendingCancelledFileTask from "@/section/spineapp/components/task/retainPendingCancelled/retainPendingCancelledFile/RetainPendingCancelledFileTask.vue";
 
 @Component({
   components: {
@@ -162,7 +163,8 @@ import RetainCancelledFileTask from "@/section/spineapp/components/task/retain/r
     ApproveAmendmentV4Task,
     SignedByClientV4Task,
     FollowUpAmendmentEMandateV4Task,
-    RetainCancelledFileTask
+    RetainCancelledFileTask,
+    RetainPendingCancelledFileTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -275,6 +277,8 @@ export default class CFTaskDetails extends Vue {
     ["Amendment::SignedByClientV4", "SignedByClientV4Task"],
     ["Amendment::FollowUpAmendmentEMandateV4", "FollowUpAmendmentEMandateV4Task"],
     ["Retain::RetainCancelledFile", "RetainCancelledFileTask"],
+    ["RetainPendingCancelled::RetainPendingCancelledFile", "RetainPendingCancelledFileTask"],
+    
     
     
     

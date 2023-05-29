@@ -108,7 +108,19 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
         mandatory: true,
         boundaryClass: "col-3",
       })
-    ).addField(
+    )
+    .addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.msfDiscountAmount",
+        label: "MSF Discount Amount",
+        boundaryClass: "col-3",
+        disabled: true,
+        condition: !!this.taskRoot?.paymentPlan?.ppCalculator?.msfDiscountAmount && this.taskRoot?.paymentPlan?.ppCalculator?.msfDiscountAmount>0
+      })
+    )
+    
+    .addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.msfDraftAmount",

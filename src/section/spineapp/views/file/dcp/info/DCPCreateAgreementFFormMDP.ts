@@ -22,57 +22,72 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         dataSelectorKey: "dcpExcel",
         label: "Dcp Excel",
         boundaryClass: "col-4",
-      })
-    ).addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "loanNumber",
-        label: "Loan Number",
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "tenure",
-        label: "Tenure",
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "roi",
-        label: "ROI",
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "newMontlhyEmi",
-        label: "New Montlhy Emi",
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FSelectDateFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "loanApprovedOn",
-        label: "Loan Approved On",
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FSelectDateFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "emiStartDate",
-        label: "Emi Start Date",
-        boundaryClass: "col-4",
-      })
-    ).addField(
-      new FNumberFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "existingCashBalance",
-        label: "Existing Cash Balance",
-        boundaryClass: "col-4",
+        mandatory: true,
       })
     )
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "loanNumber",
+          label: "Loan Number",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "tenure",
+          label: "Tenure",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "roi",
+          label: "ROI",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "newMontlhyEmi",
+          label: "New Montlhy Emi",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FSelectDateFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "loanApprovedOn",
+          label: "Loan Approved On",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FSelectDateFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "emiStartDate",
+          label: "Emi Start Date",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FNumberFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "existingCashBalance",
+          label: "Existing Cash Balance",
+          boundaryClass: "col-4",
+          mandatory: true,
+        })
+      )
       .addAction(
         new FBtnMDP({
           label: "Cancel",
@@ -87,22 +102,28 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
       );
   }
 
+  getMyRef() {
+    return this.parent.$refs[this.myRefName];
+  }
+
   handleGenerateClick() {
     return () => {
-      const input: Data.DCPClientFile.GenerateAgreementFromExcelInput =
-        Data.DCPClientFile.GenerateAgreementFromExcelInput.fromJson(
-          this.parent.generateAgreementFromExcelInput
+      this.getMyRef().submitForm(() => {
+        const input: Data.DCPClientFile.GenerateAgreementFromExcelInput =
+          Data.DCPClientFile.GenerateAgreementFromExcelInput.fromJson(
+            this.parent.generateAgreementFromExcelInput
+          );
+        input.clientFileId = this.parent.clientFileId;
+        Action.DCPClientFile.GenerateAgreementFromExcel.execute(
+          input,
+          (output) => {
+            setTimeout(() => {
+              this.parent.getAllAgreementList();
+            }, 1000);
+            this.parent.resetFormAndDialog();
+          }
         );
-      input.clientFileId = this.parent.clientFileId;
-      Action.DCPClientFile.GenerateAgreementFromExcel.execute(
-        input,
-        (output) => {
-          setTimeout(() => {
-            this.parent.getAllAgreementList();
-          }, 1000);
-          this.parent.resetFormAndDialog();
-        }
-      );
+      });
       // this.parent.resetFormAndDialog();
     };
   }

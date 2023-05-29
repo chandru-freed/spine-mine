@@ -7,6 +7,8 @@ import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
 import FBtnMDP from "@/components/generic/FBtnMDP";
+import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
+import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 
 export default class DCPCreateAgreementFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -19,6 +21,56 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "dcpExcel",
         label: "Dcp Excel",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "loanNumber",
+        label: "Loan Number",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "tenure",
+        label: "Tenure",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "roi",
+        label: "ROI",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "newMontlhyEmi",
+        label: "New Montlhy Emi",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FSelectDateFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "loanApprovedOn",
+        label: "Loan Approved On",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FSelectDateFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "emiStartDate",
+        label: "Emi Start Date",
+        boundaryClass: "col-4",
+      })
+    ).addField(
+      new FNumberFieldMDP({
+        parentMDP: this.childMDP,
+        dataSelectorKey: "existingCashBalance",
+        label: "Existing Cash Balance",
+        boundaryClass: "col-4",
       })
     )
       .addAction(

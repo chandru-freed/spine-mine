@@ -289,7 +289,7 @@ export default class CFActionList extends Vue {
           },
 
           {
-            actionName: "Mark File As Request Cancel",
+            actionName: "Request Cancel",
             icon: "mdi-chevron-right",
             command: this.requestCancel,
             condition: this.isAdmin(),

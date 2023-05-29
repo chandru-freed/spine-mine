@@ -58,7 +58,21 @@ export default class RetainPendingCancelledFileTask extends ModelVue {
   taskFormOutputLocal: Data.Spine.RetainPendingCancelledFileTaskOutput = new Data.Spine.RetainPendingCancelledFileTaskOutput();
 
   get taskFormOutput() {
-    this.taskFormOutputLocal.reinstate = !this.taskFormOutputLocal.reinstateWithAmendment;
+    
+    switch(this.taskFormOutputLocal.reinstateOption) {
+      case "reinstate": {
+        this.taskFormOutputLocal.reinstate = true;
+        this.taskFormOutputLocal.reinstateWithAmendment = false;
+      }
+      case "reinstateWithAmendment": {
+        this.taskFormOutputLocal.reinstateWithAmendment = true;
+        this.taskFormOutputLocal.reinstate = false;
+      }
+      case "cancel" :{
+        this.taskFormOutputLocal.reinstateWithAmendment = false;
+        this.taskFormOutputLocal.reinstate = false;
+      }
+    }
     return this.taskFormOutputLocal;
   }
 
@@ -73,6 +87,7 @@ export default class RetainPendingCancelledFileTask extends ModelVue {
   }
   //ACTION
   saveAndMarkCompleteTask() {
+    this.taskFormData.taskOutput.reinstateOption = undefined;
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

@@ -62,6 +62,19 @@
       <v-tabs-items v-model="tab" class="col-12">
         <v-tab-item>
           <v-card flat>
+            <v-card flat v-if="showApplyDiscountOnMsfForm">
+              <v-card-title>Apply discount on MSF</v-card-title>
+              <component
+                v-if="!!applyDiscountFFormMetaData"
+                :ref="applyDiscountFFormMetaData.myRefName"
+                :is="applyDiscountFFormMetaData.componentName"
+                :value="selectModel(applyDiscountInput, undefined)"
+                @input="
+                  (newValue) => updateModel(applyDiscountInput, newValue, undefined)
+                "
+                v-bind="applyDiscountFFormMetaData.props"
+              ></component>
+            </v-card>
             <component
               v-if="showAddPsEntryForm"
               :is="addPsEntryFFormMetaData.componentName"
@@ -199,6 +212,7 @@ import ModifyBPsEntryFFormMDP from "./ModifyBPsEntryFFormMDP";
 import FBFeeFDataTableMDP from "./FBFeeFDataTableMDP";
 import Helper from "@/section/spineapp/util/Helper";
 import UploadExcelFFormMDP from "./UploadExcelFFormMDP";
+import ApplyDiscountOnMsfFFormMDP from "../enrollmentPaymentPlan/ApplyDiscountOnMsfFFormMDP";
 @Component({
   components: {
     FForm,
@@ -217,7 +231,12 @@ export default class FBPaymentPlan extends ModelVue {
   modifyAmountPSEListInput: Data.ClientFile.ModifyAmountWithFixedTenureInput =
     new Data.ClientFile.ModifyAmountWithFixedTenureInput();
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentPlanInfo
-    fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;  
+    fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
+   @Store.Getter.Login.LoginDetails.roleList
+   roleList: string[]; 
+  applyDiscountInput: Data.ClientFile.ApplyDiscountOnMsfInput =
+    new Data.ClientFile.ApplyDiscountOnMsfInput();
+  showApplyDiscountOnMsfForm: boolean = false;  
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
 
@@ -286,6 +305,8 @@ export default class FBPaymentPlan extends ModelVue {
     this.showAddPsEntryForm = false;
     this.showModifyForm = false;
     this.showUploadForm = false;
+    this.showApplyDiscountOnMsfForm = false;
+    this.applyDiscountInput = new Data.ClientFile.ApplyDiscountOnMsfInput();
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
     this.modifyAmountPSEListInput =
       new Data.ClientFile.ModifyAmountWithFixedTenureInput();
@@ -354,6 +375,14 @@ export default class FBPaymentPlan extends ModelVue {
 
   get uploadExcelFFormMetaData() {
     return new UploadExcelFFormMDP({ parent: this }).getMetaData();
+  }
+
+  get applyDiscountFFormMetaData() {
+    return new ApplyDiscountOnMsfFFormMDP({parent: this}).getMetaData();
+  }
+
+  enableApplyDiscount() {
+    return this.roleList.includes("RetentionRep")
   }
 
   @Prop()

@@ -62,14 +62,14 @@
             <v-card flat v-if="showApplyDiscountOnMsfForm">
               <v-card-title>Apply discount on MSF</v-card-title>
               <component
-                v-if="!!waiveMsfFFormMetaData"
-                :ref="waiveMsfFFormMetaData.myRefName"
-                :is="waiveMsfFFormMetaData.componentName"
-                :value="selectModel(waiveMsfInput, undefined)"
+                v-if="!!applyDiscountFFormMetaData"
+                :ref="applyDiscountFFormMetaData.myRefName"
+                :is="applyDiscountFFormMetaData.componentName"
+                :value="selectModel(applyDiscountInput, undefined)"
                 @input="
-                  (newValue) => updateModel(waiveMsfInput, newValue, undefined)
+                  (newValue) => updateModel(applyDiscountInput, newValue, undefined)
                 "
-                v-bind="waiveMsfFFormMetaData.props"
+                v-bind="applyDiscountFFormMetaData.props"
               ></component>
             </v-card>
 
@@ -163,7 +163,7 @@ export default class FEPaymentPlan extends ModelVue {
   showAddPsEntryForm: boolean = false;
   addPsEntryInput: Data.ClientFile.AddPSEntryInput =
     new Data.ClientFile.AddPSEntryInput();
-  waiveMsfInput: Data.ClientFile.ApplyDiscountOnMsfInput =
+  applyDiscountInput: Data.ClientFile.ApplyDiscountOnMsfInput =
     new Data.ClientFile.ApplyDiscountOnMsfInput();
   showApplyDiscountOnMsfForm: boolean = false;
 
@@ -223,7 +223,7 @@ export default class FEPaymentPlan extends ModelVue {
     this.showAddPsEntryForm = false;
     this.showApplyDiscountOnMsfForm = false;
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
-    this.waiveMsfInput = new Data.ClientFile.ApplyDiscountOnMsfInput();
+    this.applyDiscountInput = new Data.ClientFile.ApplyDiscountOnMsfInput();
     (
       this.$refs[this.fPaymentScheduleFDataTableRefName] as any
     ).clearSelectedItems();
@@ -240,7 +240,7 @@ export default class FEPaymentPlan extends ModelVue {
     return new FEPSkipedPresentedFDataTableMDP({ parent: this }).getMetaData();
   }
 
-  get waiveMsfFFormMetaData() {
+  get applyDiscountFFormMetaData() {
     return new ApplyDiscountOnMsfFFormMDP({ parent: this }).getMetaData();
   }
 

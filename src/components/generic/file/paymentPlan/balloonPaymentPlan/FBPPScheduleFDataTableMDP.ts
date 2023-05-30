@@ -68,6 +68,14 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             noSelect: true
         })
         .addAction({
+            label: "Apply discount on MSF",
+            onClick: (item) => this.handleApplyDiscountClick(),
+            type: ActionType.OTHERS,
+            disabled: this.disabled,
+            noSelect: true,
+            condition: this.parent.enableApplyDiscount()
+          })
+        .addAction({
             label: "Upload Excel",
             onClick: (itemList) => this.handleUploadExcel(),
             type: ActionType.OTHERS,
@@ -137,6 +145,12 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             this.parent.downloadDraftExcel();
         })
     }
+
+    handleApplyDiscountClick() {
+        return new Promise((resolve) => {
+          this.parent.showApplyDiscountOnMsfForm = true;
+        });
+      }
 
     
 

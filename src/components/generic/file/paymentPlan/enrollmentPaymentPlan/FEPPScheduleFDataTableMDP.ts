@@ -62,7 +62,7 @@ export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
       })
       .addAction({
         label: "Apply discount on MSF",
-        onClick: (item) => this.handleWaiveClick(),
+        onClick: (item) => this.handleApplyDiscountClick(),
         type: ActionType.OTHERS,
         disabled: this.disabled,
         noSelect: true,
@@ -83,7 +83,7 @@ export default class FEnrollmentPPScheduleFDataTableMDP extends FDataTableMDP {
       this.parent.showAddPsEntryForm = true;
     });
   }
-  handleWaiveClick() {
+  handleApplyDiscountClick() {
     return new Promise((resolve) => {
       this.parent.showApplyDiscountOnMsfForm = true;
     });

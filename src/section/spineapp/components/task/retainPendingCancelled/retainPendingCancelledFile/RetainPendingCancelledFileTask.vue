@@ -63,14 +63,17 @@ export default class RetainPendingCancelledFileTask extends ModelVue {
       case "reinstate": {
         this.taskFormOutputLocal.reinstate = true;
         this.taskFormOutputLocal.reinstateWithAmendment = false;
+        break;
       }
       case "reinstateWithAmendment": {
         this.taskFormOutputLocal.reinstateWithAmendment = true;
         this.taskFormOutputLocal.reinstate = false;
+        break;
       }
       case "cancel" :{
         this.taskFormOutputLocal.reinstateWithAmendment = false;
         this.taskFormOutputLocal.reinstate = false;
+        break;
       }
     }
     return this.taskFormOutputLocal;
@@ -87,7 +90,7 @@ export default class RetainPendingCancelledFileTask extends ModelVue {
   }
   //ACTION
   saveAndMarkCompleteTask() {
-    this.taskFormData.taskOutput.reinstateOption = undefined;
+    // this.taskFormData.taskOutput.reinstateOption = undefined;
     Task.Action.saveAndMarkCompleteTask({
       taskId: this.taskId,
       taskOutput: this.taskFormData.taskOutput,

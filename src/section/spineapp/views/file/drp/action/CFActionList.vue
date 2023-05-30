@@ -291,8 +291,16 @@ export default class CFActionList extends Vue {
           {
             actionName: "Request Cancel",
             icon: "mdi-chevron-right",
-            command: this.requestCancel,
-            condition: this.isAdmin(),
+            // command: this.requestCancel,
+            routerName: "Root.CFile.CFAction.CFRequestCancel",
+            condition: this.isAdmin()&&!this.isClientFilePendingCancelled(),
+          },
+            {
+            actionName: "Reject",
+            icon: "mdi-chevron-right",
+            // command: this.requestCancel,
+            routerName: "Root.CFile.CFAction.CFRejectFile",
+            condition: this.isAdmin()&&this.isClientFileLead(),
           },
           {
             actionName: "Mark File As Graduate",
@@ -307,11 +315,12 @@ export default class CFActionList extends Vue {
             condition: this.isAdmin()&&this.isClientFileCancelled(),
             confirmation: true,
           },
-          // {
-          //   actionName: "Mark File As Cancel",
-          //   icon: "mdi-chevron-right",
-          //   command: this.cancel,
-          // },
+          {
+            actionName: "Cancel File",
+            icon: "mdi-chevron-right",
+            command: this.cancel,
+            condition: this.isAdmin()&&this.isClientFilePendingCancelled(),
+          },
           {
             actionName: "Exception On MSFAmount",
             icon: "mdi-chevron-right",
@@ -627,6 +636,8 @@ export default class CFActionList extends Vue {
   }
 
   cancel() {
+    FSnackbar.confirm({
+      onConfirm: () => {
     const CancelInput = new Data.ClientFile.CancelInput();
     CancelInput.clientFileId = this.clientFileId;
     Action.ClientFile.Cancel.execute(CancelInput, (output) => {
@@ -635,6 +646,7 @@ export default class CFActionList extends Vue {
         this.gotoCFActiveTaskList();
       }, 400);
     });
+      }});
   }
 
   requestCancel() {
@@ -710,6 +722,18 @@ export default class CFActionList extends Vue {
     console.log(this.clientFileBasicInfo.clientFileStatus)
     return this.clientFileBasicInfo.clientFileStatus.id === Data.ClientFile.CLIENT_FILE_STATUS.CANCELLED.id;
   }
+
+  isClientFilePendingCancelled() {
+    console.log(this.clientFileBasicInfo.clientFileStatus)
+    return this.clientFileBasicInfo.clientFileStatus.id === Data.ClientFile.CLIENT_FILE_STATUS.PENDING_CANCELLED.id;
+  }
+
+  isClientFileLead() {
+    console.log(this.clientFileBasicInfo.clientFileStatus)
+    return this.clientFileBasicInfo.clientFileStatus.id === Data.ClientFile.CLIENT_FILE_STATUS.LEAD.id;
+  }
+
+  
 
   isNotSalesRepOrLead() {
     return !(this.isSalesRep() || this.isSalesLead());

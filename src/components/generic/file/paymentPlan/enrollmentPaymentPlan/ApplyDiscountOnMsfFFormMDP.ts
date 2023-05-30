@@ -40,7 +40,7 @@ export default class ApplyDiscountOnMsfFFormMDP extends FFormMDP {
     }
     handleApplyDiscount() {
         return () => {
-            const input = (this.parent.waiveMsfInput as Data.ClientFile.ApplyDiscountOnMsfInput);
+            const input = (this.parent.applyDiscountInput as Data.ClientFile.ApplyDiscountOnMsfInput);
             input.clientFileId = this.parent.clientFileId;
             FSnackbar.confirm({
                 onConfirm: () => {

@@ -1,10 +1,11 @@
-
 <template>
   <div>
     <!-- BREADCRUMBS -->
     <v-breadcrumbs :items="breadcrumbList" class="pa-0 pb-1 px-1">
       <template v-slot:item="{ item }">
-        <v-btn small text class="pa-0" @click="goto(item.routerName)">{{item.title}}</v-btn>
+        <v-btn small text class="pa-0" @click="goto(item.routerName)">{{
+          item.title
+        }}</v-btn>
       </template>
     </v-breadcrumbs>
     <!-- BREADCRUMBS -->
@@ -29,7 +30,6 @@
         </v-tabs>
       </v-toolbar>
 
-
       <v-card flat min-height="600">
         <router-view></router-view>
       </v-card>
@@ -38,50 +38,62 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class DCPCFInfoLayout extends Vue {
-  currentRouteName: string = this.$route.name as string
+  currentRouteName: string = this.$route.name as string;
   get selectedTab() {
     // const selectedTab = this.tabList.map(tab => tab.routerName).indexOf(this.currentRouteName);
     const currentRouteName = this.getExcactRouterNameWithMSF();
-    return this.tabList.map(tab => tab.routerName).indexOf(currentRouteName)
+    return this.tabList.map((tab) => tab.routerName).indexOf(currentRouteName);
   }
 
   get selectedTabName() {
-    return this.tabList.filter(tab => tab.routerName === this.currentRouteName).map(x => x.tabName)[0]
+    return this.tabList
+      .filter((tab) => tab.routerName === this.currentRouteName)
+      .map((x) => x.tabName)[0];
   }
-  
+
   getExcactRouterNameWithMSF() {
     let routerName = this.currentRouteName;
-    if(this.currentRouteName === 'Root.CFile.CFInfo.CFPaymentPlanMSFInfo') {
-      routerName =  "Root.CFile.CFInfo.CFPaymentPlanInfo";
+    if (this.currentRouteName === "Root.CFile.CFInfo.CFPaymentPlanMSFInfo") {
+      routerName = "Root.CFile.CFInfo.CFPaymentPlanInfo";
     }
     return routerName;
   }
 
   tabList = [
+    // {
+    //   tabName: "Info",
+    //   routerName: "Root.DCPCFile.DCPCFInfo.DCPCFClientInfo",
+    // },
+    // {
+    //   tabName: " Creditor",
+    //   routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCreditorInfo",
+    // },
+    // {
+    //   tabName: " Budget",
+    //   routerName: "Root.DCPCFile.DCPCFInfo.DCPCFBudgetInfo",
+    // },
     {
       tabName: "Agreement",
       routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
-    }
+    },
   ];
 
-  breadcrumbList =  [
+  breadcrumbList = [
     {
-      title: 'Info',
+      title: "File",
       routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
     },
     {
       title: this.selectedTabName,
     },
-  ]
-
+  ];
 
   goto(routerName: string) {
-    this.$router.push({ name: routerName })
+    this.$router.push({ name: routerName });
   }
 }
 </script>
-

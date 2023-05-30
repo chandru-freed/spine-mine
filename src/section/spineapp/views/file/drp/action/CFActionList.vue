@@ -300,13 +300,13 @@ export default class CFActionList extends Vue {
             command: this.graduate,
             condition: this.isClientFileNotHold() && this.isAdmin(),
           },
-           {
-            actionName: "Retain File",
-            icon: "mdi-chevron-right",
-            command: this.initiateRetain,
-            condition: this.isAdmin()&&this.isClientFileCancelled(),
-            confirmation: true,
-          },
+          //  {
+          //   actionName: "Retain File",
+          //   icon: "mdi-chevron-right",
+          //   command: this.initiateRetain,
+          //   condition: this.isAdmin()&&this.isClientFileCancelled(),
+          //   confirmation: true,
+          // },
           // {
           //   actionName: "Mark File As Cancel",
           //   icon: "mdi-chevron-right",

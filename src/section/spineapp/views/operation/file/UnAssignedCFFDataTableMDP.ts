@@ -51,6 +51,10 @@ export default class UnAssignedCFListFDataTableMDP extends FDataTableMDP {
         label: "Assigned Sales Rep",
         dataSelectorKey: "assignedSalesRep",
       })
+      .addBooleanColumn({
+        label: "EMandate Active",
+        dataSelectorKey:"eMandateActive"
+      })
       .addAction({
         label: "Assign RM",
         onClick: (item) => this.handleAssignRMClick(item),

@@ -212,7 +212,7 @@ import ModifyBPsEntryFFormMDP from "./ModifyBPsEntryFFormMDP";
 import FBFeeFDataTableMDP from "./FBFeeFDataTableMDP";
 import Helper from "@/section/spineapp/util/Helper";
 import UploadExcelFFormMDP from "./UploadExcelFFormMDP";
-import ApplyDiscountOnMsfFFormMDP from "../enrollmentPaymentPlan/ApplyDiscountOnMsfFFormMDP";
+import ApplyDiscountOnMsfAmendmentFFormMDP from "./ApplyDiscountOnMsfAmendmentFFormMDP";
 @Component({
   components: {
     FForm,
@@ -234,8 +234,8 @@ export default class FBPaymentPlan extends ModelVue {
     fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
    @Store.Getter.Login.LoginDetails.roleList
    roleList: string[]; 
-  applyDiscountInput: Data.ClientFile.ApplyDiscountOnMsfInput =
-    new Data.ClientFile.ApplyDiscountOnMsfInput();
+  applyDiscountInput: Data.ClientFile.ApplyDiscountOnMsfPsPlanInput =
+    new Data.ClientFile.ApplyDiscountOnMsfPsPlanInput();
   showApplyDiscountOnMsfForm: boolean = false;  
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
@@ -306,7 +306,7 @@ export default class FBPaymentPlan extends ModelVue {
     this.showModifyForm = false;
     this.showUploadForm = false;
     this.showApplyDiscountOnMsfForm = false;
-    this.applyDiscountInput = new Data.ClientFile.ApplyDiscountOnMsfInput();
+    this.applyDiscountInput = new Data.ClientFile.ApplyDiscountOnMsfPsPlanInput();
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
     this.modifyAmountPSEListInput =
       new Data.ClientFile.ModifyAmountWithFixedTenureInput();
@@ -378,7 +378,7 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   get applyDiscountFFormMetaData() {
-    return new ApplyDiscountOnMsfFFormMDP({parent: this}).getMetaData();
+    return new ApplyDiscountOnMsfAmendmentFFormMDP({parent: this}).getMetaData();
   }
 
   enableApplyDiscount() {

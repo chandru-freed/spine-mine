@@ -79,6 +79,7 @@ export default class ApproveAmendmentV4Task extends ModelVue {
       this.getAmendmentDetailsHandler
     );
     Action.Spine.RecalculatePSPlanWithTMO.interested(this.getAmendmentDetailsHandler);
+    Action.ClientFile.ApplyDiscountOnMsfPsPlan.interested(this.getAmendmentDetailsHandler);
   }
 
     getBudgetInfo() {
@@ -122,6 +123,7 @@ export default class ApproveAmendmentV4Task extends ModelVue {
     );
     Action.Spine.RecalculatePSPlanWithTMO.notInterested(this.getAmendmentDetailsHandler);
     this.getPaymentPlan();
+    Action.ClientFile.ApplyDiscountOnMsfPsPlan.notInterested(this.getAmendmentDetailsHandler);
   }
 
   getPaymentPlan() {

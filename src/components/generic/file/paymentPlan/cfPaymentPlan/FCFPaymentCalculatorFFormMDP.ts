@@ -116,7 +116,7 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
         label: "MSF Discount Amount",
         boundaryClass: "col-3",
         disabled: true,
-        condition: !!this.taskRoot?.paymentPlan?.ppCalculator?.msfDiscountAmount && this.taskRoot?.paymentPlan?.ppCalculator?.msfDiscountAmount>0
+        condition: !!this.taskRoot?.paymentPlanWithTotalDebt?.paymentPlan?.ppCalculator?.msfDiscountAmount && this.taskRoot?.paymentPlanWithTotalDebt?.paymentPlan?.ppCalculator?.msfDiscountAmount>0
       })
     )
     

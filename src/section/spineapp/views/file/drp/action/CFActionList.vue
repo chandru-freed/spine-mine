@@ -318,7 +318,8 @@ export default class CFActionList extends Vue {
           {
             actionName: "Cancel File",
             icon: "mdi-chevron-right",
-            command: this.cancel,
+            // command: this.cancel,
+            routerName: "Root.CFile.CFAction.CFCancel",
             condition: this.isAdmin()&&this.isClientFilePendingCancelled(),
           },
           {

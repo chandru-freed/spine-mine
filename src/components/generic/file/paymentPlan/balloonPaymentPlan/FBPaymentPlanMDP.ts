@@ -96,7 +96,8 @@ export default class FBPaymentPlanMDP implements MDP {
         paymentCalculatorFormMetaData: this.paymentCalculatorForm.getMetaData(),
         actionMetaDataList: this.actionList.map(action => action.getMetaData()),
         hideMSFTab: this.hideMSFTab,
-        disabledActionBtn: this.disabledActionBtn
+        disabledActionBtn: this.disabledActionBtn,
+        taskRoot: this.taskRoot
       }
     }
   }

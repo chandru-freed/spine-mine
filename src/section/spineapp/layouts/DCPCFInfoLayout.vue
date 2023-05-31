@@ -64,21 +64,33 @@ export default class DCPCFInfoLayout extends Vue {
   }
 
   tabList = [
-    // {
-    //   tabName: "Info",
-    //   routerName: "Root.DCPCFile.DCPCFInfo.DCPCFClientInfo",
-    // },
-    // {
-    //   tabName: " Creditor",
-    //   routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCreditorInfo",
-    // },
-    // {
-    //   tabName: " Budget",
-    //   routerName: "Root.DCPCFile.DCPCFInfo.DCPCFBudgetInfo",
-    // },
+    {
+      tabName: "Info",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFClientInfo",
+    },
+    {
+      tabName: "Creditor",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCreditorInfo",
+    },
+    {
+      tabName: "Budget",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFBudgetInfo",
+    },
+    {
+      tabName: "Profile ",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFPersonalInfo",
+    },
+    {
+      tabName: "Document",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFDocumentInfo",
+    },
     {
       tabName: "Agreement",
       routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
+    },
+    {
+      tabName: "Cashfree",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCashfreeInfo",
     },
   ];
 

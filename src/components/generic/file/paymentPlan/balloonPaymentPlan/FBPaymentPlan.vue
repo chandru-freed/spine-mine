@@ -222,6 +222,8 @@ import ApplyDiscountOnMsfAmendmentFFormMDP from "./ApplyDiscountOnMsfAmendmentFF
   },
 })
 export default class FBPaymentPlan extends ModelVue {
+  @Prop()
+  taskRoot: any;
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
@@ -234,8 +236,8 @@ export default class FBPaymentPlan extends ModelVue {
     fiPaymentPlanInfoStore: Data.ClientFile.FiPaymentPlanInfo;
    @Store.Getter.Login.LoginDetails.roleList
    roleList: string[]; 
-  applyDiscountInput: Data.ClientFile.ApplyDiscountOnMsfPsPlanInput =
-    new Data.ClientFile.ApplyDiscountOnMsfPsPlanInput();
+  applyDiscountInput: Data.ClientFile.ApplyDiscountOnMsfAmendmentInput =
+    new Data.ClientFile.ApplyDiscountOnMsfAmendmentInput();
   showApplyDiscountOnMsfForm: boolean = false;  
   fPaymentScheduleFDataTableRefName: string = "fPaymentScheduleFDataTableMDP";
   taskId = this.$route.params.taskId;
@@ -306,7 +308,7 @@ export default class FBPaymentPlan extends ModelVue {
     this.showModifyForm = false;
     this.showUploadForm = false;
     this.showApplyDiscountOnMsfForm = false;
-    this.applyDiscountInput = new Data.ClientFile.ApplyDiscountOnMsfPsPlanInput();
+    this.applyDiscountInput = new Data.ClientFile.ApplyDiscountOnMsfAmendmentInput();
     this.addPsEntryInput = new Data.ClientFile.AddPSEntryInput();
     this.modifyAmountPSEListInput =
       new Data.ClientFile.ModifyAmountWithFixedTenureInput();
@@ -378,7 +380,7 @@ export default class FBPaymentPlan extends ModelVue {
   }
 
   get applyDiscountFFormMetaData() {
-    return new ApplyDiscountOnMsfAmendmentFFormMDP({parent: this}).getMetaData();
+    return new ApplyDiscountOnMsfAmendmentFFormMDP({parent: this,taskRoot: this.taskRoot}).getMetaData();
   }
 
   enableApplyDiscount() {

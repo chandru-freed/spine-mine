@@ -10,10 +10,12 @@ import FSnackbar from "@/fsnackbar";
 
 export default class ApplyDiscountOnMsfAmendmentFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
+    taskRoot: any;
     parent: any;
-    constructor({ parent }: { parent: any }) {
+    constructor({ parent,taskRoot }: { parent: any,taskRoot: any }) {
         super({ myRefName: "ApplyDiscountOnMsfRef" });
         this.parent = parent;
+        this.taskRoot =  taskRoot;
         this
             .addField(
                 new FCurrencyFieldMDP({
@@ -41,11 +43,11 @@ export default class ApplyDiscountOnMsfAmendmentFFormMDP extends FFormMDP {
     handleApplyDiscount() {
         return () => {
             console.log(this.parent.paymentPlan,"Payment plan")
-            const input = (this.parent.applyDiscountInput as Data.ClientFile.ApplyDiscountOnMsfPsPlanInput);
-            input.psPlanId = this.parent.paymentPlan.psPlanId;
+            const input = (this.parent.applyDiscountInput as Data.ClientFile.ApplyDiscountOnMsfAmendmentInput);
+            input.amendmentToken = this.taskRoot?.taskFormData?.taskInput?.amndToken;
             FSnackbar.confirm({
                 onConfirm: () => {
-                    Action.ClientFile.ApplyDiscountOnMsfPsPlan.execute(input, output => {
+                    Action.ClientFile.ApplyDiscountOnMsfAmendment.execute(input, output => {
                         this.parent.resetFormsTableAndData()
                     });
                 }

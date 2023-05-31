@@ -43,7 +43,7 @@ export default class FDCPCashfreeListFDataTableMDP extends FDataTableMDP {
       })
       .addCurrencyColumn({
         label: "Fee Amount",
-        dataSelectorKey: "msfAmount",
+        dataSelectorKey: "dcpFeeAmount",
       })
       .addPaymentStatusColumn({
         label: "Status",

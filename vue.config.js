@@ -7,7 +7,6 @@ module.exports = defineConfig({
   transpileDependencies: ["vuetify"],
 
   devServer: {
-    // proxy: "http://localhost:9000/",
-    proxy: "https://stage-spine.freed.care/",
+    proxy: "http://localhost:9000/",
   },
 });

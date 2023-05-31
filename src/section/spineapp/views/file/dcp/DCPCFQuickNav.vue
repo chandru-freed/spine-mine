@@ -105,16 +105,14 @@
       </v-card>
     </div>
 
-    <div class="col-12">
+    <!-- <div class="col-12">
       <v-card outlined max-height="200px" class="overflow-y-auto">
         <v-card-text class="py-1 d-flex align-center">
           <DCPCFActionList :useAsDropDown="true" /> <v-spacer />
           <v-btn-toggle mandatory dense>
             <v-btn x-small @click="gotoActionList"> All </v-btn>
           </v-btn-toggle>
-          <!-- <v-btn icon @click="gotoActionList"
-            ><v-icon small> mdi-open-in-new</v-icon></v-btn
-          > -->
+
         </v-card-text>
         <v-divider />
         <v-list dense class="py-0">
@@ -135,7 +133,7 @@
           </v-list-item>
         </v-list>
       </v-card>
-    </div>
+    </div> -->
 
     <div class="col-12">
       <v-card outlined>

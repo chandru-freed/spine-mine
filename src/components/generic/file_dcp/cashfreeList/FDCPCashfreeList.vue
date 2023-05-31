@@ -74,8 +74,8 @@ export default class FDCPCashfreeList extends ModelVue {
 
   fiCashfreeList = [];
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiCashfreeLinkList
-  fiCashfreeLinkList: Data.ClientFile.FiCashfreeLinkPayment[];
+  @Store.Getter.DCPClientFile.DCPClientFileSummary.fiDCPCashfreeLinkPayment
+  fiCashfreeLinkList: Data.DCPClientFile.FiDCPCashfreeLinkPayment[];
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;

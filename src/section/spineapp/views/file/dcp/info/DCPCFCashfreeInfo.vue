@@ -22,10 +22,11 @@ import FDCPCashfreeList from "@/components/generic/file_dcp/cashfreeList/FDCPCas
 @Component({
   components: {
     FForm,
-    FDCPCashfreeList
+    FDCPCashfreeList,
   },
 })
 export default class DCPCFCashfreeInfo extends ModelVue {
+  clientFileId = this.$route.params.clientFileId;
   //METADATA
   get dcpCashfreeInfoMetaData() {
     return new DCPCFCashfreeInfoFCashfreeListMDP({
@@ -34,6 +35,17 @@ export default class DCPCFCashfreeInfo extends ModelVue {
     }).getMetaData();
   }
   //METADATA
+
+  public mounted() {
+    this.getDCPFeeCashfreeLinkPaymentList();
+  }
+
+  getDCPFeeCashfreeLinkPaymentList() {
+    Action.DCPClientFile.GetDCPFeeCashfreeLinkPaymentList.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
+  }
 }
 </script>
 

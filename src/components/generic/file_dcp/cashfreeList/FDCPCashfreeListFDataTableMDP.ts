@@ -42,12 +42,12 @@ export default class FDCPCashfreeListFDataTableMDP extends FDataTableMDP {
         }),
       })
       .addCurrencyColumn({
-        label: "MSF Amount",
+        label: "Fee Amount",
         dataSelectorKey: "msfAmount",
       })
       .addPaymentStatusColumn({
         label: "Status",
-        dataSelectorKey: "status",
+        dataSelectorKey: "status.name",
         // colorCodeData: Data.Color.PAYMENT_STATUS,
         // outlined: true,
       })
@@ -112,7 +112,7 @@ export default class FDCPCashfreeListFDataTableMDP extends FDataTableMDP {
   }
 
   getMSFCashfreeLinkPaymentList() {
-    Action.ClientFile.GetMSFCashfreeLinkPaymentList.execute1(
+    Action.DCPClientFile.GetDCPFeeCashfreeLinkPaymentList.execute1(
       this.parent.clientFileId,
       (output) => {}
     );

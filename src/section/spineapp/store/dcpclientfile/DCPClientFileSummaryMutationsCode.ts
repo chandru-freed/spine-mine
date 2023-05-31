@@ -12,5 +12,9 @@ export class DCPClientFileSummaryMutationsCode implements DCPClientFileSummaryMu
     state.dcpClientFileBasicInfo = dcpClientFileBasicInfo;
   }
 
+public  updateFiDCPCashfreeLinkPayment(state: Data.DCPClientFile.DCPClientFileSummary, fiDCPCashfreeLinkPayment: Data.DCPClientFile.FiDCPCashfreeLinkPayment[]): void {
+    state.fiDCPCashfreeLinkPayment = fiDCPCashfreeLinkPayment
+  }
+
 }
 

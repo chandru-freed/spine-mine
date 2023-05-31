@@ -97,7 +97,7 @@ export default class DCPCFInfoLayout extends Vue {
   breadcrumbList = [
     {
       title: "File",
-      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFClientInfo",
     },
     {
       title: this.selectedTabName,

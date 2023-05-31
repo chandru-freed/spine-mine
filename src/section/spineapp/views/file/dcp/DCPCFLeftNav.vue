@@ -31,7 +31,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title> {{item.title}}</v-list-item-title>
+              <v-list-item-title> {{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -41,7 +41,7 @@
             @click="goto(child.routerName)"
           >
             <v-list-item-content>
-              <v-list-item-title>{{child.title}}</v-list-item-title>
+              <v-list-item-title>{{ child.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
@@ -68,26 +68,55 @@ export default class DCPCFLeftNav extends Vue {
   loggedInUserRoleList: string[];
 
   cfNavList = [
-     {
-      title: "Info",
+    {
+      title: "File",
       icon: "mdi-file-account",
       items: [
-        { title: "Agreement", routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo" },
+        {
+          title: "Creditor",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCreditorInfo",
+        },
+        {
+          title: "Budget",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFBudgetInfo",
+        },
+        {
+          title: "Personal",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFPersonalInfo",
+        },
+        {
+          title: "Document",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFDocumentInfo",
+        },
+        {
+          title: "Agreement",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
+        },
+        {
+          title: "Cashfree",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCashfreeInfo",
+        },
       ],
     },
-    
-    {
-      title: "Actions",
-      icon: "mdi-gesture-double-tap",
-      items: [
-        { title: "List Item", routerName: "Root.DCPCFile.DCPCFAction.DCPCFActionList" },
-      ],
-    },
+
+    // {
+    //   title: "Actions",
+    //   icon: "mdi-gesture-double-tap",
+    //   items: [
+    //     {
+    //       title: "List Item",
+    //       routerName: "Root.DCPCFile.DCPCFAction.DCPCFActionList",
+    //     },
+    //   ],
+    // },
 
     {
       icon: "mdi-checkbox-marked-circle-outline",
       items: [
-        { title: "Active", routerName: "Root.DCPCFile.DCPCFTask.CFActiveTasks" },
+        {
+          title: "Active",
+          routerName: "Root.DCPCFile.DCPCFTask.CFActiveTasks",
+        },
         {
           title: "Completed",
           routerName: "Root.DCPCFile.DCPCFTask.CFCompletedTasks",
@@ -99,7 +128,10 @@ export default class DCPCFLeftNav extends Vue {
       title: "Ticket",
       icon: "mdi-ticket-confirmation",
       items: [
-        { title: "Active", routerName: "Root.DCPCFile.DCPCFTicket.CFActiveTickets" },
+        {
+          title: "Active",
+          routerName: "Root.DCPCFile.DCPCFTicket.CFActiveTickets",
+        },
         {
           title: "Completed",
           routerName: "Root.DCPCFile.DCPCFTicket.CFCompletedTickets",
@@ -112,16 +144,21 @@ export default class DCPCFLeftNav extends Vue {
       ],
     },
   ];
-  
+
   get filteredCfNavList() {
     const authorizedNavList = this.cfNavList.map((cfNav) => {
-      const newAuthNav = {...cfNav};
+      const newAuthNav = { ...cfNav };
       newAuthNav.items = newAuthNav.items.filter((nav) => {
-        return RouterUtil.isAuthorizedRouter(nav.routerName, this.loggedInUserRoleList);
+        return RouterUtil.isAuthorizedRouter(
+          nav.routerName,
+          this.loggedInUserRoleList
+        );
       });
       return newAuthNav;
     });
-    return authorizedNavList.filter((authorizedNav) => authorizedNav.items.length > 0);
+    return authorizedNavList.filter(
+      (authorizedNav) => authorizedNav.items.length > 0
+    );
   }
 
   public drawer = true;

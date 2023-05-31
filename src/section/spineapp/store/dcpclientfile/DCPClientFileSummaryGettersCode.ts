@@ -9,8 +9,13 @@ export class DCPClientFileSummaryInit {
 export class DCPClientFileSummaryGettersCode implements DCPClientFileSummaryGetters {
 
 
+
    public allAgreementList(state: Data.DCPClientFile.DCPClientFileSummary): Data.DCPClientFile.FiSSASummaryForDCP[] {
      return state.allAgreementList
    }
+
+ public  dcpClientFileBasicInfo(state: Data.DCPClientFile.DCPClientFileSummary): Data.DCPClientFile.DCPClientFileBasicInfo  {
+    return state.dcpClientFileBasicInfo
+  }
 
 }

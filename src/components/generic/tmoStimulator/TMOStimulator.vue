@@ -21,15 +21,15 @@
             <v-chip class="mr-2" color="primary" label outlined large
               >MSF: &nbsp;&nbsp;<span
                 class="font-weight-bold secondary--text"
-                >{{ result.msfAmount | toINR }}</span
+                >{{ result.msfAmount | toINR }} - {{ modelValue.paymentPlan.ppCalculator.msfDiscountAmount | toINR }} (Discount) = {{msfAmountAfterDiscount | toINR}}</span
               >
             </v-chip>
-            <v-chip v-if="showMsfDiscountAmount" class="mr-2" color="primary" label outlined large
+            <!-- <v-chip v-if="showMsfDiscountAmount" class="mr-2" color="primary" label outlined large
               >MSF Discount: &nbsp;&nbsp;<span
                 class="font-weight-bold secondary--text"
                 >{{ modelValue.paymentPlan.ppCalculator.msfDiscountAmount | toINR }}</span
               >
-            </v-chip>
+            </v-chip> -->
             <v-chip
               v-if="result.monthlyPayment"
               class="mr-2"
@@ -423,6 +423,9 @@ export default class TMOStimulator extends ModelVue {
   }
   get showMsfDiscountAmount() {
     return this.modelValue?.paymentPlan?.ppCalculator?.msfDiscountAmount > 0
+  }
+  get msfAmountAfterDiscount() {
+    return (this.result.msfAmount || 0) - (this.modelValue?.paymentPlan?.ppCalculator?.msfDiscountAmount || 0)
   }
 }
 

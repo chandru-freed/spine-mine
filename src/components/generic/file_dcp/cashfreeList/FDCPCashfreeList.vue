@@ -1,6 +1,18 @@
 <template>
   <div class="col-12">
     <component
+      v-if="!!showViewPaymentForm"
+      :ref="paymentDetailsFFormMetaData.myRefName"
+      :is="paymentDetailsFFormMetaData.componentName"
+      :value="selectModel(selectedPaymentSummaryToView, undefined)"
+      @input="
+        (newValue) =>
+          updateModel(selectedPaymentSummaryToView, newValue, undefined)
+      "
+      v-bind="paymentDetailsFFormMetaData.props"
+    ></component>
+
+    <component
       :ref="dcpCashfreeListMetaData.myRefName"
       :is="dcpCashfreeListMetaData.componentName"
       :value="selectModel(fiCashfreeLinkList, undefined)"
@@ -120,6 +132,9 @@ export default class FDCPCashfreeList extends ModelVue {
   resetPaymentForm() {
     this.showViewPaymentForm = false;
     this.selectedPaymentSummaryToView = new Data.ClientFile.FiPayment();
+  }
+  get paymentDetailsFFormMetaData() {
+    return new PaymentDetailsFFormMDP({ parent: this }).getMetaData();
   }
 
   isAdmin() {

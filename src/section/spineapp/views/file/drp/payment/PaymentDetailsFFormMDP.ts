@@ -99,6 +99,15 @@ export default class PaymentDetailsFFormMDP extends FFormMDP {
             ).addField(
                 new FCurrencyFieldMDP({
                     parentMDP: this.childMDP,
+                    dataSelectorKey: "dcpFeeAmount",
+                    label: "Fee Amount",
+                    boundaryClass: "col-3",
+                    condition: !!this.parent.selectedPaymentSummaryToView.dcpFeeAmount
+                })
+            )
+            .addField(
+                new FCurrencyFieldMDP({
+                    parentMDP: this.childMDP,
                     dataSelectorKey: "msfAmount",
                     label: "Msf Amount",
                     boundaryClass: "col-3",

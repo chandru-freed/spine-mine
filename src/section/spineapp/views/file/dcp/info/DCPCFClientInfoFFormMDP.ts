@@ -10,6 +10,7 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
+import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
 export default class DCPCFClientInfoFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -45,7 +46,7 @@ export default class DCPCFClientInfoFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "newMontlhyEmi",
           label: "EMI",

@@ -215,7 +215,7 @@
 
             <v-list-item-action class="py-0 my-0">
               <div class="d-flex secondary--text text-h6 font-weight-semibold">
-                {{ fileSummary.msfSummary.msfAmount | toINR }}
+                {{ fileSummary.msfDraftAmount | toINR }}
               </div>
             </v-list-item-action>
           </v-list-item>

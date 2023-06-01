@@ -96,6 +96,7 @@ import SignedByClientV4Task from "@/section/spineapp/components/task/amendment/s
 import FollowUpAmendmentEMandateV4Task from "@/section/spineapp/components/task/amendment/followUpAmendmentEMandateV4/FollowUpAmendmentEMandateV4Task.vue";
 import RetainCancelledFileTask from "@/section/spineapp/components/task/retain/retainCancelledFile/RetainCancelledFileTask.vue";
 import RetainPendingCancelledFileTask from "@/section/spineapp/components/task/retainPendingCancelled/retainPendingCancelledFile/RetainPendingCancelledFileTask.vue";
+import CancellationChecklistTask from "@/section/spineapp/components/task/cancellation/cancellationChecklist/CancellationChecklistTask.vue";
 
 @Component({
   components: {
@@ -164,7 +165,8 @@ import RetainPendingCancelledFileTask from "@/section/spineapp/components/task/r
     SignedByClientV4Task,
     FollowUpAmendmentEMandateV4Task,
     RetainCancelledFileTask,
-    RetainPendingCancelledFileTask
+    RetainPendingCancelledFileTask,
+    CancellationChecklistTask
   },
 })
 export default class CFTaskDetails extends Vue {
@@ -278,6 +280,8 @@ export default class CFTaskDetails extends Vue {
     ["Amendment::FollowUpAmendmentEMandateV4", "FollowUpAmendmentEMandateV4Task"],
     ["Retain::RetainCancelledFile", "RetainCancelledFileTask"],
     ["RetainPendingCancelled::RetainPendingCancelledFile", "RetainPendingCancelledFileTask"],
+    ["Cancellation::CancellationChecklist", "CancellationChecklistTask"],
+    
     
     
     
@@ -375,9 +379,9 @@ export default class CFTaskDetails extends Vue {
     Action.ClientFile.Graduate.interested(
       this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
-    Action.ClientFile.Cancel.interested(
-      this.getTaskDetailsAndFileSummaryWithDelayHandler
-    );
+    // Action.ClientFile.Cancel.interested(
+    //   this.getTaskDetailsAndFileSummaryWithDelayHandler
+    // );
 
     this.getExecutiveTaskDetailsWithDelay();
   }
@@ -439,9 +443,9 @@ export default class CFTaskDetails extends Vue {
     Action.ClientFile.Graduate.notInterested(
       this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
-    Action.ClientFile.Cancel.notInterested(
-      this.getTaskDetailsAndFileSummaryWithDelayHandler
-    );
+    // Action.ClientFile.Cancel.notInterested(
+    //   this.getTaskDetailsAndFileSummaryWithDelayHandler
+    // );
   }
 
   getExecutiveTaskDetailsWithDelay() {

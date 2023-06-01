@@ -123,6 +123,7 @@ import FStateSelectField from "./field/FStateSelectField.vue";
 import FAWSCRUploadFileField from "./field/FAWSCRUploadFileField.vue";
 import FClCreditorSelectField from "./field/FClCreditorSelectField.vue";
 import FRemoteSelectField from "./field/FRemoteSelectField.vue";
+import FCheckboxGroup from "./field/FCheckboxGroup.vue";
 
 @Component({
   components: {
@@ -162,7 +163,8 @@ import FRemoteSelectField from "./field/FRemoteSelectField.vue";
     FStateSelectField,
     FAWSCRUploadFileField,
     FClCreditorSelectField,
-    FRemoteSelectField
+    FRemoteSelectField,
+    FCheckboxGroup
   },
 })
 export default class FForm extends ModelVue {

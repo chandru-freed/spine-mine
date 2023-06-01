@@ -9,6 +9,7 @@ import * as Action from "@/../src-gen/action";
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
+import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 
 export default class DCPCreateAgreementFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -35,21 +36,23 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "tenure",
           label: "Tenure",
-          boundaryClass: "col-4",
           mandatory: true,
+          boundaryClass: "col-4",
+          options: this.parent.tenureList,
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "roi",
           label: "ROI",
-          boundaryClass: "col-4",
           mandatory: true,
+          boundaryClass: "col-4",
+          options: this.parent.roiList,
         })
       )
       .addField(
@@ -68,6 +71,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           label: "Loan Approved On",
           boundaryClass: "col-4",
           mandatory: true,
+          futureDaysDisabled: true,
         })
       )
       .addField(
@@ -77,6 +81,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           label: "Emi Start Date",
           boundaryClass: "col-4",
           mandatory: true,
+          pastDaysDisabled: true,
         })
       )
       .addField(

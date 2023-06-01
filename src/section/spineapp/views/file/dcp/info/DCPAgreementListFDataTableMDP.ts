@@ -5,17 +5,41 @@ import FCellUrlLinkMDP from "@/components/generic/table/cell/FCellUrlLinkMDP";
 import * as Data from "@/../src-gen/data";
 import * as Action from "@/../src-gen/action";
 import FSnackbar from "@/fsnackbar";
+import FCellCopyMDP from "@/components/generic/table/cell/FCellCopyMDP";
+import FCellBtnPreviewMDP from "@/components/generic/table/cell/FCellBtnPreviewMDP";
 
 export default class DCPAgreementListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor({ parent }: { parent: any }) {
     super({ title: "DCP Agreement List", myRefName: "DCPAgreementListRef" });
     this.parent = parent;
+    // this.addColumn({
+    //   label: "Ssa  Token",
+    //   dataSelectorKey: "ssaToken",
+    //   enableCopy: true,
+    // })
     this.addColumn({
-      label: "Ssa  Token",
+      label: "SSA Token",
       dataSelectorKey: "ssaToken",
-      enableCopy: true,
+      columnCellMDP: new FCellCopyMDP({
+        dataSelectorKeyToCopy: "agreementUrl",
+        tooltipText: "Click here to copy the agreement link",
+      }),
     })
+      .addDateColumn({
+        label: "Generated  On",
+        dataSelectorKey: "generatedOn",
+      })
+      .addStatusColumn({
+        label: "Status",
+        dataSelectorKey: "status.name",
+        colorCodeData: Data.Color.AGREEMENT_STATUS,
+        outlined: true,
+      })
+      .addDateColumn({
+        label: "Signed  On",
+        dataSelectorKey: "signedOn",
+      })
       .addColumn({
         label: "Ip  Addr",
         dataSelectorKey: "ipAddr",
@@ -24,35 +48,31 @@ export default class DCPAgreementListFDataTableMDP extends FDataTableMDP {
         label: "Signed",
         dataSelectorKey: "signed",
       })
-      .addDateColumn({
-        label: "Signed  On",
-        dataSelectorKey: "signedOn",
-      })
-      .addDateColumn({
-        label: "Generated  On",
-        dataSelectorKey: "generatedOn",
-      })
+      // .addColumn({
+      //   label: "Agreement  Url",
+      //   dataSelectorKey: "agreementUrl",
+      //   columnCellMDP: new FCellUrlLinkMDP({
+      //     placeholder: "Url",
+      //   }),
+      //   enableCopy: true,
+      // })
+      // .addColumn({
+      //   label: "Preview  Url",
+      //   dataSelectorKey: "previewUrl",
+      //   columnCellMDP: new FCellUrlLinkMDP({
+      //     placeholder: "Preview Url",
+      //   }),
+      //   enableCopy: true,
+      // })
       .addColumn({
-        label: "Agreement  Url",
-        dataSelectorKey: "agreementUrl",
-        columnCellMDP: new FCellUrlLinkMDP({
-          placeholder: "Url",
-        }),
-        enableCopy: true,
-      })
-      .addStatusColumn({
-        label: "Status",
-        dataSelectorKey: "status.name",
-        colorCodeData: Data.Color.AGREEMENT_STATUS,
-        outlined: true,
-      })
-      .addColumn({
-        label: "Preview  Url",
+        label: "Preview",
         dataSelectorKey: "previewUrl",
-        columnCellMDP: new FCellUrlLinkMDP({
-          placeholder: "Preview Url",
+        columnCellMDP: new FCellBtnPreviewMDP({
+          color: "primary",
+          onClick: (item) => {
+            this.previewLinkNewTab(item);
+          },
         }),
-        enableCopy: true,
       })
       .addAction({
         label: "Generate Agreement",
@@ -106,5 +126,10 @@ export default class DCPAgreementListFDataTableMDP extends FDataTableMDP {
         res(true);
       });
     };
+  }
+  previewLinkNewTab(item: any) {
+    if (item.previewUrl) {
+      window.open(item.previewUrl);
+    }
   }
 }

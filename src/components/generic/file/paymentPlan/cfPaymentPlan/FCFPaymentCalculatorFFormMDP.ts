@@ -112,6 +112,17 @@ export default class FCFPaymentCalculatorFFormMDP extends FFormMDP {
     .addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
+        dataSelectorKey: "paymentPlan.ppCalculator.msfSlabAmount",
+        label: "MSF Slab Amount",
+        boundaryClass: "col-3",
+        disabled: true,
+      })
+    )
+
+
+    .addField(
+      new FCurrencyFieldMDP({
+        parentMDP: this.childMDP,
         dataSelectorKey: "paymentPlan.ppCalculator.msfDiscountAmount",
         label: "MSF Discount Amount",
         boundaryClass: "col-3",

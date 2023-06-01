@@ -143,10 +143,12 @@ export default class FClientCreditorList extends ModelVue {
     }, 500);
   };
   getClientCreditorList() {
+    if(this.clientFileBasicInfo.clientBasicInfo.clientId) {
     Action.ClientFile.GetClCreditorList.execute1(
       this.clientFileBasicInfo.clientBasicInfo.clientId,
       (output) => {}
     );
+    }
   }
 
   handleIncludeCreditor(item: any) {

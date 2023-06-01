@@ -36,6 +36,7 @@ export default class FDataTableMDP implements MDP {
   enablePagination?: boolean;
   enableInfo?: boolean;
   infoActionList: FBtnMDP[] = [];
+  enableFooter?: boolean;
   groupBySummaryFunction?: (itemList:any) => number
   constructor({
     dataSelectorKey,
@@ -52,7 +53,8 @@ export default class FDataTableMDP implements MDP {
     enableSerialNumber = false,
     enablePagination = true,
     groupBySummaryFunction,
-    enableInfo = false
+    enableInfo = false,
+    enableFooter = false
 
   }: {
     dataSelectorKey?: string;
@@ -70,6 +72,7 @@ export default class FDataTableMDP implements MDP {
     enablePagination?: boolean;
     groupBySummaryFunction?: (itemList:any) => any;
     enableInfo?: boolean;
+    enableFooter?: boolean;
   }) {
     this.dataSelectorKey = dataSelectorKey;
     this.itemKey = itemKey;
@@ -85,6 +88,7 @@ export default class FDataTableMDP implements MDP {
     this.enableSerialNumber = enableSerialNumber;
     this.enablePagination = enablePagination;
     this.enableInfo = enableInfo;
+    this.enableFooter = enableFooter;
     this.groupBySummaryFunction = groupBySummaryFunction;
   }
 
@@ -101,6 +105,7 @@ export default class FDataTableMDP implements MDP {
     dataSelectorKeyToCopy?: string;
     copyTooltipText?: string;
     enableGroupBy?: boolean;
+    enableTotal?: boolean;
   }) {
     this.columnList.push(
       new FColumnMDP(newField)
@@ -269,9 +274,11 @@ export default class FDataTableMDP implements MDP {
     rounded?: boolean;
     width?: string;
     hidden?: boolean;
+    enableTotal?: boolean;
   }) {
     const newCellMDP = new FColumnMDP(newField);
     newCellMDP.align = 'right';
+    newCellMDP.enableTotal = true;
     newCellMDP.columnCellMDP = new FCellCurrencyMDP({ rounded: newField.rounded });
     this.columnList.push(
       newCellMDP
@@ -428,6 +435,7 @@ export default class FDataTableMDP implements MDP {
         enablePagination: this.enablePagination,
         groupBySummaryFunction: this.groupBySummaryFunction,
         enableInfo: this.enableInfo,
+        enableFooter:this.enableFooter,
         infoActionMetaDataList: this.infoActionList.map((action) =>
           action.getMetaData()
         ),

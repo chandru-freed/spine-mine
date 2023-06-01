@@ -10,7 +10,7 @@ export default class FCreditorListFDataTableMDP extends FDataTableMDP {
     parent: any;
     constructor(props:{parent: any}) {
         super({myRefName:"fCreditorListFDataTableRef", enableSearch: true, disabled: props.parent.disabled, itemKey:"fiCreditorId",
-      title:"Included Creditors"});
+      title:"Included Creditors",enableFooter: true});
         this.parent = props.parent;
         this.addColumn({
             label: "Creditor Name",

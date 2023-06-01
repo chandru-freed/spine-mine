@@ -423,6 +423,20 @@
         </td>
       </template>
       <!-- Expansion component -->
+
+      <!-- Footer -->
+
+      <template v-slot:[`body.append`]>
+        <tr v-if="showTotalFooter">
+          <!-- <td v-if="filteredActions.length>0"></td> -->
+        <td align="right" v-for="header of filteredHeaders" :key="header.value">
+          <span class="primary--text" v-if="header.enableTotal"><strong>{{getTotal(header) | toINR}}</strong></span>
+        </td>
+        </tr>
+        
+      </template>
+
+      <!-- Footer -->
     </v-data-table>
   </v-card>
 </template>
@@ -613,6 +627,9 @@ export default class FDataTable extends ModelVue {
   
   @Prop()
   enableInfo: boolean;
+
+  @Prop()
+  enableFooter: boolean;
   
   @Prop({
       default: () => [],
@@ -917,6 +934,17 @@ export default class FDataTable extends ModelVue {
       label: null,
       value: null,
     };
+  }
+  getTotal(header: any) {
+    const total = this.selectModel(this.modelValue, this.dataSelectorKey).reduce((acc: any, currItem: any) => {
+      acc = acc + (currItem[header.value] || 0);
+      return acc
+    },0)
+    return total
+  }
+
+  get showTotalFooter() {
+    return this.enableFooter && this.selectModel(this.modelValue, this.dataSelectorKey).length>0
   }
 }
 

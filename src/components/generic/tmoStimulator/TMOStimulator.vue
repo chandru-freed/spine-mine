@@ -459,15 +459,15 @@ export const getFreedTenure = (months: number): number => {
 
 export const getMSFWithFreed = (amount: number) => {
   if (amount >= 0 && amount < 100000) return 649;
-  if (amount >= 100000 && amount < 200000) return 899;
-  if (amount >= 200000 && amount < 300000) return 999;
-  if (amount >= 300000 && amount < 450000) return 1249;
-  if (amount >= 450000 && amount < 600000) return 1499;
-  if (amount >= 600000 && amount < 800000) return 1799;
-  if (amount >= 800000 && amount < 1000000) return 1999;
-  if (amount >= 1000000 && amount <= 1200000) return 2499;
-  if (amount > 1200000 && amount < 20000000) return 2999;
-  if (amount >= 20000000) return 2999;
+  if (amount > 100000 && amount <= 200000) return 899;
+  if (amount > 200000 && amount <= 300000) return 999;
+  if (amount > 300000 && amount <= 450000) return 1249;
+  if (amount > 450000 && amount <= 600000) return 1499;
+  if (amount > 600000 && amount <= 800000) return 1799;
+  if (amount > 800000 && amount <= 1000000) return 1999;
+  if (amount > 1000000 && amount <= 1200000) return 2499;
+  if (amount > 1200000 && amount <= 20000000) return 2999;
+  if (amount > 20000000) return 2999;
 };
 </script>
 

@@ -15,6 +15,7 @@ export default class FColumnMDP implements MDP {
     dataSelectorKeyToCopy?: string;
     copyTooltipText?: string;
     enableGroupBy?: boolean;
+    enableTotal?: boolean;
 
     constructor(props: {
         label: string;
@@ -28,6 +29,7 @@ export default class FColumnMDP implements MDP {
         dataSelectorKeyToCopy?: string;
         copyTooltipText?: string;
         enableGroupBy?: boolean;
+        enableTotal?: boolean;
     }) {
         this.label = props.label;
         this.dataSelectorKey = props.dataSelectorKey;
@@ -40,6 +42,7 @@ export default class FColumnMDP implements MDP {
         this.enableGroupBy = props.enableGroupBy;
         this.dataSelectorKeyToCopy = props.dataSelectorKeyToCopy;
         this.copyTooltipText = props.copyTooltipText;
+        this.enableTotal = props.enableTotal;
     }
 
     getMetaData(): object {
@@ -54,7 +57,8 @@ export default class FColumnMDP implements MDP {
             enableCopy: this.enableCopy,
             enableGroupBy: this.enableGroupBy,
             copyTooltipText: this.copyTooltipText,
-            dataSelectorKeyToCopy: this.dataSelectorKeyToCopy   
+            dataSelectorKeyToCopy: this.dataSelectorKeyToCopy,
+            enableTotal: this.enableTotal
         }
     }
 }

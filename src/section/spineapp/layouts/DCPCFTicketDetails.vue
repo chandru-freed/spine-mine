@@ -30,7 +30,7 @@ export default class CFTaskDetailsLayout extends Vue {
   breadcrumbList = [
     {
       title: "Tickets",
-      routerName: "Root.DCPCFile.DCPCFTicket.CFActiveTickets",
+      routerName: "Root.DCPCFile.DCPCFTicket.DCPCFActiveTickets",
     },
     {
       title: "Details",

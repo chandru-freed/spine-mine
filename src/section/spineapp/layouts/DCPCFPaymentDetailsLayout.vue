@@ -9,37 +9,27 @@
       </template>
     </v-breadcrumbs>
     <!-- BREADCRUMBS -->
-
     <v-card outlined height="1000px">
-      <v-card flat min-height="600">
-        <router-view></router-view>
-      </v-card>
+      <router-view />
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import * as Store from "@/../src-gen/store";
-import * as Data from "@/../src-gen/data";
 
 @Component
-export default class DCPCFTaskDetailsLayout extends Vue {
+export default class DCPCFPaymentDetailsLayout extends Vue {
   currentRouteName: string = this.$route.name as string;
-  @Store.Getter.TaskList.Summary.executiveTaskDetails
-  taskDetails: Data.TaskList.ExecutiveTaskDetails;
-
-  get breadcrumbList() {
-    return [
-      {
-        title: "Tasks",
-        routerName: "Root.CFile.CFTask.CFActiveTasks",
-      },
-      {
-        title: this.taskDetails.taskName,
-      },
-    ];
-  }
+  breadcrumbList = [
+    {
+      title: "Payment",
+      routerName: "Root.DCPCFile.DCPCFPayment.DCPCFPaymentList",
+    },
+    {
+      title: "Details",
+    },
+  ];
 
   goto(routerName: string) {
     this.$router.push({ name: routerName });

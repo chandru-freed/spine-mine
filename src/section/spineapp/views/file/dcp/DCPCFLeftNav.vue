@@ -115,11 +115,11 @@ export default class DCPCFLeftNav extends Vue {
       items: [
         {
           title: "Active",
-          routerName: "Root.DCPCFile.DCPCFTask.CFActiveTasks",
+          routerName: "Root.DCPCFile.DCPCFTask.DCPCFActiveTasks",
         },
         {
           title: "Completed",
-          routerName: "Root.DCPCFile.DCPCFTask.CFCompletedTasks",
+          routerName: "Root.DCPCFile.DCPCFTask.DCPCFCompletedTasks",
         },
       ],
       title: "Task",
@@ -130,17 +130,17 @@ export default class DCPCFLeftNav extends Vue {
       items: [
         {
           title: "Active",
-          routerName: "Root.DCPCFile.DCPCFTicket.CFActiveTickets",
+          routerName: "Root.DCPCFile.DCPCFTicket.DCPCFActiveTickets",
         },
         {
           title: "Completed",
-          routerName: "Root.DCPCFile.DCPCFTicket.CFCompletedTickets",
+          routerName: "Root.DCPCFile.DCPCFTicket.DCPCFCompletedTickets",
         },
         {
           title: "Subscribed",
-          routerName: "Root.DCPCFile.DCPCFTicket.CFSubscribedTickets",
+          routerName: "Root.DCPCFile.DCPCFTicket.DCPCFSubscribedTickets",
         },
-        { title: "Raise", routerName: "Root.DCPCFile.DCPCFTicket.CFAddTicket" },
+        { title: "Raise", routerName: "Root.DCPCFile.DCPCFTicket.DCPCFAddTicket" },
       ],
     },
   ];

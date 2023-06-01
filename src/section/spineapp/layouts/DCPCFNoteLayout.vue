@@ -48,9 +48,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class DCPCFTaskLayout extends Vue {
+export default class CFNoteLayout extends Vue {
   currentRouteName: string = this.$route.name as string;
-
   get selectedTabIndx() {
     return this.tabList
       .map((tab) => tab.routerName)
@@ -65,19 +64,19 @@ export default class DCPCFTaskLayout extends Vue {
 
   tabList = [
     {
-      tabName: "Active",
-      routerName: "Root.DCPCFile.DCPCFTask.DCPCFActiveTasks",
+      tabName: "Highlights",
+      routerName: "Root.DCPCFile.DCPCFNote.DCPCFNoteHighlightList",
     },
     {
-      tabName: "Completed",
-      routerName: "Root.DCPCFile.DCPCFTask.DCPCFCompletedTasks",
+      tabName: "Notes",
+      routerName: "Root.DCPCFile.DCPCFNote.DCPCFNoteAllList",
     },
   ];
 
   breadcrumbList = [
     {
-      title: "Tasks",
-      routerName: "Root.DCPCFile.DCPCFTask.DCPCFActiveTasks",
+      title: "Note",
+      routerName: "Root.DCPCFile.DCPCFNote.DCPCFNoteHighlightList",
     },
     {
       title: this.selectedTabName,

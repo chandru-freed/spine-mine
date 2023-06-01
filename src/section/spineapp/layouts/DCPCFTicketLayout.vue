@@ -65,22 +65,22 @@ export default class DCPCFTicketLayout extends Vue {
   tabList = [
     {
       tabName: "Active",
-      routerName: "Root.DCPCFile.DCPCFTicket.CFActiveTickets",
+      routerName: "Root.DCPCFile.DCPCFTicket.DCPCFActiveTickets",
     },
     {
       tabName: "Completed",
-      routerName: "Root.DCPCFile.DCPCFTicket.CFCompletedTickets",
+      routerName: "Root.DCPCFile.DCPCFTicket.DCPCFCompletedTickets",
     },
     {
       tabName: "Subscribed",
-      routerName: "Root.DCPCFile.DCPCFTicket.CFSubscribedTickets",
+      routerName: "Root.DCPCFile.DCPCFTicket.DCPCFSubscribedTickets",
     },
   ];
 
   breadcrumbList = [
     {
       title: "Tickets",
-      routerName: "Root.CFile.CFTicket.CFActiveTickets",
+      routerName: "Root.DCPCFile.DCPCFTicket.DCPCFActiveTickets",
     },
     {
       title: this.selectedTabName,

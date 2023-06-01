@@ -63,6 +63,20 @@ export default class CFileLayout extends Vue {
     );
   }
 
+  checkProgramCodeAndNavigate() {
+    console.log(this.$route.name,"Name");
+
+    if(this.clientFileBasicInfo.programCode === 'DCP') {
+      const routeStringList: any[] = this.$route.name?.split('.') || [];
+       const dcpRoute = routeStringList.map(item => {
+        const routeText = item !=='Root'?'DCP'+item:item;
+        return routeText;
+       }).join('.')
+       this.$router.replace({name:dcpRoute,params: { clientFileId: this.clientFileBasicInfo.clientFileId },})
+       
+    }
+  }
+
   get clientFileNumber(): string {
     return this.clientFileBasicInfo.clientFileNumber;
   }
@@ -83,7 +97,9 @@ export default class CFileLayout extends Vue {
   getCFBasicInfo() {
     Action.ClientFile.GetCFBasicInfo.execute1(
       this.clientFileId,
-      (output) => {}
+      (output) => {
+        this.checkProgramCodeAndNavigate();
+      }
     );
   }
 

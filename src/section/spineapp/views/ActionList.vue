@@ -106,6 +106,11 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Report.SalesReport.DailySalesReport",
         },
+         {
+          actionName: "Call Back Request",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Dashboard.CallBackDashboard",
+        },
         {
           actionName: "DCP",
           icon: "mdi-chevron-right",

@@ -33,7 +33,6 @@ export default class DCPCFClientInfoFFormMDP extends FFormMDP {
           label: "Tenure",
           boundaryClass: "col-6",
           mandatory: true,
-          readonly: true,
         })
       )
       .addField(
@@ -49,7 +48,7 @@ export default class DCPCFClientInfoFFormMDP extends FFormMDP {
         new FNumberFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "newMontlhyEmi",
-          label: "Emi",
+          label: "EMI",
           boundaryClass: "col-6",
           mandatory: true,
         })

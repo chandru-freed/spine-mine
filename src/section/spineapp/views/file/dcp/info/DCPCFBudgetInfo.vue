@@ -1,9 +1,15 @@
 <template>
   <div class="DCPCFBudgetInfo">
+    <div class="d-flex justify-center pa-2">
+      <v-btn small color="primary" @click="updateBudgetInfo()">Save</v-btn>
+    </div>
     <component
       :ref="dcpBudgetInfoFormMetaData.myRefName"
       :is="dcpBudgetInfoFormMetaData.componentName"
-      :value="selectModel(taskFormData, dcpBudgetInfoFormMetaData.dataSelectorKey)"
+      :value="
+        selectModel(taskFormData, dcpBudgetInfoFormMetaData.dataSelectorKey)
+      "
+      @input="(newValue) => updateModel(taskFormData, newValue, undefined)"
       v-bind="dcpBudgetInfoFormMetaData.props"
     ></component>
   </div>
@@ -13,6 +19,7 @@
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 import store, * as Store from "@/../src-gen/store";
 import * as Data from "@/../src-gen/data";
+import * as Snackbar from "node-snackbar";
 // import * as ServerData from '@/../src-gen/server-data';
 import * as Action from "@/../src-gen/action";
 import FBudget from "@/components/generic/file/budget/FBudget.vue";
@@ -52,7 +59,7 @@ export default class DCPCFBudgetInfo extends ModelVue {
       taskOutput: {
         personalInfo: this.personalInfo,
         budgetInfo: this.budgetInfoForm,
-        creditorInfo: this.fiCreditorStore
+        creditorInfo: this.fiCreditorStore,
       },
     };
   }
@@ -79,6 +86,10 @@ export default class DCPCFBudgetInfo extends ModelVue {
   }
 
   public mounted() {
+    this.getApiCalling();
+  }
+
+  getApiCalling() {
     this.getBudgetInfo();
     this.findClPersonalInfo();
     this.getCreditorInfo();
@@ -89,7 +100,10 @@ export default class DCPCFBudgetInfo extends ModelVue {
   }
 
   getCreditorInfo() {
-    Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {});
+    Action.ClientFile.GetCreditorInfo.execute1(
+      this.clientFileId,
+      (output) => {}
+    );
   }
 
   findClPersonalInfo() {
@@ -98,8 +112,22 @@ export default class DCPCFBudgetInfo extends ModelVue {
       (output) => {}
     );
   }
+
+  updateBudgetInfo() {
+    const input = Data.DCPClientFile.UpdateBudgetInfoInput.fromJson(
+      this.taskFormData.taskOutput.budgetInfo
+    );
+    input.clientFileId = this.clientFileBasicInfo.clientFileId;
+
+    Action.DCPClientFile.UpdateBudgetInfo.execute(input, (output: any) => {
+      this.getApiCalling();
+      Snackbar.show({
+        text: "Succesfully Saved",
+        pos: "bottom-center",
+      });
+    });
+  }
 }
 </script>
 
 <style></style>
-

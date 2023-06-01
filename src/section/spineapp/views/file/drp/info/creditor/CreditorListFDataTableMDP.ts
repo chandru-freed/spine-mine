@@ -67,13 +67,14 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
       //   outlined: true,
       //   filterItemList: Data.Spine.FICREDITOR_STATUS.list()
       // })
+      // .addAction({
+      //   type: ActionType.OTHERS,
+      //   onClick: (item) => this.handleMarkSettleClick(item),
+      //   label: "Mark Settle",
+      //   confirmation: true,
+      //   disabled: this.parent.isClientFileLead(),
+      // })
       .addAction({
-        type: ActionType.OTHERS,
-        onClick: (item) => this.handleMarkSettleClick(item),
-        label: "Mark Settle",
-        confirmation: true,
-        disabled: this.parent.isClientFileLead(),
-      }).addAction({
         type: ActionType.OTHERS,
         onClick: () => this.handleAddCreditScore(),
         label: "Update Credit Score",
@@ -82,6 +83,7 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
         type: ActionType.OTHERS,
         onClick: (item) => this.handleAddAccountNoClick(item),
         label: "Update Account No.",
+        condition: this.isProgramCode()
       })
 
       .addInfo({
@@ -129,5 +131,9 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
     return new Promise(resolve => {
     this.parent.handleAddAccountNoClick(item);
     });
+  }
+
+  isProgramCode() {
+    return this.parent.clientFileBasicInfo.programCode === "DRP";
   }
 }

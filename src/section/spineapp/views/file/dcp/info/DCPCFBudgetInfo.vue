@@ -1,7 +1,7 @@
 <template>
   <div class="DCPCFBudgetInfo">
     <div class="d-flex justify-center pa-2">
-      <v-btn small color="primary" @click="updateBudgetInfo()">Save</v-btn>
+      <v-btn small color="primary" @click="validateAndSubmit()">Save</v-btn>
     </div>
     <component
       :ref="dcpBudgetInfoFormMetaData.myRefName"
@@ -45,6 +45,7 @@ export default class DCPCFBudgetInfo extends ModelVue {
   fiCreditorStore: Data.ClientFile.FiCreditorInfo;
 
   budgetInfoFormLocal = new Data.ClientFile.BudgetInfo();
+  myRefName = "dcpCFBudgetInfoRef";
 
   get clientFileId() {
     return this.$route.params.clientFileId;
@@ -87,6 +88,17 @@ export default class DCPCFBudgetInfo extends ModelVue {
 
   public mounted() {
     this.getApiCalling();
+    this.getBudgetFormRef();
+  }
+
+  getBudgetFormRef() {
+    let temp: any = this.$refs["budgetRef"];
+    return temp.$refs["budgetFormRef"];
+  }
+  validateAndSubmit() {
+    this.getBudgetFormRef().submitForm(() => {
+      this.updateBudgetInfo();
+    });
   }
 
   getApiCalling() {

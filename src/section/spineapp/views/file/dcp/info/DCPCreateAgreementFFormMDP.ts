@@ -10,6 +10,7 @@ import FBtnMDP from "@/components/generic/FBtnMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
+import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
 export default class DCPCreateAgreementFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -27,7 +28,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
       })
     )
       .addField(
-        new FNumberFieldMDP({
+        new FTextFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "loanNumber",
           label: "Loan Number",
@@ -56,7 +57,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "newMontlhyEmi",
           label: "New Montlhy Emi",
@@ -85,7 +86,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FNumberFieldMDP({
+        new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "existingCashBalance",
           label: "Existing Cash Balance",

@@ -93,6 +93,10 @@ export default class DCPCFLeftNav extends Vue {
           routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
         },
         {
+          title: "Calculator",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCalculator",
+        },
+        {
           title: "Cashfree",
           routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCashfreeInfo",
         },
@@ -140,7 +144,10 @@ export default class DCPCFLeftNav extends Vue {
           title: "Subscribed",
           routerName: "Root.DCPCFile.DCPCFTicket.DCPCFSubscribedTickets",
         },
-        { title: "Raise", routerName: "Root.DCPCFile.DCPCFTicket.DCPCFAddTicket" },
+        {
+          title: "Raise",
+          routerName: "Root.DCPCFile.DCPCFTicket.DCPCFAddTicket",
+        },
       ],
     },
   ];

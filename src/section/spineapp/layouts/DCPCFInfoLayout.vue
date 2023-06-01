@@ -89,6 +89,10 @@ export default class DCPCFInfoLayout extends Vue {
       routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
     },
     {
+      tabName: "Calculator",
+      routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCalculator",
+    },
+    {
       tabName: "Cashfree",
       routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCashfreeInfo",
     },

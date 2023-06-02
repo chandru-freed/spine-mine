@@ -59,7 +59,7 @@ export default class DCPCFCalculatorFFormMDP extends FFormMDP {
       )
       .addAction(
         new FBtnMDP({
-          label: "Calculate",
+          label: "Calculate Loan EMI ",
           onClick: this.handleGenerateClick(),
         })
       );

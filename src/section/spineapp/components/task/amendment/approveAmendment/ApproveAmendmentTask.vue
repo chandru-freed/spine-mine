@@ -137,8 +137,8 @@ export default class ApproveAmendmentTask extends ModelVue {
     Action.Spine.RecalculatePSPlanForPM.notInterested(this.getPSPlanInfoHandler)
     Action.ClientFile.ModifyAmountWithFixedTenure.notInterested(this.getPSPlanInfoHandler);
     Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTenure.interested(this.getPSPlanInfoHandler);
-    Action.Spine.RecalculatePSPlanWithTMO.interested(this.getPSPlanInfoHandler);
+    Action.Spine.RecalculatePSPlanWithTenure.notInterested(this.getPSPlanInfoHandler);
+    Action.Spine.RecalculatePSPlanWithTMO.notInterested(this.getPSPlanInfoHandler);
   }
   saveAndMarkCompleteTask() {
     console.log(this.taskFormData.taskOutput)

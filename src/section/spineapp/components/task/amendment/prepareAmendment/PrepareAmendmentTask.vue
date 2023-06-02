@@ -148,10 +148,10 @@ export default class PrepareAmendmentTask extends ModelVue {
     Action.Spine.UploadPaymentSchedulePlanExcel.notInterested(
       this.getPSPlanInfoHandler
     );
-    Action.Spine.RecalculatePSPlanWithTenure.interested(
+    Action.Spine.RecalculatePSPlanWithTenure.notInterested(
       this.getPSPlanInfoHandler
     );
-    Action.Spine.RecalculatePSPlanWithTMO.interested(this.getPSPlanInfoHandler);
+    Action.Spine.RecalculatePSPlanWithTMO.notInterested(this.getPSPlanInfoHandler);
   }
   saveAndMarkCompleteTask() {
     Task.Action.saveAndMarkCompleteTask({

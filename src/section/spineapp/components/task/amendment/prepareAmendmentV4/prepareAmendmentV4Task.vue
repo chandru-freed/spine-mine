@@ -97,9 +97,6 @@ export default class PrepareAmendmentV4Task extends ModelVue {
       this.getAmendmentDetailsHandler
     );
 
-    // Action.ClientFile.IncludeFiCreditorInProgramAmendment.notInterested(
-    //   this.getAmendmentDetailsHandler
-    // );
     Action.ClientFile.UpdateIncludeClCreditorForAmendment.notInterested(
       this.getAmendmentDetailsHandler
     );

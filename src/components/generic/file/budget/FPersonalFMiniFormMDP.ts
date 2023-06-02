@@ -134,7 +134,7 @@ export default class FPersonalFMiniFormMDP extends FMiniFormMDP {
           label: "Employment Status",
           boundaryClass: "col-4",
           mandatory: true,
-          options: ["Salaried", "Unemployed", "Business"],
+          options: ["Salaried", "Self Employed", "Unemployed", "Business"],
         })
       )
       .addField(

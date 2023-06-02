@@ -28,8 +28,8 @@
         <div class="col">Flat interest rate</div>
       </div>
       <div class="row">
-        <div class="col">Monthly EMI</div>
-        <div class="col">{{ monthlyEMI | toINR }}</div>
+        <div class="col">Loan EMI Amount</div>
+        <div class="col">{{ loanEMIamount | toINR }}</div>
       </div>
       <div class="row">
         <div class="col">Total interest</div>
@@ -80,7 +80,7 @@ export default class DCPCFCalculator extends ModelVue {
 
   totalAmount: number = 0;
   interest: number = 0;
-  monthlyEMI: number = 0;
+  loanEMIamount: number = 0;
 
   generateAgreementFromExcelInput: Data.DCPClientFile.GenerateAgreementFromExcelInput =
     new Data.DCPClientFile.GenerateAgreementFromExcelInput();
@@ -158,7 +158,7 @@ export default class DCPCFCalculator extends ModelVue {
 
     // Calculate the total amount (including the this.dcpCalculatorLocalInput.loanAmount)
     this.totalAmount = this.dcpCalculatorLocalInput.loanAmount + this.interest;
-    this.monthlyEMI = this.totalAmount / this.dcpCalculatorLocalInput.tenure;
+    this.loanEMIamount = this.totalAmount / this.dcpCalculatorLocalInput.tenure;
     // Return the total amount
     return this.totalAmount;
   }

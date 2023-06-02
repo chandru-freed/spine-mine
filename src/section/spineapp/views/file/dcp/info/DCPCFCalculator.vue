@@ -13,14 +13,6 @@
       "
       v-bind="dcpCalculatorFFormMetaData.props"
     ></component>
-    <!-- <v-card outlined flat>
-      <component
-        :ref="dcpCalculatorResultFFormMetaData.myRefName"
-        :is="dcpCalculatorResultFFormMetaData.componentName"
-        :value="selectModel(dcpCalculatorLocalOutput, undefined)"
-        v-bind="dcpCalculatorResultFFormMetaData.props"
-      ></component>
-    </v-card> -->
 
     <v-card class="pa-5">
       <div class="row">
@@ -40,9 +32,11 @@
         <div class="col">Total Amount</div>
         <div class="col">{{ totalAmount | toINR }}</div>
       </div>
-      <div class="row">
+      <div class="row" v-if="emiSavedPercentage > 0">
         <div class="col">Amount Saved Monthy</div>
-        <div class="col">{{ emiSaved | toINR }} ({{ emiSavedPercentage }}%)</div>
+        <div class="col">
+          {{ emiSaved | toINR }} ({{ emiSavedPercentage }}%)
+        </div>
       </div>
     </v-card>
   </div>
@@ -76,18 +70,6 @@ export default class DCPCFCalculator extends ModelVue {
     tenure: 0,
     roi: 0,
   };
-
-  // dcpCalculatorLocalOutput = {
-  //   loanEMIamount: 0,
-  //   percentageReduction: 0,
-  //   totalInterest: 0,
-  // };
-
-  // dcpSavingsPercentageLocal: any = {
-  //   existingTotalEMI: 0,
-  //   emiSavings: 0,
-  //   percentageReduction: 0,
-  // };
 
   totalAmount: number = 0;
   interest: number = 0;
@@ -124,47 +106,6 @@ export default class DCPCFCalculator extends ModelVue {
       new Data.DCPClientFile.GenerateAgreementFromExcelInput();
   }
 
-  // calculateEMI() {
-  //   let roiAmount = (this.dcpCalculatorLocalInput.loanAmount * this.dcpCalculatorLocalInput.roi) /100;
-
-  //   let totalAmountToPay = this.dcpCalculatorLocalInput.loanAmount + roiAmount;
-
-  //   let presentEMI = totalAmountToPay / this.dcpCalculatorLocalInput.tenure;
-
-  //   this.dcpCalculatorLocalOutput.loanEMIamount = presentEMI;
-
-  //   this.dcpCalculatorLocalOutput.percentageReduction = Number((((this.dcpCalculatorLocalInput.existingTotalEMI - presentEMI) /
-  //         this.dcpCalculatorLocalInput.existingTotalEMI) *
-  //       100
-  //     ).toFixed()
-  //   );
-  // }
-
-  // calculateEMI() {
-  //   let monthlyInterestRate = this.dcpCalculatorLocalInput.roi / 12 / 100;
-  //   let emiFormula =
-  //     Math.pow(1 + monthlyInterestRate, this.dcpCalculatorLocalInput.tenure) /
-  //     (Math.pow(1 + monthlyInterestRate, this.dcpCalculatorLocalInput.tenure) -
-  //       1);
-  //   let emi =
-  //     emiFormula *
-  //     monthlyInterestRate *
-  //     this.dcpCalculatorLocalInput.loanAmount;
-  //   let emiFlat = emiFormula * monthlyInterestRate;
-  //   console.log("emiFlat", emiFlat);
-  //   this.dcpCalculatorLocalOutput.loanEMIamount = emi;
-  //   this.dcpCalculatorLocalOutput.totalInterest =
-  //     emi * this.dcpCalculatorLocalInput.tenure;
-
-  //   this.dcpCalculatorLocalOutput.percentageReduction = Number(
-  //     (
-  //       ((this.dcpCalculatorLocalInput.existingTotalEMI - emi) /
-  //         this.dcpCalculatorLocalInput.existingTotalEMI) *
-  //       100
-  //     ).toFixed()
-  //   );
-  // }
-
   calculateFlatRateMonthly() {
     // Convert the annual interest rate to monthly rate
     let monthlyRate = this.dcpCalculatorLocalInput.roi / 12 / 100;
@@ -177,10 +118,12 @@ export default class DCPCFCalculator extends ModelVue {
 
     // Calculate the total amount (including the this.dcpCalculatorLocalInput.loanAmount)
     this.totalAmount = this.dcpCalculatorLocalInput.loanAmount + this.interest;
-    this.loanEMIamount = (this.totalAmount / this.dcpCalculatorLocalInput.tenure).toFixed();
+    this.loanEMIamount = (
+      this.totalAmount / this.dcpCalculatorLocalInput.tenure
+    ).toFixed();
     this.emiSaved =
       this.dcpCalculatorLocalInput.existingTotalEMI - this.loanEMIamount;
-         this.emiSavedPercentage = (
+    this.emiSavedPercentage = (
       ((this.dcpCalculatorLocalInput.existingTotalEMI - this.loanEMIamount) /
         this.dcpCalculatorLocalInput.existingTotalEMI) *
       100
@@ -189,20 +132,6 @@ export default class DCPCFCalculator extends ModelVue {
     // Return the total amount
     return this.totalAmount;
   }
-
-  // get dcpSavingsPercentageOuput() {
-  //   this.dcpSavingsPercentageLocal.percentageReduction = (
-  //     ((this.dcpSavingsPercentageLocal.existingTotalEMI - this.loanEMIamount) /
-  //       this.dcpSavingsPercentageLocal.existingTotalEMI) *
-  //     100
-  //   ).toFixed(2);
-  //   this.dcpSavingsPercentageLocal.emiSavings =
-  //     this.dcpSavingsPercentageLocal.existingTotalEMI - this.loanEMIamount;
-  //   return this.dcpSavingsPercentageLocal;
-  // }
-  // set dcpSavingsPercentageOuput(value: any) {
-  //   this.dcpSavingsPercentageLocal = value;
-  // }
 }
 </script>
 

@@ -89,12 +89,12 @@ export default class DCPCFLeftNav extends Vue {
           routerName: "Root.DCPCFile.DCPCFInfo.DCPCFDocumentInfo",
         },
         {
-          title: "Agreement",
-          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
-        },
-        {
           title: "Calculator",
           routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCalculator",
+        },
+        {
+          title: "Agreement",
+          routerName: "Root.DCPCFile.DCPCFInfo.DCPCFAgreementInfo",
         },
         {
           title: "Cashfree",

@@ -18,21 +18,22 @@ export default class DCPCFCalculatorFFormMDP extends FFormMDP {
   constructor({ parent }: { parent: any }) {
     super({ myRefName: "dcpCFCalculatorRef" });
     this.parent = parent;
-    this.addField(
-      new FCurrencyFieldMDP({
-        parentMDP: this.childMDP,
-        dataSelectorKey: "existingTotalEMI",
-        label: "Existing Total EMI",
-        boundaryClass: "col-6",
-        mandatory: true,
-      })
-    )
+    this
+    // .addField(
+    //   new FCurrencyFieldMDP({
+    //     parentMDP: this.childMDP,
+    //     dataSelectorKey: "existingTotalEMI",
+    //     label: "Existing Total EMI",
+    //     boundaryClass: "col-6",
+    //     mandatory: true,
+    //   })
+    // )
       .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "loanAmount",
           label: "Loan Amount",
-          boundaryClass: "col-6",
+          boundaryClass: "col-4",
           mandatory: true,
         })
       )
@@ -42,7 +43,7 @@ export default class DCPCFCalculatorFFormMDP extends FFormMDP {
           dataSelectorKey: "tenure",
           label: "Tenure",
           mandatory: true,
-          boundaryClass: "col-6",
+          boundaryClass: "col-4",
           options: this.parent.tenureList,
         })
       )
@@ -50,15 +51,15 @@ export default class DCPCFCalculatorFFormMDP extends FFormMDP {
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "roi",
-          label: "ROI",
+          label: "Rate of interest (per annum)",
           mandatory: true,
-          boundaryClass: "col-6",
+          boundaryClass: "col-4",
           options: this.parent.roiList,
         })
       )
       .addAction(
         new FBtnMDP({
-          label: "Calculate",
+          label: "Calculate Loan EMI ",
           onClick: this.handleGenerateClick(),
         })
       );
@@ -71,7 +72,7 @@ export default class DCPCFCalculatorFFormMDP extends FFormMDP {
   handleGenerateClick() {
     return () => {
       this.getMyRef().submitForm(() => {
-        this.parent.calculateEMI();
+        this.parent.calculateFlatRateMonthly();
       });
     };
   }

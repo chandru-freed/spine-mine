@@ -1,5 +1,9 @@
 <template>
   <div class="col">
+    <!-- <v-btn color="primary" @click="calculateFlatRateMonthly(1000000, 15, 60)"
+      >calculateFlatRateMonthly</v-btn
+    > -->
+
     <component
       :ref="dcpCalculatorFFormMetaData.myRefName"
       :is="dcpCalculatorFFormMetaData.componentName"
@@ -9,13 +13,33 @@
       "
       v-bind="dcpCalculatorFFormMetaData.props"
     ></component>
-    <v-card outlined flat>
+    <!-- <v-card outlined flat>
       <component
         :ref="dcpCalculatorResultFFormMetaData.myRefName"
         :is="dcpCalculatorResultFFormMetaData.componentName"
         :value="selectModel(dcpCalculatorLocalOutput, undefined)"
         v-bind="dcpCalculatorResultFFormMetaData.props"
       ></component>
+    </v-card> -->
+
+    <v-card class="pa-5">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col">Flat interest rate</div>
+      </div>
+      <div class="row">
+        <div class="col">Loan EMI Amount</div>
+        <div class="col">{{ loanEMIamount | toINR }}</div>
+      </div>
+      <div class="row">
+        <div class="col">Total interest</div>
+
+        <div class="col">{{ interest | toINR }}</div>
+      </div>
+      <div class="row">
+        <div class="col">Total amount</div>
+        <div class="col">{{ totalAmount | toINR }}</div>
+      </div>
     </v-card>
   </div>
 </template>
@@ -48,10 +72,16 @@ export default class DCPCFCalculator extends ModelVue {
     roi: 0,
   };
 
-  dcpCalculatorLocalOutput = {
-    loanEMIamount: 0,
-    percentageReduction: 0,
-  };
+  // dcpCalculatorLocalOutput = {
+  //   loanEMIamount: 0,
+  //   percentageReduction: 0,
+  //   totalInterest: 0,
+  // };
+
+  totalAmount: number = 0;
+  interest: number = 0;
+  loanEMIamount: number = 0;
+
   generateAgreementFromExcelInput: Data.DCPClientFile.GenerateAgreementFromExcelInput =
     new Data.DCPClientFile.GenerateAgreementFromExcelInput();
 
@@ -91,18 +121,47 @@ export default class DCPCFCalculator extends ModelVue {
   //   );
   // }
 
-calculateEMI(){
-  let monthlyInterestRate = (this.dcpCalculatorLocalInput.roi/12)/100;
-  let emiFormula = Math.pow((1+monthlyInterestRate),this.dcpCalculatorLocalInput.tenure)/(Math.pow((1+monthlyInterestRate),this.dcpCalculatorLocalInput.tenure) - 1)
-  let emi = emiFormula * monthlyInterestRate * this.dcpCalculatorLocalInput.loanAmount;
-  this.dcpCalculatorLocalOutput.loanEMIamount = emi;
+  // calculateEMI() {
+  //   let monthlyInterestRate = this.dcpCalculatorLocalInput.roi / 12 / 100;
+  //   let emiFormula =
+  //     Math.pow(1 + monthlyInterestRate, this.dcpCalculatorLocalInput.tenure) /
+  //     (Math.pow(1 + monthlyInterestRate, this.dcpCalculatorLocalInput.tenure) -
+  //       1);
+  //   let emi =
+  //     emiFormula *
+  //     monthlyInterestRate *
+  //     this.dcpCalculatorLocalInput.loanAmount;
+  //   let emiFlat = emiFormula * monthlyInterestRate;
+  //   console.log("emiFlat", emiFlat);
+  //   this.dcpCalculatorLocalOutput.loanEMIamount = emi;
+  //   this.dcpCalculatorLocalOutput.totalInterest =
+  //     emi * this.dcpCalculatorLocalInput.tenure;
 
-      this.dcpCalculatorLocalOutput.percentageReduction = Number((((this.dcpCalculatorLocalInput.existingTotalEMI - emi) /
-          this.dcpCalculatorLocalInput.existingTotalEMI) *
-        100
-      ).toFixed())
-}
-  
+  //   this.dcpCalculatorLocalOutput.percentageReduction = Number(
+  //     (
+  //       ((this.dcpCalculatorLocalInput.existingTotalEMI - emi) /
+  //         this.dcpCalculatorLocalInput.existingTotalEMI) *
+  //       100
+  //     ).toFixed()
+  //   );
+  // }
+
+  calculateFlatRateMonthly() {
+    // Convert the annual interest rate to monthly rate
+    let monthlyRate = this.dcpCalculatorLocalInput.roi / 12 / 100;
+
+    // Calculate the interest amount
+    this.interest =
+      this.dcpCalculatorLocalInput.loanAmount *
+      monthlyRate *
+      this.dcpCalculatorLocalInput.tenure;
+
+    // Calculate the total amount (including the this.dcpCalculatorLocalInput.loanAmount)
+    this.totalAmount = this.dcpCalculatorLocalInput.loanAmount + this.interest;
+    this.loanEMIamount = this.totalAmount / this.dcpCalculatorLocalInput.tenure;
+    // Return the total amount
+    return this.totalAmount;
+  }
 }
 </script>
 

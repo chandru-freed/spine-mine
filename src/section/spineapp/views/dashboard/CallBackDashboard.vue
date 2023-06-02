@@ -1,5 +1,16 @@
 <template>
   <div class="CallBackDashboard">
+    <v-card>
+      <v-card-title>Add note</v-card-title>
+    <component
+      v-if="showAddNoteForm"
+      :ref="callBackDashboardFFormMetaData.myRefName"
+      :is="callBackDashboardFFormMetaData.componentName"
+      :value="selectModel(addNoteInput, undefined)"
+      @input="(newValue) => updateModel(addNoteInput, newValue, undefined)"
+      v-bind="callBackDashboardFFormMetaData.props"
+    ></component>
+    </v-card>
    
     <component
       v-if="!!callBackDashboardFDataTableMetaData"
@@ -8,6 +19,7 @@
       :value="selectModel(callBackDashboardList, undefined)"
       v-bind="callBackDashboardFDataTableMetaData.props"
     ></component>
+    
   </div>
 </template>
 
@@ -29,6 +41,7 @@ import FForm from "@/components/generic/form/FForm.vue";
 import DashboardTab from "../../components/tab/DashboardTab.vue";
 import CallBackDashboardFDataTableMDP from "./CallBackDashboardFDataTableMDP";
 import FSnackbar from "@/fsnackbar";
+import CallBackDashboardFFormMDP from './CallBackDashboardFFormMDP';
 
 
 @Component({
@@ -43,15 +56,19 @@ export default class CallBackDashboard extends ModelVue {
   
 
   callBackDashboardList: Data.Spine.CallBackashboardDataOutput[] = [];
-
-  tab = 0;
-  taskIdList = [];
-  showAssignForm: boolean = false;
-  taskTableRefName: string = "dcpDashboardFDataTableRef";
+  addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
+  assignSalesRepInput: Data.ClientFile.AssignSalesRepInput = new Data.ClientFile.AssignSalesRepInput();
+  showAddNoteForm: boolean = false;
 
   get callBackDashboardFDataTableMetaData() {
     return new CallBackDashboardFDataTableMDP({
       parent: this,
+    }).getMetaData();
+  }
+
+  get callBackDashboardFFormMetaData() {
+    return new CallBackDashboardFFormMDP({
+      parent: this
     }).getMetaData();
   }
 
@@ -83,14 +100,23 @@ export default class CallBackDashboard extends ModelVue {
     });
   }
 
-  
-  handleAssignClick(item: any) {
-    this.showAssignForm = true;
-    this.taskIdList = item;
+  handleAdNoteclick() {
+    this.showAddNoteForm = true;
   }
 
-  clearSelectedItems() {
-    (this.$refs[this.taskTableRefName] as any).clearSelectedItems();
+  clearForm() {
+    this.addNoteInput = new Data.FiNote.AddNoteInput();
+    this.showAddNoteForm = false;
+  }
+
+  addNoteAndAssign(item: any) {
+    this.addNoteInput.clientFileId = item?.clientFileId;
+    this.assignSalesRepInput.clientFileId = item?.clientFileId;
+    Action.FiNote.AddNote.execute(this.addNoteInput, output => {
+        Action.Spine.AssignSalesRepToSelfEnrolFile.execute(this.assignSalesRepInput,output => {
+          this.clearForm();
+        })
+    })
   }
 
   

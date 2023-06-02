@@ -53,10 +53,24 @@ export default class CallBackDashboardFDataTableMDP extends FDataTableMDP {
         label: "Phone",
         dataSelectorKey: "phoneNumber",
       })
+      .addAction({
+        label:"Add Note",
+        onClick: this.handleAdNoteclick(),
+        type: ActionType.OTHERS,
+        singleSelect: true
+      })
   }
 
   handleClientFileClick(item: any) {
     this.parent.gotoFile(item.clientFileNumber);
+  }
+
+  handleAdNoteclick() {
+    return () => {
+      return new Promise(res => {
+        this.parent.handleAdNoteclick()
+      })
+    }
   }
 
   handleClientClick(item: any) {

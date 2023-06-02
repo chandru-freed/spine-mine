@@ -24,16 +24,16 @@
         <div class="col">{{ loanEMIamount | toINR }}</div>
       </div>
       <div class="row">
-        <div class="col">Total Interest</div>
+        <div class="col">Total Interest Payable</div>
 
         <div class="col">{{ interest | toINR }}</div>
       </div>
       <div class="row">
-        <div class="col">Total Amount</div>
+        <div class="col">Total Repayment Amount</div>
         <div class="col">{{ totalAmount | toINR }}</div>
       </div>
       <div class="row" v-if="emiSavedPercentage > 0">
-        <div class="col">Amount Saved Monthy</div>
+        <div class="col">Amount Saved Monthly</div>
         <div class="col">
           {{ emiSaved | toINR }} ({{ emiSavedPercentage }}%)
         </div>

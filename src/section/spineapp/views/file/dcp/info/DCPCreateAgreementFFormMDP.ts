@@ -89,7 +89,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "existingCashBalance",
-          label: "Existing Cash Balance",
+          label: "Pre-Consolidation Cash Balance",
           boundaryClass: "col-4",
           mandatory: true,
         })

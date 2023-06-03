@@ -12,66 +12,44 @@ import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFiel
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FCurrencyFieldMDP from "@/components/generic/form/field/FCurrencyFieldMDP";
 
-export default class DCPCFCalculatorFFormMDP extends FFormMDP {
+export default class DCPCFEMISavingsPercentageFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   parent: any;
   constructor({ parent }: { parent: any }) {
-    super({ myRefName: "dcpCFCalculatorRef" });
+    super({ myRefName: "dcpCFSavingsPercentageRef" });
     this.parent = parent;
     this.addField(
       new FCurrencyFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "loanAmount",
-        label: "Loan Amount",
-        boundaryClass: "col-3",
+        dataSelectorKey: "existingTotalEMI",
+        label: "Existing Total EMI",
+        boundaryClass: "col-4",
         mandatory: true,
       })
     )
       .addField(
-        new FSelectFieldMDP({
+        new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "tenure",
-          label: "Tenure",
+          dataSelectorKey: "emiSavings",
+          label: "EMI Savings",
+          boundaryClass: "col-4",
           mandatory: true,
-          boundaryClass: "col-3",
-          options: this.parent.tenureList,
+          readonly: true,
         })
       )
       .addField(
-        new FSelectFieldMDP({
+        new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "roi",
-          label: "Rate of interest (per annum)",
+          dataSelectorKey: "percentageReduction",
+          label: "Percentage Reduction from Current(%)",
+          boundaryClass: "col-4",
           mandatory: true,
-          boundaryClass: "col-3",
-          options: this.parent.roiList,
-        })
-      )
-      .addField(
-        new FCurrencyFieldMDP({
-          parentMDP: this.childMDP,
-          dataSelectorKey: "existingTotalEMI",
-          label: "Existing Total EMI",
-          boundaryClass: "col-3",
-        })
-      )
-      .addAction(
-        new FBtnMDP({
-          label: "Calculate Loan EMI ",
-          onClick: this.handleGenerateClick(),
+          readonly: true,
         })
       );
   }
 
   getMyRef() {
     return this.parent.$refs[this.myRefName];
-  }
-
-  handleGenerateClick() {
-    return () => {
-      this.getMyRef().submitForm(() => {
-        this.parent.calculateFlatRateMonthly();
-      });
-    };
   }
 }

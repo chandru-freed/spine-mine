@@ -105,6 +105,10 @@ export default class DCPCFAgreementInfo extends ModelVue {
       }
     );
   }
+
+  resetDCPAgreementForm() {
+    this.showViewAgreementForm = false;
+  }
 }
 </script>
 

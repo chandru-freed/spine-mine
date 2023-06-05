@@ -6,7 +6,7 @@ import FFileFieldMDP from "@/components/generic/form/field/FFileFieldMDP";
 import * as Data from "@/../src-gen/data";
 import * as ServerData from "@/../src-gen/server-data";
 import * as Action from "@/../src-gen/action";
-import FBtnMDP from "@/components/generic/FBtnMDP";
+import FBtnMDP, { BtnType } from "@/components/generic/FBtnMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFieldMDP";
 import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
@@ -43,6 +43,15 @@ export default class DCPAgreementDetailsFFormMDP extends FFormMDP {
           label: "Agreement Status",
           boundaryClass: "col-4",
           mandatory: true,
+        })
+      )
+      .addAction(
+        new FBtnMDP({
+          label: "Cancel",
+          onClick: () => {
+            this.parent.resetDCPAgreementForm();
+          },
+          btnType: BtnType.TEXT,
         })
       );
   }

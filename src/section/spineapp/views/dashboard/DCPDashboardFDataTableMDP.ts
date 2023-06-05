@@ -30,18 +30,21 @@ export default class DCPDashboardFDataTableMDP extends FDataTableMDP {
         columnCellMDP: new FCellStandardDateTimeMDP(),
       }).addClientFileNumberColumn({ dataSelectorKey: "clientFileNumber" })
       .addClientFileStatusColumn({ dataSelectorKey: "clientFileStatus.name", })
-      .addStatusColumn({
-        label: "Stage",
-        dataSelectorKey: "stage",
-        outlined: true,
-        filterItemList: Data.Spine.CLIENT_FILE_STAGE.list()
-      })
+      // .addStatusColumn({
+      //   label: "Stage",
+      //   dataSelectorKey: "stage",
+      //   outlined: true,
+      //   filterItemList: Data.Spine.CLIENT_FILE_STAGE.list()
+      // })
       .addClientNameColumn({ dataSelectorKey: "fullName", })
       .addColumn({
         label: "Mobile",
         dataSelectorKey: "mobile",
         columnCellMDP: new FCellPhoneMDP(),
         enableCopy: true
+      }).addColumn({
+        label: "Employment Status",
+        dataSelectorKey: "employmentStatus",
       })
       .addColumn({
         label: "E-mail",

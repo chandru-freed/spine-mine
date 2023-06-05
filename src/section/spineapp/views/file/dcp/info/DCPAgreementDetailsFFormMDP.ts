@@ -16,7 +16,7 @@ export default class DCPAgreementDetailsFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
   parent: any;
   constructor({ parent }: { parent: any }) {
-    super({ myRefName: "DCPAgreementDetailsRef" });
+    super({ myRefName: "DCPAgreementDetailsRef", readonly: true });
     this.parent = parent;
     this.addField(
       new FTextFieldMDP({

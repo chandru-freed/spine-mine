@@ -1,13 +1,27 @@
 <template>
   <div class="col">
-    <component
-      v-if="!!showViewAgreementForm"
-      :ref="dcpAgreementDetailsMetaData.myRefName"
-      :is="dcpAgreementDetailsMetaData.componentName"
-      :value="selectModel(serviceSignAgreementDetailsOutput, undefined)"
-      v-bind="dcpAgreementDetailsMetaData.props"
-    ></component>
+    <v-card class="mb-5" v-if="!!showViewAgreementForm">
+      <component
+        :ref="dcpAgreementDetailsMetaData.myRefName"
+        :is="dcpAgreementDetailsMetaData.componentName"
+        :value="selectModel(serviceSignAgreementDetailsOutput, undefined)"
+        v-bind="dcpAgreementDetailsMetaData.props"
+      ></component>
+      <div class="pa-5">
+        <component
+          :ref="dcpClientCreditorListFDataTableMetaData.myRefName"
+          :is="dcpClientCreditorListFDataTableMetaData.componentName"
+          :value="selectModel(dcpClientCreditorList, undefined)"
+          v-bind="dcpClientCreditorListFDataTableMetaData.props"
+        ></component>
+      </div>
 
+      <div class="d-flex justify-center pa-3">
+        <v-btn color="primary" outlined small @click="resetDCPAgreementForm()"
+          >Cancel</v-btn
+        >
+      </div>
+    </v-card>
     <component
       v-if="!!showGenerateform"
       :ref="dcpCreateAgreementFFormMetaData.myRefName"
@@ -42,6 +56,7 @@ import FForm from "@/components/generic/form/FForm.vue";
 import DCPCreateAgreementFFormMDP from "./DCPCreateAgreementFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import DCPAgreementDetailsFFormMDP from "./DCPAgreementDetailsFFormMDP";
+import DCPClientCreditorListFDataTableMDP from "./DCPClientCreditorListFDataTableMDP";
 
 @Component({
   components: {
@@ -58,6 +73,7 @@ export default class DCPCFAgreementInfo extends ModelVue {
   showGenerateform: boolean = false;
   showViewAgreementForm: boolean = false;
   serviceSignAgreementDetailsOutput: any;
+  dcpClientCreditorList: any = [];
 
   public mounted() {
     this.getAllAgreementList();
@@ -96,11 +112,19 @@ export default class DCPCFAgreementInfo extends ModelVue {
     return new DCPAgreementDetailsFFormMDP({ parent: this }).getMetaData();
   }
 
+  get dcpClientCreditorListFDataTableMetaData() {
+    return new DCPClientCreditorListFDataTableMDP({
+      parent: this,
+    }).getMetaData();
+  }
+
   handleInfoClick(item: any) {
     Action.DCPClientFile.GetServiceSignAgreementDetails.execute1(
       item.ssaToken,
       (output) => {
         this.serviceSignAgreementDetailsOutput = output;
+        this.dcpClientCreditorList =
+          output.agreementDetails.dcpClientCreditorList;
         this.showViewAgreementForm = true;
       }
     );

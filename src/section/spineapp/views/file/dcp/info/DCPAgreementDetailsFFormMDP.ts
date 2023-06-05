@@ -45,15 +45,15 @@ export default class DCPAgreementDetailsFFormMDP extends FFormMDP {
           mandatory: true,
         })
       )
-      .addAction(
-        new FBtnMDP({
-          label: "Cancel",
-          onClick: () => {
-            this.parent.resetDCPAgreementForm();
-          },
-          btnType: BtnType.TEXT,
-        })
-      );
+      // .addAction(
+      //   new FBtnMDP({
+      //     label: "Cancel",
+      //     onClick: () => {
+      //       this.parent.resetDCPAgreementForm();
+      //     },
+      //     btnType: BtnType.TEXT,
+      //   })
+      // );
   }
 
   getMyRef() {

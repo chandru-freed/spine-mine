@@ -90,6 +90,11 @@ export default class DCPAgreementListFDataTableMDP extends FDataTableMDP {
         onClick: this.handleResendClick(),
         type: ActionType.OTHERS,
         confirmation: true,
+      })
+      .addAction({
+        label: "Details",
+        onClick: this.handleDetailsClick(),
+        type: ActionType.INFO,
       });
   }
   handleGenerateAgreementClick() {
@@ -118,7 +123,13 @@ export default class DCPAgreementListFDataTableMDP extends FDataTableMDP {
       });
     };
   }
-
+  handleDetailsClick() {
+    return (item: any) => {
+      return new Promise((res) => {
+        this.parent.handleInfoClick(item);
+      });
+    };
+  }
   handleRefreshClick() {
     return () => {
       return new Promise((res) => {

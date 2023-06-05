@@ -1,6 +1,14 @@
 <template>
   <div class="col">
     <component
+      v-if="!!showViewAgreementForm"
+      :ref="dcpAgreementDetailsMetaData.myRefName"
+      :is="dcpAgreementDetailsMetaData.componentName"
+      :value="selectModel(serviceSignAgreementDetailsOutput, undefined)"
+      v-bind="dcpAgreementDetailsMetaData.props"
+    ></component>
+
+    <component
       v-if="!!showGenerateform"
       :ref="dcpCreateAgreementFFormMetaData.myRefName"
       :is="dcpCreateAgreementFFormMetaData.componentName"
@@ -33,6 +41,7 @@ import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FForm from "@/components/generic/form/FForm.vue";
 import DCPCreateAgreementFFormMDP from "./DCPCreateAgreementFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
+import DCPAgreementDetailsFFormMDP from "./DCPAgreementDetailsFFormMDP";
 
 @Component({
   components: {
@@ -47,6 +56,9 @@ export default class DCPCFAgreementInfo extends ModelVue {
   generateAgreementFromExcelInput: Data.DCPClientFile.GenerateAgreementFromExcelInput =
     new Data.DCPClientFile.GenerateAgreementFromExcelInput();
   showGenerateform: boolean = false;
+  showViewAgreementForm: boolean = false;
+  serviceSignAgreementDetailsOutput: any;
+
   public mounted() {
     this.getAllAgreementList();
   }
@@ -78,6 +90,20 @@ export default class DCPCFAgreementInfo extends ModelVue {
     this.generateAgreementFromExcelInput =
       new Data.DCPClientFile.GenerateAgreementFromExcelInput();
     this.showGenerateform = false;
+  }
+
+  get dcpAgreementDetailsMetaData() {
+    return new DCPAgreementDetailsFFormMDP({ parent: this }).getMetaData();
+  }
+
+  handleInfoClick(item: any) {
+    Action.DCPClientFile.GetServiceSignAgreementDetails.execute1(
+      item.ssaToken,
+      (output) => {
+        this.serviceSignAgreementDetailsOutput = output;
+        this.showViewAgreementForm = true;
+      }
+    );
   }
 }
 </script>

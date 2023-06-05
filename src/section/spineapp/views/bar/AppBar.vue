@@ -161,8 +161,8 @@ export default class AppBar extends Vue {
 
   openInNewTab(route: string) {
     const routeData = this.$router.resolve({ name: route });
-    const routeHref = routeData.href.split("/").slice(-2).join("/");
-    window.open(routeHref, "_blank");
+    // const routeHref = routeData.href.split("/").slice(-2).join("/");
+    window.open(routeData.href, "_blank");
   }
 }
 </script>

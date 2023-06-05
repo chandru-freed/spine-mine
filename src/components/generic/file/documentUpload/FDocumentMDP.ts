@@ -49,7 +49,7 @@ export default class FDocumentMDP implements MDP {
     return (nextCallback: () => void) => {
       if (
         this.taskRoot.clientFileEnrollmentSummary.enrollmentSummary
-          .isAggrementSigned
+          .isAggrementSigned || this.taskRoot.taskDetails?.taskName==='RetainCancelledFile'
       ) {
         nextCallback();
       } else {

@@ -37,21 +37,19 @@ export default class CallBackDashboardFDataTableMDP extends FDataTableMDP {
       })
       .addClientNameColumn({ dataSelectorKey: "fullName" })
       .addColumn({
-        label: "File Number",
-        dataSelectorKey: "clientFileNumber",
-        columnCellMDP: new FCellEmailMDP(),
-        hidden: true
-      }).addColumn({
         label: "Sales Rep",
         dataSelectorKey: "assignedSalesRep",
+        enableGroupBy: true
       })
       .addColumn({
         label: "RM",
         dataSelectorKey: "assignedRM",
+        enableGroupBy: true
       })
       .addColumn({
         label: "Phone",
         dataSelectorKey: "phoneNumber",
+        columnCellMDP: new FCellPhoneMDP()
       })
       .addAction({
         label:"Add Note",
@@ -66,9 +64,9 @@ export default class CallBackDashboardFDataTableMDP extends FDataTableMDP {
   }
 
   handleAdNoteclick() {
-    return () => {
+    return (item: any) => {
       return new Promise(res => {
-        this.parent.handleAdNoteclick()
+        this.parent.handleAdNoteclick(item)
       })
     }
   }

@@ -42,16 +42,19 @@
           <v-icon small class="pr-1">mdi-plus-circle</v-icon>
           Create
         </v-btn>
-
-       
-        
       </template>
 
       <v-list dense>
-        <v-list-item @click="goto('Root.PaymentCalculator')">
+        <v-list-item @click="goto('Root.DRPPaymentCalculator')">
           <v-list-item-title>
             <v-icon small class="me-2">mdi-account-plus</v-icon>
-            Client File
+            DRP Client File
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="goto('Root.DCPPaymentCalculator')">
+          <v-list-item-title>
+            <v-icon small class="me-2">mdi-account-plus</v-icon>
+            DCP Client File
           </v-list-item-title>
         </v-list-item>
         <v-list-item @click="goto('Root.MyTicket.AddTicket')">
@@ -62,10 +65,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn
-      text
-      @click="$router.push({ name: 'Root.ActionList' })"
-    >
+    <v-btn text @click="$router.push({ name: 'Root.ActionList' })">
       <v-icon small class="ml-1 pr-1">mdi-gesture-double-tap</v-icon>
       Portal
     </v-btn>
@@ -81,7 +81,6 @@
       ></v-text-field>
     </div> -->
     <template v-if="showSearch">
-      
       <div class="mt-6 py-2 mr-2">
         <FClientFileAutoCompleteField
           dense
@@ -94,26 +93,24 @@
         ></FClientFileAutoCompleteField>
       </div>
 
-       <v-btn
+      <v-btn
         @click="$router.push({ name: 'Root.Search.ClientFileSearch' })"
         text
         class="mr-2"
         ><v-icon class="pr-1" small>mdi-magnify</v-icon> Search</v-btn
       >
-      
     </template>
     <!-- <v-spacer></v-spacer> -->
     <!-- <app-bar-notification-menu /> -->
     <v-btn
-        @click="openInNewTab('Root.PaymentCalculator')"
-        color="primary"
-        icon
-        class="mr-2"
-        small
-        ><v-icon >mdi-calculator</v-icon> </v-btn
-      >
+      @click="openInNewTab('Root.DRPPaymentCalculator')"
+      color="primary"
+      icon
+      class="mr-2"
+      small
+      ><v-icon>mdi-calculator</v-icon>
+    </v-btn>
     <app-bar-user-menu />
-    
   </v-app-bar>
 </template>
 
@@ -163,9 +160,9 @@ export default class AppBar extends Vue {
   }
 
   openInNewTab(route: string) {
-    const routeData = this.$router.resolve({name: route});
-    const routeHref = routeData.href.split('/').slice(-2).join('/');
-    window.open(routeHref, '_blank');
+    const routeData = this.$router.resolve({ name: route });
+    const routeHref = routeData.href.split("/").slice(-2).join("/");
+    window.open(routeHref, "_blank");
   }
 }
 </script>

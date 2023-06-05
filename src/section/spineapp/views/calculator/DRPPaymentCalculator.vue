@@ -1,7 +1,7 @@
 <template>
 <v-card flat>
 <v-container>
-  <v-card outlined flat class="PaymentCalculator">
+  <v-card outlined flat class="DRPPaymentCalculator">
     <component
       :ref="calculateAndRegisterClientFileMetaData.myRefName"
       :is="calculateAndRegisterClientFileMetaData.componentName"
@@ -35,7 +35,7 @@ import CalculateAndRegisterClientFileMDP from "@/components/generic/file/calcula
     CalculateAndRegisterClientFile
   },
 })
-export default class PaymentCalculator extends ModelVue {
+export default class DRPPaymentCalculator extends ModelVue {
   
   get calculateAndRegisterClientFileMetaData() {
     return new CalculateAndRegisterClientFileMDP({

@@ -123,7 +123,7 @@ export default class MyCFFiles extends ModelVue {
   }
 
   openCalculatorPage() {
-    this.$router.push({name:"Root.PaymentCalculator"})
+    this.$router.push({name:"Root.DRPPaymentCalculator"})
   }
 
   get myCFFileFDataTableMetaData() {

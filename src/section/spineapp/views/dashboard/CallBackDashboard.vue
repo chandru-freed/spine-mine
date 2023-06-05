@@ -54,6 +54,8 @@ import CallBackDashboardFFormMDP from './CallBackDashboardFFormMDP';
 })
 export default class CallBackDashboard extends ModelVue {
   
+  @Store.Getter.Login.LoginDetails.loggedInUser
+  loggedInUser: Data.Login.LoginDetails;
 
   callBackDashboardList: Data.Spine.CallBackashboardDataOutput[] = [];
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
@@ -78,7 +80,6 @@ export default class CallBackDashboard extends ModelVue {
   }
 
   getCallBackDashboardData() {
-    console.error("inside getCall")
     Action.Spine.GetCallBackRequestList.execute(
       (output) => {
         this.callBackDashboardList = output;
@@ -100,21 +101,29 @@ export default class CallBackDashboard extends ModelVue {
     });
   }
 
-  handleAdNoteclick() {
+  handleAdNoteclick(item: any) {
     this.showAddNoteForm = true;
+    this.addNoteInput.clientFileId = item?.clientFileId;
+    this.assignSalesRepInput.clientFileId = item?.clientFileId;
+    this.assignSalesRepInput.assignedSalesRep = !!item.assignedSalesRep?item.assignedSalesRep: this.loggedInUser.userName;
   }
 
   clearForm() {
     this.addNoteInput = new Data.FiNote.AddNoteInput();
     this.showAddNoteForm = false;
+     (
+      this.$refs[this.callBackDashboardFDataTableMetaData.myRefName] as any
+    ).clearSelectedItems();
+    
   }
 
   addNoteAndAssign(item: any) {
-    this.addNoteInput.clientFileId = item?.clientFileId;
-    this.assignSalesRepInput.clientFileId = item?.clientFileId;
+    console.log(item)
+    this.addNoteInput.noteMessage = `CallBack Response: ${this.addNoteInput.noteMessage}`
     Action.FiNote.AddNote.execute(this.addNoteInput, output => {
         Action.Spine.AssignSalesRepToSelfEnrolFile.execute(this.assignSalesRepInput,output => {
           this.clearForm();
+          this.getCallBackDashboardData();
         })
     })
   }

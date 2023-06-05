@@ -296,11 +296,11 @@ export default class CFActionList extends Vue {
             condition: this.isAdmin()&&!this.isClientFilePendingCancelled(),
           },
             {
-            actionName: "Reject",
+            actionName: "Reject File",
             icon: "mdi-chevron-right",
             // command: this.requestCancel,
             routerName: "Root.CFile.CFAction.CFRejectFile",
-            condition: this.isAdmin()&&this.isClientFileLead(),
+            condition: this.isClientFileLead(),
           },
           {
             actionName: "Mark File As Graduate",

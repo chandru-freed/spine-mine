@@ -291,7 +291,7 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
     );
     // this.resultLocal.msfAmount = getMSFWithFreed(this.resultLocal.outstanding);
     this.resultLocal.msfAmount =
-      this.simulatorInput.paymentPlan?.ppCalculator?.msfDraftAmount || 0;
+      this.simulatorInput.paymentPlan?.ppCalculator?.msfSlabAmount || 0;
     this.resultLocal.monthlyObligation =
       this.resultLocal.monthlyPayment + this.resultLocal.msfAmount;
     this.resultLocal.freedFee =

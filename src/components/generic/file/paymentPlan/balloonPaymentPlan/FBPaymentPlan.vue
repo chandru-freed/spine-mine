@@ -350,6 +350,11 @@ export default class FBPaymentPlan extends ModelVue {
     this.showUploadForm = true;
   }
 
+  handleApplyDiscountClick() {
+    this.showApplyDiscountOnMsfForm = true;
+    this.applyDiscountInput.msfDiscountAmount = this.paymentPlan.ppCalculator.msfDiscountAmount || 0;
+  }
+
   get fPaymentScheduleFDataTableMetaData() {
     return new FBPPScheduleFDataTableMDP({
       parent: this,

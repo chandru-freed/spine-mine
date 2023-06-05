@@ -45,70 +45,58 @@ export default class CFRejectFileFFormMDP extends FFormMDP {
 
 const reasonCodeList: any[] = [
     {
-        id: "CR_101",
-        name: "Need Loan"
+        id: "RR_101",
+        name: "Unqualified - Debt amount not qualify"
     },
 
     {
-        id: "CR_102",
-        name: "Self Service"
+        id: "RR_102",
+        name: "Unqualified - Current"
     },
 
     {
-        id: "CR_103",
+        id: "RR_103",
+        name: "Unqualified - Cannot afford the program"
+    },
+    {
+        id: "RR_104",
+        name: "Unqualified - Need loan"
+    },
+    {
+        id: "RR_105",
+        name: "Wrong Number"
+    },
+    {
+        id: "RR_106",
+        name: "Invalid Number"
+    },
+    {
+        id: "RR_107",
+        name: "Number Blocked"
+    },
+    {
+        id: "RR_108",
         name: "Others"
     },
     {
-        id: "CR_104",
-        name: "Forced Cancellation"
+        id: "RR_109",
+        name: "No loan/Credit card Outstanding"
     },
     {
-        id: "CR_105",
-        name: "Direct Settlement"
+        id: "RR_110",
+        name: "Does not want to impact Credit Score"
     },
     {
-        id: "CR_106",
-        name: "Collection Activities"
-    },
-    {
-        id: "CR_107",
-        name: "Client Deceased"
-    },
-    {
-        id: "CR_108",
-        name: "Affordability Issue"
-    },
-    {
-        id: "CR_109",
-        name: "Family Support"
-    },
-    {
-        id: "CR_110",
-        name: "Unforeseen Expense"
-    },
-    {
-        id: "CR_111",
-        name: "Not Interested"
+        id: "RR_111",
+        name: "Not looking for Settlement"
     },
 
     {
-        id: "CR_112",
-        name: "Dissatisfied with Service"
+        id: "RR_112",
+        name: "Issues with Collection Activities"
     }, {
-        id: "CR_113",
-        name: "Filing Bankruptcy"
-    }, {
-        id: "CR_114",
-        name: "Credibility Issues"
-    }, {
-        id: "CR_115",
-        name: "Client Ineligible"
-    }, {
-        id: "CR_116",
-        name: "Duplicate Sale"
-    }, {
-        id: "CR_117",
-        name: "DCP Prospect"
-    },
+        id: "RR_113",
+        name: "Move to DCP"
+    }
 
 ]

@@ -148,7 +148,7 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
 
     handleApplyDiscountClick() {
         return new Promise((resolve) => {
-          this.parent.showApplyDiscountOnMsfForm = true;
+          this.parent.handleApplyDiscountClick()
         });
       }
 

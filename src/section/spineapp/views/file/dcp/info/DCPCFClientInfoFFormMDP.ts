@@ -40,7 +40,7 @@ export default class DCPCFClientInfoFFormMDP extends FFormMDP {
         new FNumberFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "roi",
-          label: "ROI",
+          label: "Rate of interest",
           boundaryClass: "col-6",
           mandatory: true,
         })

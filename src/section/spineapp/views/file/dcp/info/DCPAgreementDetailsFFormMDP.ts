@@ -21,39 +21,76 @@ export default class DCPAgreementDetailsFFormMDP extends FFormMDP {
     this.addField(
       new FTextFieldMDP({
         parentMDP: this.childMDP,
-        dataSelectorKey: "agreementDetails.dcpPersonalInfoData.dcpClientName",
+        dataSelectorKey: "dcpClientName",
         label: "Client Name",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
       })
     )
       .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "agreementStatus.name",
+          label: "Agreement Status",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
+      )
+      .addField(
         new FCurrencyFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "agreementDetails.dcpPlatformFee",
+          dataSelectorKey: "dcpPlatformFee",
           label: "Fee Amount",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
         })
       )
       .addField(
         new FTextFieldMDP({
           parentMDP: this.childMDP,
-          dataSelectorKey: "agreementStatus.name",
-          label: "Agreement Status",
-          boundaryClass: "col-4",
+          dataSelectorKey: "loanNumber",
+          label: "Loan Number",
+          boundaryClass: "col-3",
           mandatory: true,
         })
       )
-      // .addAction(
-      //   new FBtnMDP({
-      //     label: "Cancel",
-      //     onClick: () => {
-      //       this.parent.resetDCPAgreementForm();
-      //     },
-      //     btnType: BtnType.TEXT,
-      //   })
-      // );
+      .addField(
+        new FCurrencyFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "newMontlhyEmi",
+          label: "New Montlhy Emi",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "tenure",
+          label: "Tenure",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
+      )
+      .addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "roi",
+          label: "Rate of interest",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
+      );
+
+    // .addAction(
+    //   new FBtnMDP({
+    //     label: "Cancel",
+    //     onClick: () => {
+    //       this.parent.resetDCPAgreementForm();
+    //     },
+    //     btnType: BtnType.TEXT,
+    //   })
+    // );
   }
 
   getMyRef() {

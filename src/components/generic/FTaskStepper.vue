@@ -496,12 +496,19 @@ export default class FTaskStepper extends ModelVue {
   }
 
   rescueTask(step: any) {
+    if(step.rescueFunc) {
     step.rescueFunc((taskOutput: any) => {
       Task.Action.rescueTask({
         taskId: this.taskId,
         taskOutput: taskOutput,
       });
     });
+    } else {
+      Task.Action.rescueTask({
+        taskId: this.taskId,
+        taskOutput: {},
+      });
+    }
   }
 
   retryTask() {

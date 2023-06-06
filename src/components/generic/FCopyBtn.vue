@@ -1,7 +1,7 @@
 <template>
 <v-tooltip bottom max-width="300">
       <template v-slot:activator="{ on, attrs }">
-        <a v-bind="attrs" v-on="on" @click="copyToClipBoard()">
+        <a :class="boundaryClass" v-bind="attrs" v-on="on" @click="copyToClipBoard()">
           <v-icon small>mdi-content-copy</v-icon>
         </a>
       </template>
@@ -20,6 +20,8 @@ import ModelVue from "./ModelVue";
 export default class FCopy extends ModelVue {
   @Prop({default:"Copy"})
   tooltipText: string;
+  @Prop({default:""})
+  boundaryClass: string;
   
   copyToClipBoard() {
     Helper.copyToClipBoard(this.modelValue);

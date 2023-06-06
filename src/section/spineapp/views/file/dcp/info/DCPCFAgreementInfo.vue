@@ -119,15 +119,9 @@ export default class DCPCFAgreementInfo extends ModelVue {
   }
 
   handleInfoClick(item: any) {
-    Action.DCPClientFile.GetServiceSignAgreementDetails.execute1(
-      item.ssaToken,
-      (output) => {
-        this.serviceSignAgreementDetailsOutput = output;
-        this.dcpClientCreditorList =
-          output.agreementDetails.dcpClientCreditorList;
-        this.showViewAgreementForm = true;
-      }
-    );
+    this.serviceSignAgreementDetailsOutput = item.agreementDetailsInfo;
+    this.dcpClientCreditorList = item.agreementDetailsInfo.dcpClientCreditorList;
+    this.showViewAgreementForm = true;
   }
 
   resetDCPAgreementForm() {

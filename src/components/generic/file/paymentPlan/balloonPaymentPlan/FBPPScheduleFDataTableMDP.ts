@@ -25,8 +25,8 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             //     colorCodeData: Data.Color.PS_ENTRY_STATUS,
             //     outlined: true
             // }) })
-            .addInfo({label:"Total",value: this.parent.modelValue.taskOutput?.paymentPlan?.psEntryTotalAmount,infoMDP: new FInfoINRMDP({rounded: true})})
-            .addInfo({label:"Tenure",value: this.parent.modelValue.taskOutput?.paymentPlan?.ppCalculator.tenor,})
+            .addInfo({label:"Total",value: this.parent.modelValue.taskOutput?.payload?.paymentPlan?.psEntryTotalAmount,infoMDP: new FInfoINRMDP({rounded: true})})
+            .addInfo({label:"Tenure",value: this.parent.modelValue.taskOutput?.payload?.paymentPlan?.ppCalculator.tenor,})
             ;
 
 

@@ -337,6 +337,7 @@ export default class CFTaskDetails extends Vue {
     );
     Action.TaskList.Suspend.interested(this.getExecutiveTaskDetailsHandler);
     Action.TaskList.Resume.interested(this.getExecutiveTaskDetailsHandler);
+    Action.TaskList.Rescue.interested(this.getExecutiveTaskDetailsHandler);
 
     //Commands
 
@@ -436,6 +437,7 @@ export default class CFTaskDetails extends Vue {
     Action.ClientFile.Graduate.notInterested(
       this.getTaskDetailsAndFileSummaryWithDelayHandler
     );
+    Action.TaskList.Rescue.notInterested(this.getExecutiveTaskDetailsHandler);
     // Action.ClientFile.Cancel.notInterested(
     //   this.getTaskDetailsAndFileSummaryWithDelayHandler
     // );

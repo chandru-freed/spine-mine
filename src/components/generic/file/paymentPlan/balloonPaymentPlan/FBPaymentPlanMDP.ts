@@ -52,15 +52,6 @@ export default class FBPaymentPlanMDP implements MDP {
 
   }
 
-
-  ppCalculatorFormSubmit() {
-    return (nextCallback?: () => void) => {
-    this.paymentCalculatorForm.getMyRef().submitForm(() => {
-      this.paymentCalculatorForm.schedulePaymentPlan(nextCallback);
-    });
-    }
-  }
-
   validateEntries() {
     return (nextCallback: () => void) => {
       const editMode = this.getMyRef().$refs['tmosSimulator'].editMode;

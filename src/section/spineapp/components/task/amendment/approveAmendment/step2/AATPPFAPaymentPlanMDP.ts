@@ -1,4 +1,3 @@
-import FAmendmentPaymentPlanMDP from "@/components/generic/file/amendmentPaymentPlan/FAmendmentPaymentPlanMDP";
 import FBPaymentPlanMDP from "@/components/generic/file/paymentPlan/balloonPaymentPlan/FBPaymentPlanMDP";
 
 export default class  AATPPFAPaymentPlanMDP extends FBPaymentPlanMDP {

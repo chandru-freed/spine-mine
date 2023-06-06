@@ -254,7 +254,6 @@ import FEMandate from "./file/eMandate/FEMandate.vue";
 import Task from "@/section/spineapp/util/Task";
 import FSettlementPlan from "./file/settlementPlan/FSettlementPlan.vue";
 import FAmendmentCreditor from "./file/amendmentCreditor/FAmendmentCreditor.vue";
-import FAmendmentPaymentPlan from "./file/amendmentPaymentPlan/FAmendmentPaymentPlan.vue";
 import FEPaymentPlan from "./file/paymentPlan/enrollmentPaymentPlan/FEPaymentPlan.vue";
 import FCFPaymentPlan from "./file/paymentPlan/cfPaymentPlan/FCFPaymentPlan.vue";
 import FBPaymentPlan from "./file/paymentPlan/balloonPaymentPlan/FBPaymentPlan.vue";
@@ -271,11 +270,9 @@ import ECFTSummaryStep from "@/section/spineapp/components/task/enrollment/enrol
 import FAgreementList from "./file/agreementList/FAgreementList.vue";
 import FEMandateList from "./file/eMandateList/FEMandateList.vue";
 import Helper from "@/section/spineapp/util/Helper";
-import FCFTPaymentPlan from "./file/paymentPlan/cfTaskPaymentPlan/FCFTPaymentPlan.vue";
 import FScrollUpBtn from "./FScrollUpBtn.vue";
 import FCashfreeList from "./file/cashfreeList/FCashfreeList.vue";
 import FAmendmentCreditorV4 from "./file/amendmentCreditorV4/FAmendmentCreditorV4.vue";
-import FAmendmentV4PaymentPlan from "./file/amendmentPaymentPlanV4/FAmendmentV4PaymentPlan.vue";
 import FAlert from "./FAlert.vue";
 import BudgetException from "@/section/spineapp/components/task/enrollment/enrollClientFile/step3/BudgetException.vue";
 
@@ -291,7 +288,6 @@ import BudgetException from "@/section/spineapp/components/task/enrollment/enrol
     FEMandate,
     FSettlementPlan,
     FAmendmentCreditor,
-    FAmendmentPaymentPlan,
     FEPaymentPlan,
     FCFPaymentPlan,
     FBPaymentPlan,
@@ -302,11 +298,9 @@ import BudgetException from "@/section/spineapp/components/task/enrollment/enrol
     ECFTSummaryStep,
     FAgreementList,
     FEMandateList,
-    FCFTPaymentPlan,
     FScrollUpBtn,
     FCashfreeList,
     FAmendmentCreditorV4,
-    FAmendmentV4PaymentPlan,
     FAlert,
     BudgetException
   },

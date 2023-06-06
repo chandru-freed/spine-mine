@@ -141,44 +141,17 @@ export default class FPaymentCalculatorFFormMDP extends FFormMDP {
         boundaryClass: "col-3",
         options: ["MSFFee"]
       })
-    ).addAction(
-      new FBtnMDP({
-        label: "Calculate Payment Schedule",
-        onClick: this.calculatePaymentSchedule(),
-        disabled: this.parent.disabledActionBtn
-      })
     );
+    // .addAction(
+    //   new FBtnMDP({
+    //     label: "Calculate Payment Schedule",
+    //     onClick: this.calculatePaymentSchedule(),
+    //     disabled: this.parent.disabledActionBtn
+    //   })
+    // );
   }
 
   getMyRef() {
     return this.parent.getMyRef().$refs[this.myRefName];
-  }
-
-  calculatePaymentSchedule() {
-    return () => {
-      this.getMyRef().submitForm(() => {
-        this.schedulePaymentPlan();
-      });
-    };
-  }
-
-  schedulePaymentPlan(callback?: () => void) {
-    const parentComponent = this.parent.getMyRef();
-    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(
-      parentComponent.modelValue.paymentPlan
-    );
-    input.clientFileId = parentComponent.clientFileBasicInfo.clientFileId;
-    input.ppCalculator.outstanding =
-    parentComponent.modelValue.creditorInfo.totalDebt;
-    input.taskId = parentComponent.taskId;
-    Action.Spine.SchedulePaymentPlan.execute(input, (output: any) => {
-      Snackbar.show({
-        text: "Succesfully Saved",
-        pos: "bottom-center",
-      });
-      if(callback) {
-        callback();
-      }
-    });
   }
 }

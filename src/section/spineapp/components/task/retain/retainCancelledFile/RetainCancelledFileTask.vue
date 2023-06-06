@@ -330,14 +330,8 @@ export default class RetainCancelledFileTask extends ModelVue {
       this.getClientCreditorInfoAndInfoHandler
     );
 
-    // Action.Spine.RemoveCreditor.interested(
-    //   this.getClientCreditorInfoAndInfoHandler
-    // );
 
     Action.Spine.UpdateBudgetInfo.interested(this.getBudgetInfoHandler);
-    Action.Spine.SchedulePaymentPlan.interested(
-      this.getFiPaymentPlanInfoHandler
-    );
 
     Action.Spine.DraftPSPlanForPM.interested(this.getFiPaymentPlanInfoHandler);
 
@@ -400,10 +394,6 @@ export default class RetainCancelledFileTask extends ModelVue {
     )
 
     Action.Spine.UpdateBudgetInfo.notInterested(this.getBudgetInfoHandler);
-
-    Action.Spine.SchedulePaymentPlan.notInterested(
-      this.getFiPaymentPlanInfoHandler
-    );
 
     Action.Spine.DraftPSPlanForPM.notInterested(
       this.getFiPaymentPlanInfoHandler
@@ -493,7 +483,6 @@ export default class RetainCancelledFileTask extends ModelVue {
 
   getFiCreditorInfo() {
     Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
-      // this.schedulePaymentPlan();
     });
   }
 
@@ -515,7 +504,6 @@ export default class RetainCancelledFileTask extends ModelVue {
   getClientCreditorInfoAndInfo() {
     this.getClientFileBasicInfo();
     Action.ClientFile.GetCreditorInfo.execute1(this.clientFileId, (output) => {
-      // this.schedulePaymentPlan();
     });
   }
 
@@ -579,31 +567,6 @@ export default class RetainCancelledFileTask extends ModelVue {
       this.clientFileId,
       (output) => {}
     );
-  }
-
-  schedulePaymentPlan() {
-    const paymentPlan = this.fiPaymentPlanInfoStore
-      ? Data.Spine.PaymentPlan.fromJson(this.fiPaymentPlanInfoStore)
-      : new Data.Spine.PaymentPlan();
-    const input = Data.Spine.SchedulePaymentPlanInput.fromJson(paymentPlan);
-    input.clientFileId = this.clientFileId;
-    input.ppCalculator.outstanding = this.fiCreditorStore.totalDebt;
-    input.taskId = this.taskId;
-    if (input.ppCalculator.firstDraftDate === "") {
-      input.ppCalculator.firstDraftDate = moment()
-        .add(2, "days")
-        .format(Helper.DATE_FORMAT);
-      input.ppCalculator.feeFirstDraftDate = moment().format(
-        Helper.DATE_FORMAT
-      );
-    }
-    // if(input.ppCalculator.firstDraftDate === '') {
-    Action.Spine.SchedulePaymentPlan.execute(
-      input,
-      (output: any) => {},
-      (error) => {}
-    );
-    // }
   }
 
   getClientFileSummary() {

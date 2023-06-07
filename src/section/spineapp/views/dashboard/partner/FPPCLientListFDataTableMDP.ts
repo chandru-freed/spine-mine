@@ -20,18 +20,14 @@ export default class FPPCLientListFDataTableMDP extends FDataTableMDP {
       enableSearch: true,
       title: "FPP Cleint List",
       enableShowHideColumns: true,
-      itemKey: "partnerId",
+      itemKey: "clientFileNumber",
+      multiSelect: true,
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Created On",
-      dataSelectorKey: "createdOn",
-      columnCellMDP: new FCellDateTimeMDP(),
-    })
-      .addClientFileNumberColumn({ dataSelectorKey: "clientFileNumber" })
+    this.addClientFileNumberColumn({ dataSelectorKey: "clientFileNumber" })
       .addColumn({
         label: "Client Name",
-        dataSelectorKey: "clientFullName",
+        dataSelectorKey: "fullName",
         columnCellMDP: new FCellBtnMDP({
           onClick: (item) => {},
           color: "purple",
@@ -42,17 +38,32 @@ export default class FPPCLientListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "mobile",
         columnCellMDP: new FCellPhoneMDP(),
       })
+      .addColumn({
+        label: "Created On",
+        dataSelectorKey: "createdOn",
+        columnCellMDP: new FCellDateTimeMDP(),
+      })
       .addStatusColumn({
         label: "Referred By Partner",
-        dataSelectorKey: "",
+        dataSelectorKey: "partner",
       })
       .addStatusColumn({
         label: "Status",
-        dataSelectorKey: "status.name",
+        dataSelectorKey: "clientFileStatus.name",
       })
       .addColumn({
         label: "Assigned Sales Rep",
         dataSelectorKey: "assignedSalesRep",
+      })
+      .addAction({
+        label: "Assign",
+        onClick: (item) => this.handleAssignClick(item),
+        type: ActionType.OTHERS,
       });
+  }
+  handleAssignClick(item: any) {
+    return new Promise((resolve) => {
+      this.parent.handleAssignClick(item);
+    });
   }
 }

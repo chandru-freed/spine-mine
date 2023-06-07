@@ -290,39 +290,9 @@ export default class Home extends Vue {
   @Store.Getter.Ticket.TicketSummary.myTicketDashboardSummary
   myTicketDashboardSummary: Data.Ticket.MyTicketDashboardSummary;
 
-  myDashboardSummary: Data.Spine.GetMyDashboardSummary =
-    new Data.Spine.GetMyDashboardSummary();
 
   totalNumberOfCreditors: number = 0;
-  get items() {
-    return [
-      {
-        title: "My Client",
-        heading: "Client File",
-        count: this.myDashboardSummary.myClientFileCount,
-        btnName: "My Client file",
-        routerName: "Root.MyClientFiles",
-      },
-      {
-        title: "My Task",
-        heading: "Assign Task",
-        count: this.myDashboardSummary.taskAssignedCount,
-        subHeading: "Completed Task",
-        subCount: this.myDashboardSummary.taskCompletedToday,
-        btnName: "My Task",
-        routerName: "Root.TaskList.TaskAssignedToMe",
-      },
-      {
-        title: "My Ticket",
-        heading: "Active Ticket",
-        count: this.myDashboardSummary.ticketActiveCount,
-        subHeading: "Completed Ticket",
-        subCount: this.myDashboardSummary.ticketCompletedToday,
-        btnName: "My Ticket",
-        routerName: "Root.MyTicket.ActiveTicketList",
-      },
-    ];
-  }
+  
 
   get dashboardItemList(): any[] {
     return [
@@ -466,14 +436,9 @@ export default class Home extends Vue {
     ];
   }
   mounted() {
-    this.getMyDashboardSummary();
     this.getTotalNumberOfCreditors();
   }
-  getMyDashboardSummary() {
-    Action.Spine.GetMyDashboardSummary.execute((output) => {
-      this.myDashboardSummary = output;
-    });
-  }
+
 
   gotoRouter(routerName: string, clientFileStatus?: string) {
     this.$router.push({

@@ -44,6 +44,14 @@ export default class DCPAgreementDetailsFFormMDP extends FFormMDP {
           boundaryClass: "col-3",
           mandatory: true,
         })
+      ).addField(
+        new FTextFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "existingCashBalance",
+          label: "Pre-Consolidation Cash Balance",
+          boundaryClass: "col-3",
+          mandatory: true,
+        })
       )
       .addField(
         new FTextFieldMDP({
@@ -79,6 +87,27 @@ export default class DCPAgreementDetailsFFormMDP extends FFormMDP {
           label: "Rate of interest",
           boundaryClass: "col-3",
           mandatory: true,
+        })
+      ).addField(
+        new FSelectDateFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "loanApprovedOn",
+          label: "Loan Approved On",
+          boundaryClass: "col-3",
+          mandatory: true,
+          futureDaysDisabled: true,
+          readonly: true
+        })
+      )
+      .addField(
+        new FSelectDateFieldMDP({
+          parentMDP: this.childMDP,
+          dataSelectorKey: "emiStartDate",
+          label: "Emi Start Date",
+          boundaryClass: "col-3",
+          mandatory: true,
+          pastDaysDisabled: true,
+          readonly: true
         })
       );
 

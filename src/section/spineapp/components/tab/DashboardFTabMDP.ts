@@ -29,6 +29,10 @@ export default class DashboardFTabMDP extends FTabMDP {
       tabName: "Pending Activation Partners",
       routerName: "Root.Dashboard.RequestedPartnerList",
     })
+    .addTab({
+      tabName: "FPP Client List",
+      routerName: "Root.Dashboard.FPPClientList",
+    })
     
   }
 

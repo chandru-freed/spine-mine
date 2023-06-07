@@ -131,6 +131,11 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Dashboard.RequestedPartnerList",
         },
+               {
+          actionName: "FPP Client List",
+          icon: "mdi-chevron-right",
+          routerName: "Root.Dashboard.FPPClientList",
+        },
         
       ],
     },

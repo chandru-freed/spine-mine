@@ -23,7 +23,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         parentMDP: this.childMDP,
         dataSelectorKey: "dcpExcel",
         label: "Dcp Excel",
-        boundaryClass: "col-4",
+        boundaryClass: "col-3",
         mandatory: true,
       })
     )
@@ -32,7 +32,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "loanNumber",
           label: "Loan Number",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
         })
       )
@@ -42,7 +42,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           dataSelectorKey: "tenure",
           label: "Tenure",
           mandatory: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           options: this.parent.tenureList,
         })
       )
@@ -52,7 +52,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           dataSelectorKey: "roi",
           label: "ROI",
           mandatory: true,
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           options: this.parent.roiList,
         })
       )
@@ -61,7 +61,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "newMontlhyEmi",
           label: "New Montlhy Emi",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
         })
       )
@@ -70,7 +70,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "loanApprovedOn",
           label: "Loan Approved On",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
           futureDaysDisabled: true,
         })
@@ -80,7 +80,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "emiStartDate",
           label: "Emi Start Date",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
           pastDaysDisabled: true,
         })
@@ -90,7 +90,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
           parentMDP: this.childMDP,
           dataSelectorKey: "existingCashBalance",
           label: "Pre-Consolidation Cash Balance",
-          boundaryClass: "col-4",
+          boundaryClass: "col-3",
           mandatory: true,
         })
       )

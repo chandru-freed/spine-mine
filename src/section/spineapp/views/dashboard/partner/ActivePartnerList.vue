@@ -1,7 +1,8 @@
 <template>
   <div class="ActivePartnerList">
     <task-tab></task-tab>
-    <v-card class="pa-0 ma-0" color="transparent">
+    <!-- <v-card class="pa-0 ma-0" color="transparent">
+    </v-card> -->
     <component
       v-if="!!activePartnerListDateSearchFormMetaData"
       :ref="activePartnerListDateSearchFormMetaData.myRefName"
@@ -43,7 +44,6 @@
       :value="selectModel(activePartnerList, undefined)"
       v-bind="activePartnerListFDataTableMetaData.props"
     ></component>
-    </v-card>
   </div>
 </template>
 

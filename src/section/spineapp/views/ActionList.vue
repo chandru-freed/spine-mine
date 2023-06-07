@@ -106,7 +106,7 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Report.SalesReport.DailySalesReport",
         },
-         {
+        {
           actionName: "Call Back Request",
           icon: "mdi-chevron-right",
           routerName: "Root.Dashboard.CallBackDashboard",
@@ -121,22 +121,21 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Dashboard.DRPDashboard",
         },
+        // {
+        //   actionName: "Active Partners",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.Dashboard.ActivePartnerList",
+        // },
+        // {
+        //   actionName: "Requested Partners",
+        //   icon: "mdi-chevron-right",
+        //   routerName: "Root.Dashboard.RequestedPartnerList",
+        // },
         {
-          actionName: "Active Partners",
-          icon: "mdi-chevron-right",
-          routerName: "Root.Dashboard.ActivePartnerList",
-        },
-        {
-          actionName: "Requested Partners",
-          icon: "mdi-chevron-right",
-          routerName: "Root.Dashboard.RequestedPartnerList",
-        },
-               {
-          actionName: "FPP Client List",
+          actionName: "FPP Client File List",
           icon: "mdi-chevron-right",
           routerName: "Root.Dashboard.FPPClientList",
         },
-        
       ],
     },
     {
@@ -162,7 +161,7 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.Payment.DaywisePayment",
         },
-           {
+        {
           actionName: "Pending Payment List",
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.Payment.PendingPaymentList",
@@ -202,8 +201,7 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRAmendments",
         },
-        
-        
+
         // {
         //   actionName: "Payment Operation",
         //   icon: "mdi-chevron-right",
@@ -234,7 +232,6 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Admin.Gompa.UserList",
         },
-        
       ],
     },
 
@@ -252,13 +249,9 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Settlement.FiCreditorSettledList",
         },
-
-        
-
-        
       ],
     },
-     {
+    {
       groupName: "Master",
       actionList: [
         {
@@ -266,8 +259,6 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Admin.Master.AddCreditorToMaster",
         },
-
-        
       ],
     },
     {
@@ -278,8 +269,6 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Admin.Master.SpineDumpLink",
         },
-
-        
       ],
     },
     {
@@ -290,8 +279,6 @@ export default class ActionList extends Vue {
           icon: "mdi-chevron-right",
           routerName: "Root.Admin.Mis.SpaDashboard",
         },
-
-        
       ],
     },
     // {
@@ -302,11 +289,9 @@ export default class ActionList extends Vue {
     //       icon: "mdi-chevron-right",
     //       routerName: "Root.CreditorModule.Agency.AgentList",
     //     },
-        
-        
+
     //   ],
     // },
-    
   ];
 
   get getActionList() {

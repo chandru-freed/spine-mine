@@ -30,7 +30,7 @@ export default class DashboardFTabMDP extends FTabMDP {
       routerName: "Root.Dashboard.RequestedPartnerList",
     })
     .addTab({
-      tabName: "FPP Client List",
+      tabName: "FPP Client File List",
       routerName: "Root.Dashboard.FPPClientList",
     })
     

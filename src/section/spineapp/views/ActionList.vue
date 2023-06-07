@@ -168,12 +168,12 @@ export default class ActionList extends Vue {
       groupName: "Operations",
       actionList: [
         {
-          actionName: "Active Tasks",
+          actionName: "Search Tasks",
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRActiveTaskList",
         },
         {
-          actionName: "Active Tickets",
+          actionName: "Search Tickets",
           icon: "mdi-chevron-right",
           routerName: "Root.Operation.OPRActiveTicketList",
         },

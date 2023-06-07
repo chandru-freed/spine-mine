@@ -24,7 +24,7 @@ export default class SalesRepSalesListFDataTableMDP extends FExpansionFDataTable
             dataSelectorKey: "msfAmount"
         }).addColumn({
             label: "EMandate",
-            dataSelectorKey: "isEMandateDone",
+            dataSelectorKey: "isEMandateActive",
             columnCellMDP: new FCellBooleanMDP({
                 color:"green"
             }),
@@ -35,14 +35,17 @@ export default class SalesRepSalesListFDataTableMDP extends FExpansionFDataTable
             columnCellMDP: new FCellBooleanMDP({
             }),
             align:"right"
-        }).addColumn({
-            label: "Compliance",
-            dataSelectorKey: "isCCDone",
-            columnCellMDP: new FCellBooleanMDP({
-            }),
-            width:"7%",
-            align:"right"
-        }).addBlankColumn({
+        })
+        // .addColumn({
+        //     label: "Compliance",
+        //     dataSelectorKey: "isCCDone",
+        //     columnCellMDP: new FCellBooleanMDP({
+        //     }),
+        //     width:"7%",
+        //     align:"right"
+        // })
+        
+        .addBlankColumn({
             width:"3%"
         })
         

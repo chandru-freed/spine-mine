@@ -10,7 +10,7 @@ export default class CallBackDashboardFFormMDP extends FFormMDP {
         this.parent = props.parent;
 
         this.addField(new FTextareaMDP({
-            label:"asas",
+            label:"Note",
             dataSelectorKey:"noteMessage",
             parentMDP: this.childMDP,
             rows:"6"

@@ -47,13 +47,14 @@ export default class DailySalesReportFDataTableMDP extends FDataTableMDP {
                 label: "Enach",
                 columnCellMDP: new FCellBooleanListMDP({}),
                 align: "right"
-            }).addColumn({
-                dataSelectorKey: "ccDoneList",
-                label: "Compliance",
-                columnCellMDP: new FCellBooleanListMDP({}),
-                width: "15%",
-                align: "right"
             })
+            // .addColumn({
+            //     dataSelectorKey: "ccDoneList",
+            //     label: "Compliance",
+            //     columnCellMDP: new FCellBooleanListMDP({}),
+            //     width: "15%",
+            //     align: "right"
+            // })
             // .addInfo({
             //     label: "Total Sales",
             //     value: "2",

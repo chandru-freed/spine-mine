@@ -1,17 +1,27 @@
 <template>
   <div class="CallBackDashboard">
-    <v-card>
+      <component
+        v-if="!!callBackFilterFFormMetaData && !isAdmin()"
+        :ref="callBackFilterFFormMetaData.myRefName"
+        :is="callBackFilterFFormMetaData.componentName"
+        :value="selectModel(searchCallBackRequestInput, undefined)"
+        @input="(newValue) => updateModel(searchCallBackRequestInput, newValue, undefined)"
+        v-bind="callBackFilterFFormMetaData.props"
+      ></component>
+    <v-card v-if="showAddNoteForm">
       <v-card-title>Add note</v-card-title>
-    <component
-      v-if="showAddNoteForm"
-      :ref="callBackDashboardFFormMetaData.myRefName"
-      :is="callBackDashboardFFormMetaData.componentName"
-      :value="selectModel(addNoteInput, undefined)"
-      @input="(newValue) => updateModel(addNoteInput, newValue, undefined)"
-      v-bind="callBackDashboardFFormMetaData.props"
-    ></component>
+      <component
+        :ref="callBackDashboardFFormMetaData.myRefName"
+        :is="callBackDashboardFFormMetaData.componentName"
+        :value="selectModel(addNoteInput, undefined)"
+        @input="(newValue) => updateModel(addNoteInput, newValue, undefined)"
+        v-bind="callBackDashboardFFormMetaData.props"
+      ></component>
     </v-card>
-   
+
+    
+    
+
     <component
       v-if="!!callBackDashboardFDataTableMetaData"
       :ref="callBackDashboardFDataTableMetaData.myRefName"
@@ -19,7 +29,6 @@
       :value="selectModel(callBackDashboardList, undefined)"
       v-bind="callBackDashboardFDataTableMetaData.props"
     ></component>
-    
   </div>
 </template>
 
@@ -41,9 +50,8 @@ import FForm from "@/components/generic/form/FForm.vue";
 import DashboardTab from "../../components/tab/DashboardTab.vue";
 import CallBackDashboardFDataTableMDP from "./CallBackDashboardFDataTableMDP";
 import FSnackbar from "@/fsnackbar";
-import CallBackDashboardFFormMDP from './CallBackDashboardFFormMDP';
-
-
+import CallBackDashboardFFormMDP from "./CallBackDashboardFFormMDP";
+import CallBackFilterFFormMDP from "./CallBackFilterFFormMDP";
 @Component({
   components: {
     "task-tab": DashboardTab,
@@ -53,14 +61,18 @@ import CallBackDashboardFFormMDP from './CallBackDashboardFFormMDP';
   },
 })
 export default class CallBackDashboard extends ModelVue {
-  
   @Store.Getter.Login.LoginDetails.loggedInUser
   loggedInUser: Data.Login.LoginDetails;
 
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
+
   callBackDashboardList: Data.Spine.CallBackashboardDataOutput[] = [];
   addNoteInput: Data.FiNote.AddNoteInput = new Data.FiNote.AddNoteInput();
-  assignSalesRepInput: Data.ClientFile.AssignSalesRepInput = new Data.ClientFile.AssignSalesRepInput();
+  assignSalesRepInput: Data.ClientFile.AssignSalesRepInput =
+    new Data.ClientFile.AssignSalesRepInput();
   showAddNoteForm: boolean = false;
+  searchCallBackRequestInput: Data.Spine.SearchCallBackRequestInput = new Data.Spine.SearchCallBackRequestInput();
 
   get callBackDashboardFDataTableMetaData() {
     return new CallBackDashboardFDataTableMDP({
@@ -70,34 +82,31 @@ export default class CallBackDashboard extends ModelVue {
 
   get callBackDashboardFFormMetaData() {
     return new CallBackDashboardFFormMDP({
-      parent: this
+      parent: this,
     }).getMetaData();
   }
 
+  get callBackFilterFFormMetaData() {
+    return new CallBackFilterFFormMDP({
+      parent: this,
+    }).getMetaData();
+  }
 
   mounted() {
     this.getCallBackDashboardData();
   }
 
   getCallBackDashboardData() {
-    Action.Spine.GetCallBackRequestList.execute(
-      (output) => {
-        this.callBackDashboardList = output;
-      }
-    );
-  }
-
-  gotoFile(clientFileNumber: string) {
-    Helper.Router.gotoFile({
-      router: this.$router,
-      clientFileNumber: clientFileNumber,
+    if(this.isAdmin()) {
+    Action.Spine.GetCallBackRequestList.execute((output) => {
+      this.callBackDashboardList = output;
     });
+    }
   }
 
-  gotoClient(clientId: string) {
-    this.$router.push({
-      name: "Root.Client.ClientDetails",
-      params: { clientId: clientId },
+  searchCallBackRequests() {
+    Action.Spine.SearchCallBackRequest.execute(this.searchCallBackRequestInput, output => {
+      this.callBackDashboardList = output;
     });
   }
 
@@ -105,30 +114,39 @@ export default class CallBackDashboard extends ModelVue {
     this.showAddNoteForm = true;
     this.addNoteInput.clientFileId = item?.clientFileId;
     this.assignSalesRepInput.clientFileId = item?.clientFileId;
-    this.assignSalesRepInput.assignedSalesRep = !!item.assignedSalesRep?item.assignedSalesRep: this.loggedInUser.userName;
+    this.assignSalesRepInput.assignedSalesRep = !!item.assignedSalesRep
+      ? item.assignedSalesRep
+      : this.loggedInUser.userName;
   }
 
   clearForm() {
     this.addNoteInput = new Data.FiNote.AddNoteInput();
     this.showAddNoteForm = false;
-     (
+    (
       this.$refs[this.callBackDashboardFDataTableMetaData.myRefName] as any
     ).clearSelectedItems();
-    
   }
+
+  searchRequestCallback() {}
 
   addNoteAndAssign(item: any) {
-    console.log(item)
-    this.addNoteInput.noteMessage = `CallBack Response: ${this.addNoteInput.noteMessage}`
-    Action.FiNote.AddNote.execute(this.addNoteInput, output => {
-        Action.Spine.AssignSalesRepToSelfEnrolFile.execute(this.assignSalesRepInput,output => {
+    console.log(item);
+    this.addNoteInput.noteMessage = `CallBack Response: ${this.addNoteInput.noteMessage}`;
+    Action.FiNote.AddNote.execute(this.addNoteInput, (output) => {
+      Action.Spine.AssignSalesRepToSelfEnrolFile.execute(
+        this.assignSalesRepInput,
+        (output) => {
           this.clearForm();
           this.getCallBackDashboardData();
-        })
-    })
+        }
+      );
+    });
   }
 
-  
+
+  isAdmin(): boolean {
+    return this.roleList?.includes("Admin");
+  }
 }
 </script>
 

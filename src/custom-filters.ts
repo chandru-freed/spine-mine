@@ -175,7 +175,7 @@ export default class CustomFilters {
 
   private static maskPhone() {
     Vue.filter("phone", (value: string) => {
-      return this.formatDefault(value, "(+91) ##### #####");
+      return this.formatDefault(value, "##### #####");
     });
   }
 

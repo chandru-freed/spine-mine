@@ -17,9 +17,11 @@
             </div>
 
             <div
-              class="font-weight-bold purple--text text-body-1 d-flex align-center mx-3"
+              class="font-weight-bold text-body-1 d-flex align-center mx-3"
             >
+            <a class="purple--text" @click="gotoClient()">
               {{ clientFileBasicInfo.clientBasicInfo.fullName }}
+            </a>
               <f-copy
                 boundaryClass="mx-1"
                 v-model="clientFileBasicInfo.fullName"

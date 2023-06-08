@@ -281,7 +281,7 @@ export default class CFActionList extends Vue {
             command: this.resume,
           },
           {
-            actionName: "Switch Program To DRP",
+            actionName: "Switch Program To DCP",
             icon: "mdi-chevron-right",
             command: this.switchProgram,
             condition: this.isAdmin(),
@@ -566,16 +566,15 @@ export default class CFActionList extends Vue {
 
   switchProgram() {
     FSnackbar.confirm({
-      message: "Are you sure want to switch the program to DRP?",
+      message: "Are you sure want to switch the program to DCP?",
       onConfirm: () => {
         const switchInput: Data.ClientFile.SwitchProgramInput =
           new Data.ClientFile.SwitchProgramInput();
         switchInput.clientFileId = this.clientFileId;
-        switchInput.programCode = "DRP";
-        Action.ClientFile.SwitchProgram.execute(switchInput, (ootput) => {
+        Action.ClientFile.SwitchToDCP.execute(switchInput, (output) => {
           setTimeout(() => {
             FSnackbar.success("Succesfully switched the program");
-            this.gotoCFActiveTaskList();
+            this.openClientFile(output.newClientFileNumber);
           }, 400);
         });
       },
@@ -666,6 +665,10 @@ export default class CFActionList extends Vue {
 
   recordMSFPayment() {}
 
+  openClientFile(fileNumber: string) {
+    Helper.Router.gotoFile({router: this.$router,clientFileNumber:fileNumber});
+  }
+
   get filteredActionGroupList() {
     const filteredValList = this.actionGroupList
       .filter((ag) => ag.condition == undefined || ag.condition == true)
@@ -720,17 +723,14 @@ export default class CFActionList extends Vue {
   }
 
   isClientFileCancelled() {
-    console.log(this.clientFileBasicInfo.clientFileStatus)
     return this.clientFileBasicInfo.clientFileStatus.id === Data.ClientFile.CLIENT_FILE_STATUS.CANCELLED.id;
   }
 
   isClientFilePendingCancelled() {
-    console.log(this.clientFileBasicInfo.clientFileStatus)
     return this.clientFileBasicInfo.clientFileStatus.id === Data.ClientFile.CLIENT_FILE_STATUS.PENDING_CANCELLED.id;
   }
 
   isClientFileLead() {
-    console.log(this.clientFileBasicInfo.clientFileStatus)
     return this.clientFileBasicInfo.clientFileStatus.id === Data.ClientFile.CLIENT_FILE_STATUS.LEAD.id;
   }
 

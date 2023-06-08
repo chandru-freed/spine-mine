@@ -142,7 +142,7 @@ export default class PaymentDetailsFFormMDP extends FFormMDP {
                     parentMDP: this.childMDP,
                     dataSelectorKey: "selfEnrolPaymentLink",
                     label: "Self Enrol Payment Link",
-                    boundaryClass: "col-3",
+                    boundaryClass: "col-6",
                     condition: !!this.parent.selectedPaymentSummaryToView.selfEnrolPaymentLink
                 })
             )

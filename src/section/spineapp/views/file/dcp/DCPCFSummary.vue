@@ -1,646 +1,78 @@
 <template>
-  <div class="row">
-    <!-- Client File Number and Client -->
-    <div class="col-4">
-      <v-card outlined color="primary">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <!-- <v-list-item-icon class="mr-2">
-              <v-icon color="secondary"> mdi-file-account </v-icon>
-            </v-list-item-icon> -->
-            <v-list-item-content>
-              <v-list-item-title
-                class="font-weight-bold secondary--text text-body-1 d-flex"
+  <div class="row summaryTab">
+    <!-- <v-toolbar flat> -->
+    <!-- {{fileSummary?.msfSummary}} -->
+    <div class="col">
+      <v-sheet rounded outlined color="primary" class="mb-3">
+        <v-card flat class="col py-0">
+          <div class="d-flex align-center">
+            <div
+              class="font-weight-bold secondary--text d-flex align-center mx-3"
+            >
+              {{ clientFileBasicInfo.clientFileNumber }}
+              <f-copy
+                boundaryClass="mx-1"
+                v-model="clientFileBasicInfo.clientFileNumber"
+              ></f-copy>
+            </div>
+
+            <div class="font-weight-bold text-body-1 d-flex align-center mx-3">
+              <a class="purple--text" @click="gotoClient()">
+                {{ clientFileBasicInfo.clientBasicInfo.fullName }}
+              </a>
+              <f-copy
+                boundaryClass="mx-1"
+                v-model="clientFileBasicInfo.fullName"
               >
-              <v-icon class="mr-2" color="secondary"> mdi-file-account </v-icon>
-                <f-hover-copy v-model="clientFileBasicInfo.clientFileNumber">
-                  {{ clientFileBasicInfo.clientFileNumber }}
-                </f-hover-copy>
-              </v-list-item-title>
-            </v-list-item-content>
+              </f-copy>
+            </div>
 
-            <v-list-item-action class="justify-center align-center">
-              <!-- <v-list-item-action-text >{{fileSummary.clientFileStatus}} </v-list-item-action-text> -->
-              <v-card flat class="d-flex my-1" style="justify-content: space-between">
-                <!-- <v-chip x-small class="mx-2" v-if="!clientFileBasicInfo.isFirstMSFPaid" color="warning" outlined>FMSF Not Paid</v-chip>
-              <v-chip x-small class="mx-2" v-if="clientFileBasicInfo.isFirstMSFPaid" color="green" outlined>FMSF Paid</v-chip> -->
-                    
-                    
-                    <v-chip class="mr-2" v-if="fileSummary.ppCode" x-small color="secondary" outlined >{{fileSummary.ppCode}}</v-chip>
-                    
-                    <v-chip class="ml-2" v-if="clientFileBasicInfo.programCode" x-small  outlined>{{
-                      clientFileBasicInfo.programCode
-                    }}</v-chip>
-                    
-                    </v-card>
-                    <v-chip x-small >{{
-                      fileSummary.clientFileStatus.name
-                    }}</v-chip>
-                  
-                </v-list-item-action>
-              </v-list-item>
-            
-            
-          <v-divider></v-divider>
-              
-          <v-list-item dense>
-            <v-list-item-icon class="mr-2">
-              <v-icon color="deep-purple"> mdi-account </v-icon>
-            </v-list-item-icon>
+            <div class="text-body-1 d-flex align-center mx-3">
+              {{ clientFileBasicInfo?.clientBasicInfo?.mobile | phone }}
+              <f-copy
+                boundaryClass="mx-1"
+                v-model="clientFileBasicInfo.clientBasicInfo.mobile"
+              ></f-copy>
+            </div>
 
-            <v-list-item-content>
-              <f-hover-copy
-                v-model="clientFileBasicInfo.clientBasicInfo.fullName"
-              >
-                <a @click="gotoProfile">
-                  <v-list-item-title
-                    class="deep-purple--text text-body-1 overline"
-                    >{{
-                      clientFileBasicInfo.clientBasicInfo.fullName
-                    }}</v-list-item-title
-                  >
-                </a>
-              </f-hover-copy>
-              <!-- <v-list-item-action-text >active</v-list-item-action-text> -->
-            </v-list-item-content>
-
-            <!-- <v-list-item-icon v-if="hover" > -->
-            <!-- </v-list-item-icon> -->
-
-            <v-list-item-action>
-              <v-chip
-                @click="gotoEmandateList"
-                small
-                v-if="fileSummary.eMandateActive"
-                class="mx-2"
-                color="green lighten-3"
-                >EMandate Active</v-chip
-              >
-
-              <v-chip
-                @click="gotoEmandateList"
-                small
-                v-else
-                class="mx-2"
-                color="secondary lighten-3"
-                >EMandate Pending</v-chip
-              >
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-icon class="mr-2">
+            <v-spacer />
+            <v-btn-toggle dense group>
               <v-btn
-                icon
-                color="secondary"
-                outlined
+                @click="goto(quickNav.routerName)"
                 small
-                dense
-                @click="openNavShow(clientFileBasicInfo.clientBasicInfo.mobile)"
+                v-for="quickNav in quickNavList"
+                :key="quickNav.name"
+                class="pa-0 mx-0"
               >
-                <v-icon small>mdi-phone</v-icon>
+              <f-tooltip :tooltipText="quickNav.name" :icon="quickNav.icon">{{ quickNav.icon }}</f-tooltip>
+                <!-- <v-icon color="secondary" small >{{ quickNav.icon }}</v-icon> -->
               </v-btn>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-subtitle
-                class="text-body-1"
-                
-              >
-                <f-hover-copy
-                  v-model="clientFileBasicInfo.clientBasicInfo.mobile"
-                >
-                  {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
-                </f-hover-copy>
-              </v-list-item-subtitle>
-            </v-list-item-content>
+            </v-btn-toggle>
 
-            <v-list-item-action>
-              <f-hover-copy
-                v-model="clientFileBasicInfo.clientBasicInfo.emailId"
-              >
-                <span class="caption mr-2"
-                  >{{ clientFileBasicInfo.clientBasicInfo.emailId }}
-                </span>
-              </f-hover-copy>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
-      </v-card>
+            <v-spacer />
+
+            <v-chip
+              class="mx-2"
+              v-if="clientFileBasicInfo.programCode"
+              small
+              label
+              outlined
+              >{{ clientFileBasicInfo.programCode }}</v-chip
+            >
+
+            <v-chip class="mx-2" small label>{{
+              fileSummary.clientFileStatus.name
+            }}</v-chip>
+            <!-- <v-btn icon @click="expandHeader = !expandHeader">
+              <v-icon size="20" color="secondary">
+                mdi-arrow-down-drop-circle
+              </v-icon>
+            </v-btn> -->
+          </div>
+        </v-card>
+      </v-sheet>
     </div>
-    <!-- Client File Number and Client -->
-    <!-- MSF -->
-    <!-- <div class="col" v-if="fileSummary">
-      <v-sheet color="secondary" outlined rounded v-if="fileSummary.msfSummary">
-        <v-card flat min-height="75px">
-          <v-list-item class="pa-1" dense>
-            <v-list-item-content class="pa-0 px-1">
-              <div class="text-caption mb-0 secondary--text">MSF</div>
-              <v-list-item-title
-                class="text-h6 mb-1 font-weight-semibold secondary--text"
-              >
-                {{ fileSummary.msfSummary.msfAmount | toINR }}
-                <span class="text-caption pl-1 pt-2">/ mth</span>
-              </v-list-item-title>
-              <v-list-item-subtitle
-                class="caption d-flex justify-space-between "
-                >
-                <div class=" font-weight-bold">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount | toINR}}</div>
-                <div >{{ fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id}}</div>    
-              </v-list-item-subtitle> 
-              <v-list-item-subtitle
-                
-                class="caption d-flex justify-space-between "
-                >
-                <template v-if="fileSummary.msfSummary.pastMSFScheduledEntryList[0]">
-                <div class=" font-weight-bold" >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].draftDate | monthday}} </div>
-                <div class="font-weight-bold secondary--text text-right">{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].totalAmount | toINR}}</div>
-                <div >{{ fileSummary.msfSummary.pastMSFScheduledEntryList[0].status.id}}</div>  
-                </template>  
-              </v-list-item-subtitle> 
-            </v-list-item-content>
-          </v-list-item>
-        </v-card>
-      </v-sheet>
-    </div> -->
-    <!-- <div class="col" v-if="!fileSummary.msfSummary">
-      <v-sheet outlined color="secondary" rounded>
-        <v-card
-          outlined
-          elevation="0"
-          @click="gotoMSFPaymentPlan"
-          min-height="123"
-        >
-          <v-list class="py-0">
-            <v-list-item dense>
-              <v-list-item-content>
-                <v-list-item-title class="secondary--text text-subtitle-1"
-                  >MSF
-                </v-list-item-title>
-              </v-list-item-content>
-
-              <v-list-item-action class="py-0 my-0">
-                <div
-                  class="d-flex secondary--text text-h6 font-weight-semibold"
-                >
-                  -
-                </div>
-              </v-list-item-action>
-            </v-list-item>
-            <v-divider />
-            <v-list-item dense>
-              <v-list-item-subtitle
-                class="caption d-flex justify-space-between align-center"
-              >
-              </v-list-item-subtitle>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-sheet>
-    </div> -->
-
-    <!-- <div class="col" v-if="fileSummary.msfSummary">
-      <v-card outlined color="secondary" @click="gotoMSFPaymentPlan">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <v-list-item-content>
-              <v-list-item-title class="secondary--text text-subtitle-1"
-                >MSF
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="py-0 my-0">
-              <div class="d-flex secondary--text text-h6 font-weight-semibold">
-                {{ fileSummary.msfSummary.msfAmount | toINR }}
-              </div>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div class="font-weight-bold">
-                {{
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate |
-                    monthday
-                }}
-              </div>
-              <f-cell-status
-                :outlined="true"
-                :value="
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id
-                "
-                :colorCodeData="msfScheduleStatusColorcode"
-              />
-              <div class="font-weight-bold secondary--text text-right">
-                {{
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount |
-                    toINR
-                }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <template
-                v-if="!!fileSummary.msfSummary.pastMSFScheduledEntryList[0]"
-              >
-                <div class="font-weight-bold">
-                  {{
-                    fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                      .statusUpdatedOn | monthday
-                  }}
-                </div>
-                <f-cell-status
-                  :outlined="true"
-                  :value="
-                    fileSummary?.msfSummary?.pastMSFScheduledEntryList[0].status
-                      .id
-                  "
-                  :colorCodeData="msfScheduleStatusColorcode"
-                />
-                <div class="font-weight-bold secondary--text text-right">
-                  {{
-                    fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                      .totalAmount | toINR
-                  }}
-                </div>
-              </template>
-              <template
-                v-if="!fileSummary.msfSummary.pastMSFScheduledEntryList.length"
-              >
-                <div>Not Paid</div>
-              </template>
-            </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div> -->
-    <!-- MSF -->
-    <!-- SPA -->
-    <!-- <div class="col" v-if="!fileSummary.spaSummary">
-      <v-sheet outlined color="secondary" rounded>
-        <v-card
-          outlined
-          elevation="0"
-          @click="gotoPaymentPlan"
-          min-height="123"
-        >
-          <v-list class="py-0">
-            <v-list-item dense>
-              <v-list-item-content>
-                <v-list-item-title class="secondary--text text-subtitle-1"
-                  >SPA
-                </v-list-item-title>
-              </v-list-item-content>
-
-              <v-list-item-action class="py-0 my-0">
-                <div
-                  class="d-flex secondary--text text-h6 font-weight-semibold"
-                >
-                  -
-                </div>
-              </v-list-item-action>
-            </v-list-item>
-            <v-divider />
-          </v-list>
-        </v-card>
-      </v-sheet>
-    </div> -->
-
-    <!-- <div class="col" v-if="fileSummary.spaSummary">
-      <v-card outlined color="secondary" @click="gotoPaymentPlan">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <v-list-item-content>
-              <v-list-item-title class="secondary--text text-subtitle-1"
-                >SPA
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="py-0 my-0">
-              <div class="d-flex secondary--text text-h6 font-weight-semibold">
-                {{ fileSummary.spaSummary.spaAmount | toINR }}
-              </div>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div class="font-weight-bold">
-                {{
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.draftDate |
-                    monthday
-                }}
-              </div>
-              <f-cell-status
-                :outlined="true"
-                :value="
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id
-                "
-                :colorCodeData="msfScheduleStatusColorcode"
-              />
-              <div class="font-weight-bold secondary--text text-right">
-                {{
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount |
-                    toINR
-                }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <template
-                v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]"
-              >
-                <div class="font-weight-bold">
-                  {{
-                    fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                      .statusUpdatedOn | monthday
-                  }}
-                </div>
-                <f-cell-status
-                  :outlined="true"
-                  :value="
-                    fileSummary.spaSummary.pastSPAScheduledEntryList[0].status
-                      .id
-                  "
-                  :colorCodeData="msfScheduleStatusColorcode"
-                />
-                <div class="font-weight-bold secondary--text text-right">
-                  {{
-                    fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                      .totalAmount | toINR
-                  }}
-                </div>
-              </template>
-              <template
-                v-if="!fileSummary.spaSummary.pastSPAScheduledEntryList.length"
-              >
-                <div>Not Paid</div>
-              </template>
-            </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div> -->
-    <!-- SPA -->
-    <!-- CREDITOR -->
-    <!-- <div class="col">
-      <v-card outlined color="primary" @click="gotoCreditor">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <v-list-item-content>
-              <v-list-item-title class="primary--text text-subtitle-1"
-                >Creditors ({{ fileSummary.creditorsCount }})
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="py-0 my-0">
-              <div class="d-flex primary--text text-subtitle-1">
-                Settled({{ fileSummary.settledCreditorsCount }})
-              </div>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div>SPA Saving</div>
-              <div
-                class="font-weight-bold primary--text text-subtitle-1 text-right"
-              >
-                {{ fileSummary.totalSaving | toINR }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div>Total Outstanding</div>
-              <div
-                class="font-weight-bold primary--text text-subtitle-1 text-right"
-              >
-                {{ fileSummary.totalOutstanding | toINR }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div> -->
-    <!-- <div class="col" v-if="fileSummary">
-      <v-sheet color="primary" outlined rounded>
-        <v-card flat min-height="125" @click="gotoCreditor">
-          <v-list class="py-0">
-            <v-list-item-content class="py-1 px-2" dense>
-              <div class="d-flex justify-space-between">
-                <div class="text-md  mb-0 primary--text">
-                  Settled
-                  {{ fileSummary.settledCreditorsCount }} /
-                  {{ fileSummary.creditorsCount }} Creditors 
-                </div>
-              </div>
-            </v-list-item-content>
-            <v-divider></v-divider>
-            <v-list-item class="py-0 px-2">
-              <v-list-item-content class="pa-0">
-                <div class="d-flex justify-space-between align-center">
-                  <div class="text-caption mb-0 primary--text">
-                    Total Savings
-                  </div>
-                  <div
-                    class="text-h6 mb-1 font-weight-semibold primary--text"
-                  >
-                    {{ fileSummary.totalSaving | toINR }}
-                    <span class="text-caption pl-1 pt-2"></span>
-                  </div>
-                </div>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider></v-divider>
-              <v-list-item class="py-0 px-2">
-              <v-list-item-content class="pa-0">
-                <div class="d-flex justify-space-between align-center">
-                  <div class="text-caption mb-0 primary--text">
-                    Total Outstanding
-                  </div>
-                  <div
-                    class="text-h6 mb-1 font-weight-semibold primary--text"
-                  >
-                    {{ fileSummary.totalOutstanding | toINR }}
-                    <span class="text-caption pl-1 pt-2"></span>
-                  </div>
-                </div>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-sheet>
-    </div> -->
-    <!-- CREDITOR -->
-    <!-- <div class="col" v-if="fileSummary">
-      <div class="row">
-        <div class="col">
-          <v-sheet color="secondary" outlined rounded>
-            <v-card flat min-height="75px">
-              <v-list-item class="pa-1" dense>
-                <v-list-item-content class="pa-0 px-1">
-                  <div class="text-caption mb-0 secondary--text">MSF</div>
-                  <v-list-item-title
-                    class="text-h6 mb-1 font-weight-semibold secondary--text"
-                  >
-                    {{ fileSummary.msfAmount | toINR }}
-                    <span class="text-caption pl-1 pt-2">/ mth</span>
-                  </v-list-item-title>
-                  <v-list-item-subtitle
-                    v-if="fileSummary.msfDueDate"
-                    class="caption"
-                    >Due on
-                    {{ fileSummary.msfDueDate | date }}</v-list-item-subtitle
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </v-sheet>
-        </div>
-        <div class="col">
-          <v-sheet color="secondary" outlined rounded>
-            <v-card flat min-height="75px">
-              <v-list-item class="pa-1" dense>
-                <v-list-item-content class="pa-0 px-1">
-                  <div class="text-caption mb-0 secondary--text">
-                    Monthly Obligation
-                  </div>
-                  <v-list-item-title
-                    class="text-h6 mb-1 font-weight-semibold secondary--text"
-                  >
-                    {{ fileSummary.totalMonthlyObligation | toINR }}
-                    <span class="text-caption pl-1 pt-2">/ mth</span>
-                  </v-list-item-title>
-                  <v-list-item-subtitle
-                    class="caption"
-                    v-if="fileSummary.spaDueDate"
-                    >Due on
-                    {{ fileSummary.spaDueDate | date }}</v-list-item-subtitle
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </v-sheet>
-        </div>
-
-        <div class="col">
-          <v-sheet color="primary" outlined rounded>
-            <v-card flat min-height="75px">
-              <v-list-item class="pa-1" dense>
-                <v-list-item-content class="pa-0 px-1">
-                  <div class="text-caption mb-0 primary--text">
-                    Total Savings
-                  </div>
-                  <v-list-item-title
-                    class="text-h6 mb-1 font-weight-semibold primary--text"
-                  >
-                    {{ fileSummary.totalSaving | toINR }}
-                    <span class="text-caption pl-1 pt-2"></span>
-                  </v-list-item-title>
-                  <v-list-item-subtitle v-if="fileSummary.lastPaidDate"
-                    >Last paid
-                    {{ fileSummary.lastPaidDate | date }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </v-sheet>
-        </div>
-
-        <div class="col">
-          <v-sheet color="primary" outlined rounded>
-            <v-card flat min-height="75px">
-              <v-list-item class="pa-1" dense>
-                <v-list-item-content class="pa-0 px-1">
-                  <div class="text-caption mb-0 primary--text">
-                    Total Outstanding
-                  </div>
-                  <v-list-item-title
-                    class="text-h6 mb-1 font-weight-semibold primary--text"
-                  >
-                    {{ fileSummary.totalOutstanding | toINR }}
-                    <span class="text-caption pl-1 pt-2"></span>
-                  </v-list-item-title>
-                  <v-list-item-subtitle
-                    ><v-btn block x-small outlined
-                      >settled {{ fileSummary.settledCreditorsCount }} /
-                      {{ fileSummary.creditorsCount }} Creditors</v-btn
-                    ></v-list-item-subtitle
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </v-sheet>
-        </div>
-      </div>
-    </div> -->
   </div>
-
-  <!-- <div class="col">
-        <v-sheet color="primary" outlined rounded>
-          <v-card flat color="primary" :min-height="minHeight">
-            <v-list-item two-line class="pa-1">
-              <v-list-item-content class="pa-0 px-1">
-                <div class="text-caption mb-0 white--text">Total Savings</div>
-                <v-list-item-title
-                  class="text-h6 mb-1 font-weight-semibold secondary--text"
-                >
-                  {{ fileSummary.totalSaving | toINR }}
-                </v-list-item-title>
-                <v-list-item-subtitle class="white--text"
-                v-if="fileSummary.lastPaidDate"
-                  >Last paid
-                  {{
-                    fileSummary.lastPaidDate | date
-                  }}</v-list-item-subtitle
-                >
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-sheet>
-      </div> -->
-  <!-- <div class="col">
-        <v-sheet color="primary" outlined rounded>
-          <v-card flat >
-            <v-list-item two-line class="pa-1">
-              <v-list-item-content class="pa-0 px-1">
-                <div class="text-caption mb-0 primary--text">
-                  Total Outstanding
-                </div>
-                <v-list-item-title
-                  class="text-h6 mb-1 font-weight-semibold primary--text"
-                >
-                  {{ fileSummary.totalOutstanding | toINR }}
-                  <span class="text-subtitle-1 pl-1 pt-2" v-if="fileSummary.remainingTenure "
-                    >/ {{ fileSummary.remainingTenure }} mths</span
-                  >
-                </v-list-item-title>
-                <v-list-item-subtitle ><v-btn block x-small outlined
-                    >settled {{ fileSummary.settledCreditorsCount }} / {{ fileSummary.creditorsCount }}
-                    Creditors</v-btn
-                  ></v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-sheet>
-      </div> -->
 </template>
 
 <script lang="ts">
@@ -656,13 +88,17 @@ import AmeyoService from "@/components/generic/ameyo/AmeyoService";
 import FCellStatus from "@/components/generic/table/cell/FCellStatus.vue";
 import Helper from "../../../util/Helper";
 import FHoverCopy from "@/components/generic/FHoverCopy.vue";
+import FCopy from "@/components/generic/FCopyBtn.vue";
+import FTooltip from "@/components/generic/FTooltip.vue";
 @Component({
   components: {
     "f-btn": FBtn,
     "f-text-field": FTextField,
+    FTooltip,
     AboutView,
     FCellStatus,
     FHoverCopy,
+    FCopy,
   },
 })
 export default class DCPCFSummary extends Vue {
@@ -677,6 +113,32 @@ export default class DCPCFSummary extends Vue {
 
   @Store.Getter.ClientFile.ClientFileSummary.showAmeyoSideBar
   showAmeyoSideBar: boolean;
+
+  expandHeader: boolean = true;
+  get quickNavList() {
+    return [
+      {
+        name: "Credit Card",
+        icon: "mdi-credit-card",
+        routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCreditorInfo",
+      },
+      {
+        name: "Budget",
+        icon: "mdi-wallet",
+        routerName: "Root.DCPCFile.DCPCFInfo.DCPCFBudgetInfo",
+      },
+      {
+        name: "Account",
+        icon: "mdi-account",
+        routerName: "Root.DCPCFile.DCPCFInfo.DCPCFPersonalInfo",
+      },
+      {
+        name: "Document",
+        icon: "mdi-file-document",
+        routerName: "Root.DCPCFile.DCPCFInfo.DCPCFDocumentInfo",
+      },
+    ];
+  }
 
   minHeight = 80;
   showHide: boolean = false;
@@ -702,27 +164,37 @@ export default class DCPCFSummary extends Vue {
   }
 
   gotoCreditor() {
-    this.$router.push({ name: "Root.CFile.CFInfo.CFCreditorInfo" });
+    this.$router.push({ name: "Root.DCPCFile.DCPCFInfo.CFCreditorInfo" });
   }
 
   gotoProfile() {
-    this.$router.push({ name: "Root.CFile.CFInfo.CFPersonalInfo" });
+    this.$router.push({ name: "Root.DCPCFile.DCPCFInfo.CFPersonalInfo" });
   }
 
   gotoPaymentPlan() {
-    this.$router.push({ name: "Root.CFile.CFInfo.CFPaymentPlanInfo" });
+    this.$router.push({ name: "Root.DCPCFile.DCPCFInfo.CFPaymentPlanInfo" });
   }
 
   gotoMSFPaymentPlan() {
-    this.$router.push({ name: "Root.CFile.CFInfo.CFPaymentPlanMSFInfo" });
+    this.$router.push({ name: "Root.DCPCFile.DCPCFInfo.CFPaymentPlanMSFInfo" });
+  }
+
+  goto(routerName: string) {
+    this.$router.push({ name: routerName });
   }
 
   gotoPayment() {
     this.$router.push({ name: "Root.CFile.CFPayment.CFPaymentList" });
   }
 
-  gotoEmandateList() {
-    this.$router.push({ name: "Root.CFile.CFPayment.CFEMandateList" });
+
+
+  gotoClient() {
+    const clientId = this.clientFileBasicInfo.clientBasicInfo.clientId;
+    this.$router.push({
+      name: "Root.Client.ClientDetails",
+      params: { clientId: clientId },
+    });
   }
 
   copyToClipBoard(text: string) {
@@ -743,4 +215,14 @@ export default class DCPCFSummary extends Vue {
 }
 </script>
 
-<style></style>
+<style scoped>
+.v-expansion-panel::before {
+  box-shadow: none !important;
+}
+.v-expansion-panel--active > .v-expansion-panel-header {
+  min-height: 4px;
+}
+.summaryTab :deep(.v-expansion-panel-content__wrap) {
+  padding: 0px !important;
+}
+</style>

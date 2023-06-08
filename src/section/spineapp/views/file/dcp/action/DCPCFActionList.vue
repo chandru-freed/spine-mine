@@ -150,12 +150,12 @@ export default class DCPCFActionList extends Vue {
           {
             actionName: "Update Contact Info",
             icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFUpdateContactInfo",
+            routerName: "Root.DCPCFile.DCPCFAction.DCPCFUpdateContactInfo",
           },
           {
             actionName: " Update Client Details",
             icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFUpdateClientDetails",
+            routerName: "Root.DCPCFile.DCPCFAction.DCPCFUpdateClientDetails",
           },
         ],
       },

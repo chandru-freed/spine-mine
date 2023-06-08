@@ -18,7 +18,7 @@ export default class FPPCLientListFDataTableMDP extends FDataTableMDP {
     super({
       myRefName: "fppClientListRef",
       enableSearch: true,
-      title: "FPP Cleint List",
+      title: "FPP Client File List",
       enableShowHideColumns: true,
       itemKey: "clientFileNumber",
       multiSelect: true,
@@ -43,7 +43,7 @@ export default class FPPCLientListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "createdOn",
         columnCellMDP: new FCellDateTimeMDP(),
       })
-      .addStatusColumn({
+      .addColumn({
         label: "Referred By Partner",
         dataSelectorKey: "partner",
       })

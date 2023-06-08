@@ -58,10 +58,7 @@
                   }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-icon
-                    small
-                    v-if="actionItem.icon"
-                  ></v-icon>
+                  <v-icon small v-if="actionItem.icon"></v-icon>
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -141,6 +138,13 @@ export default class DCPCFActionList extends Vue {
             condition: this.isAdmin(),
             confirmation: true,
           },
+          {
+            actionName: "Reject File",
+            icon: "mdi-chevron-right",
+            // command: this.requestCancel,
+            routerName: "Root.CFile.CFAction.CFRejectFile",
+            condition: this.isClientFileLead(),
+          },
         ],
       },
       {
@@ -188,7 +192,6 @@ export default class DCPCFActionList extends Vue {
     this.$router.push({ name: routerName, query: query });
   }
 
-
   gotoCFActiveTaskList() {
     if (this.$route.name === "Root.CFile.CFTask.CFActiveTasks") {
       this.getCFActiveTaskList();
@@ -200,7 +203,6 @@ export default class DCPCFActionList extends Vue {
     }
   }
 
-
   getCFActiveTaskList() {
     Action.TaskList.GetTaskListByCid.execute1(
       this.clientFileBasicInfo.clientFileNumber,
@@ -210,7 +212,7 @@ export default class DCPCFActionList extends Vue {
 
   activate() {
     FSnackbar.confirm({
-      message:"Are you sure want to activate this file?",
+      message: "Are you sure want to activate this file?",
       onConfirm: () => {
         Action.ClientFile.Activate.execute1(this.clientFileId, (ootput) => {
           setTimeout(() => {
@@ -218,9 +220,8 @@ export default class DCPCFActionList extends Vue {
             this.gotoCFActiveTaskList();
           }, 400);
         });
-      }
-    })
-    
+      },
+    });
   }
 
   switchProgram() {
@@ -240,11 +241,12 @@ export default class DCPCFActionList extends Vue {
     });
   }
 
-
   openClientFile(fileNumber: string) {
-    Helper.Router.gotoFile({router: this.$router,clientFileNumber:fileNumber});
+    Helper.Router.gotoFile({
+      router: this.$router,
+      clientFileNumber: fileNumber,
+    });
   }
-
 
   get filteredActionGroupList() {
     const filteredValList = this.actionGroupList
@@ -301,6 +303,13 @@ export default class DCPCFActionList extends Vue {
 
   isNotSalesRepOrLead() {
     return !(this.isSalesRep() || this.isSalesLead());
+  }
+
+  isClientFileLead() {
+    return (
+      this.clientFileBasicInfo.clientFileStatus.id ===
+      Data.ClientFile.CLIENT_FILE_STATUS.LEAD.id
+    );
   }
 }
 </script>

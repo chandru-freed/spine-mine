@@ -11,12 +11,22 @@ import FCellBtnPreviewMDP from "@/components/generic/table/cell/FCellBtnPreviewM
 export default class DCPClientCreditorListFDataTableMDP extends FDataTableMDP {
   parent: any;
   constructor({ parent }: { parent: any }) {
-    super({ title: "Creditor List", myRefName: "DCPAgreementListRef",enableSearch: false, enableShowHideColumns: false, enableExport: false  });
+    super({
+      title: "Creditor List",
+      myRefName: "DCPAgreementListRef",
+      enableSearch: false,
+      enableShowHideColumns: false,
+      enableExport: false,
+    });
     this.parent = parent;
     this.addColumn({
       label: "Creditor Name",
       dataSelectorKey: "creditorName",
     })
+      .addColumn({
+        label: "Loan Type",
+        dataSelectorKey: "creditType",
+      })
       .addCurrencyColumn({
         label: "Creditor Balance",
         dataSelectorKey: "creditorBalance",

@@ -50,7 +50,7 @@ export default class DCPCreateAgreementFFormMDP extends FFormMDP {
         new FSelectFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "roi",
-          label: "ROI",
+          label: "Rate of interest",
           mandatory: true,
           boundaryClass: "col-3",
           options: this.parent.roiList,

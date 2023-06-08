@@ -44,7 +44,7 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
       })
       .addPaymentStatusColumn({
         label: "Status",
-        dataSelectorKey: "status",
+        dataSelectorKey: "status.name",
         // colorCodeData: Data.Color.PAYMENT_STATUS,
         // outlined: true,
       })

@@ -357,6 +357,14 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.ClientFile.UpdateExceptionTakenList.interested(
       this.getExceptionTakenListHandler
     );
+
+    Action.ClientFile.CheckPaymentStatus.interested(
+      this.getMSFCashfreeLinkPaymentListHandler
+    );
+    Action.ClientFile.UpdateFundSplitStatus.interested(
+      this.getMSFCashfreeLinkPaymentListHandler
+    );
+    Action.ClientFile.RequestFundSplit.interested(this.getMSFCashfreeLinkPaymentListHandler);
   }
 
   public destroyed() {
@@ -430,6 +438,14 @@ export default class EnrollClientFileTask extends ModelVue {
     Action.Spine.ParseCreditReport.notInterested(
       this.getClientCreditorInfoAndInfoHandler
     );
+
+    Action.ClientFile.CheckPaymentStatus.notInterested(
+      this.getMSFCashfreeLinkPaymentListHandler
+    );
+    Action.ClientFile.UpdateFundSplitStatus.notInterested(
+      this.getMSFCashfreeLinkPaymentListHandler
+    );
+    Action.ClientFile.RequestFundSplit.notInterested(this.getMSFCashfreeLinkPaymentListHandler);
 
     // getEMandateListHandler
   }

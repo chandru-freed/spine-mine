@@ -110,53 +110,25 @@ export default class DCPCFActionList extends Vue {
   get actionGroupList() {
     return [
       // {
-      //   groupName: "Flow",
-      //   condition: this.isClientFileNotHold(),
+      //   groupName: "Communication",
       //   actionList: [
       //     {
-      //       actionName: "Enrollment",
+      //       actionName: "Send Email",
       //       icon: "mdi-chevron-right",
-      //       command: this.createEnrollmentFlowV1,
+      //       routerName: "Root.CFile.CFAction.CFSendEmail",
       //     },
-          
+      //     {
+      //       actionName: "Send SMS",
+      //       icon: "mdi-chevron-right",
+      //       routerName: "Root.CFile.CFAction.CFSendSMS",
+      //     },
+      //     {
+      //       actionName: "Send Whatsapp",
+      //       icon: "mdi-chevron-right",
+      //       routerName: "Root.CFile.CFAction.CFSendWhatsapp",
+      //     },
       //   ],
       // },
-      {
-        groupName: "Communication",
-        actionList: [
-          {
-            actionName: "Send Email",
-            icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFSendEmail",
-          },
-          {
-            actionName: "Send SMS",
-            icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFSendSMS",
-          },
-          {
-            actionName: "Send Whatsapp",
-            icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFSendWhatsapp",
-          },
-        ],
-      },
-      {
-        groupName: "Assign",
-        condition: this.isNotSalesRepOrLead(),
-        actionList: [
-          {
-            actionName: "Assign RM (Relationship Manager)",
-            icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFAssignRM",
-          },
-          {
-            actionName: "Assign Sales Rep",
-            icon: "mdi-chevron-right",
-            routerName: "Root.CFile.CFAction.CFAssignSalesRep",
-          },
-        ],
-      },
 
       {
         groupName: "Other Action",
@@ -216,121 +188,6 @@ export default class DCPCFActionList extends Vue {
     this.$router.push({ name: routerName, query: query });
   }
 
-  createEnrollmentFlow() {
-    Action.Spine.CreateEnrollment.execute2(
-      this.clientFileBasicInfo.clientFileNumber,
-      undefined,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
-
-  createEnrollmentFlowV1() {
-    Action.Spine.CreateEnrollment.execute2(
-      this.clientFileBasicInfo.clientFileNumber,
-      "V1Net",
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
-
-  createCollectFirstMSF() {
-    Action.Spine.CreateCollectFirstMSF.execute2(
-      this.clientFileBasicInfo.clientFileNumber,
-      "V1Net",
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
-
-  createCHPPFlow() {
-    Action.Spine.CreateCHPP.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
-
-  createCollectMSFThroughCashfree() {
-    this.createCollectMSFThroughCashfreeInput.clientFileNumber =
-      this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateCollectMSFThroughCashfree.execute(
-      this.createCollectMSFThroughCashfreeInput,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
-
-  // createNsfMSFFlow() {
-  //   Action.Spine.CreateNsfMSF.execute1(
-  //     this.clientFileBasicInfo.clientFileNumber,
-  //     (output) => {
-  //       setTimeout(() => {
-  //         this.gotoCFActiveTaskList();
-  //       }, 400);
-  //     }
-  //   );
-  // }
-
-  createWelcomeCall() {
-    Action.Spine.CreateWelcomeCall.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
-
-  createMFC() {
-    Action.Spine.CreateMFC.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
-  // createNsfSPA() {
-  //   Action.Spine.CreateNsfSPA.execute1(
-  //     this.clientFileBasicInfo.clientFileNumber,
-  //     (output) => {
-  //       setTimeout(() => {
-  //         this.$emit("flowCreated");
-  //         this.gotoCFActiveTaskList();
-  //       }, 400);
-  //     }
-  //   );
-  // }
-
-  createAmendmentFlow() {
-    Action.Spine.CreateAmendment.execute1(
-      this.clientFileBasicInfo.clientFileNumber,
-      (output) => {
-        setTimeout(() => {
-          this.$emit("flowCreated");
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
-  }
 
   gotoCFActiveTaskList() {
     if (this.$route.name === "Root.CFile.CFTask.CFActiveTasks") {
@@ -343,7 +200,6 @@ export default class DCPCFActionList extends Vue {
     }
   }
 
-  gotoUpdateContactInfo() {}
 
   getCFActiveTaskList() {
     Action.TaskList.GetTaskListByCid.execute1(
@@ -351,18 +207,6 @@ export default class DCPCFActionList extends Vue {
       (output) => {}
     );
   }
-
-  // markClientFileAsOnBoarded() {
-  //   Action.ClientFile.MarkClientFileAsOnBoarded.execute1(
-  //     this.clientFileId,
-  //     (output) => {
-  //       Snackbar.show({
-  //         text: "Succesfully update.",
-  //         pos: "bottom-center",
-  //       });
-  //     }
-  //   );
-  // }
 
   activate() {
     FSnackbar.confirm({
@@ -386,77 +230,21 @@ export default class DCPCFActionList extends Vue {
         const switchInput: Data.ClientFile.SwitchProgramInput =
           new Data.ClientFile.SwitchProgramInput();
         switchInput.clientFileId = this.clientFileId;
-        switchInput.programCode = "DRP";
-        Action.ClientFile.SwitchProgram.execute(switchInput, (ootput) => {
+        Action.ClientFile.SwitchToDRP.execute(switchInput, (output) => {
           setTimeout(() => {
             FSnackbar.success("Succesfully switched the program");
-            this.gotoCFActiveTaskList();
+            this.openClientFile(output.newClientFileNumber);
           }, 400);
         });
       },
     });
   }
 
-  hold() {
-    FSnackbar.confirm({
-      message:"Are you sure want to mark this file as HOLD?",
-      onConfirm: () => {
-        Action.ClientFile.Hold.execute1(this.clientFileId, (output) => {
-            setTimeout(() => {
-              FSnackbar.success("Succesfully assigned");
-              this.gotoCFActiveTaskList();
-            }, 400);
-          });
-      }
-    })
-   
+
+  openClientFile(fileNumber: string) {
+    Helper.Router.gotoFile({router: this.$router,clientFileNumber:fileNumber});
   }
 
-  resume() {
-    FSnackbar.confirm({message: "Are you sure want to resume this file?", onConfirm: () => {
-      Action.ClientFile.Resume.execute1(this.clientFileId, (output) => {
-            setTimeout(() => {
-              FSnackbar.success("Succesfully assigned");
-              this.gotoCFActiveTaskList();
-            }, 400);
-          });
-    }})
-   
-  }
-
-  graduate() {
-    FSnackbar.confirm({
-      message: "Are you sure want to mark this file as GRADUATE?",
-      onConfirm: () => {
-        Action.ClientFile.Graduate.execute1(this.clientFileId, (output) => {
-          setTimeout(() => {
-            FSnackbar.success("Succesfully assigned");
-            this.gotoCFActiveTaskList();
-          }, 400);
-        });
-      },
-    });
-  }
-
-  cancel() {
-    Action.ClientFile.Cancel.execute1(this.clientFileId, (output) => {
-      setTimeout(() => {
-        FSnackbar.success("Succesfully assigned");
-        this.gotoCFActiveTaskList();
-      }, 400);
-    });
-  }
-
-  requestCancel() {
-    Action.ClientFile.RequestCancel.execute1(this.clientFileId, (output) => {
-      setTimeout(() => {
-        FSnackbar.success("Succesfully assigned");
-        this.gotoCFActiveTaskList();
-      }, 400);
-    });
-  }
-
-  recordMSFPayment() {}
 
   get filteredActionGroupList() {
     const filteredValList = this.actionGroupList

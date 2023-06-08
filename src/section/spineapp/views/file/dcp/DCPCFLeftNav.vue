@@ -103,16 +103,16 @@ export default class DCPCFLeftNav extends Vue {
       ],
     },
 
-    // {
-    //   title: "Actions",
-    //   icon: "mdi-gesture-double-tap",
-    //   items: [
-    //     {
-    //       title: "List Item",
-    //       routerName: "Root.DCPCFile.DCPCFAction.DCPCFActionList",
-    //     },
-    //   ],
-    // },
+    {
+      title: "Actions",
+      icon: "mdi-gesture-double-tap",
+      items: [
+        {
+          title: "List Item",
+          routerName: "Root.DCPCFile.DCPCFAction.DCPCFActionList",
+        },
+      ],
+    },
 
     {
       icon: "mdi-checkbox-marked-circle-outline",

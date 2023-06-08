@@ -556,7 +556,7 @@ export default class RetainCancelledFileTask extends ModelVue {
   }
 
   getMSFCashfreeLinkPaymentList() {
-    Action.ClientFile.GetMSFCashfreeLinkPaymentList.execute1(
+    Action.ClientFile.GetFiPaymentList.execute1(
       this.clientFileId,
       (output) => {}
     );

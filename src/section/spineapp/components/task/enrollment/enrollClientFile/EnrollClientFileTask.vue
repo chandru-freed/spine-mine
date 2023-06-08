@@ -235,6 +235,15 @@ export default class EnrollClientFileTask extends ModelVue {
     }, 1000);
   };
 
+  public checkPaymentStatusHandler = (output: any) => {
+    setTimeout(() => {
+      if(output.paymentStatus.id === Data.ClientFile.PAYMENT_STATUS.SETTLED.id) {
+        this.saveAndMarkCompleteTask();
+      }
+      this.getMSFCashfreeLinkPaymentList();
+    }, 1000);
+  };
+
   public getFiBankInfoHandler = (output: any) => {
     setTimeout(() => {
       this.getFiBankInfo();
@@ -358,13 +367,11 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getExceptionTakenListHandler
     );
 
-    Action.ClientFile.CheckPaymentStatus.interested(
-      this.getMSFCashfreeLinkPaymentListHandler
-    );
     Action.ClientFile.UpdateFundSplitStatus.interested(
       this.getMSFCashfreeLinkPaymentListHandler
     );
     Action.ClientFile.RequestFundSplit.interested(this.getMSFCashfreeLinkPaymentListHandler);
+    Action.ClientFile.CheckPaymentStatus.interested(this.checkPaymentStatusHandler)
   }
 
   public destroyed() {
@@ -440,7 +447,7 @@ export default class EnrollClientFileTask extends ModelVue {
     );
 
     Action.ClientFile.CheckPaymentStatus.notInterested(
-      this.getMSFCashfreeLinkPaymentListHandler
+      this.checkPaymentStatusHandler
     );
     Action.ClientFile.UpdateFundSplitStatus.notInterested(
       this.getMSFCashfreeLinkPaymentListHandler
@@ -565,7 +572,7 @@ export default class EnrollClientFileTask extends ModelVue {
   }
 
   getMSFCashfreeLinkPaymentList() {
-    Action.ClientFile.GetMSFCashfreeLinkPaymentList.execute1(
+    Action.ClientFile.GetFiPaymentList.execute1(
       this.clientFileId,
       (output) => {}
     );

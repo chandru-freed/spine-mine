@@ -28,7 +28,7 @@
             </div>
 
             <div class="text-body-1 d-flex align-center mx-3">
-              {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
+              {{ clientFileBasicInfo?.clientBasicInfo?.mobile | phone }}
               <f-copy
                 boundaryClass="mx-1"
                 v-model="clientFileBasicInfo.clientBasicInfo.mobile"
@@ -37,8 +37,13 @@
 
             <v-spacer />
             <v-btn-toggle dense group>
-              <v-btn @click="goto(quickNav.routerName)" small v-for="quickNav in quickNavList" :key="quickNav.name">
-                <v-icon color="secondary" small>{{quickNav.icon}}</v-icon>
+              <v-btn
+                @click="goto(quickNav.routerName)"
+                small
+                v-for="quickNav in quickNavList"
+                :key="quickNav.name"
+              >
+                <v-icon color="secondary" small>{{ quickNav.icon }}</v-icon>
               </v-btn>
             </v-btn-toggle>
 
@@ -103,16 +108,10 @@
                 </v-list-item-title>
 
                 <div class="d-flex primary--text text-body-1 font-weight-bold">
-                  {{ fileSummary.msfDraftAmount | toINR }}
+                  {{ fileSummary?.msfDraftAmount | toINR }}
                 </div>
               </div>
-              <v-divider
-                v-if="i !== 3"
-                color="primary"
-                vertical
-                width="10px"
-                class="mx-3"
-              />
+              <v-divider color="primary" vertical width="10px" class="mx-3" />
             </v-card>
             <v-card flat class="col-4 mr-1 d-flex align-center px-2 py-0">
               <div class="d-flex flex-fill py-1">
@@ -122,26 +121,20 @@
                 </v-list-item-title>
 
                 <div class="d-flex primary--text text-body-1 font-weight-bold">
-                  {{ fileSummary.spaSummary.spaAmount | toINR }}
+                  {{ fileSummary?.spaSummary?.spaAmount | toINR }}
                 </div>
               </div>
-              <v-divider
-                v-if="i !== 3"
-                color="primary"
-                vertical
-                width="10px"
-                class="mx-3"
-              />
+              <v-divider color="primary" vertical width="10px" class="mx-3" />
             </v-card>
             <v-card flat class="col-4 mr-1 d-flex align-center px-2 py-0">
               <div class="d-flex flex-fill py-1">
                 <v-list-item-title
                   class="primary--text text-body-1 font-weight-bold"
-                  >Creditors ({{ fileSummary.creditorsCount }})
+                  >Creditors ({{ fileSummary?.creditorsCount }})
                 </v-list-item-title>
 
                 <div class="d-flex primary--text text-body-1 font-weight-bold">
-                  Settled({{ fileSummary.settledCreditorsCount }})
+                  Settled({{ fileSummary?.settledCreditorsCount }})
                 </div>
               </div>
             </v-card>
@@ -150,17 +143,17 @@
           <v-expand-transition>
             <div v-if="expandHeader" class="d-flex align-center">
               <v-card flat class="col-4 mr-1 d-flex align-center px-2 pa-0">
-                <div class="flex-fill">
-                  <div class="d-flex flex-fill" >
+                <div class="flex-fill" v-if="fileSummary.msfSummary">
+                  <div class="d-flex flex-fill">
                     <div class="primary--text text-body-2 flex-fill">
                       {{
-                        fileSummary.msfSummary.upcomingMSFScheduledEntry
+                        fileSummary?.msfSummary?.upcomingMSFScheduledEntry
                           .draftDate | monthday
                       }}
                     </div>
                     <div class="caption">
                       {{
-                        fileSummary.msfSummary.upcomingMSFScheduledEntry.status
+                        fileSummary.msfSummary?.upcomingMSFScheduledEntry.status
                           .name
                       }}
                     </div>
@@ -169,58 +162,51 @@
                       class="flex-fill text-body-2 secondary--text text-right"
                     >
                       {{
-                        fileSummary.msfSummary.upcomingMSFScheduledEntry
+                        fileSummary.msfSummary?.upcomingMSFScheduledEntry
                           .totalAmount | toINR
                       }}
                     </div>
                   </div>
 
-                  <div class="d-flex flex-fill text-body-2" >
+                  <div class="d-flex flex-fill text-body-2">
                     <template
-                        v-if="
-                          !!fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                        "
-                      >
-                        <div class="font-weight-bold">
-                          {{
-                            fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                              .statusUpdatedOn | monthday
-                          }}
-                        </div>
-                        <div class="caption">{{fileSummary?.msfSummary
-                              ?.pastMSFScheduledEntryList[0].status.id}}</div>
-                        <div
-                          class="font-weight-bold secondary--text text-right"
-                        >
-                          {{
-                            fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                              .totalAmount | toINR
-                          }}
-                        </div>
-                      </template>
-                      <template
-                        v-if="
-                          !fileSummary.msfSummary.pastMSFScheduledEntryList
-                            .length
-                        "
-                      >
-                        <div>Not Paid</div>
-                      </template>
+                      v-if="
+                        !!fileSummary.msfSummary.pastMSFScheduledEntryList[0]
+                      "
+                    >
+                      <div class="font-weight-bold">
+                        {{
+                          fileSummary.msfSummary.pastMSFScheduledEntryList[0]
+                            .statusUpdatedOn | monthday
+                        }}
+                      </div>
+                      <div class="caption">
+                        {{
+                          fileSummary?.msfSummary?.pastMSFScheduledEntryList[0]
+                            .status.id
+                        }}
+                      </div>
+                      <div class="font-weight-bold secondary--text text-right">
+                        {{
+                          fileSummary.msfSummary.pastMSFScheduledEntryList[0]
+                            .totalAmount | toINR
+                        }}
+                      </div>
+                    </template>
+                    <template
+                      v-if="
+                        !fileSummary.msfSummary.pastMSFScheduledEntryList.length
+                      "
+                    >
+                      <div>Not Paid</div>
+                    </template>
                   </div>
-
-                  
                 </div>
-                <v-divider
-                  v-if="i !== 3"
-                  color="primary"
-                  vertical
-                  width="10px"
-                  class="mx-3"
-                />
+                <v-divider color="primary" vertical width="10px" class="mx-3" />
               </v-card>
 
               <v-card flat class="col-4 mr-1 d-flex align-center px-2 pa-0">
-                <div class="flex-fill">
+                <div v-if="fileSummary.spaSummary" class="flex-fill">
                   <div class="d-flex flex-fill">
                     <div class="primary--text text-body-2 flex-fill">
                       {{
@@ -245,85 +231,39 @@
                     </div>
                   </div>
 
-                  
-                  
-                  
-                  <div class="d-flex flex-fill text-body-2" >
+                  <div class="d-flex flex-fill text-body-2">
                     <template
-                        v-if="
-                          fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                        "
-                      >
-                        <div class="font-weight-bold">
-                          {{
-                            fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                              .statusUpdatedOn | monthday
-                          }}
-                        </div>
-                        <div class="caption">{{fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                              .status.id}}</div>
-                        <div class="font-weight-bold primary--text text-right">
-                          {{
-                            fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                              .totalAmount | toINR
-                          }}
-                        </div>
-                      </template>
-                      <template
-                        v-if="
-                          !fileSummary.spaSummary.pastSPAScheduledEntryList
-                            .length
-                        "
-                      >
-                        <div>Not Paid</div>
-                      </template>
-                  </div>
-                  <!--  <v-list-item-subtitle
-                      class="caption d-flex justify-space-between align-center"
+                      v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]"
                     >
-                      <template
-                        v-if="
+                      <div class="font-weight-bold">
+                        {{
                           fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                        "
-                      >
-                        <div class="font-weight-bold">
-                          {{
-                            fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                              .statusUpdatedOn | monthday
-                          }}
-                        </div>
-                        <f-cell-status
-                          :outlined="true"
-                          :value="
-                            fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                              .status.id
-                          "
-                          :colorCodeData="msfScheduleStatusColorcode"
-                        />
-                        <div class="font-weight-bold primary--text text-right">
-                          {{
-                            fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                              .totalAmount | toINR
-                          }}
-                        </div>
-                      </template>
-                      <template
-                        v-if="
-                          !fileSummary.spaSummary.pastSPAScheduledEntryList
-                            .length
-                        "
-                      >
-                        <div>Not Paid</div>
-                      </template>
-                    </v-list-item-subtitle> -->
+                            .statusUpdatedOn | monthday
+                        }}
+                      </div>
+                      <div class="caption">
+                        {{
+                          fileSummary.spaSummary.pastSPAScheduledEntryList[0]
+                            .status.id
+                        }}
+                      </div>
+                      <div class="font-weight-bold primary--text text-right">
+                        {{
+                          fileSummary.spaSummary.pastSPAScheduledEntryList[0]
+                            .totalAmount | toINR
+                        }}
+                      </div>
+                    </template>
+                    <template
+                      v-if="
+                        !fileSummary.spaSummary.pastSPAScheduledEntryList.length
+                      "
+                    >
+                      <div>Not Paid</div>
+                    </template>
+                  </div>
                 </div>
-                <v-divider
-                  v-if="i !== 3"
-                  color="primary"
-                  vertical
-                  width="10px"
-                  class="mx-3"
-                />
+                <v-divider color="primary" vertical width="10px" class="mx-3" />
               </v-card>
 
               <v-card flat class="col-4 mr-1 d-flex align-center px-2 pa-0">
@@ -356,396 +296,7 @@
         </v-card>
       </v-sheet>
     </div>
-    <!-- </v-toolbar> -->
-    <!-- Client File Number and Client -->
-    <!-- <div class="col-4">
-      <v-card outlined color="primary">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <v-list-item-content>
-              <v-list-item-title
-                class="font-weight-bold secondary--text text-body-1 d-flex"
-              >
-              <v-icon class="mr-2" color="secondary"> mdi-file-account </v-icon>
-                <f-hover-copy v-model="clientFileBasicInfo.clientFileNumber">
-                  {{ clientFileBasicInfo.clientFileNumber }}
-                </f-hover-copy>
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="justify-center align-center">
-              <v-card flat class="d-flex my-1" style="justify-content: space-between">
-                    
-                    
-                    <v-chip class="mr-2" v-if="fileSummary.ppCode" x-small color="secondary" outlined >{{fileSummary.ppCode}}</v-chip>
-                    
-                    <v-chip class="ml-2" v-if="clientFileBasicInfo.programCode" x-small  outlined>{{
-                      clientFileBasicInfo.programCode
-                    }}</v-chip>
-                    
-                    </v-card>
-                    <v-chip x-small >{{
-                      fileSummary.clientFileStatus.name
-                    }}</v-chip>
-                  
-                </v-list-item-action>
-              </v-list-item>
-            
-            
-          <v-divider></v-divider>
-              
-          <v-list-item dense>
-            <v-list-item-icon class="mr-2">
-              <v-icon color="deep-purple"> mdi-account </v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <f-hover-copy
-                v-model="clientFileBasicInfo.clientBasicInfo.fullName"
-              >
-                <a @click="gotoClient">
-                  <v-list-item-title
-                    class="deep-purple--text text-body-1 overline"
-                    >{{
-                      clientFileBasicInfo.clientBasicInfo.fullName
-                    }}</v-list-item-title
-                  >
-                </a>
-              </f-hover-copy>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-chip
-                @click="gotoEmandateList"
-                small
-                v-if="fileSummary.eMandateActive"
-                class="mx-2"
-                color="green lighten-3"
-                >EMandate Active</v-chip
-              >
-
-              <v-chip
-                @click="gotoEmandateList"
-                small
-                v-else
-                class="mx-2"
-                color="secondary lighten-3"
-                >EMandate Pending</v-chip
-              >
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-icon class="mr-2">
-              <v-btn
-                icon
-                color="secondary"
-                outlined
-                small
-                dense
-                @click="openNavShow(clientFileBasicInfo.clientBasicInfo.mobile)"
-              >
-                <v-icon small>mdi-phone</v-icon>
-              </v-btn>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-subtitle
-                class="text-body-1"
-                
-              >
-                <f-hover-copy
-                  v-model="clientFileBasicInfo.clientBasicInfo.mobile"
-                >
-                  {{ clientFileBasicInfo.clientBasicInfo.mobile | phone }}
-                </f-hover-copy>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <f-hover-copy
-                v-model="clientFileBasicInfo.clientBasicInfo.emailId"
-              >
-                <span class="caption mr-2"
-                  >{{ clientFileBasicInfo.clientBasicInfo.emailId }}
-                </span>
-              </f-hover-copy>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div>
-    <div class="col" v-if="!fileSummary.msfSummary">
-      <v-sheet outlined color="secondary" rounded>
-        <v-card
-          outlined
-          elevation="0"
-          @click="gotoMSFPaymentPlan"
-          min-height="123"
-        >
-          <v-list class="py-0">
-            <v-list-item dense>
-              <v-list-item-content>
-                <v-list-item-title class="secondary--text text-subtitle-1"
-                  >MSF
-                </v-list-item-title>
-              </v-list-item-content>
-
-              <v-list-item-action class="py-0 my-0">
-                <div
-                  class="d-flex secondary--text text-h6 font-weight-semibold"
-                >
-                  -
-                </div>
-              </v-list-item-action>
-            </v-list-item>
-            <v-divider />
-            <v-list-item dense>
-              <v-list-item-subtitle
-                class="caption d-flex justify-space-between align-center"
-              >
-              </v-list-item-subtitle>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-sheet>
-    </div>
-
-    <div class="col" v-if="fileSummary.msfSummary">
-      <v-card outlined color="secondary" @click="gotoMSFPaymentPlan">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <v-list-item-content>
-              <v-list-item-title class="secondary--text text-subtitle-1"
-                >MSF
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="py-0 my-0">
-              <div class="d-flex secondary--text text-h6 font-weight-semibold">
-                {{ fileSummary.msfDraftAmount | toINR }}
-              </div>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div class="font-weight-bold">
-                {{
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.draftDate |
-                    monthday
-                }}
-              </div>
-              <f-cell-status
-                :outlined="true"
-                :value="
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.status.id
-                "
-                :colorCodeData="msfScheduleStatusColorcode"
-              />
-              <div class="font-weight-bold secondary--text text-right">
-                {{
-                  fileSummary.msfSummary.upcomingMSFScheduledEntry.totalAmount |
-                    toINR
-                }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <template
-                v-if="!!fileSummary.msfSummary.pastMSFScheduledEntryList[0]"
-              >
-                <div class="font-weight-bold">
-                  {{
-                    fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                      .statusUpdatedOn | monthday
-                  }}
-                </div>
-                <f-cell-status
-                  :outlined="true"
-                  :value="
-                    fileSummary?.msfSummary?.pastMSFScheduledEntryList[0].status
-                      .id
-                  "
-                  :colorCodeData="msfScheduleStatusColorcode"
-                />
-                <div class="font-weight-bold secondary--text text-right">
-                  {{
-                    fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                      .totalAmount | toINR
-                  }}
-                </div>
-              </template>
-              <template
-                v-if="!fileSummary.msfSummary.pastMSFScheduledEntryList.length"
-              >
-                <div>Not Paid</div>
-              </template>
-            </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div>
-    <div class="col" v-if="!fileSummary.spaSummary">
-      <v-sheet outlined color="secondary" rounded>
-        <v-card
-          outlined
-          elevation="0"
-          @click="gotoPaymentPlan"
-          min-height="123"
-        >
-          <v-list class="py-0">
-            <v-list-item dense>
-              <v-list-item-content>
-                <v-list-item-title class="secondary--text text-subtitle-1"
-                  >SPA
-                </v-list-item-title>
-              </v-list-item-content>
-
-              <v-list-item-action class="py-0 my-0">
-                <div
-                  class="d-flex secondary--text text-h6 font-weight-semibold"
-                >
-                  -
-                </div>
-              </v-list-item-action>
-            </v-list-item>
-            <v-divider />
-          </v-list>
-        </v-card>
-      </v-sheet>
-    </div>
-
-    <div class="col" v-if="fileSummary.spaSummary">
-      <v-card outlined color="secondary" @click="gotoPaymentPlan">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <v-list-item-content>
-              <v-list-item-title class="secondary--text text-subtitle-1"
-                >SPA
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="py-0 my-0">
-              <div class="d-flex secondary--text text-h6 font-weight-semibold">
-                {{ fileSummary.spaSummary.spaAmount | toINR }}
-              </div>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div class="font-weight-bold">
-                {{
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.draftDate |
-                    monthday
-                }}
-              </div>
-              <f-cell-status
-                :outlined="true"
-                :value="
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.status.id
-                "
-                :colorCodeData="msfScheduleStatusColorcode"
-              />
-              <div class="font-weight-bold secondary--text text-right">
-                {{
-                  fileSummary.spaSummary.upcomingSPAScheduledEntry.totalAmount |
-                    toINR
-                }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <template
-                v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]"
-              >
-                <div class="font-weight-bold">
-                  {{
-                    fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                      .statusUpdatedOn | monthday
-                  }}
-                </div>
-                <f-cell-status
-                  :outlined="true"
-                  :value="
-                    fileSummary.spaSummary.pastSPAScheduledEntryList[0].status
-                      .id
-                  "
-                  :colorCodeData="msfScheduleStatusColorcode"
-                />
-                <div class="font-weight-bold secondary--text text-right">
-                  {{
-                    fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                      .totalAmount | toINR
-                  }}
-                </div>
-              </template>
-              <template
-                v-if="!fileSummary.spaSummary.pastSPAScheduledEntryList.length"
-              >
-                <div>Not Paid</div>
-              </template>
-            </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div>
-    <div class="col">
-      <v-card outlined color="primary" @click="gotoCreditor">
-        <v-list class="py-0">
-          <v-list-item dense>
-            <v-list-item-content>
-              <v-list-item-title class="primary--text text-subtitle-1"
-                >Creditors ({{ fileSummary.creditorsCount }})
-              </v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action class="py-0 my-0">
-              <div class="d-flex primary--text text-subtitle-1">
-                Settled({{ fileSummary.settledCreditorsCount }})
-              </div>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div>SPA Saving</div>
-              <div
-                class="font-weight-bold primary--text text-subtitle-1 text-right"
-              >
-                {{ fileSummary.totalSaving | toINR }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item dense>
-            <v-list-item-subtitle
-              class="caption d-flex justify-space-between align-center"
-            >
-              <div>Total Outstanding</div>
-              <div
-                class="font-weight-bold primary--text text-subtitle-1 text-right"
-              >
-                {{ fileSummary.totalOutstanding | toINR }}
-              </div>
-            </v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div> -->
+    
   </div>
 </template>
 
@@ -792,29 +343,29 @@ export default class CFSummary extends Vue {
       {
         name: "Account",
         icon: "mdi-account",
-        routerName: "Root.CFile.CFInfo.CFPersonalInfo"
+        routerName: "Root.CFile.CFInfo.CFPersonalInfo",
       },
-{
+      {
         name: "Budget",
         icon: "mdi-wallet",
-        routerName: "Root.CFile.CFInfo.CFBudgetInfo"
+        routerName: "Root.CFile.CFInfo.CFBudgetInfo",
       },
       {
         name: "Credit Card",
         icon: "mdi-credit-card",
-        routerName: "Root.CFile.CFInfo.CFCreditorInfo"
+        routerName: "Root.CFile.CFInfo.CFCreditorInfo",
       },
       {
         name: "Document",
         icon: "mdi-file-document",
-        routerName: "Root.CFile.CFInfo.CFDocumentInfo"
+        routerName: "Root.CFile.CFInfo.CFDocumentInfo",
       },
       {
         name: "payment plan",
         icon: "mdi-calendar-blank",
-        routerName: "Root.CFile.CFInfo.CFPaymentPlanInfo"
+        routerName: "Root.CFile.CFInfo.CFPaymentPlanInfo",
       },
-    ]
+    ];
   }
 
   minHeight = 80;

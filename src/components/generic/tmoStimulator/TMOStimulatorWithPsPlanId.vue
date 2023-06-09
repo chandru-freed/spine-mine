@@ -312,6 +312,12 @@ export default class TMOStimulatorWithPsPlanId extends ModelVue {
       this.simulatorInput.paymentPlan?.ppCalculator?.outstanding
     );
   }
+
+  isMSFValueNegative() {
+    return (
+      this.result.msfAmount <0
+    );
+  }
   scheduleorDraftPaymentPlan() {
     if (this.isPaymentPlanDataAvailable()) {
       this.schedulePaymentPlan();

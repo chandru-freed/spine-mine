@@ -56,11 +56,16 @@ export default class FBPaymentPlanMDP implements MDP {
     return (nextCallback: () => void) => {
       const editMode = this.getMyRef().$refs['tmosSimulator'].editMode;
       const isOutstandingChanged = this.getMyRef().$refs['tmosSimulator'].isOutstandingChanged()
+      const isMSFValueNegative = this.getMyRef().$refs['tmosSimulator'].isMSFValueNegative();
       if (editMode) {
         FSnackbar.error("Please click recalculate or cancel to proceed")
       } else if (isOutstandingChanged) {
         FSnackbar.error("Outstanding has changed.Please recalculate to proceed")
-      } else {
+      }
+      else if(isMSFValueNegative) {
+        FSnackbar.error("Msf value should not be negative.")
+      }
+      else {
         nextCallback()
       }
     };

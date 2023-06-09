@@ -392,6 +392,13 @@ export default class FBPaymentPlan extends ModelVue {
     return this.roleList.includes("RetentionRep")
   }
 
+  isOutstandingChanged() {
+    return (
+      this.tmosSimulatorInput.creditorInfo?.totalDebt !==
+      this.tmosSimulatorInput.paymentPlan?.ppCalculator?.outstanding
+    );
+  }
+
   @Prop()
   paymentCalculatorFormMetaData: any;
 

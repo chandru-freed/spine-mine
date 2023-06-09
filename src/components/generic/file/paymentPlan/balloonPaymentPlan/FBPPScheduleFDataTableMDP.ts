@@ -71,9 +71,9 @@ export default class FBPPScheduleFDataTableMDP extends FDataTableMDP {
             label: "Apply discount on MSF",
             onClick: (item) => this.handleApplyDiscountClick(),
             type: ActionType.OTHERS,
-            disabled: this.disabled,
+            disabled: this.parent.isOutstandingChanged(),
             noSelect: true,
-            condition: this.parent.enableApplyDiscount()
+            condition: this.parent.enableApplyDiscount(),
           })
         .addAction({
             label: "Upload Excel",

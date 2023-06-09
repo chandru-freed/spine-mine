@@ -13,7 +13,7 @@ export default class PAVTFStepperMDP extends FTaskStepperMDP {
         super({ myRefName: "prepareAmendmentV4StepperRef",actionable: !taskRoot.taskDisabled  });
         this.taskRoot = taskRoot;
         this.parent = taskRoot;
-
+        const patv4PPFAPaymentPlanMDP = new PATV4PPFAPaymentPlanMDP({parent: this, taskRoot: this.taskRoot})
         this
         .addStep({
             name: "Creditor",
@@ -21,7 +21,8 @@ export default class PAVTFStepperMDP extends FTaskStepperMDP {
         })
         .addStep({
             name: "Payment Plan",
-            stepContent: new PATV4PPFAPaymentPlanMDP({parent: this, taskRoot: this.taskRoot})
+            stepContent: patv4PPFAPaymentPlanMDP,
+            submitFunc: patv4PPFAPaymentPlanMDP.validateEntries()
         })
         
         .addStep({

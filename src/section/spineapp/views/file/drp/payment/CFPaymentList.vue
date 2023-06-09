@@ -34,6 +34,7 @@ import * as Action from "@/../src-gen/action";
 import CFPaymentListFDataTableMDP from "./CFPaymentListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import PaymentDetailsFFormMDP from "./PaymentDetailsFFormMDP";
+import PaymentDetailsInfoFFormMDP from "./PaymentDetailsInfoFFormMDP";
 
 @Component({
   components: {
@@ -46,9 +47,13 @@ export default class CFPaymentList extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fiPaymentList
   fiPaymentList: Data.ClientFile.FiPayment[];
 
+  @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
+  clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
+
   selectedPaymentSummaryToView: Data.ClientFile.FiPayment =
     new Data.ClientFile.FiPayment();
   showViewPaymentForm: boolean = false;
+  selectedPayment: any;
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
@@ -79,7 +84,7 @@ export default class CFPaymentList extends ModelVue {
   //Meta Data
 
   get cfPaymentListFDataTableMetaData() {
-    return new CFPaymentListFDataTableMDP({ parent: this }).getMetaData();
+    return new CFPaymentListFDataTableMDP({ parent: this}).getMetaData();
   }
 
   //Meta Data

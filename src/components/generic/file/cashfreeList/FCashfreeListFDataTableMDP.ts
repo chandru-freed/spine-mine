@@ -12,47 +12,16 @@ import FCellStandardDateTimeMDP from "../../table/cell/FCellStandardDateTimeMDP"
 import FCellDateTimeMDP from "../../table/cell/FCellDateTimeMDP";
 import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
 import FCellRouterLinkMDP from "../../table/cell/FCellRouterLinkMDP";
-export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
+import CFPaymentListFDataTableMDP from "@/section/spineapp/views/file/drp/payment/CFPaymentListFDataTableMDP";
+export default class FCashfreeListFDataTableMDP extends CFPaymentListFDataTableMDP {
   parent: any;
   constructor(props: { parent: any; taskRoot: any }) {
     super({
-      myRefName: "fCashfreeListFDataTableMDP",
-      title: "Cashfree List",
-      disabled: props.taskRoot.taskStateTerminated,
-      itemKey: "ssaToken",
+      
+      parent: props.parent,
     });
     this.parent = props.parent;
-    this.addColumn({
-      label: "Payment Link",
-      dataSelectorKey: "paymentId",
-      columnCellMDP: new FCellCopyMDP({
-        dataSelectorKeyToCopy: "selfEnrolPaymentLink",
-        tooltipText: "Click here to copy the Cashfree link",
-      }),
-    })
-      .addColumn({
-        label: "Link",
-        dataSelectorKey: "clientFileNumber",
-        columnCellMDP: new FCellRouterLinkMDP({
-          routerName: "Root.CFile.CFPayment.CFPaymentDetails.CFPaymentDetails",
-          paramsList: [{ paramName: "clientFileNumber", paramKey: "clientFileNumber" }, { paramName: "paymentId", paramKey: "paymentId" }]
-        })
-      })
-      .addCurrencyColumn({
-        label: "MSF Amount",
-        dataSelectorKey: "msfAmount",
-      })
-      .addPaymentStatusColumn({
-        label: "Status",
-        dataSelectorKey: "status.name",
-        // colorCodeData: Data.Color.PAYMENT_STATUS,
-        // outlined: true,
-      })
-      .addColumn({
-        label: "Payment Provider",
-        dataSelectorKey: "paymentProvider.name",
-      })
-      .addAction({
+    this.addAction({
         label: "Generate Cashfree",
         onClick: this.handleGenerateLink(),
         type: ActionType.ADD,
@@ -69,13 +38,7 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
         onClick: this.handleRefreshClick(),
         type: ActionType.REFRESH,
         noSelect: true,
-      })
-      .addAction({
-        label: "Details",
-        onClick: this.handleDetailsClick(),
-        type: ActionType.INFO,
-      })
-      ;
+      });
   }
 
   handleGenerateLink() {
@@ -135,14 +98,17 @@ export default class FCashfreeListFDataTableMDP extends FDataTableMDP {
   handleRefreshClick() {
     return () => {
       return new Promise((res) => {
-        Action.ClientFile.GetMSFCashfreeLinkPaymentList.execute1(
-          this.parent.clientFileId,
-          (output) => { }
-        );
+        this.getFiPaymentList()
         this.parent.getClientFileBasicInfo();
         res(true);
       });
     };
+  }
+
+  getFiPaymentList() {
+    Action.ClientFile.GetFiPaymentList.execute1(this.parent.clientFileId, (output) => {
+      
+    });
   }
 
   openAgreementLink() {

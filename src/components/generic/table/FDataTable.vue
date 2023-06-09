@@ -1,17 +1,17 @@
 <template>
   <v-card :ref="myRefName" flat :outlined="outlined">
 <v-card flat  class="my-5" v-if="showInfoForm&&enableInfo && selectedRowIndex!==-1">
-  <v-toolbar flat><v-spacer/><v-icon @click="showInfoForm=false">mdi-close</v-icon></v-toolbar>
        <component
-            :is="infoFormFDataTableMetaData.componentName"
-            :value="selectModel(tableData()[selectedRowIndex], infoFormFDataTableMetaData.dataSelectorKey)"
-            v-bind="infoFormFDataTableMetaData.props"
+            :is="infoFFormMetaData.componentName"
+            :value="selectModel(tableData()[selectedRowIndex], infoFFormMetaData.dataSelectorKey)"
+            v-bind="infoFFormMetaData.props"
       ></component>
 
-      <div
+      <!-- <div
         v-if="!disabled"
         class="d-flex flex-row align-start flex-wrap justify-space-around pa-2"
       >
+      <v-btn @click="showInfoForm=false" text color="primary">Close</v-btn>
         <div
           :class="actionMetaData.boundaryClass"
           v-for="(actionMetaData, indx) in infoActionMetaDataList"
@@ -22,7 +22,7 @@
             v-bind="actionMetaData.props"
           ></component>
         </div>
-      </div>
+      </div> -->
 </v-card>
     <f-alert
       message="Are you sure want to proceed?"
@@ -389,7 +389,7 @@
             <v-icon small> mdi-information</v-icon>
           </v-btn>
 
-          <v-icon v-if="enableInfo" @click="handleDetailsClick(index)" small> mdi-information</v-icon>
+          <v-icon v-if="enableInfo" @click="handleDetailsClick(item, index)" small> mdi-information</v-icon>
           <v-btn
             :disabled="disabled"
             icon
@@ -493,6 +493,7 @@ import FTextField from "../form/field/FTextField.vue";
 import FTextFieldMDP from "../form/field/FTextFieldMDP";
 import FColumnMDP from "./FColumnMDP";
 import FCellAccountNumber from "./cell/FCellAccountNumber.vue";
+import FBtnMDP from "../FBtnMDP";
 
 @Component({
   components: {
@@ -566,7 +567,7 @@ export default class FDataTable extends ModelVue {
   @Prop({
     default: () => [],
   })
-  actions: any[];
+  actions: FTableActionField [];
 
   @Prop({
     default: () => [],
@@ -575,6 +576,9 @@ export default class FDataTable extends ModelVue {
 
   @Prop()
   groupBySummaryFunction: (itemList: any) => any;
+
+  @Prop()
+  itemSelectedEventFunction:(item: any) => any;
 
   @Prop({
     default: false,
@@ -636,6 +640,9 @@ export default class FDataTable extends ModelVue {
   })
   infoActionMetaDataList: any[];
 
+  @Prop()
+  infoFFormMDP: FFormMDP;
+
   expanded: any = [];
   groupBy: any = {
     label: null,
@@ -648,7 +655,7 @@ export default class FDataTable extends ModelVue {
   showDeleteConfirmation: boolean = false;
   selectedItemList: any[] = [];
   selectedItemForDelete: any;
-  selectedAction: FTableActionField;
+  selectedAction: FTableActionField | undefined;
   selectedRowIndex: number | undefined = -1;
   columnFilterListWithValues: any[] = [];
   showFilterForm: boolean = false;
@@ -677,14 +684,14 @@ export default class FDataTable extends ModelVue {
     this.showConfirmation = false;
     if (
       this.multiSelect &&
-      !this.selectedAction.singleSelect &&
-      this.selectedAction.type === ActionType.OTHERS
+      !this.selectedAction?.singleSelect &&
+      this.selectedAction?.type === ActionType.OTHERS
     ) {
       this.selectedAction.onClick(this.selectedItemList).then((res: any) => {
         this.clearSelectedItems();
       });
     } else {
-      this.selectedAction.onClick(this.selectedItemList[0]).then((res: any) => {
+      this.selectedAction?.onClick(this.selectedItemList[0]).then((res: any) => {
         this.clearSelectedItems();
       });
     }
@@ -692,8 +699,7 @@ export default class FDataTable extends ModelVue {
 
   fireDeleteActionClick() {
     this.showDeleteConfirmation = false;
-    this.deleteBtnData
-      .onClick(this.selectedItemForDelete, this.selectedRowIndex)
+    this.deleteBtnData?.onClick(this.selectedItemForDelete, this.selectedRowIndex)
       .then((res) => {
         this.clearSelectedItems();
       });
@@ -703,7 +709,7 @@ export default class FDataTable extends ModelVue {
     this.selectedAction = this.deleteBtnData;
     this.selectedItemForDelete = item;
     this.selectedRowIndex = index;
-    if (this.selectedAction.confirmation === true) {
+    if (this.selectedAction?.confirmation === true) {
       this.showDeleteConfirmation = true;
     } else {
       this.fireDeleteActionClick();
@@ -723,21 +729,25 @@ export default class FDataTable extends ModelVue {
 
   handleEditClick(item: any, index: number) {
     this.selectedRowIndex = index;
-    this.editBtnData.onClick(item, index);
+    this.editBtnData?.onClick(item, index);
   }
 
   handleInfoClick(item: any, index: number) {
     this.selectedRowIndex = index;
-    this.infoBtnData.onClick(item, index);
+    this.infoBtnData?.onClick(item, index);
   }
 
-   handleDetailsClick(index: number) {
+   handleDetailsClick(item: any, index: number) {
     this.selectedRowIndex = index;
     this.showInfoForm = true;
+    console.log(item);
+    if(this.itemSelectedEventFunction) {
+      this.itemSelectedEventFunction(item);
+    }
     // this.infoBtnData.onClick(item, index);
   }
 
-  get deleteBtnData(): FTableActionField {
+  get deleteBtnData() {
     return this.actions.find((item) => item.type === ActionType.DELETE);
   }
 
@@ -880,21 +890,23 @@ export default class FDataTable extends ModelVue {
     );
   }
 
-  get infoFormFDataTableMetaData() {
-    const fFormMDP =  new FFormMDP({myRefName: "infoForm"})
-    this.columnList.map((column) => {
-      console.log(column,"column")
-      fFormMDP.addField(new FTextFieldMDP({
-        dataSelectorKey: column.value || "",
-        label: column.text,
-        parentMDP: new FFormChildMDP(),
-        boundaryClass:"col-4",
-        readonly: true,
-        hidden: column.hidden
-      }))
-    });
+  get infoFFormMetaData() {
+    this.infoFFormMDP.actionList.unshift(new FBtnMDP({
+      label:"Close",
+      onClick: () => {this.showInfoForm = false}
+    }))
+    
 
-    return fFormMDP.getMetaData();
+    this.actions.filter(item => item.type === ActionType.OTHERS && !item.noSelect).map(action => {
+      this.infoFFormMDP.addAction(new FBtnMDP({
+        label: action.label,
+        onClick: () => this.handleOtherActionClick(action),
+        disabled: action.disabled || this.disabled
+
+      }))
+    })
+
+    return this.infoFFormMDP.getMetaData();
   }
 
   clearTableFilter() {

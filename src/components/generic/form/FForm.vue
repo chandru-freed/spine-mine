@@ -124,6 +124,7 @@ import FAWSCRUploadFileField from "./field/FAWSCRUploadFileField.vue";
 import FClCreditorSelectField from "./field/FClCreditorSelectField.vue";
 import FRemoteSelectField from "./field/FRemoteSelectField.vue";
 import FCheckboxGroup from "./field/FCheckboxGroup.vue";
+import FPaymentActionStatusBtn from "../FPaymentActionStatusBtn.vue";
 
 @Component({
   components: {
@@ -164,7 +165,8 @@ import FCheckboxGroup from "./field/FCheckboxGroup.vue";
     FAWSCRUploadFileField,
     FClCreditorSelectField,
     FRemoteSelectField,
-    FCheckboxGroup
+    FCheckboxGroup,
+    FPaymentActionStatusBtn
   },
 })
 export default class FForm extends ModelVue {

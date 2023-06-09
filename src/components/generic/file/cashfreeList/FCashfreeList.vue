@@ -15,7 +15,7 @@
     <component
       :ref="ecfCashfreeListMetaData.myRefName"
       :is="ecfCashfreeListMetaData.componentName"
-      :value="selectModel(fiCashfreeLinkList, undefined)"
+      :value="selectModel(msfCashfreePaymentList, undefined)"
       v-bind="ecfCashfreeListMetaData.props"
     ></component>
 
@@ -59,6 +59,7 @@ import * as Action from "@/../src-gen/action";
 import * as Data from "@/../src-gen/data";
 import FCashfreeListFDataTableMDP from "./FCashfreeListFDataTableMDP";
 import PaymentDetailsFFormMDP from "@/section/spineapp/views/file/drp/payment/PaymentDetailsFFormMDP";
+import CFPaymentListFDataTableMDP from "@/section/spineapp/views/file/drp/payment/CFPaymentListFDataTableMDP";
 
 @Component({
   components: {
@@ -78,15 +79,16 @@ export default class FCashfreeList extends ModelVue {
   taskRoot: any;
 
   showViewPaymentForm: boolean = false;
-  selectedPaymentSummaryToView: any;
+  selectedPaymentSummaryToView: Data.ClientFile.FiPayment =
+    new Data.ClientFile.FiPayment();
 
   clientFileId = this.$route.params.clientFileId;
   taskId = this.$route.params.taskId;
 
   fiCashfreeList = [];
 
-  @Store.Getter.ClientFile.ClientFileSummary.fiCashfreeLinkList
-  fiCashfreeLinkList: Data.ClientFile.FiCashfreeLinkPayment[];
+  @Store.Getter.ClientFile.ClientFileSummary.msfCashfreePaymentList
+  msfCashfreePaymentList: Data.ClientFile.FiPayment[];
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
@@ -110,8 +112,7 @@ export default class FCashfreeList extends ModelVue {
   // Meta data
   get ecfCashfreeListMetaData() {
     return new FCashfreeListFDataTableMDP({
-      parent: this,
-      taskRoot: this.taskRoot,
+      parent: this, taskRoot: this.taskRoot
     }).getMetaData();
   }
 
@@ -131,6 +132,7 @@ export default class FCashfreeList extends ModelVue {
   get paymentDetailsFFormMetaData() {
     return new PaymentDetailsFFormMDP({ parent: this }).getMetaData();
   }
+
 
   resetPaymentForm() {
     this.showViewPaymentForm = false;

@@ -45,6 +45,12 @@ export class ClientFileSummaryGettersCode implements ClientFileSummaryGetters {
     return state.fiPaymentList
   }
 
+  public msfCashfreePaymentList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPayment[] {
+    return state.fiPaymentList.filter(fiPayment => {
+      return fiPayment.paymentProvider === Data.ClientFile.PAYMENT_PROVIDER.CASHFREE && !!fiPayment.msfAmount && fiPayment.msfAmount > 0
+    })
+  }
+
   public fiPaymentTransactionList(state: Data.ClientFile.ClientFileSummary): Data.ClientFile.FiPaymentTransaction[] {
     return state.fiPaymentTransactionList
   }

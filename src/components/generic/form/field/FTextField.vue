@@ -116,4 +116,12 @@ export default class FTextField extends VTextField {
   color: #000 !important;
   cursor: default !important;
 }
+.v-text-field input {
+    font-size: 14px;
+    min-height: 10px;
+}
+
+.v-text-field input::placeholder {
+  font-size: 14px;
+}
 </style>

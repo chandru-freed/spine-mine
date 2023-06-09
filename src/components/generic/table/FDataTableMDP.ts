@@ -14,6 +14,8 @@ import FCellBooleanMDP from "./cell/FCellBooleanMDP";
 import FCellDateMDP from "./cell/FCellDateMDP";
 import FCellDateTimeMDP from "./cell/FCellDateTimeMDP";
 import FBtnMDP from "../FBtnMDP";
+import FFormMDP, { FFormChildMDP } from "../form/FFormMDP";
+import FTextFieldMDP from "../form/field/FTextFieldMDP";
 export default class FDataTableMDP implements MDP {
   componentName = "FDataTable";
   columnList: FColumnMDP[] = [];
@@ -37,7 +39,10 @@ export default class FDataTableMDP implements MDP {
   enableInfo?: boolean;
   infoActionList: FBtnMDP[] = [];
   enableFooter?: boolean;
+  infoForm?: FFormMDP;
   groupBySummaryFunction?: (itemList:any) => number
+  itemSelectedEventFunction?: (item:any) => any
+  
   constructor({
     dataSelectorKey,
     myRefName,
@@ -54,7 +59,9 @@ export default class FDataTableMDP implements MDP {
     enablePagination = true,
     groupBySummaryFunction,
     enableInfo = false,
-    enableFooter = false
+    enableFooter = false,
+    infoForm,
+    itemSelectedEventFunction
 
   }: {
     dataSelectorKey?: string;
@@ -71,8 +78,10 @@ export default class FDataTableMDP implements MDP {
     enableSerialNumber?: boolean;
     enablePagination?: boolean;
     groupBySummaryFunction?: (itemList:any) => any;
+    itemSelectedEventFunction?: (item:any) => any
     enableInfo?: boolean;
     enableFooter?: boolean;
+    infoForm?: FFormMDP;
   }) {
     this.dataSelectorKey = dataSelectorKey;
     this.itemKey = itemKey;
@@ -90,6 +99,8 @@ export default class FDataTableMDP implements MDP {
     this.enableInfo = enableInfo;
     this.enableFooter = enableFooter;
     this.groupBySummaryFunction = groupBySummaryFunction;
+    this.infoForm = infoForm;
+    this.itemSelectedEventFunction = itemSelectedEventFunction;
   }
 
 
@@ -410,6 +421,22 @@ export default class FDataTableMDP implements MDP {
     return this;
   }
 
+  generateInfoFormMDP() {
+    const fFormMDP: FFormMDP =  this.infoForm?this.infoForm: new FFormMDP({myRefName: "infoForm"});
+    this.columnList.map((column) => {
+      fFormMDP.addField(new FTextFieldMDP({
+        dataSelectorKey: column.dataSelectorKey || "",
+        label: column.label,
+        parentMDP: new FFormChildMDP(),
+        boundaryClass:"col-3",
+        readonly: true,
+        hidden: column.hidden
+      }))
+    });
+
+    return fFormMDP;
+  }
+
   getMetaData() {
     return {
       componentName: this.componentName,
@@ -434,11 +461,13 @@ export default class FDataTableMDP implements MDP {
         enableSerialNumber: this.enableSerialNumber,
         enablePagination: this.enablePagination,
         groupBySummaryFunction: this.groupBySummaryFunction,
+        itemSelectedEventFunction: this.itemSelectedEventFunction,
         enableInfo: this.enableInfo,
         enableFooter:this.enableFooter,
         infoActionMetaDataList: this.infoActionList.map((action) =>
           action.getMetaData()
         ),
+        infoFFormMDP: this.generateInfoFormMDP()
       }
     }
   }

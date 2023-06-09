@@ -1,5 +1,5 @@
 <template>
-  <v-chip :outlined="outlined" v-if="selectModel(modelValue,dataSelectorKey)" small :color="getColor()">
+  <v-chip :outlined="outlined" v-if="selectModel(modelValue,dataSelectorKey)" x-small label :color="getColor()">
     {{selectModel(modelValue,dataSelectorKey)}}
   </v-chip>
 </template>

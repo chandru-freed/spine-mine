@@ -1,5 +1,11 @@
 <template>
   <div class="col">
+    <div class="d-flex justify-end mb-3">
+      <v-btn small color="primary" @click="downloadDebt()">
+        <v-icon size="20" class="mr-1">mdi-file-excel-outline</v-icon>
+        Debt Breakup Template</v-btn
+      >
+    </div>
     <v-card class="mb-5" v-if="!!showViewAgreementForm">
       <component
         :ref="dcpAgreementDetailsMetaData.myRefName"
@@ -120,12 +126,17 @@ export default class DCPCFAgreementInfo extends ModelVue {
 
   handleInfoClick(item: any) {
     this.serviceSignAgreementDetailsOutput = item.agreementDetailsInfo;
-    this.dcpClientCreditorList = item.agreementDetailsInfo.dcpClientCreditorList;
+    this.dcpClientCreditorList =
+      item.agreementDetailsInfo.dcpClientCreditorList;
     this.showViewAgreementForm = true;
   }
 
   resetDCPAgreementForm() {
     this.showViewAgreementForm = false;
+  }
+  downloadDebt() {
+    window.location.href =
+      "https://oasys-image.s3.ap-south-1.amazonaws.com/freed/DCP_Debt_Breakup_Sheet.xlsx";
   }
 }
 </script>

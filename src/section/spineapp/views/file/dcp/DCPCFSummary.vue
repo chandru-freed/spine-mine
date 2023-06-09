@@ -128,7 +128,7 @@ export default class DCPCFSummary extends Vue {
         routerName: "Root.DCPCFile.DCPCFInfo.DCPCFBudgetInfo",
       },
       {
-        name: "Personal Info",
+        name: "Profile",
         icon: "mdi-account",
         routerName: "Root.DCPCFile.DCPCFInfo.DCPCFPersonalInfo",
       },

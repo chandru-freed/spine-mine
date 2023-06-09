@@ -44,8 +44,10 @@
                 small
                 v-for="quickNav in quickNavList"
                 :key="quickNav.name"
+                class="pa-0 mx-0"
               >
-                <v-icon color="secondary" small>{{ quickNav.icon }}</v-icon>
+              <f-tooltip :tooltipText="quickNav.name" :icon="quickNav.icon">{{ quickNav.icon }}</f-tooltip>
+                <!-- <v-icon color="secondary" small>{{ quickNav.icon }}</v-icon> -->
               </v-btn>
             </v-btn-toggle>
 
@@ -316,6 +318,7 @@ import FCellStatus from "@/components/generic/table/cell/FCellStatus.vue";
 import Helper from "../../../util/Helper";
 import FHoverCopy from "@/components/generic/FHoverCopy.vue";
 import FCopy from "@/components/generic/FCopyBtn.vue";
+import FTooltip from "@/components/generic/FTooltip.vue";
 @Component({
   components: {
     "f-btn": FBtn,
@@ -324,6 +327,7 @@ import FCopy from "@/components/generic/FCopyBtn.vue";
     FCellStatus,
     FHoverCopy,
     FCopy,
+    FTooltip
   },
 })
 export default class CFSummary extends Vue {

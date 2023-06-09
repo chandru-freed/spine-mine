@@ -9,6 +9,17 @@
     </v-breadcrumbs>
     <v-card flat>
       
+      <v-card v-if="showResetPasswordForm" class="py-5 px-2" outlined>
+        <v-card-title>Reset Password</v-card-title>
+        <component
+      :ref="resetPasswordFFormMetaData.myRefName"
+      :is="resetPasswordFFormMetaData.componentName"
+      :value="selectModel(resetPasswordInput, undefined)"
+      @input="(newValue) => updateModel(resetPasswordInput, newValue, undefined)"
+      v-bind="resetPasswordFFormMetaData.props"
+    ></component>
+      </v-card>
+      
       <v-card v-if="showAddUserGroupForm" class="py-5 px-2" outlined>
         <v-card-title>Add User Group</v-card-title>
         <component
@@ -65,25 +76,42 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item link @click="() => activateUser()">
+            <v-list-item dense link @click="() => activateUser()">
               <div class="text-caption">Activate</div>
             </v-list-item>
 
-            <v-list-item link @click="() => deActivateUser()">
+            <v-list-item dense link @click="() => deActivateUser()">
               <div class="text-caption">Deactivate</div>
+            </v-list-item>
+
+            <v-list-item dense link @click="() => handleChangeDetailsClick()">
+              <div class="text-caption">ChangeDetails</div>
+            </v-list-item>
+            <v-list-item dense link @click="() => handleResetPasswordClick()">
+              <div class="text-caption">Reset Password</div>
             </v-list-item>
           </v-list>
         </v-menu>
       </div>
 
+        <component
+      v-if="showChangeDetailsForm"
+      :ref="changeUserDetailsFFormMetaData.myRefName"
+      :is="changeUserDetailsFFormMetaData.componentName"
+      :value="selectModel(changeUserDetailsInput, undefined)"
+      @input="(newValue) => updateModel(changeUserDetailsInput, newValue, undefined)"
+      v-bind="changeUserDetailsFFormMetaData.props"
+    ></component>
+
       <component
-        v-if="!!userDetailsFFormMetaData"
+        v-else
         :ref="userDetailsFFormMetaData.myRefName"
         :is="userDetailsFFormMetaData.componentName"
         :value="selectModel(userDetails, undefined)"
         @input="(newValue) => updateModel(userDetails, newValue, undefined)"
         v-bind="userDetailsFFormMetaData.props"
       ></component>
+      
 
       <f-alert
         v-if="showRemoveUserGroupConfirmation"
@@ -128,6 +156,9 @@ import FBtn from "@/components/generic/FBtn.vue";
 import AddUserGroupToUserFFormMDP from "./AddUserGroupToUserFFormMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import FAlert from "@/components/generic/FAlert.vue";
+import ChangeUserDetailsFFormMDP from './ChangeUserDetailsFFormMDP'
+import ResetPasswordFFormMDP from './ResetPasswordFFormMDP'
+
 @Component({
   components: {
     FForm,
@@ -141,8 +172,12 @@ export default class UserDetails extends ModelVue {
   public userDetails: Data.Spine.GompaUserDetails =
     new Data.Spine.GompaUserDetails();
   public userGroupList: Data.Spine.UserGroup[] = [];
+  changeUserDetailsInput: Data.Spine.ChangeUserDetailsInput = new Data.Spine.ChangeUserDetailsInput();
+  resetPasswordInput: Data.Spine.ResetPasswordInput = new Data.Spine.ResetPasswordInput();
   showRemoveUserGroupConfirmation: boolean = false;
   showAddUserGroupForm: boolean = false;
+  showChangeDetailsForm: boolean = false;
+  showResetPasswordForm: boolean = false;
   selectedUserGroupForDelete: any;
   userName = this.$route.params.userName;
   breadcrumbList = [
@@ -168,12 +203,32 @@ export default class UserDetails extends ModelVue {
     }).getMetaData();
   }
 
+  get changeUserDetailsFFormMetaData() {
+          return new ChangeUserDetailsFFormMDP({parent: this}).getMetaData()
+  }
+
+  get resetPasswordFFormMetaData() {
+          return new ResetPasswordFFormMDP({parent: this}).getMetaData()
+      }
+
   // META DATA
 
   mounted() {
     this.getUserDetails();
     this.resetUserGroupInput();
     this.getUserGroupList();
+    Action.Spine.ChangeUserDetails.interested(this.getUserDetailsHandler);
+    Action.Spine.ResetPassword.interested(this.getUserDetailsHandler);
+  }
+  destroyed() {
+    Action.Spine.ChangeUserDetails.notInterested(this.getUserDetailsHandler);
+    Action.Spine.ResetPassword.notInterested(this.getUserDetailsHandler);
+  }
+
+  getUserDetailsHandler = () => {
+    setTimeout(() => {
+      this.getUserDetails();
+    }, 500);
   }
 
   getUserDetails() {
@@ -238,6 +293,20 @@ export default class UserDetails extends ModelVue {
     Action.Spine.ActivateUser.execute1(this.userName, (output) => {
       this.getUserDetails();
     });
+  }
+  handleChangeDetailsClick() {
+    this.showChangeDetailsForm = true;
+    this.changeUserDetailsInput = this.userDetails;
+  }
+
+  handleResetPasswordClick() {
+    this.showResetPasswordForm = true;
+    this.resetPasswordInput.userName = this.userDetails.userName;
+  }
+  closeAndResetForms() {
+    this.showChangeDetailsForm = false;
+    this.showResetPasswordForm = false;
+    this.resetPasswordInput = new Data.Spine.ResetPasswordInput();
   }
 }
 </script>

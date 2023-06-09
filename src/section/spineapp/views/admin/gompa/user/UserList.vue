@@ -12,6 +12,17 @@
       ></component>
     </v-card>
 
+    <v-card v-if="showChangeDetailsForm">
+          <component
+      :ref="changeUserDetailsFFormMetaData.myRefName"
+      :is="changeUserDetailsFFormMetaData.componentName"
+      :value="selectModel(changeUserDetailsInput, undefined)"
+      @input="(newValue) => updateModel(changeUserDetailsInput, newValue, undefined)"
+      v-bind="changeUserDetailsFFormMetaData.props"
+    ></component>
+
+      </v-card>
+
     <v-card flat>
       <component
         v-if="!!userListFDataTableMetaData"
@@ -35,6 +46,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import UserListFDataTableMDP from "./UserListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import AddUserToUGFFormMDP from "./AddUserToUGFFormMDP";
+import ChangeUserDetailsFFormMDP from './ChangeUserDetailsFFormMDP'
 @Component({
   components: {
     FForm,
@@ -46,6 +58,12 @@ export default class UserDetails extends ModelVue {
   public showCreateUserForm: boolean = false;
   addUserInput: Data.Spine.AddUserToUserGroupInput =
     new Data.Spine.AddUserToUserGroupInput();
+
+  showChangeDetailsForm: boolean = false;
+  showResetPasswordForm: boolean = false;
+  
+  changeUserDetailsInput: Data.Spine.ChangeUserDetailsInput = new Data.Spine.ChangeUserDetailsInput();
+  resetPasswordInput: Data.Spine.ResetPasswordInput = new Data.Spine.ResetPasswordInput();
   // META DATA
   get userListFDataTableMetaData() {
     return new UserListFDataTableMDP({
@@ -58,16 +76,25 @@ export default class UserDetails extends ModelVue {
       parent: this,
     }).getMetaData();
   }
+
+  get changeUserDetailsFFormMetaData() {
+          return new ChangeUserDetailsFFormMDP({parent: this}).getMetaData()
+  }
   // META DATA
   mounted() {
     this.getUserList();
     Action.Spine.ActivateUser.interested(this.getUserListHandler);
     Action.Spine.DeActivateUser.interested(this.getUserListHandler);
+
+    Action.Spine.ChangeUserDetails.interested(this.getUserListHandler);
+    Action.Spine.ResetPassword.interested(this.getUserListHandler);
   }
 
   destroyed() {
     Action.Spine.ActivateUser.notInterested(this.getUserListHandler);
     Action.Spine.DeActivateUser.notInterested(this.getUserListHandler);
+    Action.Spine.ChangeUserDetails.notInterested(this.getUserListHandler);
+    Action.Spine.ResetPassword.notInterested(this.getUserListHandler);
   }
 
   getUserListHandler = () => {
@@ -85,6 +112,13 @@ export default class UserDetails extends ModelVue {
     this.addUserInput = new Data.Spine.AddUserToUserGroupInput();
   }
 
+   closeAndResetForms() {
+    this.showChangeDetailsForm = false;
+    this.showResetPasswordForm = false;
+    this.resetPasswordInput = new Data.Spine.ResetPasswordInput();
+    this.changeUserDetailsInput = new Data.Spine.ChangeUserDetailsInput();
+  }
+
   prepopulateLeadSquareId(leadSquareId: string) {
     if (leadSquareId) {
       this.addUserInput.leadSquaredUserId = leadSquareId;
@@ -96,6 +130,16 @@ export default class UserDetails extends ModelVue {
       name: "Root.Admin.Gompa.UserDetails",
       params: { userName: name },
     });
+  }
+
+  handleChangeDetailsClick(item: any) {
+    this.showChangeDetailsForm = true;
+    this.changeUserDetailsInput = Data.Spine.ChangeUserDetailsInput.fromJson(item);
+  }
+
+  handleResetPasswordClick(item: any) {
+    this.showResetPasswordForm = true;
+    this.resetPasswordInput.userName = item.userName;
   }
 }
 </script>

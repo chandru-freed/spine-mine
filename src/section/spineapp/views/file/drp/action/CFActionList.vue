@@ -426,15 +426,15 @@ export default class CFActionList extends Vue {
   }
 
   createCollectFirstMSF() {
-    Action.Spine.CreateCollectFirstMSF.execute2(
-      this.clientFileBasicInfo.clientFileNumber,
-      "V1Net",
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
+    // Action.Spine.CreateCollectFirstMSF.execute2(
+    //   this.clientFileBasicInfo.clientFileNumber,
+    //   "V1Net",
+    //   (output) => {
+    //     setTimeout(() => {
+    //       this.gotoCFActiveTaskList();
+    //     }, 400);
+    //   }
+    // );
   }
 
   createCHPPFlow() {
@@ -451,14 +451,14 @@ export default class CFActionList extends Vue {
   createCollectMSFThroughCashfree() {
     this.createCollectMSFThroughCashfreeInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateCollectMSFThroughCashfree.execute(
-      this.createCollectMSFThroughCashfreeInput,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
+    // Action.Spine.CreateCollectMSFThroughCashfree.execute(
+    //   this.createCollectMSFThroughCashfreeInput,
+    //   (output) => {
+    //     setTimeout(() => {
+    //       this.gotoCFActiveTaskList();
+    //     }, 400);
+    //   }
+    // );
   }
 
   // createNsfMSFFlow() {

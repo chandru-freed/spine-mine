@@ -142,8 +142,6 @@ export default class FCFPaymentPlan extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
-  createCollectMSFThroughCashfreeInput: Data.Spine.CreateCollectMSFThroughCashfreeInput =
-    new Data.Spine.CreateCollectMSFThroughCashfreeInput();
 
   tab = 0;
 
@@ -245,21 +243,6 @@ export default class FCFPaymentPlan extends ModelVue {
     Action.ClientFile.GetFiPaymentList.execute1(this.clientFileId, (output) => {
       this.getFiPaymentListLocal = output;
     });
-  }
-
-  createCollectMSFThroughCashfree(selectedMSFRow: any) {
-    this.createCollectMSFThroughCashfreeInput.msfScheduledEntryId =
-      selectedMSFRow.msfEntryId;
-    this.createCollectMSFThroughCashfreeInput.clientFileNumber =
-      this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateCollectMSFThroughCashfree.execute(
-      this.createCollectMSFThroughCashfreeInput,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
   }
 
   gotoCFActiveTaskList() {

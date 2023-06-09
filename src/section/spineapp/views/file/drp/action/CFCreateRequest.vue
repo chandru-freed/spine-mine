@@ -279,14 +279,14 @@ export default class CFCreateRequest extends Vue {
   createCollectMSFThroughCashfree() {
     this.createCollectMSFThroughCashfreeInput.clientFileNumber =
       this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateCollectMSFThroughCashfree.execute(
-      this.createCollectMSFThroughCashfreeInput,
-      (output) => {
-        setTimeout(() => {
-          this.gotoTask();
-        }, 400);
-      }
-    );
+    // Action.Spine.CreateCollectMSFThroughCashfree.execute(
+    //   this.createCollectMSFThroughCashfreeInput,
+    //   (output) => {
+    //     setTimeout(() => {
+    //       this.gotoTask();
+    //     }, 400);
+    //   }
+    // );
   }
 
   createNsfMSFFlow() {

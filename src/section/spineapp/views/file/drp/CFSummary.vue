@@ -16,12 +16,10 @@
               ></f-copy>
             </div>
 
-            <div
-              class="font-weight-bold text-body-1 d-flex align-center mx-3"
-            >
-            <a class="purple--text" @click="gotoClient()">
-              {{ clientFileBasicInfo.clientBasicInfo.fullName }}
-            </a>
+            <div class="font-weight-bold text-body-1 d-flex align-center mx-3">
+              <a class="purple--text" @click="gotoClient()">
+                {{ clientFileBasicInfo.clientBasicInfo.fullName }}
+              </a>
               <f-copy
                 boundaryClass="mx-1"
                 v-model="clientFileBasicInfo.fullName"
@@ -46,12 +44,24 @@
                 :key="quickNav.name"
                 class="pa-0 mx-0"
               >
-              <f-tooltip :tooltipText="quickNav.name" :icon="quickNav.icon">{{ quickNav.icon }}</f-tooltip>
+                <f-tooltip :tooltipText="quickNav.name" :icon="quickNav.icon">{{
+                  quickNav.icon
+                }}</f-tooltip>
                 <!-- <v-icon color="secondary" small>{{ quickNav.icon }}</v-icon> -->
               </v-btn>
             </v-btn-toggle>
 
             <v-spacer />
+                 <v-btn
+                icon
+                color="secondary"
+                outlined
+                x-small
+                dense
+                @click="openNavShow(clientFileBasicInfo.clientBasicInfo.mobile)"
+              >
+                <v-icon x-small>mdi-phone</v-icon>
+              </v-btn>
 
             <v-chip
               @click="gotoEmandateList"
@@ -156,10 +166,14 @@
                       }}
                     </div>
                     <div class="caption">
-                      {{
-                        fileSummary.msfSummary?.upcomingMSFScheduledEntry.status
-                          .name
-                      }}
+                      <f-cell-status
+                        :outlined="true"
+                        :value="
+                          fileSummary.msfSummary?.upcomingMSFScheduledEntry
+                            .status.name
+                        "
+                        :colorCodeData="msfScheduleStatusColorcode"
+                      />
                     </div>
 
                     <div
@@ -178,23 +192,29 @@
                         !!fileSummary.msfSummary.pastMSFScheduledEntryList[0]
                       "
                     >
-                      <div class="font-weight-bold">
-                        {{
-                          fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                            .statusUpdatedOn | monthday
-                        }}
-                      </div>
-                      <div class="caption">
-                        {{
-                          fileSummary?.msfSummary?.pastMSFScheduledEntryList[0]
-                            .status.id
-                        }}
-                      </div>
-                      <div class="font-weight-bold secondary--text text-right">
-                        {{
-                          fileSummary.msfSummary.pastMSFScheduledEntryList[0]
-                            .totalAmount | toINR
-                        }}
+                      <div class="d-flex flex-fill">
+                        <div class="flex-fill">
+                          {{
+                            fileSummary.msfSummary.pastMSFScheduledEntryList[0]
+                              .statusUpdatedOn | monthday
+                          }}
+                        </div>
+                        <div class="caption">
+                          <f-cell-status
+                            :outlined="true"
+                            :value="
+                              fileSummary?.msfSummary
+                                ?.pastMSFScheduledEntryList[0].status.id
+                            "
+                            :colorCodeData="msfScheduleStatusColorcode"
+                          />
+                        </div>
+                        <div class="secondary--text text-right flex-fill">
+                          {{
+                            fileSummary.msfSummary.pastMSFScheduledEntryList[0]
+                              .totalAmount | toINR
+                          }}
+                        </div>
                       </div>
                     </template>
                     <template
@@ -219,10 +239,14 @@
                       }}
                     </div>
                     <div class="caption">
-                      {{
-                        fileSummary.spaSummary.upcomingSPAScheduledEntry.status
-                          .name
-                      }}
+                      <f-cell-status
+                        :outlined="true"
+                        :value="
+                          fileSummary.spaSummary.upcomingSPAScheduledEntry
+                            .status.name
+                        "
+                        :colorCodeData="msfScheduleStatusColorcode"
+                      />
                     </div>
 
                     <div
@@ -239,23 +263,29 @@
                     <template
                       v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]"
                     >
-                      <div class="font-weight-bold">
+                    <div class="flex-fill">
+                      <div class="flex-fill">
                         {{
                           fileSummary.spaSummary.pastSPAScheduledEntryList[0]
                             .statusUpdatedOn | monthday
                         }}
                       </div>
-                      <div class="caption">
-                        {{
-                          fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                            .status.id
-                        }}
+                      <div class="caption ">
+                        <f-cell-status
+                          :outlined="true"
+                          :value="
+                            fileSummary.spaSummary.pastSPAScheduledEntryList[0]
+                              .status.id
+                          "
+                          :colorCodeData="msfScheduleStatusColorcode"
+                        />
                       </div>
-                      <div class="font-weight-bold primary--text text-right">
+                      <div class="primary--text text-right flex-fill">
                         {{
                           fileSummary.spaSummary.pastSPAScheduledEntryList[0]
                             .totalAmount | toINR
                         }}
+                      </div>
                       </div>
                     </template>
                     <template
@@ -300,7 +330,6 @@
         </v-card>
       </v-sheet>
     </div>
-    
   </div>
 </template>
 
@@ -327,7 +356,7 @@ import FTooltip from "@/components/generic/FTooltip.vue";
     FCellStatus,
     FHoverCopy,
     FCopy,
-    FTooltip
+    FTooltip,
   },
 })
 export default class CFSummary extends Vue {

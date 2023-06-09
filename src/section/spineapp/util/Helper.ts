@@ -41,5 +41,13 @@ export default class Helper  {
       }
       return "";
     }
+
+    static getColor(value: any, colorCodeData: any) {
+      try {
+      return colorCodeData.withId(value)?.name || "purple";
+      } catch(e) {
+        return "default"
+      }
+    }
     
 }

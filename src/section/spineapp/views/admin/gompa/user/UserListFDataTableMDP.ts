@@ -16,14 +16,14 @@ export default class SalesRepListFDataTableMDP extends FDataTableMDP {
         super({
             dataSelectorKey: '',
             myRefName: 'salesRepListFDataTableRef',
-            itemKey:'userName'
+            itemKey: 'userName'
         });
         this.parent = props.parent;
 
         this.addColumn({
             label: "User Name",
             dataSelectorKey: "userName",
-            columnCellMDP: new FCellLinkMDP({onClick: this.handleUserNameLinkClick()})
+            columnCellMDP: new FCellLinkMDP({ onClick: this.handleUserNameLinkClick() })
         }).addColumn({
             label: "Email Id",
             dataSelectorKey: "emailId",
@@ -64,7 +64,7 @@ export default class SalesRepListFDataTableMDP extends FDataTableMDP {
                 label: "userGroupList",
                 dataSelectorKey: "userGroupList",
                 columnCellMDP: new FCellListMDP({
-                    
+
                 }),
             })
             .addBooleanColumn({
@@ -90,6 +90,19 @@ export default class SalesRepListFDataTableMDP extends FDataTableMDP {
                 singleSelect: true,
                 confirmation: true,
             })
+            .addAction({
+                label: "Change Details",
+                type: ActionType.OTHERS,
+                onClick: this.handleChangeDetailsClick(),
+                singleSelect: true,
+            })
+            .addAction({
+                label: "Reset Password",
+                type: ActionType.OTHERS,
+                onClick: this.handleResetPasswordClick(),
+                singleSelect: true,
+            })
+
     }
     handleCreateUserClick() {
         return (item: any) => {
@@ -116,6 +129,22 @@ export default class SalesRepListFDataTableMDP extends FDataTableMDP {
                     res(true);
                 });
             })
+        }
+    }
+
+    handleChangeDetailsClick() {
+        return (item: any) => {
+            return new Promise(res => {
+                this.parent.handleChangeDetailsClick(item);
+            });
+        }
+    }
+
+    handleResetPasswordClick() {
+        return (item: any) => {
+            return new Promise(res => {
+                this.parent.handleResetPasswordClick(item)
+            });
         }
     }
 

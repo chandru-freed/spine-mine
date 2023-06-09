@@ -120,9 +120,6 @@ export default class FCFPaymentPlanMSF extends ModelVue {
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   fileSummary: Data.ClientFile.FileSummary;
 
-  createCollectMSFThroughCashfreeInput: Data.Spine.CreateCollectMSFThroughCashfreeInput =
-    new Data.Spine.CreateCollectMSFThroughCashfreeInput();
-
   tab = 0;
 
   showAddPsEntryForm: boolean = false;
@@ -220,18 +217,26 @@ export default class FCFPaymentPlanMSF extends ModelVue {
   }
 
   createCollectMSFThroughCashfree(selectedMSFRow: any) {
-    this.createCollectMSFThroughCashfreeInput.msfScheduledEntryId =
+    const draftMSFThroughCashfreeInput: Data.Spine.DraftMSFThroughCashfreeInput =
+    new Data.Spine.DraftMSFThroughCashfreeInput();
+    draftMSFThroughCashfreeInput.msfScheduleEntryId =
       selectedMSFRow.msfEntryId;
-    this.createCollectMSFThroughCashfreeInput.clientFileNumber =
-      this.clientFileBasicInfo.clientFileNumber;
-    Action.Spine.CreateCollectMSFThroughCashfree.execute(
-      this.createCollectMSFThroughCashfreeInput,
-      (output) => {
-        setTimeout(() => {
-          this.gotoCFActiveTaskList();
-        }, 400);
-      }
-    );
+    draftMSFThroughCashfreeInput.clientFileId =
+      this.clientFileId;
+
+    Action.Spine.DraftAndPresentMSFThroughCashfree.execute(draftMSFThroughCashfreeInput, output => {
+      this.openPaymentDetails({paymentId: output.paymentId});
+    });  
+
+
+    // Action.Spine.CreateCollectMSFThroughCashfree.execute(
+    //   this.createCollectMSFThroughCashfreeInput,
+    //   (output) => {
+    //     setTimeout(() => {
+    //       this.gotoCFActiveTaskList();
+    //     }, 400);
+    //   }
+    // );
   }
 
   createNsfMsfTask(selectedMSFRow: Data.ClientFile.FiFeeEntry) {

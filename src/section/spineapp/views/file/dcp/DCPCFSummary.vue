@@ -118,7 +118,7 @@ export default class DCPCFSummary extends Vue {
   get quickNavList() {
     return [
       {
-        name: "Credit Card",
+        name: "Creditor",
         icon: "mdi-credit-card",
         routerName: "Root.DCPCFile.DCPCFInfo.DCPCFCreditorInfo",
       },
@@ -128,7 +128,7 @@ export default class DCPCFSummary extends Vue {
         routerName: "Root.DCPCFile.DCPCFInfo.DCPCFBudgetInfo",
       },
       {
-        name: "Account",
+        name: "Personal Info",
         icon: "mdi-account",
         routerName: "Root.DCPCFile.DCPCFInfo.DCPCFPersonalInfo",
       },

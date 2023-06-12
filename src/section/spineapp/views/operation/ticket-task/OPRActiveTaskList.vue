@@ -58,6 +58,7 @@ import AssignTaskFFormMDP from "./AssignTaskFFormMDP";
 import ReassignTaskFFormMDP from "./ReassignTaskFFormMDP";
 import FSnackbar from "@/fsnackbar";
 import TaskSearchFFormMDP from "./TaskSearchFFormMDP";
+import Task from "@/section/spineapp/util/Task";
 @Component({
   components: {
     "f-btn": FBtn,

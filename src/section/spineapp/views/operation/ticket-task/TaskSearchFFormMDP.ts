@@ -5,6 +5,8 @@ import FSelectFieldMDP from "@/components/generic/form/field/FSelectFieldMDP";
 import FBtnMDP from "@/components/generic/FBtnMDP";
 import FNumberFieldMDP from "@/components/generic/form/field/FNumberFieldMDP";
 import FGompaUserRemoteAutoCompleteFieldMDP from "@/components/generic/form/field/FGompaUserRemoteAutoCompleteMDP";
+import FAutoCompleteFieldMDP from "@/components/generic/form/field/FAutoCompleteFieldMDP";
+import Task from "@/section/spineapp/util/Task";
 
 export default class TaskSearchFFormMDP extends FFormMDP {
     childMDP = new FFormChildMDP();
@@ -22,14 +24,25 @@ export default class TaskSearchFFormMDP extends FFormMDP {
             })
         )
 
+            // .addField(
+            //     new FTextFieldMDP({
+            //         parentMDP: this.childMDP,
+            //         dataSelectorKey: "taskName",
+            //         label: "Task Name",
+            //         boundaryClass:"col-4"
+            //     })
+            // )
+
             .addField(
-                new FTextFieldMDP({
+                new FAutoCompleteFieldMDP({
                     parentMDP: this.childMDP,
                     dataSelectorKey: "taskName",
                     label: "Task Name",
-                    boundaryClass:"col-4"
+                    boundaryClass:"col-4",
+                    options: Task.taskList()
                 })
-            ).addField(
+            )
+            .addField(
                 new FSelectFieldMDP({
                     parentMDP: this.childMDP,
                     dataSelectorKey: "taskState",

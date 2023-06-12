@@ -58,4 +58,103 @@ export default class Task {
   //     }
   //   );
   // }
+
+  static TASK_COMPONENT_MAP = new Map([
+    ["Enrollment::EnrollClientFile", "EnrollClientFileTask"],
+    ["Enrollment::ClientInfoVerification", "ClientInfoVerificationTask"],
+    ["Enrollment::SignServiceAgreement", "SignServiceAgreementTask"],
+    [
+      "Enrollment::SignServiceAgreementFailed",
+      "SignServiceAgreementFailedTask",
+    ],
+    ["Enrollment::EMandate", "EMandateTask"],
+    ["Enrollment::EMandateFailed", "EMandateFailedTask"],
+    ["Underwriting::ManualUnderwriting", "UnderwrittingTask"],
+    ["Enrollment::CollectMSF", "CollectMSFThroughCashfreeTask"],
+    ["Enrollment::CollectMSFThroughCashfree", "CollectMSFThroughCashfreeTask"],
+    ["Enrollment::EnrollmentCompletion", "EnrollmentCompletionTask"],
+    ["EMandate::CreateEMandate", "CreateEMandateTask"],
+    ["EMandate::SendEMandateLink", "SendEMandateLinkTask"],
+    ["EMandate::WaitForEMandate", "WaitForEMandateTask"],
+    ["EMandate::GetEMandateStatus", "GetEMandateStatusTask"],
+    ["Digio::GenerateSSADoc", "GenerateSSADocTask"],
+    ["Digio::DownloadUnSignedDoc", "DownloadUnSignedDocTask"],
+    ["Digio::UploadUnSignedDoc", "UploadUnSignedDocTask"],
+    ["Digio::WaitForClientSign", "WaitForClientSignTask"],
+    ["Digio::UpdateClientSignStatus", "UpdateClientSignStatusTask"],
+    ["Digio::DownloadClientSignDoc", "DownloadClientSignDocTask"],
+    ["Digio::UploadClientSignedDoc", "UploadClientSignedDocTask"],
+    ["Digio::SignByFreed", "SignByFreedTask"],
+    ["Digio::UploadFreedSignedDoc", "UploadFreedSignedDocTask"],
+    ["Digio::ClientSignExpired", "ClientSignExpiredTask"],
+    ["CHPP::CHPP", "CHPPTask"],
+    ["NsfMSF::NsfMSF", "NsfMSFTask"],
+    ["NsfMSF::NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
+    ["NsfMSF::NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
+    ["NsfMSF::NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
+    ["NsfMSF::ReceiveManualPayment", "ReceiveManualPaymentTask"],
+    ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
+    [
+      "NsfMSF::CollectNSFMSFThroughCashfree",
+      "CollectNSFMSFThroughCashfreeTask",
+    ],
+    ["ManualPayment::GenerateLink", "GenerateLinkTask"],
+    ["ManualPayment::SendLink", "SendLinkTask"],
+    [
+      "ManualPayment::CheckManualPaymentReceived",
+      "CheckManualPaymentReceivedTask",
+    ],
+    [
+      "ManualPayment::PaymentReceivedConfirmation",
+      "PaymentReceivedConfirmationTask",
+    ],
+    ["WelcomeCall::OnBoardingCall", "ManageClientInfoTask"],
+    [
+      "WelcomeCall::SignServiceAgreementFailed",
+      "WelcomeCallSignServiceAgreementFailedTask",
+    ],
+    ["WelcomeCall::SignAmendment", "SignAmendmentTask"],
+    [
+      "WelcomeCall::ManageClientInfoCompletion",
+      "ManageClientInfoCompletionTask",
+    ],
+    ["WelcomeCall::SignServiceAgreement", "WelcomeCallSSATask"],
+    ["WelcomeCall::EMandate", "WelcomeCallEMandateTask"],
+    [
+      "WelcomeCall::ManageClientInfoCompletion",
+      "ManageClientInfoCompletionTask",
+    ],
+    ["NsfSPA::NsfSPA", "NsfSPATask"],
+    ["NsfSPA::NsfSPADraftRescheduled", "NsfSPADraftRescheduledTask"],
+    ["NsfSPA::NsfSPACompletion", "NsfSPACompletionTask"],
+    ["NsfSPA::NsfSPAClientDeferred", "NsfSPAClientDeferredTask"],
+    ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
+    ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
+    ["MFC::FollowUpCall", "FollowUpCallTask"],
+    ["MFC::MFCCompletion", "MFCCompletionTask"],
+    ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
+    // ["Amendment::PrepareAmendment", "PrepareAmendmentTask"],
+    ["RefundFee::RefundFee", "RefundFeeTask"],
+    ["RefundSPA::UpdateRefundSPAPaymentStatus", "UpdateRefundSPAPaymentStatusTaskTask"],
+    ["CollectMSF::CollectMSFThroughCashfree", "CollectMSFThroughCashfreeTask"],
+    // ["Amendment::ApproveAmendment", "ApproveAmendmentTask"],
+    ["Amendment::SignedByClient", "SignedByClientTask"],
+    ["Amendment::FollowUpAmendmentEMandate", "FollowUpAmendmentEMandateTask"],
+    ["Amendment::PrepareAmendmentV4", "PrepareAmendmentV4Task"],
+    ["Amendment::ApproveAmendmentV4", "ApproveAmendmentV4Task"],
+    ["Amendment::SignedByClientV4", "SignedByClientV4Task"],
+    ["Amendment::FollowUpAmendmentEMandateV4", "FollowUpAmendmentEMandateV4Task"],
+    ["Retain::RetainCancelledFile", "RetainCancelledFileTask"],
+    ["RetainPendingCancelled::RetainPendingCancelledFile", "RetainPendingCancelledFileTask"],
+    ["Cancellation::CancellationChecklist", "CancellationChecklistTask"],
+  ]);
+
+  static taskList() {
+    const flowTaskList = Object.keys(Object.fromEntries(Task.TASK_COMPONENT_MAP));
+    return flowTaskList.map((flowTask: string) => 
+    {
+      return flowTask.split("::")[1];
+    }
+    )
+  }
 }

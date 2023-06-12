@@ -11,8 +11,8 @@ export default class FAutoCompleteFieldMDP implements MDP {
     parentMDP: FFormChildMDP;
     boundaryClass: string | undefined
     disabled: boolean;
-    itemText: string;
-    itemValue: string;
+    itemText?: string;
+    itemValue?: string;
     condition: boolean;
     constructor({
         parentMDP,
@@ -33,8 +33,8 @@ export default class FAutoCompleteFieldMDP implements MDP {
         dataSelectorKey: string;
         boundaryClass?: string;
         options: any[];
-        itemText: string;
-        itemValue: string
+        itemText?: string;
+        itemValue?: string
         mandatory?: boolean;
         disabled?: boolean;
         rules?:string

@@ -79,7 +79,6 @@ import GetEMandateStatusTask from "@/section/spineapp/components/task/eMandate/g
 import CollectMSFTask from "@/section/spineapp/components/task/enrollment/collectMSF/CollectMSFTask.vue";
 import PlanSettlementTask from "@/section/spineapp/components/task/settlementPlan/planSettlement/PlanSettlementTask.vue";
 import MFCCompletionTask from "@/section/spineapp/components/task/mfc/MFCCompletion/MFCCompletionTask.vue";
-import PrepareAmendmentTask from "@/section/spineapp/components/task/amendment/prepareAmendment/PrepareAmendmentTask.vue";
 import RefundFeeTask from "@/section/spineapp/components/task/refundfee/refundFee/RefundFeeTask.vue";
 import CollectMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectMSFThroughCashfree/CollectMSFThroughCashfreeTask.vue";
 import CollectNSFMSFThroughCashfreeTask from "@/section/spineapp/components/task/enrollment/collectNSFMSFThroughCashfree/CollectNSFMSFThroughCashfreeTask.vue";
@@ -87,7 +86,6 @@ import RefundSPATask from "@/section/spineapp/components/task/refundspa/refundSP
 import GenericTask from "@/section/spineapp/components/task/genericTask/GenericTask.vue";
 import UpdateRefundSPAPaymentStatusTaskTask from "@/section/spineapp/components/task/refundspa/updateRefundSPAPaymentStatusTask/UpdateRefundSPAPaymentStatusTaskTask.vue";
 import EnrollClientFileTask from "@/section/spineapp/components/task/enrollment/enrollClientFile/EnrollClientFileTask.vue";
-import ApproveAmendmentTask from "@/section/spineapp/components/task/amendment/approveAmendment/ApproveAmendmentTask.vue";
 import SignedByClientTask from "@/section/spineapp/components/task/amendment/signedByClient/SignedByClientTask.vue";
 import FollowUpAmendmentEMandateTask from "@/section/spineapp/components/task/amendment/followUpAmendmentEMandate/FollowUpAmendmentEMandateTask.vue";
 import PrepareAmendmentV4Task from "@/section/spineapp/components/task/amendment/prepareAmendmentV4/prepareAmendmentV4Task.vue";
@@ -97,6 +95,7 @@ import FollowUpAmendmentEMandateV4Task from "@/section/spineapp/components/task/
 import RetainCancelledFileTask from "@/section/spineapp/components/task/retain/retainCancelledFile/RetainCancelledFileTask.vue";
 import RetainPendingCancelledFileTask from "@/section/spineapp/components/task/retainPendingCancelled/retainPendingCancelledFile/RetainPendingCancelledFileTask.vue";
 import CancellationChecklistTask from "@/section/spineapp/components/task/cancellation/cancellationChecklist/CancellationChecklistTask.vue";
+import Task from "@/section/spineapp/util/Task";
 
 @Component({
   components: {
@@ -149,7 +148,6 @@ import CancellationChecklistTask from "@/section/spineapp/components/task/cancel
     FollowUpCallTask,
     CollectMSFTask,
     PlanSettlementTask,
-    PrepareAmendmentTask,
     RefundFeeTask,
     CollectMSFThroughCashfreeTask,
     CollectNSFMSFThroughCashfreeTask,
@@ -157,7 +155,6 @@ import CancellationChecklistTask from "@/section/spineapp/components/task/cancel
     GenericTask,
     UpdateRefundSPAPaymentStatusTaskTask,
     EnrollClientFileTask,
-    ApproveAmendmentTask,
     SignedByClientTask,
     FollowUpAmendmentEMandateTask,
     PrepareAmendmentV4Task,
@@ -193,103 +190,6 @@ export default class CFTaskDetails extends Vue {
     ];
   }
 
-  TASK_COMPONENT_MAP = new Map([
-    ["Enrollment::EnrollClientFile", "EnrollClientFileTask"],
-    ["Enrollment::ClientInfoVerification", "ClientInfoVerificationTask"],
-    ["Enrollment::SignServiceAgreement", "SignServiceAgreementTask"],
-    [
-      "Enrollment::SignServiceAgreementFailed",
-      "SignServiceAgreementFailedTask",
-    ],
-    ["Enrollment::EMandate", "EMandateTask"],
-    ["Enrollment::EMandateFailed", "EMandateFailedTask"],
-    ["Underwriting::ManualUnderwriting", "UnderwrittingTask"],
-    ["Enrollment::CollectMSF", "CollectMSFThroughCashfreeTask"],
-    ["Enrollment::CollectMSFThroughCashfree", "CollectMSFThroughCashfreeTask"],
-    ["Enrollment::EnrollmentCompletion", "EnrollmentCompletionTask"],
-    ["EMandate::CreateEMandate", "CreateEMandateTask"],
-    ["EMandate::SendEMandateLink", "SendEMandateLinkTask"],
-    ["EMandate::WaitForEMandate", "WaitForEMandateTask"],
-    ["EMandate::GetEMandateStatus", "GetEMandateStatusTask"],
-    ["Digio::GenerateSSADoc", "GenerateSSADocTask"],
-    ["Digio::DownloadUnSignedDoc", "DownloadUnSignedDocTask"],
-    ["Digio::UploadUnSignedDoc", "UploadUnSignedDocTask"],
-    ["Digio::WaitForClientSign", "WaitForClientSignTask"],
-    ["Digio::UpdateClientSignStatus", "UpdateClientSignStatusTask"],
-    ["Digio::DownloadClientSignDoc", "DownloadClientSignDocTask"],
-    ["Digio::UploadClientSignedDoc", "UploadClientSignedDocTask"],
-    ["Digio::SignByFreed", "SignByFreedTask"],
-    ["Digio::UploadFreedSignedDoc", "UploadFreedSignedDocTask"],
-    ["Digio::ClientSignExpired", "ClientSignExpiredTask"],
-    ["CHPP::CHPP", "CHPPTask"],
-    ["NsfMSF::NsfMSF", "NsfMSFTask"],
-    ["NsfMSF::NsfMSFSystemDeferred", "NsfMSFSystemDeferredTask"],
-    ["NsfMSF::NsfMSFClientDeferred", "NsfMSFClientDeferredTask"],
-    ["NsfMSF::NsfMSFDraftRescheduled", "NsfMSFDraftRescheduledTask"],
-    ["NsfMSF::ReceiveManualPayment", "ReceiveManualPaymentTask"],
-    ["NsfMSF::NsfMSFCompletion", "NsfMSFCompletionTask"],
-    [
-      "NsfMSF::CollectNSFMSFThroughCashfree",
-      "CollectNSFMSFThroughCashfreeTask",
-    ],
-    ["ManualPayment::GenerateLink", "GenerateLinkTask"],
-    ["ManualPayment::SendLink", "SendLinkTask"],
-    [
-      "ManualPayment::CheckManualPaymentReceived",
-      "CheckManualPaymentReceivedTask",
-    ],
-    [
-      "ManualPayment::PaymentReceivedConfirmation",
-      "PaymentReceivedConfirmationTask",
-    ],
-    ["WelcomeCall::OnBoardingCall", "ManageClientInfoTask"],
-    [
-      "WelcomeCall::SignServiceAgreementFailed",
-      "WelcomeCallSignServiceAgreementFailedTask",
-    ],
-    ["WelcomeCall::SignAmendment", "SignAmendmentTask"],
-    [
-      "WelcomeCall::ManageClientInfoCompletion",
-      "ManageClientInfoCompletionTask",
-    ],
-    ["WelcomeCall::SignServiceAgreement", "WelcomeCallSSATask"],
-    ["WelcomeCall::EMandate", "WelcomeCallEMandateTask"],
-    [
-      "WelcomeCall::ManageClientInfoCompletion",
-      "ManageClientInfoCompletionTask",
-    ],
-    ["NsfSPA::NsfSPA", "NsfSPATask"],
-    ["NsfSPA::NsfSPADraftRescheduled", "NsfSPADraftRescheduledTask"],
-    ["NsfSPA::NsfSPACompletion", "NsfSPACompletionTask"],
-    ["NsfSPA::NsfSPAClientDeferred", "NsfSPAClientDeferredTask"],
-    ["NsfSPA::ReceiveManualPayment", "NsfSPAReceiveManualPaymentTask"],
-    ["NsfSPA::NsfSPASystemDeferred", "NsfSPASystemDeferredTask"],
-    ["MFC::FollowUpCall", "FollowUpCallTask"],
-    ["MFC::MFCCompletion", "MFCCompletionTask"],
-    ["SettlementPlan::PlanSettlement", "PlanSettlementTask"],
-    ["Amendment::PrepareAmendment", "PrepareAmendmentTask"],
-    ["RefundFee::RefundFee", "RefundFeeTask"],
-    ["RefundSPA::UpdateRefundSPAPaymentStatus", "UpdateRefundSPAPaymentStatusTaskTask"],
-    ["CollectMSF::CollectMSFThroughCashfree", "CollectMSFThroughCashfreeTask"],
-    ["Amendment::ApproveAmendment", "ApproveAmendmentTask"],
-    ["Amendment::SignedByClient", "SignedByClientTask"],
-    ["Amendment::FollowUpAmendmentEMandate", "FollowUpAmendmentEMandateTask"],
-    ["Amendment::PrepareAmendmentV4", "PrepareAmendmentV4Task"],
-    ["Amendment::ApproveAmendmentV4", "ApproveAmendmentV4Task"],
-    ["Amendment::SignedByClientV4", "SignedByClientV4Task"],
-    ["Amendment::FollowUpAmendmentEMandateV4", "FollowUpAmendmentEMandateV4Task"],
-    ["Retain::RetainCancelledFile", "RetainCancelledFileTask"],
-    ["RetainPendingCancelled::RetainPendingCancelledFile", "RetainPendingCancelledFileTask"],
-    ["Cancellation::CancellationChecklist", "CancellationChecklistTask"],
-    
-    
-    
-    
-    
-    
-    
-    
-  ]);
 
   taskId = this.$route.params.taskId;
 
@@ -298,7 +198,7 @@ export default class CFTaskDetails extends Vue {
   }
 
   get selectedComponent() {
-    let selectedComponentTemp = this.TASK_COMPONENT_MAP.get(this.fqTaskName);
+    let selectedComponentTemp = Task.TASK_COMPONENT_MAP.get(this.fqTaskName);
     return !selectedComponentTemp ? "GenericTask" : selectedComponentTemp;
   }
 

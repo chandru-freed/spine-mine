@@ -1,6 +1,15 @@
 <template>
   <div class="CFPersonalInfo">
     <component
+      :ref="cfriFFRegistrationDetailsMetaData.myRefName"
+      :is="cfriFFRegistrationDetailsMetaData.componentName"
+      :value="
+        selectModel(clientFileBasicInfo, cfriFFRegistrationDetailsMetaData.dataSelectorKey)
+      "
+      v-bind="cfriFFRegistrationDetailsMetaData.props"
+    ></component>
+    
+    <component
       :ref="profileFormMetaData.myRefName"
       :is="profileFormMetaData.componentName"
       :value="
@@ -28,7 +37,7 @@ import ModelVue from "@/components/generic/ModelVue";
 import FForm from "@/components/generic/form/FForm.vue";
 import * as Action from "@/../src-gen/action";
 import CFPersonalInfoFProfileFFormMDP from "./CFPersonalInfoFProfileFFormMDP";
-
+import CFRIFFRegistrationDetailsMDP from './CFRIFFRegistrationDetailsMDP';
 @Component({
   components: {
     FForm,
@@ -51,6 +60,13 @@ export default class CFPersonalInfo extends ModelVue {
       taskRoot: this,
       parent: this,
     }).getMetaData();
+  }
+
+  get cfriFFRegistrationDetailsMetaData() {
+    return new CFRIFFRegistrationDetailsMDP({
+      parent: this,
+      taskRoot: this
+    }).getMetaData()
   }
   //METADATA
 

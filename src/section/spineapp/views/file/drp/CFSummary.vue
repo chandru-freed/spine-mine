@@ -52,16 +52,16 @@
             </v-btn-toggle>
 
             <v-spacer />
-                 <v-btn
-                icon
-                color="secondary"
-                outlined
-                x-small
-                dense
-                @click="openNavShow(clientFileBasicInfo.clientBasicInfo.mobile)"
-              >
-                <v-icon x-small>mdi-phone</v-icon>
-              </v-btn>
+            <v-btn
+              icon
+              color="secondary"
+              outlined
+              x-small
+              dense
+              @click="openNavShow(clientFileBasicInfo.clientBasicInfo.mobile)"
+            >
+              <v-icon x-small>mdi-phone</v-icon>
+            </v-btn>
 
             <v-chip
               @click="gotoEmandateList"
@@ -263,29 +263,29 @@
                     <template
                       v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]"
                     >
-                    <div class="flex-fill">
                       <div class="flex-fill">
-                        {{
-                          fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                            .statusUpdatedOn | monthday
-                        }}
-                      </div>
-                      <div class="caption ">
-                        <f-cell-status
-                          :outlined="true"
-                          :value="
+                        <div class="flex-fill">
+                          {{
                             fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                              .status.id
-                          "
-                          :colorCodeData="msfScheduleStatusColorcode"
-                        />
-                      </div>
-                      <div class="primary--text text-right flex-fill">
-                        {{
-                          fileSummary.spaSummary.pastSPAScheduledEntryList[0]
-                            .totalAmount | toINR
-                        }}
-                      </div>
+                              .statusUpdatedOn | monthday
+                          }}
+                        </div>
+                        <div class="caption">
+                          <f-cell-status
+                            :outlined="true"
+                            :value="
+                              fileSummary.spaSummary
+                                .pastSPAScheduledEntryList[0].status.id
+                            "
+                            :colorCodeData="msfScheduleStatusColorcode"
+                          />
+                        </div>
+                        <div class="primary--text text-right flex-fill">
+                          {{
+                            fileSummary.spaSummary.pastSPAScheduledEntryList[0]
+                              .totalAmount | toINR
+                          }}
+                        </div>
                       </div>
                     </template>
                     <template
@@ -376,9 +376,9 @@ export default class CFSummary extends Vue {
   get quickNavList() {
     return [
       {
-        name: "Account",
-        icon: "mdi-account",
-        routerName: "Root.CFile.CFInfo.CFPersonalInfo",
+        name: "Creditors",
+        icon: "mdi-credit-card",
+        routerName: "Root.CFile.CFInfo.CFCreditorInfo",
       },
       {
         name: "Budget",
@@ -386,19 +386,20 @@ export default class CFSummary extends Vue {
         routerName: "Root.CFile.CFInfo.CFBudgetInfo",
       },
       {
-        name: "Credit Card",
-        icon: "mdi-credit-card",
-        routerName: "Root.CFile.CFInfo.CFCreditorInfo",
-      },
-      {
-        name: "Document",
-        icon: "mdi-file-document",
-        routerName: "Root.CFile.CFInfo.CFDocumentInfo",
-      },
-      {
-        name: "payment plan",
+        name: "Payment Plan",
         icon: "mdi-calendar-blank",
         routerName: "Root.CFile.CFInfo.CFPaymentPlanInfo",
+      },
+      {
+        name: "Profile",
+        icon: "mdi-account",
+        routerName: "Root.CFile.CFInfo.CFPersonalInfo",
+      },
+
+      {
+        name: "Documents",
+        icon: "mdi-file-document",
+        routerName: "Root.CFile.CFInfo.CFDocumentInfo",
       },
     ];
   }

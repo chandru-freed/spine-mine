@@ -293,7 +293,7 @@ export default class CFActionList extends Vue {
             icon: "mdi-chevron-right",
             // command: this.requestCancel,
             routerName: "Root.CFile.CFAction.CFRequestCancel",
-            condition: this.isAdmin()&&!this.isClientFilePendingCancelled(),
+            condition: this.isCustomerService()&&!this.isClientFilePendingCancelled(),
           },
             {
             actionName: "Reject File",
@@ -716,6 +716,10 @@ export default class CFActionList extends Vue {
   }
   isAdmin() {
     return this.roleList?.includes("Admin");
+  }
+
+  isCustomerService() {
+    return this.roleList?.includes("CS") || this.roleList?.includes("CSManager");
   }
 
   isClientFileNotHold() {

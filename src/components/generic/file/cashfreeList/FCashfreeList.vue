@@ -1,5 +1,17 @@
 <template>
   <div class="col-12">
+    <v-card v-if="showCancelForm">
+     <component
+        :ref="cfCancelPaymentFFormMetaData.myRefName"
+        :is="cfCancelPaymentFFormMetaData.componentName"
+        :value="selectModel(cancelInput, undefined)"
+        @input="
+          (newValue) =>
+            updateModel(cancelInput, newValue, undefined)
+        "
+        v-bind="cfCancelPaymentFFormMetaData.props"
+      ></component>
+    </v-card>
     <component
       v-if="!!showViewPaymentForm"
       :ref="paymentDetailsFFormMetaData.myRefName"
@@ -60,6 +72,7 @@ import * as Data from "@/../src-gen/data";
 import FCashfreeListFDataTableMDP from "./FCashfreeListFDataTableMDP";
 import PaymentDetailsFFormMDP from "@/section/spineapp/views/file/drp/payment/PaymentDetailsFFormMDP";
 import CFPaymentListFDataTableMDP from "@/section/spineapp/views/file/drp/payment/CFPaymentListFDataTableMDP";
+import CFCancelPaymentFFormMDP from "@/section/spineapp/views/file/drp/payment/CFCancelPaymentFFormMDP";
 
 @Component({
   components: {
@@ -79,9 +92,12 @@ export default class FCashfreeList extends ModelVue {
   taskRoot: any;
 
   showViewPaymentForm: boolean = false;
+  showCancelForm: boolean = false;
+  cancelInput: Data.ClientFile.CancelPaymentInput = new Data.ClientFile.CancelPaymentInput();
   selectedPaymentSummaryToView: Data.ClientFile.FiPayment =
     new Data.ClientFile.FiPayment();
-
+  selectedPaymentToCancel: Data.ClientFile.FiPayment =
+    new Data.ClientFile.FiPayment();
   clientFileId = this.$route.params.clientFileId;
   taskId = this.$route.params.taskId;
 
@@ -129,14 +145,29 @@ export default class FCashfreeList extends ModelVue {
     console.log(item);
   }
 
+  handleCancelPaymentClick(item: any) {
+    this.selectedPaymentToCancel = item;
+    this.showCancelForm = true;
+  }
+
   get paymentDetailsFFormMetaData() {
     return new PaymentDetailsFFormMDP({ parent: this }).getMetaData();
+  }
+
+
+  get cfCancelPaymentFFormMetaData() {
+    return new CFCancelPaymentFFormMDP({parent: this}).getMetaData();
   }
 
 
   resetPaymentForm() {
     this.showViewPaymentForm = false;
     this.selectedPaymentSummaryToView = new Data.ClientFile.FiPayment();
+  }
+
+  resetFormsTableAndData() {
+    this.showCancelForm = false;
+    this.cancelInput = new Data.ClientFile.CancelPaymentInput();
   }
 
   isAdmin() {

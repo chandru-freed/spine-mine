@@ -3,15 +3,7 @@ import * as Action from "@/../src-gen/action";
 import FDataTableMDP, {
   ActionType,
 } from "@/components/generic/table/FDataTableMDP";
-import FCellDateMDP from "@/components/generic/table/cell/FCellDateMDP";
-import FCellBooleanMDP from "@/components/generic/table/cell/FCellBooleanMDP";
 import FSnackbar from "@/fsnackbar";
-import FCellLinkMDP from "../../table/cell/FCellLinkMDP";
-import FCellCopyMDP from "../../table/cell/FCellCopyMDP";
-import FCellStandardDateTimeMDP from "../../table/cell/FCellStandardDateTimeMDP";
-import FCellDateTimeMDP from "../../table/cell/FCellDateTimeMDP";
-import FCellStatusMDP from "../../table/cell/FCellStatusMDP";
-import FCellRouterLinkMDP from "../../table/cell/FCellRouterLinkMDP";
 import CFPaymentListFDataTableMDP from "@/section/spineapp/views/file/drp/payment/CFPaymentListFDataTableMDP";
 export default class FCashfreeListFDataTableMDP extends CFPaymentListFDataTableMDP {
   parent: any;

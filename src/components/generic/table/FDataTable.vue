@@ -740,6 +740,7 @@ export default class FDataTable extends ModelVue {
    handleDetailsClick(item: any, index: number) {
     this.selectedRowIndex = index;
     this.showInfoForm = true;
+    this.selectedItemList = [item];
     console.log(item);
     if(this.itemSelectedEventFunction) {
       this.itemSelectedEventFunction(item);
@@ -897,7 +898,7 @@ export default class FDataTable extends ModelVue {
     }))
     
 
-    this.actions.filter(item => item.type === ActionType.OTHERS && !item.noSelect).map(action => {
+    this.actions.filter(item => item.type === ActionType.OTHERS && !item.noSelect&&!!item.condition).map(action => {
       this.infoFFormMDP.addAction(new FBtnMDP({
         label: action.label,
         onClick: () => this.handleOtherActionClick(action),

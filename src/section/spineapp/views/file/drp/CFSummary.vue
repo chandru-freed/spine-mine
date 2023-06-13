@@ -22,7 +22,7 @@
               </a>
               <f-copy
                 boundaryClass="mx-1"
-                v-model="clientFileBasicInfo.fullName"
+                v-model="clientFileBasicInfo.clientBasicInfo.fullName"
               >
               </f-copy>
             </div>
@@ -263,7 +263,7 @@
                     <template
                       v-if="fileSummary.spaSummary.pastSPAScheduledEntryList[0]"
                     >
-                      <div class="flex-fill">
+                      <div class="d-flex flex-fill">
                         <div class="flex-fill">
                           {{
                             fileSummary.spaSummary.pastSPAScheduledEntryList[0]

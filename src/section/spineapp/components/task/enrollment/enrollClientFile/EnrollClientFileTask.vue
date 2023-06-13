@@ -372,6 +372,7 @@ export default class EnrollClientFileTask extends ModelVue {
     );
     Action.ClientFile.RequestFundSplit.interested(this.getMSFCashfreeLinkPaymentListHandler);
     Action.ClientFile.CheckPaymentStatus.interested(this.checkPaymentStatusHandler)
+    Action.ClientFile.CancelPayment.interested(this.getMSFCashfreeLinkPaymentListHandler)
   }
 
   public destroyed() {
@@ -453,7 +454,7 @@ export default class EnrollClientFileTask extends ModelVue {
       this.getMSFCashfreeLinkPaymentListHandler
     );
     Action.ClientFile.RequestFundSplit.notInterested(this.getMSFCashfreeLinkPaymentListHandler);
-
+    Action.ClientFile.CancelPayment.notInterested(this.getMSFCashfreeLinkPaymentListHandler)
     // getEMandateListHandler
   }
   // Confirm AccountNumber => per populate account number to confirm cccount number

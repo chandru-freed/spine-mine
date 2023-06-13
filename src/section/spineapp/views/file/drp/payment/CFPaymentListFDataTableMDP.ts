@@ -14,7 +14,7 @@ export default class CFPaymentListFDataTableMDP extends FDataTableMDP {
   itemSelected: any;
   constructor({ parent }: { parent: any; }) {
     super({
-      itemKey: "psEntryId",
+      itemKey: "paymentId",
       disabled: parent?.taskRoot?.taskDisabled,
       title: "Payment List",
       myRefName: "fCFPaymentFDataTableRef",
@@ -168,6 +168,12 @@ export default class CFPaymentListFDataTableMDP extends FDataTableMDP {
         type: ActionType.REFRESH,
         noSelect: true,
       })
+      .addAction({
+        label: "Cancel payment",
+        onClick: this.handleCancelClick(),
+        type: ActionType.OTHERS,
+        condition: this.parent.showCancelForm !== undefined
+      })
       .addInfoAction(new FBtnMDP({
         label: "Request fund Split",
         onClick: () => { }
@@ -198,6 +204,15 @@ export default class CFPaymentListFDataTableMDP extends FDataTableMDP {
 
         this.getFiPaymentList()
         this.getClientFileBasicInfo();
+      })
+    }
+  }
+
+  handleCancelClick() {
+
+    return (item: any) => {
+      return new Promise((res) => {
+        this.parent.handleCancelPaymentClick(item);
       })
     }
   }

@@ -1,6 +1,20 @@
 <template>
   <div class="CFPaymentList">
     <v-col class="col-12">
+
+       <component
+        v-if="showCancelForm"
+        :ref="cfCancelPaymentFFormMetaData.myRefName"
+        :is="cfCancelPaymentFFormMetaData.componentName"
+        :value="selectModel(cancelInput, undefined)"
+        @input="
+          (newValue) =>
+            updateModel(cancelInput, newValue, undefined)
+        "
+        v-bind="cfCancelPaymentFFormMetaData.props"
+      ></component>
+
+
       <component
         v-if="!!showViewPaymentForm"
         :ref="paymentDetailsFFormMetaData.myRefName"
@@ -35,7 +49,7 @@ import CFPaymentListFDataTableMDP from "./CFPaymentListFDataTableMDP";
 import FDataTable from "@/components/generic/table/FDataTable.vue";
 import PaymentDetailsFFormMDP from "./PaymentDetailsFFormMDP";
 import PaymentDetailsInfoFFormMDP from "./PaymentDetailsInfoFFormMDP";
-
+import CFCancelPaymentFFormMDP from './CFCancelPaymentFFormMDP';
 @Component({
   components: {
     FForm,
@@ -54,6 +68,11 @@ export default class CFPaymentList extends ModelVue {
     new Data.ClientFile.FiPayment();
   showViewPaymentForm: boolean = false;
   selectedPayment: any;
+  showCancelForm: boolean = false;
+  cancelInput: Data.ClientFile.CancelPaymentInput = new Data.ClientFile.CancelPaymentInput();
+  selectedPaymentToCancel: Data.ClientFile.FiPayment =
+    new Data.ClientFile.FiPayment();
+  
   get clientFileId() {
     return this.$route.params.clientFileId;
   }
@@ -67,6 +86,7 @@ export default class CFPaymentList extends ModelVue {
       this.getFiPaymentListHandler
     );
     Action.ClientFile.RequestFundSplit.interested(this.getFiPaymentListHandler);
+    Action.ClientFile.CancelPayment.interested(this.getFiPaymentListHandler)
   }
 
   destroyed() {
@@ -79,6 +99,7 @@ export default class CFPaymentList extends ModelVue {
     Action.ClientFile.RequestFundSplit.notInterested(
       this.getFiPaymentListHandler
     );
+    Action.ClientFile.CancelPayment.notInterested(this.getFiPaymentListHandler)
   }
 
   //Meta Data
@@ -124,15 +145,31 @@ export default class CFPaymentList extends ModelVue {
     return new PaymentDetailsFFormMDP({ parent: this }).getMetaData();
   }
 
+  get cfCancelPaymentFFormMetaData() {
+    return new CFCancelPaymentFFormMDP({parent: this}).getMetaData();
+  }
+
   handleInfoClick(item: Data.ClientFile.FiPayment) {
     console.log(item);
     this.selectedPaymentSummaryToView = item;
     this.showViewPaymentForm = true;
   }
 
+   handleCancelPaymentClick(item: any) {
+    this.selectedPaymentToCancel = item;
+    this.showCancelForm = true;
+  }
+
   resetPaymentForm() {
     this.showViewPaymentForm = false;
     this.selectedPaymentSummaryToView = new Data.ClientFile.FiPayment();
   }
+
+
+  resetFormsTableAndData() {
+    this.showCancelForm = false;
+    this.cancelInput = new Data.ClientFile.CancelPaymentInput();
+  }
+
 }
 </script>

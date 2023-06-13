@@ -31,7 +31,7 @@ import Helper from "../../../../util/Helper";
 import CFUpdateContactInfoFFormMDP from "./CFUpdateContactInfoFFormMDP";
 import ModelVue from "@/components/generic/ModelVue";
 import FSnackbar from "@/fsnackbar";
-import CFRequestCancelFFormMDP from './CFRequestCancelFFormMDP'
+import CFRequestCancelFFormMDP, { reasonCodeList } from './CFRequestCancelFFormMDP'
 
 @Component({
   components: {
@@ -73,7 +73,8 @@ export default class CFRequestCancel extends ModelVue {
     
     Action.ClientFile.RequestCancel.execute(this.cancelInput, (output) => {
       setTimeout(() => {
-        const noteMsg = `Cancelation Reason: ${this.cancelInput.reason}: ${this.cancelInput.reasonDetails}`;
+        const reason = reasonCodeList.find(reasonCode => reasonCode.id === this.cancelInput.reason);
+        const noteMsg = `Cancelation Reason: ${reason?.name}: ${this.cancelInput.reasonDetails}`;
         this.addNote(noteMsg);
         FSnackbar.success("Succesfully Requested");
         this.gotoCFActiveTaskList();

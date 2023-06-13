@@ -74,7 +74,7 @@ export default class InitiateEMandateFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FIFSCCodeFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "clientBankInfo.ifscCode",
           label: "IFSC Code",

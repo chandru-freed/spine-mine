@@ -295,6 +295,7 @@ export default class TMOStimulator extends ModelVue {
   }
 
   get result() {
+    const msfDiscountAmount = (this.modelValue?.paymentPlan?.ppCalculator?.msfDiscountAmount || 0);
     const totalPercentage =
       this.resultLocal.settlementPercentage + this.feeGSTPercentage;
     this.resultLocal.monthlyPayment =
@@ -310,7 +311,7 @@ export default class TMOStimulator extends ModelVue {
     );
     this.resultLocal.msfAmount = getMSFWithFreed(this.resultLocal.outstanding);
     this.resultLocal.monthlyObligation =
-      this.resultLocal.monthlyPayment + this.resultLocal.msfAmount;
+      this.resultLocal.monthlyPayment + this.resultLocal.msfAmount - msfDiscountAmount;
     this.resultLocal.freedFee =
       (this.resultLocal.outstanding * this.feeGSTPercentage) / 100;
     this.resultLocal.actualRepaymentToCred =

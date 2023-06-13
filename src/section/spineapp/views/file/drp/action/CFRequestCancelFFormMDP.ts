@@ -43,7 +43,7 @@ export default class CFRequestCancelFFormMDP extends FFormMDP {
 }
 
 
-const reasonCodeList: any[] = [
+export const reasonCodeList: any[] = [
     {
         id: "CR_101",
         name: "Need Loan"

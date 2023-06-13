@@ -50,6 +50,9 @@ export default class FPPCLientListFDataTableMDP extends FDataTableMDP {
       .addStatusColumn({
         label: "Status",
         dataSelectorKey: "clientFileStatus.name",
+      }).addColumn({
+        label: "Debt Load",
+        dataSelectorKey: "unsecuredLoanAmount",
       })
       .addColumn({
         label: "Assigned Sales Rep",

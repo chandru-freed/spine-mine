@@ -12,7 +12,7 @@ export default class FIFSCCodeFieldMDP implements FFieldMDP {
   boundaryClass: string;
   disabled: boolean;
   condition: boolean;
-  onSelect: (details: any) => void;
+  onSelect?: (details: any) => void;
   // defaultValue?: string;
 
   constructor({
@@ -38,7 +38,7 @@ export default class FIFSCCodeFieldMDP implements FFieldMDP {
     boundaryClass?: string;
     disabled?: boolean;
     condition?: boolean;
-    onSelect: (details: any) => void
+    onSelect?: (details: any) => void
     // defaultValue?: string
   }) {
     this.parentMDP = parentMDP;
@@ -55,7 +55,7 @@ export default class FIFSCCodeFieldMDP implements FFieldMDP {
   }
 
   getRules() {
-    const required = this.mandatory ? "required" : "";
+    const required = this.mandatory ? "validate_ifsc" : "";
     return `${required}|${this.rules}`;
   }
 

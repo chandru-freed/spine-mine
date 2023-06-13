@@ -12,6 +12,7 @@ import FSelectDateFieldMDP from "@/components/generic/form/field/FDateSelectFiel
 import FAccountFieldMDP from "@/components/generic/form/field/FAccountFieldMDP";
 import FNupayBankSelectFieldMDP from "@/components/generic/form/field/FNupayBankSelectFieldMDP";
 import * as Data from "@/../src-gen/data";
+import FIFSCCodeFieldMDP from "@/components/generic/form/field/FIFSCCodeFieldMDP";
 
 export default class CFInitiateEMandateFFormMDP extends FFormMDP {
   childMDP = new FFormChildMDP();
@@ -73,12 +74,13 @@ export default class CFInitiateEMandateFFormMDP extends FFormMDP {
         })
       )
       .addField(
-        new FTextFieldMDP({
+        new FIFSCCodeFieldMDP({
           parentMDP: this.childMDP,
           dataSelectorKey: "clientBankInfo.ifscCode",
           label: "IFSC Code",
           mandatory: true,
           boundaryClass: "col-4",
+          onSelect: () => {}
           
         })
       )

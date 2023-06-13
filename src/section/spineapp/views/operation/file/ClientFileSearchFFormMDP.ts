@@ -78,6 +78,17 @@ export default class ClientFileSearchFFormMDP extends FFormMDP {
           boundaryClass: "col-4",
         })
       )
+
+      .addField(new FSelectFieldMDP({
+        dataSelectorKey:"programCode",
+        label:"Program Code",
+        parentMDP: this.childMDP,
+        boundaryClass: "col-4",
+        options: Data.ClientFile.PROGRAM_CODE.list(),
+        optionLabel:"name",
+        optionValue: "id",
+        clearable: true
+      }))
       .addField(new FSwitchMDP({
         dataSelectorKey:"rmNotAssigned",
         label:"RM Unassigned",

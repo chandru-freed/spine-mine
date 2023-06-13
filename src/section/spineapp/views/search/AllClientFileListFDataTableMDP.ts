@@ -68,6 +68,11 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "eMandateActive",
         columnCellMDP: new FCellBooleanMDP({}),
       })
+      .addStatusColumn({
+        label: "Program Code",
+        dataSelectorKey: "programCode.name",
+        filterItemList: Data.ClientFile.PROGRAM_CODE.list()
+      })
       .addFilter({
         dataSelectorKey: "clientFileStatus.name",
         filterItems: Data.ClientFile.CLIENT_FILE_STATUS.list(),

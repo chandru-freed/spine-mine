@@ -62,6 +62,11 @@ export default class AllClientFileListFDataTableMDP extends FDataTableMDP {
         dataSelectorKey: "eMandateActive",
         columnCellMDP: new FCellBooleanMDP({}),
       })
+      .addStatusColumn({
+        label: "Program Code",
+        dataSelectorKey: "programCode.name",
+        filterItemList: Data.ClientFile.PROGRAM_CODE.list()
+      })
       .addAction({
         label: "Assign RM",
         onClick: (item) => this.handleAssignRMClick(item),

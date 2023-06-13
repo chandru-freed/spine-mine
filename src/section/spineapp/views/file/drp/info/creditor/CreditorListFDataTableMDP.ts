@@ -67,13 +67,13 @@ export default class CreditorListFDataTableMDP extends FDataTableMDP {
       //   outlined: true,
       //   filterItemList: Data.Spine.FICREDITOR_STATUS.list()
       // })
-      // .addAction({
-      //   type: ActionType.OTHERS,
-      //   onClick: (item) => this.handleMarkSettleClick(item),
-      //   label: "Mark Settle",
-      //   confirmation: true,
-      //   disabled: this.parent.isClientFileLead(),
-      // })
+      .addAction({
+        type: ActionType.OTHERS,
+        onClick: (item) => this.handleMarkSettleClick(item),
+        label: "Mark Settle",
+        confirmation: true,
+        disabled: this.parent.isClientFileLead()&&this.parent?.isCustomerService(),
+      })
       .addAction({
         type: ActionType.OTHERS,
         onClick: () => this.handleAddCreditScore(),

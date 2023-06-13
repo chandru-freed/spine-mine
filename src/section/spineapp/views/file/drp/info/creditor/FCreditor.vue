@@ -87,6 +87,9 @@ export default class FCreditor extends ModelVue {
   selectedCreditorItem: Data.Spine.Creditor;
   @Store.Getter.ClientFile.ClientFileSummary.fileSummary
   clientFileSummary: Data.ClientFile.FileSummary;
+  
+  @Store.Getter.Login.LoginDetails.roleList
+  roleList: string[];
 
   @Store.Getter.ClientFile.ClientFileSummary.clientFileBasicInfo
   clientFileBasicInfo: Data.ClientFile.ClientFileBasicInfo;
@@ -224,6 +227,11 @@ get fiCreditorList() {
 
   isClientFileLead(): boolean {
     return this.clientFileBasicInfo.clientFileStatus.id === "LEAD";
+  }
+
+
+  isCustomerService() {
+    return this.roleList?.includes("CS") || this.roleList?.includes("CSManager");
   }
 
   get creditorListFDataTableMetaData() {

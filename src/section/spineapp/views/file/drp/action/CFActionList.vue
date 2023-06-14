@@ -112,7 +112,7 @@ export default class CFActionList extends Vue {
     return [
       {
         groupName: "Flow",
-        condition: this.isClientFileNotHold(),
+        condition: this.isClientFileNotHold()&&!this.isClientFileCancelled(),
         actionList: [
           // {
           //   actionName: "Create Flow",
@@ -199,6 +199,7 @@ export default class CFActionList extends Vue {
       },
       {
         groupName: "Communication",
+        condition: !this.isClientFileCancelled(),
         actionList: [
           {
             actionName: "Send Email",
@@ -219,7 +220,7 @@ export default class CFActionList extends Vue {
       },
       {
         groupName: "Assign",
-        condition: this.isNotSalesRepOrLead(),
+        condition: this.isNotSalesRepOrLead()&&!this.isClientFileCancelled(),
         actionList: [
           {
             actionName: "Assign RM (Relationship Manager)",
@@ -267,24 +268,25 @@ export default class CFActionList extends Vue {
             actionName: "Mark File As Activate",
             icon: "mdi-chevron-right",
             command: this.activate,
-            condition: this.isClientFileNotHold(),
+            condition: this.isClientFileNotHold()&&!this.isClientFileCancelled(),
           },
           {
             actionName: "Mark File As Hold",
             icon: "mdi-chevron-right",
             command: this.hold,
-            condition: this.isClientFileNotHold(),
+            condition: this.isClientFileNotHold()&&!this.isClientFileCancelled(),
           },
           {
             actionName: "Resume File",
             icon: "mdi-chevron-right",
             command: this.resume,
+            condition: !this.isClientFileCancelled()
           },
           {
             actionName: "Switch Program To DCP",
             icon: "mdi-chevron-right",
             command: this.switchProgram,
-            condition: this.isAdmin(),
+            condition: this.isAdmin()&&!this.isClientFileCancelled(),
             confirmation: true,
           },
 
@@ -293,20 +295,20 @@ export default class CFActionList extends Vue {
             icon: "mdi-chevron-right",
             // command: this.requestCancel,
             routerName: "Root.CFile.CFAction.CFRequestCancel",
-            condition: this.isCustomerService()&&!this.isClientFilePendingCancelled(),
+            condition: this.isCustomerService()&&!this.isClientFilePendingCancelled()&&!this.isClientFileCancelled(),
           },
             {
             actionName: "Reject File",
             icon: "mdi-chevron-right",
             // command: this.requestCancel,
             routerName: "Root.CFile.CFAction.CFRejectFile",
-            condition: this.isClientFileLead(),
+            condition: this.isClientFileLead()&&!this.isClientFileCancelled(),
           },
           {
             actionName: "Mark File As Graduate",
             icon: "mdi-chevron-right",
             command: this.graduate,
-            condition: this.isClientFileNotHold() && this.isAdmin(),
+            condition: this.isClientFileNotHold() && this.isAdmin() &&!this.isClientFileCancelled(),
           },
            {
             actionName: "Retain File",
@@ -332,7 +334,7 @@ export default class CFActionList extends Vue {
       },
       {
         groupName: "Personal Info",
-        condition: this.isNotSalesRepOrLead(),
+        condition: this.isNotSalesRepOrLead()&&!this.isClientFileCancelled(),
         actionList: [
           {
             actionName: "Update Contact Info",
@@ -348,7 +350,7 @@ export default class CFActionList extends Vue {
       },
       {
         groupName: "Payment",
-        condition: this.isNotSalesRepOrLead(),
+        condition: this.isNotSalesRepOrLead()&&!this.isClientFileCancelled(),
         actionList: [
           // {
           //   actionName: "Record MSF Payment",
